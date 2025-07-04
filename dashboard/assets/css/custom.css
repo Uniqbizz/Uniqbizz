@@ -1,0 +1,429 @@
+/* sidebar background  */
+.navbar-menu{
+    background-color: #fff5da;
+    border-right: none;
+}
+
+/* sidebar logo background */
+.navbar-brand-box{
+    background-color: #fff5da!important;
+}
+
+/* sidebar menu title */
+.menu-title span{
+    color: #495057; 
+}
+
+/* sidebar menu ul li list text */
+.navbar-nav .menu-link span{
+    color: #495057;
+    font-weight: 800;
+    font-size: 15px;
+    opacity: 0.8;
+}
+
+/* sidebar menu ul li list text hover */
+.navbar-nav .menu-link span:hover{
+    color: #000000;
+}
+
+/* sidebar menu ul li list icon */
+.navbar-nav .menu-link i{
+    color: #495057;
+}
+
+/* sidebar menu ul li list icon hover */
+.navbar-nav .menu-link i:hover{
+    color: #000000;
+}
+
+.navbar-nav .menu-link.actives{
+    border-bottom: 3px solid #302df1;
+    background: #f2f2f2
+}
+
+.actives{
+    border-bottom: 3px solid #302df1;
+    background: #f2f2f2
+}
+
+/* logo for mobile view */
+.com_logo{
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .com_logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .app-menu{
+        padding-top: 0 !important;
+    }
+}
+
+/* Accordian */
+/* sidebar logo background */
+.navbar-brand-box{
+    background-color: #fff!important;   
+} 
+.card-body {
+    padding: 6px 18px!important;
+}
+
+.com_logo{
+    display: none;
+}
+#image_preview1{
+    height: 150px;
+    width: 150px;
+}
+#preview1 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview2{
+    height: 150px;
+    width: 150px;
+}
+#preview2 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview3{
+    height: 150px;
+    width: 150px;
+}
+#preview3 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview4{
+    height: 150px;
+    width: 150px;
+}
+#preview4 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview5{
+    height: 150px;
+    width: 150px;
+}
+#preview5 img{
+    width: 100%;
+    height: auto;
+}
+input::file-selector-button {
+    background-color: #f1b44c;
+    background-size: 150%;
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    padding: 1rem 1.25rem;
+    text-shadow: 0 1px 1px #333;
+    transition: all 0.25s;
+    color: white;
+}
+input::file-selector-button:hover {
+    background-color: #f2f2f2;
+}
+
+.accordion {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+ }
+.panel {
+    padding: 0 0 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+@media (max-width: 767px) {
+    .com_logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .app-menu{
+        padding-top: 0 !important;
+    }
+    .code-mobile{
+        margin-bottom: 20px;
+    }
+}
+
+
+/* Scroll To Top */
+
+.scroll-btn {
+    position: fixed;
+    bottom: 300px;
+    right: 30px;
+    z-index: 94;
+    opacity: 0;
+    visibility: hidden;
+    display: inline-block;
+    border-radius: 50%;
+
+    i {
+        display: inline-block;
+        background-color: #4b38b3;
+        color: #ffffff;
+        text-align: center;
+        font-size: 16px;
+        width: var(--btn-size, 40px);
+        height: var(--btn-size, 40px);
+        line-height: var(--btn-size, 40px);
+        z-index: 2;
+        border-radius: inherit;
+        position: relative;
+        transition: all ease 0.8s;
+        box-shadow: 0 0 20px 0 rgba(#000, 0.02);
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        left: var(--extra-shape, -6px);
+        top: var(--extra-shape, -6px);
+        right: var(--extra-shape, -6px);
+        bottom: var(--extra-shape, -6px);
+        background-color: transparent;
+        border-radius: inherit;
+        z-index: 1;
+        border: 2px dashed #4b38b3;
+        transition: all ease 0.4s;
+        animation: spin 13s infinite linear;
+    }
+
+    &:focus,
+    &:hover {
+        i {
+        background-color: #FF681A;
+        color: #ffffff;
+        }
+
+        &:before {
+        border-color: #FF681A;
+        }
+    }
+
+    &.show {
+        bottom: 120px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @include sm {
+        --btn-size: 40px;
+        --extra-shape: -4px;
+        right: 15px;
+        bottom: 50px;
+
+        &.show {
+        bottom: 15px;
+        }
+    }
+}
+
+.scrollToTop {
+    position: fixed;
+    right: 60px;
+    bottom: 500px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all ease 0.4s;
+    z-index: 96;
+}
+.scrollToTop.show {
+    bottom: 60px;
+    opacity: 1;
+    visibility: visible;
+    --vz-btn-padding-x: 5re;
+}
+
+@include md {
+    .vs-btn {
+        font-size: 14px;
+        padding: {
+        left: 20px;
+        right: 20px;
+        }
+    }
+
+    .play-btn {
+        --icon-size: 60px;
+        --icon-font-size: 20px;
+    }
+
+    .scrollToTop {
+        right: 20px;
+    }
+    .scrollToTop.show {
+        bottom: 20px;
+    }
+    
+}
+
+/* Index */
+/* code dont run on external css file */
+.card{
+    z-index: 0;
+}
+.top{
+    padding-top: 40px;
+    padding-left: 13% !important;
+    padding-right: 13% !important;
+}
+
+/* Icon progressbar */
+#progressbar{
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: #fff;
+    padding-left: 0;
+    margin-top: 30px;
+}
+#progressbar li{
+    list-style-type: none;
+    font-size: 13px;
+    width: 10%;
+    float: left;
+    position: relative;
+    font-weight: 400;
+}
+#progressbar .step1::before{
+    font-family: Inter, sans-serif;
+    content: '1';
+    color: #fff;
+}
+#progressbar .step2::before{
+    font-family: Inter, sans-serif;
+    content: '2';
+    color: #fff;
+}
+#progressbar .step3::before{
+    font-family: Inter, sans-serif;
+    content: '3';
+    color: #fff;
+}
+#progressbar .step4::before{
+    font-family: Inter, sans-serif;
+    content: '4';
+    color: #fff;
+}
+#progressbar .step5::before{
+    font-family: Inter, sans-serif;
+    content: '5';
+    color: #fff;
+}
+#progressbar .step6::before{
+    font-family: Inter, sans-serif;
+    content: '6';
+    color: #fff;
+}
+#progressbar .step7::before{
+    font-family: Inter, sans-serif;
+    content: '7';
+    color: #fff;
+}
+#progressbar .step8::before{
+    font-family: Inter, sans-serif;
+    content: '8';
+    color: #fff;
+}
+#progressbar .step9::before{
+    font-family: Inter, sans-serif;
+    content: '9';
+    color: #fff;
+}
+#progressbar .step10::before{
+    font-family: Inter, sans-serif;
+    content: '10';
+    color: #fff;
+}
+#progressbar li::before{
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    background: #c5cae9;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0; 
+}
+#progressbar li::after{
+    content: '';
+    width: 100%;
+    height: 12px;
+    background-color: #c5cae9;
+    position: absolute;
+    top: 16px;
+    left: 0;
+    z-index: -1;
+}
+#progressbar li:last-child::after{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%;
+}
+#progressbar li:nth-child(2)::after,
+#progressbar li:nth-child(3)::after,{
+    left: -50%;
+}
+#progressbar li:first-child::after{
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: 50%;
+}
+#progressbar li.active::before,
+#progressbar li.active::after{
+    background-color: #651fff;
+}
+#progressbar li.active::before{
+    font-family: 'FontAwesome';
+    content: '\f00c';
+}
+.icon{
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+.icon-content{
+    padding-bottom: 20px;
+}
+
+@media screen and (max-width: 992px) {
+    .icon-content{
+        width: 50%;
+    }
+}
+
+.cardBg1 {
+    background: linear-gradient(45deg,#4099ff,#73b4ff) !important;
+}
+.cardBg2 {
+    background: linear-gradient(45deg,#2ed8b6,#59e0c5) !important;
+}
+.cardBg3 {
+    background: linear-gradient(45deg,#ffb64d,#ffcb80) !important;
+}
+.cardBg4 {
+    background: linear-gradient(45deg,#ff5370,#ff869a) !important;
+}
+
+/* Overview Team section profile pic */
+.img-fluid {
+    width: 100% !important;
+    height: 100% !important;
+}

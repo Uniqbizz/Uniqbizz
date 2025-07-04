@@ -1,0 +1,94 @@
+/* sidebar logo background */
+.navbar-brand-box{
+    background-color: #fff!important;   
+} 
+.card-body {
+    padding: 6px 18px!important;
+}
+
+.com_logo{
+    display: none;
+}
+#image_preview1{
+    height: 150px;
+    width: 150px;
+}
+#preview1 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview2{
+    height: 150px;
+    width: 150px;
+}
+#preview2 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview3{
+    height: 150px;
+    width: 150px;
+}
+#preview3 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview4{
+    height: 150px;
+    width: 150px;
+}
+#preview4 img{
+    width: 100%;
+    height: auto;
+}
+
+#image_preview5{
+    height: 150px;
+    width: 150px;
+}
+#preview5 img{
+    width: 100%;
+    height: auto;
+}
+input::file-selector-button {
+    background-color: #f1b44c;
+    background-size: 150%;
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    padding: 1rem 1.25rem;
+    text-shadow: 0 1px 1px #333;
+    transition: all 0.25s;
+    color: white;
+}
+input::file-selector-button:hover {
+    background-color: #ffca04;
+}
+
+.accordion {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+ }
+.panel {
+    padding: 0 0 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+@media (max-width: 767px) {
+    .com_logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .app-menu{
+        padding-top: 0 !important;
+    }
+    .code-mobile{
+        margin-bottom: 20px;
+    }
+}
