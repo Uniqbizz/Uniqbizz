@@ -67,7 +67,7 @@
                         </li>
                         <li class="nav-item <?php if ($first_part=="tour_history.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="tour_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour History</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour Transaction History</span>
                             </a>
                         </li>
                     <?php  
@@ -85,7 +85,7 @@
                         </li>
                         <li class="nav-item <?php if ($first_part=="tour_history.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="tour_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour History</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour Transaction History</span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">
@@ -179,7 +179,7 @@
                     ?>
                         <li class="nav-item <?php if ($first_part=="order_history.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Order History</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Travel History</span>
                             </a>
                         </li>
                         <!-- <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
@@ -404,7 +404,7 @@
                     </li> -->
                     <li class="nav-item <?php if ($first_part=="order_history.php") {echo "actives"; } else  {echo "noactive";}?>">
                         <a class="nav-link menu-link" href="order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="ri-contacts-line"></i> <span data-key="t-customer">Order History</span>
+                            <i class="ri-contacts-line"></i> <span data-key="t-customer">Travel History</span>
                         </a>
                     </li>
 
