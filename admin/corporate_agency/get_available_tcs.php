@@ -39,7 +39,7 @@ if (!empty($tcs) && $tc_count != 0) {
         $bm_label = '(' . $tc['business_mentor_id'] . ' - ' . $tc['bm_firstname'] . ' ' . $tc['bm_lastname'] . ')';
 
         echo '<div class="form-check mb-1">
-                <input class="form-check-input tc-checkbox" type="checkbox" value="' . $tc['ca_travelagency_id'] . '" id="tc_' . $tc['ca_travelagency_id'] . '">
+                <input class="form-check-input tc-checkbox" name="tc_ids[]" type="checkbox" value="' . $tc['ca_travelagency_id'] . '" id="tc_' . $tc['ca_travelagency_id'] . '">
                 <label class="form-check-label" for="tc_' . $tc['ca_travelagency_id'] . '">' . $tc['ca_travelagency_id'] . ' - ' . $tc['firstname'] . ' ' . $tc['lastname'] . ' ' . $bm_label . '</label>
               </div>';
     }

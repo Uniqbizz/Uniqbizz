@@ -823,28 +823,61 @@ $Year = date('Y'); //year
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <!-- <div class="col-12">
+                                <div class="tab-inn">
+                                    <h4 class="card-title mb-4">Overall Employees</h4>
+                                    <div class="table-responsive table-desi">
+                                        <canvas id="myCAChart" class="myCAChart" height="115%" weight="115%"></canvas>
+                                    </div>
+                                    <div class="mt-4">
+                                        <span class="ca_total_count" id="ca_total_count"></span>
+                                        <span class="ca_total_price" id="ca_total_price"></span>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- Chart Section -->
+                             <div class="row">
+                                <!-- Type Selector -->
+                                <div class="col-md-4">
+                                    <select id="dataTypeSelect" class="form-control">
+                                        <option value="all" selected>All</option>
+                                        <option value="tc">TC</option>
+                                        <option value="te">TE</option>
+                                        <option value="customer">Customer</option>
+                                        <option value="bm">BM</option>
+                                    </select>
+                                </div>
+    
+                                <!-- Month-Year Selector -->
+                                <div class="col-md-4">
+                                    <input type="month" id="monthSelector" class="form-control">
+                                </div>
+    
+                                <!-- Download Button (initially hidden) -->
+                                <div class="col-md-4">
+                                    <button id="downloadChartBtn" class="btn btn-primary w-100" onclick="downloadChartData()" style="display: none;">
+                                        Download Data
+                                    </button>
+                                </div>
+                             </div>
                             <div class="card p-3 rounded-4" id="ca_chart_box">
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="tab-inn">
-                                            <h4 class="card-title mb-4">Techno Enterprise</h4>
-                                            <div class="table-responsive table-desi">
-                                                <canvas id="myCAChart" class="myCAChart" height="115%" weight="115%"></canvas>
-                                            </div>
-                                            <div class="mt-4">
-                                                <span class="ca_total_count" id="ca_total_count"></span>
-                                                <span class="ca_total_price" id="ca_total_price"></span>
-                                            </div>
-                                        </div>
+                                    <!-- Chart Summary and Canvas -->
+                                    <div class="col-md-12 mt-4 text-center">
+                                        <h5 id="ca_total_count"></h5>
+                                        <h5 id="ca_total_price"></h5>
+                                        <canvas id="myCAChart"></canvas>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card" id="ca_no_chart_box">
+
+                            <!-- No Data Message -->
+                            <div class="card" id="ca_no_chart_box" style="display: none;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="tab-inn">
-                                                <h3>No Corporat Agency Data Found</h3>
+                                            <div class="tab-inn text-center">
+                                                <h3>No Data Found</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -2625,7 +2658,7 @@ $Year = date('Y'); //year
             getMonthlyUserData(getCurrentYear);
             // getBIPData(); //BIP pie chart
             //getCPData(); //cp Amount Pie Chart
-            getCAData(); //ca Amount Pie Chart
+            //getCAData(); //ca Amount Pie Chart
             // get monthly user count
             monthYear = monthControl.value;
             // monthlyUserCount();
@@ -2766,6 +2799,203 @@ $Year = date('Y'); //year
                 }
             });
         }
+
+        let currentChart = null;
+        let chartDataCache = {};
+
+        async function fetchData() {
+            const type = document.getElementById("dataTypeSelect").value;
+            const monthInput = document.getElementById("monthSelector").value;
+            const [year, month] = monthInput ? monthInput.split("-") : ["", ""];
+
+            const formData = new FormData();
+            formData.append("type", type);
+            formData.append("month", month);
+            formData.append("year", year);
+
+            const res = await fetch("charts/ca_payout.php", {
+                method: "POST",
+                body: formData
+            });
+            const data = await res.json();
+            chartDataCache = data;
+            renderChart(type,year, month);
+        }
+
+        function renderChart(type, month, year) {
+            let label = '', total = 0, paid = 0, pending = 0;
+
+            const dataMap = {
+                te: {
+                    count: chartDataCache.total_te || 0,
+                    paid: chartDataCache.total_te_amount || 0,
+                    pending: chartDataCache.total_te_pending || 0,
+                    label: 'TE'
+                },
+                tc: {
+                    count: chartDataCache.total_tc || 0,
+                    paid: chartDataCache.total_tc_paid || 0,
+                    pending: chartDataCache.total_tc_pending || 0,
+                    label: 'TC'
+                },
+                customer: {
+                    count: chartDataCache.total_customer || 0,
+                    paid: chartDataCache.total_customer_paid || 0,
+                    pending: chartDataCache.total_customer_pending || 0,
+                    label: 'Customer'
+                },
+                bm: {
+                    count: chartDataCache.total_bm || 0,
+                    paid: chartDataCache.total_bm_paid || 0,
+                    pending: chartDataCache.total_bm_pending || 0,
+                    label: 'BM'
+                }
+            };
+
+            let downloadBtn = document.getElementById("downloadChartBtn");
+            console.log('type:'+type+'month-year:'+month+'-'+year);
+            
+            if (type !== 'all' && month && year) {
+                downloadBtn.style.display = 'inline-block';
+            } else {
+                downloadBtn.style.display = 'none';
+            }
+
+            if (type === 'all') {
+                const totalAmount = Object.values(dataMap).reduce((sum, d) => sum + d.paid, 0);
+                if (totalAmount === 0) {
+                    document.getElementById("ca_chart_box").style.display = "none";
+                    document.getElementById("ca_no_chart_box").style.display = "block";
+                    return;
+                }
+
+                document.getElementById("ca_chart_box").style.display = "block";
+                document.getElementById("ca_no_chart_box").style.display = "none";
+
+                const labels = [];
+                const data = [];
+                const bgColors = ["#007bff", "#28a745", "#ffc107", "#dc3545"];
+                let displayText = '';
+
+                for (const key in dataMap) {
+                    const d = dataMap[key];
+                    if (d.paid > 0) {
+                        labels.push(`${d.label}: ${d.count}`);
+                        data.push(d.paid);
+                        displayText += `${d.label}: ${d.count} (₹${d.paid.toLocaleString()})\n`;
+                    }
+                }
+
+                document.getElementById("ca_total_count").innerText = "Employee Summary";
+                document.getElementById("ca_total_price").innerText = displayText.trim();
+
+                if (currentChart) currentChart.destroy();
+
+                currentChart = new Chart(document.getElementById("myCAChart"), {
+                    type: "pie",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: bgColors,
+                            data: data
+                        }]
+                    },
+                    options: {
+                        title: { display: false }
+                    }
+                });
+
+            } else {
+                const selected = dataMap[type];
+                total = selected.count;
+                paid = selected.paid;
+                pending = selected.pending;
+                label = selected.label;
+
+                if (total === 0 && paid === 0 && pending === 0) {
+                    document.getElementById("ca_chart_box").style.display = "none";
+                    document.getElementById("ca_no_chart_box").style.display = "block";
+                    return;
+                }
+
+                document.getElementById("ca_chart_box").style.display = "block";
+                document.getElementById("ca_no_chart_box").style.display = "none";
+
+                document.getElementById("ca_total_count").innerText = `Total ${label}: ${total}`;
+                document.getElementById("ca_total_price").innerText = `Paid: ₹${paid.toLocaleString()}\nPending: ₹${pending.toLocaleString()}`;
+
+                if (currentChart) currentChart.destroy();
+
+                currentChart = new Chart(document.getElementById("myCAChart"), {
+                    type: "pie",
+                    data: {
+                        labels: ["Paid", "Pending"],
+                        datasets: [{
+                            backgroundColor: ["#ad2321", "#3EB07E"],
+                            data: [paid, pending]
+                        }]
+                    },
+                    options: {
+                        title: { display: false }
+                    }
+                });
+            }
+        }
+
+
+
+
+        function downloadChartData() {
+            const type = document.getElementById("dataTypeSelect").value; // TE / BM / Customer
+            const monthInput = document.getElementById("monthSelector").value;
+            const [year, month] = monthInput ? monthInput.split("-") : ["", ""];
+
+            const formData = new FormData();
+            formData.append("type", type);
+            if (month && year) {
+                formData.append("month", month);
+                formData.append("year", year);
+            }
+
+            fetch("cahrts/download_chart_data.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Failed to generate file");
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `${type}_payout_data.csv`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(error => {
+                alert("Error downloading file: " + error.message);
+            });
+        }
+
+
+        // Event listeners
+        document.getElementById("dataTypeSelect").addEventListener("change", () => {
+            const type = document.getElementById("dataTypeSelect").value;
+            const [month, year] = document.getElementById("monthSelector").value.split("-");
+            fetchData(type, month || '', year || '');
+        });
+
+        document.getElementById("monthSelector").addEventListener("change", () => {
+            const type = document.getElementById("dataTypeSelect").value;
+            const [month, year] = document.getElementById("monthSelector").value.split("-");
+            fetchData(type, month || '', year || '');
+        });
+
+        // Initial load
+        fetchData();
+
         //CP Chart
         // async function getCPData() {
         //     const response = await fetch('charts/cp_payout.php');
@@ -2805,50 +3035,54 @@ $Year = date('Y'); //year
         //     });
         // }
 
-        async function getCAData() {
-            const response = await fetch('charts/ca_payout.php');
-            const data = await response.json();
+        // async function getCAData() {
+        //     const response = await fetch('charts/ca_payout.php');
+        //     const data = await response.json();
 
-            // console.log(data);
+        //     // Extract relevant TE data
+        //     const totalCA = data.total_te;
+        //     const total = data.total_te_amount;
 
-            var xValues = ["2 Lakhs", "3 Lakhs", "5 Lakhs"];
-            var yValues = [data[4], data[3], data[2]];
-            var total = data[1];
-            var totalCA = data[0];
-            var barColors = [
-                "#ad2321",
-                "#3EB07E",
-                "#2e51f0"
-            ];
+        //     // Update stats
+        //     document.getElementById("ca_total_count").innerText = "Total TE = " + totalCA;
+        //     document.getElementById("ca_total_price").innerText = "Total Amount = ₹ " + total.toLocaleString() + "/-";
 
-            document.getElementById("ca_total_count").innerText = "Total TE = " + totalCA + "\n";
-            document.getElementById("ca_total_price").innerText = " Total Amount = ₹ " + total + "/-";
+        //     // Hide/show chart based on data
+        //     if (totalCA == 0) {
+        //         document.getElementById("ca_no_chart_box").style.display = "block";
+        //         document.getElementById("ca_chart_box").style.display = "none";
+        //     } else {
+        //         document.getElementById("ca_no_chart_box").style.display = "none";
+        //         document.getElementById("ca_chart_box").style.display = "block";
 
-            if (totalCA == 0) {
-                document.getElementById("ca_no_chart_box").style.display = "block";
-                document.getElementById("ca_chart_box").style.display = "none";
-            } else {
-                document.getElementById("ca_no_chart_box").style.display = "none";
-                document.getElementById("ca_chart_box").style.display = "block";
-            }
+        //         // Optional: Pie chart just for fun (TE vs BM vs TC vs Customer)
+        //         const labels = ["TE", "BM", "TC", "Customer"];
+        //         const values = [
+        //             data.total_te_amount,
+        //             data.total_bm_paid,
+        //             data.total_tc_paid,
+        //             data.total_customer_paid
+        //         ];
+        //         const colors = ["#ad2321", "#3EB07E", "#2e51f0", "#f9c74f"];
 
-            new Chart(document.getElementById("myCAChart"), {
-                type: "pie",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
-                    }]
-                },
-                options: {
-                    title: {
-                        display: false,
-                        text: "BIP Payout",
-                    }
-                }
-            });
-        }
+        //         new Chart(document.getElementById("myCAChart"), {
+        //             type: "pie",
+        //             data: {
+        //                 labels: labels,
+        //                 datasets: [{
+        //                     backgroundColor: colors,
+        //                     data: values
+        //                 }]
+        //             },
+        //             options: {
+        //                 title: {
+        //                     display: true,
+        //                     text: "Total Paid Amount Split"
+        //                 }
+        //             }
+        //         });
+        //     }
+        // }
 
         //get monthly count for bc, bp, customer, corporate partner, business trainee
         // $("#month_year").on('change', function() {

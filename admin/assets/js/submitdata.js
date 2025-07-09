@@ -3185,17 +3185,16 @@ $("#editCorporateAgency").on("click", function (e) {
     var selected_count=$('#selectedCount').text();
     
     
-    // Get the value from the hidden input field
-    let selectedIdsRaw = $('#selectedTCsInput').val();
-
-    // Split the string by commas, or use an empty array if no value is present
-    let selectedIds = selectedIdsRaw && selectedIdsRaw.trim() !== '' ? selectedIdsRaw.split(',') : [];
+    let selectedIds = [];
+    $('input[name="tc_ids[]"]:checked').each(function() {
+        selectedIds.push($(this).val());
+    });
 
     
-    var tenure=$('input[name="tenure"]').val();
-    var roi=$('input[name="roi"]').val();
-    var tax=$('#taxAfterDeduction').val();
-    var repayAmount=$('#repayAmount').val();
+    var tenure=$('input[name="tenure"]:checked').val();
+    var roi=$('input[name="roi"]:checked').val();
+    var tax=$('#taxAfterDeduction').val() ||0;
+    var repayAmount=$('#repayAmount').val() ||0;
 
     if (reference_name == "") {
         alert("Select Referance name");
@@ -3249,7 +3248,25 @@ $("#editCorporateAgency").on("click", function (e) {
         alert("Please Upload Bank Passbook Picture");
     } else if (payment_proof == "") {
         alert("Enter Payment Proof");
-    } else {
+    }else if (tcCount > 0 && (
+        selected_count != tcCount ||
+        !tenure ||
+        !roi ||
+        !tax ||
+        !repayAmount
+    )) {
+        if (selected_count != tcCount) {
+            alert("Please select the number of allotted TC's");
+        } else if (!tenure) {
+            alert("Please Select the Tenure years");
+        } else if (!roi) {
+            alert("Please Select the ROI");
+        } else if (!tax) {
+            alert("Please enter Tax value");
+        } else if (!repayAmount) {
+            alert("Please Enter the Repay amount");
+        }
+    }else {
         var dataString =
             "editfor=" +
             editfor +
@@ -3607,19 +3624,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
         var payment_proof = $(":hidden#img_path6").val().trim();
     }
 
-    // var payment_fee = $("#payment_fee").val().trim();
-    // var paymentMode = $(".payment:checked").val();
-    // var chequeNo = $("#chequeNo").val().trim();
-    // var chequeDate = $("#chequeDate").val().trim();
-    // var bankName = $("#bankName").val().trim();
-    // var transactionNo = $("#transactionNo").val().trim();
 
-    // var profile_pic = $(":hidden#img_path1").val().trim();
-    // var aadhar_card = $(":hidden#img_path2").val().trim();
-    // var pan_card = $(":hidden#img_path3").val().trim();
-    // var passbook = $(":hidden#img_path4").val().trim();
-    // var voting_card = $(":hidden#img_path5").val().trim();
-    //var payment_proof = $(":hidden#img_path6").val().trim();
 
     //if note is empty
     var rawNote = $("#note").val();
@@ -3636,7 +3641,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
     var phoneReg = /^[0-9]{10}$/;
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
-
+    console.log(dataString);
     if (reference_name === "") {
         alert("Select Reference name");
     } else if (firstname === "") {
@@ -3752,8 +3757,8 @@ $("#edit_ca_travelagency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo+
             "&note=" +
-            note;
-        // console.log(dataString);
+            note            ;
+        console.log(dataString);
 
         $("#edit_ca_travelagency").attr("disabled", "disabled");
         // console.log(dataString);

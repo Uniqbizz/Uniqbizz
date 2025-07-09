@@ -1924,6 +1924,7 @@ $('#add-customer').click(function (e) {
     // console.log('Add customer button clicked');
 
     var cu_ref_id = $("#cu_ref_id").val(); // customer reference id
+    var customer_type = $('#customer_type').val(); // customer reference type
     var cu_ref_name = $("#cu_ref_name").val(); // customer reference Name
     var user_id_name = $("#user_id_name").val(); // Travel agent reference id
     var reference_name = $("#reference_name").val(); // Travel agent reference Name
@@ -2027,8 +2028,9 @@ $('#add-customer').click(function (e) {
         "&payment_fee=" + payment_fee + 
         '&userId=' + userId + 
         '&userType=' + userType+
-        '&payment_label=' + payment_label;
-    console.log(dataString);
+        '&payment_label=' + payment_label+
+        '&customer_type='+customer_type;
+    //console.log(dataString);
 
     var characterLetters = /^[A-Za-z\s]+$/;
     var phoneReg = /^[0-9]{10}$/;
@@ -2128,6 +2130,7 @@ $('#edit-customer').click(function (e) {
     var editfor = $('#editfor').val(); // registered OR pending
     var ref_id = $('#ref_id').val();  // reference id
     var id = $('#id').val(); // customer id
+    var customer_type = $('#customer_type').val(); // customer type
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
     var nominee_name = $("#nominee_name").val().trim();
@@ -2223,7 +2226,8 @@ $('#edit-customer').click(function (e) {
         '&userId=' + userId + 
         '&userType=' + userType+
         '&payment_label=' + payment_label+
-        '&ta_reference_no='+ta_reference_no;
+        '&ta_reference_no='+ta_reference_no+
+        '&customer_type='+customer_type;
     // console.log(dataString);                 
 
     // validation for email, phone, name 
