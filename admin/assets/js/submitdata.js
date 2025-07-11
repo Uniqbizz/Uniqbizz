@@ -3368,8 +3368,8 @@ $("#add_ca_travelagency").on("click", function (e) {
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
-    var user_id_name = $("#user_id_name").val().trim();
-    var reference_name = $("#reference_name").val().trim();
+    var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' :  $("#user_id_name").val();
+    var reference_name = $("#reference_name").val()== 'NA' ? 'Not Applicable' :  $("#reference_name").val();
 
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
@@ -3430,32 +3430,32 @@ $("#add_ca_travelagency").on("click", function (e) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
 
-    if (reference_name === "") {
-        alert("Select Reference name");
-    } else if (firstname === "") {
+    if (reference_name == "") {
+        alert("Select Referance name");
+    } else if (firstname == "") {
         alert("Enter Proper First Name");
-    } else if (lastname === "") {
+    } else if (lastname == "") {
         alert("Enter Proper Last Name");
     } else if (nominee_name === "") {
         alert("Enter Nominee Name");
     } else if (nominee_relation === "") {
         alert("Enter Nominee Relation");
-    } else if (email === "") {
+    } else if (email == "") {
         alert("Enter Email");
     } else if (!emailReg.test(email)) {
         alert("Enter Proper Email");
-    } else if (testE === "1") {
+    } else if (testE == "1") {
         alert("Email already exists");
     } else if (dob === "") {
         alert("Choose Correct Birth date");
-    } else if (isNaN(age) || age < 18) {
+    } else if (age < 18) {
         alert("Age must be more than 18 Years");
     } else if (gender !== "male" && gender !== "female" && gender !== "others") {
         alert("Please Select Gender");
     } else if (phone === "") {
         alert("Please enter contact number");
     } else if (!phoneReg.test(phone)) {
-        alert("Contact Number Must be 10 Digits");
+        alert("Contact Number Must be 10 Digit");
     } else if (country === "") {
         alert("Please Select Country");
     } else if (mystate === "") {
@@ -3463,27 +3463,30 @@ $("#add_ca_travelagency").on("click", function (e) {
     } else if (city === "") {
         alert("Please Select City");
     } else if (address === "") {
-        alert("Please Enter Address");
-    } else if (!paymentMode || (paymentMode !== "Free" && paymentMode === "")) {
+        alert("Please Enter address");
+    } else if (paymentMode != "Free" && !paymentMode) {
         alert("Please select payment mode");
-    } else if (paymentMode === "online" && !transactionNo) {
+    }else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
-    } else if (paymentMode === "cheque" && (!chequeNo || !chequeDate || !bankName)) {
-        let missing = [];
-        if (!chequeNo) missing.push("Cheque No");
-        if (!chequeDate) missing.push("Cheque Date");
-        if (!bankName) missing.push("Bank Name");
-        alert("Please enter: " + missing.join(", "));
-    } else if (!profile_pic) {
-        alert("Please Upload Profile Picture");
-    } else if (!aadhar_card) {
+    } else if (paymentMode === "cheque") {
+        let missingFields = [];
+        if (!chequeNo) missingFields.push("Cheque No");
+        if (!chequeDate) missingFields.push("Cheque Date");
+        if (!bankName) missingFields.push("Bank Name");
+
+        if (missingFields.length > 0) {
+            alert("Please enter: " + missingFields.join(", "));
+        }
+    } else if (profile_pic === "") {
+        alert("Please Upload profile Picture");
+    } else if (aadhar_card === "") {
         alert("Please Upload Aadhar Card Picture");
-    } else if (!pan_card) {
-        alert("Please Upload PAN Card Picture");
-    } else if (!passbook) {
+    } else if (pan_card === "") {
+        alert("Please Upload Pan Card Picture");
+    } else if (passbook === "") {
         alert("Please Upload Bank Passbook Picture");
-    } else if (payment_fee !== "FOC" && !payment_proof) {
-        alert("Please upload Payment Proof");
+    } else if (paymentMode != "Free" && !payment_proof ) {
+        alert("Please Upload Payment Proof");
     } else {
         var dataString = // "designation=" +designation+
             "user_id_name=" +
@@ -3624,7 +3627,19 @@ $("#edit_ca_travelagency").on("click", function (e) {
         var payment_proof = $(":hidden#img_path6").val().trim();
     }
 
+    // var payment_fee = $("#payment_fee").val().trim();
+    // var paymentMode = $(".payment:checked").val();
+    // var chequeNo = $("#chequeNo").val().trim();
+    // var chequeDate = $("#chequeDate").val().trim();
+    // var bankName = $("#bankName").val().trim();
+    // var transactionNo = $("#transactionNo").val().trim();
 
+    // var profile_pic = $(":hidden#img_path1").val().trim();
+    // var aadhar_card = $(":hidden#img_path2").val().trim();
+    // var pan_card = $(":hidden#img_path3").val().trim();
+    // var passbook = $(":hidden#img_path4").val().trim();
+    // var voting_card = $(":hidden#img_path5").val().trim();
+    //var payment_proof = $(":hidden#img_path6").val().trim();
 
     //if note is empty
     var rawNote = $("#note").val();
@@ -3641,33 +3656,33 @@ $("#edit_ca_travelagency").on("click", function (e) {
     var phoneReg = /^[0-9]{10}$/;
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
-    console.log(dataString);
-    if (reference_name === "") {
-        alert("Select Reference name");
-    } else if (firstname === "") {
+
+    if (reference_name == "") {
+        alert("Select Referance name");
+    } else if (firstname == "") {
         alert("Enter Proper First Name");
-    } else if (lastname === "") {
+    } else if (lastname == "") {
         alert("Enter Proper Last Name");
     } else if (nominee_name === "") {
         alert("Enter Nominee Name");
     } else if (nominee_relation === "") {
         alert("Enter Nominee Relation");
-    } else if (email === "") {
+    } else if (email == "") {
         alert("Enter Email");
     } else if (!emailReg.test(email)) {
         alert("Enter Proper Email");
-    } else if (testE === "1") {
+    } else if (testE == "1") {
         alert("Email already exists");
     } else if (dob === "") {
         alert("Choose Correct Birth date");
-    } else if (isNaN(age) || age < 18) {
+    } else if (age < 18) {
         alert("Age must be more than 18 Years");
     } else if (gender !== "male" && gender !== "female" && gender !== "others") {
         alert("Please Select Gender");
     } else if (phone === "") {
         alert("Please enter contact number");
     } else if (!phoneReg.test(phone)) {
-        alert("Contact Number Must be 10 Digits");
+        alert("Contact Number Must be 10 Digit");
     } else if (country === "") {
         alert("Please Select Country");
     } else if (mystate === "") {
@@ -3675,26 +3690,29 @@ $("#edit_ca_travelagency").on("click", function (e) {
     } else if (city === "") {
         alert("Please Select City");
     } else if (address === "") {
-        alert("Please Enter Address");
-    } else if (!paymentMode || (paymentMode !== "Free" && paymentMode === "")) {
+        alert("Please Enter address");
+    } else if (paymentMode != "Free" && !paymentMode) {
         alert("Please select payment mode");
     } else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
-    } else if (paymentMode === "cheque" && (!chequeNo || !chequeDate || !bankName)) {
-        let missing = [];
-        if (!chequeNo) missing.push("Cheque No");
-        if (!chequeDate) missing.push("Cheque Date");
-        if (!bankName) missing.push("Bank Name");
-        alert("Please enter: " + missing.join(", "));
-    } else if (!profile_pic) {
-        alert("Please Upload Profile Picture");
-    } else if (!aadhar_card) {
+    } else if (paymentMode === "cheque") {
+        let missingFields = [];
+        if (!chequeNo) missingFields.push("Cheque No");
+        if (!chequeDate) missingFields.push("Cheque Date");
+        if (!bankName) missingFields.push("Bank Name");
+
+        if (missingFields.length > 0) {
+            alert("Please enter: " + missingFields.join(", "));
+        }
+    } else if (profile_pic === "") {
+        alert("Please Upload profile Picture");
+    } else if (aadhar_card === "") {
         alert("Please Upload Aadhar Card Picture");
-    } else if (!pan_card) {
-        alert("Please Upload PAN Card Picture");
-    } else if (!passbook) {
+    } else if (pan_card === "") {
+        alert("Please Upload Pan Card Picture");
+    } else if (passbook === "") {
         alert("Please Upload Bank Passbook Picture");
-    } else if (payment_fee !== "FOC" && !payment_proof) {
+    } else if (payment_proof == "" && payment_fee!='FOC') {
         alert("Please upload Payment Proof");
     } else {
         var dataString =
@@ -3757,8 +3775,8 @@ $("#edit_ca_travelagency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo+
             "&note=" +
-            note            ;
-        console.log(dataString);
+            note;
+        // console.log(dataString);
 
         $("#edit_ca_travelagency").attr("disabled", "disabled");
         // console.log(dataString);
@@ -3798,8 +3816,8 @@ $("#addCustomer").on("click", function (e) {
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
 
-    var nominee_name = $("#nominee_name").val().trim();
-    var nominee_relation = $("#nominee_relation").val().trim();
+    // var nominee_name = $("#nominee_name").val().trim();
+    // var nominee_relation = $("#nominee_relation").val().trim();
 
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
@@ -3879,32 +3897,34 @@ $("#addCustomer").on("click", function (e) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
 
-    if (reference_name === "") {
-        alert("Select Reference name");
-    } else if (firstname === "") {
+    if (reference_name == "") {
+        alert("Select Referance name");
+    } else if (firstname == "") {
         alert("Enter Proper First Name");
-    } else if (lastname === "") {
+    } else if (lastname == "") {
         alert("Enter Proper Last Name");
-    } else if (nominee_name === "") {
-        alert("Enter Nominee Name");
-    } else if (nominee_relation === "") {
-        alert("Enter Nominee Relation");
-    } else if (email === "") {
+    } 
+    // else if (nominee_name === "") {
+    //     alert("Enter Nominee Name");
+    // } else if (nominee_relation === "") {
+    //     alert("Enter Nominee Relation");
+    // } 
+    else if (email == "") {
         alert("Enter Email");
     } else if (!emailReg.test(email)) {
         alert("Enter Proper Email");
-    } else if (testE === "1") {
+    } else if (testE == "1") {
         alert("Email already exists");
     } else if (dob === "") {
         alert("Choose Correct Birth date");
-    } else if (isNaN(age) || age < 18) {
+    } else if (age < 18) {
         alert("Age must be more than 18 Years");
     } else if (gender !== "male" && gender !== "female" && gender !== "others") {
         alert("Please Select Gender");
     } else if (phone === "") {
         alert("Please enter contact number");
     } else if (!phoneReg.test(phone)) {
-        alert("Contact Number Must be 10 Digits");
+        alert("Contact Number Must be 10 Digit");
     } else if (country === "") {
         alert("Please Select Country");
     } else if (mystate === "") {
@@ -3912,26 +3932,29 @@ $("#addCustomer").on("click", function (e) {
     } else if (city === "") {
         alert("Please Select City");
     } else if (address === "") {
-        alert("Please Enter Address");
-    } else if (!paymentMode || (paymentMode !== "Free" && paymentMode === "")) {
+        alert("Please Enter address");
+    } else if (paymentMode != "Free" && !paymentMode) {
         alert("Please select payment mode");
     } else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
-    } else if (paymentMode === "cheque" && (!chequeNo || !chequeDate || !bankName)) {
-        let missing = [];
-        if (!chequeNo) missing.push("Cheque No");
-        if (!chequeDate) missing.push("Cheque Date");
-        if (!bankName) missing.push("Bank Name");
-        alert("Please enter: " + missing.join(", "));
-    } else if (!profile_pic) {
-        alert("Please Upload Profile Picture");
-    } else if (!aadhar_card) {
+    } else if (paymentMode === "cheque") {
+        let missingFields = [];
+        if (!chequeNo) missingFields.push("Cheque No");
+        if (!chequeDate) missingFields.push("Cheque Date");
+        if (!bankName) missingFields.push("Bank Name");
+
+        if (missingFields.length > 0) {
+            alert("Please enter: " + missingFields.join(", "));
+        }
+    } else if (profile_pic === "") {
+        alert("Please Upload profile Picture");
+    } else if (aadhar_card === "") {
         alert("Please Upload Aadhar Card Picture");
-    } else if (!pan_card) {
-        alert("Please Upload PAN Card Picture");
-    } else if (!passbook) {
+    } else if (pan_card === "") {
+        alert("Please Upload Pan Card Picture");
+    } else if (passbook === "") {
         alert("Please Upload Bank Passbook Picture");
-    } else if (payment_fee !== "FOC" && !payment_proof) {
+    }else if (payment_fee != "FOC" && payment_proof == "") {
         alert("Please upload Payment Proof");
     } else {
         var dataString = // "designation=" +designation+
@@ -3943,10 +3966,10 @@ $("#addCustomer").on("click", function (e) {
             firstname +
             "&lastname=" +
             lastname +
-            "&nominee_name=" +
-            nominee_name +
-            "&nominee_relation=" +
-            nominee_relation +
+            // "&nominee_name=" +
+            // nominee_name +
+            // "&nominee_relation=" +
+            // nominee_relation +
             "&email=" +
             email +
             "&dob=" +
@@ -4038,8 +4061,8 @@ $("#editCustomer").on("click", function (e) {
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
 
-    var nominee_name = $("#nominee_name").val().trim();
-    var nominee_relation = $("#nominee_relation").val().trim();
+    // var nominee_name = $("#nominee_name").val().trim();
+    // var nominee_relation = $("#nominee_relation").val().trim();
 
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
@@ -4111,32 +4134,34 @@ $("#editCustomer").on("click", function (e) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
 
-    if (reference_name === "") {
-        alert("Select Reference name");
-    } else if (firstname === "") {
+    if (reference_name == "") {
+        alert("Select Referance name");
+    } else if (firstname == "") {
         alert("Enter Proper First Name");
-    } else if (lastname === "") {
+    } else if (lastname == "") {
         alert("Enter Proper Last Name");
-    } else if (nominee_name === "") {
-        alert("Enter Nominee Name");
-    } else if (nominee_relation === "") {
-        alert("Enter Nominee Relation");
-    } else if (email === "") {
+    } 
+    // else if (nominee_name === "") {
+    //     alert("Enter Nominee Name");
+    // } else if (nominee_relation === "") {
+    //     alert("Enter Nominee Relation");
+    // } 
+    else if (email == "") {
         alert("Enter Email");
     } else if (!emailReg.test(email)) {
         alert("Enter Proper Email");
-    } else if (testE === "1") {
+    } else if (testE == "1") {
         alert("Email already exists");
     } else if (dob === "") {
         alert("Choose Correct Birth date");
-    } else if (isNaN(age) || age < 18) {
-        alert("Age must be more than 18 Years");
+    } else if (age < 18) {
+        alert("Age must be more than 20 Years");
     } else if (gender !== "male" && gender !== "female" && gender !== "others") {
         alert("Please Select Gender");
     } else if (phone === "") {
         alert("Please enter contact number");
     } else if (!phoneReg.test(phone)) {
-        alert("Contact Number Must be 10 Digits");
+        alert("Contact Number Must be 10 Digit");
     } else if (country === "") {
         alert("Please Select Country");
     } else if (mystate === "") {
@@ -4144,28 +4169,31 @@ $("#editCustomer").on("click", function (e) {
     } else if (city === "") {
         alert("Please Select City");
     } else if (address === "") {
-        alert("Please Enter Address");
-    } else if (!paymentMode || (paymentMode !== "Free" && paymentMode === "")) {
+        alert("Please Enter address");
+    } else if (profile_pic === "") {
+        alert("Please Upload profile Picture");
+    } else if (paymentMode != "Free" && !paymentMode) {
         alert("Please select payment mode");
     } else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
-    } else if (paymentMode === "cheque" && (!chequeNo || !chequeDate || !bankName)) {
-        let missing = [];
-        if (!chequeNo) missing.push("Cheque No");
-        if (!chequeDate) missing.push("Cheque Date");
-        if (!bankName) missing.push("Bank Name");
-        alert("Please enter: " + missing.join(", "));
-    } else if (!profile_pic) {
-        alert("Please Upload Profile Picture");
-    } else if (!aadhar_card) {
+    } else if (paymentMode === "cheque") {
+        let missingFields = [];
+        if (!chequeNo) missingFields.push("Cheque No");
+        if (!chequeDate) missingFields.push("Cheque Date");
+        if (!bankName) missingFields.push("Bank Name");
+
+        if (missingFields.length > 0) {
+            alert("Please enter: " + missingFields.join(", "));
+        }
+    } else if (aadhar_card === "") {
         alert("Please Upload Aadhar Card Picture");
-    } else if (!pan_card) {
-        alert("Please Upload PAN Card Picture");
-    } else if (!passbook) {
+    } else if (pan_card === "") {
+        alert("Please Upload Pan Card Picture");
+    } else if (passbook === "") {
         alert("Please Upload Bank Passbook Picture");
-    } else if (payment_fee !== "FOC" && !payment_proof) {
+    } else if (payment_proof == "" && mystate == '6') {
         alert("Please upload Payment Proof");
-    } else {
+    }else{
         var dataString =
             "editfor=" +
             editfor +
@@ -4177,10 +4205,10 @@ $("#editCustomer").on("click", function (e) {
             firstname +
             "&lastname=" +
             lastname +
-            "&nominee_name=" +
-            nominee_name +
-            "&nominee_relation=" +
-            nominee_relation +
+            // "&nominee_name=" +
+            // nominee_name +
+            // "&nominee_relation=" +
+            // nominee_relation +
             "&email=" +
             email +
             "&dob=" +

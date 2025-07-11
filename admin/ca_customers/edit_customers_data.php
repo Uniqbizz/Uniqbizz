@@ -21,8 +21,8 @@ if ($editfor == 'pending') {
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
-$nominee_name = $_POST['nominee_name'];
-$nominee_relation = $_POST['nominee_relation'];
+// $nominee_name = $_POST['nominee_name'];
+// $nominee_relation = $_POST['nominee_relation'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $country_code = $_POST['country_code'];
@@ -106,8 +106,7 @@ function generateUniqueCoupon()
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
 
-	$sql1 = "UPDATE ca_customer SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,
-					nominee_relation=:nominee_relation,country_code=:country_code,contact_no=:contact_no,
+	$sql1 = "UPDATE ca_customer SET firstname=:firstname,lastname=:lastname,country_code=:country_code,contact_no=:contact_no,
 					email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age,country=:country,
 					state=:state,city=:city,pincode=:pincode,address=:address,note=:note,profile_pic=:profile_pic,
 					pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,passbook=:passbook, 
@@ -119,8 +118,8 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 	$result =  $stmt->execute(array(
 		':firstname' => $firstname,
 		':lastname' => $lastname,
-		':nominee_name' => $nominee_name,
-		':nominee_relation' => $nominee_relation,
+// 		':nominee_name' => $nominee_name,
+// 		':nominee_relation' => $nominee_relation,
 		':country_code' => $country_code,
 		':contact_no' => $phone,
 		':email' => $email,

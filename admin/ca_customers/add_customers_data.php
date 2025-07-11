@@ -7,8 +7,8 @@ $user_id_name = $_POST['user_id_name'];
 $registrant = $_POST['reference_name'];
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
-$nominee_name = $_POST['nominee_name'];
-$nominee_relation = $_POST['nominee_relation'];
+// $nominee_name = $_POST['nominee_name'];
+// $nominee_relation = $_POST['nominee_relation'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $payment_fee = $_POST['payment_fee'];
@@ -94,15 +94,15 @@ function generateUniqueCoupon()
     return strtoupper($year . substr($uniquePart, 0, 11)); // Ensures it's exactly 15 characters
 }
 
-$sql = "INSERT INTO `ca_customer` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
-        VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :ta_reference_no,  :ta_reference_name,:paid_amount,:customer_type, :comp_chek, :register_by, :status)";
+$sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
+        VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :ta_reference_no,  :ta_reference_name,:paid_amount,:customer_type, :comp_chek, :register_by, :status)";
 $stmt3 = $conn->prepare($sql);
 
 $result2 = $stmt3->execute(array(
     ':firstname' => $firstname,
     ':lastname' => $lastname,
-    ':nominee_name' => $nominee_name,
-    ':nominee_relation' => $nominee_relation,
+    // ':nominee_name' => $nominee_name,
+    // ':nominee_relation' => $nominee_relation,
     // ':gst_no' => $gst_no,
     // ':complimentary' => $complimentary,
     // ':converted' => $converted,
