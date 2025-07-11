@@ -1,32 +1,52 @@
 <?php
 require '../connect.php';
 
+define('DEV_MODE', true); // Set to false in production
+
 $stateFilter = $_POST['state'] ?? null;
 $userId = $_POST['userId'] ?? '';
 $designation = $_POST['designation'] ?? '';
 $fromDate = $_POST['fromDate'] ?? '';
 $toDate = $_POST['toDate'] ?? '';
 
+// Error-safe logging function
+function logError($msg) {
+    if (DEV_MODE) {
+        echo "<script>console.error(" . json_encode("MySQL Error: " . $msg) . ");</script>";
+    }
+}
+
 function fetchReferrerInfo($conn, $refNo) {
-    $refType = substr($refNo, 0, 2);
     $info = ['id' => '', 'name' => ''];
 
-    if (in_array($refType, ['TE', 'CA'])) {
+    try {
         $sql = "SELECT reference_no, registrant FROM corporate_agency WHERE corporate_agency_id = :refNo AND (status = '1' OR status = '3')";
-    } else if ($refType === "BM") {
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':refNo', $refNo);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $info['id'] = $row['reference_no'];
+            $info['name'] = $row['registrant'];
+            return $info;
+        }
+
         $sql = "SELECT reference_no, registrant FROM business_mentor WHERE business_mentor_id = :refNo AND (status = '1' OR status = '3')";
-    } else {
-        return $info;
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':refNo', $refNo);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $info['id'] = $row['reference_no'];
+            $info['name'] = $row['registrant'];
+        }
+
+    } catch (PDOException $e) {
+        logError("Referrer Fetch: " . $e->getMessage());
     }
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':refNo', $refNo);
-    $stmt->execute();
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($row) {
-        $info['id'] = $row['reference_no'];
-        $info['name'] = $row['registrant'];
-    }
     return $info;
 }
 
@@ -39,45 +59,60 @@ if (!empty($stateFilter) && $stateFilter !== '0') {
 }
 
 if (!empty($fromDate) && !empty($toDate)) {
-    $whereClause .= " AND DATE(register_date) BETWEEN ? AND ?";
-    $params[] = $fromDate;
-    $params[] = $toDate;
+    try {
+        $from = (new DateTime($fromDate))->format('Y-m-d');
+        $to = (new DateTime($toDate))->format('Y-m-d');
+        $whereClause .= " AND DATE(register_date) BETWEEN ? AND ?";
+        $params[] = $from;
+        $params[] = $to;
+    } catch (Exception $e) {
+        logError("Invalid date format: " . $e->getMessage());
+    }
 }
 
 $refIds = [];
 
-if (!empty($userId) && !empty($designation)) {
-    if ($designation == '26') { // BM
-        $refIds[] = $userId;
-        $stmt = $conn->prepare("SELECT corporate_agency_id FROM corporate_agency WHERE reference_no = :bm AND (status = '1' OR status = '3')");
-        $stmt->execute([':bm' => $userId]);
-        $teList = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        $refIds = array_merge($refIds, $teList);
-    } elseif ($designation == '25') { // BDM
-        $stmt = $conn->prepare("SELECT business_mentor_id FROM business_mentor WHERE reference_no = :bdm AND (status = '1' OR status = '3')");
-        $stmt->execute([':bdm' => $userId]);
-        $bmList = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        $refIds = array_merge($refIds, $bmList);
-
-        foreach ($bmList as $bmId) {
+try {
+    if (!empty($userId) && !empty($designation)) {
+        if ($designation == '26') { // BM
+            $refIds[] = $userId;
             $stmt = $conn->prepare("SELECT corporate_agency_id FROM corporate_agency WHERE reference_no = :bm AND (status = '1' OR status = '3')");
-            $stmt->execute([':bm' => $bmId]);
+            $stmt->execute([':bm' => $userId]);
             $teList = $stmt->fetchAll(PDO::FETCH_COLUMN);
             $refIds = array_merge($refIds, $teList);
+        } elseif ($designation == '25') { // BDM
+            $stmt = $conn->prepare("SELECT business_mentor_id FROM business_mentor WHERE reference_no = :bdm AND (status = '1' OR status = '3')");
+            $stmt->execute([':bdm' => $userId]);
+            $bmList = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $refIds = array_merge($refIds, $bmList);
+
+            foreach ($bmList as $bmId) {
+                $stmt = $conn->prepare("SELECT corporate_agency_id FROM corporate_agency WHERE reference_no = :bm AND (status = '1' OR status = '3')");
+                $stmt->execute([':bm' => $bmId]);
+                $teList = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                $refIds = array_merge($refIds, $teList);
+            }
         }
     }
+} catch (PDOException $e) {
+    logError("Hierarchy Filter: " . $e->getMessage());
 }
 
-if (!empty($refIds)) {
-    $placeholders = implode(',', array_fill(0, count($refIds), '?'));
-    $whereClause .= " AND reference_no IN ($placeholders)";
-    $params = array_merge($params, $refIds);
-}
+try {
+    if (!empty($refIds)) {
+        $placeholders = implode(',', array_fill(0, count($refIds), '?'));
+        $whereClause .= " AND reference_no IN ($placeholders)";
+        $params = array_merge($params, $refIds);
+    }
 
-$sql = "SELECT * FROM ca_travelagency $whereClause ORDER BY ca_travelagency_id ASC";
-$stmt = $conn->prepare($sql);
-$stmt->execute($params);
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM ca_travelagency $whereClause ORDER BY ca_travelagency_id ASC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    logError("Main Query: " . $e->getMessage());
+    $rows = [];
+}
 ?>
 
 <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-tableFilter">
@@ -86,7 +121,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Travel Consultant Id</th>
             <th>Full Name</th>
             <th>Reference ID / Name</th>
-            <th>Referal Ref ID/ Name</th>
+            <th>Referral Ref ID / Name</th>
             <th>Phone / Email</th>
             <th>Address</th>
             <th>Joining Date</th>
