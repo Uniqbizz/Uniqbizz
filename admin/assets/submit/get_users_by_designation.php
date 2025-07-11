@@ -15,6 +15,11 @@ if ($designation == '24' || $designation == '25') {
     $stmt = $conn->prepare("SELECT business_mentor_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', business_mentor_id, ')') AS fullname FROM business_mentor WHERE status = 1");
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} elseif ($designation == '16') {
+    // BM from corporate_agency
+    $stmt = $conn->prepare("SELECT corporate_agency_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', corporate_agency_id, ')') AS fullname FROM corporate_agency WHERE status = 1");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 echo json_encode($users);

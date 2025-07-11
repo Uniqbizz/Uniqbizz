@@ -92,6 +92,14 @@ try {
                 $teList = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 $refIds = array_merge($refIds, $teList);
             }
+        }elseif ($designation == '16') { // TE
+            // Confirm the user ID exists in corporate_agency table as corporate_agency_id
+            $stmt = $conn->prepare("SELECT corporate_agency_id FROM corporate_agency WHERE corporate_agency_id = :teId AND (status = '1' OR status = '3')");
+            $stmt->execute([':teId' => $userId]);
+            $teId = $stmt->fetchColumn();
+            if ($teId) {
+                $refIds[] = $teId;
+            }
         }
     }
 } catch (PDOException $e) {
