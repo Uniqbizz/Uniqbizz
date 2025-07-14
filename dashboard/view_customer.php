@@ -223,7 +223,7 @@
 
                                                                                     $bd= new DateTime($userCACU['date_of_birth']);
                                                                                     $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
+                                                                                    $dt= new DateTime($userCACU['added_on']);
                                                                                     $datev= $dt->format('d-m-Y'); 
                                                                                     echo'<tr>
                                                                                         <td>'.$userCACU['id'].'</td>
@@ -319,7 +319,7 @@
 
                                                                                 $bd= new DateTime($userCACU['date_of_birth']);
                                                                                 $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
+                                                                                $dt= new DateTime($userCACU['added_on']);
                                                                                 $datev= $dt->format('d-m-Y'); 
                                                                                 echo'<tr>
                                                                                     <td>'.$userCACU['id'].'</td>
@@ -486,7 +486,7 @@
 
                                                                             $bd= new DateTime($userCACU['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['register_date']);
+                                                                            $dt= new DateTime($userCACU['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$userCACU['id'].'</td>
@@ -643,6 +643,7 @@
                                                             <tr>
                                                                 <th data-ordering="false">Customer ID & Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
+                                                                <th data-ordering="false">Type/Complemetory</th>
                                                                 <th data-ordering="false">Phone</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
@@ -1106,6 +1107,7 @@
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($row['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
+                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$row['ca_customer_id'].'</p>
@@ -1114,6 +1116,10 @@
                                                                                 <td>
                                                                                     <p>'.$row['ta_reference_no'].' '.$row['ta_reference_name'].'</p>
                                                                                     <p>'.$row['reference_no'].' '.$row['registrant'].'</p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p class="mb-0">'.$row['customer_type'].'</p>
+                                                                                    <p class="mb-0">'.$comp_chek.'</p>
                                                                                 </td>
                                                                                 <td>'.$row['contact_no'].'</td>
                                                                                 <td>'.$datev.'</td>';
