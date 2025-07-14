@@ -41,7 +41,7 @@
     $note=$_POST['note'];
     $status="2";
     $user_type="11";
-    $register_by="1";
+    $register_by="15";
 
     // get age of the user
     $birthYear = str_split($bdate,4);
@@ -52,7 +52,7 @@
     $title="Travel Consultant";
     $message="Added new Travel Consultant by admin";
     $message2="Added new Travel Consultant by admin";
-    $fromWhom="1";
+    $fromWhom="15";
     $operation="Add";
 
     $sql= "INSERT INTO `ca_travelagency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof, amount, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) 

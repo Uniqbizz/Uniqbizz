@@ -64,20 +64,10 @@ $city = $_POST['city'];
 $note=$_POST['note'];
 $tc_ids = [];
 
-if (isset($_POST['selectedIds'])) {
-    if (is_array($_POST['selectedIds'])) {
-        // Already an array, use as-is
-        $tc_ids = $_POST['selectedIds'];
-    } else {
-        // It's a string, possibly comma-separated
-        $tc_ids = explode(',', $_POST['selectedIds']);
-    }
-}
-if($tc_ids){
-	$tc_assign_status=1;
-}else{
-	$tc_assign_status=0;
-}
+$tc_ids = $_POST['selectedIds'] ?? [];
+$tc_ids = is_array($tc_ids) ? array_filter($tc_ids) : array_filter(explode(',', $tc_ids));
+
+$tc_assign_status = !empty($tc_ids) ? 1 : 2;
 $tenure=$_POST['tenure'];
 $roi=$_POST['roi'];
 $tax=$_POST['tax'];

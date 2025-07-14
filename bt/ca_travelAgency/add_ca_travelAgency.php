@@ -12,11 +12,11 @@
     //current year
     $date = date('Y'); 
 
-    // Calculate 20 years before the current date
-    $dateTwentyYearsAgo = strtotime("-20 years");
+    // Calculate 18 years before the current date
+    $dateEighteenYearsAgo = strtotime("-18 years");
 
     // Format the result as a human-readable date
-    $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
+    $ageLimit = date("Y-m-d", $dateEighteenYearsAgo);  // Outputs the date 18 years before today
 ?>
 <!doctype html>
 <html lang="en">
@@ -116,7 +116,7 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Designation<span class="text-danger">*</span></label>
                                                         <select id="designation" class="form-select">
-                                                            <option value="">--Select Designation--</option>
+                                                            <option value="NA">--Select Designation--</option>
                                                             <option value="business_mentor">Business Mentor</option>
                                                             <option value="corporate_agency">Techno Enterprise</option>
                                                             <!-- <option value="channel_business_director">Channel Business Director</option> -->
@@ -127,14 +127,14 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
                                                         <select id="user_id_name" class="form-select">
-                                                            <option value="">--Select Designation First--</option>
+                                                            <option value="NA">--Select Designation First--</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
+                                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
                                                     </div>
                                                 </div>
 
