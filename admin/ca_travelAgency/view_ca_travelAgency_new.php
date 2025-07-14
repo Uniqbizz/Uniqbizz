@@ -269,7 +269,7 @@
                                                 <div class="col-sm-3 col-md-3"> 
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="designation"><span>Designation</span></label>
-                                                        <select id="designation" name="designation" class="form-select">
+                                                        <select id="designation" name="designation" class="form-select filter_items">
                                                             <option value="" disabled selected>-- Select Designation --</option>
                                                             <option value="24">Business Channel Manager (BCM)</option>
                                                             <option value="25">Business Development Manager (BDM)</option>
