@@ -2879,10 +2879,11 @@ $Year = date('Y'); //year
 
                 for (const key in dataMap) {
                     const d = dataMap[key];
-                    if (d.paid > 0) {
+                    const total = (d.paid || 0) + (d.pending || 0);
+                    if (total > 0) {
                         labels.push(`${d.label}: ${d.count}`);
-                        data.push(d.paid);
-                        displayText += `${d.label}: ${d.count} (₹${d.paid.toLocaleString()})\n`;
+                        data.push(total);
+                        displayText += `${d.label}: ${d.count} (₹${total.toLocaleString()})\n`;
                     }
                 }
 
