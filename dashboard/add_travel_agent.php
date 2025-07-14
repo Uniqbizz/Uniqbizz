@@ -442,7 +442,7 @@
                                                     <!-- new added 14-06-2025 -->
                                                     <input type="hidden" id="register_by" name="register_by" value="<?php echo $userType; ?>"> <!-- User type for table col register_by -->
                                                     <input type="hidden" id="userId" name="userId" value="<?php echo $userId ; ?>"> <!-- User id BH250001 -->
-                                                    
+                                                    <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
                                                     <div class="d-flex justify-content-center mb-4">
                                                         <button type="submit" class="btn btn-primary px-5 py-2" id="add-travel-agent">Submit</button>
                                                     </div>

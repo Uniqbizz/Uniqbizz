@@ -183,7 +183,7 @@ $('#add_bdm').click(function (e) {
 
     // var testp= $('#testphone').val();
     var testE = $('#testemails').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     var characterLetters = /^[A-Za-z\s]+$/;
@@ -290,7 +290,7 @@ $('#edit_bdm').click(function (e) {
 
     // var testp= $('#testphone').val();
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     var characterLetters = /^[A-Za-z\s]+$/;
@@ -444,7 +444,7 @@ $('#addBusinessMentor').on('click', function (e) {
 
     // var testp= $('#testphone').val();
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     //age calculation
@@ -646,7 +646,7 @@ $('#editBuisnessMentor').on('click', function (e) {
     // var transactionNo = $("#transactionNo").val().trim();
     // var payment_proof = $(":hidden#img_path6").val().trim();
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     //age calculation
@@ -1297,7 +1297,7 @@ $('#add-corporate-agency').click(function (e) {
     var payment_proof = $(":hidden#img_path6").val().trim();
 
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     var dataString = // "designation=" +designation+ 
@@ -1451,7 +1451,7 @@ $('#edit-corporate-agency').click(function (e) {
     var payment_proof = $(":hidden#img_path6").val().trim();
 
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     var dataString = "editfor=" + editfor +
@@ -1638,7 +1638,7 @@ $('#add-travel-agent').click(function (e) {
     var register_by = $('#register_by').val().trim();
 
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     var dataString = // "designation=" +designation+ 
@@ -1804,7 +1804,7 @@ $('#edit-travel-agent').click(function (e) {
     var register_by = $('#register_by').val().trim();
 
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     var dataString = "editfor=" + editfor +
@@ -1979,7 +1979,7 @@ $('#add-customer').click(function (e) {
     var editfor = $('#editfor').val().trim();
 
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
 
     if (!cu_ref_id) {
@@ -2150,7 +2150,7 @@ $('#edit-customer').click(function (e) {
     var registrant_id = $('#registrant_id').val();
 
     var testE = $('#testemail').val();
-    var userId = $('#userID').val();
+    var userId = $('#userId').val();
     var userType = $('#userType').val();
     var payment_fee = $("#payment_fee").val().trim();
     if (payment_fee == "FOC") {
