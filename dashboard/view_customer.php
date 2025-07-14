@@ -183,7 +183,7 @@
 
                                                                                         $bd= new DateTime($userCACU['date_of_birth']);
                                                                                         $bdate= $bd->format('d-m-Y');
-                                                                                        $dt= new DateTime($userCACU['register_date']);
+                                                                                        $dt= new DateTime($userCACU['added_on']);
                                                                                         $datev= $dt->format('d-m-Y'); 
                                                                                         echo'<tr>
                                                                                             <td>'.$userCACU['id'].'</td>
@@ -279,7 +279,7 @@
 
                                                                                     $bd= new DateTime($userCACU['date_of_birth']);
                                                                                     $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
+                                                                                    $dt= new DateTime($userCACU['added_on']);
                                                                                     $datev= $dt->format('d-m-Y'); 
                                                                                     echo'<tr>
                                                                                         <td>'.$userCACU['id'].'</td>
@@ -375,7 +375,7 @@
 
                                                                                     $bd= new DateTime($userCACU['date_of_birth']);
                                                                                     $bdate= $bd->format('d-m-Y');
-                                                                                    $dt= new DateTime($userCACU['register_date']);
+                                                                                    $dt= new DateTime($userCACU['added_on']);
                                                                                     $datev= $dt->format('d-m-Y'); 
                                                                                     echo'<tr>
                                                                                         <td>'.$userCACU['id'].'</td>
@@ -424,7 +424,7 @@
 
                                                                                 $bd= new DateTime($userCACU['date_of_birth']);
                                                                                 $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCACU['register_date']);
+                                                                                $dt= new DateTime($userCACU['added_on']);
                                                                                 $datev= $dt->format('d-m-Y'); 
                                                                                 echo'<tr>
                                                                                     <td>'.$userCACU['id'].'</td>
@@ -547,7 +547,7 @@
 
                                                                             $bd= new DateTime($userCACU['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCACU['register_date']);
+                                                                            $dt= new DateTime($userCACU['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$userCACU['id'].'</td>
@@ -575,7 +575,7 @@
                                                                         foreach(($stmt -> fetchAll()) as $key => $row){
                                                                             $bd= new DateTime($row['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['register_date']);
+                                                                            $dt= new DateTime($row['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$row['id'].'</td>
@@ -603,7 +603,7 @@
                                                                         foreach(($stmt -> fetchAll()) as $key => $row){
                                                                             $bd= new DateTime($row['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['register_date']);
+                                                                            $dt= new DateTime($row['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$row['id'].'</td>

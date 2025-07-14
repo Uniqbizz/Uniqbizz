@@ -163,7 +163,7 @@
                                                                             $userBC = $userCA['id'];
                                                                             $bd= new DateTime($userCA['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCA['register_date']);
+                                                                            $dt= new DateTime($userCA['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$srNo++.'</td>
@@ -197,7 +197,7 @@
                                                                         $userBC = $userCA['id'];
                                                                         $bd= new DateTime($userCA['date_of_birth']);
                                                                         $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($userCA['register_date']);
+                                                                        $dt= new DateTime($userCA['added_on']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
@@ -231,7 +231,7 @@
                                                                         $userBC = $userCA['id'];
                                                                         $bd= new DateTime($userCA['date_of_birth']);
                                                                         $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($userCA['register_date']);
+                                                                        $dt= new DateTime($userCA['added_on']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
@@ -256,7 +256,7 @@
                                                                     foreach(($stmt -> fetchAll()) as $key => $row){
                                                                         $bd= new DateTime($row['date_of_birth']);
                                                                         $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($row['register_date']);
+                                                                        $dt= new DateTime($row['added_on']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
