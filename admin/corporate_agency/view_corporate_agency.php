@@ -154,11 +154,11 @@
                                                             SELECT 'te' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('0', '2') 
-                                                            UNION ALL
+                                                            UNION ALL 
                                                             SELECT 'sf' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('0', '2') 
-                                                            ORDER BY id ASC
+                                                            ORDER BY added_on ASC
                                                         ";
 
                                                         $stmt = $conn->prepare($sql);
@@ -175,7 +175,7 @@
 
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
-                                                                    <td>' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . ' <span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span></td>
+                                                                    <td><span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
@@ -310,14 +310,14 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('1', '3') 
-                                                            UNION ALL
-                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('1', '3') 
-                                                            ORDER BY user_id ASC
+                                                            ORDER BY register_date ASC
                                                         ";
 
                                                         $stmt = $conn->prepare($sql);
@@ -334,7 +334,7 @@
 
                                                                 echo '<tr>
                                                                     <td>' . $row['user_id'] . '</td>
-                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . ' <span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span></td>
+                                                                    <td> <span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span>&nbsp' . $row['firstname'] . ' ' . $row['lastname'] . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
@@ -543,8 +543,11 @@
         <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         
-        <!-- ecommerce-customer-list init -->
-        <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
+        <!-- Moment.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+        <!-- DataTables datetime sort plugin -->
+        <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
@@ -567,8 +570,17 @@
         <!-- dataTable -->
         <script>
             $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-                $("#registeredCustomerList-table").DataTable();
+                // Register the date format before using DataTables
+                $.fn.dataTable.moment('DD-MM-YYYY');
+
+                // Now initialize DataTables
+                $("#pendingCustomerList-table").DataTable({
+                    order: [[5, 'asc']] // 6th column = index 5
+                });
+
+                $("#registeredCustomerList-table").DataTable({
+                    order: [[5, 'asc']]
+                });
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
@@ -682,6 +694,11 @@
                             if(data){
                                 $('#registered_ca').html(data);
                                 // $('#filterTable').DataTable();
+                                // Register the date format before using DataTables
+                                $.fn.dataTable.moment('DD-MM-YYYY');
+                                $("#filterTable").DataTable({
+                                    order: [[5, 'asc']]
+                                });
 
                                 // var TotalCount = $('#filterTable tr').length; // count total table rows
                                 let amts = document.querySelectorAll("#filterTable td:nth-child(5)"); // get amount from 5th col for adding amt one col hidden

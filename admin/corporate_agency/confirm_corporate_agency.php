@@ -764,26 +764,23 @@ if ($user_type_id == '16') {
 		$shortName = $row['short_name'];
 	}
 	if ($sql2->rowCount() > 0) {
-		foreach (($sql2->fetchAll()) as $key3 => $row3) {
+		foreach (($sql2->fetchAll()) as $row3) {
 			$sub_franchisee_id = $row3["sub_franchisee_id"];
 		}
-		if ($sub_franchisee_id == '') {
+
+		if (empty($sub_franchisee_id)) {
 			$uid = 'F' . $shortName . $subY . '00001';
 		} else {
+			$lastYear = substr($sub_franchisee_id, 3, 2); // Correctly extract year
+			$lastNumber = (int)substr($sub_franchisee_id, 5); // Get running number part
 
-			$subV = substr($sub_franchisee_id, 2, 4);
-			if ($subV == $subY) {
-				$sub_franchisee_id++;
-				$sub_franchisee_id = str_pad($sub_franchisee_id, 4, '0', STR_PAD_LEFT);
-				$uid = $sub_franchisee_id;
+			if ($lastYear == $subY) {
+				$newNumber = $lastNumber + 1;
 			} else {
-
-				$sub_franchisee_id++;
-				$fid = substr($sub_franchisee_id, 4);
-				$newValue = 'F' . $shortName . $subY . $fid;
-				$sub_franchisee_id = str_pad($newValue, 4, '0', STR_PAD_LEFT);
-				$uid = $sub_franchisee_id;
+				$newNumber = 1;
 			}
+
+			$uid = 'F' . $shortName . $subY . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
 		}
 	} else {
 		$uid = 'F' . $shortName . $subY . '00001';
