@@ -244,8 +244,8 @@
                                                         <select id="business_pack" class="selectdesign filter-opt-1 fw-bolder">
                                                             <option value="">--Select Business Packages--</option>
                                                             <!-- <option value="all">All</option> -->
-                                                            <option value="100000">Standard</option>
-                                                            <option value="200000">Prime</option>
+                                                            <option value="200000">Standard</option>
+                                                            <option value="300000">Prime</option>
                                                             <option value="500000">Premium</option>
                                                         </select>
                                                     </div>
