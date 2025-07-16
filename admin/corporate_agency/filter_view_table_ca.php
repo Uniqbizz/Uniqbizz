@@ -189,7 +189,7 @@ if ($stmt->rowCount() > 0) {
         echo '</tr>';
     }
 } else {
-    echo '<tr><td colspan="7" style="text-align:center">No Registered Corporate Agency or Sub-Franchisee</td></tr>';
+    echo '<tr><td></td><td></td><td></td><td style="text-align:center">No Registered Techno Enterprise or Franchisee</td><td></td><td></td><td></td></tr>';
 }
 
 echo '</tbody></table></div>';
