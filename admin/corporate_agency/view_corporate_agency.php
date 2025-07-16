@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
 
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -122,7 +122,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Techno Enterprise List</h4>
+                                                        <h4>Pending Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -234,7 +234,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Techno Enterprise List</h4>
+                                                        <h4>Registered Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -296,7 +296,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Techno Enterprise Id</th>
+                                                        <th>Techno Enterprise / Franchisee Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>

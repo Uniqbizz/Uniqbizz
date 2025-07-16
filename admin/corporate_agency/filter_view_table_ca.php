@@ -112,7 +112,7 @@ echo '
 <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="filterTable">
     <thead class="table-light">
         <tr>
-            <th>Corporate Agency Id</th>
+            <th>Techno Enterprise / Franchisee Id</th>
             <th>Full Name</th>
             <th>Reference ID / Name</th>
             <th>Phone / Email</th>
@@ -188,9 +188,8 @@ if ($stmt->rowCount() > 0) {
 
         echo '</tr>';
     }
-} else {
-    echo '<tr><td></td><td></td><td></td><td style="text-align:center">No Registered Techno Enterprise or Franchisee</td><td></td><td></td><td></td></tr>';
-}
+} 
+
 
 echo '</tbody></table></div>';
 ?>
