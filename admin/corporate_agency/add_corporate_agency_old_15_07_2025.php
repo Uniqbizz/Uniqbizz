@@ -86,33 +86,18 @@
                                         <form>
                                             <h3>Add Techno Enterprise</h3>
                                             <div class="row">
-                                                <div class="col-md-3 col-sm-6 col-12">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="registered">Registering As<span class="text-danger">*</span></label>
-                                                        <select id="registered" class="form-select">
-                                                            <option value="">--Select --</option>
-                                                            <option value="corporate_agency">Techno Enterprise </option>
-                                                            <option value="sub_franchisee">Franchisee</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-sm-6 col-12">
+                                                <div class="col-md-4 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="designation"> Designation<span class="text-danger">*</span></label>
-                                                        <select id="designation1" class="form-select" disabled>
+                                                        <select id="designation" class="form-select">
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
-                                                            <option value="business_consultant">Business Consultant</option>
+                                                            <!--<option value="business_consultant">Business Consultant</option>-->
                                                             <option value="business_mentor">Business Mentor</option>
-                                                        </select>
-                                                        <select id="designation2" class="form-select d-none">
-                                                            <option value="">--Select Designation--</option>
-                                                            <option value="zonal_manager">Zonal Manager</option>
-                                                            <option value="master_franchisee">Master Franchisee</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-3 col-sm-6 col-12">
+                                                <div class="form-group col-md-4 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
                                                         <select id="user_id_name" class="form-select"> 
@@ -120,7 +105,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-sm-6 col-12">
+                                                <div class="col-md-4 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="reference_name"> Referance Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
@@ -165,13 +150,10 @@
                                                 <div class="col-md-4 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="business_package_amount">Business Package/Amount<span class="text-danger">*</span></label>
-                                                        <select id="business_package_amount1" class="form-select" disabled>
+                                                        <select id="business_package_amount" class="form-select">
                                                             <option value="">--Select Business Package/Amount--</option> 
                                                             <option value="200000">2,00,000/-</option> 
                                                             <option value="300000">3,00,000/-</option> 
-                                                            <option value="500000">5,00,000/-</option> 
-                                                        </select>
-                                                        <select id="business_package_amount2" class="form-select d-none"> 
                                                             <option value="500000">5,00,000/-</option> 
                                                         </select>
                                                     </div>
@@ -396,15 +378,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="col-md-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="note" placeholder="Enter Note">
+                                                
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="note" placeholder="Enter Note">
+                                                    </div>
                                                 </div>
+                                            
                                             </div>
-
                                             <input type="hidden" id="testValue" name="testValue" value="16"> <!-- CA -->
                                             <div class="d-flex justify-content-center mb-4">
                                                 <button type="submit" class="btn btn-primary px-5 py-2" id="addCorporateAgency">Submit</button>
@@ -488,47 +470,9 @@
         </script>
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
-            //select Register as
-            $('#registered').on('change',function(){
-                var register_type=$(this).val();
-                if(register_type == 'corporate_agency'){
-                    $('#designation1').prop('disabled', false);
-                    $('#designation1').removeClass('d-none');
-                    $('#designation2').addClass('d-none');
-                    $('#business_package_amount1').prop('disabled', false);
-                    $('#business_package_amount1').removeClass('d-none');
-                    $('#business_package_amount2').addClass('d-none');
-                }else if(register_type == 'sub_franchisee'){
-                    $('#designation1').addClass('d-none');
-                    $('#designation2').removeClass('d-none');
-                    $('#business_package_amount2').removeClass('d-none');
-                    $('#business_package_amount1').addClass('d-none');
-                    
-                    var business_package_amount = $('#business_package_amount2').val();
-                    $('#flex_amount').val(business_package_amount);
-                }
-            });
-
             //select Designation
-            $('#designation1').on('change', function() {
-                var designation = $('#designation1').val();
-                console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
-            });
-
-            $('#designation2').on('change', function() {
-                var designation = $('#designation2').val();
+            $('#designation').on('change', function() {
+                var designation = $('#designation').val();
                 console.log(designation);
                 $.ajax({
                     type:'POST',
@@ -547,9 +491,7 @@
             // fetch User based on selected designation
             $('#user_id_name').on('change', function(){
                 var user_id_name = $(this).val();
-                var designation = !$('#designation1').hasClass('d-none') 
-                ? $('#designation1').val() 
-                : $('#designation2').val();
+                var designation = $('#designation').val();
                 console.log(user_id_name);
 
                 // var designation = 'franchisee';
@@ -623,11 +565,10 @@
                 }
             });
 
-            $('#business_package_amount1').on('change', function(){
+            $('#business_package_amount').on('change', function(){
                 var business_package_amount = $(this).val();
                 $('#flex_amount').val(business_package_amount);
             });
-            
 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
