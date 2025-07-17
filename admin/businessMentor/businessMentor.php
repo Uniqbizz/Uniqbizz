@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Business Mentor</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee</h4>
 
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -119,7 +119,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Business Mentor List</h4>
+                                                        <h4>Pending Business Mentor / Master Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,61 +146,72 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `business_mentor` WHERE status = '2' OR status = '0' ORDER BY business_mentor_id ASC ";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($stmt->rowCount()>0){
-                                                            foreach(($stmt->fetchAll()) as $key => $row) {
-                                                                $bd= new DateTime($row['date_of_birth']);
-                                                                $bdate= $bd->format('d-m-Y');
+                                                        $sql = "
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'BM' AS user_type FROM business_mentor WHERE status IN ('0', '2')
+                                                            UNION ALL
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
+                                                            ORDER BY id ASC
+                                                        ";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                                $rd= new DateTime($row['added_on']);
-                                                                $rdate= $rd->format('d-m-Y');
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $key => $row) {
+                                                                $bd = new DateTime($row['date_of_birth']);
+                                                                $bdate = $bd->format('d-m-Y');
 
-                                                                echo'<tr>
-                                                                    <td>'.$row['id'].'</td>
-                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                    <td><p class="mb-1">'.$row['reference_no'].'</p>
-                                                                        <p class="mb-0">'.$row['registrant'].'</p>
+                                                                $rd = new DateTime($row['added_on']);
+                                                                $rdate = $rd->format('d-m-Y');
+
+                                                                $label = $row['user_type'] == 'BM' ? '<span class="badge bg-primary me-1">BM</span>' : '<span class="badge bg-success me-1">MF</span>';
+
+                                                                echo '<tr>
+                                                                    <td>' . $row['id'] . '</td>
+                                                                    <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
+                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
                                                                     </td>
                                                                     <td>
-                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
-                                                                        <p class="mb-0">'.$row['email'].'</p>
+                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['email'] . '</p>
                                                                     </td>
-                                                                    <td>'.$row['address'].'</td>
-                                                                    <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '2'){
-                                                                        echo'<td><span class="badge text-bg-warning">Pending</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .$row["zone"]. '","' .$row["branch"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Delete</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }
-                                                                echo'</tr>';
+                                                                    <td>' . $row['address'] . '</td>
+                                                                    <td>' . $rdate . '</td>';
+
+                                                                if ($row['status'] == '2') {
+                                                                    echo '<td><span class="badge text-bg-warning">Pending</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","pending","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","pending","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                } else {
+                                                                    echo '<td><span class="badge text-bg-danger">Delete</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","deleted","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                }
+
+                                                                echo '</tr>';
                                                             }
                                                         }
                                                     ?>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -218,7 +229,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Business Mentor List</h4>
+                                                        <h4>Registered Business Mentor / Master Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -289,74 +300,85 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `business_mentor` WHERE status = '1' OR status = '3' ORDER BY business_mentor_id ASC ";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($stmt->rowCount()>0){
-                                                            foreach(($stmt->fetchAll()) as $key => $row) {
-                                                                $bd= new DateTime($row['date_of_birth']);
-                                                                $bdate= $bd->format('d-m-Y');
+                                                        $sql = "
+                                                            SELECT *, 'BM' AS user_type FROM business_mentor WHERE status IN ('1', '3')
+                                                            UNION ALL
+                                                            SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1', '3')
+                                                        ";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                                $rd= new DateTime($row['register_date']);
-                                                                $rdate= $rd->format('d-m-Y');
-                                                                
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $key => $row) {
+                                                                $bd = new DateTime($row['date_of_birth']);
+                                                                $bdate = $bd->format('d-m-Y');
+
+                                                                $rd = new DateTime($row['register_date']);
+                                                                $rdate = $rd->format('d-m-Y');
+
                                                                 $branchID = $row['branch'];
-                                                                
-                                                                $sqlBranch = "SELECT * FROM `branch` WHERE id = '".$branchID."' ";
-                                                                $stmtId = $conn -> prepare($sqlBranch);
-                                                                $stmtId -> execute();
-                                                                $stmtId -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                if($stmtId->rowCount()>0){
-                                                                    foreach(($stmtId->fetchAll()) as $keyId => $rowId) {
-                                                                        $branch = $rowId['branch_name'];
-                                                                    }
+                                                                $branch = '';
+
+                                                                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
+                                                                $stmtId = $conn->prepare($sqlBranch);
+                                                                $stmtId->execute([$branchID]);
+                                                                if ($stmtId->rowCount() > 0) {
+                                                                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
+                                                                    $branch = $branchData['branch_name'];
                                                                 }
 
-                                                                echo'<tr>
-                                                                    <td>'.$row['business_mentor_id'].'</td>
-                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                    <td><p class="mb-1">'.$row['reference_no'].'</p>
-                                                                        <p class="mb-0">'.$row['registrant'].'</p>
+                                                                $label = $row['user_type'] === 'BM'
+                                                                    ? '<span class="badge bg-primary me-1">BM</span>'
+                                                                    : '<span class="badge bg-success me-1">MF</span>';
+
+                                                                echo '<tr>
+                                                                    <td>' . $row['business_mentor_id'] . '</td>
+                                                                    <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
+                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
                                                                     </td>
                                                                     <td>
-                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
-                                                                        <p class="mb-0">'.$row['email'].'</p>
+                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['email'] . '</p>
                                                                     </td>
-                                                                    <td>'.$branch.'</td>
-                                                                    <td>'.$row['paid_amount'].'</td>
-                                                                    <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '1'){
-                                                                        echo'<td><span class="badge text-bg-success">Active</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("'.$row["business_mentor_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","business_mentor")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                    <li><a href="#" onclick=\'editfuncCust("'.$row["business_mentor_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .$row["zone"]. '","' .$row["branch"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["business_mentor_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["business_mentor_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }
-                                                                echo'</tr>';
+                                                                    <td>' . $branch . '</td>
+                                                                    <td>' . $row['paid_amount'] . '</td>
+                                                                    <td>' . $rdate . '</td>';
+
+                                                                if ($row['status'] == '1') {
+                                                                    echo '<td><span class="badge text-bg-success">Active</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["business_mentor_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'mf' ? 'master_franchisee' : (strtolower($row['user_type']) == 'bm' ? 'business_mentor' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["business_mentor_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["business_mentor_id"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                } else {
+                                                                    echo '<td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["business_mentor_id"] . '","deactivate","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                }
+
+                                                                echo '</tr>';
                                                             }
                                                         }
                                                     ?>
+
                                                 </tbody>
                                             </table>
                                             <!-- end table -->
@@ -522,7 +544,11 @@
         <!-- Responsive examples -->
         <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-        
+        <!-- Moment.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+        <!-- DataTables datetime sort plugin -->
+        <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
         <!-- ecommerce-customer-list init -->
         <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
         
@@ -548,16 +574,26 @@
         <!-- dataTable -->
         <script>
             $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-                $("#registeredCustomerList-table").DataTable();
+                
+                // Register the date format before using DataTables
+                $.fn.dataTable.moment('DD-MM-YYYY');
+
+                // Now initialize DataTables
+                $("#pendingCustomerList-table").DataTable({
+                    order: [[5, 'asc']] // 6th column = index 5
+                });
+
+                $("#registeredCustomerList-table").DataTable({
+                    order: [[5, 'asc']]
+                });
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,zn,br,editfor){ 
-                window.location.href='editBusinessMentor.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor;
+            function editfuncCust(id,refno,regby,cut,st,ct,zn,br,editfor,usertype){ 
+                window.location.href='editBusinessMentor.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor+'&usertype='+usertype;
             };
 
-            function deletefunc(id,fid,action){ 
-                var dataString = 'id='+id+'&refid='+fid+'&action='+action;
+            function deletefunc(id,fid,action,usertype){ 
+                var dataString = 'id='+id+'&refid='+fid+'&action='+action+'&usertype='+usertype;
 
                 $.ajax({
                 type: "POST",
@@ -586,9 +622,9 @@
                 
             };
 
-            function confirmfunc(id,email){ 
+            function confirmfunc(id,email,usertype){ 
 
-                var dataString = 'id='+ id+'&uname='+email;
+                var dataString = 'id='+ id+'&uname='+email+'&usertype='+usertype;
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
@@ -647,7 +683,8 @@
 			});
 
             function overviewPage(id,ref,cut,st,ct,message){
-                var designation = 'Business Mentor';
+
+                var designation = message == 'business_mentor'?'Business Mentor':(message == 'master_franchisee'?'Master Franchisee':'');
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
         </script>

@@ -45,6 +45,9 @@
 
         <style>
             /* dataTable, action col, dropdown align right  */
+            .lable-width{
+                width: 18px;
+            }
 
             @media screen and (max-width: 1191px) {
                 .dropdown-menu-end-1[style] {
@@ -175,7 +178,7 @@
 
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
-                                                                    <td><span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
+                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type']=='sf'?'f':($row['user_type']=='te'?'te':'')) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
@@ -194,7 +197,7 @@
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
                                                                                     <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_type"] . '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","pending","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                     <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","'.$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
                                                                                 </ul>
                                                                             </div>
@@ -207,7 +210,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_type"] . '","deleted")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","deleted","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -333,16 +336,23 @@
                                                                 $rdate = $rd->format('d-m-Y');
 
                                                                 echo '<tr>
-                                                                    <td>' . $row['user_id'] . '</td>
-                                                                    <td> <span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span>&nbsp' . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['registrant'] . '</p></td>
-                                                                    <td>
-                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['email'] . '</p>
-                                                                    </td>
-                                                                    <td>' . $row['amount'] . '</td>
-                                                                    <td>' . $rdate . '</td>';
+                                                                        <td>' . $row['user_id'] . '</td>
+                                                                        <td> 
+                                                                            <span class="badge bg-secondary lable-width">'
+                                                                                . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
+                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] . 
+                                                                        '</td>
+                                                                        <td>
+                                                                            <p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                            <p class="mb-0">' . $row['registrant'] . '</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                            <p class="mb-0">' . $row['email'] . '</p>
+                                                                        </td>
+                                                                        <td>' . $row['amount'] . '</td>
+                                                                        <td>' . $rdate . '</td>';
+
 
                                                                 if ($row['status'] == '1') {
                                                                     echo '<td><span class="badge text-bg-success">Active</span></td>
@@ -352,9 +362,9 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                     <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","registered","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -366,7 +376,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -583,12 +593,12 @@
                 });
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
+            function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
+                window.location.href='edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
-            function deletefunc(id,fid,action){ 
-                var dataString = 'id='+id+'&refid='+fid+'&action='+action;
+            function deletefunc(id,fid,action,usertype){ 
+                var dataString = 'id='+id+'&refid='+fid+'&action='+action+'&usertype='+usertype;
 
                 $.ajax({
                 type: "POST",
@@ -642,7 +652,7 @@
             };
 
             function overviewPage(id,ref,cut,st,ct,message){
-                var designation = 'Techno Enterprise';
+                var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
 

@@ -315,9 +315,9 @@ if ($user_type_id == '16') {
 						':status' => '2'
 					));
 				} else if ($reference_id == "BM") { // slab logic no long required
-					$message = "BM - " . $BM_name . " " . $BM_id . " earned " . $bmCommiAmt . "/- on recruting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " . ";
-					$id = $BM_id;
-					$CommiAmt = $bmCommiAmt;
+					// $message = "BM - " . $BM_name . " " . $BM_id . " earned " . $bmCommiAmt . "/- on recruting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " . ";
+					// $id = $BM_id;
+					// $CommiAmt = $bmCommiAmt;
 					//added bm bdm and bcm slab logic by sv on 17-02-2025
 					$current_month = date('m');
 					$current_year = date('Y');
@@ -348,7 +348,7 @@ if ($user_type_id == '16') {
 						if ($te_register_date <= $bm_register_date) continue;
 
 						// Messages
-						$message_bm = "BM - " . $bm_name . "(ID:" . $bm_id . ") earned Rs.25,000/- on recruiting Techno Enterprise. Techno Enterprise Name - " . $ca_name . "(ID:" . $ca_id . ")";
+						$message_bm = "BM - " . $bm_name . "(ID:" . $bm_id . ") earned Rs.12,500/- on recruiting Techno Enterprise. Techno Enterprise Name - " . $ca_name . "(ID:" . $ca_id . ")";
 						$message_ca = "Recruited Techno Enterprise - " . $ca_name . "(ID:" . $ca_id . ") under BM " . $bm_name;
 
 						// Check if BM payout already exists for the current month
@@ -361,7 +361,7 @@ if ($user_type_id == '16') {
 							$stmt_insert->execute([$bm_id, $message_bm, $ca_id, $message_ca]);
 						}
 
-						$bm_id_amt[$bm_id] = ($bm_id_amt[$bm_id] ?? 0) + 25000;
+						//$bm_id_amt[$bm_id] = ($bm_id_amt[$bm_id] ?? 0) + 25000;//not in use
 
 						$result4 = 1;
 					}
@@ -764,25 +764,18 @@ if ($user_type_id == '16') {
 		$shortName = $row['short_name'];
 	}
 	if ($sql2->rowCount() > 0) {
-		foreach (($sql2->fetchAll()) as $row3) {
-			$sub_franchisee_id = $row3["sub_franchisee_id"];
+		foreach ($sql2->fetchAll() as $row3) {
+			$master_franchisee_id = $row3["master_franchisee_id"]; // e.g., MFKA25250001
 		}
 
-		if (empty($sub_franchisee_id)) {
-			$uid = 'F' . $shortName . $subY . '00001';
-		} else {
-			$lastYear = substr($sub_franchisee_id, 3, 2); // Correctly extract year
-			$lastNumber = (int)substr($sub_franchisee_id, 5); // Get running number part
+		// Always increment based on last 5 digits
+		$lastNumber = substr($master_franchisee_id, -5); // e.g., "00001"
+		$nextNumber = (int)$lastNumber + 1;
+		$nextNumber = str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+		$uid = 'F' . $shortName . $subY . $nextNumber;
 
-			if ($lastYear == $subY) {
-				$newNumber = $lastNumber + 1;
-			} else {
-				$newNumber = 1;
-			}
-
-			$uid = 'F' . $shortName . $subY . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
-		}
 	} else {
+		// First ID if none exists
 		$uid = 'F' . $shortName . $subY . '00001';
 	}
 	// log for Franchisee

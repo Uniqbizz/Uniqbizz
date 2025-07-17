@@ -1971,9 +1971,19 @@ $("#edit_employee").click(function (e) {
 // Add Business Mentor by admin
 $("#addBusinessMentor").on("click", function (e) {
     e.preventDefault();
+    var register_as = $('#registered').val();
+    var url = register_as == 'business_mentor'
+    ? 'addBusinessMentorData.php'
+    : register_as == 'master_franchisee'
+        ? 'addMasterFranchiseeData.php'
+        : '';
     // console.log('Add customer button clicked');
 
-    var designation = $("#designation").val() == 'NA' ? 'Not Applicable' : $("#designation").val();
+    var designation = register_as == 'business_mentor'
+    ? $("#designation1").val() == 'NA' ? 'Not Applicable' : $("#designation1").val()
+    : register_as == 'master_franchisee'
+        ? $("#designation2").val() == 'NA' ? 'Not Applicable' : $("#designation2").val()
+        : '';
     var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' : $("#user_id_name").val();
     var reference_name = $("#reference_name").val() == 'NA' ? 'Not Applicable' : $("#reference_name").val();
 
@@ -2184,7 +2194,7 @@ $("#addBusinessMentor").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "addBusinessMentorData.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -2204,6 +2214,12 @@ $("#addBusinessMentor").on("click", function (e) {
 // Edit Business Mentor by admin
 $("#editBuisnessMentor").on("click", function (e) {
     e.preventDefault();
+    var register_as = $('#registered').val();
+    var url = register_as == 'bm'
+    ? 'editBusinessMentorData.php'
+    : register_as == 'mf'
+        ? 'editMasterFranchiseeData.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();
@@ -2416,7 +2432,7 @@ $("#editBuisnessMentor").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "editBusinessMentorData.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -3123,6 +3139,12 @@ $("#addCorporateAgency").on("click", function (e) {
 // Edit Corporate Agency by admin
 $("#editCorporateAgency").on("click", function (e) {
     e.preventDefault();
+    var register_as = $('#registered').val();
+    var url = register_as == 'te'
+    ? 'edit_corporate_agency_data.php'
+    : register_as == 'sf'
+        ? 'edit_sub_franchisee_data.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();
@@ -3346,7 +3368,7 @@ $("#editCorporateAgency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "edit_corporate_agency_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {
