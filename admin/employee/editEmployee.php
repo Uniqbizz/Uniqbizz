@@ -31,6 +31,7 @@ $dept = $_GET['dept'];
 $desig = $_GET['desig'];
 $zn = $_GET['zn'];
 $br = $_GET['br'];
+$usertype=$_GET['usertype'];
 
 $editfor = $_GET['editfor'];
 
@@ -42,92 +43,166 @@ if ($editfor == 'pending') {
     $identifier_name = 'employee_id=';
 }
 
-$stmt = $conn->prepare("SELECT * FROM `employees` where employee_id='" . $id . "' OR id = '" . $id . "'");
-$stmt->execute();
-// set the resulting array to associative
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
+if($usertype == 27){
+    $stmt = $conn->prepare("SELECT * FROM `zonal_manager` where zonal_manager_id='" . $id . "' OR id = '" . $id . "'");
+    $stmt->execute();
+    // set the resulting array to associative
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-if ($stmt->rowCount() > 0) {
-    foreach (($stmt->fetchAll()) as $key => $row) {
-        $fid = $row['id'];
-        $name = $row['name'];
-        $email = $row['email'];
-        $contact = $row['contact'];
-        $reporting_manager_id = $row['reporting_manager'];
-        $date_of_birth = $row['date_of_birth'];
-        $date_of_joining = $row['date_of_joining'];
-        $gender = $row['gender'];
-        $department = $row['department'];
-        $designation = $row['designation'];
-        $zone = $row['zone'];
-        $branch = $row['branch'];
-        $address = $row['address'];
-        $profile_pic = $row['profile_pic'];
-        $id_proof = $row['id_proof'];
-        $bank_details = $row['bank_details'];
-        $register_by = $row['register_by'];
-        $user_type = $row['user_type'];
-        $register_date = $row['register_date'];
-        $note = $row['note'];
+    if ($stmt->rowCount() > 0) {
+        foreach (($stmt->fetchAll()) as $key => $row) {
+            $fid                    = $row['id'];
+            $name                   = $row['name'];
+            $email                  = $row['email'];
+            $contact                = $row['contact'];
+            $date_of_birth          = $row['date_of_birth'];
+            $gender                 = $row['gender'];
+            $country                = $row['country'];
+            $country_cd             = $row['country_code'];
+            $state                  = $row['state'];
+            $city                   = $row['city'];
+            $pincode                   = $row['pincode'];
+            $zone = $row['zone'];
+            $address = $row['address'];
+            $profile_pic = $row['profile_pic'];
+            $pan_card = $row['pan_card'];
+            $aadhar_card = $row['aadhar_card'];
+            $bank_details = $row['bank_passbook'];
+            $register_by = $row['register_by'];
+            $user_type = $row['user_type'];
+            $register_date = $row['register_date'];
+            $note = $row['note'];
 
-        //get country
-        $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $dept . "' and status='1' ");
-        $departments->execute();
-        $departments->setFetchMode(PDO::FETCH_ASSOC);
-        if ($departments->rowCount() > 0) {
-            $department = $departments->fetch();
-            $departmentname = $department['dept_name'];
-        }
-
-        //get state
-        $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $desig . "' and status='1' ");
-        $designations->execute();
-        $designations->setFetchMode(PDO::FETCH_ASSOC);
-        if ($designations->rowCount() > 0) {
-            $designation = $designations->fetch();
-            $designationname = $designation['designation_name'];
-        }
-        //get city
-        $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zn . "' and status='1' ");
-        $zones->execute();
-        $zones->setFetchMode(PDO::FETCH_ASSOC);
-        if ($zones->rowCount() > 0) {
-            $zone = $zones->fetch();
-            $zone_name = $zone['zone_name'];
-        }
-
-        //get city
-        $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $br . "' and status='1' ");
-        $branchs->execute();
-        $branchs->setFetchMode(PDO::FETCH_ASSOC);
-        if ($branchs->rowCount() > 0) {
-            $branch = $branchs->fetch();
-            $branch_name = $branch['branch_name'];
-        }
-
-        //get city
-        $employees = $conn->prepare("SELECT name FROM employees where employee_id='" . $reference_no . "' and status='1' ");
-        $employees->execute();
-        $employees->setFetchMode(PDO::FETCH_ASSOC);
-        if ($employees->rowCount() > 0) {
-            $employee = $employees->fetch();
-            $employee_name = $employee['name'];
-        }
-
-        // Get Reporting Manager Name
-        if ($reporting_manager_id == 'null') {
-            $reporting_manager_name = 'Not Selected';
-        } else {
-            $reporting_managers = $conn->prepare("SELECT * FROM employees WHERE employee_id = :reporting_manager");
-            $reporting_managers->execute(['reporting_manager' => $reporting_manager_id]);
-            $reporting_managers->setFetchMode(PDO::FETCH_ASSOC);
-            if ($reporting_managers->rowCount() > 0) {
-                $reporting_manager = $reporting_managers->fetch();
-                $reporting_manager_name = $reporting_manager['name'];
+            //get zone
+            $zones = $conn->prepare("SELECT id,zone FROM zonal where id='" . $zone . "' and status='1' ");
+            $zones->execute();
+            $zones->setFetchMode(PDO::FETCH_ASSOC);
+            if ($zones->rowCount() > 0) {
+                $zone = $zones->fetch();
+                $zone_name = $zone['zone'];
+                $zone_id = $zone['id'];
             }
+            //get country
+            $country_stmt = $conn->prepare("SELECT id,country_name FROM countries where id='" . $country . "' and status='1' ");
+            $country_stmt->execute();
+            $country_stmt->setFetchMode(PDO::FETCH_ASSOC);
+            if ($country_stmt->rowCount() > 0) {
+                $country_res = $country_stmt->fetch();
+                $country_name = $country_res['country_name'];
+                $country_id =$country_res['id'];
+            }
+            
+            //get state
+            $states = $conn->prepare("SELECT id,state_name FROM states where id='" . $state . "' and status='1' ");
+            $states->execute();
+            $states->setFetchMode(PDO::FETCH_ASSOC);
+            if ($states->rowCount() > 0) {
+                $state = $states->fetch();
+                $state_name = $state['state_name'];
+                $state_id = $state['id'];
+            }
+            //get city
+            $citys = $conn->prepare("SELECT id,city_name FROM cities where id='" . $city . "' and status='1' ");
+            $citys->execute();
+            $citys->setFetchMode(PDO::FETCH_ASSOC);
+            if ($citys->rowCount() > 0) {
+                $city = $citys->fetch();
+                $city_name = $city['city_name'];
+                $city_id = $city['id'];
+            }
+
         }
     }
+}else{
+    $stmt = $conn->prepare("SELECT * FROM `employees` where employee_id='" . $id . "' OR id = '" . $id . "'");
+    $stmt->execute();
+    // set the resulting array to associative
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+    if ($stmt->rowCount() > 0) {
+        foreach (($stmt->fetchAll()) as $key => $row) {
+            $fid                    = $row['id'];
+            $name                   = $row['name'];
+            $email                  = $row['email'];
+            $contact                = $row['contact'];
+            $country_cd             = $row['country_code'];
+            $reporting_manager_id   = $row['reporting_manager'];
+            $date_of_birth          = $row['date_of_birth'];
+            $date_of_joining        = $row['date_of_joining'];
+            $gender                 = $row['gender'];
+            $department             = $row['department'];
+            $designation            = $row['designation'];
+            $zone                   = $row['zone'];
+            $branch                 = $row['branch'];
+            $address                = $row['address'];
+            $profile_pic            = $row['profile_pic'];
+            $id_proof               = $row['id_proof'];
+            $bank_details           = $row['bank_details'];
+            $register_by            = $row['register_by'];
+            $user_type              = $row['user_type'];
+            $register_date          = $row['register_date'];
+            $note                   = $row['note'];
+
+            //get country
+            $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $dept . "' and status='1' ");
+            $departments->execute();
+            $departments->setFetchMode(PDO::FETCH_ASSOC);
+            if ($departments->rowCount() > 0) {
+                $department = $departments->fetch();
+                $departmentname = $department['dept_name'];
+            }
+
+            //get state
+            $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $desig . "' and status='1' ");
+            $designations->execute();
+            $designations->setFetchMode(PDO::FETCH_ASSOC);
+            if ($designations->rowCount() > 0) {
+                $designation = $designations->fetch();
+                $designationname = $designation['designation_name'];
+            }
+            //get city
+            $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zn . "' and status='1' ");
+            $zones->execute();
+            $zones->setFetchMode(PDO::FETCH_ASSOC);
+            if ($zones->rowCount() > 0) {
+                $zone = $zones->fetch();
+                $zone_name = $zone['zone_name'];
+            }
+
+            //get city
+            $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $br . "' and status='1' ");
+            $branchs->execute();
+            $branchs->setFetchMode(PDO::FETCH_ASSOC);
+            if ($branchs->rowCount() > 0) {
+                $branch = $branchs->fetch();
+                $branch_name = $branch['branch_name'];
+            }
+
+            //get city
+            $employees = $conn->prepare("SELECT name FROM employees where employee_id='" . $reference_no . "' and status='1' ");
+            $employees->execute();
+            $employees->setFetchMode(PDO::FETCH_ASSOC);
+            if ($employees->rowCount() > 0) {
+                $employee = $employees->fetch();
+                $employee_name = $employee['name'];
+            }
+
+            // Get Reporting Manager Name
+            if ($reporting_manager_id == 'null' || empty($reporting_manager_id)) {
+                $reporting_manager_name = 'Not Selected';
+            } else {
+                $reporting_managers = $conn->prepare("SELECT * FROM employees WHERE employee_id = :reporting_manager");
+                $reporting_managers->execute(['reporting_manager' => $reporting_manager_id]);
+                $reporting_managers->setFetchMode(PDO::FETCH_ASSOC);
+                if ($reporting_managers->rowCount() > 0) {
+                    $reporting_manager = $reporting_managers->fetch();
+                    $reporting_manager_name = $reporting_manager['name'];
+                }
+            }
+        }
+    }   
 }
+
 
 ?>
 
@@ -184,7 +259,7 @@ if ($stmt->rowCount() > 0) {
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">Employee</h4>
+                                <h4 class="mb-sm-0 font-size-18">Employee / Zonal Manager</h4>
                             </div>
                         </div>
                     </div>
@@ -195,8 +270,8 @@ if ($stmt->rowCount() > 0) {
                             <div class="card">
                                 <div class="card-body">
                                     <form>
-                                        <h3>Edit Employee</h3>
-                                        <div class="row">
+                                        <h3>Edit Employee / Zonal Manager</h3>
+                                        <div class="row" id="formParent">
                                             <!-- Personal Details -->
                                             <h4 class="my-2">Personal Details</h4>
                                             <div class="col-md-6 col-sm-6">
@@ -272,184 +347,426 @@ if ($stmt->rowCount() > 0) {
                                                 </div>
                                             </div>
 
-                                            <!-- Employment Details -->
-                                            <h4 class="my-2">Employment Details</h4>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
-                                                    <input class="form-control" type="date" id="joining_date" value="<?php echo $date_of_joining; ?>" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Department <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="department">
-                                                        <option value="<?php echo $dept; ?>"><?php echo $departmentname . ' (Already Selected)'; ?></option>
-                                                        <?php
-                                                        require '../connect.php';
-                                                        $sql = "SELECT * FROM `department` WHERE status ='1' ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                echo '
-                                                                            <option value="' . $row['id'] . '">' . $row['dept_name'] . '</option>
-                                                                        ';
-                                                            }
-                                                        } else {
-                                                            echo '<option value="">Department not available</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Designation <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="designation">
-                                                        <option value="<?php echo $desig; ?>"><?php echo $designationname . ' (Already Selected)'; ?></option>
-                                                        <?php
-                                                        require '../connect.php';
-                                                        $sql = "SELECT * FROM `designation` WHERE status ='1' ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                echo '
-                                                                            <option value="' . $row['id'] . '">' . $row['designation_name'] . '</option>
-                                                                        ';
-                                                            }
-                                                        } else {
-                                                            echo '<option value="">Designation not available</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Zone <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="zone">
-                                                        <option value="<?php echo $zn; ?>"><?php echo $zone_name . ' (Already Selected)'; ?></option>
-                                                        <?php
-                                                        require '../connect.php';
-                                                        $sql = "SELECT * FROM `zone` WHERE status ='1' ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                echo '
-                                                                            <option value="' . $row['id'] . '">' . $row['zone_name'] . '</option>
-                                                                        ';
-                                                            }
-                                                        } else {
-                                                            echo '<option value="">Zone not available</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Branch <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="branch">
-                                                        <option value="<?php echo $br; ?>"> <?php echo $branch_name . ' (Already Selected)'; ?> </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Reporting Manager <span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="reporting_manager">
-                                                        <option value="<?php echo $reporting_manager_id; ?>"> <?php echo $reporting_manager_name . ' (Already Selected)'; ?> </option>
-                                                        <?php
-                                                        // require '../connect.php';
-                                                        $sql = "SELECT * FROM `employees` WHERE status ='1' ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                echo '
-                                                                                <option value="' . $row['employee_id'] . '">' . $row['name'] . '</option>
-                                                                            ';
-                                                            }
-                                                        } else {
-                                                            echo '<option value="">Manager not available</option>';
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <!-- Attachments -->
-                                            <h4 class="my-2">Attachments</h4>
-                                            <div class="col-md-6 col-sm-6 mb-2">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Profile Picture</label>
-                                                    <input class="form-control" type="file" id="profile_pic">
-                                                </div>
-                                                <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
-                                                <div id="preview1">
-                                                    <div id="image_preview1">
-                                                        <?php
-                                                        if ($profile_pic == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
-                                                        } else {
-                                                            echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1" class="imgSize">';?>
-                                                            <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
-                                                                <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                            </a>
-                                                    <?php } ?>
+                                            <div class="col-md-12 col-sm-12" id="emp_block">
+                                                <div class="row" id="employee">
+                                                    <!-- Employment Details -->
+                                                    <h4 class="my-2">Employment Details</h4>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
+                                                            <input class="form-control" type="date" id="joining_date" value="<?php echo $date_of_joining; ?>" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 mb-2">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">ID Proof (Aadhaar/PAN/Passport)</label>
-                                                    <input class="form-control" type="file" id="id_proof">
-                                                </div>
-                                                <input type="hidden" id="img_path2" value="<?php echo $id_proof; ?>">
-                                                <div id="preview2">
-                                                    <div id="image_preview2">
-                                                        <?php
-                                                        if ($id_proof == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
-                                                        } else {
-                                                            echo '<img src="../../uploading/' . $id_proof . '" alt="Preview" id="img_pre2" class="imgSize">';?>
-                                                            <a href="<?php echo '../../uploading/' . $id_proof; ?>" download class="ms-3" title="Download">
-                                                                <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                            </a>
-                                                    <?php } ?>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Department <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="department">
+                                                                <option value="<?php echo $dept; ?>"><?php echo $departmentname . ' (Already Selected)'; ?></option>
+                                                                <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `department` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '
+                                                                                    <option value="' . $row['id'] . '">' . $row['dept_name'] . '</option>
+                                                                                ';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Department not available</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 ">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label">Bank Details for Salary Transfer</label>
-                                                    <input class="form-control" type="file" id="bank_details">
-                                                </div>
-                                                <input type="hidden" id="img_path3" value="<?php echo $bank_details; ?>">
-                                                <div id="preview3">
-                                                    <div id="image_preview3">
-                                                        <?php
-                                                            if ($bank_details == '') {
-                                                                echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
-                                                            } else {
-                                                                echo '<img src="../../uploading/' . $bank_details . '" alt="Preview" id="img_pre3" class="imgSize">'; ?>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Designation <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="designation">
+                                                                <option value="<?php echo $desig; ?>"><?php echo $designationname . ' (Already Selected)'; ?></option>
+                                                                <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `designation` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '
+                                                                                    <option value="' . $row['id'] . '">' . $row['designation_name'] . '</option>
+                                                                                ';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Designation not available</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Zone <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="zone">
+                                                                <option value="<?php echo $zn; ?>"><?php echo $zone_name . ' (Already Selected)'; ?></option>
+                                                                <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `zone` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '
+                                                                                    <option value="' . $row['id'] . '">' . $row['zone_name'] . '</option>
+                                                                                ';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Zone not available</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="branch">
+                                                                <option value="<?php echo $br; ?>"> <?php echo $branch_name . ' (Already Selected)'; ?> </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Reporting Manager <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="reporting_manager">
+                                                                <option value="<?php echo $reporting_manager_id; ?>"> <?php echo $reporting_manager_name . ' (Already Selected)'; ?> </option>
+                                                                <?php
+                                                                // require '../connect.php';
+                                                                $sql = "SELECT * FROM `employees` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '
+                                                                                        <option value="' . $row['employee_id'] . '">' . $row['name'] . '</option>
+                                                                                    ';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Manager not available</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Attachments -->
+                                                    <h4 class="my-2">Attachments</h4>
+                                                    <div class="col-md-6 col-sm-6 mb-2">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Profile Picture
+                                                                <?php
+                                                                    if($profile_pic!='none' && $profile_pic !=''){
+                                                                ?>
+                                                                <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                                        <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                                </a>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </label>
+                                                            <input class="form-control" type="file" id="profile_pic">
+                                                        </div>
+                                                        <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                        <div id="preview1">
+                                                            <div id="image_preview1">
+                                                                <?php
+                                                                if ($profile_pic == '') {
+                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
+                                                                } else {
+                                                                    echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1" class="imgSize">';?>
+                                                                    
+                                                            <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 mb-2">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">ID Proof (Aadhaar/PAN/Passport)
+                                                                <?php
+                                                                    if ($id_proof !='none' && $id_proof !='') {
+                                                                ?>
+                                                                <a href="<?php echo '../../uploading/' . $id_proof; ?>" download class="ms-3" title="Download">
+                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                                </a>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </label>
+                                                            <input class="form-control" type="file" id="id_proof">
+                                                        </div>
+                                                        <input type="hidden" id="img_path2" value="<?php echo $id_proof; ?>">
+                                                        <div id="preview2">
+                                                            <div id="image_preview2">
+                                                                <?php
+                                                                if ($id_proof == '') {
+                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
+                                                                } else {
+                                                                    echo '<img src="../../uploading/' . $id_proof . '" alt="Preview" id="img_pre2" class="imgSize">';?>
+                                                                    
+                                                            <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Bank Details for Salary Transfer
+                                                                <?php
+                                                                    if ($bank_details !='none' && $bank_details !='') {
+                                                                ?>
                                                                 <a href="<?php echo '../../uploading/' . $bank_details; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
-                                                        <?php } ?>
-                                                            
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </label>
+                                                            <input class="form-control" type="file" id="bank_details">
+                                                        </div>
+                                                        <input type="hidden" id="img_path3" value="<?php echo $bank_details; ?>">
+                                                        <div id="preview3">
+                                                            <div id="image_preview3">
+                                                                <?php
+                                                                    if ($bank_details == '') {
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
+                                                                    } else {
+                                                                        echo '<img src="../../uploading/' . $bank_details . '" alt="Preview" id="img_pre3" class="imgSize">'; ?>
+                                                                        
+                                                                <?php } ?>
+                                                                    
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-12 col-sm-12" id="zm_block">
+                                                <div class="row" id="zonal_manager">
+                                                    <!-- Zonal Manager Details -->
+                                                    <h4 class="my-2">Zonal Manager Details</h4>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <?php
+                                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                                            $stmt->execute();
+                                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                            ?>
+                                                            <label class="col-form-label">Country <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="country">
+                                                                <option value="">--Select Country--</option>
+                                                                <?php
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '<option value="' . $row['id'] . '"' . ($country_id == $row['id'] ? ' selected' : '') . '>' . $row['country_name'] . ($country_id == $row['id'] ? ' (Already selected)' : '') . '</option>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Country not available</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <?php
+                                                                $stmt = $conn->prepare("SELECT * FROM states WHERE status = 1 ORDER BY state_name ASC");
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                            ?>
+                                                            <label class="col-form-label">State<span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                                                <option value="">--Select country first--</option>
+                                                                <?php
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '"' . ($state_id == $row['id'] ? ' selected' : '') . '>' . $row['state_name'] . ($state_id == $row['id'] ? ' (Already selected)' : '') . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">State not available</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <?php
+                                                                $stmt = $conn->prepare("SELECT * FROM cities WHERE status = 1 ORDER BY city_name ASC");
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                            ?>
+                                                            <label class="col-form-label">City<span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="city" aria-label="Floating label select example">
+                                                                <option value="">--Select state first--</option>
+                                                                <?php
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '"' . ($city_id == $row['id'] ? ' selected' : '') . '>' . $row['city_name'] . ($city_id == $row['id'] ? ' (Already selected)' : '') . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">City not available</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="pin" placeholder="Pincode" readonly value="<?=$pincode?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <?php
+                                                                $stmt = $conn->prepare("SELECT * FROM zonal WHERE status = 1 ORDER BY zone ASC");
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                            ?>
+                                                            <label class="col-form-label">Zone<span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="zonal" aria-label="Floating label select example">
+                                                                <option value="">--Select state first--</option>
+                                                                <?php
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '"' . ($zone_id == $row['id'] ? ' selected' : '') . '>' . $row['zone'] . ($zone_id == $row['id'] ? ' (Already selected)' : '') . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">Zone not available</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
+                                                    <!-- Attachments -->
+                                                    <h4 class="my-2">Attachments</h4>
+                                                    <div class="col-md-6 col-sm-6 mb-2">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">
+                                                                Profile Picture
+                                                                <?php
+                                                                    if($profile_pic!='none' && $profile_pic !=''){
+                                                                ?>
+                                                                <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                                        <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                                </a>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </label>
+                                                            <input class="form-control" type="file" id="profile_pic">
+                                                        </div>
+                                                        <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                        <div id="preview1">
+                                                            <div id="image_preview1">
+                                                                <?php
+                                                                if ($profile_pic == '') {
+                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
+                                                                } else {
+                                                                    echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1" class="imgSize">';?>
+                                                                    
+                                                            <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Aadhaar Card
+                                                                 <?php
+                                                                    if ($aadhar_card !='none' && $aadhar_card !='') {
+                                                                ?>
+                                                                <a href="<?php echo '../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
+                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                                </a>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </label>
+                                                            <input class="form-control" type="file" name="file2" id="upload_file2">
+                                                        </div>
+                                                        <input type="hidden" id="img_path2" value="<?=$aadhar_card?>">
+                                                        <div id="preview2">
+                                                            <?php
+                                                                if ($aadhar_card == '') {
+                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
+                                                                } else {
+                                                                    echo '<img src="../../uploading/' . $aadhar_card . '" alt="Preview" id="img_pre2" class="imgSize">'; ?>
+                                                                    
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Pan Card
+                                                                <?php
+                                                                    if ($pan_card !='none' && $pan_card !='') {
+                                                                ?>
+                                                                <a href="<?php echo '../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
+                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                                </a>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </label>
+                                                            <input class="form-control" type="file" name="file3" id="upload_file3">
+                                                        </div>
+                                                        <input type="hidden" id="img_path3" value="<?=$pan_card?>">
+                                                        <div id="preview3">
+                                                            <div id="image_preview3">
+                                                            <?php
+                                                                if ($pan_card == '') {
+                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
+                                                                } else {
+                                                                    echo '<img src="../../uploading/' . $pan_card . '" alt="Preview" id="img_pre3" class="imgSize">'; ?>
+                                                                    
+                                                            <?php } ?>
+                                                                
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Bank Details
+                                                            <?php
+                                                                if ($bank_details !='none' && $bank_details !='') {
+                                                            ?>
+                                                            <a href="<?php echo '../../uploading/' . $bank_details; ?>" download class="ms-3" title="Download">
+                                                                <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                            </a>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                        </label>
+                                                        <input class="form-control" type="file" id="bank_details">
+                                                    </div>
+                                                    <input type="hidden" id="img_path4" value="<?php echo $bank_details; ?>">
+                                                    <div id="preview3">
+                                                        <div id="image_preview4">
+                                                            <?php
+                                                                if ($bank_details == '') {
+                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre4" class="imgSize">';
+                                                                } else {
+                                                                    echo '<img src="../../uploading/' . $bank_details . '" alt="Preview" id="img_pre4" class="imgSize">'; ?>
+                                                                    
+                                                            <?php } ?>
+                                                                
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="input-block mb-3 mt-2">
                                                     <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
@@ -463,6 +780,7 @@ if ($stmt->rowCount() > 0) {
                                         <input type="hidden" id="testValue" name="testValue" value="2425"> <!-- BCM/BDM -->
                                         <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no; ?>">
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
+                                        <input type="hidden" id="registered" name="registered" value="<?php echo $usertype; ?>">
                                         <div class="submit-section d-flex justify-content-center mb-4">
                                             <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="edit_employee">Submit</button>
                                         </div>
@@ -666,7 +984,40 @@ if ($stmt->rowCount() > 0) {
         //         $("#onlineOpt").addClass("d-none");
         //     }
         // });
+        let cachedEmpBlock = null;
+        let cachedZmBlock = null;
 
+        let registeAs=$('#registered').val()
+
+        if (registeAs == "24" || registeAs=="25") {
+            // Detach ZM block and cache it
+            if (!cachedZmBlock && $('#zm_block').length) {
+                cachedZmBlock = $('#zm_block').detach();
+            }
+
+            // Re-attach emp block if cached
+            if (cachedEmpBlock) {
+                $('#formParent').append(cachedEmpBlock);
+                cachedEmpBlock = null;
+            }
+
+            $('#emp_block').removeClass('d-none');
+        }else if (registeAs == "27") {
+            // Detach emp block and cache it
+            if (!cachedEmpBlock && $('#emp_block').length) {
+                cachedEmpBlock = $('#emp_block').detach();
+            }
+
+            // Re-attach zm block if cached
+            if (cachedZmBlock) {
+                $('#formParent').append(cachedZmBlock);
+                cachedZmBlock = null;
+            }
+
+            $('#zm_block').removeClass('d-none');
+        }else {
+            $('#emp_block, #zm_block').addClass('d-none');
+        }
         // select Designation disable Reporting Manager
         $('#designation').on('change', function() {
             var designation = $('#designation').val();

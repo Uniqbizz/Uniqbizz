@@ -146,58 +146,98 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `employees` WHERE status = '2' OR status = '0' ORDER BY employee_id ASC ";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($stmt->rowCount()>0){
-                                                            foreach(($stmt->fetchAll()) as $key => $row) {
-                                                                $bd= new DateTime($row['date_of_birth']);
-                                                                $bdate= $bd->format('d-m-Y');
+                                                        // 1. Fetch employees (BCM, BDM)
+                                                        $sql = "SELECT * FROM `employees` WHERE (status = '2' OR status = '0') ORDER BY employee_id ASC";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        $employees = $stmt->fetchAll();
 
-                                                                $rd= new DateTime($row['added_on']);
-                                                                $rdate= $rd->format('d-m-Y');
+                                                        // 2. Fetch zonal managers
+                                                        $sql_zm = "SELECT * FROM `zonal_manager` WHERE (status = '2' OR status = '0') ORDER BY zonal_manager_id ASC";
+                                                        $stmt_zm = $conn->prepare($sql_zm);
+                                                        $stmt_zm->execute();
+                                                        $stmt_zm->setFetchMode(PDO::FETCH_ASSOC);
+                                                        $zonalManagers = $stmt_zm->fetchAll();
 
-                                                                echo'<tr>
-                                                                    <td>'.$row['id'].'</td>
-                                                                    <td>'.$row['name'].'</td>
-                                                                    <td>
-                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact'].'</p>
-                                                                        <p class="mb-0">'.$row['email'].'</p>
-                                                                    </td>
-                                                                    <td>'.$row['address'].'</td>
-                                                                    <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '2'){
-                                                                        echo'<td><span class="badge text-bg-warning">Pending</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-1">
-                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reporting_manager"]. '","' .$row["register_by"]. '","' .$row["department"]. '","' .$row["designation"]. '","' .$row["zone"]. '"," '.$row['branch'].' ","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending","' .$row['user_type']. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Delete</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted","' .$row['user_type']. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }
-                                                                echo'</tr>';
-                                                            }
+                                                        // 3. Merge and normalize
+                                                        $allUsers = [];
+
+                                                        foreach ($zonalManagers as $zm) {
+                                                            $zm['user_type'] = '27';
+                                                            //$zm['id'] = $zm['zonal_manager_id']; // unify key
+                                                            $zm['added_on'] = $zm['added_on'] ?? null;
+                                                            $allUsers[] = $zm;
                                                         }
-                                                    ?>
+
+                                                        foreach ($employees as $emp) {
+                                                            $allUsers[] = $emp;
+                                                        }
+                                                        //var_dump($allUsers);
+                                                        //exit;
+                                                        // 4. Display all users
+                                                        $i=1;
+                                                        foreach ($allUsers as $row) {
+                                                            
+                                                            $rdate = isset($row['added_on']) ? (new DateTime($row['added_on']))->format('d-m-Y') : 'N/A';
+
+                                                            // Prefix badge
+                                                            $prefixBadge = '';
+                                                            if ($row['user_type'] == '27') {
+                                                                $prefixBadge = '<span class="badge bg-primary me-1">ZM</span>';
+                                                            } elseif ($row['user_type'] == '25') {
+                                                                $prefixBadge = '<span class="badge bg-info text-dark me-1">BDM</span>';
+                                                            } elseif ($row['user_type'] == '24') {
+                                                                $prefixBadge = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }
+
+                                                            // Final display name
+                                                            $displayName = $prefixBadge . htmlspecialchars($row['name']);
+
+                                                            echo '<tr>
+                                                                <td>' . $i. '</td>
+                                                                <td>' . $displayName . '</td>
+                                                                <td>
+                                                                    <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact'] . '</p>
+                                                                    <p class="mb-0">' . $row['email'] . '</p>
+                                                                </td>
+                                                                <td>' . $row['address'] . '</td>
+                                                                <td>' . $rdate . '</td>';
+
+                                                            if ($row['status'] == '2') {
+                                                                echo '<td><span class="badge text-bg-warning">Pending</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-1">
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . ($row["reporting_manager"] ?? '') . '","' . ($row["register_by"] ?? '') . '","' . ($row["department"] ?? '') . '","' . ($row["designation"] ?? '') . '","' . ($row["zone"] ?? '') . '"," ' . ($row['branch'] ?? '') . ' ","pending","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","pending","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                            } else {
+                                                                echo '<td><span class="badge text-bg-danger">Delete</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-1">
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","deleted","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                            }
+
+                                                            echo '</tr>';
+                                                            $i++;
+                                                        }
+                                                        ?>
+
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -243,84 +283,129 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `employees` WHERE status = '1' OR status = '3' ORDER BY employee_id ASC ";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($stmt->rowCount()>0){
-                                                            foreach(($stmt->fetchAll()) as $key => $row) {
+                                                        // Fetch employees
+                                                        $sql = "SELECT * FROM `employees` WHERE status = '1' OR status = '3' ORDER BY employee_id ASC";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                                                //date formate 
-                                                                $bd= new DateTime($row['date_of_birth']);
-                                                                $bdate= $bd->format('d-m-Y');
+                                                        // Fetch zonal managers
+                                                        $sql2 = "SELECT *  FROM `zonal_manager` WHERE status = '1' OR status = '3' ORDER BY zonal_manager_id ASC";
+                                                        $stmt2 = $conn->prepare($sql2);
+                                                        $stmt2->execute();
+                                                        $zonal_managers = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-                                                                //date formate
-                                                                $rd= new DateTime($row['register_date']);
-                                                                $rdate= $rd->format('d-m-Y');
+                                                        // First: Zonal Managers
+                                                        foreach ($zonal_managers as $row) {
+                                                            $rdate = (new DateTime($row['register_date']))->format('d-m-Y');
 
-                                                                //get reporting manager name
-                                                                if($row['reporting_manager'] == 'null' || $row['reporting_manager'] == ''){
-                                                                    $reporting_manager_name = 'N/A';
-                                                                }else{
-                                                                    $stmt2 = $conn -> prepare("SELECT * FROM `employees` WHERE employee_id = '".$row['reporting_manager']."' ");
-                                                                    $stmt2 -> execute();
-                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt2->rowCount()>0){
-                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2) {
-                                                                            $reporting_manager_name = $row2['name'];
-                                                                        }
-                                                                    }
-                                                                }
-
-                                                                echo'<tr>
-                                                                    <td>'.$row['employee_id'].'</td>
-                                                                    <td>';
-                                                                        if($row['user_type'] == '24'){
-                                                                            echo "BCM";
-                                                                        }else{
-                                                                            echo "BDM";
-                                                                        }
-                                                                    echo'</td>
-                                                                    <td>'.$row['name'].'</td>
-                                                                    <td><p class="mb-1">'.$row['reporting_manager'].'</p>
-                                                                        <p class="mb-0">'.$reporting_manager_name.'</p>
-                                                                    </td>
+                                                            echo '<tr>
+                                                                <td>' . $row['zonal_manager_id'] . '</td>
+                                                                <td><span class="badge bg-primary me-1">ZM</span></td>
+                                                                <td>' . $row['name'] . '</td>
+                                                                <td>N/A</td>
+                                                                <td>
+                                                                    <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact'] . '</p>
+                                                                    <p class="mb-0">' . $row['email'] . '</p>
+                                                                </td>
+                                                                <td>' . $rdate . '</td>';
+                                                                if ($row['status'] == '1') {
+                                                                    echo '<td><span class="badge text-bg-success">Active</span></td>
                                                                     <td>
-                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact'].'</p>
-                                                                        <p class="mb-0">'.$row['email'].'</p>
-                                                                    </td>
-                                                                    <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '1'){
-                                                                        echo'<td><span class="badge text-bg-success">Active</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("'.$row["employee_id"]. '","' .$row["reporting_manager"]. '","' .$row["department"]. '","' .$row["designation"]. '","' .$row["zone"]. '"," '.$row['branch'].' ","employees",'.$row["user_type"].')\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                    <li><a href="#" onclick=\'editfuncCust("'.$row["employee_id"]. '","' .$row["reporting_manager"]. '","' .$row["register_by"]. '","' .$row["department"]. '","' .$row["designation"]. '","' .$row["zone"]. '"," '.$row['branch'].' ","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["employee_id"]. '","registered","' .$row['user_type']. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["employee_id"]. '","deactivate","' .$row['user_type']. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }
-                                                                echo'</tr>';
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["zonal_manager_id"] . '","NA","' . $row["register_by"] . '","NA","NA","' . $row["zone"] . '","NA","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["zonal_manager_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                } else {
+                                                                    echo '<td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["zonal_manager_id"] . '","deactivate","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                }
+                                                                echo '</tr>';
+                                                        }
+
+                                                        // Then: Employees
+                                                        foreach ($employees as $row) {
+                                                            $rdate = (new DateTime($row['register_date']))->format('d-m-Y');
+
+                                                            // Get reporting manager name
+                                                            $reporting_manager_name = 'N/A';
+                                                            if (!empty($row['reporting_manager']) && $row['reporting_manager'] != 'null') {
+                                                                $stmt3 = $conn->prepare("SELECT name FROM employees WHERE employee_id = ?");
+                                                                $stmt3->execute([$row['reporting_manager']]);
+                                                                if ($r = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+                                                                    $reporting_manager_name = $r['name'];
+                                                                }
                                                             }
+
+                                                            // Determine prefix
+                                                            $prefix = '';
+                                                            if ($row['user_type'] == '25') {
+                                                                $prefix = '<span class="badge bg-info text-dark me-1">BDM</span>';
+                                                            } elseif ($row['user_type'] == '24') {
+                                                                $prefix = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }
+
+                                                            echo '<tr>
+                                                                <td>' . $row['employee_id'] . '</td>
+                                                                <td>' . $prefix . '</td>
+                                                                <td>' . $row['name'] . '</td>
+                                                                <td>
+                                                                    <p class="mb-1">' . $row['reporting_manager'] . '</p>
+                                                                    <p class="mb-0">' . $reporting_manager_name . '</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="mb-1">+' . $row['country_code'] . $row['contact'] . '</p>
+                                                                    <p class="mb-0">' . $row['email'] . '</p>
+                                                                </td>
+                                                                <td>' . $rdate . '</td>';
+                                                                if ($row['status'] == '1') {
+                                                                    echo '<td><span class="badge text-bg-success">Active</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["employee_id"] . '","' . $row["reporting_manager"] . '","' . $row["register_by"] . '","'.$row['department'].'","'.$row['designation'].'","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["employee_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                } else {
+                                                                    echo '<td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["employee_id"] . '","deactivate","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                }
+                                                                echo '</tr>';
                                                         }
                                                     ?>
+
+
                                                 </tbody>
                                             </table>
                                             <!-- end table -->
@@ -516,8 +601,8 @@
                 $("#registeredCustomerList-table").DataTable();
             });
             
-            function editfuncCust(id,refno,regby,dept,desig,zn,br,editfor){ 
-                window.location.href='editEmployee.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&editfor='+editfor;
+            function editfuncCust(id,refno,regby,dept,desig,zn,br,editfor,usertype){ 
+                window.location.href='editEmployee.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,userType){ 
@@ -550,9 +635,9 @@
                 
             };
 
-            function confirmfunc(id,email){ 
+            function confirmfunc(id,email,usertype){ 
 
-                var dataString = 'id='+ id+'&uname='+email;
+                var dataString = 'id='+ id+'&uname='+email+'&usertype='+usertype;
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
@@ -578,9 +663,13 @@
                 if (userType == 24) {
                     var designation = 'business_chanel_manager';
                     message='business_chanel_manager';
-                }else{
+                }else if (userType == 25){
                     var designation = 'business_developement_manager';
                     message='business_developement_manager';
+
+                }else if(userType ==27){
+                   var designation = 'zonal_manager';
+                    message='zonal_manager'; 
                 }
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&message='+message+'&designation='+designation;
             }

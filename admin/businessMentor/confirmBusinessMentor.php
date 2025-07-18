@@ -369,9 +369,15 @@ if ($user_type_id == '26') {
 		}
 	}
 
-	// made changes in query to get id in order SFA230043 TC230010
-	$sql2 = $conn->prepare("SELECT distinct master_franchisee_id,SUBSTRING(master_franchisee_id,3,6) as tc_id from master_franchisee where status='1' OR status='3' order by tc_id DESC limit 1");
-
+	// Fetch the highest numeric part from all master_franchisee_id, ignoring prefix
+	$sql2 = $conn->prepare("
+		SELECT master_franchisee_id,
+			CAST(RIGHT(master_franchisee_id, 5) AS UNSIGNED) AS numeric_part
+		FROM master_franchisee
+		WHERE status = '1' OR status = '3'
+		ORDER BY numeric_part DESC
+		LIMIT 1
+	");
 	$sql2->execute();
 	$sql2->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -381,25 +387,23 @@ if ($user_type_id == '26') {
 	$sql3->execute();
 	$shortName = '';
 	if ($row = $sql3->fetch()) {
-		$shortName = $row['short_name'];
+		$shortName = $row['short_name']; // e.g., MP, GA, KA
 	}
 
-	$uid = '';
-	if ($sql2->rowCount() > 0) {
-		foreach ($sql2->fetchAll() as $row3) {
-			$master_franchisee_id = $row3["master_franchisee_id"]; // e.g., MFKA25250001
-		}
+	// Year suffix (last 2 digits of year)
+	$subY = date('y'); // e.g., 25 for 2025
 
-		// Always increment based on last 5 digits
-		$lastNumber = substr($master_franchisee_id, -5); // e.g., "00001"
-		$nextNumber = (int)$lastNumber + 1;
-		$nextNumber = str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
-		$uid = 'MF' . $shortName . $subY . $nextNumber;
-
+	// Generate the next numeric part
+	if ($row2 = $sql2->fetch()) {
+		$lastNumber = (int)$row2['numeric_part']; // e.g., 3
+		$nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT); // 00004
 	} else {
-		// First ID if none exists
-		$uid = 'MF' . $shortName . $subY . '00001';
+		$nextNumber = '00001';
 	}
+
+	// Final UID
+	$uid = 'MF' . $shortName . $subY . $nextNumber;
+
 
 
 	//log file

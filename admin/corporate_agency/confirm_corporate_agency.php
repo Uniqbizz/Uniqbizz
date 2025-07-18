@@ -750,10 +750,19 @@ if ($user_type_id == '16') {
 	if ($amount == "500000") {
 		$business_package = "premium";
 	}
-	$sql2 = $conn->prepare("SELECT distinct sub_franchisee_id,SUBSTRING(sub_franchisee_id,3,6) as tc_id from sub_franchisee where status='1' OR status='3' order by tc_id DESC limit 1");
+	// Fetch the highest numeric part from all sub_franchisee_id, ignoring prefix
+	$sql2 = $conn->prepare("
+    SELECT sub_franchisee_id,
+           CAST(RIGHT(sub_franchisee_id, 5) AS UNSIGNED) AS numeric_part
+    FROM sub_franchisee
+    WHERE status = '1' OR status = '3'
+    ORDER BY numeric_part DESC
+    LIMIT 1
+");
 	$sql2->execute();
 	$sql2->setFetchMode(PDO::FETCH_ASSOC);
-	//get short name from states
+
+	// Get short name from states
 	$sql3 = $conn->prepare("SELECT short_name FROM `states` WHERE id = :state_id");
 	$sql3->bindParam(':state_id', $state, PDO::PARAM_INT);
 	$sql3->execute();
@@ -761,23 +770,23 @@ if ($user_type_id == '16') {
 
 	$shortName = '';
 	if ($row = $sql3->fetch()) {
-		$shortName = $row['short_name'];
+		$shortName = $row['short_name']; // e.g., MP, GA, KA
 	}
-	if ($sql2->rowCount() > 0) {
-		foreach ($sql2->fetchAll() as $row3) {
-			$master_franchisee_id = $row3["master_franchisee_id"]; // e.g., MFKA25250001
-		}
 
-		// Always increment based on last 5 digits
-		$lastNumber = substr($master_franchisee_id, -5); // e.g., "00001"
-		$nextNumber = (int)$lastNumber + 1;
-		$nextNumber = str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
-		$uid = 'F' . $shortName . $subY . $nextNumber;
+	// Year suffix (last 2 digits of year)
+	$subY = date('y'); // e.g., 25 for 2025
 
+	// Generate the next numeric part
+	if ($row2 = $sql2->fetch()) {
+		$lastNumber = (int)$row2['numeric_part']; // e.g., 3
+		$nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT); // 00004
 	} else {
-		// First ID if none exists
-		$uid = 'F' . $shortName . $subY . '00001';
+		$nextNumber = '00001';
 	}
+
+	// Final UID for sub franchisee
+	$uid = 'F' . $shortName . $subY . $nextNumber;
+
 	// log for Franchisee
 	$title = "Franchisee";
 	$message = $uid . " has been approved";
