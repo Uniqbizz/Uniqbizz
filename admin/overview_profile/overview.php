@@ -44,6 +44,12 @@ if ($DBtable == 'business_consultant') { // 3
 else if ($DBtable == 'business_mentor') { // 26
     $sql = "SELECT * FROM business_mentor WHERE business_mentor_id = '" . $id . "' AND status = '1'";
 }
+else if ($DBtable == 'master_franchisee') { // 28
+    $sql = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $id . "' AND status = '1'";
+}
+else if ($DBtable == 'sub_franchisee') { // 29
+    $sql = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '" . $id . "' AND status = '1'";
+}
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

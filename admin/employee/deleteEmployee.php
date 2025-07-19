@@ -1,99 +1,108 @@
 <?php 
 date_default_timezone_set('Asia/Calcutta');
-$today = date('Y-m-d H:i:s' );
+$today = date('Y-m-d H:i:s');
 
 require "../connect.php";
 
-// $f_id= $_POST["refid"];
-$id= $_POST["id"];
-$user_type= $_POST["userType"];
+$id         = $_POST["id"];
+$user_type  = $_POST["userType"]; // 27 for Zonal Manager
+$action     = $_POST["action"];
 
-$status;
-$action= $_POST["action"];
+$status = '';
+$identifier_field = '';
+$employee_id = '';  // will be used as user_id in login and logs
+$ta_id = '';
+$deleted_date = $today;
 
-if($action == 'pending'){
-	$ta_id = ""; //set corporate_agency id to empty
-    $identifier_name = 'id=';
-	$status= '0';
-}else if($action == 'registered') {
-	$ta_id = $_POST["fid"]; //set corporate_agency id
-    $identifier_name = 'employee_id=';
-	$status= '3';
-} else if($action == 'deactivate') {
-	$ta_id = $_POST["fid"]; //set corporate_agency id
-    $identifier_name = 'employee_id=';
-	$status= '1';					// activate user
-	$today = null;
-} else if($action == 'deleted') {
-	$ta_id = ""; //set corporate_agency id
-    $identifier_name = 'employee_id=';
-	$status= '2';					// activate user
-	$today = null;
+// Determine table and identifier field
+if ($user_type == 27) {
+    $table_name = 'zonal_manager';
+    $identifier_field = 'zonal_manager_id';
+    $title = "Zonal Manager";
+} else {
+    $table_name = 'employees';
+    $identifier_field = 'employee_id';
+    $title = "Employee";
 }
 
+// Action-specific behavior
+switch ($action) {
+    case 'pending':
+        $status = '0';
+        $employee_id = ''; // Blank in logs for pending
+        break;
 
- $title="Employee";
-if($ta_id ==''){
-	$message="Deleted Employee from ".$action. " list";
-	$message2="Deleted Employee from ".$action. " list";
-}else{
-	$message="Deleted Employee(".$ta_id.") from ".$action. " list";
-	$message2="Deleted Employee(".$ta_id.") from ".$action. " list";
+    case 'registered':
+        $status = '3';
+        $ta_id = $_POST["fid"] ?? '';
+        $employee_id = $ta_id;
+        break;
+
+    case 'deactivate':
+        $status = '1';
+        $ta_id = $_POST["fid"] ?? '';
+        $employee_id = $ta_id;
+        $deleted_date = null;
+        break;
+
+    case 'deleted':
+        $status = '2';
+        $ta_id = "";
+        $employee_id = $_POST["fid"] ?? '';
+        $deleted_date = null;
+        break;
+
+    default:
+        echo "Invalid action.";
+        exit;
 }
 
-$fromWhom="1";
-$register_by="1"; 
-$operation = "Delete";
+// Generate log messages
+if ($user_type == 27) {
+    $message  = $employee_id ? "Zonal Manager ($employee_id) has been removed from the $action list" : "Zonal Manager removed from the $action list";
+    $operation = "Zonal $action";
+} else {
+    $message  = $employee_id ? "Employee ($employee_id) has been removed from the $action list" : "Employee removed from the $action list";
+    $operation = "Employee $action";
+}
+$message2 = $message;
 
-$sql1 = "UPDATE employees SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";
-$stmt = $conn->prepare($sql1);
-$result=  $stmt->execute(array(
-	':status' => $status,
-	':deleted_date' => $today	
-));
+$fromWhom    = "1";
+$register_by = "1";
 
-if(isset($_POST["fid"])){
-	$employee_id= $_POST["fid"];
+// Update main table (employees or zonal_manager)
+$sql1 = "UPDATE `$table_name` SET status = :status, deleted_date = :deleted_date WHERE id = :id";
+$stmt1 = $conn->prepare($sql1);
+$result = $stmt1->execute([
+    ':status'       => $status,
+    ':deleted_date' => $deleted_date,
+    ':id'           => $id
+]);
 
-	$sql2 = "UPDATE login SET status=:status WHERE user_id=:employee_id and user_type_id=:user_type";
-	$stmt2 = $conn->prepare($sql2);
-	$result2=  $stmt2->execute(array(
-		':status' => $status,
-		':user_type' => $user_type,
-		':employee_id' => $employee_id		
-	));
-
-	if ($result2) {
-		$sql3= "INSERT INTO logs (title,message,message2, reference_no, register_by, from_whom, operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
-		$stmt3 =$conn->prepare($sql3);
-
-		$result3=$stmt3->execute(array(
-			':title' => $title,
-			':message' => $message,
-			':message2' =>$message2,
-			':reference_no' => '',
-			':register_by' => $register_by,
-			':from_whom' => $fromWhom,
-			':operation' => $operation
-		));
-
-		if($result3){
-			echo $status;
-		}else{
-			echo $status;
-		}
-	} else{
-		echo $status;
-	}
-} else if ($result) {
-	echo $status;
-}else{
-	echo $status;
+// If not pending, update login table
+if ($employee_id !== '') {
+    $sql2 = "UPDATE login SET status = :status WHERE user_id = :employee_id AND user_type_id = :user_type";
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->execute([
+        ':status'      => $status,
+        ':user_type'   => $user_type,
+        ':employee_id' => $employee_id
+    ]);
 }
 
+// Always insert log (user_id will be blank if pending)
+$sql3 = "INSERT INTO logs (user_id, title, message, message2, reference_no, register_by, from_whom, operation)
+         VALUES (:user_id, :title, :message, :message2, '', :register_by, :from_whom, :operation)";
+$stmt3 = $conn->prepare($sql3);
+$stmt3->execute([
+    ':user_id'     => $employee_id, // blank if pending
+    ':title'       => $title,
+    ':message'     => $message,
+    ':message2'    => $message2,
+    ':register_by' => $register_by,
+    ':from_whom'   => $fromWhom,
+    ':operation'   => $operation
+]);
 
-
-	
-
-
+echo $status;
 ?>

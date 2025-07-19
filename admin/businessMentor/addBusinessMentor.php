@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Business Mentor</h4>
+								<h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee </h4>
 							</div>
 						</div>
 					</div>
@@ -84,22 +84,35 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Business Mentor</h3>
+										<h3>Add Business Mentor / Master Franchisee</h3>
 										<div class="row">
 											<!-- Personal Details -->
 
-											<div class="col-md-4 col-sm-12">
+											<div class="col-md-3 col-sm-12">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
-													<select id="designation" class="form-select">
-														<option value="NA">--Select Designation--</option>
-														<option value="business_development_manager">Business Development Manager</option>
-														<!-- <option value="sales_manager">Sales Manager</option>
-															<option value="channel_business_director">Channel Business Director</option> -->
+													<label class="col-form-label">Register As<span class="text-danger">*</span></label>
+													<select id="registered" class="form-select">
+														<option value="NA">--Select--</option>
+														<option value="business_mentor">Business Mentor</option>
+														<option value="master_franchisee">Master Franchisee</option>
 													</select>
 												</div>
 											</div>
-											<div class="form-group col-md-4 col-sm-12">
+											<div class="col-md-3 col-sm-12">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
+													<select id="designation1" class="form-select" disabled>
+														<option value="NA">--Select Designation--</option>
+														<option value="business_development_manager">Business Development Manager</option>
+														
+													</select>
+													<select id="designation2" class="form-select d-none">
+														<option value="NA">--Select Designation--</option>
+														<option value="zonal_manager">Zonal Manager</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group col-md-3 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
 													<select id="user_id_name" class="form-select">
@@ -107,7 +120,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													</select>
 												</div>
 											</div>
-											<div class="col-md-4 col-sm-12">
+											<div class="col-md-3 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
 													<input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
@@ -498,9 +511,41 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 	<!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
 	<script>
+		//select register
+		$('#registered').on('change',function(){
+			var register_type = $(this).val();
+			if(register_type == 'business_mentor'){
+				$('#designation1').prop('disabled',false);
+				$('#designation1').removeClass('d-none');
+				$('#designation2').addClass('d-none');
+				$('#payment_fee').prop('disabled',false);
+
+			}else if(register_type == 'master_franchisee'){
+				$('#designation2').removeClass('d-none');
+				$('#designation1').addClass('d-none');
+				$('#payment_fee').val('FOC');
+				$('#payment_fee').prop('disabled',true);
+			}
+		});
 		//select Designation
-		$('#designation').on('change', function() {
-			var designation = $('#designation').val();
+		$('#designation1').on('change', function() {
+			var designation = $('#designation1').val();
+			// console.log(designation);
+			$.ajax({
+				type: 'POST',
+				url: '../agents/get_user_Franchisee.php',
+				data: "designation=" + designation,
+				success: function(e) {
+					// console.log(e);
+					$('#user_id_name').html(e);
+				},
+				error: function(err) {
+					console.log(err);
+				},
+			});
+		});
+		$('#designation2').on('change', function() {
+			var designation = $('#designation2').val();
 			// console.log(designation);
 			$.ajax({
 				type: 'POST',

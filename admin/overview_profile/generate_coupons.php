@@ -265,21 +265,21 @@ if ($result1) {
             // Step 4: Set confirmation status
             $register_Date = date('Y-m-d H:i:s');//coupon generation date
             // Calculate expiry date 10 years after register date
-            $expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
- 
-            $update_coupon = "UPDATE cu_coupons
-                SET user_id = :user_id,
-                    confirm_status = :confirm_status,
-                    expiry_date = :expiry_date
-                WHERE user_id = :id";
- 
-            $update_stmt = $conn->prepare($update_coupon);
-            $update_stmt->execute([
-                ':user_id' => $uid,
-                ':confirm_status' => 1,
-                ':expiry_date' => $expiry_date,
-                ':id' => $id
-            ]);
+			$expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
+
+			$update_coupon = "UPDATE cu_coupons 
+				SET user_id = :user_id, 
+					confirm_status = :confirm_status, 
+					expiry_date = :expiry_date 
+				WHERE user_id = :id";
+
+			$update_stmt = $conn->prepare($update_coupon);
+			$update_stmt->execute([
+				':user_id' => $uid,
+				':confirm_status' => 1,
+				':expiry_date' => $expiry_date,
+				':id' => $id
+			]);
         }
     } else if ($payment_label == 'Premium Plus') {
 
@@ -726,6 +726,7 @@ if ($result1) {
                     'credit_amount' => $credit_amount,
                     'balance' => $current_wallet_balance
                 ]);
+
             }
             //$commissionGiven = true;
         } elseif ($level1['id'] && $level1['customer_type'] == 'Premium Plus') {

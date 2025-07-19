@@ -94,8 +94,8 @@
                                 <div class="card">
                                     <div class="card-body">
 										<form>
-											<h3>Add Employee</h3>
-											<div class="row">
+											<h3>Add Employee / Zonal Manager</h3>
+											<div class="row" id="formParent">
 												<!-- Personal Details -->
 												<h4 class="my-2">Personal Details</h4>
                                                 <div class="col-md-4 col-sm-6 col-12">
@@ -533,18 +533,42 @@
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
 
-            $('#registered').on('click', function(){
-                var registered = $("#registered").val();
-                console.log(registered);
-                if(registered == "employee"){
-                    $("#emp_block").removeClass("d-none");
-                    $("#zm_block").addClass("d-none");
-                }else if(registered == "zonal_manager"){
-                    $("#zm_block").removeClass("d-none");
-                    $("#emp_block").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
+            let cachedEmpBlock = null;
+            let cachedZmBlock = null;
+
+            $('#registered').on('change', function () {
+                const selected = $(this).val();
+
+                if (selected === "employee") {
+                    // Detach ZM block and cache it
+                    if (!cachedZmBlock && $('#zm_block').length) {
+                        cachedZmBlock = $('#zm_block').detach();
+                    }
+
+                    // Re-attach emp block if cached
+                    if (cachedEmpBlock) {
+                        $('#formParent').append(cachedEmpBlock);
+                        cachedEmpBlock = null;
+                    }
+
+                    $('#emp_block').removeClass('d-none');
+                }
+                else if (selected === "zonal_manager") {
+                    // Detach emp block and cache it
+                    if (!cachedEmpBlock && $('#emp_block').length) {
+                        cachedEmpBlock = $('#emp_block').detach();
+                    }
+
+                    // Re-attach zm block if cached
+                    if (cachedZmBlock) {
+                        $('#formParent').append(cachedZmBlock);
+                        cachedZmBlock = null;
+                    }
+
+                    $('#zm_block').removeClass('d-none');
+                }
+                else {
+                    $('#emp_block, #zm_block').addClass('d-none');
                 }
             });
 

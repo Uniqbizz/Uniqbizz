@@ -176,21 +176,21 @@ if ($result) {
 		// Run update only if the ID exists
 		if ($count > 0) {
 			// Calculate expiry date 10 years after register date
-            $expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
- 
-            $update_coupon = "UPDATE cu_coupons
-                SET user_id = :user_id,
-                    confirm_status = :confirm_status,
-                    expiry_date = :expiry_date
-                WHERE user_id = :id";
- 
-            $update_stmt = $conn->prepare($update_coupon);
-            $update_stmt->execute([
-                ':user_id' => $uid,
-                ':confirm_status' => 1,
-                ':expiry_date' => $expiry_date,
-                ':id' => $id
-            ]);
+			$expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
+
+			$update_coupon = "UPDATE cu_coupons 
+				SET user_id = :user_id, 
+					confirm_status = :confirm_status, 
+					expiry_date = :expiry_date 
+				WHERE user_id = :id";
+
+			$update_stmt = $conn->prepare($update_coupon);
+			$update_stmt->execute([
+				':user_id' => $uid,
+				':confirm_status' => 1,
+				':expiry_date' => $expiry_date,
+				':id' => $id
+			]);
 			
 			if($complemetory == 2){
 				if ($reference_id == "TE" || $reference_id == "CA" ) {

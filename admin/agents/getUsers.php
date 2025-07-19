@@ -237,27 +237,6 @@ if($userType = "head_office"){
 
 }
 
-if($userType = "zonal_manager"){
-
-    $stmt2 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '$user_id' AND status = 1");
-    $stmt2->execute();                                                                                   
-    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
-     
-    // Generate HTML of city options list
-
-     if($stmt2->rowCount()>0){
-        foreach (($stmt2->fetchAll()) as $key => $row2) {
-        	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
-            
-        }  
-    }else{
-            echo '';
-    } 
-
-}
-
 if($userType = "ca_franchisee"){
 
     $stmt2 = $conn->prepare("SELECT * FROM ca_franchisee WHERE ca_franchisee_id = '$user_id' AND status = 1");
@@ -353,6 +332,46 @@ if($userType = "business_mentor"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
+if($userType = "master_franchisee"){
+
+    $stmt2 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '$user_id' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['firstname'].' '. $row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
+if($userType = "zonal_manager"){
+
+    $stmt2 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '$user_id' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['name'];
         	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
         	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             

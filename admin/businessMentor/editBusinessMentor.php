@@ -19,7 +19,7 @@
 ?>
 <!doctype html>
 <html lang="en">
-<?php
+    <?php
 
         require '../connect.php';
         $date = date('Y'); 
@@ -33,35 +33,34 @@
         $zone_id = $_GET['zone'];
         $branch_id = $_GET['branch'];
         $editfor = $_GET['editfor'];
+        $usertype = $_GET['usertype']; // 'mf' for master franchisee, 'bm' for business mentor
 
         if ($editfor == 'pending') {
-            // $identifier_id= $_POST["vkvbvjfgfikix"];
             $identifier_name = 'id=';
         } else if ($editfor == 'registered') {
-            // $identifier_id= $_POST["vkvbvjfgfikix"];
-            $identifier_name = 'business_mentor_id=';
+            $identifier_name = ($usertype == 'mf') ? 'master_franchisee_id=' : 'business_mentor_id=';
         }
 
-        $stmt = $conn->prepare("SELECT * FROM `business_mentor` where business_mentor_id='" . $id . "' OR id = '" . $id . "'");
+        if ($usertype == 'mf') {
+            $stmt = $conn->prepare("SELECT * FROM `master_franchisee` WHERE master_franchisee_id='" . $id . "' OR id = '" . $id . "'");
+        } else {
+            $stmt = $conn->prepare("SELECT * FROM `business_mentor` WHERE business_mentor_id='" . $id . "' OR id = '" . $id . "'");
+        }
+
         $stmt->execute();
-        // set the resulting array to associative
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         if ($stmt->rowCount() > 0) {
-            foreach (($stmt->fetchAll()) as $key => $row) {
+            foreach (($stmt->fetchAll()) as $row) {
                 $fid = $row['id'];
-                // $sales_manager_name=$row['fname'];
                 $firstname = $row['firstname'];
-                // $username=$row['username'];
                 $lastname = $row['lastname'];
                 $nominee_name = $row['nominee_name'];
                 $nominee_relation = $row['nominee_relation'];
                 $email = $row['email'];
                 $contact_no = $row['contact_no'];
-                // $business_package=$row['business_package'];
-                $paid_amount=$row['paid_amount'];
+                $paid_amount = $row['paid_amount'];
                 $reference_no = $row['reference_no'];
-                // $gst_no=$row['gst_no'];
                 $date_of_birth = $row['date_of_birth'];
                 $gender = $row['gender'];
                 $country = $row['country'];
@@ -70,9 +69,7 @@
                 $address = $row['address'];
                 $zone = $row['zone'];
                 $branch = $row['branch'];
-                // $id_proof=$row['id_proof'];
                 $profile_pic = $row['profile_pic'];
-                // $kyc=$row['kyc'];
                 $payment_mode = $row['payment_mode'];
                 $payment_proof = $row['payment_proof'];
                 $pan_card = $row['pan_card'];
@@ -85,71 +82,66 @@
                 $bank_name = $row['bank_name'];
                 $transaction_no = $row['transaction_no'];
                 $note = $row['note'];
-                // $complimentary=$row['complimentary'];
-                // $converted=$row['converted'];
 
-                //get country
-                $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
+                // Get country name
+                $countries = $conn->prepare("SELECT country_name FROM countries WHERE id='$country' AND status='1'");
                 $countries->execute();
-                $countries->setFetchMode(PDO::FETCH_ASSOC);
                 if ($countries->rowCount() > 0) {
-                    $country = $countries->fetch();
-                    $countryname = $country['country_name'];
+                    $countryname = $countries->fetch()['country_name'];
                 }
 
-                //get state
-                $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
+                // Get state name
+                $states = $conn->prepare("SELECT state_name FROM states WHERE id='$state' AND status='1'");
                 $states->execute();
-                $states->setFetchMode(PDO::FETCH_ASSOC);
                 if ($states->rowCount() > 0) {
-                    $state = $states->fetch();
-                    $statename = $state['state_name'];
+                    $statename = $states->fetch()['state_name'];
                 }
-                //get city
-                $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
+
+                // Get city name
+                $cities = $conn->prepare("SELECT city_name FROM cities WHERE id='$city' AND status='1'");
                 $cities->execute();
-                $cities->setFetchMode(PDO::FETCH_ASSOC);
                 if ($cities->rowCount() > 0) {
-                    $city = $cities->fetch();
-                    $city_name = $city['city_name'];
+                    $city_name = $cities->fetch()['city_name'];
                 }
 
-                //get zone
-                $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zone . "' and status='1' ");
+                // Get zone name
+                $zones = $conn->prepare("SELECT zone_name FROM zone WHERE id='$zone' AND status='1'");
                 $zones->execute();
-                $zones->setFetchMode(PDO::FETCH_ASSOC);
                 if ($zones->rowCount() > 0) {
-                    $zone = $zones->fetch();
-                    $zone_name = $zone['zone_name'];
+                    $zone_name = $zones->fetch()['zone_name'];
                 }
 
-                //get branch
-                $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $branch . "' and status='1' ");
+                // Get branch name
+                $branchs = $conn->prepare("SELECT branch_name FROM branch WHERE id='$branch' AND status='1'");
                 $branchs->execute();
-                $branchs->setFetchMode(PDO::FETCH_ASSOC);
                 if ($branchs->rowCount() > 0) {
-                    $branch = $branchs->fetch();
-                    $branch_name = $branch['branch_name'];
+                    $branch_name = $branchs->fetch()['branch_name'];
                 }
 
-                if($reference_no == "Not Applicable"){
+                // Get reporting manager (BM or ZM)
+                if ($reference_no == "Not Applicable") {
                     $reference_no_fname = "Not Applicable";
-                }else{
-                    // Business Channel manager name 
-                    $business_channel_managers = $conn->prepare("SELECT name, reporting_manager FROM employees where employee_id='" . $reference_no . "'");
-                    $business_channel_managers->execute();
-                    $business_channel_managers->setFetchMode(PDO::FETCH_ASSOC);
-                    if ($business_channel_managers->rowCount() > 0) {
-                        $business_channel_manager = $business_channel_managers->fetch();
-                        $reference_no_fname = $business_channel_manager['name'];
-                        // $reference_no_lname = $business_channel_manager['lastname'];
-                        // $business_trainees_reference_no = $business_trainee['reference_no'];
+                } else {
+                    if ($usertype == 'mf') {
+                        // Master Franchisee → Get reporting manager (Zonal Manager) from `zonal_manager` table
+                        $stmt_manager = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :ref");
+                    } else {
+                        // Business Mentor → Get reporting manager (BDM/BCM) from `employees` table
+                        $stmt_manager = $conn->prepare("SELECT name FROM employees WHERE employee_id = :ref");
+                    }
+
+                    $stmt_manager->execute([':ref' => $reference_no]);
+
+                    if ($stmt_manager->rowCount() > 0) {
+                        $reference_no_fname = $stmt_manager->fetch()['name'];
+                    } else {
+                        $reference_no_fname = "Unknown";
                     }
                 }
             }
         }
 
-        ?>
+    ?>
 
     <head>
         
@@ -203,7 +195,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Business Mentor</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee</h4>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +206,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Business Mentor</h3>
+                                            <h3>Edit Business Mentor / Master Franchisee</h3>
                                             <div class="row">
                                                 <!-- Personal Details -->
 
@@ -658,6 +650,7 @@
                                             <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>"> <!--CBD240001 -->
                                             <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>"> <!--registered -->
                                             <input type="hidden" id="id" name="id" value="<?php echo $id;?>"> <!--BM250001 -->
+                                            <input type="hidden" id="registered" name="registered" value="<?php echo $usertype;?>"> <!--BM250001 -->
                                             <input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
 
                                             <div class="submit-section d-flex justify-content-center mb-4">

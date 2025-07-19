@@ -1,99 +1,97 @@
 <?php 
 date_default_timezone_set('Asia/Calcutta');
-$today = date('Y-m-d H:i:s' );
+$today = date('Y-m-d H:i:s');
 
 require "../connect.php";
 
-// $f_id= $_POST["refid"];
-$id= $_POST["id"];
-$user_type="16";
+$id = $_POST["id"];
+$usrtype = $_POST['usertype'];
 
-$status;
-$action= $_POST["action"];
+// Map user_type to internal user_type_id
+$user_type = $usrtype == 'te' ? "16" : ($usrtype == 'sf' ? "29" : "");
 
-if($action == 'pending'){
-	$ta_id = ""; //set corporate_agency id to empty
+$status = '';
+$action = $_POST["action"];
+
+if ($action == 'pending') {
+    $ta_id = ""; // clear the corporate_agency/sub_franchisee id
     $identifier_name = 'id=';
-	$status= '0';
-}else if($action == 'registered') {
-	$ta_id = $_POST["refid"]; //set corporate_agency id
-    $identifier_name = 'corporate_agency_id=';
-	$status= '3';
-} else if($action == 'deactivate') {
-	$ta_id = $_POST["refid"]; //set corporate_agency id
-    $identifier_name = 'corporate_agency_id=';
-	$status= '1';					// activate user
-	$today = null;
-} else if($action == 'deleted') {
-	$ta_id = ""; //set corporate_agency id
-    $identifier_name = 'corporate_agency_id=';
-	$status= '2';					// activate user
-	$today = null;
+    $status = '0';
+} else if ($action == 'registered') {
+    $ta_id = $_POST["refid"]; // assign corporate_agency/sub_franchisee id
+    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : 'sub_franchisee_id=';
+    $status = '3';
+} else if ($action == 'deactivate') {
+    $ta_id = $_POST["refid"];
+    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : 'sub_franchisee_id=';
+    $status = '1';
+    $today = null;
+} else if ($action == 'deleted') {
+    $ta_id = "";
+    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : 'sub_franchisee_id=';
+    $status = '2';
+    $today = null;
 }
 
+// Set title/message dynamically based on type
+$title = ($usrtype == 'te') ? "Techno Enterprise" : "Franchisee";
 
- $title="Techno Enterprise";
-if($ta_id ==''){
-	$message="Deleted Techno Enterprise from ".$action. " list";
-	$message2="Deleted Techno Enterprise from ".$action. " list";
-}else{
-	$message="Deleted Techno Enterprise(".$ta_id.") from ".$action. " list";
-	$message2="Deleted Techno Enterprise(".$ta_id.") from ".$action. " list";
+if ($ta_id == '') {
+    $message = "Deleted $title from $action list";
+    $message2 = $message;
+} else {
+    $message = "Deleted $title ($ta_id) from $action list";
+    $message2 = $message;
 }
 
-$fromWhom="1";
-$register_by="1"; 
+$fromWhom = "1";
+$register_by = "1"; 
 $operation = "Delete";
 
-$sql1 = "UPDATE corporate_agency SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";
+// Update main table (corporate_agency or sub_franchisee)
+$table_name = ($usrtype == 'te') ? "corporate_agency" : "sub_franchisee";
+$sql1 = "UPDATE $table_name SET status = :status, deleted_date = :deleted_date WHERE id = :id";
 $stmt = $conn->prepare($sql1);
-$result=  $stmt->execute(array(
-	':status' => $status,
-	':deleted_date' => $today	
-));
+$result = $stmt->execute([
+    ':status' => $status,
+    ':deleted_date' => $today,
+    ':id' => $id
+]);
 
-if(isset($_POST["refid"])){
-	$travel_agent_id= $_POST["refid"];
+// Update login table and log if refid exists
+if (isset($_POST["refid"])) {
+    $travel_agent_id = $_POST["refid"];
 
-	$sql2 = "UPDATE login SET status=:status WHERE user_id=:travel_agent_id and user_type_id=:user_type";
-	$stmt2 = $conn->prepare($sql2);
-	$result2=  $stmt2->execute(array(
-		':status' => $status,
-		':user_type' => $user_type,
-		':travel_agent_id' => $travel_agent_id		
-	));
+    $sql2 = "UPDATE login SET status = :status WHERE user_id = :travel_agent_id AND user_type_id = :user_type";
+    $stmt2 = $conn->prepare($sql2);
+    $result2 = $stmt2->execute([
+        ':status' => $status,
+        ':user_type' => $user_type,
+        ':travel_agent_id' => $travel_agent_id
+    ]);
 
-	if ($result2) {
-		$sql3= "INSERT INTO logs (title,message,message2, reference_no, register_by, from_whom, operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
-		$stmt3 =$conn->prepare($sql3);
+    if ($result2) {
+        $sql3 = "INSERT INTO logs (user_id,title, message, message2, reference_no, register_by, from_whom, operation) 
+                 VALUES (:user_id,:title, :message, :message2, :reference_no, :register_by, :from_whom, :operation)";
+        $stmt3 = $conn->prepare($sql3);
+        $result3 = $stmt3->execute([
+            ':user_id' => $travel_agent_id, 
+            ':title' => $title,
+            ':message' => $message,
+            ':message2' => $message2,
+            ':reference_no' => $travel_agent_id,
+            ':register_by' => $register_by,
+            ':from_whom' => $fromWhom,
+            ':operation' => $operation
+        ]);
 
-		$result3=$stmt3->execute(array(
-			':title' => $title,
-			':message' => $message,
-			':message2' =>$message2,
-			':reference_no' => $f_id,
-			':register_by' => $register_by,
-			':from_whom' => $fromWhom,
-			':operation' => $operation
-		));
-
-		if($result3){
-			echo $status;
-		}else{
-			echo $status;
-		}
-	} else{
-		echo $status;
-	}
+        echo $status;
+    } else {
+        echo $status;
+    }
 } else if ($result) {
-	echo $status;
-}else{
-	echo $status;
+    echo $status;
+} else {
+    echo $status;
 }
-
-
-
-	
-
-
 ?>

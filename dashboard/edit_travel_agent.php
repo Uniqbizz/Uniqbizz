@@ -600,7 +600,7 @@
                                                     <!-- new added 14-06-2025 -->
                                                     <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
                                                     <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> <!-- BH250001, BM250001 -->
-
+                                                    
                                                     <div class="d-flex justify-content-center mb-4">
                                                         <button type="submit" class="btn btn-primary px-5 py-2" id="edit-travel-agent">Submit</button>
                                                     </div>

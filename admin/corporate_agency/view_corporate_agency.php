@@ -45,6 +45,9 @@
 
         <style>
             /* dataTable, action col, dropdown align right  */
+            .lable-width{
+                width: 18px;
+            }
 
             @media screen and (max-width: 1191px) {
                 .dropdown-menu-end-1[style] {
@@ -99,7 +102,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
 
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -122,7 +125,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Techno Enterprise List</h4>
+                                                        <h4>Pending Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,60 +153,73 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `corporate_agency` WHERE status = '2' OR status = '0' ORDER BY id ASC ";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($stmt->rowCount()>0){
-                                                            foreach(($stmt->fetchAll()) as $key => $row) {
-                                                                $bd= new DateTime($row['date_of_birth']);
-                                                                $bdate= $bd->format('d-m-Y');
+                                                        $sql = "
+                                                            SELECT 'te' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
+                                                            FROM corporate_agency 
+                                                            WHERE status IN ('0', '2') 
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
+                                                            FROM sub_franchisee 
+                                                            WHERE status IN ('0', '2') 
+                                                            ORDER BY added_on ASC
+                                                        ";
 
-                                                                $rd= new DateTime($row['added_on']);
-                                                                $rdate= $rd->format('d-m-Y');
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                                echo'<tr>
-                                                                    <td>'.$row['id'].'</td>
-                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                    <td><p class="mb-1">'.$row['reference_no'].'</p>
-                                                                        <p class="mb-0">'.$row['registrant'].'</p>
-                                                                    </td>
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $row) {
+                                                                $bd = new DateTime($row['date_of_birth']);
+                                                                $bdate = $bd->format('d-m-Y');
+
+                                                                $rd = new DateTime($row['added_on']);
+                                                                $rdate = $rd->format('d-m-Y');
+
+                                                                echo '<tr>
+                                                                    <td>' . $row['id'] . '</td>
+                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type']=='sf'?'f':($row['user_type']=='te'?'te':'')) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
+                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
-                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
-                                                                        <p class="mb-0">'.$row['email'].'</p>
+                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['email'] . '</p>
                                                                     </td>
-                                                                    <td>'.$row['amount'].'</td>
-                                                                    <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '2'){
-                                                                        echo'<td><span class="badge text-bg-warning">Pending</span></td>
+                                                                    <td>' . $row['amount'] . '</td>
+                                                                    <td>' . $rdate . '</td>';
+
+                                                                if ($row['status'] == '2') {
+                                                                    echo '<td><span class="badge text-bg-warning">Pending</span></td>
                                                                         <td>
                                                                             <div class="dropdown">
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","pending","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                    <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","'.$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Delete</span></td>
+                                                                } else {
+                                                                    echo '<td><span class="badge text-bg-danger">Deleted</span></td>
                                                                         <td>
                                                                             <div class="dropdown">
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","deleted","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
-                                                                    }
-                                                                echo'</tr>';
+                                                                }
+
+                                                                echo '</tr>';
                                                             }
                                                         }
+
                                                     ?>
                                                 </tbody>
                                             </table>
@@ -221,7 +237,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Techno Enterprise List</h4>
+                                                        <h4>Registered Techno Enterprise / Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -283,7 +299,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Techno Enterprise Id</th>
+                                                        <th>Techno Enterprise / Franchisee Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -296,61 +312,81 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `corporate_agency` WHERE status = '1' OR status = '3' ORDER BY corporate_agency_id ASC ";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($stmt->rowCount()>0){
-                                                            foreach(($stmt->fetchAll()) as $key => $row) {
-                                                                $bd= new DateTime($row['date_of_birth']);
-                                                                $bdate= $bd->format('d-m-Y');
+                                                        $sql = "
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city 
+                                                            FROM corporate_agency 
+                                                            WHERE status IN ('1', '3') 
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city 
+                                                            FROM sub_franchisee 
+                                                            WHERE status IN ('1', '3') 
+                                                            ORDER BY register_date ASC
+                                                        ";
 
-                                                                $rd= new DateTime($row['register_date']);
-                                                                $rdate= $rd->format('d-m-Y');
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                                echo'<tr>
-                                                                    <td>'.$row['corporate_agency_id'].'</td>
-                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                    <td><p class="mb-1">'.$row['reference_no'].'</p>
-                                                                        <p class="mb-0">'.$row['registrant'].'</p>
-                                                                    </td>
-                                                                    <td>
-                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
-                                                                        <p class="mb-0">'.$row['email'].'</p>
-                                                                    </td>
-                                                                    <td>'.$row['amount'].'</td>
-                                                                    <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '1'){
-                                                                        echo'<td><span class="badge text-bg-success">Active</span></td>
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $row) {
+                                                                $bd = new DateTime($row['date_of_birth']);
+                                                                $bdate = $bd->format('d-m-Y');
+
+                                                                $rd = new DateTime($row['register_date']);
+                                                                $rdate = $rd->format('d-m-Y');
+
+                                                                echo '<tr>
+                                                                        <td>' . $row['user_id'] . '</td>
+                                                                        <td> 
+                                                                            <span class="badge bg-secondary lable-width">'
+                                                                                . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
+                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] . 
+                                                                        '</td>
+                                                                        <td>
+                                                                            <p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                            <p class="mb-0">' . $row['registrant'] . '</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                            <p class="mb-0">' . $row['email'] . '</p>
+                                                                        </td>
+                                                                        <td>' . $row['amount'] . '</td>
+                                                                        <td>' . $rdate . '</td>';
+
+
+                                                                if ($row['status'] == '1') {
+                                                                    echo '<td><span class="badge text-bg-success">Active</span></td>
                                                                         <td>
                                                                             <div class="dropdown">
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("'.$row["corporate_agency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","corporate_agency")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                    <li><a href="#" onclick=\'editfuncCust("'.$row["corporate_agency_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["corporate_agency_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","registered","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                } else {
+                                                                    echo '<td><span class="badge text-bg-danger">Deactive</span></td>
                                                                         <td>
                                                                             <div class="dropdown">
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["corporate_agency_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
-                                                                    }
-                                                                echo'</tr>';
+                                                                }
+
+                                                                echo '</tr>';
                                                             }
                                                         }
                                                     ?>
+
                                                 </tbody>
                                             </table>
                                             <!-- end table -->
@@ -517,8 +553,11 @@
         <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         
-        <!-- ecommerce-customer-list init -->
-        <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
+        <!-- Moment.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+        <!-- DataTables datetime sort plugin -->
+        <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
@@ -541,16 +580,25 @@
         <!-- dataTable -->
         <script>
             $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-                $("#registeredCustomerList-table").DataTable();
+                // Register the date format before using DataTables
+                $.fn.dataTable.moment('DD-MM-YYYY');
+
+                // Now initialize DataTables
+                $("#pendingCustomerList-table").DataTable({
+                    order: [[5, 'asc']] // 6th column = index 5
+                });
+
+                $("#registeredCustomerList-table").DataTable({
+                    order: [[5, 'asc']]
+                });
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
+            function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
+                window.location.href='edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
-            function deletefunc(id,fid,action){ 
-                var dataString = 'id='+id+'&refid='+fid+'&action='+action;
+            function deletefunc(id,fid,action,usertype){ 
+                var dataString = 'id='+id+'&refid='+fid+'&action='+action+'&usertype='+usertype;
 
                 $.ajax({
                 type: "POST",
@@ -579,9 +627,9 @@
                 
             };
 
-            function confirmfunc(id,email){ 
+            function confirmfunc(id,email,usertype){ 
 
-                var dataString = 'id='+ id+'&uname='+email;
+                var dataString = 'id='+ id+'&uname='+email+'&usertype='+usertype;
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
@@ -604,7 +652,7 @@
             };
 
             function overviewPage(id,ref,cut,st,ct,message){
-                var designation = 'Techno Enterprise';
+                var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
 
@@ -656,6 +704,11 @@
                             if(data){
                                 $('#registered_ca').html(data);
                                 // $('#filterTable').DataTable();
+                                // Register the date format before using DataTables
+                                $.fn.dataTable.moment('DD-MM-YYYY');
+                                $("#filterTable").DataTable({
+                                    order: [[5, 'asc']]
+                                });
 
                                 // var TotalCount = $('#filterTable tr').length; // count total table rows
                                 let amts = document.querySelectorAll("#filterTable td:nth-child(5)"); // get amount from 5th col for adding amt one col hidden

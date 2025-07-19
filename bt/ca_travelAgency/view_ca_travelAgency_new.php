@@ -156,7 +156,7 @@
                                                                 $bd= new DateTime($row['date_of_birth']);
                                                                 $bdate= $bd->format('d-m-Y');
 
-                                                                $rd= new DateTime($row['register_date']);
+                                                                $rd= new DateTime($row['added_on']);
                                                                 $rdate= $rd->format('d-m-Y');
 
                                                                 echo'<tr>
