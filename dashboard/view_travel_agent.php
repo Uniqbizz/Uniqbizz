@@ -260,7 +260,7 @@
 
                                                                                 $bd= new DateTime($userCATA['date_of_birth']);
                                                                                 $bdate= $bd->format('d-m-Y');
-                                                                                $dt= new DateTime($userCATA['register_date']);
+                                                                                $dt= new DateTime($userCATA['added_on']);
                                                                                 $datev= $dt->format('d-m-Y'); 
                                                                                 
                                                                                 $reference_no = substr($userCATA['reference_no'], 0, 2);
@@ -368,7 +368,7 @@
 
                                                                             $bd= new DateTime($userCATA['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userCATA['register_date']);
+                                                                            $dt= new DateTime($userCATA['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
 
                                                                             echo'<tr>
@@ -511,7 +511,7 @@
 
                                                                         $bd= new DateTime($userCATA['date_of_birth']);
                                                                         $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($userCATA['register_date']);
+                                                                        $dt= new DateTime($userCATA['added_on']);
                                                                         $datev= $dt->format('d-m-Y'); 
 
                                                                         echo'<tr>

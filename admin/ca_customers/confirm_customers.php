@@ -279,7 +279,6 @@ if ($result) {
 						}
 					}
 					
-					//bdm details
 					//bdm deatils
 					$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BdmId."' AND status='1' AND user_type='25'");
 					$sql12->execute();

@@ -3272,14 +3272,10 @@ $("#editCorporateAgency").on("click", function (e) {
 
     var tcCount = $('input[name="official_purpose"]:checked').val();
     var selected_count = $('#selectedCount').text();
-
-
     let selectedIds = [];
     $('input[name="tc_ids[]"]:checked').each(function () {
         selectedIds.push($(this).val());
     });
-
-
     var tenure = $('input[name="tenure"]:checked').val();
     var roi = $('input[name="roi"]:checked').val();
     var tax = $('#taxAfterDeduction').val() || 0;
@@ -3557,7 +3553,7 @@ $("#add_ca_travelagency").on("click", function (e) {
         alert("Please Enter address");
     } else if (paymentMode != "Free" && !paymentMode) {
         alert("Please select payment mode");
-    } else if (paymentMode === "online" && !transactionNo) {
+    }else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
     } else if (paymentMode === "cheque") {
         let missingFields = [];
@@ -4285,7 +4281,7 @@ $("#editCustomer").on("click", function (e) {
         alert("Please Upload Bank Passbook Picture");
     } else if (payment_proof == "" && mystate == '6') {
         alert("Please upload Payment Proof");
-    } else {
+    }else{
         var dataString =
             "editfor=" +
             editfor +

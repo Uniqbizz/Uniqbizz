@@ -14,8 +14,7 @@
                                         <li class="single-lsit">
                                             <a href="#">Cancellation & Refund Policy</a>
                                         </li>
-                                        <!--<li class="single-lsit"><a href="terms-condition.php">Terms & Conditions</a></li>-->
-                                        <li class="single-lsit"><a href="#">Terms & Conditions</a></li>
+                                        <li class="single-lsit"><a href="terms-condition.php">Terms & Conditions</a></li>
                                         <!-- <li class="single-lsit">
                                             <a href="contact.html">Contact</a>
                                         </li> -->
@@ -28,14 +27,12 @@
                                 <div class="footer-tittle">
                                     <h4 class="title">Explore</h4>
                                     <ul class="listing">
-                                        <!--<li class="single-lsit"><a href="faq.php">Faq</a></li>-->
-                                        <li class="single-lsit"><a href="#">Faq</a></li>
+                                        <li class="single-lsit"><a href="faq.php">Faq</a></li>
                                         <li class="single-lsit">
                                             <a href="tour-list.php">Tour Packages</a>
                                         </li>
                                         <li class="single-lsit">
-                                            <!--<a href="destination.php">Destination</a>-->
-                                            <a href="#">Destination</a>
+                                            <a href="destination.php">Destination</a>
                                         </li>
                                     </ul>
                                 </div>

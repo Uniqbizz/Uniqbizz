@@ -2813,7 +2813,8 @@ $Year = date('Y'); //year
             formData.append("month", month);
             formData.append("year", year);
 
-            const res = await fetch("charts/ca_payout.php", {
+            const res = await fetch("charts/ca_payout_new.php", {
+
                 method: "POST",
                 body: formData
             });

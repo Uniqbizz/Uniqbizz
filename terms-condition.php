@@ -61,7 +61,7 @@
                 <div class="breadcrumb-text">
                     <nav aria-label="breadcrumb" class="breadcrumb-nav wow fadeInUp" data-wow-delay="0.1s">
                         <ul class="breadcrumb listing">
-                            <li class="breadcrumb-item single-list"><a href="index.html" class="single">Home</a></li>
+                            <li class="breadcrumb-item single-list"><a href="index.php" class="single">Home</a></li>
                             <li class="breadcrumb-item single-list" aria-current="page"><a href="javascript:void(0)"
                                     class="single active">terms condition</a></li>
                         </ul>

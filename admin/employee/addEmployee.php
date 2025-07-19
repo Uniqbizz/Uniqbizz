@@ -572,8 +572,6 @@
                 }
             });
 
-
-
             //select Designation
             // $('#designation').on('change', function() {
             //     var designation = $('#designation').val();

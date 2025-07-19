@@ -24,6 +24,8 @@
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
 
+    $perTDS = 2/100;
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -189,9 +191,8 @@
                                                 <!-- <label> Filter Payouts</label> -->
                                                 <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
                                                     <option value="">--Select Filter Option--</option>
-                                                    <option value="business_consultant">Business Consultant</option>
-                                                    <option value="corporate_agency">Corporate Agency</option>
-                                                    <!-- <option value="base_agency">Base Agency</option> -->
+                                                    <option value="business_development_manager">Business Development Manager</option>
+                                                    <option value="business_mentor">Business Mentor</option>
                                                 </select>
                                             </div>
                                             <div class="name-filter no-space col-md-2 col-sm-12 " >
@@ -255,7 +256,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "SELECT * FROM `ca_payout`  ";
+                                                            $sql = "SELECT * FROM `bm_recruitment_payout`  ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
                                                             $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -277,7 +278,7 @@
                                                                         $totalAmt = "null";
                                                                     }else{
                                                                         $CommAmt = $row['comm_amt'];
-                                                                        $tds = $CommAmt * 5/100;
+                                                                        $tds = $CommAmt * $perTDS;
                                                                         $totalAmt = $CommAmt - $tds;
                                                                     }
                                                                     
@@ -287,14 +288,14 @@
                                                                             <td class="text-end">'.$CommAmt.'</td>
                                                                             <td class="text-end">'.$tds.'</td>
                                                                             <td class="text-end">'.$totalAmt.'
-                                                                                <a href="forms/business_mentor_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_consultant'].'&ca='.$row['corporate_agency'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
+                                                                                <a href="forms/business_mentor_payout/download_bm_payout.php?vkvbvjfgfikix='.$row['id'].'&bdm='.$row['bdm_id'].'&bm='.$row['business_mentor'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                 </a>
                                                                             </td>';
                                                                             if($row['status'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['business_consultant'].'","'.$row['message'].'","'.$row['comm_amt'].'","'.$row['status'].'","AllPayout")\'>Pending</span></td>';
+                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['bdm_id'].'","'.$row['message'].'","'.$row['comm_amt'].'","'.$row['status'].'","AllPayout")\'>Pending</span></td>';
                                                                             }
                                                                     echo'</tr>';
 

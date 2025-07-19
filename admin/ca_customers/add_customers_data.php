@@ -228,8 +228,8 @@ if ($result2) {
         }
     }
 
-    $sql3 = "INSERT INTO logs (title,message,message2,reference_no, register_by, from_whom) 
-        VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom)";
+    $sql3 = "INSERT INTO logs (title,message,message2,reference_no, register_by, from_whom, operation) 
+        VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
     $stmt1 = $conn->prepare($sql3);
 
     $result = $stmt1->execute(array(
@@ -238,7 +238,8 @@ if ($result2) {
         ':message2' => $message2,
         ':reference_no' => $user_id_name,
         ':register_by' => $register_by,
-        ':from_whom' => $fromWhom
+        ':from_whom' => $fromWhom,
+        ':operation' => 'Add'
     ));
 
     if ($result) {

@@ -136,7 +136,7 @@
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Full Name</th>
-                                                        <th>Reference ID / Name</th> 
+                                                        <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
                                                         <th>Joining Date</th>

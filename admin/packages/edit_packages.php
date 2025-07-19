@@ -54,9 +54,6 @@ if (!$markup_dist_price) {
         'bcm_mark_up_total' => 0,
         'bcm_incentive' => 0,
         'bcm_direct_commission' => 0,
-        'prime_customer' =>0,
-        'L1_customer' => 0,
-        'L2_customer' => 0
     );
 }
 
@@ -99,31 +96,31 @@ if ($data4->rowCount() > 0) {
 }
 
 //product payout commission
-// $data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
-// $data7->execute();
-// $data7->setFetchMode(PDO::FETCH_ASSOC);
-// $product_payout_data = $data7->fetchAll();
-// $ta_value = (float)$markup_dist_price['ta_markup'];
-// $prime_ovr_per = 0;
+$data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
+$data7->execute();
+$data7->setFetchMode(PDO::FETCH_ASSOC);
+$product_payout_data = $data7->fetchAll();
+$ta_value = (float)$markup_dist_price['ta_markup'];
+$prime_ovr_per = 0;
 
-// foreach ($product_payout_data as $entry) {
-//     if ($entry['role'] === 'Prime') {
-//         $prime_ovr_per = (float)$entry['overall_percentage'];
-//         break;
-//     }
-//     if ($entry['role'] === 'L1') {
-//         $l1_ovr_per = (float)$entry['overall_percentage'];
-//         break;
-//     }
-//     if ($entry['role'] === 'L2') {
-//         $l2_ovr_per = (float)$entry['overall_percentage'];
-//         break;
-//     }
-// }
+foreach ($product_payout_data as $entry) {
+    if ($entry['role'] === 'Prime') {
+        $prime_ovr_per = (float)$entry['overall_percentage'];
+        break;
+    }
+    if ($entry['role'] === 'L1') {
+        $l1_ovr_per = (float)$entry['overall_percentage'];
+        break;
+    }
+    if ($entry['role'] === 'L2') {
+        $l2_ovr_per = (float)$entry['overall_percentage'];
+        break;
+    }
+}
 
-// $prime_value = $ta_value * $prime_ovr_per;
-// $l1_value = $ta_value * $prime_ovr_per;
-// $l2_value = $ta_value * $prime_ovr_per;
+$prime_value = $ta_value * $prime_ovr_per;
+$l1_value = $ta_value * $prime_ovr_per;
+$l2_value = $ta_value * $prime_ovr_per;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -684,11 +681,11 @@ if ($data4->rowCount() > 0) {
                                                 </div>
 
                                                 <!-- updatde markuplogic in 23 Jan 2025 by SV -->
-                                                <div class="col-md-12 ms-2 ps-1" style="padding:20px 0px 0px 0px">
+                                                <div class="col-md-12 " style="padding:20px 0px 0px 0px">
                                                     <div class="row">
                                                         <h4 class="p-3 fw-bolder">Mark-Up Price Distribution</h4>
 
-                                                        <div class="row">
+                                                        <div class=" form-group row">
                                                             <div class="col-md-3 col-sm-3 mt-3">
                                                                 <div class="form-floating mb-3">
                                                                     <input type="number" id="mp_company" name="company_share" value="<?php echo (float)$markup_dist_price['company'] ?>" placeholder="Company Share" class="form-control" onchange="finalfill()">
@@ -705,18 +702,13 @@ if ($data4->rowCount() > 0) {
                                                                 <div class="form-floating mb-3">
                                                                     <input type="number" id="mp_customer" name="customer_share" value="<?php echo (float)$markup_dist_price['customer'] ?>" placeholder="Customer Share" class="form-control" onchange="finalfill()" readonly>
                                                                     <label for="mp_customer" class="required">Customer</label>
-                                                                    <input type="hidden" id="l1_cust_comm" value="<?=$markup_dist_price['L1_customer']?>"/>
-                                                                    <input type="hidden" id="l2_cust_comm" value="<?=$markup_dist_price['L2_customer']?>"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-3 col-sm-3 mt-3">
-                                                                <div class="form-floating mb-3">
-                                                                    <input type="number" id="prime_cust_comm" name="prime_cust_comm" value="<?=$markup_dist_price['prime_customer']?>" placeholder="L1 Customer" class="form-control" onchange="finalfill()">
-                                                                    <label for="prime_cust_comm" class="required">L1 Customer</label>
+                                                                    <input type="hidden" id="prime_cust_comm" value="<?=$prime_value?>"/>
+                                                                    <input type="hidden" id="l1_cust_comm" value="<?=$l1_value?>"/>
+                                                                    <input type="hidden" id="l2_cust_comm" value="<?=$l2_value?>"/>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 col-sm-2 mt-3" id="ca_div">
-                                                                <label id="ca_label" for="ca_div">Techno Enterprise <?php echo '(Total:' . (float)$markup_dist_price['ca_mark_up_total'] . ')' ?></label>
+                                                                <label for="ca_div">Techno Enterprise <?php echo '(Total:' . (float)$markup_dist_price['ca_mark_up_total'] . ')' ?></label>
                                                                 <div class="form-floating mb-3">
                                                                     <input type="number" id="mp_ca_comm" name="ca_share_comm" value="<?php echo (float)$markup_dist_price['ca_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>
                                                                     <label for="mp_ca_comm">Commision </label>
@@ -727,7 +719,7 @@ if ($data4->rowCount() > 0) {
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 col-sm-2 mt-3" id="bm_div">
-                                                                <label id="bm_label" for="bm_div">Business Consultant/Mentor <?php echo '(Total:' . (float)$markup_dist_price['bm_mark_up_total'] . ')' ?></label>
+                                                                <label for="bm_div">Business Consultant/Mentor <?php echo '(Total:' . (float)$markup_dist_price['bm_mark_up_total'] . ')' ?></label>
                                                                 <div class="form-floating mb-3">
                                                                     <input type="number" id="mp_bm_comm" name="bm_share_comm" value="<?php echo (float)$markup_dist_price['bm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>
                                                                     <label for="mp_bm_comm">Commision </label>
@@ -737,39 +729,25 @@ if ($data4->rowCount() > 0) {
                                                                     <label for="mp_bcm_ins">Incentive </label>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6 col-sm-2 mt-3" id="mpa_div">
-                                                                <label >Adult Price After Markup</label>
-                                                                <div class="form-floating mb-3">
-                                                                    <input type="number" id="mp_adult" name="mp_adult" value="<?php echo (float)$markup_dist_price['total_adult_price_with_markup'] ?>" placeholder="Adult Price" class="form-control" readOnly>
-                                                                    <label for="mp_adult">Adult Price </label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-2 mt-3" id="mpc_div">
-                                                                <label >Child Price After Markup</label>
-                                                                <div class="form-floating mb-3">
-                                                                    <input type="number" id="mp_child" name="mp_child" value="<?php echo (float)$markup_dist_price['total_child_price_with_markup'] ?>" placeholder="Child Price" class="form-control" readOnly>
-                                                                    <label for="mp_child">Child Price </label>
-                                                                </div>
-                                                            </div>
                                                             <!--<div class="col-md-6 col-sm-2 mt-3" id="bdm_div">-->
-                                                            <!--    <label for="bdm_div">Business Development Manager<?php //echo '(Total:' . (float)$markup_dist_price['bdm_mark_up_total'] . ')' ?></label>-->
+                                                            <!--    <label for="bdm_div">Business Development Manager<?php echo '(Total:' . (float)$markup_dist_price['bdm_mark_up_total'] . ')' ?></label>-->
                                                             <!--    <div class="form-floating mb-3">-->
-                                                            <!--        <input type="number" id="mp_bdm_comm" name="bdm_share_comm" value="<?php //echo (float)$markup_dist_price['bdm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
+                                                            <!--        <input type="number" id="mp_bdm_comm" name="bdm_share_comm" value="<?php echo (float)$markup_dist_price['bdm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
                                                             <!--        <label for="mp_bdm_comm">Commision </label>-->
                                                             <!--    </div>-->
                                                             <!--    <div class="form-floating mb-3">-->
-                                                            <!--        <input type="number" id="mp_bdm_ins" name="bdm_share_ins" value="<?php //echo (float)$markup_dist_price['bdm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
+                                                            <!--        <input type="number" id="mp_bdm_ins" name="bdm_share_ins" value="<?php echo (float)$markup_dist_price['bdm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
                                                             <!--        <label for="mp_bdm_ins">Incentive </label>-->
                                                             <!--    </div>-->
                                                             <!--</div>-->
                                                             <!--<div class="col-md-6 col-sm-2 mt-3" id="bcm_div">-->
-                                                            <!--    <label for="bcm_div">Business Channel Manager<?php //echo '(Total:' . (float)$markup_dist_price['bcm_mark_up_total'] . ')' ?></label>-->
+                                                            <!--    <label for="bcm_div">Business Channel Manager<?php echo '(Total:' . (float)$markup_dist_price['bcm_mark_up_total'] . ')' ?></label>-->
                                                             <!--    <div class="form-floating mb-3">-->
-                                                            <!--        <input type="number" id="mp_bcm_comm" name="bcm_share_comm" value="<?php //echo (float)$markup_dist_price['bcm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
+                                                            <!--        <input type="number" id="mp_bcm_comm" name="bcm_share_comm" value="<?php echo (float)$markup_dist_price['bcm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
                                                             <!--        <label for="mp_bcm_comm">Commision </label>-->
                                                             <!--    </div>-->
                                                             <!--    <div class="form-floating mb-3">-->
-                                                            <!--        <input type="number" id="mp_bcm_ins" name="bcm_share_ins" value="<?php //echo (float)$markup_dist_price['bcm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
+                                                            <!--        <input type="number" id="mp_bcm_ins" name="bcm_share_ins" value="<?php echo (float)$markup_dist_price['bcm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
                                                             <!--        <label for="mp_bcm_ins">Incentive </label>-->
                                                             <!--    </div>-->
                                                             <!--</div>-->

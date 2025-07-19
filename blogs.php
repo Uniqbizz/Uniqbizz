@@ -77,7 +77,7 @@
                     <div class="row g-4">
                         <div class="col-lg-4 col-sm-6">
                             <a href="blog_details/blog-details-kerala.php" class="destination-banner h-calc">
-                                <img src="assets/images/destination/kerala1.jpg" alt="">
+                                <img src="assets/images/destination/kerala1.jpg" alt="travello">
                                 <div class="destination-content">
                                     <!-- <div class="ratting-badge">
                                         <i class="ri-star-s-fill"></i>

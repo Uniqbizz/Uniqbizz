@@ -112,7 +112,7 @@
                     <div class="col-xl-7 col-lg-6">
                         <div class="about-count-section about-count-before-bg">
                             <div class="banner">
-                                <img src="assets/images/gallery/about-banner-three.png" alt="">
+                                <img src="assets/images/gallery/about-banner-three.png" alt="travello">
                             </div>
                             <div class="all-count-list">
                                 <div class="details">

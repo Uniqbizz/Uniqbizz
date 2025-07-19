@@ -24,6 +24,8 @@
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
 
+    $tdsPer = 2/100;
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -103,7 +105,7 @@
                                                         if($previousPayout -> rowCount()>0){
                                                             foreach(($previousPayout -> fetchAll()) as $key => $row){
                                                                 $previousPayout = $row['previousPayout'];
-                                                                $previousPayoutTDS = $previousPayout * 5/100;
+                                                                $previousPayoutTDS = $previousPayout * $tdsPer;
                                                                 $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                                 echo'<p class="fs-5 fw-bolder mt-n2">Rs. ' .round($TotalpreviousPayout). '/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
                                                             }
@@ -127,7 +129,7 @@
                                                         if($nextPayout -> rowCount()>0){
                                                             foreach(($nextPayout -> fetchAll()) as $key => $row2){
                                                                 $nextPayoutTotal = $row2['nextPayout'];
-                                                                $nextPayoutTDS = $nextPayoutTotal * 5/100;
+                                                                $nextPayoutTDS = $nextPayoutTotal * $tdsPer;
                                                                 $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                                 echo'<p class="fs-5 fw-bolder mt-n2">Rs.' .round($TotalNextPayout). '/- <span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4">Pending</span> </p>';
                                                             }
@@ -243,6 +245,7 @@
                                                 <table class="table table-hover" id="payoutDetailsTable">
                                                     <thead>
                                                         <tr>
+                                                            <th class="ceterText fw-bolder font-size-16 d-none">id</th>
                                                             <th class="ceterText fw-bolder font-size-16">Date</th>
                                                             <th class="ceterText fw-bolder font-size-16">Payout Details</th>
                                                             <th class="ceterText fw-bolder font-size-16">Amount</th>
@@ -274,45 +277,47 @@
 
                                                                     // total Amt Cal for BC 
                                                                     $CommAmtBc = $row['commision_bm'] ? $row['commision_bm'] : 0;
-                                                                    $tdsBc = $CommAmtBc * 5/100;
+                                                                    $tdsBc = $CommAmtBc * $tdsPer;
                                                                     $totalAmtBc = $CommAmtBc - $tdsBc;
 
                                                                     // total Amt Cal for CA
                                                                     $CommAmtCa = $row['commision_te'] ? $row['commision_te'] : 0;
-                                                                    $tdsCa = $CommAmtCa * 5/100;
+                                                                    $tdsCa = $CommAmtCa * $tdsPer;
                                                                     $totalAmtCa = $CommAmtCa - $tdsCa;
 
                                                                     echo '<tr>
+                                                                            <td class="d-none">'.$row['id'].'</td>
                                                                             <td>'.$dt.'</td>
                                                                             <td>'.$message1.'</td>
                                                                             <td class="text-end">'.$CommAmtBc.'</td>
                                                                             <td class="text-end">'.$tdsBc.'</td>
                                                                             <td class="text-end">'.$totalAmtBc.'
-                                                                                <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_mentor'].'&ca='.$row['techno_enterprise'].'&ta_ca='.$row['travel_consultant'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status_bm'].'&commission='.$row['commision_bm'].'">
+                                                                                <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bm='.$row['business_mentor'].'&te='.$row['techno_enterprise'].'&tc='.$row['travel_consultant'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status_bm'].'&commission='.$row['commision_bm'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                 </a>
                                                                             </td>';
                                                                             if($row['status_bm'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row['business_mentor']. '","'.$row["message_bm"]. '","'.$CommAmtBc. '","'.$row["status_bm"].'","messageBC")\'>Pending</span></td>';
+                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row['business_mentor']. '","'.$row["message_bm"]. '","'.$CommAmtBc. '","'.$row["status_bm"].'","messageBM")\'>Pending</span></td>';
                                                                             }
                                                                     echo'</tr>';
 
                                                                     echo '<tr>
+                                                                            <td class="d-none">'.$row['id'].'</td>
                                                                             <td>'.$dt.'</td>
                                                                             <td>'.$message2.'</td>
                                                                             <td class="text-end">'.$CommAmtCa.'</td>
                                                                             <td class="text-end">'.$tdsCa.'</td>
                                                                             <td class="text-end">'.$totalAmtCa.'
-                                                                                <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_mentor'].'&ca='.$row['techno_enterprise'].'&ta_ca='.$row['travel_consultant'].'&date='.$dt.'&message='.$message2.'&message_status='.$row['status_te'].'&commission='.$row['commision_te'].'">
+                                                                                <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bm='.$row['business_mentor'].'&te='.$row['techno_enterprise'].'&tc='.$row['travel_consultant'].'&date='.$dt.'&message='.$message2.'&message_status='.$row['status_te'].'&commission='.$row['commision_te'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                 </a>
                                                                             </td>';
                                                                             if($row['status_te'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row["techno_enterprise"]. '","'.$row["message_te"]. '","'.$CommAmtCa. '","'.$row["status_te"].'","messageCA")\'>Pending</span></td>';
+                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row["techno_enterprise"]. '","'.$row["message_te"]. '","'.$CommAmtCa. '","'.$row["status_te"].'","messageTE")\'>Pending</span></td>';
                                                                             }
                                                                     echo'</tr>';
                                                                 }
@@ -373,7 +378,7 @@
                                             if($previousPayout -> rowCount()>0){
                                                 foreach(($previousPayout -> fetchAll()) as $key => $row){
                                                     $previousPayout = $row['previousPayout'];
-                                                    $previousPayoutTDS = $previousPayout * 5/100;
+                                                    $previousPayoutTDS = $previousPayout * $tdsPer;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
@@ -446,6 +451,7 @@
                                         <table class="table table-hover" id="previous_payout_table">
                                             <thead>
                                                 <tr>
+                                                    <th class="ceterText fw-bolder font-size-16">Id</th>
                                                     <th class="ceterText fw-bolder font-size-16">Date</th>
                                                     <th class="ceterText fw-bolder font-size-16">Payout Details</th>
                                                     <th class="ceterText fw-bolder font-size-16">Amount</th>
@@ -476,45 +482,47 @@
 
                                                             // total Amt Cal for BC 
                                                             $CommAmtBc = $row['commision_bm'] ? $row['commision_bm'] : 0;
-                                                            $tdsBc = $CommAmtBc * 5/100;
+                                                            $tdsBc = $CommAmtBc * $tdsPer;
                                                             $totalAmtBc = $CommAmtBc - $tdsBc;
 
                                                             // total Amt Cal for CA
                                                             $CommAmtCa = $row['commision_te'] ? $row['commision_te'] : 0;
-                                                            $tdsCa = $CommAmtCa * 5/100;
+                                                            $tdsCa = $CommAmtCa * $tdsPer;
                                                             $totalAmtCa = $CommAmtCa - $tdsCa;
 
                                                             echo '<tr>
+                                                                    <td>'.$row['id'].'</td>
                                                                     <td>'.$dt.'</td>
                                                                     <td>'.$message1.'</td>
                                                                     <td class="text-end">'.$CommAmtBc.'</td>
                                                                     <td class="text-end">'.$tdsBc.'</td>
                                                                     <td class="text-end">'.$totalAmtBc.'
-                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_mentor'].'&ca='.$row['techno_enterprise'].'&ta_ca='.$row['travel_consultant'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status_bm'].'&commission='.$row['commision_bm'].'">
+                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bm='.$row['business_mentor'].'&te='.$row['techno_enterprise'].'&tc='.$row['travel_consultant'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status_bm'].'&commission='.$row['commision_bm'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status_bm'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row['business_mentor']. '","'.$row["message_bm"]. '","'.$CommAmtBc. '","'.$row["status_bm"].'","messageBC")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row['business_mentor']. '","'.$row["message_bm"]. '","'.$CommAmtBc. '","'.$row["status_bm"].'","messageBM")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
                                                             echo '<tr>
+                                                                    <td>'.$row['id'].'</td>
                                                                     <td>'.$dt.'</td>
                                                                     <td>'.$message2.'</td>
                                                                     <td class="text-end">'.$CommAmtCa.'</td>
                                                                     <td class="text-end">'.$tdsCa.'</td>
                                                                     <td class="text-end">'.$totalAmtCa.'
-                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_mentor'].'&ca='.$row['techno_enterprise'].'&ta_ca='.$row['travel_consultant'].'&date='.$dt.'&message='.$message2.'&message_status='.$row['status_te'].'&commission='.$row['commision_te'].'">
+                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bm='.$row['business_mentor'].'&te='.$row['techno_enterprise'].'&tc='.$row['travel_consultant'].'&date='.$dt.'&message='.$message2.'&message_status='.$row['status_te'].'&commission='.$row['commision_te'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status_te'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row["techno_enterprise"]. '","'.$row["message_te"]. '","'.$CommAmtCa. '","'.$row["status_te"].'","messageCA")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row["techno_enterprise"]. '","'.$row["message_te"]. '","'.$CommAmtCa. '","'.$row["status_te"].'","messageTE")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
                                                         }
@@ -676,14 +684,14 @@
                                                                     <td class="text-end">'.$CommAmtBc.'</td>
                                                                     <td class="text-end">'.$tdsBc.'</td>
                                                                     <td class="text-end">'.$totalAmtBc.'
-                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_mentor'].'&ca='.$row['techno_enterprise'].'&ta_ca='.$row['travel_consultant'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status_bm'].'&commission='.$row['commision_bm'].'">
+                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bm='.$row['business_mentor'].'&te='.$row['techno_enterprise'].'&tc='.$row['travel_consultant'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status_bm'].'&commission='.$row['commision_bm'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status_bm'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row['business_mentor']. '","'.$row["message_bm"]. '","'.$CommAmtBc. '","'.$row["status_bm"].'","messageBC")\'>Pending</span></td>';
+                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row['business_mentor']. '","'.$row["message_bm"]. '","'.$CommAmtBc. '","'.$row["status_bm"].'","messageBM")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -693,14 +701,14 @@
                                                                     <td class="text-end">'.$CommAmtCa.'</td>
                                                                     <td class="text-end">'.$tdsCa.'</td>
                                                                     <td class="text-end">'.$totalAmtCa.'
-                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$row['business_mentor'].'&ca='.$row['techno_enterprise'].'&ta_ca='.$row['travel_consultant'].'&date='.$dt.'&message='.$message2.'&message_status='.$row['status_te'].'&commission='.$row['commision_te'].'">
+                                                                        <a href="forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bm='.$row['business_mentor'].'&te='.$row['techno_enterprise'].'&tc='.$row['travel_consultant'].'&date='.$dt.'&message='.$message2.'&message_status='.$row['status_te'].'&commission='.$row['commision_te'].'">
                                                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status_te'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row["techno_enterprise"]. '","'.$row["message_te"]. '","'.$CommAmtCa. '","'.$row["status_te"].'","messageCA")\'>Pending</span></td>';
+                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row["id"]. '","' .$row["techno_enterprise"]. '","'.$row["message_te"]. '","'.$CommAmtCa. '","'.$row["status_te"].'","messageTE")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
                                                         }

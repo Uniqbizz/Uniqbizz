@@ -726,6 +726,7 @@ if ($result1) {
                     'credit_amount' => $credit_amount,
                     'balance' => $current_wallet_balance
                 ]);
+
             }
             //$commissionGiven = true;
         } elseif ($level1['id'] && $level1['customer_type'] == 'Premium Plus') {

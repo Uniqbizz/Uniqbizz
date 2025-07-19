@@ -245,7 +245,7 @@ if ($userType == 10) {
                                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <!-- <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="nominee_name">Nominee Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name">
@@ -256,7 +256,7 @@ if ($userType == 10) {
                                                         <label class="col-form-label" for="nominee_relation">Nominee Relation <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="email">Email Address <span class="text-danger">*</span></label>

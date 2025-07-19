@@ -672,7 +672,7 @@ if ($stmt->rowCount() > 0) {
     <!-- App js -->
     <script src="assets/js/app.js"></script>
     <!-- file upload code js file -->
-    <script src="../uploading/uploadUser.js"></script>
+    <script src="../uploading/upload.js"></script>
 
     <!-- Chart JS -->
     <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
