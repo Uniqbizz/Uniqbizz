@@ -374,7 +374,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="reference_name">Reference Full Name<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?= $reference_id == "BH" ? $reference_no_name : $reference_no_fname . ' ' . $reference_no_lname; ?>" readonly>
+                                                    <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?= (strpos($reference_id, "BH") === 0 || strpos($reference_id, "ZM") === 0) ? $reference_no_name : ($reference_no_fname . ' ' . $reference_no_lname); ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
