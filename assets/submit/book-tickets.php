@@ -121,13 +121,13 @@ if ($customer->rowCount() > 0) {
 //-------------------------------------------------------------------------------------------------------------------------------
 
 //get coupon details and update it by SV
-if ($coupon_code) {
-  $coupon_sql = 'UPDATE cu_coupons SET usage_status=1 WHERE code=:code';
-  $coupon_stmt = $conn->prepare($coupon_sql);
-  $coupon_result = $coupon_stmt->execute([
-    ':code' => $coupon_code
-  ]);
-}
+// if ($coupon_code) {
+//   $coupon_sql = 'UPDATE cu_coupons SET usage_status=1 WHERE code=:code';
+//   $coupon_stmt = $conn->prepare($coupon_sql);
+//   $coupon_result = $coupon_stmt->execute([
+//     ':code' => $coupon_code
+//   ]);
+// }
 
 //generate invoice id
 function getInvoice() {

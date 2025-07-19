@@ -526,18 +526,13 @@ $product_payout_data = $data7->fetchAll();
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" onchange="finalfill()" readonly>
                                                                 <label for="mp_customer" class="required">Customer</label>
+                                                                <input type="hidden" id="prime_cust_comm" value="" />
                                                                 <input type="hidden" id="l1_cust_comm" value="" />
                                                                 <input type="hidden" id="l2_cust_comm" value="" />
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3 col-sm-3 mt-3">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="prime_cust_comm" name="prime_cust_comm" value="" placeholder="L1 Customer" class="form-control" onchange="finalfill()">
-                                                                <label for="prime_cust_comm" class="required">L1 Customer</label>
-                                                            </div>
-                                                        </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="ca_div">
-                                                            <label id="ca_label" for="ca_div">Techno Enterprise</label>
+                                                            <label for="ca_div">Techno Enterprise</label>
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="mp_ca_comm" name="ca_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
                                                                 <label for="mp_ca_comm">Commision </label>
@@ -548,7 +543,7 @@ $product_payout_data = $data7->fetchAll();
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="bm_div">
-                                                            <label id="bm_label" for="bm_div">Business Consultant/Mentor</label>
+                                                            <label for="bm_div">Business Consultant/Mentor</label>
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="mp_bm_comm" name="bm_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
                                                                 <label for="mp_bm_comm">Commision </label>
@@ -557,22 +552,6 @@ $product_payout_data = $data7->fetchAll();
                                                                 <input type="number" id="mp_bm_ins" name="bm_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
                                                                 <label for="mp_bcm_ins">Incentive </label>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3">
-                                                            <label for="bm_div">Adult Price After Markup</label>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_adult" name="mp_adult" value="" placeholder="Adult Price" class="form-control" readOnly>
-                                                                <label for="mp_adult">Adult Price </label>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <div class="col-md-6 col-sm-2 mt-3">
-                                                            <label for="bm_div">Child Price After Markup</label>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_child" name="mp_child" value="" placeholder="Child Price" class="form-control" readOnly>
-                                                                <label for="mp_child">Child Price </label>
-                                                            </div>
-                                                            
                                                         </div>
                                                         <!--<div class="col-md-6 col-sm-2 mt-3" id="bdm_div">-->
                                                         <!--    <label for="bdm_div">Business Development Manager</label>-->

@@ -171,13 +171,11 @@ $today = date('Y-m-d H:i:s');
         $sql_8 = 'INSERT INTO package_pricing_markup (
             package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission, ca_incentive,
             bm_mark_up_total, bm_direct_commission, bm_incentive, bdm_mark_up_total, bdm_direct_commission,
-            bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer,
-            total_adult_price_with_markup,total_child_price_with_markup
+            bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer
         ) VALUES (
             :package_id, :company, :customer, :ta_markup, :ca_mark_up_total, :ca_direct_commission, :ca_incentive,
             :bm_mark_up_total, :bm_direct_commission, :bm_incentive, :bdm_mark_up_total, :bdm_direct_commission,
-            :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive , :prime_customer, :L1_customer, :L2_customer,
-            :total_adult_price_with_markup,:total_child_price_with_markup
+            :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive , :prime_customer, :L1_customer, :L2_customer
         )';
     
         $statement_8 = $conn->prepare($sql_8);
@@ -201,9 +199,7 @@ $today = date('Y-m-d H:i:s');
             ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
             ':prime_customer' => $mydata['prime_customer_share'],
             ':L1_customer' => $mydata['L1_customer_share'],
-            ':L2_customer' => $mydata['L2_customer_share'],
-            ':total_adult_price_with_markup'=>$mydata['total_adult_price_with_markup'],
-            ':total_child_price_with_markup'=>$mydata['total_child_price_with_markup']
+            ':L2_customer' => $mydata['L2_customer_share']
         ]);
        
     }

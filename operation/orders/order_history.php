@@ -341,14 +341,14 @@ if (!isset($_SESSION['username'])) {
                                     </ul>
                                 </nav>
                             </div>
-                            <!-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
                                 <div class="d-flex justify-content-center">
                                     <div id="addHistory" class="bg-primary px-3 py-2 text-center w-75 rounded-4">
                                         <a href="placeOrder.php" class="text-white"><i class="fa fa-pencil-square me-2"></i>Place Order</a>
                                     </div>
                                 </div>
-                            </div> -->
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
                                 <div class="d-flex justify-content-end dateRangeAlign">
                                     <div id="reportrange" class="bg-primary text-white px-3 py-2 w-100 text-center dateRange">
                                         <i class="fa fa-calendar"></i>&nbsp;
@@ -516,38 +516,23 @@ if (!isset($_SESSION['username'])) {
                                                             $cursor = 'cursor: pointer';
                                                         }
                                                     ?>
-                                                    <?php
-                                                        $data_remaining_amt = '';
-                                                        $data_pending_amt = '';
-
-                                                        if ($perecent_fill == 40) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                            $data_pending_amt = $booking_bill['part_pay_2'];
-                                                        } else if ($perecent_fill == 70) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_3'];
-                                                            $data_pending_amt = $booking_bill['part_pay_3'];
-                                                        } else if ($perecent_fill == 50) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_2'];
-                                                            $data_pending_amt = $booking_bill['part_pay_2'];
-                                                        }
-                                                    ?>
-
                                                     <td>
-                                                        <div class="progress border <?= $border ?>" role="progressbar" aria-label="Example with label"
-                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100"
-                                                            <?= $load_modal ?> data-bs-target="#paymentModal"
-                                                            data-booking-id="<?= $booking['id'] ?>"
-                                                            data-booking-fullamt="<?= $booking_full_amt ?>"
-                                                            data-booking-paytype="<?= $booking_bill['pay_type'] ?>"
-                                                            data-booking-fill="<?= $perecent_fill ?>"
-                                                            <?= $data_remaining_amt !== '' ? 'data-remaining-amt="' . $data_remaining_amt . '"' : '' ?>
-                                                            <?= $data_pending_amt !== '' ? 'data-pending-amt="' . $data_pending_amt . '"' : '' ?>
+                                                        <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
+                                                            <?php
+
+                                                                if ($perecent_fill == 40) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                } else if ($perecent_fill == 70) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
+                                                                } else if ($perecent_fill == 50) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                }
+
+                                                            ?>
                                                         >
-                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>">
-                                                                <?= $perecent_fill ?>%
-                                                            </div>
+                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>"><?= $perecent_fill ?>%</div>
                                                         </div>
-                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
+                                                        <div id="" class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
                                                     </td>
                                                     <td>
                                                         <?php
@@ -1208,38 +1193,20 @@ if (!isset($_SESSION['username'])) {
                                                             $cursor = 'cursor: pointer';
                                                         }
                                                     ?>
-                                                    <?php
-                                                        $data_remaining_amt = '';
-                                                        $data_pending_amt = '';
-
-                                                        if ($perecent_fill == 40) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                            $data_pending_amt = $booking_bill['part_pay_2'];
-                                                        } else if ($perecent_fill == 70) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_3'];
-                                                            $data_pending_amt = $booking_bill['part_pay_3'];
-                                                        } else if ($perecent_fill == 50) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_2'];
-                                                            $data_pending_amt = $booking_bill['part_pay_2'];
-                                                        }
-                                                    ?>
-
                                                     <td>
-                                                        <div class="progress border <?= $border ?>" role="progressbar" aria-label="Example with label"
-                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100"
-                                                            <?= $load_modal ?> data-bs-target="#paymentModal"
-                                                            data-booking-id="<?= $booking['id'] ?>"
-                                                            data-booking-fullamt="<?= $booking_full_amt ?>"
-                                                            data-booking-paytype="<?= $booking_bill['pay_type'] ?>"
-                                                            data-booking-fill="<?= $perecent_fill ?>"
-                                                            <?= $data_remaining_amt !== '' ? 'data-remaining-amt="' . $data_remaining_amt . '"' : '' ?>
-                                                            <?= $data_pending_amt !== '' ? 'data-pending-amt="' . $data_pending_amt . '"' : '' ?>
-                                                        >
-                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>">
-                                                                <?= $perecent_fill ?>%
-                                                            </div>
+                                                        <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
+                                                            <?php
+                                                                if ($perecent_fill == 40) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                } else if ($perecent_fill == 70) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
+                                                                } else if ($perecent_fill == 50) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                }
+                                                            ?>>
+                                                            <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
                                                         </div>
-                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
+                                                        <div id="" class="my-2 text-center">Paid Rs.<? $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                                     </td>
                                                     <td>
                                                         <div class="d-block">
@@ -1420,38 +1387,21 @@ if (!isset($_SESSION['username'])) {
                                                     ?>
 
 
-<?php
-                                                        $data_remaining_amt = '';
-                                                        $data_pending_amt = '';
-
-                                                        if ($perecent_fill == 40) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                            $data_pending_amt = $booking_bill['part_pay_2'];
-                                                        } else if ($perecent_fill == 70) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_3'];
-                                                            $data_pending_amt = $booking_bill['part_pay_3'];
-                                                        } else if ($perecent_fill == 50) {
-                                                            $data_remaining_amt = $booking_bill['part_pay_2'];
-                                                            $data_pending_amt = $booking_bill['part_pay_2'];
-                                                        }
-                                                    ?>
-
                                                     <td>
-                                                        <div class="progress border <?= $border ?>" role="progressbar" aria-label="Example with label"
-                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100"
-                                                            <?= $load_modal ?> data-bs-target="#paymentModal"
-                                                            data-booking-id="<?= $booking['id'] ?>"
-                                                            data-booking-fullamt="<?= $booking_full_amt ?>"
-                                                            data-booking-paytype="<?= $booking_bill['pay_type'] ?>"
-                                                            data-booking-fill="<?= $perecent_fill ?>"
-                                                            <?= $data_remaining_amt !== '' ? 'data-remaining-amt="' . $data_remaining_amt . '"' : '' ?>
-                                                            <?= $data_pending_amt !== '' ? 'data-pending-amt="' . $data_pending_amt . '"' : '' ?>
-                                                        >
-                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>">
-                                                                <?= $perecent_fill ?>%
-                                                            </div>
+                                                        <div class="progress border  <?= $border . '" role="progressbar" aria-label="Example with label" aria-valuenow="' . $perecent_fill . '" aria-valuemin="0" aria-valuemax="100" ' . $load_modal . '" data-bs-target="#paymentModal" data-booking-id="' . $booking['id'] . '" data-booking-fullamt="' . $booking_full_amt . '" data-booking-paytype="' . $booking_bill['pay_type'] . '" data-booking-fill="' . $perecent_fill ?>"
+
+                                                            <?php
+                                                                if ($perecent_fill == 40) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                } else if ($perecent_fill == 70) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
+                                                                } else if ($perecent_fill == 50) {
+                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
+                                                                }
+                                                            ?>>
+                                                            <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
                                                         </div>
-                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
+                                                        <div id="" class="my-2 text-center">Paid Rs.' . $booking_paid_amt . ' of Rs.' . $booking_full_amt . '</div>
                                                     </td>
                                                     <td>
                                                         <div class="d-block">

@@ -163,13 +163,13 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     $border = 'border-success';
                                     $bg_color = 'bg-success';
                                     $cursor = '';
-                                    //$onclickPending='';
+                                    $onclickPending='';
                                 } else {
                                     $load_modal = '';
                                     $border = 'border-primary';
                                     $bg_color = '';
                                     $cursor = 'cursor: pointer';
-                                    //$onclickPending = ' onclick="window.location.href=\'view_placeOrder?id='.$booking['id'].'\'"';
+                                    $onclickPending = ' onclick="window.location.href=\'view_placeOrder?id='.$booking['id'].'\'"';
                                 }
                                 ?>
                                 <?php
@@ -436,7 +436,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                 if ($booking_bill) {
                                     $pay_type = $booking_bill['pay_type'];
                                     $final_price = $booking_bill['final_price'];
-                                    //$onclickPending = ' onclick="window.location.href=\'view_placeOrder?id='.$booking['id'].'\'"';
+                                    $onclickPending = ' onclick="window.location.href=\'view_placeOrder?id='.$booking['id'].'\'"';
                                     if ($pay_type == 2) {
                                         if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
                                             $perecent_fill = 50;

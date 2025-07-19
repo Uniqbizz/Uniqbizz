@@ -136,7 +136,7 @@
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Full Name</th>
-                                                        <th>Reference ID / Name</th> 
+                                                        <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
                                                         <th>Joining Date</th>
@@ -151,6 +151,7 @@
                                                         $stmt -> execute();
                                                         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                         if($stmt->rowCount()>0){
+
                                                             foreach(($stmt->fetchAll()) as $key => $row) {
                                                                 $bd= new DateTime($row['date_of_birth']);
                                                                 $bdate= $bd->format('d-m-Y');

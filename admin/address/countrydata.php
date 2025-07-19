@@ -36,5 +36,22 @@ if(!empty($_POST["country_id"])){
     }else{ 
         echo '<option value="">City not available</option>'; 
     } 
+}elseif(!empty($_POST["city_id"])){ 
+    // Fetch city data based on the specific state
+
+    $stmt2 = $conn->prepare("SELECT * FROM zonal WHERE city_id = '".$_POST['city_id']."' AND status = 1 ORDER BY zone ASC");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+         echo '<option value="">--Select Zone--</option>'; 
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+           echo '<option value="'.$row2['id'].'">'.$row2['zone'].'</option>'; 
+        }   
+    }else{ 
+        echo '<option value="">Zone not available</option>'; 
+    } 
 } 
 ?>

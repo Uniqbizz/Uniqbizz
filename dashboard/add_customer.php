@@ -15,15 +15,18 @@ if ($editfor == 'addreff') {
     $cuName = $cu_name['firstname'] . ' ' . $cu_name['lastname'];
 }
 if ($userType == 10) {
-    $stmt11 = $conn->prepare(" SELECT ta_reference_no FROM ca_customer WHERE ca_customer_id = '" . $userId . "' ");
+    $stmt11 = $conn->prepare(" SELECT ta_reference_no,customer_type FROM ca_customer WHERE ca_customer_id = '" . $userId . "' ");
     $stmt11->execute();
     $tc = $stmt11->fetch();
     $tcId = $tc['ta_reference_no'];
+    $customer_type = $tc['customer_type'];
+
 
     $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
     $stmt12->execute();
     $tcName = $stmt12->fetch();
     $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+
 }
 ?>
 <!doctype html>
@@ -242,7 +245,7 @@ if ($userType == 10) {
                                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <!-- <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="nominee_name">Nominee Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name">
@@ -253,7 +256,7 @@ if ($userType == 10) {
                                                         <label class="col-form-label" for="nominee_relation">Nominee Relation <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="email">Email Address <span class="text-danger">*</span></label>
@@ -373,6 +376,7 @@ if ($userType == 10) {
                                                             <option value="FOC" selected>Free</option>
                                                             <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                             <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
+                                                            <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -510,6 +514,7 @@ if ($userType == 10) {
                                                 <!-- new added 14-06-2025 -->
                                                 <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
 											    <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> <!-- BH250001, BM250001 -->
+											    <input type="hidden" id="customer_type" name="customer_type" value="<?php echo $customer_type; ?>"> <!-- BH250001, BM250001 -->
 
                                                 <div class="submit-section d-flex justify-content-center mb-4">
                                                     <button type="submit" class="btn btn-primary px-5 py-2" id="add-customer">Submit</button>

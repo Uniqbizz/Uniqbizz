@@ -4,7 +4,6 @@ session_start();
 if (!isset($_SESSION['username'])) {
     echo '<script>location.href = "../login.php";</script>';
 }
-$date = date('Y'); 
 ?>
 
 <!DOCTYPE html>
@@ -320,7 +319,7 @@ $date = date('Y');
                         <!-- Calender End -->
 
                         <!-- Order History Start -->
-                        <div class="row">
+                        <div class="row rowAlign">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
                                 <nav role="navigation">
                                     <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
@@ -342,14 +341,14 @@ $date = date('Y');
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-5 col-5 pb-3 px-0">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
                                 <div class="d-flex justify-content-center">
-                                    <div id="addHistory" class="bg-primary px-3 py-2 text-center rounded-4">
+                                    <div id="addHistory" class="bg-primary px-3 py-2 text-center w-75 rounded-4">
                                         <a href="placeOrder.php" class="text-white"><i class="fa fa-pencil-square me-2"></i>Place Order</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-7 col-7 pb-3 ps-0">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
                                 <div class="d-flex justify-content-end dateRangeAlign">
                                     <div id="reportrange" class="bg-primary text-white px-3 py-2 w-100 text-center dateRange">
                                         <i class="fa fa-calendar"></i>&nbsp;
@@ -1421,7 +1420,7 @@ $date = date('Y');
                                                     ?>
 
 
-                                                    <?php
+<?php
                                                         $data_remaining_amt = '';
                                                         $data_pending_amt = '';
 
@@ -1493,20 +1492,6 @@ $date = date('Y');
                         </div>
                     </div>
                 </div>
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
             </div>
         </div>
         <!-- Refund Modal -->

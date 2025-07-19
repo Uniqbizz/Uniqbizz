@@ -487,23 +487,28 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         if($customer_type == 'Premium Plus'){
                                                 ?>
                                                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                                                    <p>Wallet Balance: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377;10000 </span></p>
+                                                    <p>Wallet Balance: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377;0</span></p>
                                                 </div>
                                                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                                                    <p>Booking Points: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377;10000 </span></p>
+                                                    <p>Booking Points: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377;0</span></p>
                                                 </div>
                                                 <?php
                                                         }else{
                                                 ?>
                                                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                                                    <p>Wallet Balance: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377;10000 </span></p>
+                                                    <p>Wallet Balance: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377;0</span></p>
                                                 </div>
                                                 <?php
                                                         }
                                                     } else{
                                                 ?>
                                                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                                                    <p>Commission Earned: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">&#8377; </span></p>
+                                                    <p>
+                                                        Commission Earned:
+                                                        <span id="commissionTotal" class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">
+                                                            ₹0
+                                                        </span>
+                                                    </p>
                                                 </div>
                                                 <?php
                                                     }
@@ -1158,6 +1163,13 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                 <label for="file6">
                                                                     <b>PAYMENT PROOF</b>
                                                                     <?php
+                                                                        if ($payment_proof != 'none') {
+                                                                    ?>
+                                                                    <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                                        <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                                    </a>
+                                                                    <?php
+                                                                        }
                                                                         if ($payment_proof == 'none') {
                                                                     ?>
                                                                     <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
@@ -7119,18 +7131,28 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6" id="paymentMode1">
+                                                <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                                        <div class="form-control radioBtn d-flex justify-content-around">
-                                                            <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment1 me-3" name="payment" value="cash">Cash</label>
-                                                            <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment" class="form-check-input payment1 me-3" name="payment" value="cheque">Cheque</label>
-                                                            <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment" class="form-check-input payment1 me-3" name="payment" value="online">UPI/NEFT</label>
-                                                        </div>
+                                                        <label for="comp_chek" class="col-form-label">Complementary Type<span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="comp_chek" aria-label="Floating label select example">
+                                                            <option value="null" selected disabled>--Select Complementary Tpe--</option>
+                                                            <option value="2">Non Complementary</option>
+                                                            <option value="1">Complementary</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 d-none" id="paymentMode1">
+                                                <div class="input-block mb-3">
+                                                    <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
+                                                    <div class="form-control radioBtn d-flex justify-content-around">
+                                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment1 me-3" name="payment" value="cash">Cash</label>
+                                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment" class="form-check-input payment1 me-3" name="payment" value="cheque">Cheque</label>
+                                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment" class="form-check-input payment1 me-3" name="payment" value="online">UPI/NEFT</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                             <div class="pb-3 d-none" id="payOpt">
                                                 <div class="col-md-12 col-sm-12 d-none" id="chequeOpt1">
                                                     <div class="row d-flex justify-content-center">
@@ -7178,16 +7200,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label for="comp_chek" class="col-form-label">Complementary Type<span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="comp_chek" aria-label="Floating label select example">
-                                                            <option value="null" selected disabled>--Select Complementary Tpe--</option>
-                                                            <option value="2">Non Complementary</option>
-                                                            <option value="1">Complementary</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                             <?php
                                                 }
@@ -7377,46 +7390,101 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
         }
     </script>
     <script>
-        $(function() {
-            $('input[name="daterange"]').daterangepicker({
-                opens: 'left'
-            }, function(start, end, label) {
-                // Callback function when the user selects a new date range
+        // $(function() {
+        //     $('input[name="daterange"]').daterangepicker({
+        //         opens: 'left'
+        //     }, function(start, end, label) {
+        //         // Callback function when the user selects a new date range
 
-                // Log the selected date range to the console
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        //         // Log the selected date range to the console
+        //         console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 
-                // Extract the selected start and end dates as strings in 'YYYY-MM-DD' format
-                var startDate = start.format('YYYY-MM-DD');
-                var endDate = end.format('YYYY-MM-DD');
+        //         // Extract the selected start and end dates as strings in 'YYYY-MM-DD' format
+        //         var startDate = start.format('YYYY-MM-DD');
+        //         var endDate = end.format('YYYY-MM-DD');
+        //         var id = $('#user_id').val();
+        //         var DBtable = $('#DBtable').val(); //user designation
+        //         var user_type = $('#user_type').val(); //user type
+        //         // Make the AJAX request with the selected date range
+        //         $.ajax({
+        //             url: 'forms/payout_overview.php', // Replace with your actual endpoint URL
+        //             type: 'POST', // or 'POST' depending on your API
+        //             data: {
+        //                 id: id,
+        //                 DBtable: DBtable,
+        //                 user_type: user_type,
+        //                 start_date: startDate, // Send the start date
+        //                 end_date: endDate // Send the end date
+        //             },
+        //             success: function(response) {
+        //                 // Handle the response from the server (success callback)
+        //                 console.log('Success:', response);
+        //                 // Optionally update the UI based on the server response
+        //                 $('#payoutDetailsTable').html(response);
+        //                 $("#payoutDetailsTable2").DataTable();
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 // Handle any errors that occur during the AJAX request
+        //                 console.log('Error:', error);
+        //             }
+        //         });
+        //     });
+        // });
+       $(function () {
+            function loadData(start, end) {
                 var id = $('#user_id').val();
-                var DBtable = $('#DBtable').val(); //user designation
-                var user_type = $('#user_type').val(); //user type
-                // Make the AJAX request with the selected date range
+                var DBtable = $('#DBtable').val();
+                var user_type = $('#user_type').val();
+
                 $.ajax({
-                    url: 'forms/payout_overview.php', // Replace with your actual endpoint URL
-                    type: 'POST', // or 'POST' depending on your API
+                    url: 'forms/payout_overview.php',
+                    type: 'POST',
+                    dataType: 'json',
                     data: {
                         id: id,
                         DBtable: DBtable,
                         user_type: user_type,
-                        start_date: startDate, // Send the start date
-                        end_date: endDate // Send the end date
+                        start_date: start,
+                        end_date: end
                     },
-                    success: function(response) {
-                        // Handle the response from the server (success callback)
-                        console.log('Success:', response);
-                        // Optionally update the UI based on the server response
-                        $('#payoutDetailsTable').html(response);
-                        $("#payoutDetailsTable2").DataTable();
+                    success: function (response) {
+                        // Step 1: Destroy DataTable
+                        if ($.fn.DataTable.isDataTable("#payoutDetailsTable")) {
+                            $('#payoutDetailsTable').DataTable().destroy();
+                        }
+
+                        // Step 2: Replace table rows
+                        $('#payoutDetails').html(response.html);
+
+                        // Step 3: Re-initialize DataTable
+                        $('#payoutDetailsTable').DataTable();
+
+                        // Step 4: Update commission total
+                        $('#commissionTotal').html('₹' + response.total);
                     },
-                    error: function(xhr, status, error) {
-                        // Handle any errors that occur during the AJAX request
+                    error: function (xhr, status, error) {
                         console.log('Error:', error);
                     }
                 });
+            }
+
+            // Initialize with current month on page load
+            var start = moment().startOf('month');
+            var end = moment().endOf('month');
+            loadData(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+
+            // Daterangepicker setup
+            $('input[name="daterange"]').daterangepicker({
+                startDate: start,
+                endDate: end,
+                opens: 'left'
+            }, function (start, end, label) {
+                loadData(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
             });
         });
+
+
+
 
         //comemted for temp reason
         function overviewPage(id,ref,cut,st,ct,message){
@@ -7474,11 +7542,16 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             }
         });
         
-        // $('#img_path6').on('change',function(){
-        //     $("#preview6").show();
-        //     $("#img_pre6").attr("src","../../uploading/"+data);
-        //     $("#img_path6").val(data);
-        // })
+        $('#comp_chek').on('change',function(){
+            var comp=$(this).val();
+            if (comp == 1) {
+                $('#paymentMode1').addClass('d-none');
+                $('#payProof').addClass('d-none');
+            }else if (comp == 2){
+                $('#paymentMode1').removeClass('d-none');
+                $('#payProof').removeClass('d-none');
+            }
+        });
 
         $('#generate_coupons').on('click', function () {
             var id = <?= json_encode($id) ?>;
@@ -7490,7 +7563,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             var transactionNo = $("#transactionNo1").val().trim();
             let payment_fee =$('#payment_fee').val();
             let payment_text = $("#payment_fee option:selected").text().trim();
-            var paymentMode = $(".payment1:checked").val();
+            var paymentMode = $(".payment1:checked").val()||'FOC';
             let payment_label = payment_text.includes(":")
                 ? payment_text.split(":")[0].trim()
                 : payment_text;
@@ -7502,7 +7575,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                 return;
             }
             var payment_proof;
-            if (payment_fee === "FOC" || payment_fee === "null") {
+            if (paymentMode === "FOC" || paymentMode === "null") {
                 payment_proof = "none";
             } else {
                 payment_proof = $("#img_path61").val().trim(); // hidden input
@@ -7535,7 +7608,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             }
 
             // Payment proof (optional logic)
-            if (payment_fee === "FOC" || payment_fee === "null") {
+            if (paymentMode === "FOC" || paymentMode === "null") {
                 payment_proof = "none";
             } else {
                 payment_proof = $("#img_path61").val().trim();

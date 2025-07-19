@@ -13,11 +13,6 @@ date_default_timezone_set('Asia/Calcutta');
 $today = date('Y-m-d H:i:s');
 $today_date = date('j') . '-' . date('n') . '-' . date('Y');
 
-function logToConsole($msg, $isError = false) {
-    $type = $isError ? 'error' : 'log';
-    echo "<script>console.$type(" . json_encode($msg) . ");</script>";
-}
-
 $y = date("Y");
 $m = date('n');
 $coupon_id = 0;
@@ -32,7 +27,7 @@ $user_cust_id = 'TAadmin';
 $payment_id = $_POST['payment_id'];
 $pay_type = $_POST['pay_type'];
 $payment_type=$pay_type == 1 ? 'Full':'Part';
-$part_type = isset($_POST['part_type']) && $_POST['part_type'] !== '' ? $_POST['part_type'] : 1;
+$part_type=$_POST['part_type'] ?? 1;
 $book_status = ($pay_type == 1) ?  1 : 0;
 
 
@@ -148,7 +143,7 @@ function getInvoice()
 }
 
 // insert package data
-if (is_array($coupon_code) && $coupon_code[0] !== 'NA') {
+if ($coupon_code) {
     $sql = 'INSERT INTO bookings (package_id,payment_id,ta_id,customer_id,name,email,phone,date,adults,children,infants,status,created_date,coupons_code,invoice_no,confirm_status) 
                 VALUES (:package_id,:payment_id,:ta_id,:customer_id,:name,:email,:phone,:date,:adults,:children,:infants,:status,:created_date,:coupons_code,:invoice_no,:confirm_status)';
     $statement = $conn->prepare($sql);
@@ -180,7 +175,7 @@ if (is_array($coupon_code) && $coupon_code[0] !== 'NA') {
         ':payment_id' => '',
         ':ta_id' => $user_cust_id,
         ':customer_id' => $cust_id,
-        ':name' => $_POST['customer_name'],
+        ':name' => $_POST['name'],
         ':email' => $_POST['email'],
         ':phone' => $_POST['phone_no'],
         ':date' => $_POST['date'],
@@ -239,76 +234,79 @@ foreach ($_POST['members'] as $member) {
     $result1 = $stmt1->execute();
 }
 // booking DIRECT invoice with wallet amount payment
-if (is_array($coupon_code) && $coupon_code[0] !== 'NA') {
-    $gst_total -= $coupon_discount; // Apply coupon discount before any split
-}
-$result2='';
+//full payment
 if ($part_type == 1) {
-    // FULL PAYMENT
-    if (is_array($coupon_code) && $coupon_code[0] !== 'NA') {
-        $sql2 = 'INSERT INTO booking_direct_bill (
-                    bookings_id, total_price, ta_markup, final_price,
-                    paymentid, amount, pay_type, status, coupon_discount, total_net_payable
-                ) VALUES (
-                    :bookings_id, :total_price, :ta_markup, :final_price,
-                    :paymentid, :amount, :pay_type, :status, :coupon_discount, :total_net_payable
-                )';
-
+    # code...
+    if ($coupon_code) {
+        $gst_total = $gst_total - $coupon_discount;
+        $sql2 = 'INSERT INTO booking_direct_bill (bookings_id,total_price,ta_markup,final_price,paymentid,amount,pay_type,status,coupon_discount,total_net_payable) 
+                VALUES (:bookings_id,:total_price,:ta_markup,:final_price,:paymentid,:amount,:pay_type,:status,:coupon_discount,:total_net_payable)';
         $stmt2 = $conn->prepare($sql2);
         $result2 = $stmt2->execute([
-            ':bookings_id' => $booking_id??0,
-            ':total_price' => $gst_total??0,
-            ':ta_markup' => $ta_markup??0,
-            ':final_price' => $final_price??0,
-            ':paymentid' => $payment_id??0,
-            ':amount' => $amount??0,
-            ':pay_type' => $part_type??0,
+            ':bookings_id' => $booking_id,
+            ':total_price' => $gst_total,
+            ':ta_markup' => $ta_markup,
+            ':final_price' => $final_price,
+            ':paymentid' => $payment_id,
+            ':amount' => $amount,
+            ':pay_type' => $part_type,
             ':status' => 1,
-            ':coupon_discount' => $coupon_discount??0,
-            ':total_net_payable' => $discount_price??0
+            ':coupon_discount' => $coupon_discount,
+            ':total_net_payable' => $discount_price
         ]);
-
     } else {
-        $sql2 = 'INSERT INTO booking_direct_bill (
-                    bookings_id, total_price, ta_markup, final_price,
-                    paymentid, amount, pay_type, status
-                ) VALUES (
-                    :bookings_id, :total_price, :ta_markup, :final_price,
-                    :paymentid, :amount, :pay_type, :status
-                )';
 
+        $sql2 = 'INSERT INTO booking_direct_bill (bookings_id,total_price,ta_markup,final_price,paymentid,amount,pay_type,status) 
+                    VALUES (:bookings_id,:total_price,:ta_markup,:final_price,:paymentid,:amount,:pay_type,:status)';
         $stmt2 = $conn->prepare($sql2);
         $result2 = $stmt2->execute([
-            ':bookings_id' => $booking_id??0,
-            ':total_price' => $gst_total??0,
-            ':ta_markup' => $ta_markup??0,
-            ':final_price' => $final_price??0,
-            ':paymentid' => $payment_id??0,
-            ':amount' => $amount??0,
-            ':pay_type' => $part_type??0,
+            ':bookings_id' => $booking_id,
+            ':total_price' => $gst_total,
+            ':ta_markup' => $ta_markup,
+            ':final_price' => $final_price,
+            ':paymentid' => $payment_id,
+            ':amount' => $amount,
+            ':pay_type' => $part_type,
             ':status' => 1
         ]);
-
     }
-
-} elseif ($part_type == '2') {
-    // 2-PART PAYMENT
+}
+//2 part payment
+else if ($part_type == 2) {
+    # code...
     $part_pay_1 = $gst_total / 2;
     $part_pay_1_status = 1;
     $part_pay_2 = $gst_total / 2;
     $part_pay_2_status = 0;
-
-    if (is_array($coupon_code) && $coupon_code[0] !== 'NA') {
-        $sql2 = 'INSERT INTO booking_direct_bill (
-                    bookings_id, total_price, ta_markup, final_price, paymentid,
-                    part_pay_1, part_pay_1_status, part_pay_2, part_pay_2_status,
-                    pay_type, status, coupon_discount, total_net_payable
-                ) VALUES (
-                    :bookings_id, :total_price, :ta_markup, :final_price, :paymentid,
-                    :part_pay_1, :part_pay_1_status, :part_pay_2, :part_pay_2_status,
-                    :pay_type, :status, :coupon_discount, :total_net_payable
-                )';
-
+    if ($coupon_code) {
+        $gst_total = $gst_total - $coupon_discount;
+        $sql2 = 'INSERT INTO booking_direct_bill 
+                            (bookings_id,
+                            total_price,
+                            ta_markup,
+                            final_price,
+                            paymentid,
+                            part_pay_1,
+                            part_pay_1_status,
+                            part_pay_2,
+                            part_pay_2_status,
+                            pay_type,
+                            status,
+                            coupon_discount,
+                            total_net_payable) 
+                    VALUES (:bookings_id,
+                            :total_price,
+                            :ta_markup,
+                            :final_price,
+                            :paymentid,
+                            :part_pay_1,
+                            :part_pay_1_status,
+                            :part_pay_2,
+                            :part_pay_2_status,
+                            :pay_type,
+                            :status,
+                            :coupon_discount,
+                            :total_net_payable)';
         $stmt2 = $conn->prepare($sql2);
         $result2 = $stmt2->execute([
             ':bookings_id' => $booking_id,
@@ -326,16 +324,30 @@ if ($part_type == 1) {
             ':total_net_payable' => $discount_price
         ]);
     } else {
-        $sql2 = 'INSERT INTO booking_direct_bill (
-                    bookings_id, total_price, ta_markup, final_price, paymentid,
-                    part_pay_1, part_pay_1_status, part_pay_2, part_pay_2_status,
-                    pay_type, status
-                ) VALUES (
-                    :bookings_id, :total_price, :ta_markup, :final_price, :paymentid,
-                    :part_pay_1, :part_pay_1_status, :part_pay_2, :part_pay_2_status,
-                    :pay_type, :status
-                )';
 
+        $sql2 = 'INSERT INTO booking_direct_bill 
+                            (bookings_id,
+                            total_price,
+                            ta_markup,
+                            final_price,
+                            paymentid,
+                            part_pay_1,
+                            part_pay_1_status,
+                            part_pay_2,
+                            part_pay_2_status,
+                            pay_type,
+                            status) 
+                    VALUES (:bookings_id,
+                            :total_price,
+                            :ta_markup,
+                            :final_price,
+                            :paymentid,
+                            :part_pay_1,
+                            :part_pay_1_status,
+                            :part_pay_2,
+                            :part_pay_2_status,
+                            :pay_type,
+                            :status)';
         $stmt2 = $conn->prepare($sql2);
         $result2 = $stmt2->execute([
             ':bookings_id' => $booking_id,
@@ -349,31 +361,52 @@ if ($part_type == 1) {
             ':part_pay_2_status' => $part_pay_2_status,
             ':pay_type' => $part_type,
             ':status' => 0
+
         ]);
     }
-
-} elseif ($part_type == '3') {
-    // 3-PART PAYMENT
+}
+//3 part payment
+else if ($part_type == 3) {
+    $gst_total = $gst_total - $coupon_discount;
+    # code...
     $part_pay_1 = $gst_total * 0.4;
     $part_pay_1_status = 1;
     $part_pay_2 = $gst_total * 0.3;
     $part_pay_2_status = 0;
     $part_pay_3 = $gst_total * 0.3;
     $part_pay_3_status = 0;
-
-    if (is_array($coupon_code) && $coupon_code[0] !== 'NA') {
-        $sql2 = 'INSERT INTO booking_direct_bill (
-                    bookings_id, total_price, ta_markup, final_price, paymentid,
-                    part_pay_1, part_pay_1_status, part_pay_2, part_pay_2_status,
-                    part_pay_3, part_pay_3_status,
-                    pay_type, status, coupon_discount, total_net_payable
-                ) VALUES (
-                    :bookings_id, :total_price, :ta_markup, :final_price, :paymentid,
-                    :part_pay_1, :part_pay_1_status, :part_pay_2, :part_pay_2_status,
-                    :part_pay_3, :part_pay_3_status,
-                    :pay_type, :status, :coupon_discount, :total_net_payable
-                )';
-
+    if ($coupon_code) {
+        $sql2 = 'INSERT INTO booking_direct_bill 
+                            (bookings_id,
+                            total_price,
+                            ta_markup,
+                            final_price,
+                            paymentid,
+                            part_pay_1,
+                            part_pay_1_status,
+                            part_pay_2,
+                            part_pay_2_status,
+                            part_pay_3,
+                            part_pay_3_status,
+                            pay_type,
+                            status,
+                            coupon_discount,
+                            total_net_payable) 
+                    VALUES (:bookings_id,
+                    :total_price,
+                    :ta_markup,
+                    :final_price,
+                    :paymentid,
+                    :part_pay_1,
+                    :part_pay_1_status,
+                    :part_pay_2,
+                    :part_pay_2_status,
+                    :part_pay_3,
+                    :part_pay_3_status,
+                    :pay_type,
+                    :status,
+                    :coupon_discount,
+                    :total_net_payable)';
         $stmt2 = $conn->prepare($sql2);
         $result2 = $stmt2->execute([
             ':bookings_id' => $booking_id,
@@ -389,22 +422,38 @@ if ($part_type == 1) {
             ':part_pay_3_status' => $part_pay_3_status,
             ':pay_type' => $part_type,
             ':status' => 0,
-            ':coupon_discount' => $coupon_discount,
+            ':coupons_discount' => $coupon_discount,
             ':total_net_payable' => $discount_price
         ]);
     } else {
-        $sql2 = 'INSERT INTO booking_direct_bill (
-                    bookings_id, total_price, ta_markup, final_price, paymentid,
-                    part_pay_1, part_pay_1_status, part_pay_2, part_pay_2_status,
-                    part_pay_3, part_pay_3_status,
-                    pay_type, status
-                ) VALUES (
-                    :bookings_id, :total_price, :ta_markup, :final_price, :paymentid,
-                    :part_pay_1, :part_pay_1_status, :part_pay_2, :part_pay_2_status,
-                    :part_pay_3, :part_pay_3_status,
-                    :pay_type, :status
-                )';
 
+        $sql2 = 'INSERT INTO booking_direct_bill 
+                            (bookings_id,
+                            total_price,
+                            ta_markup,
+                            final_price,
+                            paymentid,
+                            part_pay_1,
+                            part_pay_1_status,
+                            part_pay_2,
+                            part_pay_2_status,
+                            part_pay_3,
+                            part_pay_3_status,
+                            pay_type,
+                            status) 
+                    VALUES (:bookings_id,
+                    :total_price,
+                    :ta_markup,
+                    :final_price,
+                    :paymentid,
+                    :part_pay_1,
+                    :part_pay_1_status,
+                    :part_pay_2,
+                    :part_pay_2_status,
+                    :part_pay_3,
+                    :part_pay_3_status,
+                    :pay_type,
+                    :status)';
         $stmt2 = $conn->prepare($sql2);
         $result2 = $stmt2->execute([
             ':bookings_id' => $booking_id,

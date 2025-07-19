@@ -40,7 +40,10 @@
         <!-- <script src="../assets/js/plugin.js"></script> -->
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <!-- Date Range Picker CSS Start -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <style>
             /* dataTable, action col, dropdown align right  */
             @media screen and (max-width: 992px) and (min-width: 914px) {
@@ -132,12 +135,12 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Id / Name</th>
+                                                        <th>Id</th>
+                                                        <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
-                                                        <th>Referal Ref ID/ Name</th>
-                                                        <th>Joining Date</th>
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
+                                                        <th>Joining Date</th>
                                                         <th>status</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -153,49 +156,22 @@
                                                                 $bd= new DateTime($row['date_of_birth']);
                                                                 $bdate= $bd->format('d-m-Y');
 
-                                                                $rd= new DateTime($row['register_date']);
+                                                                $rd= new DateTime($row['added_on']);
                                                                 $rdate= $rd->format('d-m-Y');
-                                                                
-                                                                $reference_no = substr($row['reference_no'], 0, 2);
-			                                                    if ($reference_no == "TE" || $reference_no == "CA") {
-                                                                    $sql2 = "SELECT * FROM `corporate_agency` WHERE corporate_agency_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY corporate_agency_id ASC ";
-                                                                    $stmt2 = $conn -> prepare($sql2);
-                                                                    $stmt2 -> execute();
-                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt2->rowCount()>0){
-                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                            $name = $row2['registrant'];
-                                                                            $id = $row2['reference_no'];
-                                                                        }
-                                                                    }
-                                                                }else if($reference_no == "BM"){
-                                                                    $sql2 = "SELECT * FROM `business_mentor` WHERE business_mentor_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
-                                                                    $stmt2 = $conn -> prepare($sql2);
-                                                                    $stmt2 -> execute();
-                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt2->rowCount()>0){
-                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                            $name = $row2['registrant'];
-                                                                            $id = $row2['reference_no'];
-                                                                        }
-                                                                    }
-                                                                }
 
                                                                 echo'<tr>
-                                                                    <td><p class="mb-1">'.$row['id'].'</p><p class="mb-1">'.$row['firstname'].' '.$row['lastname'].'</p></td>
+                                                                    <td>'.$row['id'].'</td>
+                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                     <td><p class="mb-1">'.$row['reference_no'].'</p>
                                                                         <p class="mb-0">'.$row['registrant'].'</p>
                                                                     </td>
-                                                                    <td><p class="mb-1">'.$id.'</p>
-                                                                        <p class="mb-0">'.$name.'</p>
-                                                                    </td>
-                                                                    <td>'.$rdate.'</td>
                                                                     <td>
                                                                         <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
                                                                         <p class="mb-0">'.$row['email'].'</p>
                                                                     </td>
                                                                     
-                                                                    <td>'.$row['address'].'</td>';
+                                                                    <td>'.$row['address'].'</td>
+                                                                    <td>'.$rdate.'</td>';
                                                                     if($row['status']== '2'){
                                                                         echo'<td><span class="badge text-bg-warning">Pending</span></td>
                                                                         <td>
@@ -256,45 +232,75 @@
                                             <!-- end col-->
 
                                             <!-- Search Filter -->
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-sm-5 col-md-5"> 
-                                                        <div class="input-block mb-3">
-                                                            <label class="col-form-label"><span>State</span></label>
-                                                            <select class="form-control" id="filter_state" aria-label="Floating label select example"> 
-                                                                <option value="0">All</option>
-                                                                <?php
-                                                                    require '../connect.php';
-                                                                    $sql = "SELECT * FROM `states` WHERE status ='1' ";
-                                                                    $stmt = $conn->prepare($sql);
-                                                                    $stmt -> execute();
-                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                    if($stmt-> rowCount()>0 ){
-                                                                        foreach( ($stmt -> fetchAll()) as $key => $row ){
-                                                                            echo'
-                                                                                <option value="'.$row['id'].'">'.$row['state_name'].'</option>
-                                                                            ';
-                                                                        }
-                                                                    }else{
-                                                                        echo '<option value="">Department not available</option>'; 
-                                                                    }
-                                                                ?>
-                                                            </select>
-                                                            
-                                                        </div>
+                                             <div class="row filter-row p-2">
+                                                <!--<div class="col-sm-6 col-md-6"> 
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label"><span>State</span></label>
+                                                        <select class="form-control" id="filter_state" aria-label="Floating label select example"> 
+                                                            <option value="0">--- Select ---</option>
+                                                            <?php
+                                                                // require '../connect.php';
+                                                                // $sql = "SELECT * FROM `states` WHERE status ='1' ";
+                                                                // $stmt = $conn->prepare($sql);
+                                                                // $stmt -> execute();
+                                                                // $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                // if($stmt-> rowCount()>0 ){
+                                                                //     foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                //         echo'
+                                                                //             <option value="'.$row['id'].'">'.$row['state_name'].'</option>
+                                                                //         ';
+                                                                //     }
+                                                                // }else{
+                                                                //     echo '<option value="">Department not available</option>'; 
+                                                                // }
+                                                            ?>
+                                                        </select>
+                                                        
                                                     </div>
+                                                </div> -->
 
-                                                    <div class="col-sm-5 col-md-5"> 
-                                                        <div class="input-block mb-3">
-                                                            <label class="col-form-label" for=""><span>Count</span></label>
-                                                            <input type="text" name="" id="filterCount" class="form-control" readonly>
-                                                        </div>
+                                                
+                                                <!-- <div class="col-sm-4 col-md-2">
+                                                    <div class="d-grid ">
+                                                        <a href="#" id="filterBranch" class="btn btn-success w-100 "> Search </a>  
+                                                    </div>  
+                                                </div> -->
+                                                <!-- designation -->
+                                                <div class="col-sm-3 col-md-3"> 
+                                                    <div class="input-block">
+                                                        <label class="col-form-label" for="designation"><span>Designation</span></label>
+                                                        <select id="designation" name="designation" class="form-select filter_items">
+                                                            <option value="" disabled selected>-- Select Designation --</option>
+                                                            <option value="24">Business Channel Manager (BCM)</option>
+                                                            <option value="25">Business Development Manager (BDM)</option>
+                                                            <option value="26">Business Mentor (BM)</option>
+                                                            <option value="16">Techno Enterprise (TE)</option>
+                                                        </select>
                                                     </div>
-
-                                                    <div class="col-sm-2 col-md-2 d-flex justify-content-center align-items-end" id="download_icon">
-                                                        <button type="button" onclick="regTcDownload()" class="btn bg-primary text-white mb-3">Download</button>
+                                                </div>
+                                                <!-- user ids -->
+                                                <div class="col-sm-3 col-md-3"> 
+                                                    <div class="input-block">
+                                                        <label class="col-form-label " for="userIdSelect"><span>User</span></label>
+                                                        <select id="userIdSelect" class="form-select filter_items">
+                                                            <option value="" selected>-- Select User --</option>
+                                                        </select>
                                                     </div>
-
+                                                </div>
+                                                <!-- date range -->
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label class="col-form-label" for=""><span>Date Range</span></label>
+                                                    <div id="reportrange" class="filter_items input-block text-dark px-3 py-2 w-100 text-center dateRange " style="background-color:#e5e5e5; border-radius: 6px;">
+                                                        <i class="fa fa-calendar"></i>&nbsp;
+                                                        <span id='selectedDate'></span> <i class="fa-solid fa-angle-down"></i>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-3 col-md-3"> 
+                                                    <div class="input-block">
+                                                        <label class="col-form-label" for=""><span>Count</span></label>
+                                                        <input type="text" name="" id="filterCount" class="form-control" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <!-- Search Filter -->
@@ -305,12 +311,13 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>TC Id/ Name</th>
+                                                        <th>Travel Consultant Id</th>
+                                                        <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Referal Ref ID/ Name</th>
-                                                        <th>Joining Date</th>
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
+                                                        <th>Joining Date</th>
                                                         <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -357,21 +364,20 @@
 
 
                                                                 echo'<tr>
-                                                                    <td><p class="mb-1">'.$row['ca_travelagency_id'].'</p>
-                                                                        <p class="mb-1">'.$row['firstname'].' '.$row['lastname'].'</p>
-                                                                    </td>
+                                                                    <td>'.$row['ca_travelagency_id'].'</td>
+                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                     <td><p class="mb-1">'.$row['reference_no'].'</p>
                                                                         <p class="mb-0">'.$row['registrant'].'</p>
                                                                     </td>
                                                                     <td><p class="mb-1">'.$id.'</p>
                                                                         <p class="mb-0">'.$name.'</p>
                                                                     </td>
-                                                                    <td>'.$rdate.'</td>
                                                                     <td>
                                                                         <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
                                                                         <p class="mb-0">'.$row['email'].'</p>
                                                                     </td>
-                                                                    <td>'.$row['address'].'</td>';
+                                                                    <td>'.$row['address'].'</td>
+                                                                    <td>'.$rdate.'</td>';
                                                                     if($row['status']== '1'){
                                                                         echo'<td><span class="badge text-bg-success">Active</span></td>
                                                                         <td>
@@ -571,6 +577,11 @@
         
         <!-- ecommerce-customer-list init -->
         <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
+        <!-- Date Range Picker Script Start -->
+        <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- Date Range Picker Script End -->
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
@@ -693,17 +704,129 @@
                 }
 			});
 
-            function regTcDownload(){
-                const filterState = $('#filter_state').val();
-                const stateText = $('#filter_state option:selected').text();
-                window.location.href='download_list?filterState='+filterState+'&stateText='+stateText;
+            $('#designation').on('change', function () {
+                const designation = $(this).val();
+
+                if (designation) {
+                    $.ajax({
+                        url: '../assets/submit/get_users_by_designation.php',
+                        type: 'POST',
+                        data: { designation: designation },
+                        dataType: 'json',
+                        success: function (response) {
+                            let options = `<option value="" selected>-- Select User --</option>`;
+                            response.forEach(user => {
+                                options += `<option value="${user.user_id}">${user.fullname}</option>`;
+                            });
+                            $('#userIdSelect').html(options);
+                        },
+                        error: function () {
+                            alert('Error fetching users.');
+                        }
+                    });
+                } else {
+                    $('#userIdSelect').html('<option value="" selected>-- Select User --</option>');
+                }
+            });
+
+
+            let dateRangeChanged = false; // Flag to track if date range was changed
+
+            function loadFilteredTCData() {
+                const userId = $('#userIdSelect').val()?.trim() || '';
+                const designation = $('#designation').val()?.trim() || '';
+                const state = $('#filter_state').val()?.trim() || '';
+
+                let fromDate = '', toDate = '';
+
+                if (dateRangeChanged) {
+                    const dateRange = $('#selectedDate').text().trim();
+                    if (dateRange.includes(' to ')) {
+                        [fromDate, toDate] = dateRange.split(' to ');
+                    }
+                }
+
+                const dataString = {
+                    userId: userId,
+                    designation: designation,
+                    state: state
+                };
+
+                if (dateRangeChanged) {
+                    dataString.fromDate = fromDate;
+                    dataString.toDate = toDate;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'filterTC.php',
+                    data: dataString,
+                    success: function (data) {
+                        if (data) {
+                            $('#tcView').html(data);
+                            $("#registeredCustomerList-tableFilter").DataTable();
+                            const totalRows = $("#registeredCustomerList-tableFilter").DataTable().rows().count();
+                            $('#filterCount').val(totalRows);
+                        } else {
+                            $('#tcView').html('<tr><td colspan="9">No data found</td></tr>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                    }
+                });
             }
+
+            // 🔁 Change handler for dropdowns (user/state/designation)
+            $('.filter_items').on('change', function () {
+                loadFilteredTCData();
+            });
+
+            // 📅 When date range changes, update flag and reload
+            $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+                dateRangeChanged = true;
+                const formatted = picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY');
+                $('#selectedDate').text(formatted);
+                loadFilteredTCData();
+            });
 
             function overviewPage(id,ref,cut,st,ct,message){
                 var designation = 'Travel Consultant';
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
         </script>
+        <!-- Date Range Script -->
+        <script type="text/javascript">
+            $(function () {
+                function cb(start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+
+                $('#reportrange').daterangepicker({
+                    autoUpdateInput: false, // prevents default range selection
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    }
+                }, cb);
+
+                // Update input field manually when user selects range
+                $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+                    cb(picker.startDate, picker.endDate);
+                });
+
+                // Clear input when user cancels
+                $('#reportrange').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).find('span').html('');
+                });
+            });
+
+        </script>
+        <!-- Date Range Script -->
 
     </body>
 

@@ -229,10 +229,10 @@ $travel = date('m-d');
                                     </div>
                                     <h5 class="mb-0">Member Details</h5>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <div id="members_details" class="row">
+                                        <div id="members_details" class="row member-block">
                                             <div class="col-lg-4 col-md-4 col-sm-6 col-12 adult-1-block">
                                                 <div class="input-block mb-2">
-                                                    <label class="col-form-label">Adult 1 Name <span class="text-danger">*</span></label>
+                                                    <label class="col-form-label member-label">Adult 1 Name <span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control member_name" name="member_name[]" id="first_adult_name" placeholder="Enter Name">
                                                 </div>
                                             </div>
@@ -266,8 +266,8 @@ $travel = date('m-d');
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <div class=""> 
-                                                        <label class="col-form-label" for="apackage_price ">Adult Price/pax</label>
-                                                        <input type="text" class="form-control" id="apackage_price" placeholder="Adult Package Price" readonly>
+                                                        <label class="col-form-label " for="apackage_price ">Adult Price/pax</label>
+                                                        <input type="text" class="form-control " id="apackage_price" placeholder="Adult Package Price" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
@@ -369,7 +369,7 @@ $travel = date('m-d');
                                     <div class="coupon_divs col-lg-6 col-md-6 col-sm-6 col-12 d-none">
                                         <div class="input-block mb-2">
                                             <label class="col-form-label">Available Coupons</label>
-                                            <select id="coupons" class="form-select" multiple>
+                                            <select id="coupons" class="form-select" >
                                                 <option selected value="">--Select Coupon--</option>
                                             </select>
                                         </div>
@@ -454,10 +454,10 @@ $travel = date('m-d');
             }
             //on load
             $(document).ready(function () {
-                $('#coupons').removeAttr('multiple');
+                //$('#coupons').removeAttr('multiple');
                 $('#coupons').val(null);
                 $('#coupon_amount').val('');
-                $('#coupons').css('min-height', ''); // Remove min-height
+                //$('#coupons').css('min-height', ''); // Remove min-height
             });
             //age limit
             function memberLimit() {
@@ -514,14 +514,14 @@ $travel = date('m-d');
                         return `
                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                 <div class="input-block mb-2">
-                                    <label class="col-form-label">${label} Name <span class="text-danger">*</span></label>
+                                    <label class="col-form-label member-label">${label} Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control member_name" name="member_name[]" placeholder="Enter Name">
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                 <div class="input-block mb-2">
                                     <label class="col-form-label">${label} Age <span class="text-danger">*</span> <small class="text-muted">(${ageNote})</small></label>
-                                    <input type="number" class="form-control member_age" name="member_age[]" min="${minAge}" max="${maxAge}" placeholder="Age">
+                                    <input type="number" class="form-control member_age" name="member_age[]" min="${minAge}" max="${maxAge}" placeholder="Age" >
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
@@ -573,8 +573,61 @@ $travel = date('m-d');
             });
 
             // });
+            function validateMembers() {
+                let isValid = true;
+
+                const names = $('.member_name');
+                const ages = $('.member_age');
+                const genders = $('.member_gender');
+                const labels = $('.member-label');
+
+                for (let i = 0; i < names.length; i++) {
+                    const labelText = $(labels[i])?.text()?.trim() || `Member ${i + 1}`;
+                    const name = $(names[i]).val()?.trim();
+                    const age = parseInt($(ages[i]).val()?.trim());
+                    const gender = $(genders[i]).val();
+
+                    // Extract type from label (Adult 1, Child 2, etc.)
+                    const typeMatch = labelText.match(/(Adult|Child|Infant)/i);
+                    const type = typeMatch ? typeMatch[1].toLowerCase() : 'unknown';
+
+                    if (!name) {
+                        alert(`Please enter name for ${labelText}.`);
+                        isValid = false;
+                        break;
+                    }
+
+                    if (isNaN(age)) {
+                        alert(`Please enter a valid age for ${labelText}.`);
+                        isValid = false;
+                        break;
+                    }
+
+                    // Age validation
+                    if (
+                        (type === 'adult' && age < 12) ||
+                        (type === 'child' && (age < 3 || age > 11)) ||
+                        (type === 'infant' && age > 2)
+                    ) {
+                        alert(`Please enter a valid age for ${type.charAt(0).toUpperCase() + type.slice(1)} (${labelText}):\n\n` +
+                            `- Adult: 12+\n- Child: 4 to 11\n- Infant: 0 to 3`);
+                        isValid = false;
+                        break;
+                    }
+
+                    if (!gender || gender === '--Select Gender--') {
+                        alert(`Please select gender for ${labelText}.`);
+                        isValid = false;
+                        break;
+                    }
+                }
+
+                return isValid;
+            }
+
+
             //age validation
-            $(document).on('input', '.member-age', function () {
+            $('.member-age').on('input', function () {
                 const age = parseInt($(this).val()) || 0;
                 const minAge = parseInt($(this).data('min'));
                 const maxAge = parseInt($(this).data('max'));
@@ -895,7 +948,11 @@ $travel = date('m-d');
             });
             //on click of submit
             $('#place_order').on('click', function () {
+                if(!validateMembers()){
+                    return;
+                }
                 // Collect static form fields
+                 
                 const travelDate = $('#travel_date').val();
                 const customerId = $('#customerId').val();
                 const customerName = $('#customer_name').val();
@@ -989,7 +1046,7 @@ $travel = date('m-d');
                     alert('Please select package');
                     return;
                 }
-
+                
                 if (!formData.date || formData.date.toString().trim() === '') {
                     alert('Please select travel date');
                     return;

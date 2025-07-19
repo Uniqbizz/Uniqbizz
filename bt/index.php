@@ -549,7 +549,7 @@ $Year = date('Y'); //year
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="tab-inn">
-                                                <h3>No Corporat Agency Data Found</h3>
+                                                <h3>No Techno Enterprise Data Found</h3>
                                             </div>
                                         </div>
                                     </div>

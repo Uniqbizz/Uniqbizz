@@ -92,7 +92,7 @@
                                                         <select id="designation" class="form-select">
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
-                                                            <!--<option value="business_consultant">Business Consultant</option>-->
+                                                            <!-- <option value="business_consultant">Business Consultant</option> -->
                                                             <option value="business_mentor">Business Mentor</option>
                                                         </select>
                                                     </div>
@@ -378,15 +378,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                                <div class="col-md-12 col-sm-12">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="note" placeholder="Enter Note">
-                                                    </div>
-                                                </div>
-                                            
                                             </div>
+
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="note" placeholder="Enter Note">
+                                                </div>
+                                            </div>
+
                                             <input type="hidden" id="testValue" name="testValue" value="16"> <!-- CA -->
                                             <div class="d-flex justify-content-center mb-4">
                                                 <button type="submit" class="btn btn-primary px-5 py-2" id="addCorporateAgency">Submit</button>

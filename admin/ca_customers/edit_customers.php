@@ -41,8 +41,8 @@ if ($stmt->rowCount() > 0) {
         $firstname = $row['firstname'];
         // $username=$row['username'];
         $lastname = $row['lastname'];
-        $nominee_name = $row['nominee_name'];
-        $nominee_relation = $row['nominee_relation'];
+        // $nominee_name = $row['nominee_name'];
+        // $nominee_relation = $row['nominee_relation'];
         $email = $row['email'];
         $contact_no = $row['contact_no'];
         // $business_package=$row['business_package'];
@@ -248,18 +248,18 @@ if ($stmt->rowCount() > 0) {
                                                     <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name" value=" <?php echo $lastname; ?>">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee First Name" value=" <?php echo $nominee_name; ?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value=" <?php echo $nominee_relation; ?>">
-                                                </div>
-                                            </div>
+                                            <!--<div class="col-md-6 col-sm-6">-->
+                                            <!--    <div class="input-block mb-3">-->
+                                            <!--        <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>-->
+                                            <!--        <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee First Name" value=" <?php echo $nominee_name; ?>">-->
+                                            <!--    </div>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-md-6 col-sm-6">-->
+                                            <!--    <div class="input-block mb-3">-->
+                                            <!--        <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>-->
+                                            <!--        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value=" <?php echo $nominee_relation; ?>">-->
+                                            <!--    </div>-->
+                                            <!--</div>-->
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="email">Email address<span class="text-danger">*</span></label>

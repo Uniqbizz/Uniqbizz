@@ -143,7 +143,7 @@
                                                                             $bm_id = $userBM['business_mentor_id'];
                                                                             $bd= new DateTime($userBM['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userBM['register_date']);
+                                                                            $dt= new DateTime($userBM['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
 
                                                                             echo'<tr>
@@ -174,7 +174,7 @@
                                                                         foreach(($stmt -> fetchAll()) as $key => $row){
                                                                             $bd= new DateTime($row['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($row['register_date']);
+                                                                            $dt= new DateTime($row['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$row['id'].'</td>

@@ -83,12 +83,12 @@ if ($stmt->rowCount() > 0) {
         $payment_proof = $row['payment_proof'];
         $pincode = $row['pincode'];
         $status=$row['status'];
-        $assign_status=$row['tc_assign_status'];
-        $assign_TCs=$row['no_tc_alloted'];
-        $assign_tenure=$row['repay_tenure'];
-        $assign_roi=$row['roi'];
-        $assign_tax=$row['tax'];
-        $assign_repay_amount=$row['repay_amount'];
+        $assign_status=$row['tc_assign_status']??null;
+        $assign_TCs=$row['no_tc_alloted']??null;
+        $assign_tenure=$row['repay_tenure']??null;
+        $assign_roi=$row['roi']??null;
+        $assign_tax=$row['tax']??null;
+        $assign_repay_amount=$row['repay_amount']??null;
         // $complimentary=$row['complimentary'];
         // $converted=$row['converted'];
 
@@ -668,11 +668,11 @@ if ($stmt->rowCount() > 0) {
                                                     <div class="d-flex gap-3 mb-2">
                                                         <h6>Tenure:</h6>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="tenure" id="tenure2" value="2" <?=$assign_tenure == 2 ? 'checked':''?> <?=$assign_status == 1 ? ' disabled':''?>>
+                                                            <input class="form-check-input" type="radio" name="tenure" id="tenure2" value="2" <?= ($assign_status == 1 ? 'disabled ' : '') . ($assign_tenure == 2 ? 'checked' : '') ?> >
                                                             <label class="form-check-label" for="tenure2">2 Years</label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="tenure" id="tenure3" value="3" <?=$assign_tenure == 3 ? 'checked':''?><?=$assign_status == 1 ? ' disabled':''?>>
+                                                            <input class="form-check-input" type="radio" name="tenure" id="tenure3" value="3" <?= ($assign_status == 1 ? 'disabled ' : '') . ($assign_tenure == 3 ? 'checked' : '') ?>>
                                                             <label class="form-check-label" for="tenure3">3 Years</label>
                                                         </div>
                                                     </div>
@@ -680,19 +680,19 @@ if ($stmt->rowCount() > 0) {
                                                     <div class="d-flex gap-3 mb-2">
                                                         <h6>ROI:</h6>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="roi" id="tenure2" value="12"<?=$assign_roi == 12 ? ' checked':''?><?=$assign_status == 1 ? ' disabled':''?>>
+                                                            <input class="form-check-input" type="radio" name="roi" id="tenure2" value="12" <?=($assign_status == 1?' disabled':'') . ($assign_roi == 12 ? ' checked':'')?>>
                                                             <label class="form-check-label" for="tenure2">12%</label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="roi" id="tenure3" value="15"<?=$assign_roi == 15 ? ' checked':''?><?=$assign_status == 1 ? ' disabled':''?>>
+                                                            <input class="form-check-input" type="radio" name="roi" id="tenure3" value="15"<?=($assign_status == 1?' disabled':'') . ($assign_roi == 15 ? ' checked':'')?>>
                                                             <label class="form-check-label" for="tenure3">15%</label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="roi" id="tenure2" value="18"<?=$assign_roi == 18 ? ' checked':''?><?=$assign_status == 1 ? ' disabled':''?>>
+                                                            <input class="form-check-input" type="radio" name="roi" id="tenure2" value="18"<?=($assign_status == 1?' disabled':'') . ($assign_roi == 18 ? ' checked':'')?>>
                                                             <label class="form-check-label" for="tenure2">18%</label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="roi" id="tenure3" value="20"<?=$assign_roi == 20 ? ' checked':''?><?=$assign_status == 1 ? ' disabled':''?>>
+                                                            <input class="form-check-input" type="radio" name="roi" id="tenure3" value="20"<?=($assign_status == 1?' disabled':'') . ($assign_roi == 20 ? ' checked':'')?>>
                                                             <label class="form-check-label" for="tenure3">20%</label>
                                                         </div>
                                                     </div>

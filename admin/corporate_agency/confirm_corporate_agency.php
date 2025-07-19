@@ -316,7 +316,7 @@ if ($result) {
 					':status' => '2'
 				));
 
-				$message = "BDM - " . $bdm_name . " " . $bdm_id . " earned " . $bdmCommiAmt . "/- (2.5%) on recruiting Techno Enterprise through BM - " . $BM_name . " " . $BM_id . " . Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " . ";
+				$message = "BDM - " . $bdm_name . " " . $bdm_id . " earned " . $bdmCommiAmt . "/- on recruiting Techno Enterprise through BM - " . $BM_name . " " . $BM_id . " . Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " . ";
 				
 				$CommiAmt = $bdmCommiAmt;
 

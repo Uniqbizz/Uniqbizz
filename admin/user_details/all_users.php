@@ -1,0 +1,217 @@
+<?php
+    session_start();
+
+    if(!isset($_SESSION['username'])){
+        echo '<script>location.href = "../login.php";</script>';
+    }
+
+    require '../connect.php';
+    $date = date('Y'); 
+?>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Category | Admin</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/fav.png">
+
+        <!-- bootstrap-datepicker css -->
+        <link href="../assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+
+        <!-- Bootstrap Css -->
+        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- App js -->
+        <!-- <script src="../assets/js/plugin.js"></script> -->
+    </head>
+    <body data-sidebar="dark">
+    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            <?php 
+                // top header logo, hamberger menu, fullscreen icon, profile
+                include_once '../header.php';
+
+                // sidebar navigation menu 
+                include_once '../sidebar.php';
+            ?>
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <div id="user_cred">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                        <h4 class="mb-sm-0 font-size-18">User Credentials</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <!-- login details table -->
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover" id="tablePegination">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sr No</th>
+                                                            <th>User Type</th>
+                                                            <th>Name</th>
+                                                            <th>Email</th>
+                                                            <th>Password</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                            require '../connect.php';
+                                                            
+                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26'  ");
+                                                            $stmt->execute();
+                                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                            $firstname='';
+                                                            $lastneam='';
+                                                            if($stmt->rowCount()>0){
+                                                                foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                    // $quotation_id =$row['id'];
+                                                                    $username= $row['username'];
+                                                                    $password= $row['password'];
+                                                                    $userId= $row['user_id'];
+                                                                    $userType= $row['user_type_id'];
+
+                                                                    // //get users
+                                                                    if ( $userType == 10 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_customer where ca_customer_id='".$userId."'  ");
+                                                                    } else if ( $userType == 11 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_travelagency where ca_travelagency_id='".$userId."'  ");
+                                                                    } else if ( $userType == 16 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM corporate_agency where corporate_agency_id='".$userId."' ");
+                                                                    } else if ( $userType == 24 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '24'  ");
+                                                                    } else if ( $userType == 25 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '25' ");
+                                                                    } else if ( $userType == 26 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM business_mentor where business_mentor_id='".$userId."' ");
+                                                                    } 
+                                                                    $users->execute();
+                                                                    $users->setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($users->rowCount()>0){
+                                                                        $user = $users->fetch();
+                                                                        if($userType == 24 || $userType == 25){
+                                                                            $firstname = $user['name'] ;
+                                                                            $lastneam =  '';
+                                                                        } else{
+                                                                            $firstname = $user['firstname'] ;
+                                                                            $lastneam =  $user['lastname'];
+                                                                        }
+                                                                    }
+                                                                    
+                                                                    //get user type
+                                                                    $users_types = $conn->prepare("SELECT name FROM user_type where id='".$userType."'  ");
+                                                                    $users_types->execute();
+                                                                    $users_types->setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($users_types->rowCount()>0){
+                                                                        $users_type = $users_types->fetch();
+                                                                        $name = $users_type['name'];
+                                                                    }
+
+                                                                    echo '<tr>
+                                                                            <td style="text-align: center;">'.++$key.'</td>
+                                                                            <td>'. $name.' </td>
+                                                                            <td>'.$firstname.' '.$lastneam.' </td>
+                                                                            <td>'.$username.' </td>
+                                                                            <td>'.$password.' </td>';
+                                                                            if($row['status']==1){
+                                                                            echo '<td style="text-align: center;"><span class="badge text-bg-success">Active</span> </td>';
+                                                                            }else if($row['status']==3){
+                                                                                echo '<td style="text-align: center;"><span class="badge text-bg-warning">Inactive</span> </td>';
+                                                                            }else{
+                                                                                echo '<td style="text-align: center;"><span class="badge text-bg-danger">Delete</span> </td>';
+                                                                            }
+                                                                            
+                                                                    echo '</tr>';
+
+                                                                } 
+                                                            }
+                                                            else
+                                                            {
+                                                                echo '<tr>
+                                                                        <td style="text-align:center;" colspan="8">No Users Found</td>
+                                                                    <tr>';
+                                                            }
+                                                        ?>   
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- container-fluid -->
+                </div> <!-- End Page-content -->
+
+                
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <?php echo $date; ?> © Uniqbizz.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by MirthCon.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!-- end main content-->
+
+        </div>
+        <!-- END layout-wrapper -->
+
+        <!-- JAVASCRIPT -->
+        <script src="../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <!-- bootstrap-datepicker js -->
+        <script src="../assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+        
+        <script type="text/javascript">
+         $(document).ready(function(){
+                $("#tablePegination").DataTable();
+            });
+        </script>
+    </body>
+</html>

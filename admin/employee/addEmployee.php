@@ -83,7 +83,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Employee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Employee / Zonal Manager</h4>
                                 </div>
                             </div>
                         </div>
@@ -98,13 +98,23 @@
 											<div class="row">
 												<!-- Personal Details -->
 												<h4 class="my-2">Personal Details</h4>
-												<div class="col-md-6 col-sm-6">
+                                                <div class="col-md-4 col-sm-6 col-12">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="registered">Registering As<span class="text-danger">*</span></label>
+                                                        <select id="registered" class="form-select">
+                                                            <option value="">--Select --</option>
+                                                            <option value="employee">Employee</option>
+                                                            <option value="zonal_manager">Zonal Manager</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+												<div class="col-md-4 col-sm-6">
 													<div class="input-block mb-3">
 														<label class="col-form-label">Full Name <span class="text-danger">*</span></label>
 														<input class="form-control" type="text" id="fullName" >
 													</div>
 												</div>
-												<div class="col-md-6 col-sm-6">
+												<div class="col-md-4 col-sm-6">
 													<div class="input-block mb-3">
 														<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
 														<input class="form-control" type="date" id="birth_date" max="<?php echo $ageLimit; ?>">
@@ -164,159 +174,273 @@
 														</div>
 													</div>
 												</div>
+												<div class="col-md-12 col-sm-12" id="emp_block">
+													<div class="row" id="employee">
+                                                        <!-- Employment Details -->
+                                                        <h4 class="my-2">Employment Details</h4>
+                                                        <div class="col-md-6 col-sm-6">  
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
+                                                                <input class="form-control" type="date" id="joining_date" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Department <span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="department">
+                                                                    <option value=""> ---- Select Department ---- </option>
+                                                                    <?php
+                                                                        require '../connect.php';
+                                                                        $sql = "SELECT * FROM `department` WHERE status ='1' ";
+                                                                        $stmt = $conn->prepare($sql);
+                                                                        $stmt -> execute();
+                                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if($stmt-> rowCount()>0 ){
+                                                                            foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                                echo'
+                                                                                    <option value="'.$row['id'].'">'.$row['dept_name'].'</option>
+                                                                                ';
+                                                                            }
+                                                                        }else{
+                                                                            echo '<option value="">Department not available</option>'; 
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Designation <span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="designation">
+                                                                    <option value=""> ---- Select Designation ---- </option>
+                                                                    <?php
+                                                                        require '../connect.php';
+                                                                        $sql = "SELECT * FROM `designation` WHERE status ='1' ";
+                                                                        $stmt = $conn->prepare($sql);
+                                                                        $stmt -> execute();
+                                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if($stmt-> rowCount()>0 ){
+                                                                            foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                                echo'
+                                                                                    <option value="'.$row['id'].'">'.$row['designation_name'].'</option>
+                                                                                ';
+                                                                            }
+                                                                        }else{
+                                                                            echo '<option value="">Department not available</option>'; 
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Zone <span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="zone">
+                                                                    <option value=""> ---- Select Zone ---- </option>
+                                                                    <?php
+                                                                        require '../connect.php';
+                                                                        $sql = "SELECT * FROM `zone` WHERE status ='1' ";
+                                                                        $stmt = $conn->prepare($sql);
+                                                                        $stmt -> execute();
+                                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if($stmt-> rowCount()>0 ){
+                                                                            foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                                echo'
+                                                                                    <option value="'.$row['id'].'">'.$row['zone_name'].'</option>
+                                                                                ';
+                                                                            }
+                                                                        }else{
+                                                                            echo '<option value="">Department not available</option>'; 
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="branch">
+                                                                    <option value=""> ---- Select Zone First ---- </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Reporting Manager <span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="reporting_manager">
+                                                                    <option value="null"> ---- Select Manager ---- </option>
+                                                                        <?php 
+                                                                            // require '../connect.php';
+                                                                            $sql = "SELECT * FROM `employees` WHERE user_type = '24' AND status ='1' ";
+                                                                            $stmt = $conn->prepare($sql);
+                                                                            $stmt -> execute();
+                                                                            $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if($stmt-> rowCount()>0 ){
+                                                                                foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                                    echo'
+                                                                                        <option value="'.$row['employee_id'].'">'.$row['name'].'</option>
+                                                                                    ';
+                                                                                }
+                                                                            }else{
+                                                                                echo '<option value="">Manager not available</option>'; 
+                                                                            }	
+                                                                        ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
-												<!-- Employment Details -->
-												<h4 class="my-2">Employment Details</h4>
-												<div class="col-md-6 col-sm-6">  
-													<div class="input-block mb-3">
-														<label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
-														<input class="form-control" type="date" id="joining_date" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
-													</div>
+                                                        <!-- Attachments -->
+                                                        <h4 class="my-2">Attachments</h4>
+                                                        <div class="col-md-6 col-sm-6">  
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Profile Picture</label>
+                                                                <input class="form-control" type="file" id="profile_pic">
+                                                            </div>
+                                                            <input type="hidden" id="img_path1" value="">
+                                                            <div id="preview1" style="display: none;">
+                                                                <div id="image_preview1">
+                                                                    <img  alt="Preview" class="imgSize" id="img_pre1">
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-6 col-sm-6">  
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">ID Proof (Aadhaar/PAN/Passport)</label>
+                                                                <input class="form-control" type="file" id="id_proof">
+                                                            </div>
+                                                            <input type="hidden" id="img_path2" value="">
+                                                            <div id="preview2" style="display: none;">
+                                                                <div id="image_preview2">
+                                                                    <img  alt="Preview" class="imgSize" id="img_pre2">
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-6 col-sm-6">  
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Bank Details for Salary Transfer</label>
+                                                                <input class="form-control" type="file" id="bank_details">
+                                                            </div>
+                                                            <input type="hidden" id="img_path3" value="">
+                                                            <div id="preview3" style="display: none;">
+                                                                <div id="image_preview3">
+                                                                    <img  alt="Preview" class="imgSize" id="img_pre3">
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
 												</div>
-												<div class="col-md-6 col-sm-6">
-													<div class="input-block mb-3">
-														<label class="col-form-label">Department <span class="text-danger">*</span></label>
-														<select class="form-select" id="department">
-															<option value=""> ---- Select Department ---- </option>
-															<?php
-																require '../connect.php';
-																$sql = "SELECT * FROM `department` WHERE status ='1' ";
-																$stmt = $conn->prepare($sql);
-																$stmt -> execute();
-																$stmt -> setFetchMode(PDO::FETCH_ASSOC);
-																if($stmt-> rowCount()>0 ){
-																	foreach( ($stmt -> fetchAll()) as $key => $row ){
-																		echo'
-																			<option value="'.$row['id'].'">'.$row['dept_name'].'</option>
-																		';
-																	}
-																}else{
-																	echo '<option value="">Department not available</option>'; 
-																}
-															?>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-6 col-sm-6">
-													<div class="input-block mb-3">
-														<label class="col-form-label">Designation <span class="text-danger">*</span></label>
-														<select class="form-select" id="designation">
-															<option value=""> ---- Select Designation ---- </option>
-															<?php
-																require '../connect.php';
-																$sql = "SELECT * FROM `designation` WHERE status ='1' ";
-																$stmt = $conn->prepare($sql);
-																$stmt -> execute();
-																$stmt -> setFetchMode(PDO::FETCH_ASSOC);
-																if($stmt-> rowCount()>0 ){
-																	foreach( ($stmt -> fetchAll()) as $key => $row ){
-																		echo'
-																			<option value="'.$row['id'].'">'.$row['designation_name'].'</option>
-																		';
-																	}
-																}else{
-																	echo '<option value="">Department not available</option>'; 
-																}
-															?>
-														</select>
-													</div>
-												</div>
-												
-												<div class="col-md-6 col-sm-6">
-													<div class="input-block mb-3">
-														<label class="col-form-label">Zone <span class="text-danger">*</span></label>
-														<select class="form-select" id="zone">
-															<option value=""> ---- Select Zone ---- </option>
-															<?php
-																require '../connect.php';
-																$sql = "SELECT * FROM `zone` WHERE status ='1' ";
-																$stmt = $conn->prepare($sql);
-																$stmt -> execute();
-																$stmt -> setFetchMode(PDO::FETCH_ASSOC);
-																if($stmt-> rowCount()>0 ){
-																	foreach( ($stmt -> fetchAll()) as $key => $row ){
-																		echo'
-																			<option value="'.$row['id'].'">'.$row['zone_name'].'</option>
-																		';
-																	}
-																}else{
-																	echo '<option value="">Department not available</option>'; 
-																}
-															?>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-6 col-sm-6">
-													<div class="input-block mb-3">
-														<label class="col-form-label">Branch <span class="text-danger">*</span></label>
-														<select class="form-select" id="branch">
-															<option value=""> ---- Select Zone First ---- </option>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-6 col-sm-6">
-													<div class="input-block mb-3">
-														<label class="col-form-label">Reporting Manager <span class="text-danger">*</span></label>
-														<select class="form-select" id="reporting_manager">
-															<option value="null"> ---- Select Manager ---- </option>
-																<?php 
-																	// require '../connect.php';
-																	$sql = "SELECT * FROM `employees` WHERE user_type = '24' AND status ='1' ";
-																	$stmt = $conn->prepare($sql);
-																	$stmt -> execute();
-																	$stmt -> setFetchMode(PDO::FETCH_ASSOC);
-																	if($stmt-> rowCount()>0 ){
-																		foreach( ($stmt -> fetchAll()) as $key => $row ){
-																			echo'
-																				<option value="'.$row['employee_id'].'">'.$row['name'].'</option>
-																			';
-																		}
-																	}else{
-																		echo '<option value="">Manager not available</option>'; 
-																	}	
-																?>
-														</select>
-													</div>
-												</div>
+                                                
+                                                <div class="col-md-12 col-sm-12 d-none" id="zm_block">
+													<div class="row" id="zonal_manager">
+                                                        <!-- Zonal Manager Details -->
+                                                        <h4 class="my-2">Zonal Manager Details</h4>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <?php
+                                                                $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                ?>
+                                                                <label class="col-form-label">Country <span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="country">
+                                                                    <option value="" selected>--Select Country--</option>
+                                                                    <?php
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['country_name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">Country not available</option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">State<span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                                                    <option value="">--Select country first--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">City<span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="city" aria-label="Floating label select example">
+                                                                    <option value="">--Select state first--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
+                                                                <input type="text" class="form-control" id="pin" placeholder="Pincode" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Zone<span class="text-danger">*</span></label>
+                                                                <select class="form-select" id="zonal" aria-label="Floating label select example">
+                                                                    <option value="">--Select state first--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
-												<!-- Attachments -->
-												<h4 class="my-2">Attachments</h4>
-												<div class="col-md-6 col-sm-6">  
-													<div class="input-block mb-3">
-														<label class="col-form-label">Profile Picture</label>
-														<input class="form-control" type="file" id="profile_pic">
-													</div>
-													<input type="hidden" id="img_path1" value="">
-													<div id="preview1" style="display: none;">
-														<div id="image_preview1">
-															<img  alt="Preview" class="imgSize" id="img_pre1">
-														</div>
-													</div>
-												</div> 
-												<div class="col-md-6 col-sm-6">  
-													<div class="input-block mb-3">
-														<label class="col-form-label">ID Proof (Aadhaar/PAN/Passport)</label>
-														<input class="form-control" type="file" id="id_proof">
-													</div>
-													<input type="hidden" id="img_path2" value="">
-													<div id="preview2" style="display: none;">
-														<div id="image_preview2">
-															<img  alt="Preview" class="imgSize" id="img_pre2">
-														</div>
-													</div>
-												</div> 
-												<div class="col-md-6 col-sm-6">  
-													<div class="input-block mb-3">
-														<label class="col-form-label">Bank Details for Salary Transfer</label>
-														<input class="form-control" type="file" id="bank_details">
-													</div>
-													<input type="hidden" id="img_path3" value="">
-													<div id="preview3" style="display: none;">
-														<div id="image_preview3">
-															<img  alt="Preview" class="imgSize" id="img_pre3">
-														</div>
-													</div>
-												</div> 
+                                                        <!-- Attachments -->
+                                                        <h4 class="my-2">Attachments</h4>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Profile Picture</label>
+                                                                <input class="form-control" type="file" name="file1" id="upload_file1">
+                                                            </div>
+                                                            <input type="hidden" id="img_path1" value="">
+                                                            <div id="preview1" style="display: none;">
+                                                                <div id="image_preview1">
+                                                                    <img alt="Preview" class="imgSize" id="img_pre1">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Aadhaar Card</label>
+                                                                <input class="form-control" type="file" name="file2" id="upload_file2">
+                                                            </div>
+                                                            <input type="hidden" id="img_path2" value="">
+                                                            <div id="preview2" style="display: none;">
+                                                                <div id="image_preview2">
+                                                                    <img alt="Preview" class="imgSize" id="img_pre2">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Pan Card</label>
+                                                                <input class="form-control" type="file" name="file3" id="upload_file3">
+                                                            </div>
+                                                            <input type="hidden" id="img_path3" value="">
+                                                            <div id="preview3" style="display: none;">
+                                                                <div id="image_preview3">
+                                                                    <img alt="Preview" class="imgSize" id="img_pre3">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
+                                                            <div class="input-block mb-3">
+                                                                <label class="col-form-label">Bank Passbook</label>
+                                                                <input class="form-control" type="file" name="file4" id="upload_file4">
+                                                            </div>
+                                                            <input type="hidden" id="img_path4" value="">
+                                                            <div id="preview4" style="display: none;">
+                                                                <div id="image_preview4">
+                                                                    <img alt="Preview" class="imgSize" id="img_pre4">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
 
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
@@ -408,6 +532,22 @@
 
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
+
+            $('#registered').on('click', function(){
+                var registered = $("#registered").val();
+                console.log(registered);
+                if(registered == "employee"){
+                    $("#emp_block").removeClass("d-none");
+                    $("#zm_block").addClass("d-none");
+                }else if(registered == "zonal_manager"){
+                    $("#zm_block").removeClass("d-none");
+                    $("#emp_block").addClass("d-none");
+                } else {
+                    $("#chequeOpt").addClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
+                }
+            });
+
             //select Designation
             // $('#designation').on('change', function() {
             //     var designation = $('#designation').val();
@@ -448,60 +588,69 @@
                
             // }); 
 
-            // $('#country').on('change', function(){
-            //     var countryID = $(this).val();
-            //     if(countryID){
-            //         $.ajax({
-            //             type:'POST',
-            //             url:'../address/countrydata.php',
-            //             data:'country_id='+countryID,
-            //             success:function(htmll){
-            //                 $('#mystate').html(htmll); 
-            //                 $('#city').html('<option value="">Select state first</option>'); 
-            //             }
-            //         }); 
-            //     }else{
-            //         $('#mystate').html('<option value="">Select country first</option>');
-            //         $('#city').html('<option value="">Select state first</option>');
-            //         $('#pin').val('');   
-            //     }
-            // });
+            $('#country').on('change', function(){
+                var countryID = $(this).val();
+                if(countryID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'country_id='+countryID,
+                        success:function(htmll){
+                            $('#mystate').html(htmll); 
+                            $('#city').html('<option value="">Select state first</option>'); 
+                        }
+                    }); 
+                }else{
+                    $('#mystate').html('<option value="">Select country first</option>');
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');   
+                }
+            });
                 
-            // $('#mystate').on('change', function(){
-            //     // alert();
-            //     var stateID = $(this).val();
-            //     if(stateID){
-            //         $.ajax({
-            //             type:'POST',
-            //             url:'../address/countrydata.php',
-            //             data:'state_id='+stateID,
-            //             success:function(html){
-            //                 $('#city').html(html);
-            //             }
-            //         }); 
-            //     }else{
-            //         $('#city').html('<option value="">Select state first</option>');
-            //         $('#pin').val('');   
-            //     }
-            // });
+            $('#mystate').on('change', function(){
+                // alert();
+                var stateID = $(this).val();
+                if(stateID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'state_id='+stateID,
+                        success:function(html){
+                            $('#city').html(html);
+                        }
+                    }); 
+                    
+                }else{
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');   
+                }
+            });
 
-            // $('#city').on('change', function(){
-            //     var cityID = $(this).val();
-            //     if(cityID){
-            //         $.ajax({
-            //             type:'POST',
-            //             url:'../address/pincode.php',
-            //             data:'city_id='+cityID,
-            //             success:function(response){
-            //                 // $('#pin').html(response);
-            //                 $('#pin').val(response); 
-            //             }
-            //         }); 
-            //     }else{
-            //         $('#city').html('<option value="">Select state first</option>');
-            //         $('#pin').val('');
-            //     }
-            // });
+            $('#city').on('change', function(){
+                var cityID = $(this).val();
+                if(cityID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/pincode.php',
+                        data:'city_id='+cityID,
+                        success:function(response){
+                            // $('#pin').html(response);
+                            $('#pin').val(response); 
+                        }
+                    }); 
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'city_id='+cityID,
+                        success:function(html){
+                            $('#zonal').html(html);
+                        }
+                    }); 
+                }else{
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');
+                }
+            });
 
             // $('#business_package_amount').on('change', function(){
             //     var business_package_amount = $(this).val();
@@ -524,28 +673,28 @@
             // });
 
             // select Designation disable Reporting Manager
-            $('#designation').on('change', function() {
-                var designation = $('#designation').val();
-                // console.log(designation);
-                if(designation == 1){
-                    $('#reporting_manager').prop('disabled', true);
-                }else{
-                    $('#reporting_manager').prop('disabled', false);
-                }
-            });
+            // $('#designation').on('change', function() {
+            //     var designation = $('#designation').val();
+            //     // console.log(designation);
+            //     if(designation == 1){
+            //         $('#reporting_manager').prop('disabled', true);
+            //     }else{
+            //         $('#reporting_manager').prop('disabled', false);
+            //     }
+            // });
             
-            // on zone change get branch associated with that zone
-			$('#zone').on('change', function(){
-				var zone_id = $(this).val();
-				$.ajax({
-					url: '../assets/get_data/get_branch.php',
-					type: 'POST',
-					data: {zone_id:zone_id},
-					success: function(data){
-						$('#branch').html(data);
-					}
-				});
-			});
+            // // on zone change get branch associated with that zone
+			// $('#zone').on('change', function(){
+			// 	var zone_id = $(this).val();
+			// 	$.ajax({
+			// 		url: '../assets/get_data/get_branch.php',
+			// 		type: 'POST',
+			// 		data: {zone_id:zone_id},
+			// 		success: function(data){
+			// 			$('#branch').html(data);
+			// 		}
+			// 	});
+			// });
         </script>
         
     </body>

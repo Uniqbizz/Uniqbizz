@@ -244,7 +244,7 @@ if ($stmt->rowCount() > 0) {
                                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname" value="<?php echo $lastname ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <!-- <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name" value="<?php echo $nominee_name; ?>">
@@ -255,7 +255,7 @@ if ($stmt->rowCount() > 0) {
                                                         <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value="<?php echo $nominee_relation; ?>">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="email">Email Address<span class="text-danger">*</span></label>

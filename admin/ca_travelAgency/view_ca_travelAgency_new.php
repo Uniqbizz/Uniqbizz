@@ -274,6 +274,7 @@
                                                             <option value="24">Business Channel Manager (BCM)</option>
                                                             <option value="25">Business Development Manager (BDM)</option>
                                                             <option value="26">Business Mentor (BM)</option>
+                                                            <option value="16">Techno Enterprise (TE)</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -288,7 +289,7 @@
                                                 </div>
                                                 <!-- date range -->
                                                 <div class="col-md-3 col-sm-3">
-                                                    <label class="col-form-label" for=""><span>Count</span></label>
+                                                    <label class="col-form-label" for=""><span>Date Range</span></label>
                                                     <div id="reportrange" class="filter_items input-block text-dark px-3 py-2 w-100 text-center dateRange " style="background-color:#e5e5e5; border-radius: 6px;">
                                                         <i class="fa fa-calendar"></i>&nbsp;
                                                         <span id='selectedDate'></span> <i class="fa-solid fa-angle-down"></i>
@@ -796,18 +797,13 @@
         </script>
         <!-- Date Range Script -->
         <script type="text/javascript">
-            $(function() {
-
-                var start = moment().subtract(29, 'days');
-                var end = moment();
-
+            $(function () {
                 function cb(start, end) {
                     $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 }
 
                 $('#reportrange').daterangepicker({
-                    startDate: start,
-                    endDate: end,
+                    autoUpdateInput: false, // prevents default range selection
                     ranges: {
                         'Today': [moment(), moment()],
                         'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -818,9 +814,17 @@
                     }
                 }, cb);
 
-                cb(start, end);
+                // Update input field manually when user selects range
+                $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+                    cb(picker.startDate, picker.endDate);
+                });
 
+                // Clear input when user cancels
+                $('#reportrange').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).find('span').html('');
+                });
             });
+
         </script>
         <!-- Date Range Script -->
 

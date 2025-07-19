@@ -199,8 +199,7 @@ if ($mydata['ta_mark_up']) {
         $sql_8 = 'UPDATE package_pricing_markup set 
                 company=:company, customer=:customer, ta_markup=:ta_markup, ca_mark_up_total=:ca_mark_up_total, ca_direct_commission=:ca_direct_commission, ca_incentive=:ca_incentive,
                 bm_mark_up_total=:bm_mark_up_total, bm_direct_commission=:bm_direct_commission, bm_incentive=:bm_incentive, bdm_mark_up_total=:bdm_mark_up_total, bdm_direct_commission=:bdm_direct_commission,
-                bdm_incentive=:bdm_incentive, bcm_mark_up_total=:bcm_mark_up_total, bcm_direct_commission=:bcm_direct_commission, bcm_incentive=:bcm_incentive, prime_customer=:prime_customer, L1_customer=:L1_customer,
-                L2_customer=:L2_customer,total_adult_price_with_markup=:total_adult_price_with_markup,total_child_price_with_markup=:total_child_price_with_markup WHERE package_id=:package_id';
+                bdm_incentive=:bdm_incentive, bcm_mark_up_total=:bcm_mark_up_total, bcm_direct_commission=:bcm_direct_commission, bcm_incentive=:bcm_incentive, prime_customer=:prime_customer, L1_customer=:L1_customer, L2_customer=:L2_customer WHERE package_id=:package_id';
 
         $statement_8 = $conn->prepare($sql_8);
 
@@ -223,9 +222,7 @@ if ($mydata['ta_mark_up']) {
             ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
             ':prime_customer' => $mydata['prime_customer_share'],
             ':L1_customer' => $mydata['L1_customer_share'],
-            ':L2_customer' => $mydata['L2_customer_share'],
-            ':total_adult_price_with_markup'=>$mydata['total_adult_price_with_markup'],
-            ':total_child_price_with_markup'=>$mydata['total_child_price_with_markup']
+            ':L2_customer' => $mydata['L2_customer_share']
         ]);
     }
 }

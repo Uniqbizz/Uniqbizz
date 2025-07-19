@@ -41,7 +41,7 @@ $tablename = $_POST["tablename"];
 }else if($tablename == 2425){
     $tname='employees';
 }else if($tablename == 26){
-    $tname='business_mentors';
+    $tname='business_mentor';
 }else{
     
 }

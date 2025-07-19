@@ -11,10 +11,11 @@
     $packageID = $mydata['packageID'];
     $no_of_adult = $mydata['no_of_adult'];
     $no_of_child = $mydata['no_of_child'];
+    $start_date = $mydata['tour_start_date'];
+    $order_id = $mydata['book_id'];
     $total_passenger = $no_of_adult + $no_of_child;
     $cuIds = [];
     $cuName = [];
-    
     
     //new
     $sql1 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$customer_id."' AND status= '1' ");
@@ -223,6 +224,16 @@
         }
     }
 
+    $sql9 = $conn -> prepare("SELECT tour_days FROM package WHERE id = '".$packageID."'  ");
+    $sql9 -> execute();
+    $sql9 -> setFetchMode(PDO::FETCH_ASSOC);
+    if( $sql9 -> rowCount()>0 ){
+        foreach( ($sql9 -> fetchAll()) as $key => $row ){
+            $tour_days = $row['tour_days'];
+            $end_date = date('Y-m-d', strtotime("$start_date +$tour_days days"));
+        }
+    }
+
     $ta = $cuIds2[0];
     $ta_message = 'Travel consultant '. $cuIds2[0].' ('.$cuName2[0].') Has Earned Rs.'.$ta_commi.' X '.$total_passenger.' =  '.$total_passenger*$ta_commi.'/-';
     $ta_amt = $total_passenger*$ta_commi;
@@ -257,9 +268,10 @@
     // Encode the messages array as JSON
     // echo json_encode($messages);
     //cu = "customer", ta = "travel associate", te = "techno enterprise", bm = "business mentor", bdm = "business development manager", bcm = "business channel manager"
-    $sql = "INSERT INTO product_payout (package_id, no_of_adult, no_of_child, ta_markup, cu_id, ta_id, ta_mess, ta_amt, te_id, te_mess, te_amt, bm_id,	bm_mess, bm_amt, bdm_id, bdm_mess, bdm_amt,  bch_id, bch_mess, bch_amt,  cu1_id, cu1_mess, cu1_amt, cu2_id, cu2_mess, cu2_amt,  cu3_id, cu3_mess, cu3_amt) VALUES (:package_id, :no_of_adult, :no_of_child, :ta_markup, :cu_id, :ta_id, :ta_mess, :ta_amt,  :te_id, :te_mess, :te_amt,  :bm_id, :bm_mess, :bm_amt,  :bdm_id, :bdm_mess, :bdm_amt,  :bch_id, :bch_mess, :bch_amt,  :cu1_id, :cu1_mess, :cu1_amt,  :cu2_id, :cu2_mess, :cu2_amt,  :cu3_id, :cu3_mess, :cu3_amt)";
+    $sql = "INSERT INTO product_payout (order_id, package_id, no_of_adult, no_of_child, ta_markup, cu_id, ta_id, ta_mess, ta_amt, te_id, te_mess, te_amt, bm_id,	bm_mess, bm_amt, bdm_id, bdm_mess, bdm_amt,  bch_id, bch_mess, bch_amt,  cu1_id, cu1_mess, cu1_amt, cu2_id, cu2_mess, cu2_amt,  cu3_id, cu3_mess, cu3_amt, start_date, end_date) VALUES (:order_id, :package_id, :no_of_adult, :no_of_child, :ta_markup, :cu_id, :ta_id, :ta_mess, :ta_amt,  :te_id, :te_mess, :te_amt,  :bm_id, :bm_mess, :bm_amt,  :bdm_id, :bdm_mess, :bdm_amt,  :bch_id, :bch_mess, :bch_amt,  :cu1_id, :cu1_mess, :cu1_amt,  :cu2_id, :cu2_mess, :cu2_amt,  :cu3_id, :cu3_mess, :cu3_amt, :start_date, :end_date)";
     $stmt = $conn -> prepare($sql);
     $result = $stmt -> execute(array(
+        ':order_id' => $order_id,
         ':package_id' => $mydata['packageID'], 
         ':no_of_adult' => $mydata['no_of_adult'],
         ':no_of_child' => $mydata['no_of_child'] ?? '0',
@@ -288,7 +300,9 @@
         ':cu2_amt' => $cu_level_2_amt ?? '0',
         ':cu3_id' => $cu_level_3 ?? '',
         ':cu3_mess' => $cu_level_3_message ?? '',
-        ':cu3_amt' => $cu_level_3_amt ?? '0'
+        ':cu3_amt' => $cu_level_3_amt ?? '0',
+        ':start_date' => $start_date,
+        ':end_date' => $end_date
     ));
 
     // if($result){

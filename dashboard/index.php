@@ -9,7 +9,14 @@ $DateYear = date('Y'); //year
 // echo "Next Month ".$nextDateMonth.' ;';
 // echo "Next Year ".$nextDateYear.' ;';
 // echo '<br>';
+if ($userType == 10){
+    $sqlcust = 'SELECT customer_type FROM ca_customer WHERE ca_customer_id = :user';
+    $stmt = $conn->prepare($sqlcust);
+    $stmt->execute([':user' => $userId]);
 
+    $customerType = $stmt->fetchColumn();
+
+}
 
 ?>
 <!doctype html>
@@ -595,7 +602,7 @@ $DateYear = date('Y'); //year
                                                     <div class="card-body p-3">
                                                         <div class="alert alert-success" role="alert">
                                                             <i data-feather="check-circle" class="text-success me-2 icon-sm"></i>
-                                                            Congratulations! You are a <b>Prime Member</b>.
+                                                            Congratulations! You are a <b><?=$customerType?></b>.
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">

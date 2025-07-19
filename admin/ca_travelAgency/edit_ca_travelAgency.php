@@ -116,6 +116,9 @@
                     $reference_no_fname = $corporate_agencys['firstname'];
                     $reference_no_lname = $corporate_agencys['lastname'];
                 }
+            }else if($reference_id == "NA"){
+                $reference_no_fname = "Not Applicable";
+                $reference_no_lname = "";
             }
         }
     }
@@ -574,7 +577,7 @@
                                                         <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
 
                                             <!-- for edit data page -->
