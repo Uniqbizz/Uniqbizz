@@ -146,7 +146,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Business Mentor | Admin Dashboard </title>
+        <title>Edit Business Mentor / Master Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">

@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Business Mentor | Admin Dashboard </title>
+        <title>Business Mentor / Master Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -287,7 +287,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Business Mentor Id</th>
+                                                        <th>BM/MF Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>

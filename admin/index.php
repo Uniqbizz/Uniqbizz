@@ -823,54 +823,71 @@ $Year = date('Y'); //year
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
-                            <!-- <div class="col-12">
-                                <div class="tab-inn">
-                                    <h4 class="card-title mb-4">Overall Employees</h4>
-                                    <div class="table-responsive table-desi">
-                                        <canvas id="myCAChart" class="myCAChart" height="115%" weight="115%"></canvas>
-                                    </div>
-                                    <div class="mt-4">
-                                        <span class="ca_total_count" id="ca_total_count"></span>
-                                        <span class="ca_total_price" id="ca_total_price"></span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- Chart Section -->
-                             <div class="row">
-                                <!-- Type Selector -->
-                                <div class="col-md-4">
-                                    <select id="dataTypeSelect" class="form-control">
-                                        <option value="all" selected>All</option>
-                                        <option value="tc">TC</option>
-                                        <option value="te">TE</option>
-                                        <option value="customer">Customer</option>
-                                        <option value="bm">BM</option>
-                                    </select>
-                                </div>
-    
-                                <!-- Month-Year Selector -->
-                                <div class="col-md-4">
-                                    <input type="month" id="monthSelector" class="form-control">
-                                </div>
-    
-                                <!-- Download Button (initially hidden) -->
-                                <div class="col-md-4">
-                                    <button id="downloadChartBtn" class="btn btn-primary w-100" onclick="downloadChartData()" style="display: none;">
-                                        Download Data
-                                    </button>
-                                </div>
-                             </div>
                             <div class="card p-3 rounded-4" id="ca_chart_box">
                                 <div class="row">
-                                    <!-- Chart Summary and Canvas -->
-                                    <div class="col-md-12 mt-4 text-center">
-                                        <h5 id="ca_total_count"></h5>
-                                        <h5 id="ca_total_price"></h5>
-                                        <canvas id="myCAChart"></canvas>
+                                    <div class="col-12">
+                                        <div class="tab-inn">
+                                            <h4 class="card-title mb-4">Techno Enterprise</h4>
+                                            <div class="table-responsive table-desi">
+                                                <canvas id="myCAChart" class="myCAChart" height="115%" weight="115%"></canvas>
+                                            </div>
+                                            <div class="mt-4">
+                                                <span class="ca_total_count" id="ca_total_count"></span>
+                                                <span class="ca_total_price" id="ca_total_price"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="card" id="ca_no_chart_box">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="tab-inn">
+                                                <h3>No Corporat Agency Data Found</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <!-- Chart Section  all commission -->
+                            <div class="card p-3 rounded-4" id="ca_chart_box">
+                                <div class="row">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select id="dataTypeSelect" class="form-control">
+                                            <option value="all" selected>All</option>
+                                            <option value="tc">TC</option>
+                                            <option value="te">TE</option>
+                                            <option value="customer">Customer</option>
+                                            <option value="bm">BM</option>
+                                        </select>
+                                    </div>
+    
+                                    <!-- Month-Year Selector -->
+                                    <div class="col-md-4">
+                                        <input type="month" id="monthSelector" class="form-control">
+                                    </div>
+    
+                                    <!-- Download Button (initially hidden) -->
+                                    <div class="col-md-4">
+                                        <button id="downloadChartBtn" class="btn btn-primary w-100" onclick="downloadChartData()" style="display: none;">
+                                            Download Data
+                                        </button>
+                                    </div>
+                                    <!-- Chart Summary and Canvas -->
+                                    <div class="col-md-12 mt-4 text-center">
+                                        <h5 id="ca_total_count1"></h5>
+                                        <h5 id="ca_total_price1"></h5>
+                                        <canvas id="myCAChart1"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+    
                             <!-- No Data Message -->
                             <div class="card" id="ca_no_chart_box" style="display: none;">
                                 <div class="card-body">
@@ -884,7 +901,54 @@ $Year = date('Y'); //year
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                        <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <!-- Chart Section customer membership-->
+                            <div class="card p-3 rounded-4" id="ca_chart_box1">
+                                <div class="row">
+                                    <!-- Type Selector -->
+                                    <div class="col-md-4">
+                                        <select id="dataTypeSelect1" class="form-control">
+                                            <option value="all" selected>All</option>
+                                            <option value="Prime">Prime</option>
+                                            <option value="Premium">Premium</option>
+                                            <option value="Premium Plus">Premium Plus</option>
+                                        </select>
+                                    </div>
+    
+                                    <!-- Month-Year Selector -->
+                                    <div class="col-md-4">
+                                        <input type="month" id="monthSelector1" class="form-control">
+                                    </div>
+    
+                                    <!-- Download Button (initially hidden) -->
+                                    <div class="col-md-4">
+                                        <button id="downloadChartBtn1" class="btn btn-primary w-100" onclick="downloadChartData1()" style="display: none;">
+                                            Download Data
+                                        </button>
+                                    </div>
+                                    <!-- Chart Summary and Canvas -->
+                                    <div class="col-md-12 mt-4 text-center">
+                                        <h5 id="ca_total_count2"></h5>
+                                        <h5 id="ca_total_price2"></h5>
+                                        <canvas id="myCAChart2"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- No Data Message -->
+                            <div class="card" id="ca_no_chart_box1" style="display: none;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="tab-inn text-center">
+                                                <h3>No Data Found</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="card rounded-4">
                         <div class="row p-4 d-flex justify-content-around">
@@ -1236,7 +1300,7 @@ $Year = date('Y'); //year
                                             <div class="tab-inn">
                                                 <h6>Techno Enterprise</h6>
                                                 <div class="table-responsive table-desi">
-                                                    <canvas id="myCAChart" class="myCAChart" height="100px" weight="100px"></canvas>
+                                                    <canvas id="myCAChart1" class="myCAChart1" height="100px" weight="100px"></canvas>
                                                     <span class="ca_total_count" id="ca_total_count"></span>
                                                     <span class="ca_total_price" id="ca_total_price"></span>
                                                 </div>
@@ -2657,7 +2721,7 @@ $Year = date('Y'); //year
             // get chart data
             getMonthlyUserData(getCurrentYear);
             // getBIPData(); //BIP pie chart
-            //getCPData(); //cp Amount Pie Chart
+            getCAData(); //ca Amount Pie Chart
             //getCAData(); //ca Amount Pie Chart
             // get monthly user count
             monthYear = monthControl.value;
@@ -2800,6 +2864,52 @@ $Year = date('Y'); //year
             });
         }
 
+        //TE pie chart
+        async function getCAData() {
+            const response = await fetch('charts/ca_payout.php');
+            const data = await response.json();
+
+            // console.log(data);
+
+            var xValues = ["2 Lakhs", "3 Lakhs", "5 Lakhs"];
+            var yValues = [data[4], data[3], data[2]];
+            var total = data[1];
+            var totalCA = data[0];
+            var barColors = [
+                "#ad2321",
+                "#3EB07E",
+                "#2e51f0"
+            ];
+
+            document.getElementById("ca_total_count").innerText = "Total TE = " + totalCA + "\n";
+            document.getElementById("ca_total_price").innerText = " Total Amount = ₹ " + total + "/-";
+
+            if (totalCA == 0) {
+                document.getElementById("ca_no_chart_box").style.display = "block";
+                document.getElementById("ca_chart_box").style.display = "none";
+            } else {
+                document.getElementById("ca_no_chart_box").style.display = "none";
+                document.getElementById("ca_chart_box").style.display = "block";
+            }
+
+            new Chart(document.getElementById("myCAChart"), {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    title: {
+                        display: false,
+                        text: "BIP Payout",
+                    }
+                }
+            });
+        }
+        //  all employees payout
         let currentChart = null;
         let chartDataCache = {};
 
@@ -2813,7 +2923,7 @@ $Year = date('Y'); //year
             formData.append("month", month);
             formData.append("year", year);
 
-            const res = await fetch("charts/ca_payout_new.php", {
+            const res = await fetch("charts/all_user_payout.php", {
 
                 method: "POST",
                 body: formData
@@ -2888,12 +2998,12 @@ $Year = date('Y'); //year
                     }
                 }
 
-                document.getElementById("ca_total_count").innerText = "Employee Summary";
-                document.getElementById("ca_total_price").innerText = displayText.trim();
+                document.getElementById("ca_total_count1").innerText = "Employee Payout";
+                document.getElementById("ca_total_price1").innerText = displayText.trim();
 
                 if (currentChart) currentChart.destroy();
 
-                currentChart = new Chart(document.getElementById("myCAChart"), {
+                currentChart = new Chart(document.getElementById("myCAChart1"), {
                     type: "pie",
                     data: {
                         labels: labels,
@@ -2928,7 +3038,7 @@ $Year = date('Y'); //year
 
                 if (currentChart) currentChart.destroy();
 
-                currentChart = new Chart(document.getElementById("myCAChart"), {
+                currentChart = new Chart(document.getElementById("myCAChart1"), {
                     type: "pie",
                     data: {
                         labels: ["Paid", "Pending"],
@@ -2943,10 +3053,7 @@ $Year = date('Y'); //year
                 });
             }
         }
-
-
-
-
+        
         function downloadChartData() {
             const type = document.getElementById("dataTypeSelect").value; // TE / BM / Customer
             const monthInput = document.getElementById("monthSelector").value;
@@ -2981,7 +3088,6 @@ $Year = date('Y'); //year
             });
         }
 
-
         // Event listeners
         document.getElementById("dataTypeSelect").addEventListener("change", () => {
             const type = document.getElementById("dataTypeSelect").value;
@@ -2995,8 +3101,127 @@ $Year = date('Y'); //year
             fetchData(type, month || '', year || '');
         });
 
-        // Initial load
+         // Initial load
         fetchData();
+
+        // for customer member ship
+        let currentChart1 = null;
+        let chartDataCache1 = {};
+
+        async function fetchData1() {
+            const type = document.getElementById("dataTypeSelect1").value;
+            const monthInput = document.getElementById("monthSelector1").value;
+            const [year, month] = monthInput ? monthInput.split("-") : ["", ""];
+
+            const formData = new FormData();
+            formData.append("type", type);
+            formData.append("month", month);
+            formData.append("year", year);
+
+            const res = await fetch("charts/cust_membership_payout.php", {
+
+                method: "POST",
+                body: formData
+            });
+            const data = await res.json();
+            chartDataCache1 = data;
+            renderChart1(type,year, month);
+        }
+
+        function renderChart1(type, year, month) {
+            let label = '', total = 0;
+            let complementary = 0, nonComplementary = 0;
+
+            // These will come from the updated PHP response
+            complementary = chartDataCache1.complementary_paid || 0;
+            nonComplementary = chartDataCache1.non_complementary_paid || 0;
+            total = complementary + nonComplementary;
+            label = type !== "all" ? type : "Customer";
+
+            let downloadBtn = document.getElementById("downloadChartBtn1");
+            if (month && year) {
+                downloadBtn.style.display = 'inline-block';
+            } 
+
+            if (total === 0) {
+                document.getElementById("ca_chart_box1").style.display = "none";
+                document.getElementById("ca_no_chart_box1").style.display = "block";
+                return;
+            }
+
+            document.getElementById("ca_chart_box1").style.display = "block";
+            document.getElementById("ca_no_chart_box1").style.display = "none";
+
+            document.getElementById("ca_total_count2").innerText = `Total ${label} Paid: ₹${total.toLocaleString()}`;
+            document.getElementById("ca_total_price2").innerText = `Complementary: ₹${complementary.toLocaleString()}\nNon-Complementary: ₹${nonComplementary.toLocaleString()}`;
+
+            if (currentChart1) currentChart1.destroy();
+
+            currentChart1 = new Chart(document.getElementById("myCAChart2"), {
+                type: "pie",
+                data: {
+                    labels: ["Complementary", "Non-Complementary"],
+                    datasets: [{
+                        backgroundColor: ["#3EB07E", "#ad2321"],
+                        data: [complementary, nonComplementary]
+                    }]
+                },
+                options: {
+                    title: { display: false }
+                }
+            });
+        }
+
+
+        function downloadChartData1() {
+            const type = document.getElementById("dataTypeSelect1").value; // TE / BM / Customer
+            const monthInput = document.getElementById("monthSelector1").value;
+            const [year, month] = monthInput ? monthInput.split("-") : ["", ""];
+
+            const formData = new FormData();
+            formData.append("type", type);
+            if (month && year) {
+                formData.append("month", month);
+                formData.append("year", year);
+            }
+
+            fetch("charts/download_chart_data_cust_membership.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Failed to generate file");
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `${type}_payout_data.csv`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(error => {
+                alert("Error downloading file: " + error.message);
+            });
+        }
+        // Event listeners for customer member ship
+        document.getElementById("dataTypeSelect1").addEventListener("change", () => {
+            const type = document.getElementById("dataTypeSelect1").value;
+            const [month, year] = document.getElementById("monthSelector1").value.split("-");
+            fetchData1(type, month || '', year || '');
+        });
+
+        document.getElementById("monthSelector1").addEventListener("change", () => {
+            const type = document.getElementById("dataTypeSelect1").value;
+            const [month, year] = document.getElementById("monthSelector1").value.split("-");
+            fetchData1(type, month || '', year || '');
+        });
+
+       
+        // for customer member ship
+        fetchData1();
 
         //CP Chart
         // async function getCPData() {
@@ -3067,7 +3292,7 @@ $Year = date('Y'); //year
         //         ];
         //         const colors = ["#ad2321", "#3EB07E", "#2e51f0", "#f9c74f"];
 
-        //         new Chart(document.getElementById("myCAChart"), {
+        //         new Chart(document.getElementById("myCAChart1"), {
         //             type: "pie",
         //             data: {
         //                 labels: labels,

@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Employee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Employee / Zonal Manager</h4>
 
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -119,7 +119,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Employee List</h4>
+                                                        <h4>Pending Employee / Zonal Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -255,7 +255,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Employee List</h4>
+                                                        <h4>Registered Employee / Zonal Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,8 +271,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Employee Id</th>
-                                                        <th>Designation</th> 
+                                                        <th>Emp/ZM Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -301,8 +300,7 @@
 
                                                             echo '<tr>
                                                                 <td>' . $row['zonal_manager_id'] . '</td>
-                                                                <td><span class="badge bg-primary me-1">ZM</span></td>
-                                                                <td>' . $row['name'] . '</td>
+                                                                <td><span class="badge bg-primary me-1">ZM</span>' . $row['name'] . '</td>
                                                                 <td>N/A</td>
                                                                 <td>
                                                                     <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact'] . '</p>
@@ -363,8 +361,7 @@
 
                                                             echo '<tr>
                                                                 <td>' . $row['employee_id'] . '</td>
-                                                                <td>' . $prefix . '</td>
-                                                                <td>' . $row['name'] . '</td>
+                                                                <td>' . $prefix . ' ' . $row['name'] . '</td>
                                                                 <td>
                                                                     <p class="mb-1">' . $row['reporting_manager'] . '</p>
                                                                     <p class="mb-0">' . $reporting_manager_name . '</p>

@@ -36,6 +36,8 @@ require '../connect.php';
         $user = $conn->prepare("SELECT * FROM master_franchisee WHERE status = '1' ORDER BY master_franchisee_id");
     }else if($table == "zonal_manager"){
         $user = $conn->prepare("SELECT * FROM zonal_manager WHERE status = '1' ORDER BY zonal_manager_id");
+    }else if($table == "sub_franchisee"){
+        $user = $conn->prepare("SELECT * FROM sub_franchisee WHERE status = '1' ORDER BY sub_franchisee_id");
     }
 
     $user->execute();
@@ -75,6 +77,8 @@ require '../connect.php';
             echo '<option value="">--Select Master Franchisee ID & Name--</option>';
         }else if ( $table == "zonal_manager" ) {
             echo '<option value="">--Select Zonal Manager ID & Name--</option>';
+        }else if ( $table == "sub_franchisee" ) {
+            echo '<option value="">--Select Franchisee ID & Name--</option>';
         }
         
         foreach ($user_data as $key => $value) {
@@ -108,6 +112,8 @@ require '../connect.php';
                 echo '<option value="'.$value['master_franchisee_id'].'">'.$value['master_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ( $table == "zonal_manager" ) {
                 echo '<option value="'.$value['zonal_manager_id'].'">'.$value['zonal_manager_id'].' - '.$value['name'].'</option>';
+            }else if ( $table == "sub_franchisee" ) {
+                echo '<option value="'.$value['sub_franchisee_id'].'">'.$value['sub_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }
         }
         

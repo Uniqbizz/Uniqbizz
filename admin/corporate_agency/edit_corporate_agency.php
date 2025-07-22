@@ -51,7 +51,7 @@ if($user_type == 'te'){
             $nominee_relation = $row['nominee_relation'];
             $email = $row['email'];
             $contact_no = $row['contact_no'];
-            // $business_package=$row['business_package'];
+            $note=$row['note'];
             $amount = $row['amount'];
             $amtGST = $row['amtGST'];
             $reference_no = $row['reference_no'];
@@ -201,7 +201,7 @@ if($user_type == 'te'){
             $nominee_relation = $row['nominee_relation'];
             $email = $row['email'];
             $contact_no = $row['contact_no'];
-            // $business_package=$row['business_package'];
+            $note=$row['note'];
             $amount = $row['amount'];
             $amtGST = $row['amtGST'];
             $reference_no = $row['reference_no'];
@@ -303,7 +303,7 @@ if ($editfor == 'pending') {
 <head>
 
     <meta charset="utf-8" />
-    <title>Edit Techno Enterprise | Admin Dashboard </title>
+    <title>Edit Techno Enterprise / Franchisee | Admin Dashboard </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
     <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -720,7 +720,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="note" placeholder="Enter Note">
+                                                    <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-12 col-sm-12 d-none <?= $status != 1 ?'d-none':''?>">

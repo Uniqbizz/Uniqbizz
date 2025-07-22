@@ -159,11 +159,17 @@ $total_unique_tcs = count($unique_tcs);
 /** ================= Customer ================= */
 $sql_cust = $conn->prepare("
     SELECT 
-        COUNT(ca_customer_id) AS total_customer,
-        COALESCE(SUM(CASE WHEN status = 1 THEN paid_amount ELSE 0 END), 0) AS total_customer_paid,
-        COALESCE(SUM(CASE WHEN status = 2 THEN paid_amount ELSE 0 END), 0) AS total_customer_pending
-    FROM ca_customer 
-    WHERE 1=1 $filterQuery");
+        COUNT(DISTINCT ca_customer.ca_customer_id) AS total_customer,
+
+        -- referral paid and pending, matching expected keys
+        COALESCE(SUM(CASE WHEN crp.status = 1 THEN crp.referral_amount ELSE 0 END), 0) AS total_customer_paid,
+        COALESCE(SUM(CASE WHEN crp.status = 2 THEN crp.referral_amount ELSE 0 END), 0) AS total_customer_pending
+
+    FROM ca_customer
+    LEFT JOIN customer_reference_payout crp 
+        ON crp.customer_id = ca_customer.ca_customer_id
+    WHERE 1=1 $filterQuery
+");
 $sql_cust->execute($params);
 $customer = $sql_cust->fetch(PDO::FETCH_ASSOC);
 

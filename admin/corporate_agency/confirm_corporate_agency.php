@@ -723,7 +723,7 @@ if ($user_type_id == '16') {
 		if ($sql11->rowCount() > 0) {
 			foreach (($sql11->fetchAll()) as $key11 => $row11) {
 				$Mf_id = $row11['zonal_manager_id'];
-				$Mf_name = $row11['firstname'] . ' ' . $row11['lastname'];
+				$Mf_name = $row11['name'];
 			}
 		}
 	}
