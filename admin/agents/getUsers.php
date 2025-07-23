@@ -402,6 +402,7 @@ if($userType = "business_development_manager"){
     } 
 
 }
+
 if($userType = "sub_franchisee"){
 
     $stmt2 = $conn->prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '$user_id' AND user_type = '29' AND status = 1");
@@ -409,6 +410,7 @@ if($userType = "sub_franchisee"){
     $stmt2->setFetchMode(PDO::FETCH_ASSOC);
      
     // Generate HTML of city options list
+
 
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {

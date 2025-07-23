@@ -930,7 +930,7 @@ $Year = date('Y'); //year
                                     <div class="col-md-12 mt-4 text-center">
                                         <h5 id="ca_total_count2"></h5>
                                         <h5 id="ca_total_price2"></h5>
-                                        <canvas id="myCAChart2" class=""></canvas>
+                                        <canvas id="myCAChart2"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -3185,7 +3185,7 @@ $Year = date('Y'); //year
                 formData.append("year", year);
             }
 
-            fetch("charts/download_chart_data_cust_membership .php", {
+            fetch("charts/download_chart_data_cust_membership.php", {
                 method: "POST",
                 body: formData
             })

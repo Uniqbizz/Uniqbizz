@@ -707,7 +707,7 @@
             //     }
             // });
             
-             // on zone change get branch associated with that zone Employee section 
+            // on zone change get branch associated with that zone Employee section 
 			$('#zone').on('change', function(){
 				var zone_id = $(this).val();
 				$.ajax({

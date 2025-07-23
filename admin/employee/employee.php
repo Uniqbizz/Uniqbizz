@@ -271,7 +271,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Emp/ZM Id</th> 
+                                                        <th>Emp/ZM Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
