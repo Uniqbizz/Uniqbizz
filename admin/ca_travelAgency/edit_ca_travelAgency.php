@@ -95,7 +95,9 @@
                 $city_name = $city['city_name'];
             }
 
-            $reference_id = substr($reference_no, 0 , 2);
+            $reference_id = (substr($reference_no, 0, 1) === 'F') 
+							? substr($reference_no, 0, 1) 
+							: substr($reference_no, 0, 2);
             if($reference_id == "BM"){
                 // business Mentor name
                 $business_mentors = $conn->prepare("SELECT firstname, lastname FROM business_mentor where business_mentor_id='".$reference_no."'");
@@ -116,7 +118,28 @@
                     $reference_no_fname = $corporate_agencys['firstname'];
                     $reference_no_lname = $corporate_agencys['lastname'];
                 }
-            }else if($reference_id == "NA"){
+            }else if($reference_id == "F"){
+                // corporate agency name
+                $corporate_agencys = $conn->prepare("SELECT firstname, lastname FROM sub_franchisee where sub_franchisee_id='".$reference_no."'");
+                $corporate_agencys ->execute();
+                $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
+                if(  $corporate_agencys->rowCount()>0 ){
+                    $corporate_agencys = $corporate_agencys->fetch();
+                    $reference_no_fname = $corporate_agencys['firstname'];
+                    $reference_no_lname = $corporate_agencys['lastname'];
+                }
+            }else if($reference_id == "MF"){
+                // corporate agency name
+                $corporate_agencys = $conn->prepare("SELECT firstname,lastname FROM master_franchisee where master_franchisee_id='".$reference_no."'");
+                $corporate_agencys ->execute();
+                $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
+                if(  $corporate_agencys->rowCount()>0 ){
+                    $corporate_agencys = $corporate_agencys->fetch();
+                    $reference_no_fname = $corporate_agencys['firstname'];
+                    $reference_no_lname = $corporate_agencys['lastname'];
+                }
+            }
+            else if($reference_id == "NA"){
                 $reference_no_fname = "Not Applicable";
                 $reference_no_lname = "";
             }

@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Business Mentor | Admin Dashboard </title>
+	<title>Add Business Mentor / Master Franchisee | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">

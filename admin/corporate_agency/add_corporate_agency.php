@@ -24,7 +24,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Add Techno Enterprise | Admin Dashboard </title>
+        <title>Add Techno Enterprise / Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Add Techno Enterprise</h3>
+                                            <h3>Add Techno Enterprise / Franchisee</h3>
                                             <div class="row">
                                                 <div class="col-md-3 col-sm-6 col-12">
                                                     <div class="input-block mb-3">
@@ -103,7 +103,7 @@
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
                                                             <option value="business_consultant">Business Consultant</option>
-                                <option value="business_mentor">Business Mentor</option>
+                                                            <option value="business_mentor">Business Mentor</option>
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="">--Select Designation--</option>
@@ -276,7 +276,7 @@
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="address" placeholder="Enter First Name">
+                                                        <input type="text" class="form-control" id="address" placeholder="Enter Address">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">

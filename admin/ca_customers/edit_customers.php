@@ -393,6 +393,8 @@ if ($stmt->rowCount() > 0) {
                                                         <option value="10000" <?= $customer_type == "Prime" ? 'selected' : ''; ?>>Prime: <span>&#8377 </span>10,000/-</option>
                                                         <option value="30000" <?= $customer_type == "Premium" ? 'selected' : ''; ?>>Premium: <span>&#8377 </span>30,000/-</option>
                                                         <option value="35000" <?= $customer_type == "Premium Plus" ? 'selected' : ''; ?>>Premium Plus: <span>&#8377 </span>35,000/-</option>
+                                                        <option value="35000" <?= $customer_type == "Premium Select" ? 'selected' : ''; ?>>Premium Select: <span>&#8377 </span>35,000/-</option>
+                                                        <option value="21000" <?= $customer_type == "Premium Select Lite" ? 'selected' : ''; ?>>Premium Select Lite: <span>&#8377 </span>21,000/-</option>
                                                     </select>
                                                 </div>
                                             </div>

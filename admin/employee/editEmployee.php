@@ -51,17 +51,17 @@ if($usertype == 27){
 
     if ($stmt->rowCount() > 0) {
         foreach (($stmt->fetchAll()) as $key => $row) {
-            $fid                    = $row['id'];
-            $name                   = $row['name'];
-            $email                  = $row['email'];
-            $contact                = $row['contact'];
-            $date_of_birth          = $row['date_of_birth'];
-            $gender                 = $row['gender'];
-            $country                = $row['country'];
-            $country_cd             = $row['country_code'];
-            $state                  = $row['state'];
-            $city                   = $row['city'];
-            $pincode                   = $row['pincode'];
+            $fid = $row['id'];
+            $name = $row['name'];
+            $email = $row['email'];
+            $contact = $row['contact'];
+            $date_of_birth = $row['date_of_birth'];
+            $gender = $row['gender'];
+            $country = $row['country'];
+            $country_cd = $row['country_code'];
+            $state = $row['state'];
+            $city = $row['city'];
+            $pincode = $row['pincode'];
             $zone = $row['zone'];
             $address = $row['address'];
             $profile_pic = $row['profile_pic'];
@@ -121,27 +121,27 @@ if($usertype == 27){
 
     if ($stmt->rowCount() > 0) {
         foreach (($stmt->fetchAll()) as $key => $row) {
-            $fid                    = $row['id'];
-            $name                   = $row['name'];
-            $email                  = $row['email'];
-            $contact                = $row['contact'];
-            $country_cd             = $row['country_code'];
-            $reporting_manager_id   = $row['reporting_manager'];
-            $date_of_birth          = $row['date_of_birth'];
-            $date_of_joining        = $row['date_of_joining'];
-            $gender                 = $row['gender'];
-            $department             = $row['department'];
-            $designation            = $row['designation'];
-            $zone                   = $row['zone'];
-            $branch                 = $row['branch'];
-            $address                = $row['address'];
-            $profile_pic            = $row['profile_pic'];
-            $id_proof               = $row['id_proof'];
-            $bank_details           = $row['bank_details'];
-            $register_by            = $row['register_by'];
-            $user_type              = $row['user_type'];
-            $register_date          = $row['register_date'];
-            $note                   = $row['note'];
+            $fid = $row['id'];
+            $name = $row['name'];
+            $email = $row['email'];
+            $contact = $row['contact'];
+            $country_cd = $row['country_code'];
+            $reporting_manager_id = $row['reporting_manager'];
+            $date_of_birth = $row['date_of_birth'];
+            $date_of_joining = $row['date_of_joining'];
+            $gender = $row['gender'];
+            $department = $row['department'];
+            $designation = $row['designation'];
+            $zone = $row['zone'];
+            $branch = $row['branch'];
+            $address = $row['address'];
+            $profile_pic = $row['profile_pic'];
+            $id_proof = $row['id_proof'];
+            $bank_details = $row['bank_details'];
+            $register_by = $row['register_by'];
+            $user_type = $row['user_type'];
+            $register_date = $row['register_date'];
+            $note = $row['note'];
 
             //get country
             $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $dept . "' and status='1' ");

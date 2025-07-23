@@ -204,7 +204,7 @@ if ($stmt->rowCount() > 0) {
 
                                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit position-absolute bottom-0 end-0">
                                                     <!-- File input: ID must be profile_pic to match your JS -->
-                                                    <input id="pupload_file1" type="file" class="d-none profile-img-file-input">
+                                                    <input id="pupload_file1" type="file" class="d-none profile-img-file-input" disabled>
 
                                                     <!-- Hidden input for filename after upload -->
                                                     <input id="img_path1" type="hidden" value="<?= $profile_pic ?>">
@@ -406,7 +406,8 @@ if ($stmt->rowCount() > 0) {
                                                     <!--end col-->
                                                     <div class="col-lg-12">
                                                         <div class="hstack gap-2 justify-content-end">
-                                                            <button id="edit_profile" type="submit" class="btn btn-primary">Save Changes</button>
+                                                            <!-- commented by SV on 23-07-2025 -->
+                                                            <!-- <button id="edit_profile" type="submit" class="btn btn-primary" >Save Changes</button> -->
                                                         </div>
                                                     </div>
                                                     <!--end col-->
@@ -437,7 +438,7 @@ if ($stmt->rowCount() > 0) {
                                                         echo '<img id="img_pre3" src="../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
                                                     } ?>
                                                     <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file3" type="file" class="profile-img-file-input">
+                                                        <input id="pupload_file3" type="file" class="profile-img-file-input" disabled>
                                                         <input id="img_path3" type="hidden" value="<?= $pan_card ?>">
                                                         <label for="pupload_file3" class="profile-photo-edit avatar-xs">
                                                             <span class="avatar-title bg-light text-body shadow">
@@ -468,7 +469,7 @@ if ($stmt->rowCount() > 0) {
                                                     } ?>
                                                     
                                                     <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pbank_passbook" type="file" class="profile-img-file-input">
+                                                        <input id="pbank_passbook" type="file" class="profile-img-file-input" disabled>
                                                         <input id="pimg_path3" type="hidden" value="<?= $bank_passbook ?>">
                                                         <label for="pbank_passbook" class="profile-photo-edit avatar-xs">
                                                             <span class="avatar-title bg-light text-body shadow">
@@ -496,7 +497,7 @@ if ($stmt->rowCount() > 0) {
                                                     } ?>
                                                    
                                                     <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file4" type="file" class="profile-img-file-input">
+                                                        <input id="pupload_file4" type="file" class="profile-img-file-input" disabled>
                                                         <input id="img_path4" type="hidden" value="<?= $bank_passbook ?>">
                                                         <label for="pupload_file4" class="profile-photo-edit avatar-xs">
                                                             <span class="avatar-title bg-light text-body shadow">
@@ -526,7 +527,7 @@ if ($stmt->rowCount() > 0) {
                                                     } ?>
                                                     
                                                     <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file2" type="file" class="profile-img-file-input">
+                                                        <input id="pupload_file2" type="file" class="profile-img-file-input" disabled>
                                                         <input id="aimg_path2" type="hidden" value="<?= $aadhar_card ?>">
                                                         <label for="pupload_file2" class="profile-photo-edit avatar-xs">
                                                             <span class="avatar-title bg-light text-body shadow">
@@ -555,7 +556,7 @@ if ($stmt->rowCount() > 0) {
                                                     } ?>
                                                     
                                                     <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pupload_file5" type="file" class="profile-img-file-input">
+                                                        <input id="pupload_file5" type="file" class="profile-img-file-input" disabled>
                                                         <input id="img_path5" type="hidden" value="<?= $voting_card ?>">
                                                         <label for="pupload_file5" class="profile-photo-edit avatar-xs">
                                                             <span class="avatar-title bg-light text-body shadow">
@@ -584,7 +585,7 @@ if ($stmt->rowCount() > 0) {
                                                     } ?>
                                                     
                                                     <div class="avatar-xs p-0 profile-photo-edit">
-                                                        <input id="pid_proof" type="file" class="profile-img-file-input">
+                                                        <input id="pid_proof" type="file" class="profile-img-file-input" disabled>
                                                         <input id="pimg_path2" type="hidden" value="<?= $id_proof ?>">
                                                         <label for="pid_proof" class="profile-photo-edit avatar-xs">
                                                             <span class="avatar-title bg-light text-body shadow">

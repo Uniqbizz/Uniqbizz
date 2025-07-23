@@ -119,7 +119,8 @@
                                                             <option value="NA">--Select Designation--</option>
                                                             <option value="business_mentor">Business Mentor</option>
                                                             <option value="corporate_agency">Techno Enterprise</option>
-                                                            <!-- <option value="channel_business_director">Channel Business Director</option> -->
+                                                            <option value="sub_franchisee">Franchisee</option>
+                                                            <option value="master_franchisee">Master Franchisee</option>
                                                         </select>
                                                     </div>
                                                 </div>

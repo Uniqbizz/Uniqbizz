@@ -284,6 +284,8 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                         <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
                                                         <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
+                                                        <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
+                                                        <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option>
                                                     </select>
                                                 </div>
                                             </div>

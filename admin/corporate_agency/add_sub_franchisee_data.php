@@ -34,7 +34,7 @@
     $city=$_POST['city'];
     $note=$_POST['note'];
 
-    $user_type="16";
+    $user_type="29";
     // $reference_id = substr($user_id_name, 0 , 2);
     // $user_type=$reference_id == 'BH'? 25 : 16;
 

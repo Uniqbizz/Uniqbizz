@@ -1,5 +1,4 @@
 <?php
-// session_start();
 require '../connect.php';
 $current_year = date('Y');
 
@@ -7,24 +6,16 @@ $user_id_name = $_POST['user_id_name'];
 $registrant = $_POST['reference_name'];
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
-// $nominee_name = $_POST['nominee_name'];
-// $nominee_relation = $_POST['nominee_relation'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $payment_fee = $_POST['payment_fee'];
 $payment_label = $_POST['payment_label'];
 $comp_chek = $_POST['isComplementary'];
-// $complimentary=$_POST['complimentary'];
-// $converted=$_POST['converted'];
 $country_code = $_POST['country_code'];
 $phone_no = $_POST['phone'];
-// $gst_no=$_POST['gst_no'];
-// $business_package=$_POST['business_package'];
-// $amount=$_POST['amount'];
-// $age=$_POST['age'];
+
 $bdate = $_POST['dob'];
 $profile_pic = $_POST['profile_pic'];
-// $kyc=$_POST['kyc'];
 $pan_card = $_POST['pan_card'];
 $aadhar_card = $_POST['aadhar_card'];
 $voting_card = $_POST['voting_card'];
@@ -65,6 +56,9 @@ function divideAmount($totalAmount, $fixedAmount = 3000)
     if($totalAmount == 10000){
 		$fixedAmount = 2500;
 	}
+    if ($totalAmount == 21000) {
+        $fixedAmount = 1500;
+    }
     $fullParts = floor($totalAmount / $fixedAmount);
     $remaining = $totalAmount % $fixedAmount;
 
@@ -101,13 +95,6 @@ $stmt3 = $conn->prepare($sql);
 $result2 = $stmt3->execute(array(
     ':firstname' => $firstname,
     ':lastname' => $lastname,
-    // ':nominee_name' => $nominee_name,
-    // ':nominee_relation' => $nominee_relation,
-    // ':gst_no' => $gst_no,
-    // ':complimentary' => $complimentary,
-    // ':converted' => $converted,
-    // ':business_package' => $business_package,
-    // ':amount' => $amount,
     ':email' => $email,
     ':country_code' => $country_code,
     ':contact_no' => $phone_no,
@@ -121,7 +108,6 @@ $result2 = $stmt3->execute(array(
     ':gender' => $gender,
     ':note' => $note,
     ':profile_pic' => $profile_pic,
-    // ':kyc' => $kyc,
     ':pan_card' => $pan_card,
     ':aadhar_card' => $aadhar_card,
     ':voting_card' => $voting_card,
@@ -143,6 +129,7 @@ $result2 = $stmt3->execute(array(
 ));
 
 if ($result2) {
+    // prime/premium/premium plus not in use
     if ($payment_label =='Prime') {
         //get the inserted customer
         $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
@@ -198,14 +185,69 @@ if ($result2) {
                 ':confirm_status' => 0
             ]);
         }
-    }
-    else if ($payment_label == 'Premium Plus') {
+    }else if ($payment_label == 'Premium Select') {
         //get the inserted customer
         $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
         $stmt1 = $conn->prepare($sql2);
         $stmt1->execute();
         $row = $stmt1->fetch(PDO::FETCH_ASSOC);
         $cp_parts = divideAmount('30000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "INSERT INTO cu_coupons (user_id, payment_id, code, coupon_amt, usage_status, confirm_status) 
+                            VALUES (:user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status)";
+
+        $stmt = $conn->prepare($sqlInsertCoupon); // Prepare the statement once
+
+        // Loop through all coupon parts dynamically
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0
+            ]);
+        }
+    }
+    else if ($payment_label == 'Premium Select') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('30000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "INSERT INTO cu_coupons (user_id, payment_id, code, coupon_amt, usage_status, confirm_status) 
+                            VALUES (:user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status)";
+
+        $stmt = $conn->prepare($sqlInsertCoupon); // Prepare the statement once
+
+        // Loop through all coupon parts dynamically
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0
+            ]);
+        }
+    }
+    else if ($payment_label == 'Premium Select Lite') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('21000');
         $payment_id = generatePaymentID();
         // Define the SQL query once
         $sqlInsertCoupon = "INSERT INTO cu_coupons (user_id, payment_id, code, coupon_amt, usage_status, confirm_status) 

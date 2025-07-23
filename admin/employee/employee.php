@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Employee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Employee / Zonal Manager</h4>
 
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -119,7 +119,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Employee List</h4>
+                                                        <h4>Pending Employee / Zonal Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -255,7 +255,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Employee List</h4>
+                                                        <h4>Registered Employee / Zonal Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,8 +271,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Employee Id</th>
-                                                        <th>Designation</th> 
+                                                        <th>Emp/ZM Id</th> 
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -301,8 +300,7 @@
 
                                                             echo '<tr>
                                                                 <td>' . $row['zonal_manager_id'] . '</td>
-                                                                <td><span class="badge bg-primary me-1">ZM</span></td>
-                                                                <td>' . $row['name'] . '</td>
+                                                                <td><span class="badge bg-primary me-1">ZM</span>' . $row['name'] . '</td>
                                                                 <td>N/A</td>
                                                                 <td>
                                                                     <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact'] . '</p>
@@ -317,7 +315,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","NA","NA","NA","NA","NA","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 <li><a href="#" onclick=\'editfuncCust("' . $row["zonal_manager_id"] . '","NA","' . $row["register_by"] . '","NA","NA","' . $row["zone"] . '","NA","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["zonal_manager_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
@@ -363,8 +361,7 @@
 
                                                             echo '<tr>
                                                                 <td>' . $row['employee_id'] . '</td>
-                                                                <td>' . $prefix . '</td>
-                                                                <td>' . $row['name'] . '</td>
+                                                                <td>' . $prefix . ' ' . $row['name'] . '</td>
                                                                 <td>
                                                                     <p class="mb-1">' . $row['reporting_manager'] . '</p>
                                                                     <p class="mb-0">' . $reporting_manager_name . '</p>
@@ -382,7 +379,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 <li><a href="#" onclick=\'editfuncCust("' . $row["employee_id"] . '","' . $row["reporting_manager"] . '","' . $row["register_by"] . '","'.$row['department'].'","'.$row['designation'].'","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["employee_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>

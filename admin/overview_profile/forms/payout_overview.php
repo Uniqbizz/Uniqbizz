@@ -37,7 +37,19 @@ if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_
                      FROM product_payout WHERE bdm_id = '$id' $dateFilter
                      ORDER BY date DESC";
     }
-} elseif ($DBtable == 'business_mentor') {
+} 
+elseif ($DBtable == 'zonal_manager') {
+        $sqlUnion = "SELECT 'ZM Payout' AS title, zonal_manager, message_zm AS message, commision_zm AS amount, created_date AS date, status_zm AS status
+                     FROM sub_franchisee_payout WHERE zonal_manager = '$id' AND created_date BETWEEN '$start_date' AND '$end_date'
+                     UNION 
+                     SELECT 'CU Payout' AS title, business_development_manager, message_bdm AS message, commision_bdm AS amount, created_date AS date, status_bdm AS status
+                     FROM ca_cu_payout WHERE business_development_manager = '$id' and commision_bdm!=0 $dateFilter
+                     UNION 
+                     SELECT 'Product Payout' AS title, bdm_id, bdm_mess AS message, bdm_amt AS amount, created_date AS date, bdm_status AS status
+                     FROM product_payout WHERE bdm_id = '$id' $dateFilter
+                     ORDER BY date DESC";//need to check for product payout
+} 
+elseif ($DBtable == 'business_mentor') {
     $sqlUnion = "SELECT 'BM Payout' AS title, bm_user_id, message_bm AS message, payout_amount AS amount, payout_date AS date, payout_status AS status
                  FROM bm_payout_history WHERE bm_user_id = '$id' AND payout_date BETWEEN '$start_date' AND '$end_date'
                  UNION 
@@ -50,7 +62,22 @@ if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_
                  SELECT 'Product Payout' AS title, bm_id, bm_mess AS message, bm_amt AS amount, created_date AS date, bm_status AS status
                  FROM product_payout WHERE bm_id = '$id' $dateFilter
                  ORDER BY date DESC";
-} elseif ($DBtable == 'corporate_agency') {
+} 
+elseif ($DBtable == 'mastert_franchisee') {
+    $sqlUnion = "SELECT 'MF Payout' AS title, master_franchisee, message_mf AS message, commision_mf AS amount, created_date AS date, status_mf AS status
+                 FROM sub_franchisee_payout WHERE master_franchisee = '$id' AND created_date BETWEEN '$start_date' AND '$end_date'
+                 UNION 
+                 SELECT 'TC Payout' AS title, business_mentor, message_bm AS message, commision_bm AS amount, created_date AS date, status_bm AS status
+                 FROM ca_ta_payout WHERE business_mentor = '$id' $dateFilter
+                 UNION 
+                 SELECT 'CU Payout' AS title, business_mentor, message_bm AS message, commision_bm AS amount, created_date AS date, status_bm AS status
+                 FROM ca_cu_payout WHERE business_mentor = '$id' $dateFilter
+                 UNION 
+                 SELECT 'Product Payout' AS title, bm_id, bm_mess AS message, bm_amt AS amount, created_date AS date, bm_status AS status
+                 FROM product_payout WHERE bm_id = '$id' $dateFilter
+                 ORDER BY date DESC";
+} 
+elseif ($DBtable == 'corporate_agency') {
     $sqlUnion = "SELECT 'TC Payout' AS title, corporate_agency, message_ca AS message, commision_ca AS amount, created_date AS date, status_ca AS status
                  FROM ca_ta_payout WHERE corporate_agency = '$id' $dateFilter
                  UNION 
@@ -60,7 +87,19 @@ if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_
                  SELECT 'Product Payout' AS title, te_id, te_mess AS message, te_amt AS amount, created_date AS date, te_status AS status
                  FROM product_payout WHERE te_id = '$id' $dateFilter
                  ORDER BY date DESC";
-} elseif ($DBtable == 'ca_travelagency') {
+} 
+elseif ($DBtable == 'sub_franchisee') {
+    $sqlUnion = "SELECT 'TC Payout' AS title, corporate_agency, message_ca AS message, commision_ca AS amount, created_date AS date, status_ca AS status
+                 FROM ca_ta_payout WHERE corporate_agency = '$id' $dateFilter
+                 UNION 
+                 SELECT 'CU Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
+                 FROM ca_cu_payout WHERE techno_enterprise = '$id' $dateFilter
+                 UNION 
+                 SELECT 'Product Payout' AS title, te_id, te_mess AS message, te_amt AS amount, created_date AS date, te_status AS status
+                 FROM product_payout WHERE te_id = '$id' $dateFilter
+                 ORDER BY date DESC";
+} 
+elseif ($DBtable == 'ca_travelagency') {
     $sqlUnion = "SELECT 'CU Payout' AS title, travel_consultant, message_tc AS message, commision_tc AS amount, created_date AS date, status_tc AS status
                  FROM ca_cu_payout WHERE travel_consultant = '$id' $dateFilter
                  UNION 

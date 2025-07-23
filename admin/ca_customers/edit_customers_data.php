@@ -21,20 +21,15 @@ if ($editfor == 'pending') {
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
-// $nominee_name = $_POST['nominee_name'];
-// $nominee_relation = $_POST['nominee_relation'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $country_code = $_POST['country_code'];
 $phone = $_POST['phone'];
-// $age=$_POST['age'];
 $dob = $_POST['dob'];
 // get age of the user
 $birthYear = str_split($dob, 4);
 $birth_year = $birthYear[0];
 $age = $current_year - $birth_year;
-// $gst_no=$_POST['gst_no'];
-// $kyc=$_POST['kyc'];
 $payment_fee = $_POST['payment_fee'];
 $payment_label = $_POST['payment_label'];
 $comp_chek = $_POST['isComplementary'];
@@ -67,43 +62,6 @@ $title = "Customer";
 $fromWhom = "1";
 $register_by = "1";
 
-function divideAmount($totalAmount, $fixedAmount = 3000)
-{
-    $parts = [];
-
-    // How many full ₹3000 parts fit?
-	if($totalAmount == 10000){
-		$fixedAmount = 2500;
-	}
-    $fullParts = floor($totalAmount / $fixedAmount);
-    $remaining = $totalAmount % $fixedAmount;
-
-    // Add full ₹3000 parts
-    for ($i = 0; $i < $fullParts; $i++) {
-        $parts[] = $fixedAmount;
-    }
-
-    // Add remaining amount to last part if needed
-    if ($remaining > 0) {
-        $parts[] = $remaining;
-    }
-
-    return $parts;
-}
-//generate payment id
-function generatePaymentID()
-{
-	return "PAID" . date("YmdHis"); // Format: PAIDYYYYMMDDHHMMSS
-}
-//coupon code genaration
-function generateUniqueCoupon()
-{
-	$year = date("Y"); // Get current year
-	$uniquePart = bin2hex(random_bytes(6)); // Generate a unique random string (6 bytes = 12 hex characters)
-
-	return strtoupper($year . substr($uniquePart, 0, 11)); // Ensures it's exactly 15 characters
-}
-
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
 
 	$sql1 = "UPDATE ca_customer SET firstname=:firstname,lastname=:lastname,country_code=:country_code,contact_no=:contact_no,
@@ -118,12 +76,9 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 	$result =  $stmt->execute(array(
 		':firstname' => $firstname,
 		':lastname' => $lastname,
-// 		':nominee_name' => $nominee_name,
-// 		':nominee_relation' => $nominee_relation,
 		':country_code' => $country_code,
 		':contact_no' => $phone,
 		':email' => $email,
-		// ':gst_no' => $gst_no,
 		':gender' => $gender,
 		':date_of_birth' => $dob,
 		':country' => $country,
@@ -133,7 +88,6 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		':address' => $address,
 		':note' => $note,
 		':profile_pic' => $profile_pic,
-		// ':kyc' => $kyc,
 		':age' => $age,
 		':pan_card' => $pan_card,
 		':aadhar_card' => $aadhar_card,
@@ -182,7 +136,6 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 			} else {
 				echo 0;
 			}
-			// echo 1;
 		} else {
 			echo 0;
 		}

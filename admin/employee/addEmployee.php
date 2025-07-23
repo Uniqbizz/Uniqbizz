@@ -707,18 +707,18 @@
             //     }
             // });
             
-            // // on zone change get branch associated with that zone
-			// $('#zone').on('change', function(){
-			// 	var zone_id = $(this).val();
-			// 	$.ajax({
-			// 		url: '../assets/get_data/get_branch.php',
-			// 		type: 'POST',
-			// 		data: {zone_id:zone_id},
-			// 		success: function(data){
-			// 			$('#branch').html(data);
-			// 		}
-			// 	});
-			// });
+             // on zone change get branch associated with that zone Employee section 
+			$('#zone').on('change', function(){
+				var zone_id = $(this).val();
+				$.ajax({
+					url: '../assets/get_data/get_branch.php',
+					type: 'POST',
+					data: {zone_id:zone_id},
+					success: function(data){
+						$('#branch').html(data);
+					}
+				});
+			});
         </script>
         
     </body>

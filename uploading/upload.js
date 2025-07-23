@@ -386,6 +386,276 @@ $('#upload_file6').change(function () {
     });
 });
 
+//for profile page
+
+// ** Id proof Pic upload **
+$('#pid_proof').change(function(){
+    var folder = 'id_proof';
+
+    var file_data = $('#pid_proof').prop('files')[0];   
+    var form_data = new FormData();                  
+    form_data.append('file', file_data);
+    form_data.append('folder',folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(data){
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#pid_proof').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pid_proof').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pid_proof').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pid_proof').val('');
+            }else{
+                //$("#ppreview2").show();
+                $("#pimg_pre2").attr("src","../../uploading/"+data);
+                $("#pimg_path2").val(data);
+            }
+        }
+    });
+});
+
+// ** Bank Passbook Pic upload **
+$('#pbank_details').change(function(){
+    var folder = 'passbook';
+
+    var file_data = $('#pbank_details').prop('files')[0];   
+    var form_data = new FormData();                  
+    form_data.append('file', file_data);
+    form_data.append('folder',folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(data){
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#pbank_details').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pbank_details').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pbank_details').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pbank_details').val('');
+            }else{
+                //$("#ppreview3").show();
+                $("#pimg_pre3").attr("src","../uploading/"+data);
+                $("#pimg_path3").val(data);
+            }
+        }
+    });
+});
+//profile pic
+$('#pupload_file1').change(function () {
+    var folder = 'profile_pic';
+
+    var file_data = $('#pupload_file1').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#pupload_file1').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pupload_file1').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pupload_file1').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pupload_file1').val('');
+            }else{
+                //$("#preview1").show();
+                $("#img_pre1").attr("src","../uploading/"+data);
+                $("#img_path1").val(data);
+            }
+        }
+    });
+});
+
+// ** Aadhar Card Pic upload **
+$('#pupload_file2').change(function () {
+    var folder = 'aadhar';
+
+    var file_data = $('#pupload_file2').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#pupload_file2').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pupload_file2').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pupload_file2').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pupload_file2').val('');
+            }else{
+                //$("#apreview2").show();
+                $("#aimg_pre2").attr("src","../uploading/"+data);
+                $("#aimg_path2").val(data);
+            }
+        }
+    });
+});
+
+// ** PAN Card Pic upload **
+$('#pupload_file3').change(function () {
+    var folder = 'pancard';
+
+    var file_data = $('#pupload_file3').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+           if(data == 1){
+                alert("Upload Failed");
+                $('#pupload_file3').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pupload_file3').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pupload_file3').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pupload_file3').val('');
+            }else{
+                //$("#preview3").show();
+                $("#img_pre3").attr("src","../uploading/"+data);
+                $("#img_path3").val(data);
+            }
+        }
+    });
+});
+
+// ** Bank Passbook Pic upload **
+$('#pupload_file4').change(function () {
+    var folder = 'passbook';
+
+    var file_data = $('#pupload_file4').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#pupload_file4').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pupload_file4').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pupload_file4').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pupload_file4').val('');
+            }else{
+                //$("#preview4").show();
+                $("#img_pre4").attr("src","../uploading/"+data);
+                $("#img_path4").val(data);
+            }
+        }
+    });
+});
+
+// ** Voting Card Pic upload **
+$('#pupload_file5').change(function () {
+    console.log('test');
+    
+    var folder = 'voting';
+
+    var file_data = $('#pupload_file5').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: '../uploading/upload.php',
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#pupload_file5').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#pupload_file5').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#pupload_file5').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#pupload_file5').val('');
+            }else{
+                //$("#preview5").show();
+                $("#img_pre5").attr("src","../uploading/"+data);
+                $("#img_path5").val(data);
+            }
+        }
+    });
+});
+//end for profile page
+
 // ** Payment Proof Pic upload (overview)**
 $('#upload_file61').change(function () {
     var folder = 'payment';

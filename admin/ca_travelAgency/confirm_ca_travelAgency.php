@@ -9,16 +9,6 @@ $register_Date = date('Y-m-d H:i:s'); //date added when user is confirmed
 $id= $_POST["id"];
 $uname= $_POST["uname"];
 $reference = $_POST["ref"];
-// $business_package = $_POST["business_package"];
-// if($business_package == 'basic'){
-// 	$type = 'B';
-// }else if($business_package == 'advanced'){
-// 	$type = 'A';
-// }else if($business_package == 'ultra'){
-// 	$type = 'U';
-// }else if($business_package == "micro"){
-// 	$type = 'M';
-// }
 
 $string="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0,8);
@@ -50,21 +40,6 @@ if($sql9->rowCount()>0){
 	}
 }
 
-// $sql12 = $conn->prepare("SELECT * FROM channel_business_director WHERE channel_business_director_id = '".$BcRef."'");
-// $sql12->execute();
-// $sql12->setFetchMode(PDO::FETCH_ASSOC);
-// if($sql12->rowCount()>0){
-// 	foreach(($sql12->fetchAll()) as $key12 => $row12){
-// 		$cbd_id = $row12['channel_business_director_id'];
-// 		$cbd_name = $row12['firstname']. ' ' .$row12['lastname'];
-// 	}
-// }
-// $uid=0;
-// $franchisee_id=0;
-
-// $uid='';
-// $sql2= $conn->prepare("SELECT franchisee_id,CAST(franchisee_id as SIGNED) AS casted_column  from franchisee where user_type='4'  ORDER BY casted_column desc limit 1");
-// made changes in query to get id in order SFA230043 TC230010
 $sql2= $conn->prepare("SELECT distinct ca_travelagency_id,SUBSTRING(ca_travelagency_id,3,6) as tc_id from ca_travelagency where (status='1' OR status='3') AND id NOT IN (0) order by tc_id DESC limit 1");
 
 $sql2->execute();
@@ -89,14 +64,6 @@ if($sql2->rowCount()>0){
 			$fid=substr($ca_travelagency_id,4);
 			$newValue = 'TA'.$subY.$fid;
 
-			// if($business_package == 'basic'){
-			// 	$newValue = 'SFB'.$subY.$fid;
-			// }else if($business_package == 'advanced'){
-			// 	$newValue = 'SFA'.$subY.$fid;
-			// }else if($business_package == 'ultra'){
-			// 	$newValue = 'SFU'.$subY.$fid;
-			// }
-
 			  $Nca_travelagency_id=str_pad($newValue, 4, '0', STR_PAD_LEFT);
 			  $uid =$Nca_travelagency_id;
 		}
@@ -107,15 +74,6 @@ if($sql2->rowCount()>0){
 }else
 {
 	$uid = 'TA'.$subY.'0001';
-	// if($business_package == 'basic'){
-	// 	$uid = 'SFB'.$subY.'0001';
-	// }else if($business_package == 'advanced'){
-	// 	$uid = 'SFA'.$subY.'0001';
-	// }else if($business_package == 'ultra'){
-	// 	$uid = 'SFU'.$subY.'0001';
-	// }else{
-
-	// }
 }
 
 //log file
@@ -165,20 +123,10 @@ if ($result) {
 
 		if($result3){
 
-			// $te_commi = $amount * 10 / 100;  
-			// $bm_commi = $amount * 5 / 100;  
-			
-			// $message_bm = "BM - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
-			// $commision_bm = $bm_commi;
-
-			// $message_te = "TE - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on recruting Travel Consultant. Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-";
-			// $commision_te = $te_commi;
-
-			// $message_ca_ta = "Travel Consultant - "  .$name." ".$uid. " has join with reference of Techno Enterprise " .$te_name." ".$te_id.". Recruitment Fee - Rs.".$amount."/-";
-			// $ca_ta_amt_paid = $amount;
-
 			// get ref of bm to populate payout table 
-			$reference_id = substr($reference_no, 0, 2);
+			$reference_id = (substr($reference_no, 0, 1) == 'F') 
+							? substr($reference_no, 0, 1) 
+							: substr($reference_no, 0, 2);
 			if ($reference_id == "TE") {
 
 				//get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
@@ -273,10 +221,105 @@ if ($result) {
 				$message_bm = "BM - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-.";
 				$commision_bm = $bm_commi;
 
-				$message_te = "Direct Travel Consultant Recrutment Through BM";
+				$message_te = "Direct Travel Consultant RecruitmentThrough BM";
 				$commision_te = $te_commi;
 
 				$message_ca_ta = "Travel Consultant - "  .$name." ".$uid. " has join with reference of Business Mentor " .$BmName." ".$BmId.". Recruitment Fee - Rs.".$amount."/-";
+				$ca_ta_amt_paid = $amount;
+
+			}
+			if ($reference_id == "F") {
+
+				//get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
+				$sql10 = $conn->prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$reference_no."'");
+				$sql10->execute();
+				$sql10->setFetchMode(PDO::FETCH_ASSOC);
+				if($sql10->rowCount()>0){
+					foreach(($sql10->fetchAll()) as $key10 => $row10){
+						$te_id = $row10['sub_franchisee_id'];
+						$te_name = $row10['firstname']. ' ' .$row10['lastname'];
+						$Bm_id = $row10['reference_no'];
+						$Bm_name = $row10['registrant'];//not needed
+					}
+				}
+
+				//check if ref is bm or bdm
+				$ref_id = substr($Bm_id, 0, 2);
+				if($ref_id == "MF"){
+					$sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_id."'");
+					$sql11->execute();
+					$sql11->setFetchMode(PDO::FETCH_ASSOC);
+					if($sql11->rowCount()>0){
+						foreach(($sql11->fetchAll()) as $key11 => $row11){
+							$BmId = $row11['master_franchisee_id'];
+							$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+							$BdmId = $row11['reference_no'];//not needed
+							$BdmName = $row11['registrant'];//not needed
+						}
+					}
+					if($amount == "FOC"){
+						$bm_commi = '0'; 
+					}else{
+						$bm_commi = '300'; 
+					}
+					$message_bm = "Master Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+					$commision_bm = $bm_commi;
+
+				}else if($ref_id == "ZM"){
+					$sql11 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '".$Bm_id."'");
+					$sql11->execute();
+					$sql11->setFetchMode(PDO::FETCH_ASSOC);
+					if($sql11->rowCount()>0){
+						foreach(($sql11->fetchAll()) as $key11 => $row11){
+							$BmId = $row11['zonal_manager_id'];
+							$BmName = $row11['name'];
+						}
+					}
+					$bm_commi = '0'; 
+					$message_bm = "Zonal Manager - ".$BmName." ".$BmId." commission not applicable on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+					$commision_bm = $bm_commi;
+				}
+					
+				$te_commi = '1000';  
+
+				$message_te = "Franchisee - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on recruting Travel Consultant. Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-";
+				$commision_te = $te_commi;
+
+				$message_ca_ta = "Travel Consultant - "  .$name." ".$uid. " has join with reference of Techno Enterprise " .$te_name." ".$te_id.". Recruitment Fee - Rs.".$amount."/-";
+				$ca_ta_amt_paid = $amount;
+
+			}else if($reference_id == "MF"){
+
+				$te_id = '';
+				$te_name = '';
+
+				$sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$reference_no."'");
+				$sql11->execute();
+				$sql11->setFetchMode(PDO::FETCH_ASSOC);
+				if($sql11->rowCount()>0){
+					foreach(($sql11->fetchAll()) as $key11 => $row11){
+						$BmId = $row11['master_franchisee_id'];
+						$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+						$BdmId = $row11['reference_no'];//not in use
+						$BdmName = $row11['registrant'];//not in use
+					}
+				}
+
+				if($amount == "FOC"){
+					$te_commi = '0';  
+					$bm_commi = '0';  
+				}else{
+					$te_commi = '0';  
+					$bm_commi = '1000';  
+				}
+
+				$message_bm = "Master Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-.";
+				$commision_bm = $bm_commi;
+
+				$message_te = "Direct Travel Consultant RecruitmentThrough Master Franchisee";
+				$commision_te = $te_commi;
+
+				$message_ca_ta = "Travel Consultant - "  .$name." ".$uid. " has join with reference of Master Franchisee " .$BmName." ".$BmId.". Recruitment Fee - Rs.".$amount."/-";
 				$ca_ta_amt_paid = $amount;
 
 			}
@@ -303,23 +346,6 @@ if ($result) {
 			// $result4 = '1';
 
 			if($result4){
-
-				// $message_cbd = "CBD - ".$cbd_name." ".$cbd_id." earned 150/- From BC - ".$Bc_name." ".$Bc_id." when Corporate Agency  ".$Ca_name." ".$Ca_id." recruited Travel Agency. Name of the Travel Agency - " .$name." ".$uid. ".";
-				// $payout_type = "Recruitment Payout";
-				// $cbdCommiAmt = "150";
-
-				// $insertCBDPaySQL = " INSERT INTO cbd_payout (cbd_id, cbd_name, payout_type, user_id, user_name, message, amount, status) VALUES (:cbd_id, :cbd_name, :payout_type, :user_id, :user_name, :message, :amount, :status) ";
-				// $insertCBDPay = $conn -> prepare($insertCBDPaySQL);
-				// $result5 = $insertCBDPay -> execute( array(
-				// 	':cbd_id' => $cbd_id,
-				// 	':cbd_name' => $cbd_name,
-				// 	':payout_type' => $payout_type,
-				// 	':user_id' => $BcId, 
-				// 	':user_name' => $BcName, 
-				// 	':message' => $message_cbd, 
-				// 	':amount' => $cbdCommiAmt, 
-				// 	':status' => '2'
-				// ));
 
 				$result5 = '1';
 
