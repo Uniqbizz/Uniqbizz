@@ -1,0 +1,272 @@
+/* font size */
+.head{
+    font-size: 18px!important;
+}
+.sub-head{
+    font-size: 16px!important;
+}
+
+/* profile, passbook, pan, aadhar, voting card pic css */
+#image_preview1{
+    height: 150px;
+    width: 130px;
+    margin-bottom: 10px;
+}
+#preview1 img{
+    width: 130px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#image_preview2{
+    height: 150px;
+    width: 130px;
+    margin-bottom: 10px;
+}
+#preview2 img{
+    width: 130px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#image_preview3{
+    height: 150px;
+    width: 130px;
+    margin-bottom: 10px;
+}
+#preview3 img{
+    width: 130px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#image_preview4{
+    height: 150px;
+    width: 130px;
+    margin-bottom: 10px;
+}
+#preview4 img{
+    width: 130px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#image_preview5{
+    height: 150px;
+    width: 130px;
+    margin-bottom: 10px;
+}
+#preview5 img{
+    width: 130px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+#image_preview6{
+    height: 150px;
+    width: 130px;
+    margin-bottom: 10px;
+}
+#preview6 img{
+    width: 130px;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+/* input button css change */
+input::file-selector-button {
+    background-color: #f1b44c;
+    background-size: 150%;
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    padding: 1rem 1.25rem;
+    text-shadow: 0 1px 1px #333;
+    transition: all 0.25s;
+    color: white;
+}
+input::file-selector-button:hover {
+    background-color: #ffca04;
+}
+
+/* 
+@media screen and (max-width: 767px) {
+    .code-mobile{
+        margin-bottom: 20px;
+    }
+} */
+
+/* loading screen icon */
+#loading-overlay {
+    position: absolute;
+    width: 100%;
+    height:100%;
+    left: 0;
+    top: 0;
+    display: none;
+    align-items: center;
+    background-color: #000;
+    z-index: 1002;
+    opacity: 0.5;
+}
+.loading-icon{ 
+    position:absolute;
+    border-top:2px solid #fff;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    border-left:2px solid #767676;
+    border-radius:25px;
+    width:25px;
+    height:25px;
+    margin:0 auto;
+    position:absolute;
+    left:50%;
+    margin-left:-20px;
+    top:50%;
+    margin-top:-20px;
+    z-index:4;
+    -webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 
+    100% { 
+        -moz-transform: rotate(360deg); 
+    } 
+}
+@-webkit-keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+    } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}  
+
+/* Scroll To Top */
+
+.scroll-btn {
+    position: fixed;
+    bottom: 300px;
+    right: 30px;
+    z-index: 94;
+    opacity: 0;
+    visibility: hidden;
+    display: inline-block;
+    border-radius: 50%;
+
+    i {
+        display: inline-block;
+        background-color: #4b38b3;
+        color: #ffffff;
+        text-align: center;
+        font-size: 16px;
+        width: var(--btn-size, 40px);
+        height: var(--btn-size, 40px);
+        line-height: var(--btn-size, 40px);
+        z-index: 2;
+        border-radius: inherit;
+        position: relative;
+        transition: all ease 0.8s;
+        box-shadow: 0 0 20px 0 rgba(#000, 0.02);
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        left: var(--extra-shape, -6px);
+        top: var(--extra-shape, -6px);
+        right: var(--extra-shape, -6px);
+        bottom: var(--extra-shape, -6px);
+        background-color: transparent;
+        border-radius: inherit;
+        z-index: 1;
+        border: 2px dashed #4b38b3;
+        transition: all ease 0.4s;
+        animation: spin 13s infinite linear;
+    }
+
+    &:focus,
+    &:hover {
+        i {
+        background-color: #FF681A;
+        color: #ffffff;
+        }
+
+        &:before {
+        border-color: #FF681A;
+        }
+    }
+
+    &.show {
+        bottom: 120px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @include sm {
+        --btn-size: 40px;
+        --extra-shape: -4px;
+        right: 15px;
+        bottom: 50px;
+
+        &.show {
+        bottom: 15px;
+        }
+    }
+}
+
+.scrollToTop {
+    position: fixed;
+    right: 35px;
+    bottom: 500px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all ease 0.4s;
+    z-index: 96;
+}
+.scrollToTop.show {
+    bottom: 60px;
+    opacity: 1;
+    visibility: visible;
+    --vz-btn-padding-x: 5re;
+    padding: 0 !important;
+    border: none;
+}
+
+@include md {
+    .vs-btn {
+        font-size: 14px;
+        padding: {
+        left: 20px;
+        right: 20px;
+        }
+    }
+
+    .play-btn {
+        --icon-size: 60px;
+        --icon-font-size: 20px;
+    }
+
+    .scrollToTop {
+        right: 20px;
+    }
+    .scrollToTop.show {
+        bottom: 20px;
+    }
+    
+}
+
+.vertical-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(33, 37, 41, .35);
+    z-index: 1003;
+    display: none;
+}

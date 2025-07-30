@@ -1,0 +1,462 @@
+
+        .filter-options{
+            display:flex;
+            justify-content: center; 
+            align-items: center; 
+            padding:20px 0 20px;
+        }
+
+        .filter-opt-1{
+            padding: 16px;
+            border: 2px black solid;
+            border-right: 0px;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .filter-opt-1 select{
+            border: none !important;
+        }
+
+        .filter-opt-2 select{
+            border: none;
+        }
+
+        .filter-opt-3 .input[type="month"]{
+            border: none;
+        }
+
+        .filter-opt-2{
+            padding: 16px;
+            border: 2px black solid;
+            width: 100% !important;
+            border-right: 0px;
+        }
+        .filter-opt-2-1{
+            padding: 16px;
+            border: 2px black solid;
+            width: 100% !important;
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .filter-opt-3{
+            border: 2px black solid;
+            padding: 16px;
+            width: 100%;
+            border-right: 0px;
+        }
+        .filter-opt-3-1{
+            border: 2px black solid;
+            padding: 0.5rem;
+            width: 100%;
+            border-right: 0px;
+            font-weight: 600;
+            color: black;
+        }
+        .span-middle-align{
+            position: relative;
+            top: 10px;
+            left: 11px;
+        }
+        .control{
+            padding: 1.618rem !important;
+            border: 2px black solid!important;
+        }
+        .border-round{
+            border: 1px solid black;
+            width: 34%;
+            position: absolute;
+            top: 10px;
+            right: 50px;
+
+        }
+        .border-round p{
+            margin-bottom: 0px !important;
+            text-align: center;
+        }
+
+        .no-space{
+            margin: 0;
+            padding: 0;
+        }
+        .no-space1{
+            margin: 0;
+            padding: 0;
+            margin-top: 16px;
+        }
+        .select-monthyear{
+            width: auto !important;
+            padding: 0 !important;
+            float: right;
+            border: none;
+        }
+        .app-search span{
+            position: absolute;
+            left: 13px;
+            top: 8px;
+            color: black;
+            font-weight: 600;
+        }
+        .search{
+            background-color: white !important;
+            border-radius: 0 10px 10px 0 !important;
+            padding-left: 40px !important;
+        }
+        .count{
+            padding: 0px;
+        }
+        .count1{
+            padding-left: 15px;
+            padding-top: 16px;
+            padding-bottom: 16px;
+            border: 2px solid black;
+            border-right: 0px;
+            width: 100%;
+        }
+        .selectdesign{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            background-image: url("../assets/images/select_icon.svg");
+            background-repeat: no-repeat;
+            background-position-x: 100%;
+            background-position-y: 5px;
+            padding: 1rem;
+            padding-right: 2rem;
+            width: 100%;
+        }
+        
+        /* download icon css  */
+        .icon{
+            display: flex;
+        }
+        .modal-radius{
+            border-radius: 18px !important;
+        }
+        .filter{
+            margin-top: -15px !important;
+            padding: 0px !important;
+        }
+        .font{
+            font-size: 28px !important;
+            padding-top: 10px;
+        }
+        .layout-1{
+            display: flex;
+            justify-content: end;
+            margin-top: -22px;
+        }
+        .layout-2{
+            display: flex;
+            justify-content: end;
+            margin-top: -18px;
+        }
+        .layout-3{
+            display: flex;
+            justify-content: end;
+            margin-top: -40px;
+            margin-right: 20px;
+        }
+        
+        .p-3{
+            padding: 0px !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+        .date-layout{
+            margin-left: 4.5rem !important;
+        }
+        .badge{
+            width: fit-content;
+        }
+       .download-icon{
+            margin-top: 10px !important;
+        }
+        .status1 {
+            margin-left: 0.5rem !important;
+        }
+
+        /* start center pop up modal for pending status  */
+        .input1{
+            padding: 2% 30% 2% 30%;
+            border-radius: 10px;
+            border: 1px solid black;  
+        }
+        .input2{
+            border-radius: 10px;
+            border: 1px solid black;  
+        }
+        
+        /* end center pop up modal for pending status  */
+        
+        @media (max-width: 1263px){
+            .filter-opt-3-1 p{    
+                margin-left: -9px !important;
+            }
+            .date-layout{
+                margin-left: 3rem !important;
+            }
+            .border-round{
+                width: 40% !important;
+                right: 30px;
+            }
+        }
+        @media (max-width: 1232px){
+            .ms-5 {
+                margin-left: 1rem!important;
+            }
+            .date-layout{
+                margin-left: 1.5rem !important;
+            }
+        }
+        @media (max-width: 1159px){
+            .filter-opt-3-1 {
+                width: 100%;
+                height: 56px;
+                padding: 5px !important;
+            }
+            .filter-opt-3-1 p{    
+                margin-left: -14px !important;
+            }
+            .border-round{
+                width: 45% !important;  
+                right: 10px !important; 
+                top: 10px !important;
+            }
+            
+        }
+        @media (max-width: 1105px) and (min-width: 992px){
+            .fw-bold{
+                display: flex;
+            }
+            .ms-5 {
+                margin-left: 0rem!important;
+            }
+            .date-layout{
+                margin-left: 0rem !important;
+            }
+            .ms-4{
+                margin-left: 0rem !important;
+            }
+            .border-round{
+                width: 60% !important;
+                position: relative;
+                top: -10px !important;
+                left: 0px;
+            }
+            .bx{
+                padding-top: 2px; 
+                padding-left: 5%;
+            }
+        }
+        /* start pop up modal */
+        @media (max-width: 992px) and (min-width: 768px){
+            .icon{
+                font-size: 18px !important;
+                margin-top: 1px !important;
+            }
+            .pt-3{
+                font-size: 14px !important;
+            }
+            .layout-1{
+                font-size: 10px !important;
+                margin-top: -16px !important;
+            }
+            .layout-3 {
+                padding-top: 2px;
+                padding-left: 0% !important;
+                display: flex !important;
+            }
+        }
+        @media (max-width: 767px) and (min-width: 576px){
+            .icon {
+                font-size: 23px !important;
+                width: auto !important;
+            }
+            .layout-3 {
+                padding-top: 2px;
+                margin-left: 5% !important;
+                display: flex !important;
+            }
+            .status1{
+                margin-left: 1.2rem !important;
+            }
+            .status1{
+                margin-left:  1.2rem !important;
+            }
+            .card{
+                margin-top: 10px !important;
+            }
+        }
+        @media (max-width: 576px){
+            .icon {
+                font-size: 23px !important;
+                width: fit-content !important;
+            }
+            .layout-3 {
+                padding-top: 2px;
+                margin-left: 5% !important;
+                display: flex !important;
+            }
+            .fw-bold{
+                display: flex !important;
+            }
+            .status1 {
+                margin-left: 0.5rem !important;
+            }
+            .card{
+                margin-top: 10px !important;
+            }
+        }
+        /* end pop up modal  */
+
+        @media (max-width: 855px) and (min-width: 768px){
+            .fw-bold{
+                display: flex;
+            }
+            .ms-5 {
+                margin-left: 0rem!important;
+            }
+            .date-layout{
+                margin-left: 0rem !important;
+            }
+            .ms-4{
+                margin-left: 0rem !important;
+            }
+            .border-round{
+                width: 60% !important;
+                position: relative;
+                top: -10px !important;
+                left: 0px;
+            }
+            .bx {
+                padding-top: 2px;
+                padding-left: 5% !important;
+                display: inline-flex;
+            }
+            
+        }
+        @media (max-width: 767px){
+            .fw-bold{
+                display: flex;
+            }
+            .ms-5 {
+                margin-left: 0rem!important;
+            }
+            .date-layout{
+                margin-left: 0rem !important;
+            }
+            .ms-4{
+                margin-left: 0rem !important;
+            }
+            .border-round{
+                width: 60% !important;
+                position: relative;
+                top: -10px !important;
+                left: 0px;
+            }
+            .filter-opt-2{
+                padding: 0.985rem;
+                border: 2px solid black;
+                border-top: 0px;
+                align-items: center;
+            }
+            .filter-opt-2-1{
+                padding: 16px;
+                border: 2px black solid;
+                width: 100% !important;
+                border-top: 0px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 0px;
+            }
+            .filter-opt-1{
+                padding: 0.985rem;
+                border: 2px solid black;
+                border-radius: 10px 10px 0px 0px !important;
+                text-align: center;
+
+            }
+            .filter-opt-3-1 {
+                width: 100% !important;
+                border: 2px solid black;
+                border-top: 0px;
+                text-align: center;
+            }
+            .filter-opt-3{
+                width: 100% !important;
+                border: 2px solid black;
+                border-top: 0px;
+                text-align: center;
+            }
+            .filter-opt-3-1 p{    
+                margin-left: -10px !important;
+                
+            }
+            .control{
+                margin-left: 0rem !important;
+                width: 100% !important;
+                border-top: 0px !important;
+                border-radius: 0px 0px 10px 10px !important;
+            }
+            .app-search{
+                padding: 0px !important;
+                margin-left: 0px !important;
+                padding-left: 100px; 
+            }
+            .app-search span{
+                position: absolute;
+                left: 38%;
+            }
+            .search{
+                padding-left: 48% !important;
+            }
+            .fs-5 {
+                font-size: 0.8rem ;
+                width: 150px;
+            }
+            #cap_text_1{
+                display: none !important;
+            }
+            #cap_month {
+                display: block !important;
+            }
+            .bx {
+                padding-top: 2px;
+                padding-left: 0% !important;
+                display: block;
+            }
+            .download-icon1{
+                margin-left: 0px !important;
+            }
+            .no-space1{
+                margin: 0;
+                padding: 0;
+                margin-top: 0;
+            }
+            .count{
+                padding: 0px;
+            }
+            .count1{
+                padding-left: 15px;
+                padding-top: 16px;
+                padding-bottom: 16px;
+                border: 2px solid black;
+                border-top: 0px;
+                width: 100%;
+                
+            }
+        }
+        @media (max-width: 575px){
+            .border-round{
+                width: 60% !important;
+                position: absolute !important;
+                top: 10px !important;
+                left: 39% !important;
+            }
+            .bx {
+                padding-top: 2px;
+                padding-left: 5% !important;
+                display: inline-flex;
+            }
+        }
