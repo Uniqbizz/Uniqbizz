@@ -56,7 +56,7 @@ function divideAmount($totalAmount, $fixedAmount = 3000)
     if($totalAmount == 10000){
 		$fixedAmount = 2500;
 	}
-    if ($totalAmount == 21000) {
+    if ($totalAmount == 15000) {
         $fixedAmount = 1500;
     }
     $fullParts = floor($totalAmount / $fixedAmount);
