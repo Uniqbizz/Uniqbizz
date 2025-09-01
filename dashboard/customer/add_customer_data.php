@@ -115,11 +115,11 @@ function generateUniqueCoupon()
     return strtoupper($year . substr($uniquePart, 0, 11)); // Ensures it's exactly 15 characters
 }
 
-$sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , 
+$sql = "INSERT INTO `ca_customer` (firstname, lastname,  email, country_code, contact_no , 
         date_of_birth, age, gender, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof,payment_mode, 
         cheque_no, cheque_date, bank_name, transaction_no, country, state, city, pincode, address,  user_type, registrant, 
         reference_no, register_by, ta_reference_no, ta_reference_name,paid_amount,customer_type) 
-    VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , 
+    VALUES (:firstname ,:lastname,  :email, :country_code, :contact_no, :bdate, :age, :gender , 
         :profile_pic, :pan_card, :aadhar_card, :voting_card, :passbook, :payment_proof,:payment_mode, :cheque_no, :cheque_date, 
         :bank_name, :transaction_no, :country, :state, :city, :pincode,:address, :user_type,:registrant,  :reference_no, :register_by , 
         :ta_reference_no, :ta_reference_name,:paid_amount,:customer_type)";
@@ -309,6 +309,39 @@ if ($result2) {
                 ':usage_status' => 0,
                 ':confirm_status' => 0,
                 ':bonus_check' => $bonusCheck
+            ]);
+        }
+
+    }else if ($payment_label == 'Neo Select') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('15000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
+
+        $stmt = $conn->prepare($sqlInsertCoupon);
+
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0,
+                ':bonus_check' => 0
             ]);
         }
 

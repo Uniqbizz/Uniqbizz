@@ -13,8 +13,8 @@
 
     if($identify == "prev&next"){
         // get Full name of selected user start 
-        if($designation == 'business_mentor'){
-            $sqlId = "SELECT * FROM business_mentor WHERE business_mentor_id = '".$cap_id."' AND status = '1'";
+        if($designation == 'business_consultant'){
+            $sqlId = "SELECT * FROM business_consultant WHERE business_consultant_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'corporate_agency'){
             $sqlId = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'ca_travelagency'){
@@ -25,13 +25,13 @@
         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
         if($stmt->rowCount()>0){
             foreach(($stmt-> fetchALL()) as $key => $row){
-                $fullName = $row['firstname']. ' ' .$row['lastname'] ?? '';
+                $fullName = $row['firstname']. ' ' .$row['lastname'];
 
                 // get amount of selected user form ca_ta_payout table start 
-                if($designation == 'business_mentor'){
-                    $sqlIdAmt = "SELECT SUM(commision_bm) as prevPayoutAmt FROM ca_ta_payout WHERE business_mentor = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                if($designation == 'business_consultant'){
+                    $sqlIdAmt = "SELECT SUM(commision_bc) as prevPayoutAmt FROM ca_ta_payout WHERE business_consultant = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
                 }else if($designation == 'corporate_agency'){
-                    $sqlIdAmt = "SELECT SUM(commision_te) as prevPayoutAmt FROM ca_ta_payout WHERE techno_enterprise = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(commision_ca) as prevPayoutAmt FROM ca_ta_payout WHERE corporate_agency = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
                 }else if($designation == 'ca_travelagency'){
                     $sqlIdAmt = "SELECT SUM(ca_ta_amt_paid) as prevPayoutAmt FROM ca_ta_payout WHERE ca_travelagency = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
                 }
@@ -56,8 +56,8 @@
         // get Full name of selected user end 
     }else{
         // get Full name of selected user start 
-        if($designation == 'business_mentor'){
-            $sqlId = "SELECT * FROM business_mentor WHERE business_mentor_id = '".$cap_id."' AND status = '1'";
+        if($designation == 'business_consultant'){
+            $sqlId = "SELECT * FROM business_consultant WHERE business_consultant_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'corporate_agency'){
             $sqlId = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'ca_travelagency'){
@@ -71,10 +71,10 @@
                 $fullName = $row['firstname']. ' ' .$row['lastname'];
 
                 // get amount of selected user form ca_ta_payout table start 
-                if($designation == 'business_mentor'){
-                    $sqlIdAmt = "SELECT SUM(total_payable) as PayoutAmt FROM ca_ta_payout_paid WHERE business_mentor = '".$cap_id."'  order by id DESC";
+                if($designation == 'business_consultant'){
+                    $sqlIdAmt = "SELECT SUM(total_payable) as PayoutAmt FROM ca_ta_payout_paid WHERE business_consultant = '".$cap_id."'  order by id DESC";
                 }else if($designation == 'corporate_agency'){
-                    $sqlIdAmt = "SELECT SUM(total_payable) as PayoutAmt FROM ca_ta_payout_paid WHERE techno_enterprise = '".$cap_id."'  order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(total_payable) as PayoutAmt FROM ca_ta_payout_paid WHERE corporate_agency = '".$cap_id."'  order by id DESC";
                 }else if($designation == 'ca_travelagency'){
                     $sqlIdAmt = "SELECT SUM(total_payable) as PayoutAmt FROM ca_ta_payout_paid WHERE ca_travelagency = '".$cap_id."'  order by id DESC";
                 }

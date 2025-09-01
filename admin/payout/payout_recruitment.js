@@ -49,6 +49,26 @@ $('#designation').on('change', function(){
     });
 });
 
+//get payout base on designation selected
+$('#designation').on('change', function(){
+    designation = $('#designation').val();
+    $('#download_icon').css('display','block');
+    // console.log(designation);
+    $.ajax({
+        type: 'POST',
+        url:  'forms/recruitment_payout/recruitment_payout_filter.php',
+        data: 'designation='+designation,
+        success:function(data){
+            // console.log(data);
+            $("#filterTable").html(data);
+            $('#payoutDetailsTable').DataTable();
+        },
+        error: function(err){
+            console.log(err);
+        },
+    });
+});
+
 //display username for filter perpose for All payout
 $('#user_id_name').on('change', function(){
     cap_id = $(this).val();
@@ -70,37 +90,33 @@ $('#user_id_name').on('change', function(){
 //date split for filter for All payout
 $('#cap_date').on('change', function(){
     designation = $('#designation').val();
-    if(!designation){
-        alert("Select Designation");
-        window.location.reload();
-    }else{
-        cap_id = $('#user_id_name').val();
-        cap_date = $(this).val();
-        // $('#download_exel').css('display','block');
-        $('#download_icon').css('display','block');
-        const myArray = cap_date.split('-');  //split date on '-' sign and store it in array
-        const year_split = myArray[0]; // store splited year in new variable
-        const month_split = myArray[1]; // store splited month in new variable
+    cap_id = $('#user_id_name').val();
+    cap_date = $(this).val();
+    // $('#download_exel').css('display','block');
+    $('#download_icon').css('display','block');
+    const myArray = cap_date.split('-');  //split date on '-' sign and store it in array
+    const year_split = myArray[0]; // store splited year in new variable
+    const month_split = myArray[1]; // store splited month in new variable
 
-        dataString={
-            cap_id,
-            designation,
-            year_split,
-            month_split
-        }
-        // console.log(dataString);
-        $.ajax({
-            type: 'POST',
-            url: 'forms/recruitment_payout/recruitment_payout_filter.php',
-            data: dataString,
-            cache: false,
-            success: function(data){
-                // console.log(data);
-                $("#filterTable").html(data);
-                $('#payoutDetailsTable').DataTable();
-            }
-        });
+    dataString={
+        cap_id,
+        designation,
+        year_split,
+        month_split
     }
+    // console.log(dataString);
+    $.ajax({
+        type: 'POST',
+        url: 'forms/recruitment_payout/recruitment_payout_filter.php',
+        data: dataString,
+        cache: false,
+        success: function(data){
+            // console.log(data);
+            $("#filterTable").html(data);
+            $('#payoutDetailsTable').DataTable();
+        }
+    });
+    
 });
 //get username based on designation changed for All payout
 

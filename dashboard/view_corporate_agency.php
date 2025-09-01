@@ -247,8 +247,12 @@
                                                                         echo'</tr>';
                                                                     }
                                                                 }
-                                                            }else if($userType == "3" || $userType == '26'){
-                                                                $sql = "SELECT * FROM `corporate_agency` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
+                                                            }else if($userType == "3" || $userType == '26' || $userType == '28' || $userType == '30'){
+                                                                if ($userType == '28' || $userType == '30') {
+                                                                    $sql = "SELECT * FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
+                                                                }else{
+                                                                    $sql = "SELECT * FROM `corporate_agency` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
+                                                                }
                                                                 $stmt = $conn -> prepare($sql);
                                                                 $stmt -> execute();
                                                                 $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -312,7 +316,7 @@
                                                                 <th data-ordering="false">Phone</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                <?php if($userType == '3' || $userType == '26' || $userType == '25'){ ?>
+                                                                <?php if($userType == '3' || $userType == '26' || $userType == '25'||$userType == '28' || $userType == '30'){ ?>
                                                                     <th data-ordering="false">Action</th>
                                                                 <?php } ?>
                                                             </tr>
@@ -462,8 +466,12 @@
                                                                             echo'</tr>';
                                                                         }
                                                                     }
-                                                                }else if($userType == "3" || $userType == '26' || $userType == '25'){
-                                                                    $sql = "SELECT * FROM `corporate_agency` WHERE reference_no = '".$userId."' AND (status = '1' OR status = '3') ";
+                                                                }else if($userType == "3" || $userType == '26' || $userType == '25' || $userType == '28' || $userType == '30'){
+                                                                    if ($userType == '28'|| $userType == '30') {
+                                                                        $sql = "SELECT * FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND (status = '1' OR status = '3') ";
+                                                                    }else{
+                                                                        $sql = "SELECT * FROM `corporate_agency` WHERE reference_no = '".$userId."' AND (status = '1' OR status = '3') ";
+                                                                    }    
                                                                     $stmt = $conn -> prepare($sql);
                                                                     $stmt -> execute();
                                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -475,7 +483,7 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>
-                                                                                    <p>'.$row['corporate_agency_id'].'</p>
+                                                                                    <p>'.(($userType == '28'|| $userType == '30')?$row['sub_franchisee_id']:$row['corporate_agency_id']).'</p>
                                                                                     <p>'.$row['firstname'].' '.$row['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
@@ -487,7 +495,7 @@
                                                                                 <td>'.$datev.'</td>';
                                                                                 
                                                                                 if($row['status'] == '1')
-                                                                                   echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-danger">Deactive</span></td>';
                                                                                 }
@@ -498,9 +506,9 @@
                                                                                                 <i class="ri-more-fill align-middle"></i>
                                                                                             </button>
                                                                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["corporate_agency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","corporate_agency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["corporate_agency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["corporate_agency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.(($userType == '28'|| $userType == '30')?$row['sub_franchisee_id']:$row['corporate_agency_id']). '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","corporate_agency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .(($userType == '28'|| $userType == '30')?$row['sub_franchisee_id']:$row['corporate_agency_id']). '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.(($userType == '28'|| $userType == '30')?$row['sub_franchisee_id']:$row['corporate_agency_id']).'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
                                                                                             </ul>
                                                                                         </div>
                                                                                     </td>';
@@ -511,7 +519,7 @@
                                                                                             <i class="ri-more-fill align-middle"></i>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["corporate_agency_id"].'","'.$row["reference_no"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
+                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.(($userType == '28'|| $userType == '30')?$row['sub_franchisee_id']:$row['corporate_agency_id']).'","'.$row["reference_no"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
                                                                                         </ul>
                                                                                     </div>
                                                                                 </td>';
@@ -533,7 +541,7 @@
 
                         </div>
                         <!-- Business Consultant '3' OR Business Mentor '26' can perform CRUD opration -->
-                        <?php if($userType == '3' || $userType == '26' || $userType == '25'){ ?>  
+                        <?php if($userType == '3' || $userType == '26' || $userType == '25' || $userType == '28' || $userType =='30'){ ?>  
                             <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
                                 <a href="add_corporate_agency.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                     <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
@@ -629,10 +637,15 @@
 
             function deletefunc(id,fid,refid,action,userId,userType){
                 var dataString = 'id='+id+'&fid='+fid+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType;
-
+                var url='';
+                if (userType == '28' || userType =='30') {
+                    url="corporate_agency/delete_franchisee_data.php";
+                }else{
+                    url="corporate_agency/delete_corporate_agency_data.php";
+                }
                 $.ajax({
                     type: "POST",
-                    url: "corporate_agency/delete_corporate_agency_data.php",
+                    url: url,
                     data: dataString,
                     cache: false,
                     success:function(data){
@@ -656,8 +669,16 @@
                 });
             };
 
-            function overviewPage(id,ref,cut,st,ct,message){
-                var designation = 'corporate_agency';
+           function overviewPage(id,ref,cut,st,ct,message){
+                var designation =message= '';
+                if(id.startsWith('F')){
+                    designation ='Franchisee'
+                    message= 'sub_franchisee';
+                }else{
+                    designation ='Techno Enterprise'
+                    message= 'corporate_agency';
+                    
+                }
                 window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
         </script>

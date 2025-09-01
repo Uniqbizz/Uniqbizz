@@ -13,13 +13,13 @@ $tdsPercentage=2/100;
 if($userType == '11'){ //travel_consultant
     $userIdCommi = 'ta_id';
     $amtCal = 'ta_markup + ta_amt';
-}elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+}elseif($userType == '16' || $userType =='29'){ //Techno Enterprise/ corporate agency/franchisee
     $userIdCommi = 'te_id';
     $amtCal = 'te_amt';
 }elseif($userType == '10'){ //customer
     $userIdCommi = 'cu1_id';
     $amtCal = 'cu1_amt';
-}elseif($userType == '26'){//business Mentor
+}elseif($userType == '26' || $userType =='28' || $userType == '30'){//business Mentor/MF/SF
     $userIdCommi = 'bm_id';
     $amtCal = 'bm_amt';
 }elseif($userType == '25'){// business Development manager
@@ -118,7 +118,7 @@ if($totalTableMessage){
                         $status = $row['ta_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '16'){
+                    }else if($userType == '16' || $userType == '29'){
                         $id = $row['te_id'];
                         $message = $row['te_mess'];
                         $amt = $row['te_amt'];
@@ -139,7 +139,7 @@ if($totalTableMessage){
                         $status = $row['bdm_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '26'){
+                    }else if($userType == '26' || $userType == '28' || $userType =='30'){
                         $id = $row['bm_id'];
                         $message = $row['bm_mess'];
                         $amt = $row['bm_amt'];

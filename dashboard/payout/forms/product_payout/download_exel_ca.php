@@ -17,9 +17,9 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
         $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '11'){
         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."'AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '16'){
+    }else if($userType == '16' || $userType =='29'){
         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '26'){
+    }else if($userType == '26' || $userType =='28' || $userType =='30'){
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '25'){
         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
@@ -95,7 +95,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
                     $status = $row['ta_status'];
                     $tds = $amt * $tdsPercentage;
                     $total = $amt - $tds;
-                }else if($userType == '16'){
+                }else if($userType == '16'|| $userType =='29'){
                     $id = $row['te_id'];
                     $message = $row['te_mess'];
                     $amt = $row['te_amt'];
@@ -116,7 +116,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
                     $status = $row['bdm_status'];
                     $tds = $amt * $tdsPercentage;
                     $total = $amt - $tds;
-                }else if($userType == '26'){
+                }else if($userType == '26' || $userType =='28' || $userType =='30'){
                     $id = $row['bm_id'];
                     $message = $row['bm_mess'];
                     $amt = $row['bm_amt'];
@@ -165,9 +165,9 @@ if($payoutmessage == 'TotalPayout'){
         $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '11'){
         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."'AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '16'){
+    }else if($userType == '16'|| $userType =='29'){
         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '26'){
+    }else if($userType == '26'|| $userType =='28' || $userType =='30'){
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '25'){
         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
@@ -243,7 +243,7 @@ if($payoutmessage == 'TotalPayout'){
                     $status = $row['ta_status'];
                     $tds = $amt * $tdsPercentage;
                     $total = $amt - $tds;
-                }else if($userType == '16'){
+                }else if($userType == '16'|| $userType =='29'){
                     $id = $row['te_id'];
                     $message = $row['te_mess'];
                     $amt = $row['te_amt'];
@@ -264,7 +264,7 @@ if($payoutmessage == 'TotalPayout'){
                     $status = $row['bdm_status'];
                     $tds = $amt * $tdsPercentage;
                     $total = $amt - $tds;
-                }else if($userType == '26'){
+                }else if($userType == '26'|| $userType =='28' || $userType =='30'){
                     $id = $row['bm_id'];
                     $message = $row['bm_mess'];
                     $amt = $row['bm_amt'];

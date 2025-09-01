@@ -396,18 +396,21 @@
                                                                             }   
                                                                         }
                                                                     }
-                                                                }else if($userType == "3" || $userType == "26"){
-                                                                        
-                                                                    $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                }else if($userType == "3" || $userType == "26" || $userType =="28" || $userType == "30"){
+                                                                    if ($userType == "28" || $userType == "30") {
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
+                                                                    }else{
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                    }    
                                                                     $stmt2->execute([$userId]);
                                                                     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                                                                     foreach($referrals as $referral){
-                                                                        $userCA = $referral['corporate_agency_id'];
+                                                                        $userCA = ($userType == "28"||$userType == "30")?$referral['sub_franchisee_id']:$referral['corporate_agency_id'];
                                                                         // echo $userCA;
 
                                                                         $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-                                                                        $stmt4->execute([$referral['corporate_agency_id']]);
+                                                                        $stmt4->execute([$userCA]);
                                                                         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                                                                         foreach ($userCATAs as $userCATA) {
@@ -467,7 +470,7 @@
                                                                         }   
                                                                     }
                                                                     
-                                                                    //direct TC with BM Ref
+                                                                    //direct TC with BM/MF Ref
                                                                     $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
                                                                     $stmt4->execute([$userId]);
                                                                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -527,7 +530,7 @@
                                                                             echo'</tr>';
                                                                         }
                                                                     }
-                                                                }else if($userType == "16"){
+                                                                }else if($userType == "16" || $userType == "29"){
                                                                     
                                                                     $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
                                                                     $stmt4->execute([$userId]);
@@ -682,7 +685,7 @@
                                                                                 $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
                                                                                 $stmt4->execute([$userCA['corporate_agency_id']]);
                                                                                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-                                                                                $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
+
                                                                                 foreach ($userCATAs as $userCATA) {
                                                                                     $userTA = $userCATA['ca_travelagency_id'];
                                                                                 //    echo $userCA.'=>'.$userTA.'</br>';
@@ -694,12 +697,11 @@
                                                                                     foreach ($userCACUs as $userCACU) {
                                                                                         $userCU = $userCACU['id'];
                                                                                         // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
+                                                                                        $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                         $bd= new DateTime($userCACU['date_of_birth']);
                                                                                         $bdate= $bd->format('d-m-Y');
                                                                                         $dt= new DateTime($userCACU['register_date']);
                                                                                         $datev= $dt->format('d-m-Y'); 
-                                                                                        $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                         echo'<tr>
                                                                                             <td>
                                                                                                 <p>'.$userCACU['ca_customer_id'].'</p>
@@ -711,10 +713,6 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <p class="mb-0">'.$userCACU['customer_type'].'</p>
-                                                                                                <p class="mb-0">'.$comp_chek.'</p>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <p class="mb-0">'.$row['customer_type'].'</p>
                                                                                                 <p class="mb-0">'.$comp_chek.'</p>
                                                                                             </td>
                                                                                             <td>'.$userCACU['contact_no'].'</td>
@@ -745,12 +743,11 @@
                                                                                 foreach ($userCACUs as $userCACU) {
                                                                                     $userCU = $userCACU['id'];
                                                                                     // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
+                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                     $bd= new DateTime($userCACU['date_of_birth']);
                                                                                     $bdate= $bd->format('d-m-Y');
                                                                                     $dt= new DateTime($userCACU['register_date']);
                                                                                     $datev= $dt->format('d-m-Y'); 
-                                                                                    $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                     echo'<tr>
                                                                                         <td>
                                                                                             <p>'.$userCACU['ca_customer_id'].'</p>
@@ -804,11 +801,11 @@
                                                                                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
                                                                                 $stmt5->execute([$userCATA['ca_travelagency_id']]);
                                                                                 $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-                                                                                $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
+
                                                                                 foreach ($userCACUs as $userCACU) {
                                                                                     $userCU = $userCACU['id'];
-                                                                                    echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
+                                                                                    // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
+                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                     $bd= new DateTime($userCACU['date_of_birth']);
                                                                                     $bdate= $bd->format('d-m-Y');
                                                                                     $dt= new DateTime($userCACU['register_date']);
@@ -854,12 +851,11 @@
                                                                             foreach ($userCACUs as $userCACU) {
                                                                                 $userCU = $userCACU['id'];
                                                                                 // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
+                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                 $bd= new DateTime($userCACU['date_of_birth']);
                                                                                 $bdate= $bd->format('d-m-Y');
                                                                                 $dt= new DateTime($userCACU['register_date']);
                                                                                 $datev= $dt->format('d-m-Y'); 
-                                                                                $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                 echo'<tr>
                                                                                     <td>
                                                                                         <p>'.$userCACU['ca_customer_id'].'</p>
@@ -913,11 +909,11 @@
                                                                                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='1' OR status = '3') ");
                                                                                 $stmt5->execute([$userCATA['ca_travelagency_id']]);
                                                                                 $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-                                                                                $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
+
                                                                                 foreach ($userCACUs as $userCACU) {
                                                                                     $userCU = $userCACU['ca_customer_id'];
                                                                                     // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
-
+                                                                                    $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                     $bd= new DateTime($userCACU['date_of_birth']);
                                                                                     $bdate= $bd->format('d-m-Y');
                                                                                     $dt= new DateTime($userCACU['register_date']);
@@ -947,18 +943,21 @@
                                                                             }   
                                                                         }
                                                                     }
-                                                                }else if($userType == "3" || $userType == "26"){
-                                                                        
-                                                                    $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                }else if($userType == "3" || $userType == "26" || $userType =="28" || $userType =="30"){
+                                                                    if ($userType =="28" || $userType =="30") {
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
+                                                                    } else{
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                    }   
                                                                     $stmt2->execute([$userId]);
                                                                     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                                                                     foreach($referrals as $referral){
-                                                                        $userCA = $referral['corporate_agency_id'];
+                                                                        $userCA = ($userType =="28"|| $userType =="30")?$referral['sub_franchisee_id']:$referral['corporate_agency_id'];
                                                                         // echo $userCA;
 
                                                                         $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? ");
-                                                                        $stmt4->execute([$referral['corporate_agency_id']]);
+                                                                        $stmt4->execute([$userCA]);
                                                                         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                                                                         foreach ($userCATAs as $userCATA) {
@@ -970,6 +969,7 @@
                                                                             $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                                                                             foreach ($userCACUs as $userCACU) {
+                                                                                $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                 $userCU = $userCACU['ca_customer_id'];
                                                                                 // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
 
@@ -977,7 +977,6 @@
                                                                                 $bdate= $bd->format('d-m-Y');
                                                                                 $dt= new DateTime($userCACU['register_date']);
                                                                                 $datev= $dt->format('d-m-Y'); 
-                                                                                $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                                 echo'<tr>
                                                                                     <td>
                                                                                         <p>'.$userCACU['ca_customer_id'].'</p>
@@ -1025,7 +1024,7 @@
                                                                         }   
                                                                     }
                                                                     
-                                                                    //direct TC with BM Ref
+                                                                    //direct TC with BM/MF Ref
                                                                     $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? ");
                                                                     $stmt4->execute([$userId]);
                                                                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -1039,6 +1038,7 @@
                                                                         $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                                                                         foreach ($userCACUs as $userCACU) {
+                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             $userCU = $userCACU['ca_customer_id'];
                                                                             // echo $userId.'=>'.$userCA.'=>'.$userTA.'=>'.$userCU.'</br>';
 
@@ -1046,7 +1046,6 @@
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($userCACU['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
-                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$userCACU['ca_customer_id'].'</p>
@@ -1092,7 +1091,7 @@
                                                                             echo'</tr>';
                                                                         }
                                                                     }  
-                                                                }else if($userType == "16"){
+                                                                }else if($userType == "16" || $userType == "29"){
                                                                     
                                                                     $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
                                                                     $stmt4->execute([$userId]);
@@ -1108,13 +1107,13 @@
 
                                                                         foreach ($userCACUs as $userCACU) {
                                                                             $userCU = $userCACU['id'];
+                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             // echo $userTA.'=>'.$userCU.'</br>';
 
                                                                             $bd= new DateTime($userCACU['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($userCACU['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
-                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$userCACU['ca_customer_id'].'</p>
@@ -1124,7 +1123,7 @@
                                                                                     <p>'.$userCACU['reference_no'].' '.$userCACU['registrant'].'</p>
                                                                                     <p>'.$userCACU['ta_reference_no'].' '.$userCACU['ta_reference_name'].'</p>
                                                                                 </td>
-                                                                                <td>
+                                                                                 <td>
                                                                                     <p class="mb-0">'.$userCACU['customer_type'].'</p>
                                                                                     <p class="mb-0">'.$comp_chek.'</p>
                                                                                 </td>
@@ -1213,7 +1212,7 @@
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($row['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
-                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
+                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$row['ca_customer_id'].'</p>
