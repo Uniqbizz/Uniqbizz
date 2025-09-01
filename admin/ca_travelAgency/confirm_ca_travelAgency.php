@@ -1,4 +1,5 @@
 <?php 
+
 require "../connect.php";
 include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
