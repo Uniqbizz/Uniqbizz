@@ -2555,7 +2555,7 @@ if ($userType == 10){
                                                                     } else {
                                                                         $firstName = $referral['firstname'];
                                                                         $lastName = $referral['lastname'];
-                                                                        if($userType ='16'){
+                                                                        if($userType =='16'){
                                                                             if($referral['alloted_check'] == 1){
                                                                                 $lastName.='<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
                                                                                         Allotted TC
@@ -2954,7 +2954,7 @@ if ($userType == 10){
                                                                     }else {
                                                                         $fname = $row['firstname'];
                                                                         $lname = $row['lastname'];
-                                                                        if($userType ='16'){
+                                                                        if($userType =='16'){
                                                                             if($row['alloted_check'] == 1){
                                                                                 $lname.='<small class="d-flex justify-content-center d-inline-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea; width: fit-content;">
                                                                                             Allotted TC
