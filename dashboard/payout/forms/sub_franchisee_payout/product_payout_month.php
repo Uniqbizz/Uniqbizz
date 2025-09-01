@@ -14,7 +14,7 @@ if($userType =='28' || $userType == '30'){//MF/SF
     $userIdCommi = 'master_franchisee';
     $amtCal = 'commision_mf';
 }
-
+$columnDesignation = $userType == '28'?'master_franchisee':($userType == '30'?'sponsor_franchisee':'');
 if($totalAmountMessage){
     $stmt = " SELECT SUM($amtCal) as TotalPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userID."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'  ";
     $stmt = $conn -> prepare($stmt);
@@ -73,7 +73,11 @@ if($totalTableMessage){
                             <td>'.$message.'</td>
                             <td >'.$amt.'</td>
                             <td >'.$tds.'</td>
-                            <td >'.$total.'</td>';
+                            <td >'.$total.'
+                            <a href="payout/forms/sub_franchisee_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$id.'&ca='.$row['sub_franchisee'].'&designation='.$columnDesignation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                            </a>
+                            </td>';
                             if($status == '1'){
                                 echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                             }else{

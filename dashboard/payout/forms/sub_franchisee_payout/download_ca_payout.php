@@ -10,15 +10,20 @@ $dateCA = $_GET['date'];
 $message = $_GET['message'];
 $message_status = $_GET['message_status'];
 $commission = $_GET['commission'];
-
+$designation =$_GET['designation'];
 //TDS calculation on commission Amount 
 $tds = 2;
 $commissionTDS = $commission * $tds / 100;
 $totalAmt = $commission - $commissionTDS;
+$user_id_str=substr($bc,0,2);
 
 $date = date('F,Y', strtotime($dateCA));
-
-$bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$bc."' AND status = 1");
+if($user_id_str == 'MF'){
+    $sql="SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$bc."' AND status = 1";
+}else if ($user_id_str == 'SF'){
+    $sql="SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$bc."' AND status = 1";
+}
+$bcNames = $conn -> prepare($sql);
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -28,7 +33,7 @@ if($bcNames -> rowCount()>0){
     }
 }  
 
-$caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca."' AND status = 1");
+$caNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca."' AND status = 1");
 $caNames -> execute();
 $caNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($caNames -> rowCount()>0){
@@ -81,7 +86,7 @@ if($caNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../contracting_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../sub_franchisee_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -91,7 +96,7 @@ if($caNames -> rowCount()>0){
 
             <div class="d-flex justify-content-center main-box" id="htmlContent">
                 <div class="row rounded-4"  style="width:650px; border:1px solid #417482;">
-                    <div class="col-md-12 col-sm-12 col-12 ps-3 pe-3" style=" ">
+                    <div class="col-md-12 col-sm-12 col-12 ps-3 pe-3">
                         <div class="row">
                             <table class="col-md-12 col-sm-12" style="border-bottom: 2px solid #417482;">
                                 <tbody>
@@ -117,15 +122,15 @@ if($caNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Corporate Agency </h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Business Consultent</h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Franchisee</h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation :<?=$designation?> </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 2 ? 'Pending' :($message_status == 1? 'Paid':'Unknow') ; ?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>  
-                            <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
+                            <div class="col-md-12 col-sm-12" >
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Farnchisee Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
@@ -145,7 +150,7 @@ if($caNames -> rowCount()>0){
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commission; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commissionTDS; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $totalAmt; ?>/-</td>
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></td>
+                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 2 ? 'Pending' :($message_status == 1? 'Paid':'Unknow') ; ?></td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -15,9 +15,10 @@
 
     $tdsPercentage=2/100;
 
+    $columnDesignation = $userType == '28'?'master_franchisee':($userType == '30'?'sponsor_franchisee':'');
     function truncateToTwoDecimals($num) {
-    return floor($num * 100) / 100;
-}
+     return floor($num * 100) / 100;
+    }
 ?>
 
 <!doctype html>
@@ -273,7 +274,11 @@
                                                                                                 <td>'.$message.'</td>
                                                                                                 <td >'.$amt.'</td>
                                                                                                 <td >'.$tds.'</td>
-                                                                                                <td >'.$total.'</td>';
+                                                                                                <td >'.$total.'
+                                                                                                    <a href="payout/forms/sub_franchisee_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$id.'&ca='.$row['sub_franchisee'].'&designation='.$columnDesignation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                                                        <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                                                    </a>
+                                                                                                </td>';
                                                                                                 if($status == '1'){
                                                                                                     echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                                                 }else{
@@ -445,7 +450,11 @@
                                                                     <td>'.$message.'</td>
                                                                     <td >'.$amt.'</td>
                                                                     <td >'.$tds.'</td>
-                                                                    <td >'.$total.'</td>';
+                                                                    <td >'.$total.'
+                                                                    <a href="payout/forms/sub_franchisee_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$id.'&ca='.$row['sub_franchisee'].'&designation='.$columnDesignation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                        <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                    </a>
+                                                                    </td>';
                                                                     if($status == '1'){
                                                                         echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                     }else{
@@ -587,7 +596,11 @@
                                                                     <td>'.$message.'</td>
                                                                     <td >'.$amt.'</td>
                                                                     <td >'.$tds.'</td>
-                                                                    <td >'.$total.'</td>';
+                                                                    <td >'.$total.'
+                                                                    <a href="payout/forms/sub_franchisee_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$id.'&ca='.$row['sub_franchisee'].'&designation='.$columnDesignation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                        <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                    </a>
+                                                                    </td>';
                                                                     if($status == '1'){
                                                                         echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                     }else{
@@ -743,7 +756,11 @@
                                                                     <td>'.$message.'</td>
                                                                     <td >'.$amt.'</td>
                                                                     <td >'.$tds.'</td>
-                                                                    <td >'.$total.'</td>';
+                                                                    <td >'.$total.'
+                                                                    <a href="payout/forms/sub_franchisee_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&bc='.$id.'&ca='.$row['sub_franchisee'].'&designation='.$columnDesignation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$amt.'">
+                                                                        <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                    </a>
+                                                                    </td>';
                                                                     if($status == '1'){
                                                                         echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
                                                                     }else{
