@@ -87,7 +87,7 @@ if($payoutmessage == 'PreviousPayout'){
                         <td style="text-align:center;">'.$BC_Commi.'</td>
                         <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                        if($row2['status_bc'] == 0){
+                        if($row2['status_bm'] == 0){
                             $output .='<td style="text-align:center;">Pending</td>';
                         }else{
                             $output .='<td style="text-align:center;">Paid</td>';
@@ -123,7 +123,7 @@ if($payoutmessage == 'PreviousPayout'){
                         <td style="text-align:center;">'.$CA_Commi.'</td>
                         <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                        if($row2['status_ca'] == 0){
+                        if($row2['status_te'] == 0){
                             $output .= '<td style="text-align:center;">Pending</td>';
                         }else{
                             $output .= '<td style="text-align:center;">Paid</td>';
@@ -219,7 +219,7 @@ if($payoutmessage == 'NextPayout'){
                         <td style="text-align:center;">'.$BC_Commi.'</td>
                         <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                        if($row2['status_bc'] == 0){
+                        if($row2['status_bm'] == 0){
                             $output .='<td style="text-align:center;">Pending</td>';
                         }else{
                             $output .='<td style="text-align:center;">Paid</td>';
@@ -256,7 +256,7 @@ if($payoutmessage == 'NextPayout'){
                         <td style="text-align:center;">'.$CA_Commi.'</td>
                         <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                        if($row2['status_ca'] == 0){
+                        if($row2['status_te'] == 0){
                             $output .= '<td style="text-align:center;">Pending</td>';
                         }else{
                             $output .= '<td style="text-align:center;">Paid</td>';
@@ -351,7 +351,7 @@ if($payoutmessage == 'TotalPayout'){
                         <td style="text-align:center;">'.$BC_Commi.'</td>
                         <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                        if($row2['status_bc'] == 0){
+                        if($row2['status_bm'] == 0){
                             $output .='<td style="text-align:center;">Pending</td>';
                         }else{
                             $output .='<td style="text-align:center;">Paid</td>';
@@ -388,7 +388,7 @@ if($payoutmessage == 'TotalPayout'){
                         <td style="text-align:center;">'.$CA_Commi.'</td>
                         <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                        if($row2['status_ca'] == 0){
+                        if($row2['status_te'] == 0){
                             $output .= '<td style="text-align:center;">Pending</td>';
                         }else{
                             $output .= '<td style="text-align:center;">Paid</td>';
