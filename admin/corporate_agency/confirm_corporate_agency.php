@@ -839,8 +839,9 @@ if ($user_type_id == '16') {
 				':from_whom' => $fromWhom,
 				':operation' => $operation
 			));
-			
 			//payouts
+			// Determine who referred and calculate commissions
+			
 			// Determine who referred and calculate commissions
 
 			$zonal_manager = 'NA';
@@ -1080,7 +1081,6 @@ if ($user_type_id == '16') {
 						</table>
 						</body>
 						</html>';
-				
 				$mail = new PHPMailer();
 				$mail->IsSMTP();
 				$mail->SMTPAuth = true;

@@ -108,14 +108,7 @@
                                 <div class="col-12"> <!-- Page title -->
                                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                         <p class="mb-sm-0 head fw-bold text-uppercase">Product Payout</p>
-                                        <div class="page-title-right sub-title">
-                                            <ol class="breadcrumb m-0">
-                                                <li class="breadcrumb-item">
-                                                    <a href="view_business_consultant.php">View</a>
-                                                </li>
-                                                <li class="breadcrumb-item active">Payout</li>
-                                            </ol>
-                                        </div>
+                                        
                                     </div>
                                 </div> <!-- page title end -->
                                 <div class="card">
@@ -134,13 +127,13 @@
                                                                             if($userType == '11'){ //travel_consultant
                                                                                 $userIdCommi = 'ta_id';
                                                                                 $amtCal = 'ta_markup + ta_amt';
-                                                                            }elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+                                                                            }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
                                                                                 $userIdCommi = 'te_id';
                                                                                 $amtCal = 'te_amt';
                                                                             }elseif($userType == '10'){ //customer
                                                                                 $userIdCommi = 'cu1_id';
                                                                                 $amtCal = 'cu1_amt';
-                                                                            }elseif($userType == '26'){//business Mentor
+                                                                            }elseif($userType == '26' || $userType == '28' || $userType=='30'){//business Mentor/Master Franchisee/Sponsor Franchisee
                                                                                 $userIdCommi = 'bm_id';
                                                                                 $amtCal = 'bm_amt';
                                                                             }elseif($userType == '25'){// business Development manager
@@ -151,25 +144,7 @@
                                                                                 $amtCal = 'bch_amt';
                                                                             }
 
-                                                                            if($userType == '10'){
-                                                                                $previousPayout = $conn -> prepare("SELECT
-                                                                                                                    SUM(
-                                                                                                                        CASE
-                                                                                                                            WHEN cu1_id = '$userId' THEN cu1_amt
-                                                                                                                            WHEN cu2_id = '$userId' THEN cu2_amt
-                                                                                                                            WHEN cu3_id = '$userId' THEN cu3_amt
-                                                                                                                            ELSE 0
-                                                                                                                        END
-                                                                                                                    ) AS previousPayout
-                                                                                                                FROM product_payout
-                                                                                                                WHERE 
-                                                                                                                    ('$userId' IN (cu1_id, cu2_id, cu3_id))
-                                                                                                                    AND YEAR(created_date) = '$prevDateYear'
-                                                                                                                    AND MONTH(created_date) = '$prevDateMonth' 
-                                                                                                                    ");
-                                                                            }else{
-                                                                                $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
-                                                                            }
+                                                                            $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                                                             $previousPayout -> execute();
                                                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($previousPayout -> rowCount()>0){
@@ -197,13 +172,13 @@
                                                                             if($userType == '11'){ //travel_consultant
                                                                                 $userIdCommi = 'ta_id';
                                                                                 $amtCal = 'ta_markup + ta_amt';
-                                                                            }elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+                                                                            }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/ Franchisee
                                                                                 $userIdCommi = 'te_id';
                                                                                 $amtCal = 'te_amt';
                                                                             }elseif($userType == '10'){ //customer
                                                                                 $userIdCommi = 'cu1_id';
                                                                                 $amtCal = 'cu1_amt';
-                                                                            }elseif($userType == '26'){//business Mentor
+                                                                            }elseif($userType == '26'|| $userType == '28' || $userType=='30'){//business Mentor/Master Franchisee/Sponsor Franchisee
                                                                                 $userIdCommi = 'bm_id';
                                                                                 $amtCal = 'bm_amt';
                                                                             }elseif($userType == '25'){// business Development manager
@@ -213,23 +188,7 @@
                                                                                 $userIdCommi = 'bch_id';
                                                                                 $amtCal = 'bch_amt';
                                                                             }
-                                                                            
-                                                                            if($userType == '10'){
-                                                                                $nextPayout = $conn -> prepare("SELECT
-                                                                                                                    SUM(
-                                                                                                                        CASE
-                                                                                                                            WHEN cu1_id = '$userId' THEN cu1_amt
-                                                                                                                            WHEN cu2_id = '$userId' THEN cu2_amt
-                                                                                                                            WHEN cu3_id = '$userId' THEN cu3_amt
-                                                                                                                            ELSE 0
-                                                                                                                        END
-                                                                                                                    ) AS nextPayout
-                                                                                                                FROM product_payout
-                                                                                                                WHERE 
-                                                                                                                    ('$userId' IN (cu1_id, cu2_id, cu3_id)) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
-                                                                            }else{
-                                                                                $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
-                                                                            }
+                                                                            $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
                                                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($nextPayout -> rowCount()>0){
@@ -269,13 +228,13 @@
                                                                         if($userType == '11'){ //travel_consultant
                                                                             $userIdCommi = 'ta_id';
                                                                             $amtCal = 'ta_markup + ta_amt';
-                                                                        }elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+                                                                        }elseif($userType == '16'|| $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
                                                                             $userIdCommi = 'te_id';
                                                                             $amtCal = 'te_amt';
                                                                         }elseif($userType == '10'){ //customer
                                                                             $userIdCommi = 'cu1_id';
                                                                             $amtCal = 'cu1_amt';
-                                                                        }elseif($userType == '26'){//business Mentor
+                                                                        }elseif($userType == '26'|| $userType == '28' || $userType=='30'){//business Mentor/Master Franchisee/Sponsor Franchisee
                                                                             $userIdCommi = 'bm_id';
                                                                             $amtCal = 'bm_amt';
                                                                         }elseif($userType == '25'){// business Development manager
@@ -342,7 +301,7 @@
                                                                             <?php
 
                                                                                 if($userType == '10'){
-                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."' OR cu2_id = '".$userId."' OR cu3_id = '".$userId."')   ";
+                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')   ";
                                                                                 }else if($userType == '11'){
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."' ";
                                                                                 }else if($userType == '16'){
@@ -353,6 +312,12 @@
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'   ";
                                                                                 }else if($userType == '24'){
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'   ";
+                                                                                }else if($userType == '29'){//Franchisee
+                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
+                                                                                }else if($userType == '28'){//Master Franchisee
+                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
+                                                                                }else if($userType == '30'){//Sponsor Franchisee
+                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
                                                                                 }
                                                                                 
                                                                                 $stmt = $conn -> prepare($sql);
@@ -410,7 +375,7 @@
                                                                                             $status = $row['ta_status'];
                                                                                             $tds = $amt * $tdsPercentage;
                                                                                             $total = $amt - $tds;
-                                                                                        }else if($userType == '16'){
+                                                                                        }else if($userType == '16'|| $userType == '29'){
                                                                                             $id = $row['te_id'];
                                                                                             $message = $row['te_mess'];
                                                                                             $amt = $row['te_amt'];
@@ -431,7 +396,7 @@
                                                                                             $status = $row['bdm_status'];
                                                                                             $tds = $amt * $tdsPercentage;
                                                                                             $total = $amt - $tds;
-                                                                                        }else if($userType == '26'){
+                                                                                        }else if($userType == '26'|| $userType == '28' || $userType=='30'){
                                                                                             $id = $row['bm_id'];
                                                                                             $message = $row['bm_mess'];
                                                                                             $amt = $row['bm_amt'];
@@ -523,13 +488,13 @@
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
                                                 $amtCal = 'ta_markup + ta_amt';
-                                            }elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+                                            }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
                                                 $userIdCommi = 'te_id';
                                                 $amtCal = 'te_amt';
                                             }elseif($userType == '10'){ //customer
                                                 $userIdCommi = 'cu1_id';
                                                 $amtCal = 'cu1_amt';
-                                            }elseif($userType == '26'){//business Mentor
+                                            }elseif($userType == '26'|| $userType == '28' || $userType=='30'){//business Mentor/Master Franchisee/Sponsor Franchisee
                                                 $userIdCommi = 'bm_id';
                                                 $amtCal = 'bm_amt';
                                             }elseif($userType == '25'){// business Development manager
@@ -611,7 +576,7 @@
                                                 <?php
 
                                                     if($userType == '10'){
-                                                        $sql = "SELECT * FROM `product_payout` WHERE (cu1_id = '".$userId."' OR cu2_id = '".$userId."' OR cu3_id = '".$userId."') AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."') AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'  ";
                                                     }else if($userType == '11'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
                                                     }else if($userType == '16'){
@@ -622,6 +587,12 @@
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'  ";
                                                     }else if($userType == '24'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+                                                    }else if($userType == '29'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'  ";
+                                                    }else if($userType == '28'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+                                                    }else if($userType == '30'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
                                                     }
                                                     
                                                     $stmt = $conn -> prepare($sql);
@@ -680,7 +651,7 @@
                                                                 $status = $row['ta_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '16'){
+                                                            }else if($userType == '16'|| $userType == '29'){
                                                                 $id = $row['te_id'];
                                                                 $message = $row['te_mess'];
                                                                 $amt = $row['te_amt'];
@@ -701,7 +672,7 @@
                                                                 $status = $row['bdm_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '26'){
+                                                            }else if($userType == '26'|| $userType == '28' || $userType=='30'){
                                                                 $id = $row['bm_id'];
                                                                 $message = $row['bm_mess'];
                                                                 $amt = $row['bm_amt'];
@@ -768,13 +739,13 @@
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
                                                 $amtCal = 'ta_markup + ta_amt';
-                                            }elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+                                            }elseif($userType == '16'|| $userType == '29'){ //Techno Enterprise/ corporate agency/ Franchisee
                                                 $userIdCommi = 'te_id';
                                                 $amtCal = 'te_amt';
                                             }elseif($userType == '10'){ //customer
                                                 $userIdCommi = 'cu1_id';
                                                 $amtCal = 'cu1_amt';
-                                            }elseif($userType == '26'){//business Mentor
+                                            }elseif($userType == '26'|| $userType == '28' || $userType=='30'){//business Mentor/Master Franchisee/Sponsor Franchisee
                                                 $userIdCommi = 'bm_id';
                                                 $amtCal = 'bm_amt';
                                             }elseif($userType == '25'){// business Development manager
@@ -854,7 +825,7 @@
                                                 <?php
 
                                                     if($userType == '10'){
-                                                        $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."' OR cu2_id = '".$userId."' OR cu3_id = '".$userId."')  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
                                                     }else if($userType == '11'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
                                                     }else if($userType == '16'){
@@ -865,6 +836,12 @@
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
                                                     }else if($userType == '24'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
+                                                    }else if($userType == '29'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
+                                                    }else if($userType == '28'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
+                                                    }else if($userType == '30'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
                                                     }
                                                     
                                                     $stmt = $conn -> prepare($sql);
@@ -922,7 +899,7 @@
                                                                 $status = $row['ta_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '16'){
+                                                            }else if($userType == '16'|| $userType == '29'){
                                                                 $id = $row['te_id'];
                                                                 $message = $row['te_mess'];
                                                                 $amt = $row['te_amt'];
@@ -943,7 +920,7 @@
                                                                 $status = $row['bdm_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '26'){
+                                                            }else if($userType == '26'|| $userType == '28' || $userType=='30'){
                                                                 $id = $row['bm_id'];
                                                                 $message = $row['bm_mess'];
                                                                 $amt = $row['bm_amt'];
@@ -1012,13 +989,13 @@
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
                                                 $amtCal = 'ta_markup + ta_amt';
-                                            }elseif($userType == '16'){ //Techno Enterprise/ corporate agency
+                                            }elseif($userType == '16'|| $userType == '29'){ //Techno Enterprise/ corporate agency/ Franchisee
                                                 $userIdCommi = 'te_id';
                                                 $amtCal = 'te_amt';
                                             }elseif($userType == '10'){ //customer
                                                 $userIdCommi = 'cu1_id';
                                                 $amtCal = 'cu1_amt';
-                                            }elseif($userType == '26'){//business Mentor
+                                            }elseif($userType == '26'|| $userType == '28' || $userType=='30'){//business Mentor/Master Franchisee/Sponsor Franchisee
                                                 $userIdCommi = 'bm_id';
                                                 $amtCal = 'bm_amt';
                                             }elseif($userType == '25'){// business Development manager
@@ -1123,6 +1100,12 @@
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'   ";
                                                     }else if($userType == '24'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'   ";
+                                                    }else if($userType == '29'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
+                                                    }else if($userType == '28'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
+                                                    }else if($userType == '30'){
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
                                                     }
                                                     
                                                     $stmt = $conn -> prepare($sql);
@@ -1180,7 +1163,7 @@
                                                                 $status = $row['ta_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '16'){
+                                                            }else if($userType == '16' || $userType == '29'){
                                                                 $id = $row['te_id'];
                                                                 $message = $row['te_mess'];
                                                                 $amt = $row['te_amt'];
@@ -1201,7 +1184,7 @@
                                                                 $status = $row['bdm_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '26'){
+                                                            }else if($userType == '26'|| $userType == '28' || $userType=='30'){
                                                                 $id = $row['bm_id'];
                                                                 $message = $row['bm_mess'];
                                                                 $amt = $row['bm_amt'];

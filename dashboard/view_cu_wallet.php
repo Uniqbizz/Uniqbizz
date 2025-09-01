@@ -18,7 +18,7 @@ if ($userType == 10){
 <head>
 
     <meta charset="utf-8" />
-    <title>Dashboard | Customer</title>
+    <title>Admin Dashboard | Customer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/fav.png">
@@ -48,6 +48,25 @@ if ($userType == 10){
     <link rel="stylesheet" href="assets/css/custom.css" />
     <!-- font-awesome -->
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
+    <style>
+        .wallet-tab {
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .wallet-tab:hover {
+            background-color: #3f5866; /* optional */
+        }
+
+        .selected-tab {
+            box-shadow: 0 6px 12px rgba(63, 88, 102, 0.9); /* stronger bottom shadow */
+        }
+    </style>
+
+
+
+
+
 </head>
 
 <body>
@@ -109,10 +128,10 @@ if ($userType == 10){
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="card rounded-4 pt-3 pb-2 px-4 cardBg1">
+                            <div  class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div id='redeemable_wallet_div' class="card rounded-4 pt-3 pb-2 px-4 cardBg1 wallet-tab selected-tab">
                                     <div>
-                                        <p class="text-white fw-bold">Redeemable Count</p>
+                                        <p class="text-white fw-bold">Redeemable Amount</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <span class="">
@@ -120,41 +139,40 @@ if ($userType == 10){
                                         </span>
                                         <div class="ms-4">
                                             <?php
-                                            $sql3 = "SELECT COUNT(id) as id FROM customer_reference_payout WHERE customer_id = '" . $userId . "' AND referral_amount IS NOT NULL";
-                                            $stmt3 = $conn->prepare($sql3);
-                                            $stmt3->execute();
-                                            $stmt3->setFetchMode(PDO::FETCH_ASSOC);
-                                            if ($stmt3->rowCount() > 0) {
-                                                foreach (($stmt3->fetchAll()) as $key => $row) {
-                                                    $id = $row['id'];
-                                                    echo '<h1 class="mb-0 text-white">' . $id . '</h1>';
-                                                }
-                                            }
+                                                $stmt = $conn->prepare("SELECT
+                                                    SUM(COALESCE(credit_amount, 0)) AS credit_amt,
+                                                    SUM(COALESCE(debit_amount, 0)) AS debit_amt,
+                                                    (SUM(COALESCE(credit_amount, 0)) - SUM(COALESCE(debit_amount, 0))) AS net_balance
+                                                FROM customer_reference_wallet_utilization
+                                                WHERE customer_id = :userId");
+                                                $stmt->execute(['userId' => $userId]);
+                                                $redeemableTotal = $stmt->fetch(PDO::FETCH_ASSOC)['net_balance'] ?? 0;
+                                                echo '<h1 class="mb-0 text-white">' . $redeemableTotal . '</h1>';                                           
                                             ?>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p class="text-white">This Month</p>
                                         <?php
-                                        $sql3 = "SELECT COUNT(id) as id FROM customer_reference_payout WHERE customer_id='" . $userId . "' AND referral_amount IS NOT NULL AND YEAR(created_date) = '" . $DateYear . "' AND MONTH(created_date) = '" . $DateMonth . "'";
-                                        $stmt3 = $conn->prepare($sql3);
-                                        $stmt3->execute();
-                                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
-                                        if ($stmt3->rowCount() > 0) {
-                                            foreach (($stmt3->fetchAll()) as $key => $row) {
-                                                $id2 = $row['id'];
-                                                echo '<p class="text-white">' . $id2 . '</p>';
-                                            }
-                                        }
+                                            $stmt = $conn->prepare("SELECT
+                                                SUM(COALESCE(credit_amount, 0)) AS credit_amt,
+                                                SUM(COALESCE(debit_amount, 0)) AS debit_amt,
+                                                (SUM(COALESCE(credit_amount, 0)) - SUM(COALESCE(debit_amount, 0))) AS net_balance
+                                            FROM customer_reference_wallet_utilization
+                                            WHERE customer_id = :userId AND YEAR(created_date) = :year AND MONTH(created_date) = :month");
+                                            $stmt->execute(['userId' => $userId, 'year' => $DateYear, 'month' => $DateMonth]);
+                                            $redeemableMonth = $stmt->fetch(PDO::FETCH_ASSOC)['net_balance'] ?? 0;
+                                             echo '<p class="text-white">' . $redeemableMonth . '</p>';
+                                        
                                         ?>
 
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 <?=in_array($customer_type, ['Free', 'Premium', 'Prime']) ? 'd-none' : '' ?>">
-                                <div class="card rounded-4 pt-3 pb-2 px-4 cardBg2">
+                                <div id='booking_wallet_div' class="card rounded-4 pt-3 pb-2 px-4 cardBg2 wallet-tab">
                                     <div>
-                                        <p class="text-white fw-bold">Booking Points Count</p>
+                                        <p class="text-white fw-bold">Booking Points</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <span class="">
@@ -162,15 +180,14 @@ if ($userType == 10){
                                         </span>
                                         <div class="ms-4">
                                             <?php
-                                            $stmt = $conn->prepare("SELECT COUNT(id) as id FROM customer_reference_payout WHERE customer_id = '" . $userId . "'AND booking_points IS NOT NULL ");
-                                            $stmt->execute();
-                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                            if ($stmt->rowCount() > 0) {
-                                                foreach (($stmt->fetchAll()) as $key => $row) {
-                                                    $completedTour = $row['id'];
-                                                    echo '<h1 class="mb-0 text-white">' . $completedTour . '</h1>';
-                                                }
-                                            }
+                                                $stmt = $conn->prepare("SELECT
+                                                    SUM(COALESCE(credit_amount, 0)) AS credit_amt,
+                                                    SUM(COALESCE(debit_amount, 0)) AS debit_amt,
+                                                    (SUM(COALESCE(credit_amount, 0)) - SUM(COALESCE(debit_amount, 0))) AS net_balance FROM customer_reference_booking_points_utilization WHERE customer_id = :userId");
+                                                $stmt->execute(['userId' => $userId]);
+                                                $bookingTotal = $stmt->fetch(PDO::FETCH_ASSOC)['net_balance'] ?? 0;
+                                                echo '<h1 class="mb-0 text-white">' . $bookingTotal . '</h1>';
+                                            
                                             ?>
 
                                         </div>
@@ -178,15 +195,14 @@ if ($userType == 10){
                                     <div class="d-flex justify-content-between">
                                         <p class="text-white">This Month</p>
                                         <?php
-                                        $stmt = $conn->prepare("SELECT COUNT(id) as id FROM customer_reference_payout WHERE customer_id='" . $userId . "' AND booking_points IS NOT NULL AND YEAR(created_date) = '" . $DateYear . "' AND MONTH(created_date) = '" . $DateMonth . "'");
-                                        $stmt->execute();
-                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                        if ($stmt->rowCount() > 0) {
-                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                $completedTourThisMonth = $row['id'];
-                                                echo '<p class="text-white">' . $completedTourThisMonth . '</p>';
-                                            }
-                                        }
+                                            $stmt = $conn->prepare("SELECT
+                                                SUM(COALESCE(credit_amount, 0)) AS credit_amt,
+                                                SUM(COALESCE(debit_amount, 0)) AS debit_amt,
+                                                (SUM(COALESCE(credit_amount, 0)) - SUM(COALESCE(debit_amount, 0))) AS net_balance FROM customer_reference_booking_points_utilization WHERE customer_id = :userId  AND YEAR(created_date) = :year AND MONTH(created_date) = :month");
+                                            $stmt->execute(['userId' => $userId, 'year' => $DateYear, 'month' => $DateMonth]);
+                                            $bookingMonth = $stmt->fetch(PDO::FETCH_ASSOC)['net_balance'] ?? 0;
+                                            echo '<p class="text-white">' . $bookingMonth . '</p>';
+                                        
                                         ?>
 
                                     </div>
@@ -195,8 +211,9 @@ if ($userType == 10){
                         </div>
                         <!-- end page title -->
                         <?php if ($customer_type!='Free' || $customer_type!='Premium' || $customer_type!='Prime'){?>
-                        <div class="row <?= in_array($customer_type, ['Free', 'Premium', 'Prime']) ? 'd-none' : '' ?>">
-                            <div class="col">
+                        <div class="row ">
+                            <!-- booking wallet table -->
+                            <div id ='booking_ponits_table_div' class="col <?= in_array($customer_type, ['Free', 'Premium', 'Prime']) ? 'd-none' : '' ?>">
 
                                 <div class="h-100">
                                     <div class="row">
@@ -236,29 +253,28 @@ if ($userType == 10){
                                                                 foreach ($referrals as $referral) {
                                                                     $referral_text = $referral['booking_message']; // Original string
                                                                     $formatted_date = date('d-m-Y', strtotime($referral['created_date']));
-                                                                    $split = explode('referring', $referral_text, 2);
                                                                     $formatted_text = '';
 
+                                                                    $split = explode('points', $referral_text, 2);
                                                                     if (count($split) == 2) {
-                                                                        $first_part = trim($split[0]) . ' referring';
-                                                                        $after_referring = trim($split[1]);
+                                                                        $first_part = trim($split[0]) . ' points'; // e.g. "Harsh... 500 booking points"
+                                                                        $after_points = trim($split[1]); // e.g. "as a Level 1 referrer for referring Tukaram..."
 
-                                                                        if (strpos($after_referring, 'through') !== false) {
-                                                                            $split2 = explode('through', $after_referring, 2);
-                                                                            $second_part = trim($split2[0]);
-                                                                            $third_part = trim($split2[1]);
-                                                                            $formatted_text = $first_part . '<br>' . $second_part . '<br>' . $third_part;
+                                                                        // Check for "through"
+                                                                        if (stripos($after_points, 'through') !== false) {
+                                                                            $through_split = explode('through', $after_points, 2);
+                                                                            $before_through = trim($through_split[0]); // e.g. "as a Level 2 referrer for referring Brijesh..."
+                                                                            $through_clause = 'through ' . trim($through_split[1]);
+                                                                            $formatted_text = $first_part . '<br>' . $before_through . '<br>' . $through_clause;
                                                                         } else {
-                                                                            $second_part = $after_referring;
-                                                                            $formatted_text = $first_part . '<br>' . $second_part;
+                                                                            $formatted_text = $first_part . '<br>' . $after_points;
                                                                         }
                                                                     } else {
-                                                                        // If "referring" not found, use full text
                                                                         $formatted_text = $referral_text;
                                                                     }
                                                                     echo '<tr>
                                                                     <td>' . ++$i . '</td>
-                                                                    <td>' . $first_part . '</br>'.$second_part.'</td>
+                                                                    <td>' . $formatted_text.'</td>
                                                                     <td>' . $referral['booking_points'] . '</td>
                                                                     <td>' . $formatted_date . '</td>';
                                                                     if ($referral['status'] == '3')
@@ -277,11 +293,9 @@ if ($userType == 10){
                                 </div>
 
                             </div>
-
-                        </div>
-                        <?php } ?>
-                        <div class="row">
-                            <div class="col">
+                            <!-- end booking wallet table -->
+                            <!-- redeemable wallet table -->
+                            <div id="redeemable_amount_table_div" class="col">
 
                                 <div class="h-100">
                                     <div class="row">
@@ -362,35 +376,14 @@ if ($userType == 10){
                                 </div>
 
                             </div>
+                            <!-- end redeemable wallet table -->
+
 
                         </div>
-
-                        <!-- <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
-                            <a href="add_ta_top_up.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-                            </a>
-                        </div> -->
-                    <?php } ?>
+                        <?php } 
+                     } ?>
 
                     </div> <!-- container-fluid -->
-                    <!-- show rejection message start -->
-                    <div class="modal fade" id="rejectTopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Rejection Reason</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-floating">
-                                        <p id="floatingTextarea" ></p>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <!-- show rejection message end -->
 
                 </div><!-- End Page-content -->
 
@@ -434,122 +427,40 @@ if ($userType == 10){
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <!-- <script src="assets/js/pages/datatables.init.js"></script> -->
-
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
-
     <!-- !-- materialdesign icon js- -->
     <script src="assets/js/pages/remix-icons-listing.js"></script>
 
-    <!-- apexcharts -->
-    <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-    <!--  -->
-    <!-- Vector map-->
-    <!-- <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script> -->
-    <!-- <script src="assets/libs/jsvectormap/maps/world-merc.js"></script> -->
-
-    <!--Swiper slider js-->
-    <!-- <script src="assets/libs/swiper/swiper-bundle.min.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script>// -->
-
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script>// -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
     <script>
         
         $(document).ready(function() {
             $("#example-dataTable").DataTable();
             $("#example-dataTable1").DataTable();
-            $('.rejectMess').click(function () {
-                var createdDate=$(this).data("created-date");
-                var usersId=$(this).data("user-id");
-                $.ajax({
-                   url:"travel_agent/getRejectReason.php",
-                   type:"POST",
-                   data:{createdDate:createdDate,usersId:usersId},
-                   success:function(response){
-                    $('#floatingTextarea').text(response);
-                    $("#rejectTopup").modal("show");
-                   } 
-                });
-                
+            // Hide both tables initially
+            $('#booking_ponits_table_div').hide();
+            $('#redeemable_amount_table_div').show();
+
+            // Click event for Booking Wallet Card
+            $('#booking_wallet_div').on('click', function () {
+                $('#booking_ponits_table_div').show();
+                $('#redeemable_amount_table_div').hide();
+                // Highlight selected tab
+                $('.wallet-tab').removeClass('selected-tab');
+                $(this).addClass('selected-tab');
             });
+
+            // Click event for Redeemable Wallet Card
+            $('#redeemable_wallet_div').on('click', function () {
+                $('#redeemable_amount_table_div').show();
+                $('#booking_ponits_table_div').hide();
+                // Highlight selected tab
+                $('.wallet-tab').removeClass('selected-tab');
+                $(this).addClass('selected-tab');
+            });
+            
         });
-
-        function editfunc(id, cut, st, ct, editfor) {
-            window.location.href = 'edit_customer.php?vkvbvjfgfikix=' + id + '&ncy=' + cut + '&mst=' + st + '&hct=' + ct + '&editfor=' + editfor;
-        };
-
-        function addRefFunc(id, taID, cut, st, ct, editfor) {
-            window.location.href = 'add_customer.php?vkvbvjfgfikix=' + id + '&taId=' + taID + '&ncy=' + cut + '&mst=' + st + '&hct=' + ct + '&editfor=' + editfor;
-        };
-
-        function deletefunc(id, fid, action) {
-            var dataString = 'id=' + id + '&fid=' + fid + '&action=' + action;
-
-            $.ajax({
-                type: "POST",
-                url: "customer/delete_customer_data.php",
-                data: dataString,
-                cache: false,
-                success: function(data) {
-                    console.log(data);
-                    if (data == 0) {
-                        alert("Deleted Succesfully");
-                        window.location.reload();
-                    } else if (data == 1) {
-                        alert("User Activated Succesfully");
-                        window.location.reload();
-                    } else if (data == 2) {
-                        alert("User Restored Succesfully");
-                        window.location.reload();
-                    } else if (data == 3) {
-                        alert("User Deactivated Succesfully");
-                        window.location.reload();
-                    } else {
-                        alert("Request Failed !!");
-                    }
-                }
-            });
-        };
-
-        function confirmfunc(id, email) {
-            var dataString = 'id=' + id + '&uname=' + email;
-
-            $.ajax({
-                type: "POST",
-                url: "customer/confirm_customer.php",
-                data: dataString,
-                cache: false,
-                success: function(data) {
-                    if (data == 1) {
-                        alert("Email and Password sent via sms and email");
-                        window.location.reload();
-                    } else {
-
-                        alert("Failed to confirm");
-                    }
-                }
-            });
-
-        };
-
-        function overviewPage(id, ref, cut, st, ct, message) {
-            var designation = 'Customer';
-            window.location.href = 'overview.php?id=' + id + '&ref=' + ref + '&cut=' + cut + '&st=' + st + '&ct=' + ct + '&message=' + message + '&designation=' + designation;
-        }
     </script>
 </body>
 

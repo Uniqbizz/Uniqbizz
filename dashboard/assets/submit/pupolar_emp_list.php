@@ -161,6 +161,21 @@ try {
                     fetchCustomerCounts($conn, $tcId, $counts);
                 }
             }
+    }else if($userType == '30'){
+        $fId = $userId;
+        //TC count
+        $counts['pendingTC'] += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND status = '2'", [$fId]);
+        $counts['registeredTC'] += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND status = '1'", [$fId]);
+        $counts['deletedTC'] += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND (status = '0' OR status = '3')", [$fId]);
+        // SF -> TC
+        $sqltcs = "SELECT * FROM ca_travelagency WHERE reference_no = ?";
+        $tcs = $conn->prepare($sqltcs);
+        $tcs->execute([$fId]);
+        foreach ($tcs->fetchAll(PDO::FETCH_ASSOC) as $tc) {
+            $tcId = $tc['ca_travelagency_id'];
+            // TC -> CU
+            fetchCustomerCounts($conn, $tcId, $counts);
+        }
     }elseif ($userType == '29') {
         fetchCustomerCounts($conn, $userId, $counts);
         

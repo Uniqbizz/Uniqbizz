@@ -38,7 +38,7 @@ $pictures = $stmt_pack_pic->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
 
 <head>
     <meta charset="utf-8" />
-    <title> Dashboard | Tour History</title>
+    <title>Dashboard | Tour History</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/fav.png">
@@ -193,7 +193,7 @@ $pictures = $stmt_pack_pic->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
                                                         <?php
                                                         foreach ($pictures as $key => $picture) {
                                                             echo '<div class="preview-images-zone qrCode" style="height:150px; width:100%; position:relative; margin-right:1px; display:inline-flex;">
-                                                                        <img src="../' . $picture['image'] . '" style="width: 200px; height: 100%; padding: 5px;object-fit:cover">
+                                                                        <img src="../../' . $picture['image'] . '" style="width: 200px; height: 100%; padding: 5px;object-fit:cover">
                                                                     </div>
                                                                     ';
                                                         }
@@ -305,48 +305,44 @@ $pictures = $stmt_pack_pic->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex pt-3">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-dark ps-3">
                                                             <?php
-                                                                echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Price:</p>';
-                                                                if ($booking['coupons_code'] != "") {
-                                                                    echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Coupon Applied:</p>';
-                                                                    echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight: bold;"><strong>' . $booking['coupons_code'] . '</strong></p>';
-
-                                                                    //echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
-                                                                    //echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">Sub Total</p>';
-                                                                }
-                                                                if ($booking['gst_status'] == "1") {
-                                                                    echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">GST</p>';
-                                                                }
-                                                                echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
-                                                                echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600 ">TOTAL</p>';
+                                                            // echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">Price</p>';
+                                                            // if ( $booking['coupons_id'] != "0" ) {
+                                                            //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">Discount</p>';
+                                                            //     echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
+                                                            //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">Sub Total</p>';
+                                                            // }
+                                                            // if ( $booking['gst_status'] == "1" ) {
+                                                            //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">GST</p>';
+                                                            // }
+                                                            echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
+                                                            echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600 ">TOTAL</p>';
                                                             ?>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                                                             <?php
-                                                                if ($booking['gst_status'] == "0") {
-                                                                    // direct bill
-                                                                    echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . $booking_bill['final_price'] . '</p>';
-                                                                    if ($booking['coupons_code'] != "") {
-
-                                                                        echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . $booking_bill['coupon_discount'] . '</p>';
-                                                                        echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                        echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $booking_bill['total_net_payable'] . '</strong></p>';
-                                                                    } else {
-                                                                        echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                        echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $booking_bill['total_price'] . '</strong></p>';
-                                                                    }
-                                                                } else if ($booking['gst_status'] == "1") {
-                                                                    // GST Bill
-                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['total_price'], 2, '.', '') . '</p>';
-                                                                    if ($booking['coupons_code'] != "") {
-
-                                                                        echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . number_format((float)$total_gst['coupon_discount'], 2, '.', '') . '</p>';
-                                                                        echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                        echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['net_payable'], 2, '.', '') . '</p>';
-                                                                    }
-                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>+ ₹ ' . number_format((float)$total_gst['total_gst'], 2, '.', '') . '</strong></p>';
+                                                            if ($booking['gst_status'] == "0") {
+                                                                // direct bill
+                                                                // echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;">₹ '.$total_direct['total_price'].'</p>';
+                                                                if ($booking['coupons_id'] != "0") {
+                                                                    // echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;">- ₹ '.$total_direct['coupon_discount'].'</p>';
                                                                     echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                    echo '<p class="textColor" style="font-size:14px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . number_format((float)$total_gst['total_net_payable'], 2, '.', '') . '</strong></p>';
+                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;"><strong>₹ ' . $booking_bill['final_price'] . '</strong></p>';
+                                                                } else {
+                                                                    echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;"><strong>₹ ' . $booking_bill['final_price'] . '</strong></p>';
                                                                 }
+                                                            } else if ($booking['gst_status'] == "1") {
+                                                                // GST Bill
+                                                                echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;">₹ ' . number_format((float)$total_gst['total_price'], 2, '.', '') . '</p>';
+                                                                if ($booking['coupons_id'] != "0") {
+                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;">- ₹ ' . number_format((float)$total_gst['coupon_discount'], 2, '.', '') . '</p>';
+                                                                    echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;">₹ ' . number_format((float)$booking_bill['final_price'], 2, '.', '') . '</p>';
+                                                                }
+                                                                echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;"><strong>+ ₹ ' . number_format((float)$total_gst['total_gst'], 2, '.', '') . '</strong></p>';
+                                                                echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                                echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:right; font-weight:600;"><strong>₹ ' . number_format((float)$booking_bill['final_price'], 2, '.', '') . '</strong></p>';
+                                                            }
                                                             ?>
                                                         </div>
                                                     </div>

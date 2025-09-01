@@ -1,5 +1,4 @@
 <?php 
-
 require "../connect.php";
 include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
@@ -250,7 +249,7 @@ if ($result) {
 						}
 					}
 
-					//check if ref is bm or bdm
+					//check if ref is MF or bdm
 					$ref_id = substr($Bm_id, 0, 2);
 					if($ref_id == "MF"){
 						$sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_id."'");
@@ -285,6 +284,27 @@ if ($result) {
 						$bm_commi = '0'; 
 						$message_bm = "Zonal Manager - ".$BmName." ".$BmId." commission not applicable on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
 						$commision_bm = $bm_commi;
+					}
+					if($ref_id == "SF"){
+						$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$Bm_id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['sponsor_franchisee_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];//not needed
+								$BdmName = $row11['registrant'];//not needed
+							}
+						}
+						if($amount == "FOC"){
+							$bm_commi = '0'; 
+						}else{
+							$bm_commi = '300'; 
+						}
+						$message_bm = "Sponser Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+						$commision_bm = $bm_commi;
+
 					}
 						
 					if($amount == "FOC"){

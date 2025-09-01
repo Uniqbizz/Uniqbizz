@@ -584,7 +584,17 @@ if ($stmt->rowCount() > 0) {
                                                             ?>
                                                             <tr>
                                                                 <td><?= htmlspecialchars($coupon['code']) ?></td>
-                                                                <td><?= $customer_type?></td>
+                                                                <td>
+                                                                    <?php if ($customer_type === 'Premium Select Lite' && $coupon['bonus_check'] == 1): ?>
+                                                                        <label style="color: #28a745; font-weight: 600; font-size: 14px; display:inline-block; margin-bottom:4px;">
+                                                                            Bonus Coupon
+                                                                        </label><br>
+                                                                        <?= htmlspecialchars($customer_type) ?>
+                                                                    <?php else: ?>
+                                                                        <?= htmlspecialchars($customer_type) ?>
+                                                                    <?php endif; ?>
+                                                                </td>
+
                                                                 <td><?= $coupon['coupon_amt']?></td>
                                                                 <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
                                                                 <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>

@@ -242,7 +242,32 @@
                 )";
             }
 
-            elseif ($userType == '16') { // TE
+             elseif ($userType == '28') { // MF
+                $filter = " AND b.ta_id IN (
+                    -- TA via Franchisee
+                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+
+                    UNION
+
+                    -- Direct TC under MF
+                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                )";
+            }
+            elseif ($userType == '30') { // SF
+                $filter = " AND b.ta_id IN (
+                    -- TA via Franchisee
+                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                )";
+            }
+
+            elseif ($userType == '16' || $userType == '29') { // TE/F
                 $filter = " AND b.ta_id IN (
                     SELECT ca.ca_travelagency_id FROM ca_travelagency ca
                     WHERE ca.status = 1 AND ca.reference_no = '$userId'
@@ -1830,6 +1855,20 @@
                         </div>
                     </div>
                 </div>
+                <footer class="footer"> <!-- footer start -->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <?php echo $date; ?> © Uniqbizz.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by Mirthcon
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer> <!-- footer end -->
             </div>
         </div>
         <!-- Refund Modal -->

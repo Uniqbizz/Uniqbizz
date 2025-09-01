@@ -5,6 +5,7 @@ $payoutMonth = $_GET['payoutMonth'];
 $payoutmessage = $_GET['payoutmessage'];
 $designation = $_GET['designation'] ?? '';
 $user_id = $_GET['user_id'] ?? '';
+$user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
 
 $dateObj   = DateTime::createFromFormat('!m', $payoutMonth);
 $monthName = $dateObj->format('F'); 
@@ -21,12 +22,21 @@ if($payoutmessage == 'PreviousPayout'){
              <tr>
                 <th >Date</th>';
                 
-                if($designation == "business_consultant"){
-                    $output .= '<th class="mobile_view">Business Consultant</th>
-                    <th class="mobile_view">Business Consultant Name</th>';
-                }else{
-                    $output .= '<th class="mobile_view">Corporate Agency</th>
-                    <th class="mobile_view">Corporate Agency Name</th>';
+                if($user_id_str == "BM"){
+                    $output .= '<th class="mobile_view">Business Mentor</th>
+                    <th class="mobile_view">Business Mentor Name</th>';
+                }else if($user_id_str == "TE" || $$user_id_str == "CA"){
+                    $output .= '<th class="mobile_view">Techno Enterprise</th>
+                    <th class="mobile_view">Techno Enterprise Name</th>';
+                }else if($user_id_str == "SF"){
+                    $output .= '<th class="mobile_view">Sponsor Franchisee</th>
+                    <th class="mobile_view">Sponsor Franchisee Name</th>';
+                }else if($user_id_str == "MF"){
+                    $output .= '<th class="mobile_view">Master Franchisee</th>
+                    <th class="mobile_view">Master Franchisee Name</th>';
+                }else if($user_id_str == "F"){
+                    $output .= '<th class="mobile_view">Franchisee</th>
+                    <th class="mobile_view">Franchisee Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -40,9 +50,9 @@ if($payoutmessage == 'PreviousPayout'){
                 $newDate= $rd->format('d-m-Y');
                 $id = $row2['id'];
 
-                if($designation == "business_consultant"){
+                if($user_id_str == "BM" || $user_id_str == "SF" || $user_id_str == "MF"){
 
-                    $BC_Commi = $row2['commision_bc'];
+                    $BC_Commi = $row2['commision_bm'];
                 
                     (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
                     (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
@@ -52,10 +62,15 @@ if($payoutmessage == 'PreviousPayout'){
                     $dt = $dt->format('Y-m-d');
 
                     // replace dot at end of the line with break statement
-                    $message1 = $row2['message_bc'];
+                    $message1 = $row2['message_bm'];
                     $message1 =  str_replace('.','<br>',$message1); 
-                    
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_consultant` where business_consultant_id='".$row2['business_consultant']."'");
+                    if($user_id_str == "SF"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['business_mentor']."'");
+                    }else if($user_id_str == "MF"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['business_mentor']."'");
+                    }else{
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_mentor` where business_mentor_id='".$row2['business_mentor']."'");
+                    }
                     $sql1->execute();
                     $sql1->setFetchMode(PDO::FETCH_ASSOC);
                     if($sql1->rowCount()>0){
@@ -66,7 +81,7 @@ if($payoutmessage == 'PreviousPayout'){
 
                     $output .= '<tr>
                         <td >'.$newDate.'</td>
-                        <td>'.$row2['business_consultant'].'</td>
+                        <td>'.$row2['business_mentor'].'</td>
                         <td>'.$ta_name.'</td>
                         <td class="message">'.$message1.'</td>
                         <td style="text-align:center;">'.$BC_Commi.'</td>
@@ -78,17 +93,20 @@ if($payoutmessage == 'PreviousPayout'){
                             $output .='<td style="text-align:center;">Paid</td>';
                         }
                     $output .='</tr>';
-                }else{
+                }else if($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
 
-                    $CA_Commi = $row2['commision_ca'];
+                    $CA_Commi = $row2['commision_te'];
 
                     (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
                     (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
-                    $message2 = $row2['message_ca'];
+                    $message2 = $row2['message_te'];
                     $message2 =  str_replace('.','<br>',$message2); 
-
-                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['corporate_agency']."'");
+                    if($user_id_str == "TE" || $user_id_str == "CA"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
+                    }else if($user_id_str == "F"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                    }
                     $sql2->execute();
                     $sql2->setFetchMode(PDO::FETCH_ASSOC);
                     if($sql2->rowCount()>0){
@@ -99,7 +117,7 @@ if($payoutmessage == 'PreviousPayout'){
                     
                     $output .='<tr>
                         <td >'.$newDate.'</td>
-                        <td>'.$row2['corporate_agency'].'</td>
+                        <td>'.$row2['techno_enterprise'].'</td>
                         <td>'.$ca_name.'</td>
                         <td >'.$message2.'</td>
                         <td style="text-align:center;">'.$CA_Commi.'</td>
@@ -135,12 +153,21 @@ if($payoutmessage == 'NextPayout'){
             <tr>
                 <th >Date</th>';
                 
-                if($designation == "business_consultant"){
-                    $output .= '<th class="mobile_view">Business Consultant</th>
-                    <th class="mobile_view">Business Consultant Name</th>';
-                }else{
-                    $output .= '<th class="mobile_view">Corporate Agency</th>
-                    <th class="mobile_view">Corporate Agency Name</th>';
+               if($user_id_str == "BM"){
+                    $output .= '<th class="mobile_view">Business Mentor</th>
+                    <th class="mobile_view">Business Mentor Name</th>';
+                }else if($user_id_str == "TE" || $$user_id_str == "CA"){
+                    $output .= '<th class="mobile_view">Techno Enterprise</th>
+                    <th class="mobile_view">Techno Enterprise Name</th>';
+                }else if($user_id_str == "SF"){
+                    $output .= '<th class="mobile_view">Sponsor Franchisee</th>
+                    <th class="mobile_view">Sponsor Franchisee Name</th>';
+                }else if($user_id_str == "MF"){
+                    $output .= '<th class="mobile_view">Master Franchisee</th>
+                    <th class="mobile_view">Master Franchisee Name</th>';
+                }else if($user_id_str == "F"){
+                    $output .= '<th class="mobile_view">Franchisee</th>
+                    <th class="mobile_view">Franchisee Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -154,19 +181,9 @@ if($payoutmessage == 'NextPayout'){
                 $newDate= $rd->format('d-m-Y');
                 $id = $row2['id'];
 
-                // get the commission amount of BA's
-                
-                // $ca_ta_Commi = $row2['ca_ta_amt_paid'];
+                if($user_id_str == "BM" || $user_id_str == "SF" || $user_id_str == "MF"){
 
-                // (int)$ca_ta_Commi_TDS = (int)$ca_ta_Commi*5/100;
-                // (int)$ca_ta_Commi_Total = (int)$ca_ta_Commi-(int)$ca_ta_Commi_TDS; 
-
-                // $message3 = $row2['message_ca_ta'];
-                // $message3 =  str_replace('.','<br>',$message3); 
-
-                if($designation == "business_consultant"){
-
-                    $BC_Commi = $row2['commision_bc'];
+                    $BC_Commi = $row2['commision_bm'];
                 
                     (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
                     (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
@@ -176,10 +193,16 @@ if($payoutmessage == 'NextPayout'){
                     $dt = $dt->format('Y-m-d');
 
                     // replace dot at end of the line with break statement
-                    $message1 = $row2['message_bc'];
+                    $message1 = $row2['message_bm'];
                     $message1 =  str_replace('.','<br>',$message1); 
                     
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_consultant` where business_consultant_id='".$row2['business_consultant']."'");
+                    if($user_id_str == "SF"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['business_mentor']."'");
+                    }else if($user_id_str == "MF"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['business_mentor']."'");
+                    }else{
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_mentor` where business_mentor_id='".$row2['business_mentor']."'");
+                    }
                     $sql1->execute();
                     $sql1->setFetchMode(PDO::FETCH_ASSOC);
                     if($sql1->rowCount()>0){
@@ -190,7 +213,7 @@ if($payoutmessage == 'NextPayout'){
 
                     $output .= '<tr>
                         <td >'.$newDate.'</td>
-                        <td>'.$row2['business_consultant'].'</td>
+                        <td>'.$row2['business_mentor'].'</td>
                         <td>'.$ta_name.'</td>
                         <td class="message">'.$message1.'</td>
                         <td style="text-align:center;">'.$BC_Commi.'</td>
@@ -202,17 +225,21 @@ if($payoutmessage == 'NextPayout'){
                             $output .='<td style="text-align:center;">Paid</td>';
                         }
                     $output .='</tr>';
-                }else{
+                }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
 
-                    $CA_Commi = $row2['commision_ca'];
+                    $CA_Commi = $row2['commision_te'];
 
                     (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
                     (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
-                    $message2 = $row2['message_ca'];
+                    $message2 = $row2['message_te'];
                     $message2 =  str_replace('.','<br>',$message2); 
 
-                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['corporate_agency']."'");
+                    if($user_id_str == "TE" || $user_id_str == "CA"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
+                    }else if($user_id_str == "F"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                    }
                     $sql2->execute();
                     $sql2->setFetchMode(PDO::FETCH_ASSOC);
                     if($sql2->rowCount()>0){
@@ -223,7 +250,7 @@ if($payoutmessage == 'NextPayout'){
                     
                     $output .='<tr>
                         <td >'.$newDate.'</td>
-                        <td>'.$row2['corporate_agency'].'</td>
+                        <td>'.$row2['techno_enterprise'].'</td>
                         <td>'.$ca_name.'</td>
                         <td >'.$message2.'</td>
                         <td style="text-align:center;">'.$CA_Commi.'</td>
@@ -258,12 +285,21 @@ if($payoutmessage == 'TotalPayout'){
             <tr>
                 <th >Date</th>';
                 
-                if($designation == "business_consultant"){
-                    $output .= '<th class="mobile_view">Business Consultant</th>
-                    <th class="mobile_view">Business Consultant Name</th>';
-                }else{
-                    $output .= '<th class="mobile_view">Corporate Agency</th>
-                    <th class="mobile_view">Corporate Agency Name</th>';
+                if($user_id_str == "BM"){
+                    $output .= '<th class="mobile_view">Business Mentor</th>
+                    <th class="mobile_view">Business Mentor Name</th>';
+                }else if($user_id_str == "TE" || $$user_id_str == "CA"){
+                    $output .= '<th class="mobile_view">Techno Enterprise</th>
+                    <th class="mobile_view">Techno Enterprise Name</th>';
+                }else if($user_id_str == "SF"){
+                    $output .= '<th class="mobile_view">Sponsor Franchisee</th>
+                    <th class="mobile_view">Sponsor Franchisee Name</th>';
+                }else if($user_id_str == "MF"){
+                    $output .= '<th class="mobile_view">Master Franchisee</th>
+                    <th class="mobile_view">Master Franchisee Name</th>';
+                }else if($user_id_str == "F"){
+                    $output .= '<th class="mobile_view">Franchisee</th>
+                    <th class="mobile_view">Franchisee Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -277,19 +313,9 @@ if($payoutmessage == 'TotalPayout'){
                 $newDate= $rd->format('d-m-Y');
                 $id = $row2['id'];
 
-                // get the commission amount of BA's
-                
-                // $ca_ta_Commi = $row2['ca_ta_amt_paid'];
+                if($user_id_str == "BM" || $user_id_str == "SF" || $user_id_str == "MF"){
 
-                // (int)$ca_ta_Commi_TDS = (int)$ca_ta_Commi*5/100;
-                // (int)$ca_ta_Commi_Total = (int)$ca_ta_Commi-(int)$ca_ta_Commi_TDS; 
-
-                // $message3 = $row2['message_ca_ta'];
-                // $message3 =  str_replace('.','<br>',$message3); 
-
-                if($designation == "business_consultant"){
-
-                    $BC_Commi = $row2['commision_bc'];
+                    $BC_Commi = $row2['commision_bm'];
                 
                     (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
                     (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
@@ -299,10 +325,16 @@ if($payoutmessage == 'TotalPayout'){
                     $dt = $dt->format('Y-m-d');
 
                     // replace dot at end of the line with break statement
-                    $message1 = $row2['message_bc'];
+                    $message1 = $row2['message_bm'];
                     $message1 =  str_replace('.','<br>',$message1); 
                     
-                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_consultant` where business_consultant_id='".$row2['business_consultant']."'");
+                    if($user_id_str == "SF"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['business_mentor']."'");
+                    }else if($user_id_str == "MF"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['business_mentor']."'");
+                    }else{
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_mentor` where business_mentor_id='".$row2['business_mentor']."'");
+                    }
                     $sql1->execute();
                     $sql1->setFetchMode(PDO::FETCH_ASSOC);
                     if($sql1->rowCount()>0){
@@ -313,7 +345,7 @@ if($payoutmessage == 'TotalPayout'){
 
                     $output .= '<tr>
                         <td >'.$newDate.'</td>
-                        <td>'.$row2['business_consultant'].'</td>
+                        <td>'.$row2['business_mentor'].'</td>
                         <td>'.$ta_name.'</td>
                         <td class="message">'.$message1.'</td>
                         <td style="text-align:center;">'.$BC_Commi.'</td>
@@ -325,17 +357,21 @@ if($payoutmessage == 'TotalPayout'){
                             $output .='<td style="text-align:center;">Paid</td>';
                         }
                     $output .='</tr>';
-                }else{
+                }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
 
-                    $CA_Commi = $row2['commision_ca'];
+                    $CA_Commi = $row2['commision_te'];
 
                     (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
                     (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
-                    $message2 = $row2['message_ca'];
+                    $message2 = $row2['message_te'];
                     $message2 =  str_replace('.','<br>',$message2); 
 
-                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['corporate_agency']."'");
+                    if($user_id_str == "TE" || $user_id_str == "CA"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
+                    }else if($user_id_str == "F"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                    }
                     $sql2->execute();
                     $sql2->setFetchMode(PDO::FETCH_ASSOC);
                     if($sql2->rowCount()>0){
@@ -346,7 +382,7 @@ if($payoutmessage == 'TotalPayout'){
                     
                     $output .='<tr>
                         <td >'.$newDate.'</td>
-                        <td>'.$row2['corporate_agency'].'</td>
+                        <td>'.$row2['techno_enterprise'].'</td>
                         <td>'.$ca_name.'</td>
                         <td >'.$message2.'</td>
                         <td style="text-align:center;">'.$CA_Commi.'</td>
@@ -370,13 +406,12 @@ if($payoutmessage == 'TotalPayout'){
 }
 
 if($payoutmessage == 'allPayout'){
-    if($designation == 'business_consultant'){
-        $stmt2 = " SELECT * FROM ca_ta_payout WHERE business_consultant = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($designation == 'corporate_agency'){
-        $stmt2 = " SELECT * FROM ca_ta_payout WHERE corporate_agency = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($designation == 'BC_Ref'){
-        $stmt2 = " SELECT * FROM ca_ta_payout WHERE BC_Ref = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    if($user_id_str == 'BM' || $user_id_str == 'SF' || $user_id_str == 'MF'){
+        $stmt2 = " SELECT * FROM ca_ta_payout WHERE business_mentor = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    }else if($user_id_str == 'TE' || $user_id_str == 'CA' || $user_id_str == 'F'){
+        $stmt2 = " SELECT * FROM ca_ta_payout WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }
+    
     $output="";
     $stmt2 = $conn -> prepare($stmt2);
     $stmt2 -> execute();
@@ -385,12 +420,20 @@ if($payoutmessage == 'allPayout'){
     	$output .= '<h2 style="text-align:center">All Payout List as of '.$monthName.','.$payoutYear.'</h2>
         <table border="1" style="text-align:center">
             <tr>
-                <th >Date</th>
-                <th class="mobile_view">Business Consultant</th>
-                <th class="mobile_view">Business Consultant Name</th>
-                <th class="mobile_view">Corporate Agency</th>
-                <th class="mobile_view">Corporate Agency Name</th>
-                <th ><span class="long-name">Payout Details</th>
+                <th >Date</th>';
+                if ($user_id_str == 'BM'|| $user_id_str == 'TE' || $user_id_str == 'CA') {
+                    $output.='<th class="mobile_view">Business Consultant</th>
+                    <th class="mobile_view">Business Consultant Name</th>
+                    <th class="mobile_view">Corporate Agency</th>
+                    <th class="mobile_view">Corporate Agency Name</th>';
+                }else if($user_id_str == 'F'|| $user_id_str == 'SF' || $user_id_str == 'MF'){
+                    $output.='<th class="mobile_view">Ref Id</th>
+                    <th class="mobile_view">Ref Name</th>
+                    <th class="mobile_view">Franchisee</th>
+                    <th class="mobile_view">Franchisee Name</th>';
+                }
+
+                $output.='<th ><span class="long-name">Payout Details</th>
                 <th class="mobile_view tab_view">Amount</th>
                 <th class="mobile_view" >TDS</th>
                 <th style="text-align:center;">Total Payable</th>
@@ -402,8 +445,8 @@ if($payoutmessage == 'allPayout'){
                 $id = $row2['id'];
 
                 // get the commission amount of BA's
-                $BC_Commi = $row2['commision_bc'];
-                $CA_Commi = $row2['commision_ca'];
+                $BC_Commi = $row2['commision_bm'];
+                $CA_Commi = $row2['commision_te'];
                 $ca_ta_Commi = $row2['ca_ta_amt_paid'];
                
                 (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
@@ -420,14 +463,20 @@ if($payoutmessage == 'allPayout'){
                 $dt = $dt->format('Y-m-d');
 
                 // replace dot at end of the line with break statement
-                $message1 = $row2['message_bc'];
+                $message1 = $row2['message_bm'];
                 $message1 =  str_replace('.','<br>',$message1); 
-                $message2 = $row2['message_ca'];
+                $message2 = $row2['message_te'];
                 $message2 =  str_replace('.','<br>',$message2); 
                 $message3 = $row2['message_ca_ta'];
                 $message3 =  str_replace('.','<br>',$message3); 
                 
-                $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_consultant` where business_consultant_id='".$row2['business_consultant']."'");
+                if($user_id_str == "SF"){
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `sponsor_franchisee` where sponsor_franchisee_id='".$row2['business_mentor']."'");
+                }else if($user_id_str == "MF"){
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `master_franchisee` where master_franchisee_id='".$row2['business_mentor']."'");
+                }else{
+                    $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_mentor` where business_mentor_id='".$row2['business_mentor']."'");
+                }
                 $sql1->execute();
                 $sql1->setFetchMode(PDO::FETCH_ASSOC);
                 if($sql1->rowCount()>0){
@@ -436,7 +485,11 @@ if($payoutmessage == 'allPayout'){
                     }
                 } 
 
-                $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['corporate_agency']."'");
+                if($user_id_str == "TE" || $user_id_str == "CA"){
+                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
+                }else if($user_id_str == "F"){
+                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                }
                 $sql2->execute();
                 $sql2->setFetchMode(PDO::FETCH_ASSOC);
                 if($sql2->rowCount()>0){
@@ -447,15 +500,15 @@ if($payoutmessage == 'allPayout'){
 
                 $output .= '<tr>
                     <td >'.$newDate.'</td>
-                    <td>'.$row2['business_consultant'].'</td>
+                    <td>'.$row2['business_mentor'].'</td>
                     <td>'.$ta_name.'</td>
-                    <td>'.$row2['corporate_agency'].'</td>
+                    <td>'.$row2['techno_enterprise'].'</td>
                     <td>'.$ca_name.'</td>
                     <td class="message">'.$message1.'</td>
                     <td style="text-align:center;">'.$BC_Commi.'</td>
                     <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                     <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                    if($row2['status_bc'] == 0){
+                    if($row2['status_bm'] == 0){
                         $output .='<td style="text-align:center;">Pending</td>';
                     }else{
                         $output .='<td style="text-align:center;">Paid</td>';
@@ -465,15 +518,15 @@ if($payoutmessage == 'allPayout'){
                 
                 $output .='<tr>
                     <td >'.$newDate.'</td>
-                    <td>'.$row2['business_consultant'].'</td>
+                    <td>'.$row2['business_mentor'].'</td>
                     <td>'.$ta_name.'</td>
-                    <td>'.$row2['corporate_agency'].'</td>
+                    <td>'.$row2['techno_enterprise'].'</td>
                     <td>'.$ca_name.'</td>
                     <td >'.$message2.'</td>
                     <td style="text-align:center;">'.$CA_Commi.'</td>
                     <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                     <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                    if($row2['status_ca'] == 0){
+                    if($row2['status_te'] == 0){
                         $output .= '<td style="text-align:center;">Pending</td>';
                     }else{
                         $output .= '<td style="text-align:center;">Paid</td>';

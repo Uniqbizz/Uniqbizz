@@ -1871,7 +1871,7 @@ if ($userType == 10){
 
                                 <?php } ?>
 
-                                <?php if ($userType == '26' || $userType == '28') { ?> <!--Business Mentor => 26   -->
+                                <?php if ($userType == '26' || $userType == '28' || $userType == '30') { ?> <!--Business Mentor => 26   -->
 
                                     <!-- New Card Template Start -->
                                     <div class="row">
@@ -1920,7 +1920,7 @@ if ($userType == 10){
                                             </div>
                                         </div> -->
                                         <?php
-                                            if ($userType == '28') {
+                                            if ($userType == '28' || $userType == '30') {
                                         ?>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
@@ -1968,7 +1968,7 @@ if ($userType == 10){
                                         <?php        
                                             }
                                         ?>
-                                        <div class="<?=$userType=='28'?'col-xl-4 col-lg-4 col-md-4':'col-xl-6 col-lg-6 col-md-6'?> col-sm-12 col-12">
+                                        <div class="<?=($userType=='28' || $userType =='30')?'col-xl-4 col-lg-4 col-md-4':'col-xl-6 col-lg-6 col-md-6'?> col-sm-12 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
                                                 <div>
                                                     <p class="text-white fw-bold">Travel Consultant</p>
@@ -2008,7 +2008,26 @@ if ($userType == 10){
                                                                         $count++;
                                                                     }
                                                                 }
-                                                            } else {
+                                                            } else if ($userType == '30') {
+                                                                
+                                                                //TCs referred through Sub Franchisees
+                                                                $stmt2 = $conn->prepare("SELECT sub_franchisee_id FROM `sub_franchisee` WHERE reference_no = ? AND user_type = '29'");
+                                                                $stmt2->execute([$userId]);
+                                                                $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                foreach ($referrals as $referral) {
+                                                                    $subFranchiseeId = $referral['sub_franchisee_id'];
+
+                                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
+                                                                    $stmt4->execute([$subFranchiseeId]);
+                                                                    $tcList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                    foreach ($tcList as $tc) {
+                                                                        $userTECHNO = $tc['ca_travelagency_id'] . ' ';
+                                                                        $count++;
+                                                                    }
+                                                                }
+                                                            }else{
                                                                 // For other user types, check through Corporate Agencies
                                                                 $stmt2 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? AND user_type = '16'");
                                                                 $stmt2->execute([$userId]);
@@ -2075,6 +2094,30 @@ if ($userType == 10){
                                                                     $count++;
                                                                 }
                                                             }
+                                                        }if ($userType == '30') {
+                                                            
+                                                            // Find Sub Franchisees under this Master Franchisee
+                                                            $stmt2 = $conn->prepare("SELECT sub_franchisee_id FROM sub_franchisee 
+                                                                                    WHERE reference_no = ? AND user_type = '29'");
+                                                            $stmt2->execute([$userId]);
+                                                            $subFranchisees = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+                                                            foreach ($subFranchisees as $referral) {
+                                                                $subFranchiseeId = $referral['sub_franchisee_id'];
+
+                                                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency 
+                                                                                        WHERE reference_no = ? 
+                                                                                        AND YEAR(register_date) = ? 
+                                                                                        AND MONTH(register_date) = ? 
+                                                                                        AND status = '1'");
+                                                                $stmt4->execute([$subFranchiseeId, $DateYear, $DateMonth]);
+                                                                $refTCs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                foreach ($refTCs as $tc) {
+                                                                    $userTECHNO = $tc['ca_travelagency_id'] . ' ';
+                                                                    $count++;
+                                                                }
+                                                            }
                                                         } else {
                                                             // For other user types: count TCs via Corporate Agencies
                                                             $stmt2 = $conn->prepare("SELECT corporate_agency_id FROM corporate_agency 
@@ -2107,7 +2150,7 @@ if ($userType == 10){
                                             </div>
                                         </div>
 
-                                        <div class="<?=$userType=='28'?'col-xl-4 col-lg-4 col-md-4':'col-xl-6 col-lg-6 col-md-6'?> col-sm-12 col-12">
+                                        <div class="<?=($userType=='28'||$userType=='30')?'col-xl-4 col-lg-4 col-md-4':'col-xl-6 col-lg-6 col-md-6'?> col-sm-12 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
                                                 <div>
                                                     <p class="text-white fw-bold">Commission Earned</p>
@@ -2243,7 +2286,7 @@ if ($userType == 10){
                                 <?php } ?>
 
                                 <!-- !-- Line Chart and top 5 user table -->
-                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29') { ?>
+                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30') { ?>
                                     <div class="row">
                                         <!-- Line Chart -->
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -2317,6 +2360,9 @@ if ($userType == 10){
                                                     }else if ($userType == "29") {
                                                         $topCustomerTableName = "Travel Consultant";
                                                         $topCustomerTableRefCol = "TC";
+                                                    }else if ($userType == "30") {
+                                                        $topCustomerTableName = "Franchisee";
+                                                        $topCustomerTableRefCol = "F";
                                                     }
                                                     ?>
                                                     <h4 class="card-title mb-0 flex-grow-1">Top <?php echo $topCustomerTableName; ?></h4>
@@ -2489,6 +2535,16 @@ if ($userType == 10){
                                                                     $tableColumnName = 'reference_no';
                                                                     $tableColumnName2 = 'ta_reference_no';
                                                                 }
+                                                                // Sponsor Franchisee(sub_franchisee)
+                                                                if ($userType == '30') {
+                                                                    $tableName1 = 'sub_franchisee'; //F
+                                                                    $tableId1 = 'sub_franchisee_id'; //F
+                                                                    $tableNameDesignation = 'Franchisee';
+                                                                    $tableName2 = 'ca_travelagency';
+                                                                    $tableId2 = 'ca_travelagency_id';
+                                                                    $tableColumnName = 'reference_no';
+                                                                    $tableColumnName2 = 'reference_no';
+                                                                }
                                                                 // 21-02-2025 work from here for other 2 users BDM, BM, add user_type for all users - giving problem for BCH and BDM.
                                                                 
                                                                 
@@ -2635,6 +2691,16 @@ if ($userType == 10){
                                                                         }
 
                                                                     }else{
+                                                                        // Total Count Loop End $count
+                                                                        $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1'");
+                                                                        $stmt4->execute([$id]);
+                                                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if ($stmt4->rowCount() > 0) {
+                                                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                $count++; // Increment count for each ca_travelagency_id
+                                                                            } //CATA foreach ends
+                                                                        }
                                                                         // Active Count Loop End $activeCount
                                                                         $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
                                                                         $stmt4->execute([$id]);
@@ -2877,11 +2943,17 @@ if ($userType == 10){
                                                                 $tableNameDesignation1 = 'Travel Agency';
                                                                 $tableColumn1 = 'reference_no';
                                                             }
-                                                            //Business Mentor (BM->TC)
+                                                            //Franchisee (F->TC)
                                                             if ($userType == '29') {
                                                                 $tableName = 'ca_travelagency';
                                                                 $tableId = 'ca_travelagency_id';
                                                                 $tableNameDesignation = 'Travel Agency';
+                                                                $tableColumn = 'reference_no';
+                                                            }//Sponsor Franchisee (SF->F)
+                                                            if ($userType == '30') {
+                                                                $tableName = 'sub_franchisee';
+                                                                $tableId = 'sub_franchisee_id';
+                                                                $tableNameDesignation = 'Franchisee';
                                                                 $tableColumn = 'reference_no';
                                                             }
                                                             if ($userType=='28') {
@@ -2944,8 +3016,9 @@ if ($userType == 10){
                                                                 }else{
                                                                     $selected_user = ($userType == '24') ? $row['employee_id'] :
                                                                                      (($userType == '25') ? $row['business_mentor_id'] :
-                                                                                     (($userType == '26') ? $row['ca_travelagency_id'] :
-                                                                                     (($userType == '16') ? $row['ca_travelagency_id'] : '')));
+                                                                                     (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] :
+                                                                                     (($userType == '30') ? $row['sub_franchisee_id'] : '')));
+
 
                                                                 }
                                                                     if ($userType == '24') {
@@ -2963,7 +3036,7 @@ if ($userType == 10){
                                                                         }
                                                                     }
                                                                     $tableNameDesignation=$userType == '28'?$row['desination']:$tableNameDesignation;
-                                                                    if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16') {
+                                                                    if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30') {
                                                                         # code...
                                                                        echo '
                                                                                 <li id="list-item-' . $selected_user . '">
@@ -3012,7 +3085,7 @@ if ($userType == 10){
                                             </div>
                                         </div>
                                         <?php
-                                            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16') {
+                                            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30') {
                                         ?>
                                         <!-- show table only for user type 25,24,26 -->
                                         
@@ -3107,6 +3180,21 @@ if ($userType == 10){
                                                         <?php
                                                             }if($userType=='29'){
                                                         ?>
+                                                            <tr>
+                                                            <th scope="row">Customer</th>
+                                                            <td><?=$pendingCU??0?></td>
+                                                            <td><?=$registeredCU??0?></td>
+                                                            <td><?=$deletedCU??0?></td>
+                                                            </tr>
+                                                        <?php
+                                                            }if($userType=='30'){
+                                                        ?>
+                                                            <tr>
+                                                            <th scope="row">Travel Consultant</th>
+                                                            <td><?=$pendingTC??0?></td>
+                                                            <td><?=$registeredTC??0?></td>
+                                                            <td><?=$deletedTC??0?></td>
+                                                            </tr>
                                                             <tr>
                                                             <th scope="row">Customer</th>
                                                             <td><?=$pendingCU??0?></td>
@@ -3391,6 +3479,7 @@ if ($userType == 10){
                                     '26': ['TC'],
                                     '28': ['F', 'TC'],
                                     '29': ['TC'],
+                                    '30': ['F', 'TC']
                                 };
 
                 const labels = labelMap[userType] || [''];
@@ -3537,6 +3626,22 @@ if ($userType == 10){
                         }
                         if (userType == '29'){
                             tableBody.append(`
+                                <tr>
+                                    <th>Customer</th>
+                                    <td>${data.pendingCU}</td>
+                                    <td>${data.registeredCU}</td>
+                                    <td>${data.deletedCU}</td>
+                                </tr>
+                            `);
+                        }
+                        if (userType == '30'){
+                            tableBody.append(`
+                                <tr>
+                                    <th>Travel Consultant</th>
+                                    <td>${data.pendingTC}</td>
+                                    <td>${data.registeredTC}</td>
+                                    <td>${data.deletedTC}</td>
+                                </tr>
                                 <tr>
                                     <th>Customer</th>
                                     <td>${data.pendingCU}</td>
