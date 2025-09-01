@@ -14,7 +14,7 @@ require '../../connect.php';
     }else if ( $table == "branch_manager" ) {
         $user = $conn->prepare("SELECT * FROM branch_manager WHERE status = '1' ORDER BY branch_manager_id");
     }else if ($table == "corporate_agency"){
-         $user = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = '$UserId' AND status = '1' ORDER BY corporate_agency_id");
+         $user = $conn->prepare("SELECT * FROM corporate_agency WHERE status = '1' ORDER BY corporate_agency_id");
     }else if ($table == "base_agency"){
          $user = $conn->prepare("SELECT * FROM base_agency WHERE status = '1' ORDER BY base_agency_id");
     }else if ($table == "sales_manager"){
@@ -30,7 +30,7 @@ require '../../connect.php';
     }else if ($table == "business_mentor"){
          $user = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = '$UserId' AND status = '1' ORDER BY business_mentor_id");
     }else if ($table == "business_development_manager"){
-         $user = $conn->prepare("SELECT * FROM employees WHERE employee_id = '$UserId' AND user_type = '25' AND status = '1' ORDER BY employee_id");
+         $user = $conn->prepare("SELECT * FROM employees WHERE user_type = '25' AND status = '1' ORDER BY employee_id");
     }
 
     $user->execute();

@@ -846,7 +846,9 @@ function calculatePackagePrice(payoutData) {
     // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
 	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#l1_cust_comm').val())||0);
 	let l2_cust_comm=l1_cust_comm * 0.5;
+	
 	let l3_cust_comm=l2_cust_comm * 0.5;
+	
     let customer_share =(l1_cust_comm+l2_cust_comm+l3_cust_comm) ;
 
     // --------------------------
@@ -957,6 +959,8 @@ function calculatePackagePrice(payoutData) {
     $('#mp_ca_comm').val(ca_mark_up_comm);
     $('#mp_ca_ins').val(ca_mark_up_ins);
     $('#mp_customer').val(customer_share);
+    $('#l2_cust_comm').val(l2_cust_comm);
+    $('#l3_cust_comm').val(l3_cust_comm);
 
     // --------------------------
     // 7️⃣ Debug Data

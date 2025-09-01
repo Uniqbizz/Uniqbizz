@@ -62,18 +62,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
                 $profilePic = "default.png";
             }
 
-            // Determine user type name 
-            // match function does not work on live need php version 8
+            // Determine user type name
             // $designation = match($row['user_type_id']) {
-            //     "16" => "Techno Enterprise",
-            //     "10" => "Customer",
-            //     "11" => "Travel Consultant",
-            //     "24" => "Business Channel Manager",
-            //     "25" => "Business Development Manager",
-            //     "26" => "Business Mentor",
+            //     16 => "Techno Enterprise",
+            //     10 => "Customer",
+            //     11 => "Travel Consultant",
+            //     24 => "Business Channel Manager",
+            //     25 => "Business Development Manager",
+            //     26 => "Business Mentor",
             //     default => "Unknown"
             // };
-
+            
             $userTypes = [
                 16 => "Techno Enterprise",
                 10 => "Customer",
@@ -82,6 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
                 25 => "Business Development Manager",
                 26 => "Business Mentor"
             ];
+            
+            $user_type_id = $row['user_type_id'];
+            $designation = isset($userTypes[$user_type_id]) ? $userTypes[$user_type_id] : "Unknown";
+
 
             $rdate = (new DateTime($row['register_date']))->format('d-m-Y');
             $TAmt = $row['amount'];

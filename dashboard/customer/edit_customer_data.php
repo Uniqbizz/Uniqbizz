@@ -74,8 +74,7 @@ $register_by = $register_by;
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
 
-	$sql1 = "UPDATE ca_customer SET firstname=:firstname,lastname=:lastname,
-	country_code=:country_code,
+	$sql1 = "UPDATE ca_customer SET firstname=:firstname,lastname=:lastname,country_code=:country_code,
 	contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age,
 	country=:country,state=:state,city=:city,pincode=:pincode,address=:address,
 	profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card,

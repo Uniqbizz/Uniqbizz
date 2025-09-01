@@ -48,13 +48,13 @@
                                 </a>
                             </li>
                     <?php
-                        }else if($userType == "16"){
+                        }else if($userType == "16" || $userType == "29"){
                     ?>
-                        <!-- <li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-home">Home Page</span>
-                            </a>
-                        </li> -->
+                        <!--<li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">-->
+                        <!--    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
+                        <!--        <i class="ri-contacts-line"></i> <span data-key="t-home">Home Page</span>-->
+                        <!--    </a>-->
+                        </li>
                         <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_travel_agent.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-travel-agent">Travel Consultant</span>
@@ -70,19 +70,19 @@
                                 <i class="ri-contacts-line"></i> <span data-key="t-customer">Packages</span>
                             </a>
                         </li>
-                        <!--<li class="nav-item <?php if ($first_part=="tour_history.php") {echo "actives"; } else  {echo "noactive";}?>">-->
-                        <!--    <a class="nav-link menu-link" href="tour_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
-                        <!--        <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour History</span>-->
-                        <!--    </a>-->
-                        <!--</li>-->
+                        <li class="nav-item <?php if ($first_part=="tour_history.php") {echo "actives"; } else  {echo "noactive";}?>">
+                            <a class="nav-link menu-link" href="tour_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour History</span>
+                            </a>
+                        </li>
                     <?php  
                         }else if($userType == "11"){
                     ?>
-                        <!-- <li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-home">Home Page</span>
-                            </a>
-                        </li> -->
+                        <!--<li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">-->
+                        <!--    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
+                        <!--        <i class="ri-contacts-line"></i> <span data-key="t-home">Home Page</span>-->
+                        <!--    </a>-->
+                        <!--</li>-->
                         <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-markup">Markup</span>
@@ -118,7 +118,7 @@
                             <div class="collapse menu-dropdown" id="sidebarMultilevel">
                                 <ul class="nav nav-sm flex-column">
                                     <?php 
-                                        if($userType == "26" || $userType == "25" || $userType == "24" || $userType == "16" || $userType == "11" || $userType == "10"){ 
+                                        if($userType == "26" || $userType == "25" || $userType == "24" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="product_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="product_payout.php" class="nav-link menu-link">
@@ -126,7 +126,7 @@
                                             </a>
                                         </li>
                                     <?php 
-                                        }
+                                        } 
                                         if ($userType =='10') {
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="customer_referance_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
@@ -134,15 +134,16 @@
                                                 <span data-key="t-contracting-payout">Reference Payout</span>
                                             </a>
                                         </li>
-                                        <li class="nav-item  <?php if ($first_part=="customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
-                                            <a href="customer_recruitment_payout.php" class="nav-link menu-link">
-                                                <span data-key="t-customer_recruitment_payout">Customer Recruitment Payout</span>
+                                    <?php
+                                        }if ($userType == "28" || $userType =="30"){
+                                    ?>
+                                        <li class="nav-item  <?php if ($first_part=="sub_franchisee_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
+                                            <a href="sub_franchisee_payout.php" class="nav-link menu-link">
+                                                <span data-key="t-contracting-payout">Franchisee Payout</span>
                                             </a>
                                         </li>
                                     <?php
                                         }
-                                    ?>
-                                    <?php 
                                         if($userType == "3"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="contracting_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
@@ -152,7 +153,7 @@
                                         </li>
                                     <?php 
                                         } 
-                                        if($userType == "3" || $userType == "16"){ 
+                                        if($userType == "3" || $userType == "16" || $userType == "28" || $userType =="29" || $userType == "26" || $userType == "30"){ 
                                     ?>    
                                     <li class="nav-item  <?php if ($first_part=="recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                         <a href="recruitment_payout.php" class="nav-link menu-link">
@@ -354,7 +355,8 @@
                     ?>
 
                     <?php             
-                        if($userType == "26"){ 
+                        if($userType == "26" || $userType == "28" || $userType =="30"){ 
+                            
                     ?>
                         <!-- <li class="nav-item <?php if ($first_part=="view_business_development_manager.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_business_development_manager.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
@@ -368,7 +370,7 @@
                         </li> -->
                         <li class="nav-item <?php if ($first_part=="view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Techno Enterprise</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history"><?=($userType == "28"|| $userType =="30")? 'Franchisee':'Techno Enterprise'?></span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">

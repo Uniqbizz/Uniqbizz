@@ -3,60 +3,42 @@
 require '../../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
-$BM_id = $_GET['bm'];
-$TE_id = $_GET['te'];
-$TC_id = $_GET['tc'];
+$bc = $_GET['bc'];
+$ca = $_GET['ca'];
+$ta_ca = $_GET['ta_ca'];
 $dateCA = $_GET['date'];
 $message = $_GET['message'];
 $message_status = $_GET['message_status'];
 $commission = $_GET['commission'];
 
 //TDS calculation on commission Amount 
-$tds = 2;
+$tds = 5;
 $commissionTDS = $commission * $tds / 100;
 $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$user_id = substr($BM_id, 0, 2);
-if($user_id == "BM"){
-    $sql1= $conn->prepare("SELECT firstname,lastname FROM `business_mentor` where business_mentor_id='".$BM_id."'");
-    $sql1->execute();
-    $sql1->setFetchMode(PDO::FETCH_ASSOC);
-    if($sql1->rowCount()>0){
-        foreach (($sql1->fetchAll()) as $key => $row1) {
-            $bm_name = $row1['firstname']. ' ' .$row1['lastname'];
-            $designation = 'Business Mentor';
-        }
-    } 
-}else if($user_id == "BH"){
-    $sql1= $conn->prepare("SELECT name FROM `employees` where employee_id='".$BM_id."'");
-    $sql1->execute();
-    $sql1->setFetchMode(PDO::FETCH_ASSOC);
-    if($sql1->rowCount()>0){
-        foreach (($sql1->fetchAll()) as $key => $row1) {
-            $bm_name = $row1['name'];
-            $designation = 'Business Development Manager';
-        }
-    } 
-}
+$bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$bc."' AND status = 1");
+$bcNames -> execute();
+$bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+if($bcNames -> rowCount()>0){
+    foreach(($bcNames -> fetchAll()) as $key => $row){
+        $bcfirstname = $row['firstname'];
+        $bclastname = $row['lastname'];
+    }
+}  
 
-if($TE_id){
-    $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$TE_id."'");
-    $sql2->execute();
-    $sql2->setFetchMode(PDO::FETCH_ASSOC);
-    if($sql2->rowCount()>0){
-        foreach (($sql2->fetchAll()) as $key => $row3) {
-            $te_name = $row3['firstname']. ' ' .$row3['lastname'];
-            $designation = 'Techno Enterprise';
-        }
-    } 
-}else{
-    $TE_id = "No TE";
-    $te_name = "No TE";
-}
+$caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca."' AND status = 1");
+$caNames -> execute();
+$caNames -> setFetchMode(PDO::FETCH_ASSOC);
+if($caNames -> rowCount()>0){
+    foreach(($caNames -> fetchAll()) as $key => $row){
+        $cafirstname = $row['firstname'];
+        $calastname = $row['lastname'];
+    }
+} 
 
-$baNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$TC_id."' AND status = 1");
+$baNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_ca."' AND status = 1");
 $baNames -> execute();
 $baNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($baNames -> rowCount()>0){
@@ -140,20 +122,20 @@ if($baNames -> rowCount()>0){
                                 <tbody>
                                     <tr class="row">
                                         <td class="col-md-7 col-sm-7 left pt-3">
-                                            <h6 style="padding:2px 10px; font-weight: 700;">Name : <?php echo $bm_name; ?></h6>
-                                            <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?php echo $BM_id; ?></h6>
+                                            <h6 style="padding:2px 10px; font-weight: 700;">Name : <?php echo $bcfirstname .' '.$bclastname; ?></h6>
+                                            <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?php echo $bc; ?></h6>
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
                                             <!-- <h6 style="padding:2px 0; font-weight: 700;">Pay For : Corporate Agency </h6> -->
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : <?php echo $designation; ?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Business Consultent</h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Techno Enterprise Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

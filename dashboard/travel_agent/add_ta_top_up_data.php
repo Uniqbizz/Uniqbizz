@@ -14,6 +14,7 @@ $ta_transaction_id = $_POST['ta_transaction_id'];
 $ta_ref_img = $_POST['ta_ref_img'];
 $ta_created_date = $_POST['ta_created_date'];
 $ta_status=$_POST['ta_status'];
+$payment_id = $_POST['payment_id'];
 
 // data insertion for logs tables 
 $title = "TA top up";
@@ -24,13 +25,15 @@ $currentDate = date('Y-m-d H:i:s');//current date time
 $reg_date=$currentDate;
 $status='Pending';
 
-$sql = "INSERT INTO `ta_top_up_payment` (ta_id, ta_fname, ta_lname, top_up_amt, pay_mode, cheque_no, cheque_date , bank_name, transaction_id, ref_img, updated_date, updated_by,status) VALUES (:ta_id, :ta_fname, :ta_lname, :top_up_amt, :pay_mode, :cheque_no, :cheque_date , :bank_name, :transaction_id, :ref_img, :updated_date, :updated_by, :status)";
+$sql = "INSERT INTO `ta_top_up_payment` (ta_id, ta_fname, ta_lname, top_up_amt,paymentid, pay_mode, cheque_no, cheque_date , bank_name, transaction_id, ref_img, updated_date, updated_by,status) 
+        VALUES (:ta_id, :ta_fname, :ta_lname, :top_up_amt,:paymentid, :pay_mode, :cheque_no, :cheque_date , :bank_name, :transaction_id, :ref_img, :updated_date, :updated_by, :status)";
 $stmt3 = $conn->prepare($sql);
 $result2 = $stmt3->execute(array(
     ':ta_id' =>$ta_id, 
     ':ta_fname'=>$ta_fname, 
     ':ta_lname'=>$ta_lname, 
-    ':top_up_amt'=>$ta_topup_amt, 
+    ':top_up_amt'=>$ta_topup_amt,
+    ':paymentid'=>$payment_id, 
     ':pay_mode'=>$ta_pay_mode, 
     ':cheque_no'=>$ta_cheque_no, 
     ':cheque_date'=>$ta_cheque_date, 

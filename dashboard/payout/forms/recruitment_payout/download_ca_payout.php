@@ -13,15 +13,23 @@ $message_status = $_GET['message_status'];
 $commission = $_GET['commission'];
 
 //TDS calculation on commission Amount 
-$tds = 5;
+$tds = 2;
 $commissionTDS = $commission * $tds / 100;
 $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$tableSearch = substr($designation , 0, 2);
-if($tableSearch == "CA"){
+$tableSearch = (substr($designation, 0, 1) === 'F') 
+    ? substr($designation, 0, 1) 
+    : substr($designation, 0, 2);
+if($tableSearch == "CA" || $tableSearch =="TE"){
     $bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$designation."' AND status = 1");
+}elseif($tableSearch == "MF"){
+    $bcNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$designation."' AND status = 1");
+}elseif($tableSearch == "SF"){
+    $bcNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$designation."' AND status = 1");
+}else if($tableSearch == "F"){
+    $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$designation."' AND status = 1");
 }else{
     $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$designation."' AND status = 1");
 }
@@ -35,25 +43,6 @@ if($bcNames -> rowCount()>0){
     }
 }  
 
-// $caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca."' AND status = 1");
-// $caNames -> execute();
-// $caNames -> setFetchMode(PDO::FETCH_ASSOC);
-// if($caNames -> rowCount()>0){
-//     foreach(($caNames -> fetchAll()) as $key => $row){
-//         $cafirstname = $row['firstname'];
-//         $calastname = $row['lastname'];
-//     }
-// } 
-
-// $baNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_ca."' AND status = 1");
-// $baNames -> execute();
-// $baNames -> setFetchMode(PDO::FETCH_ASSOC);
-// if($baNames -> rowCount()>0){
-//     foreach(($baNames -> fetchAll()) as $key => $row){
-//         $bafirstname = $row['firstname'];
-//         $balastname = $row['lastname'];
-//     }
-// } 
 
 ?>
 <!DOCTYPE html>
@@ -134,15 +123,15 @@ if($bcNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Corporate Agency </h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Business Consultent</h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Travel Consultant </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : <?=$tableSearch == "MF" ? 'Master Franchisee' : ($tableSearch == "SF" ? 'Sponsor Franchisee' : (($tableSearch == "CA" || $tableSearch == "TE") ? 'Techno Enterprise' : ($tableSearch == "F" ? 'Franchisee' : 'Business Consultent')))?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>  
-                            <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
+                            <div class="col-md-12 col-sm-12" >
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE") ? 'Techno Enterprise':'Franchisee'?> Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
@@ -162,7 +151,7 @@ if($bcNames -> rowCount()>0){
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commission; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $commissionTDS; ?>/-</td>
                                                 <td class="ps-2 pe-2 pt-3 pb-3">₹<?php echo $totalAmt; ?>/-</td>
-                                                <td class="ps-2 pe-2 pt-3 pb-3"><?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></td>
+                                                <td class="ps-2 pe-2 pt-3 pb-3"><?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></td>
                                             </tr>
                                         </tbody>
                                     </table>

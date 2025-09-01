@@ -54,6 +54,14 @@
         $sql2 = "SELECT * FROM `employees` WHERE employee_id = '$userId' ";
     }else if($userType == '26'){
         $sql2 = "SELECT * FROM `business_mentor` WHERE business_mentor_id = '$userId' ";
+    }else if($userType == '27'){
+        $sql2 = "SELECT * FROM `zonal_manager` WHERE zonal_manager_id = '$userId' ";
+    }else if($userType == '28'){
+        $sql2 = "SELECT * FROM `master_franchisee` WHERE master_franchisee_id = '$userId' ";
+    }else if($userType == '29'){
+        $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '$userId' ";
+    }else if($userType == '30'){
+        $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '$userId' ";
     }
 
     $stmt = $conn -> prepare($sql2);
@@ -61,7 +69,7 @@
     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
     if($stmt -> rowCount()>0){
         foreach(($stmt -> fetchAll()) as $key => $value){
-            if($userType == '24' || $userType == '25'){
+            if($userType == '24' || $userType == '25' || $userType == '27'){
                 $firstname = $value['name'];
                 $lastname = '';
             }else{   
@@ -103,6 +111,14 @@
         $directNext = "Business Mentor";
     }else if($userType == '26'){ //BM
         $directNext = "Techno Enterprice";
+    }else if($userType == '27'){ //ZM
+        $directNext = "Master Franchisee";
+    }else if($userType == '28'){ //MF
+        $directNext = "Franchisee";
+    }else if($userType == '29'){ //F
+        $directNext = "Travel Consultant";
+    }else if($userType == '26'){ //SF
+        $directNext = "Franchisee";
     }
 
     $tdsPercentage=2/100;

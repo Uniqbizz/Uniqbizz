@@ -19,51 +19,66 @@ $totalAmt = $commission - $commissionTDS;
 $date = date('F,Y', strtotime($dateCA));
 
 $user_id = substr($userId, 0, 2);
-
-if($user_id == "BM"){
-    $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$userId."' AND status = 1");
-    $bcNames -> execute();
-    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
-    if($bcNames -> rowCount()>0){
-        foreach(($bcNames -> fetchAll()) as $key => $row){
-            $bcfirstname = $row['firstname'];
-            $bclastname = $row['lastname'];
-            $designation = "Business Mentor";
+if($user_id){
+    if($user_id == "BM"){
+        $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$userId."' AND status = 1");
+        $bcNames -> execute();
+        $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+        if($bcNames -> rowCount()>0){
+            foreach(($bcNames -> fetchAll()) as $key => $row){
+                $bcfirstname = $row['firstname'];
+                $bclastname = $row['lastname'];
+                $designation = "Business Mentor";
+            }
+        }  
+    }else if($user_id == "BH"){
+        $bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$userId."' AND user_type = '25' AND status = 1");
+        $bcNames -> execute();
+        $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+        if($bcNames -> rowCount()>0){
+            foreach(($bcNames -> fetchAll()) as $key => $row){
+                $bcfirstname = $row['name'];
+                $bclastname = "";
+                $designation = "Business Development Manager";
+            }
+        }  
+    }else if($user_id == "TA"){
+        $bcNames = $conn -> prepare("SELECT * FROM travel_agent WHERE travel_agent_id = '".$userId."' AND status = 1");
+        $bcNames -> execute();
+        $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+        if($bcNames -> rowCount()>0){
+            foreach(($bcNames -> fetchAll()) as $key => $row){
+                $bcfirstname = $row['firstname'];
+                $bclastname = $row['lastname'];
+                $designation = "Business Consultant";
+            }
+        }  
+    }else if($user_id == "CU"){
+        $bcNames = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$userId."' AND status = 1");
+        $bcNames -> execute();
+        $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
+        if($bcNames -> rowCount()>0){
+            foreach(($bcNames -> fetchAll()) as $key => $row){
+                $bcfirstname = $row['firstname'];
+                $bclastname = $row['lastname'];
+                $designation = "Customer";
+            }
+        }  
+    }
+    $cuNames = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$userId."' AND status = 1");
+    $cuNames -> execute();
+    $cuNames -> setFetchMode(PDO::FETCH_ASSOC);
+    if($cuNames -> rowCount()>0){
+        foreach(($cuNames -> fetchAll()) as $key => $row){
+            $cafirstname = $row['firstname'];
+            $calastname = $row['lastname'];
         }
-    }  
-}else if($user_id == "BH"){
-    $bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$userId."' AND user_type = '25' AND status = 1");
-    $bcNames -> execute();
-    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
-    if($bcNames -> rowCount()>0){
-        foreach(($bcNames -> fetchAll()) as $key => $row){
-            $bcfirstname = $row['name'];
-            $bclastname = "";
-            $designation = "Business Development Manager";
-        }
-    }  
-}else if($user_id == "TA"){
-    $bcNames = $conn -> prepare("SELECT * FROM travel_agent WHERE travel_agent_id = '".$userId."' AND status = 1");
-    $bcNames -> execute();
-    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
-    if($bcNames -> rowCount()>0){
-        foreach(($bcNames -> fetchAll()) as $key => $row){
-            $bcfirstname = $row['firstname'];
-            $bclastname = $row['lastname'];
-            $designation = "Business Consultant";
-        }
-    }  
-}else if($user_id == "CU"){
-    $bcNames = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$userId."' AND status = 1");
-    $bcNames -> execute();
-    $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
-    if($bcNames -> rowCount()>0){
-        foreach(($bcNames -> fetchAll()) as $key => $row){
-            $bcfirstname = $row['firstname'];
-            $bclastname = $row['lastname'];
-            $designation = "Customer";
-        }
-    }  
+    }
+}else{
+    echo "<script>
+            alert('No Data Available');
+            history.back();
+          </script>";
 }
 
 
@@ -77,15 +92,7 @@ if($user_id == "BM"){
 //     }
 // } 
 
-$cuNames = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$userId."' AND status = 1");
-$cuNames -> execute();
-$cuNames -> setFetchMode(PDO::FETCH_ASSOC);
-if($cuNames -> rowCount()>0){
-    foreach(($cuNames -> fetchAll()) as $key => $row){
-        $cafirstname = $row['firstname'];
-        $calastname = $row['lastname'];
-    }
-}
+
 
 ?>
 <!DOCTYPE html>
@@ -130,7 +137,7 @@ if($cuNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../customer_referance_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../customer_referance_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 

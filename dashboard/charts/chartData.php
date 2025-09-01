@@ -22,12 +22,7 @@ function monthlyChartData($conn, $reference_no, $get_year, $current_year, $curre
         '18' => 'business_consultant',
         '19' => 'business_operation_executive',
         '20' => 'training_manager',
-        '21' => 'sales_executive',
-        '25' => 'business_mentor',
-        '26' => 'corporate_agency',
-        '28' => 'sub_franchisee',
-        '28' => 'ca_travelagency',
-        '29' => 'ca_travelagency'
+        '21' => 'sales_executive'
     ];
 
     $columnMap = [
@@ -193,7 +188,7 @@ if ($user_type == '24') {
 
     //for MF -> F only
     $sql = "SELECT sub_franchisee_id, register_date FROM sub_franchisee 
-            WHERE reference_no = :ref AND user_type = 26 AND status = '1'";
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':ref' => $user_id]);
 
@@ -242,6 +237,48 @@ if ($user_type == '24') {
         }
     }
 
+    if ($current_year == $get_year) {
+        array_splice($f, $current_month);
+        array_splice($tc, $current_month);
+    }
+    echo json_encode([ $f, $tc ]);
+}else if($user_type == '30'){
+    $f = array_fill(0, 12, 0);
+    $tc = array_fill(0, 12, 0);
+
+    //for SF -> F only
+    $sql = "SELECT sub_franchisee_id, register_date FROM sub_franchisee 
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $fRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($fRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $f[$month - 1]++;
+        }
+    }
+    // Get TCs under those Fs
+    $fIds = array_column($fRows, 'sub_franchisee_id');
+    if (!empty($fIds)) {
+        $inClause = implode(',', array_fill(0, count($fIds), '?'));
+        $sql = "SELECT register_date FROM ca_travelagency 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($fIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $tc[$month - 1]++;
+            }
+        }
+    }
     if ($current_year == $get_year) {
         array_splice($f, $current_month);
         array_splice($tc, $current_month);

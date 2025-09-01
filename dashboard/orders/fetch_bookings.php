@@ -79,8 +79,30 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
                         }
+                        elseif ($userType == '28') {
+                            // MF: F → TC AND TC directly
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                    
+                                    UNION
 
-                        elseif ($userType == '16') {
+                                    SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'";
+                        }
+                        elseif ($userType == '30') {
+                            // SF: F → TC 
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
+                        }
+
+                        elseif ($userType == '16' || $userType == '29') {
                             // TE: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -420,9 +442,23 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
                         }
+                        elseif ($userType == '29') {
+                            // MF: F → TC AND TC directly
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                    
+                                    UNION
 
-                        elseif ($userType == '16') {
-                            // TE: direct TC
+                                    SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'";
+                        }
+
+                        elseif ($userType == '16' || $userType == '29') {
+                            // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
@@ -700,9 +736,31 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
                         }
+                        elseif ($userType == '28') {
+                            // MF: F → TC AND TC directly
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                    
+                                    UNION
 
-                        elseif ($userType == '16') {
-                            // TE: direct TC
+                                    SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'";
+                        }
+                        elseif ($userType == '30') {
+                            // SF: F → TC 
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
+                        }
+
+                        elseif ($userType == '16' || $userType =='29') {
+                            // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
@@ -980,9 +1038,31 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
                         }
+                        elseif ($userType == '28') {
+                            // MF: F → TC AND TC directly
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                    
+                                    UNION
 
-                        elseif ($userType == '16') {
-                            // TE: direct TC
+                                    SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'";
+                        }
+                        elseif ($userType == '30') {
+                            // SF: F → TC 
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
+                        }
+
+                        elseif ($userType == '16' || $userType =='29') {
+                            // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
@@ -1265,9 +1345,31 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
                         }
+                        elseif ($userType == '28') {
+                            // MF: F → TC AND TC directly
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                    
+                                    UNION
 
-                        elseif ($userType == '16') {
-                            // TE: direct TC
+                                    SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    WHERE ca.status = 1 AND ca.reference_no = '$userId'";
+                        }
+                        elseif ($userType == '30') {
+                            // SF: F → TC 
+                            $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+                                    FROM ca_travelagency ca
+                                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
+                        }
+
+                        elseif ($userType == '16' || $userType =='29') {
+                            // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";

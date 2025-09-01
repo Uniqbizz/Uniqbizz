@@ -27,9 +27,14 @@
         $columnMessage = 'message_bm';
         $columnCommision = 'commision_bm';
         $columnStatus = 'status_bm';
-    }else if($userType == '16'){
+    }else if($userType == '16' || $userType == '29'){
         $columnDesignation = 'techno_enterprise';
         $columnMessage = 'message_te';
+        $columnCommision = 'commision_bm';
+        $columnStatus = 'status_bm';
+    }else if($userType == '28' || $userType == '26' || $userType == '30') {
+        $columnDesignation = 'business_mentor';
+        $columnMessage = 'message_bm';
         $columnCommision = 'commision_te';
         $columnStatus = 'status_te';
     }
