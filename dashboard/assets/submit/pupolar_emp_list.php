@@ -17,6 +17,9 @@ try {
     $userType = $_POST['userType'];
 
     $counts = [
+        'pendingF' => 0,
+        'registeredF' => 0,
+        'deletedF' => 0,
         'pendingBM' => 0,
         'registeredBM' => 0,
         'deletedBM' => 0,
@@ -125,6 +128,40 @@ try {
     }
 
     elseif ($userType == '26') {
+        fetchCustomerCounts($conn, $userId, $counts);
+        
+    }elseif ($userType == '16') {
+        fetchCustomerCounts($conn, $userId, $counts);
+        
+    }
+    else if($userType == '28'){
+        $fId = $userId;
+
+            // F count
+            $counts['pendingF'] += getCount($conn, "SELECT count(*) as cnt FROM sub_franchisee WHERE reference_no = ? AND status = '2'", [$fId]);
+            $counts['registeredF'] += getCount($conn, "SELECT count(*) as cnt FROM sub_franchisee WHERE reference_no = ? AND status = '1'", [$fId]);
+            $counts['deletedF'] += getCount($conn, "SELECT count(*) as cnt FROM sub_franchisee WHERE reference_no = ? AND (status = '0' OR status = '3')", [$fId]);
+            // F->TC
+            $sqlfs = "SELECT * FROM sub_franchisee WHERE reference_no = ?";
+            $fs = $conn->prepare($sqlfs);
+            $fs->execute([$fId]);
+            foreach ($fs->fetchAll(PDO::FETCH_ASSOC) as $f) {
+                $fId = $f['sub_franchisee_id'];
+                //TC count
+                $counts['pendingTC'] += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND status = '2'", [$fId]);
+                $counts['registeredTC'] += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND status = '1'", [$fId]);
+                $counts['deletedTC'] += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND (status = '0' OR status = '3')", [$fId]);
+                // BM -> TC
+                $sqltcs = "SELECT * FROM ca_travelagency WHERE reference_no = ?";
+                $tcs = $conn->prepare($sqltcs);
+                $tcs->execute([$fId]);
+                foreach ($tcs->fetchAll(PDO::FETCH_ASSOC) as $tc) {
+                    $tcId = $tc['ca_travelagency_id'];
+                    // TC -> CU
+                    fetchCustomerCounts($conn, $tcId, $counts);
+                }
+            }
+    }elseif ($userType == '29') {
         fetchCustomerCounts($conn, $userId, $counts);
         
     }

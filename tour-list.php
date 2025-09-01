@@ -161,7 +161,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                     </div>
                                 </div>
                                 <div class="ratting-checkbox">
-                                    <input type="checkbox" id="4">
+                                    <input type="checkbox" id="4" checked>
                                     <div>
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"
@@ -175,7 +175,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                     </div>
                                 </div>
                                 <div class="ratting-checkbox">
-                                    <input type="checkbox" id="5">
+                                    <input type="checkbox" id="5" checked>
                                     <div>
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13"

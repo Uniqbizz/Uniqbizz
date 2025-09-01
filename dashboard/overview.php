@@ -10,7 +10,7 @@ $ref = $_GET['ref'];
 // $state = $_GET['st'];
 // $city = $_GET['ct'];
 $DBtable = $_GET['message'];
-$designation = $_GET['designation'];
+$designation1 = $_GET['designation'];
 // echo $id;
 // echo $ref;
 // echo $country;
@@ -19,14 +19,35 @@ $designation = $_GET['designation'];
 // echo $DBtable;
 // Pen : BC => 3, CBD => 18.
 // App :  EMP => 10, CU => 11, TE => 16, BCM => 24, BDM => 25, BM => 26.
+
+//for allocated tc
+if ($userType == '16'){
+    $sqltca = "SELECT firstname, lastname 
+               FROM corporate_agency 
+               WHERE corporate_agency_id = :userId AND status = '1'";
+    $stmt = $conn->prepare($sqltca);
+    $stmt->bindParam(':userId', $userId, PDO::PARAM_STR);
+    $stmt->execute();
+    $resultca = $stmt->fetch(PDO::FETCH_ASSOC);
+    $tename=$resultca['firstname'].' '.$resultca['lastname'];
+    $teid=$userId;
+}
 if ($DBtable == 'business_consultant') { // 3
     $sql = "SELECT * FROM business_consultant WHERE business_consultant_id = '" . $id . "' AND status = '1'";
 } else if ($DBtable == 'business_trainee') { // 15
     $sql = "SELECT * FROM business_trainee WHERE business_trainee_id = '" . $id . "' AND status = '1'";
 } else if ($DBtable == 'corporate_agency') { // 16
     $sql = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'ca_travelagency') { // 11
-    $sql = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '" . $id . "' AND status = '1'";
+} 
+// else if ($DBtable == 'ca_travelagency') { // 11
+//     $sql = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '" . $id . "' AND status = '1'";
+
+// } 
+else if ($DBtable == 'ca_travelagency') { // 11
+    $sql = "SELECT *,CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
+            FROM ca_travelagency 
+            LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "'
+            WHERE (ca_travelagency_id = '" . $id . "' OR tm.te_id = '" . $userId . "') AND status = '1'";
 } else if ($DBtable == 'channel_business_director') { // 18
     $sql = "SELECT * FROM channel_business_director WHERE channel_business_director_id = '" . $id . "' AND status = '1'";
 } else if ($DBtable == 'ca_customer') { // 10
@@ -38,6 +59,12 @@ if ($DBtable == 'business_consultant') { // 3
 } 
 else if ($DBtable == 'business_mentor') { // 26
     $sql = "SELECT * FROM business_mentor WHERE business_mentor_id = '" . $id . "' AND status = '1'";
+}
+else if ($DBtable == 'master_franchisee') { // 28
+    $sql = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $id . "' AND status = '1'";
+}
+else if ($DBtable == 'sub_franchisee') { // 29
+    $sql = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '" . $id . "' AND status = '1'";
 }
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -61,7 +88,7 @@ if ($stmt->rowCount() > 0) {
             $zone = $row['zone'];
             $branch = $row['branch'];
             $address = $row['address'];
-            $profile_pic = $row['profile_pic'];
+            $profile_image = $row['profile_pic'];
             $id_proof = $row['id_proof'];
             $bank_details = $row['bank_details'];
             $register_by = $row['register_by'];
@@ -80,12 +107,12 @@ if ($stmt->rowCount() > 0) {
             }
 
             //get state
-            $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $design . "' and status='1' ");
-            $designations->execute();
-            $designations->setFetchMode(PDO::FETCH_ASSOC);
-            if ($designations->rowCount() > 0) {
-                $desig = $designations->fetch();
-                $designation = $desig['designation_name'];
+            $designation1s = $conn->prepare("SELECT designation_name FROM designation where id='" . $design . "' and status='1' ");
+            $designation1s->execute();
+            $designation1s->setFetchMode(PDO::FETCH_ASSOC);
+            if ($designation1s->rowCount() > 0) {
+                $desig = $designation1s->fetch();
+                $designation1 = $desig['designation_name'];
             }
             //get city
             $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zone . "' and status='1' ");
@@ -137,18 +164,34 @@ if ($stmt->rowCount() > 0) {
             $nominee_relation = $row['nominee_relation'];
             $email = $row['email'];
             $contact_no = $row['country_code'] . $row['contact_no'];
-            $reference_no = $row['reference_no'];
-            $registrant = $row['registrant'];
+            
             $date_of_birth = $row['date_of_birth'];
             $gender = $row['gender'];
             $country = $row['country'];
             $state = $row['state'];
             $city = $row['city'];
             $address = $row['address'];
-            $profile_pic = $row['profile_pic'];
+            $profile_image = $row['profile_pic'];
             $pan_card = $row['pan_card'];
             $aadhar_card = $row['aadhar_card'];
             $voting_card = $row['voting_card'];
+            // $reference_no = $row['reference_no'];
+            // $registrant   = $row['registrant'];
+            if(!empty($row['alloted_check'])){
+                $reference_no = ($row['alloted_check'] == 1 && !empty($row['alloted_check'])) ? $teid : $row['reference_no'];
+                $registrant   = ($row['alloted_check'] == 1 && !empty($row['alloted_check'])) ? $tename : $row['registrant'];
+            }else{
+                $reference_no = $row['reference_no'];
+                $registrant   = $row['registrant'];  
+            }
+            
+            // if ($DBtable == 'ca_travelagency') {
+            //     $reference_no = ($row['alloted_check'] == 1) ? $teid : $row['reference_no'];
+            //     $registrant   = ($row['alloted_check'] == 1) ? $tename : $row['registrant'];
+            // } else {
+            //     $reference_no = $row['reference_no'];
+            //     $registrant   = $row['registrant'];
+            // }
             // bank passbook field name changed in ca_travelagency table
             if ($DBtable == 'ca_travelagency' || $DBtable == 'ca_customer') {
                 $bank_passbook = $row['passbook'];
@@ -454,8 +497,8 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                 <div class="col-xl-1 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <!-- <img src="assets/images/users/avatar-5.jpg" width="75" height="75" alt="" class="rounded-circle"> -->
                                     <?php
-                                    if ($profile_pic) {
-                                        echo '<img src="../uploading/' . $profile_pic . '" alt="Preview" class="avatar-md rounded-circle img-fluid">';
+                                    if ($profile_image) {
+                                        echo '<img src="../uploading/' . $profile_image . '" alt="Preview" class="avatar-md rounded-circle img-fluid">';
                                     } else {
                                         echo '<img src="../uploading/not_uploaded.png" alt="Preview" class="avatar-md rounded-circle img-fluid">';
                                     }
@@ -469,7 +512,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 pe-0">
-                                                    <p><span><i class="fa-solid fa-user-tie pe-2"></i></span><?= $designation; ?></p>
+                                                    <p><span><i class="fa-solid fa-user-tie pe-2"></i></span><?= $designation1; ?></p>
                                                 </div>
                                                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 px-0">
                                                     <p class="peraPadding"> Create Date: <span class="fw-bold"><?= $rdate; ?></span></p>
@@ -604,10 +647,10 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="input-block mb-3">
-                                                            <label class="col-form-label">Designation: <span class="ms-2"><?= $designation ?></span></label>
+                                                            <label class="col-form-label">Designation: <span class="ms-2"><?= $designation1 ?></span></label>
                                                             <!-- <select class="form-select" id="designation">
-                                                                    <option value="<?php //echo $designation_id;
-                                                                                    ?>"><?php //echo $designation_name.' (Already Selected)' ; 
+                                                                    <option value="<?php //echo $designation1_id;
+                                                                                    ?>"><?php //echo $designation1_name.' (Already Selected)' ; 
                                                                                                                     ?></option>
                                                                     <?php
                                                                     // require '../connect.php';
@@ -698,19 +741,19 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <div class="input-block mt-1">
                                                             <label class="col-form-label">
                                                                 Profile Picture 
-                                                                <a href="<?php echo '../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../uploading/' . $profile_image; ?>" download class="ms-3" title="Download">
                                                                         <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                             </label>
                                                         </div>
-                                                        <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                        <input type="hidden" id="img_path1" value="<?php echo $profile_image; ?>">
                                                         <div id="preview1">
                                                             <div id="image_preview1">
                                                                 <?php
-                                                                if ($profile_pic == '') {
+                                                                if ($profile_image == '') {
                                                                     echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
                                                                 } else {
-                                                                    echo '<img src="../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1" class="imgSize">';
+                                                                    echo '<img src="../uploading/' . $profile_image . '" alt="Preview" id="img_pre1" class="imgSize">';
                                                                 }
                                                                 ?>
                                                             </div>
@@ -1004,7 +1047,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <div class="mb-0">
                                                             <label for="file1">
                                                                 <b>PROFILE</b>
-                                                                <a href="<?php echo '../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../uploading/' . $profile_image; ?>" download class="ms-3" title="Download">
                                                                         <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                             </label><br />
@@ -1012,10 +1055,10 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <div id="preview1">
                                                             <div id="image_preview1">
                                                                 <?php
-                                                                if ($profile_pic == '') {
+                                                                if ($profile_image == '') {
                                                                     echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
                                                                 } else {
-                                                                    echo '<img src="../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1">';
+                                                                    echo '<img src="../uploading/' . $profile_image . '" alt="Preview" id="img_pre1">';
                                                                 }
                                                                 ?>
                                                             </div>
@@ -1289,7 +1332,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     //         echo '<div class="row pt-3">
                                     //                     <div class="col-md-2">
                                     //                         <div class="d-flex align-items-center justify-content-center p-3 position">
-                                    //                             <img src="../uploading/' . $profile_pic . '" width="50" height="50" class="rounded-circle ms-3" />
+                                    //                             <img src="../uploading/' . $profile_image . '" width="50" height="50" class="rounded-circle ms-3" />
                                     //                         </div>
                                     //                     </div>
                                     //                     <div class="col-md-9">
@@ -1375,7 +1418,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         and user_type=25 AND status = '1' ORDER BY employee_id ASC");
                                         $stmt->execute();
                                         $referrals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        $no_team=0;
                                         foreach ($referrals as $referral) { 
+                                            $no_team=1;
                                             $bdms_id = $referral['employee_id'];?>
                                             <button class="accordion p-0">
                                                 <div class="card mb-0 rounded-0">
@@ -1480,7 +1525,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     $stmt2 = $conn -> prepare(" SELECT * FROM business_mentor WHERE reference_no = ? AND status = '1' ORDER BY business_mentor_id ASC");
                                                     $stmt2 -> execute([$bdms_id]);
                                                     $referrals2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                    $no_team=0;
                                                     foreach($referrals2 as $referral2){
+                                                        $no_team=1;
                                                         $bms_id = $referral2['business_mentor_id']; 
                                                 ?>
                                                 <button class="accordion p-0">
@@ -1588,7 +1635,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         $stmt2_3 = $conn -> prepare(" SELECT * FROM corporate_agency WHERE reference_no = ? AND status = '1' ORDER BY corporate_agency_id ASC");
                                                         $stmt2_3 -> execute([$bms_id]);
                                                         $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+                                                        $no_team=0;
                                                         foreach($referrals2_3 as $referral2){
+                                                            $no_team=1;
                                                             $cas_id = $referral2['corporate_agency_id'];
                                                     ?>
                                                     <button class="accordion p-0">
@@ -1665,7 +1714,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             $stmt3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
                                                             $stmt3 -> execute([$cas_id]);
                                                             $referrals3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+                                                            $no_team=0;
                                                             foreach($referrals3 as $referral3){
+                                                                $no_team=1;
                                                                 $catas_id = $referral3['ca_travelagency_id'];
                                                         ?>
                                                         <button class="accordion p-0">
@@ -1742,7 +1793,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                 $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
                                                                 $stmt4 -> execute([$catas_id]);
                                                                 $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                                $no_team = 0;
                                                                 foreach($referrals4 as $referral4){
+                                                                    $no_team = 1;
                                                                     $cacus_id = $referral4['ca_customer_id'];
                                                             ?>
                                                             <button class="accordion p-0">
@@ -1819,7 +1872,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                     $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                                     $stmt5 -> execute([$cacus_id]);
                                                                     $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                                    $no_team=0;
                                                                     foreach($referrals5 as $referral5){
+                                                                        $no_team=1;
                                                                         $customer_id = $referral5['ca_customer_id'];
                                                                 ?>
                                                                 <button class="accordion p-0">
@@ -1896,7 +1951,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                         $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                                         $stmt6 -> execute([$customer_id]);
                                                                         $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                                        $no_team=0;
                                                                         foreach($referrals6 as $referral6){
+                                                                            $no_team=1;
                                                                             $customer_id2 = $referral6['ca_customer_id'];
                                                                     ?>
                                                                     <button class="accordion p-0">
@@ -2050,15 +2107,42 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                     </div>
                                                                     <?php
                                                                         }
+                                                                        
                                                                     ?>
                                                                     <!-- end cumtomer ref level 3 -->
                                                                 </div>
                                                                 <!-- end cumtomer ref level 2 -->
                                                                 <?php
+                                                                     }
+                                                                    if($no_team == 0){
+                                                                ?>
+                                                                <button class="accordion p-0">
+                                                                    <div class="card mb-0 rounded-0">
+                                                                        <div class="card-body p-2">
+                                                                            <div class="row align-items-center">
+                                                                                <h4>No Team found</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </button>
+                                                                <?php
                                                                     }
                                                                 ?>
                                                             </div>
                                                             <!-- end customer ref level 1 -->
+                                                            <?php
+                                                                 }
+                                                                if($no_team == 0){
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <h4>No Team found</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
                                                             <?php
                                                                 }
                                                             ?>
@@ -2066,9 +2150,48 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <!-- end all Customers onboarded by TC -->
                                                         <?php
                                                             }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <?php
+                                                            }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <?php
+                                                            }
                                                         ?>
                                                     </div>
                                                     <!-- end all TC recruted by TE -->
+                                                    <?php
+                                                        }
+                                                        if($no_team == 0){
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <h4>No Team found</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
                                                     <?php
                                                         }
                                                     ?>
@@ -2981,6 +3104,19 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             <!-- end all BM and TE -->
                                          <?php 
                                         }
+                                        if($no_team == 0){
+                                    ?>
+                                    <button class="accordion p-0">
+                                        <div class="card mb-0 rounded-0">
+                                            <div class="card-body p-2">
+                                                <div class="row align-items-center">
+                                                    <h4>No Team found</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <?php
+                                        }
                                     
                                     
                                     ?>
@@ -2991,8 +3127,10 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         $stmt2 = $conn -> prepare(" SELECT * FROM business_mentor WHERE reference_no = ? AND status = '1' ORDER BY business_mentor_id ASC");
                                         $stmt2 -> execute([$id]);
                                         $referrals2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                        $no_team=0;
                                        // print_r($stmt2);
                                         foreach($referrals2 as $referral2){
+                                            $no_team=1;
                                             $bms_id = $referral2['business_mentor_id']; 
                                     ?>
                                     <button class="accordion p-0">
@@ -3100,7 +3238,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             $stmt2_3 = $conn -> prepare(" SELECT * FROM corporate_agency WHERE reference_no = ? AND status = '1' ORDER BY corporate_agency_id ASC");
                                             $stmt2_3 -> execute([$bms_id]);
                                             $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+                                            $no_team=0;
                                             foreach($referrals2_3 as $referral2){
+                                                $no_team=1;
                                                 $cas_id = $referral2['corporate_agency_id'];
                                         ?>
                                         <button class="accordion p-0">
@@ -3177,7 +3317,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 $stmt3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
                                                 $stmt3 -> execute([$cas_id]);
                                                 $referrals3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+                                                $no_team=0;
                                                 foreach($referrals3 as $referral3){
+                                                    $no_team=1;
                                                     $catas_id = $referral3['ca_travelagency_id'];
                                             ?>
                                             <button class="accordion p-0">
@@ -3254,7 +3396,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
                                                     $stmt4 -> execute([$catas_id]);
                                                     $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                    $no_team=0;
                                                     foreach($referrals4 as $referral4){
+                                                        $no_team=1;
                                                         $cacus_id = $referral4['ca_customer_id'];
                                                 ?>
                                                 <button class="accordion p-0">
@@ -3331,7 +3475,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                         $stmt5 -> execute([$cacus_id]);
                                                         $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                        $no_team=0;
                                                         foreach($referrals5 as $referral5){
+                                                            $no_team=1;
                                                             $customer_id = $referral5['ca_customer_id'];
                                                     ?>
                                                     <button class="accordion p-0">
@@ -3408,7 +3554,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                             $stmt6 -> execute([$customer_id]);
                                                             $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                            $no_team=0;
                                                             foreach($referrals6 as $referral6){
+                                                                $no_team=1;
                                                                 $customer_id2 = $referral6['ca_customer_id'];
                                                         ?>
                                                         <button class="accordion p-0">
@@ -3485,7 +3633,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                 $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                                 $stmt6 -> execute([$customer_id2]);
                                                                 $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                                $no_team=0;
                                                                 foreach($referrals6 as $referral6){
+                                                                    $no_team=1;
                                                                     $customer_id3 = $referral6['ca_customer_id'];
                                                             ?>
                                                             <button class="accordion p-0">
@@ -3558,8 +3708,34 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             </button>
                                                             <?php
                                                                 }
+                                                                if($no_team == 0){
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <h4>No Team found</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <?php
+                                                                }
                                                             ?>
                                                         </div>
+                                                        <?php
+                                                            }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
                                                         <?php
                                                             }
                                                         ?>
@@ -3568,9 +3744,35 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     <!-- end cumtomer ref level 2 -->
                                                     <?php
                                                         }
+                                                        if($no_team == 0){
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <h4>No Team found</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <?php
+                                                        }
                                                     ?>
                                                 </div>
                                                 <!-- end customer ref level 1 -->
+                                                <?php
+                                                    }
+                                                    if($no_team == 0){
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <h4>No Team found</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
                                                 <?php
                                                     }
                                                 ?>
@@ -3578,9 +3780,35 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             <!-- end all Customers onboarded by TC -->
                                             <?php
                                                 }
+                                                if($no_team == 0){
+                                            ?>
+                                            <button class="accordion p-0">
+                                                <div class="card mb-0 rounded-0">
+                                                    <div class="card-body p-2">
+                                                        <div class="row align-items-center">
+                                                            <h4>No Team found</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <?php
+                                                }
                                             ?>
                                         </div>
                                         <!-- end all TC recruted by TE -->
+                                        <?php
+                                            }
+                                            if($no_team == 0){
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <h4>No Team found</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
                                         <?php
                                             }
                                         ?>
@@ -3589,7 +3817,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             $stmt2_3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
                                             $stmt2_3 -> execute([$bms_id]);
                                             $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+                                            $no_team=0;
                                             foreach($referrals2_3 as $referral2){
+                                                $no_team=1;
                                                 $cas_id = $referral2['ca_travelagency_id'];
                                         ?>
                                         <button class="accordion p-0">
@@ -3666,7 +3896,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
                                                     $stmt4 -> execute([$cas_id]);
                                                     $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                    $no_team=0;
                                                     foreach($referrals4 as $referral4){
+                                                        $no_team=1;
                                                         $cacus_id = $referral4['ca_customer_id'];
                                                 ?>
                                                 <button class="accordion p-0">
@@ -3743,7 +3975,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                         $stmt5 -> execute([$cacus_id]);
                                                         $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                        $no_team=0;
                                                         foreach($referrals5 as $referral5){
+                                                            $no_team=1;
                                                             $customer_id = $referral5['ca_customer_id'];
                                                     ?>
                                                     <button class="accordion p-0">
@@ -3820,7 +4054,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                             $stmt6 -> execute([$customer_id]);
                                                             $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                            $no_team=0;
                                                             foreach($referrals6 as $referral6){
+                                                                $no_team=1;
                                                                 $customer_id2 = $referral6['ca_customer_id'];
                                                         ?>
                                                         <button class="accordion p-0">
@@ -3897,7 +4133,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                 $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                                 $stmt6 -> execute([$customer_id2]);
                                                                 $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                                $no_team=0;
                                                                 foreach($referrals6 as $referral6){
+                                                                    $no_team=1;
                                                                     $customer_id3 = $referral6['ca_customer_id'];
                                                             ?>
                                                             <button class="accordion p-0">
@@ -3970,8 +4208,34 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             </button>
                                                             <?php
                                                                 }
+                                                                if($no_team == 0){
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <h4>No Team found</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <?php
+                                                                }
                                                             ?>
                                                         </div>
+                                                        <?php
+                                                            }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
                                                         <?php
                                                             }
                                                         ?>
@@ -3980,14 +4244,53 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     <!-- end cumtomer ref level 2 -->
                                                     <?php
                                                         }
+                                                        if($no_team == 0){
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <h4>No Team found</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <?php
+                                                        }
                                                     ?>
                                                 </div>
                                                 <!-- end customer ref level 1 -->
                                                 <?php
                                                     }
+                                                    if($no_team == 0){
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <h4>No Team found</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <?php
+                                                    }
                                                 ?>
                                             </div>
                                             <!-- end all Customers onboarded by TC -->
+                                        <?php
+                                            }
+                                            if($no_team == 0){
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <h4>No Team found</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
                                         <?php
                                             }
                                         ?>
@@ -3997,12 +4300,26 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     <!-- end all TE under given BM -->
                                     <?php
                                         }
+                                        if($no_team == 0){
+                                    ?>
+                                    <button class="accordion p-0">
+                                        <div class="card mb-0 rounded-0">
+                                            <div class="card-body p-2">
+                                                <div class="row align-items-center">
+                                                    <h4>No Team found</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <?php
+                                        }
                                     ?>
                                     <?php
                                         $stmt2_1 = $conn -> prepare(" SELECT * FROM corporate_agency WHERE reference_no = ? AND status = '1' ORDER BY corporate_agency_id ASC");
                                         $stmt2_1 -> execute([$bms_id]);
                                         $referrals2_1 = $stmt2_1->fetchAll(PDO::FETCH_ASSOC);
                                         foreach($referrals2_1 as $referral2_1){
+                                            $no_team=1;
                                             $tes_id = $referral2_1['corporate_agency_id']; 
                                     ?>
                                     <button class="accordion p-0">
@@ -4485,6 +4802,19 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         </div>
                                     <?php
                                         }
+                                        if($no_team ==0){
+                                    ?>
+                                    <button class="accordion p-0">
+                                        <div class="card mb-0 rounded-0">
+                                            <div class="card-body p-2">
+                                                <div class="row align-items-center">
+                                                    <h4>No Team found</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <?php
+                                        }
                                     ?>
                                     
                                     
@@ -4498,7 +4828,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             $stmt2_3 = $conn -> prepare(" SELECT * FROM corporate_agency WHERE reference_no = ? AND status = '1' ORDER BY corporate_agency_id ASC");
                                             $stmt2_3 -> execute([$id]);
                                             $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+                                            $no_team=0;
                                             foreach($referrals2_3 as $referral2){
+                                                $no_team=1;
                                                 $cas_id = $referral2['corporate_agency_id'];
                                         ?>
                                         <button class="accordion p-0">
@@ -4575,7 +4907,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 $stmt3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
                                                 $stmt3 -> execute([$cas_id]);
                                                 $referrals3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+                                                $no_team=0;
                                                 foreach($referrals3 as $referral3){
+                                                    $no_team=1;
                                                     $catas_id = $referral3['ca_travelagency_id'];
                                             ?>
                                             <button class="accordion p-0">
@@ -4652,7 +4986,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
                                                     $stmt4 -> execute([$catas_id]);
                                                     $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                    $no_team=0;
                                                     foreach($referrals4 as $referral4){
+                                                        $no_team=1;
                                                         $cacus_id = $referral4['ca_customer_id'];
                                                 ?>
                                                 <button class="accordion p-0">
@@ -4729,7 +5065,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                         $stmt5 -> execute([$cacus_id]);
                                                         $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                        $no_team=0;
                                                         foreach($referrals5 as $referral5){
+                                                            $no_team=1;
                                                             $customer_id = $referral5['ca_customer_id'];
                                                     ?>
                                                     <button class="accordion p-0">
@@ -4806,7 +5144,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                             $stmt6 -> execute([$customer_id]);
                                                             $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                            $no_team=0;
                                                             foreach($referrals6 as $referral6){
+                                                                $no_team=1;
                                                                 $customer_id2 = $referral6['ca_customer_id'];
                                                         ?>
                                                         <button class="accordion p-0">
@@ -4883,7 +5223,508 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                 $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
                                                                 $stmt6 -> execute([$customer_id2]);
                                                                 $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                                $no_team=0;
                                                                 foreach($referrals6 as $referral6){
+                                                                    $no_team=1;
+                                                                    $customer_id3 = $referral6['ca_customer_id'];
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                                <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                                    <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                        <img src="../uploading/<?=$referral6['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <a href="#" class="d-block">
+                                                                                            <h5 class="fs-5 mb-1"><?=$referral6['firstname'].' '.$referral6['lastname'].' '.$customer_id3?></h5>
+                                                                                        </a>
+                                                                                        <p class="text-muted mb-0">Customer</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                                <div class="row text-center">
+                                                                                    <div class="col-6 border-end">
+                                                                                        <?php
+                                                                                            $countCU2 = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id3."' ";
+                                                                                            $cuCount2 = $conn -> prepare($countCU2);
+                                                                                            $cuCount2 -> execute();
+                                                                                            $cuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                            if( $cuCount2 -> rowCount()>0 ){
+                                                                                                foreach( ($cuCount2 -> fetchAll()) as $keycu2 => $rowcu2 ){
+                                                                                                    $cu2Count = $rowcu2['CATAcount'];
+                                                                                        ?>
+                                                                                        <h5 class="mb-1"><?=$cu2Count?></h5>
+                                                                                        <?php
+                                                                                                }
+                                                                                            }
+                                                                                        ?>
+                                                                                        <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <?php
+                                                                                            $countPAC2 = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id3."' ";
+                                                                                            $pecCount2 = $conn -> prepare($countPAC2);
+                                                                                            $pecCount2 -> execute();
+                                                                                            $pecCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                            if( $pecCount2 -> rowCount()>0 ){
+                                                                                                foreach( ($pecCount2 -> fetchAll()) as $keyPec2 => $rowPec2 ){
+                                                                                                    $PecCount2 = $rowPec2['PECcount'];
+                                                                                        ?>
+                                                                                        <h5 class="mb-1"><?=$PecCount2?></h5>
+                                                                                        <?php
+                                                                                                }
+                                                                                            }
+                                                                                        ?>
+                                                                                        <p class="text-muted mb-0">Total Packages</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                                <h5 class="mb-1"><?=$referral6['contact_no']?></h5>
+                                                                                <p class="text-muted mb-0">Phone No</p>
+                                                                            </div>
+                                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                                <div class="text-center">
+                                                                                    <a href="#" onclick="overviewPage('<?= $referral6['ca_customer_id'] .','.  $referral6['reference_no'] . ',' .$referral6['country']. ',' .$referral6['state']. ',' .$referral6['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <?php
+                                                                }
+                                                                if($no_team == 0){
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <h4>No Team found</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                        </div>
+                                                        <?php
+                                                            }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        <!-- end cumtomer ref level 3 -->
+                                                    </div>
+                                                    <!-- end cumtomer ref level 2 -->
+                                                    <?php
+                                                        }
+                                                        if($no_team == 0){
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <h4>No Team found</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <!-- end customer ref level 1 -->
+                                                <?php
+                                                    }
+                                                    if($no_team == 0){
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <h4>No Team found</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </div>
+                                            <!-- end all Customers onboarded by TC -->
+                                            <?php
+                                                }
+                                                if($no_team == 0){
+                                            ?>
+                                            <button class="accordion p-0">
+                                                <div class="card mb-0 rounded-0">
+                                                    <div class="card-body p-2">
+                                                        <div class="row align-items-center">
+                                                            <h4>No Team found</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <?php
+                                                }
+                                            ?>
+                                        </div>
+                                        <!-- end all TC recruted by TE -->
+                                        <?php
+                                             }
+                                            if($no_team == 0){
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <h4>No Team found</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <?php
+                                            }
+                                        ?>
+                                        <!-- TC recruted by BM -->
+                                        <?php
+                                            $stmt2_3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
+                                            $stmt2_3 -> execute([$id]);
+                                            $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach($referrals2_3 as $referral2){
+                                                $no_team=1;
+                                                $cas_id = $referral2['ca_travelagency_id'];
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                            <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                    <img src="../uploading/<?=$referral2['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                </div>
+                                                                <div>
+                                                                    <a href="#" class="d-block">
+                                                                        <h5 class="fs-5 mb-1"><?=$referral2['firstname'].' '.$referral2['lastname'].' '.$cas_id?></h5>
+                                                                    </a>
+                                                                    <p class="text-muted mb-0">Travel Consultant</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                            <div class="row text-center">
+                                                                <div class="col-6 border-end">
+                                                                    <?php
+                                                                        $countCACU2 = "SELECT COUNT(ca_customer_id) AS CACUcount FROM ca_customer WHERE ta_reference_no='".$cas_id."' ";
+                                                                        $cacuCount2 = $conn -> prepare($countCACU2);
+                                                                        $cacuCount2 -> execute();
+                                                                        $cacuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if( $cacuCount2 -> rowCount()>0 ){
+                                                                            foreach( ($cacuCount2 -> fetchAll()) as $keyCACU => $rowCACU ){
+                                                                                $CACUCount2 = $rowCACU['CACUcount'];
+                                                                    ?>
+                                                                    <h5 class="mb-1"><?=$CACUCount2?></h5>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                    <p class="text-muted mb-0">Total Team Member</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <?php
+                                                                        $countPAC3 = "SELECT COUNT(ta_id) AS PECcount FROM product_payout WHERE ta_id='".$cas_id."' ";
+                                                                        $pecCount3 = $conn -> prepare($countPAC3);
+                                                                        $pecCount3 -> execute();
+                                                                        $pecCount3 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if( $pecCount3 -> rowCount()>0 ){
+                                                                            foreach( ($pecCount3 -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                $PecCount3 = $rowPec['PECcount'];
+                                                                    ?>
+                                                                    <h5 class="mb-1"><?=$PecCount3?></h5>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                    <p class="text-muted mb-0">Total Packages</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                            <h5 class="mb-1"><?=$referral2['contact_no']?></h5>
+                                                            <p class="text-muted mb-0">Phone No</p>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                            <div class="text-center">
+                                                                <a href="#" onclick="overviewPage('<?= $referral2['ca_travelagency_id'] .','.  $referral2['reference_no'] . ',' .$referral2['country']. ',' .$referral2['state']. ',' .$referral2['city']. ',travel_consultant' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <!-- all Customers onboarded by TC -->
+                                            <div class="panel">
+                                                <?php
+                                                    $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
+                                                    $stmt4 -> execute([$cas_id]);
+                                                    $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                    $no_team=0;
+                                                    foreach($referrals4 as $referral4){
+                                                        $no_team=1;
+                                                        $cacus_id = $referral4['ca_customer_id'];
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                    <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                        <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                            <img src="../uploading/<?=$referral4['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                        </div>
+                                                                        <div>
+                                                                            <a href="#" class="d-block">
+                                                                                <h5 class="fs-5 mb-1"><?=$referral4['firstname'].' '.$referral4['lastname'].' '.$cacus_id?></h5>
+                                                                            </a>
+                                                                            <p class="text-muted mb-0">Customer</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                    <div class="row text-center">
+                                                                        <div class="col-6 border-end">
+                                                                            <?php
+                                                                                $countCATACU = "SELECT COUNT(ca_customer_id) AS CATACUcount FROM ca_customer WHERE reference_no='".$cacus_id."' ";
+                                                                                $catacuCount = $conn -> prepare($countCATACU);
+                                                                                $catacuCount -> execute();
+                                                                                $catacuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                if( $catacuCount -> rowCount()>0 ){
+                                                                                    foreach( ($catacuCount -> fetchAll()) as $keyCATACU => $rowCATACU ){
+                                                                                        $CATACUCount = $rowCATACU['CATACUcount'];
+                                                                            ?>
+                                                                            <h5 class="mb-1"><?=$CATACUCount?></h5>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                            <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <?php
+                                                                                $countPAC = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$cacus_id."' ";
+                                                                                $pecCount = $conn -> prepare($countPAC);
+                                                                                $pecCount -> execute();
+                                                                                $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                if( $pecCount -> rowCount()>0 ){
+                                                                                    foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                        $PecCount = $rowPec['PECcount'];
+                                                                            ?>
+                                                                            <h5 class="mb-1"><?=$PecCount?></h5>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                            <p class="text-muted mb-0">Total Packages</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                    <h5 class="mb-1"><?=$referral4['contact_no']?></h5>
+                                                                    <p class="text-muted mb-0">Phone No</p>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                    <div class="text-center">
+                                                                        <a href="#" onclick="overviewPage('<?= $referral4['ca_customer_id'] .','.  $referral4['reference_no'] . ',' .$referral4['country']. ',' .$referral4['state']. ',' .$referral4['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <!-- customer ref level 1 -->
+                                                <div class="panel">
+                                                    <?php
+                                                        $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                        $stmt5 -> execute([$cacus_id]);
+                                                        $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                        $no_team=0;
+                                                        foreach($referrals5 as $referral5){
+                                                            $no_team=1;
+                                                            $customer_id = $referral5['ca_customer_id'];
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                        <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                            <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                <img src="../uploading/<<?=$referral5['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                            </div>
+                                                                            <div>
+                                                                                <a href="#" class="d-block">
+                                                                                    <h5 class="fs-5 mb-1"><?=$referral5['firstname'].' '.$referral5['lastname'].' '.$customer_id?></h5>
+                                                                                </a>
+                                                                                <p class="text-muted mb-0">Customer</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                        <div class="row text-center">
+                                                                            <div class="col-6 border-end">
+                                                                                <?php
+                                                                                    $countCU = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id."' ";
+                                                                                    $cuCount = $conn -> prepare($countCU);
+                                                                                    $cuCount -> execute();
+                                                                                    $cuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                    if( $cuCount -> rowCount()>0 ){
+                                                                                        foreach( ($cuCount -> fetchAll()) as $keycu => $rowcu ){
+                                                                                            $cuCount = $rowcu['CATAcount'];
+                                                                                ?>
+                                                                                <h5 class="mb-1"><?=$cuCount?></h5>
+                                                                                <?php
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <?php
+                                                                                    $countPAC = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id."' ";
+                                                                                    $pecCount = $conn -> prepare($countPAC);
+                                                                                    $pecCount -> execute();
+                                                                                    $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                    if( $pecCount -> rowCount()>0 ){
+                                                                                        foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                            $PecCount = $rowPec['PECcount'];
+                                                                                ?>
+                                                                                <h5 class="mb-1">20</h5>
+                                                                                <?php
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <p class="text-muted mb-0">Total Packages</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                        <h5 class="mb-1"><?=$referral5['contact_no']?></h5>
+                                                                        <p class="text-muted mb-0">Phone No</p>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                        <div class="text-center">
+                                                                            <a href="#" onclick="overviewPage('<?= $referral5['ca_customer_id'] .','.  $referral5['reference_no'] . ',' .$referral5['country']. ',' .$referral5['state']. ',' .$referral5['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <!-- cumtomer ref level 2 -->
+                                                    <div class="panel">
+                                                        <?php
+                                                            $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                            $stmt6 -> execute([$customer_id]);
+                                                            $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                            $no_team=0;
+                                                            foreach($referrals6 as $referral6){
+                                                                $no_team=1;
+                                                                $customer_id2 = $referral6['ca_customer_id'];
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                            <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                                <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                    <img src="../uploading/<?=$referral6['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                                </div>
+                                                                                <div>
+                                                                                    <a href="#" class="d-block">
+                                                                                        <h5 class="fs-5 mb-1"><?=$referral6['firstname'].' '.$referral6['lastname'].' '.$customer_id2?></h5>
+                                                                                    </a>
+                                                                                    <p class="text-muted mb-0">Customer</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                            <div class="row text-center">
+                                                                                <div class="col-6 border-end">
+                                                                                    <?php
+                                                                                        $countCU2 = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id2."' ";
+                                                                                        $cuCount2 = $conn -> prepare($countCU2);
+                                                                                        $cuCount2 -> execute();
+                                                                                        $cuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                        if( $cuCount2 -> rowCount()>0 ){
+                                                                                            foreach( ($cuCount2 -> fetchAll()) as $keycu2 => $rowcu2 ){
+                                                                                                $cu2Count = $rowcu2['CATAcount'];
+                                                                                    ?>
+                                                                                    <h5 class="mb-1"><?= $cu2Count?></h5>
+                                                                                    <?php
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <?php
+                                                                                        $countPAC2 = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id2."' ";
+                                                                                        $pecCount2 = $conn -> prepare($countPAC2);
+                                                                                        $pecCount2 -> execute();
+                                                                                        $pecCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                        if( $pecCount2 -> rowCount()>0 ){
+                                                                                            foreach( ($pecCount2 -> fetchAll()) as $keyPec2 => $rowPec2 ){
+                                                                                                $PecCount2 = $rowPec2['PECcount'];
+                                                                                    ?>
+                                                                                    <h5 class="mb-1"><?=$PecCount2?></h5>
+                                                                                    <?php
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <p class="text-muted mb-0">Total Packages</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                            <h5 class="mb-1"><?=$referral6['contact_no']?></h5>
+                                                                            <p class="text-muted mb-0">Phone No</p>
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                            <div class="text-center">
+                                                                                <a href="#" onclick="overviewPage('<?= $referral6['ca_customer_id'] .','.  $referral6['reference_no'] . ',' .$referral6['country']. ',' .$referral6['state']. ',' .$referral6['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <!-- cumtomer ref level 3 -->
+                                                        <div class="panel">
+                                                            <?php
+                                                                $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                                $stmt6 -> execute([$customer_id2]);
+                                                                $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                                $no_team=0;
+                                                                foreach($referrals6 as $referral6){
+                                                                    $no_team=1;
                                                                     $customer_id3 = $referral6['ca_customer_id'];
                                                             ?>
                                                             <button class="accordion p-0">
@@ -4960,10 +5801,36 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         </div>
                                                         <?php
                                                             }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <?php
+                                                            }
                                                         ?>
                                                         <!-- end cumtomer ref level 3 -->
                                                     </div>
                                                     <!-- end cumtomer ref level 2 -->
+                                                    <?php
+                                                        }
+                                                        if($no_team == 0){
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <h4>No Team found</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
                                                     <?php
                                                         }
                                                     ?>
@@ -4971,9 +5838,605 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 <!-- end customer ref level 1 -->
                                                 <?php
                                                     }
+                                                    if($no_team == 0){
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <h4>No Team found</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <?php
+                                                    }
                                                 ?>
                                             </div>
                                             <!-- end all Customers onboarded by TC -->
+                                        <?php
+                                            }
+                                            if($no_team == 0){
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <h4>No Team found</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <?php
+                                            }
+                                        ?>
+                                        <!-- end TC recruted by BM -->
+                                        
+                                    </div>
+                                    <!-- end all TE under given BM -->
+                                    <!-- end all bms -->
+                                    <!-- all TC recruted by TE -->
+                                    <!-- master Franchisee -->
+                                        <?php 
+                                        
+                                    }else if($DBtable == 'master_franchisee'){
+                                        
+                                            $stmt2_3 = $conn -> prepare(" SELECT * FROM sub_franchisee WHERE reference_no = ? AND status = '1' ORDER BY sub_franchisee_id ASC");
+                                            $stmt2_3 -> execute([$id]);
+                                            $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+                                            $no_team=0;
+                                            foreach($referrals2_3 as $referral2){
+                                                $no_team=1;
+                                                $cas_id = $referral2['sub_franchisee_id'];
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                            <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                    <img src="../uploading/<?=$referral2['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                </div>
+                                                                <div>
+                                                                    <a href="#" class="d-block">
+                                                                        <h5 class="fs-5 mb-1"><?=$referral2['firstname'].' '.$referral2['lastname'].' '.$cas_id?></h5>
+                                                                    </a>
+                                                                    <p class="text-muted mb-0">Techno Enterprise</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                            <div class="row text-center">
+                                                                <div class="col-6 border-end">
+                                                                    <?php
+                                                                        $countCATA2_3 = "SELECT COUNT(ca_travelagency_id) AS CATAcount FROM ca_travelagency WHERE reference_no='".$cas_id."' ";
+                                                                        $cataCount2_3 = $conn -> prepare($countCATA2_3);
+                                                                        $cataCount2_3 -> execute();
+                                                                        $cataCount2_3 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if( $cataCount2_3 -> rowCount()>0 ){
+                                                                            foreach( ($cataCount2_3 -> fetchAll()) as $keyCATA => $rowCATA ){
+                                                                                $CATACount3 = $rowCATA['CATAcount']; 
+                                                                    ?>
+                                                                    <h5 class="mb-1"><?=$CATACount3?></h5>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                    <p class="text-muted mb-0">Total Team Member</p>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <?php
+                                                                        $countPAC2_3 = "SELECT COUNT(te_id) AS PECcount FROM product_payout WHERE te_id='".$cas_id."' ";
+                                                                        $pecCount2_3 = $conn -> prepare($countPAC2_3);
+                                                                        $pecCount2_3 -> execute();
+                                                                        $pecCount2_3 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if( $pecCount2_3 -> rowCount()>0 ){
+                                                                            foreach( ($pecCount2_3 -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                $PecCount2_3 = $rowPec['PECcount'];
+                                                                    ?>
+                                                                    <h5 class="mb-1"><?=$PecCount2_3?></h5>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                    <p class="text-muted mb-0">Total Packages</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                            <h5 class="mb-1"><?=$referral2['contact_no']?></h5>
+                                                            <p class="text-muted mb-0">Phone No</p>
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                            <div class="text-center">
+                                                                <a href="#" onclick="overviewPage('<?= $referral2['corporate_agency_id'] .','.  $referral2['reference_no'] . ',' .$referral2['country']. ',' .$referral2['state']. ',' .$referral2['city']. ',corporate_agency' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <!-- all TC recruted by TE -->
+                                        <div class="panel">
+                                            <?php
+                                                $stmt3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
+                                                $stmt3 -> execute([$cas_id]);
+                                                $referrals3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+                                                $no_team=0;
+                                                foreach($referrals3 as $referral3){
+                                                    $no_team=1;
+                                                    $catas_id = $referral3['ca_travelagency_id'];
+                                            ?>
+                                            <button class="accordion p-0">
+                                                <div class="card mb-0 rounded-0">
+                                                    <div class="card-body p-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                    <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                        <img src="../uploading/<?=$referral3['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <a href="#" class="d-block">
+                                                                            <h5 class="fs-5 mb-1"><?=$referral3['firstname'].' '.$referral3['lastname'].' '.$catas_id?></h5>
+                                                                        </a>
+                                                                        <p class="text-muted mb-0">Travel Consultant</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                <div class="row text-center">
+                                                                    <div class="col-6 border-end">
+                                                                        <?php
+                                                                            $countCACU = "SELECT COUNT(ca_customer_id) AS CACUcount FROM ca_customer WHERE ta_reference_no='".$catas_id."' ";
+                                                                            $cacuCount = $conn -> prepare($countCACU);
+                                                                            $cacuCount -> execute();
+                                                                            $cacuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if( $cacuCount -> rowCount()>0 ){
+                                                                                foreach( ($cacuCount -> fetchAll()) as $keyCACU => $rowCACU ){
+                                                                                    $CACUCount = $rowCACU['CACUcount'];
+                                                                        ?>
+                                                                        <h5 class="mb-1"><?= $CACUCount ?></h5>
+                                                                        <?php
+                                                                                }
+                                                                            }
+                                                                        ?>
+                                                                        <p class="text-muted mb-0">Total Team Member</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <?php
+                                                                            $countPAC = "SELECT COUNT(ta_id) AS PECcount FROM product_payout WHERE ta_id='".$catas_id."' ";
+                                                                            $pecCount = $conn -> prepare($countPAC);
+                                                                            $pecCount -> execute();
+                                                                            $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if( $pecCount -> rowCount()>0 ){
+                                                                                foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                    $PecCount = $rowPec['PECcount'];
+                                                                        ?>
+                                                                        <h5 class="mb-1"><?=$PecCount?></h5>
+                                                                        <?php
+                                                                                }
+                                                                            }
+                                                                        ?>
+                                                                        <p class="text-muted mb-0">Total Packages</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                <h5 class="mb-1"><?php $referral3['contact_no'] ?></h5>
+                                                                <p class="text-muted mb-0">Phone No</p>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                <div class="text-center">
+                                                                    <a href="#" onclick="overviewPage('<?= $referral3['ca_travelagency_id'] .','.  $referral3['reference_no'] . ',' .$referral3['country']. ',' .$referral3['state']. ',' .$referral3['city']. ',travel_consultant' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <!-- all Customers onboarded by TC -->
+                                            <div class="panel">
+                                                <?php
+                                                    $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
+                                                    $stmt4 -> execute([$catas_id]);
+                                                    $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                    $no_team=0;
+                                                    foreach($referrals4 as $referral4){
+                                                        $no_team=1;
+                                                        $cacus_id = $referral4['ca_customer_id'];
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                    <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                        <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                            <img src="../uploading/<?=$referral4['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                        </div>
+                                                                        <div>
+                                                                            <a href="#" class="d-block">
+                                                                                <h5 class="fs-5 mb-1"><?=$referral4['firstname'].' '.$referral4['lastname'].' '.$cacus_id?></h5>
+                                                                            </a>
+                                                                            <p class="text-muted mb-0">Customer</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                    <div class="row text-center">
+                                                                        <div class="col-6 border-end">
+                                                                            <?php
+                                                                                $countCATACU = "SELECT COUNT(ca_customer_id) AS CATACUcount FROM ca_customer WHERE reference_no='".$cacus_id."' ";
+                                                                                $catacuCount = $conn -> prepare($countCATACU);
+                                                                                $catacuCount -> execute();
+                                                                                $catacuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                if( $catacuCount -> rowCount()>0 ){
+                                                                                    foreach( ($catacuCount -> fetchAll()) as $keyCATACU => $rowCATACU ){
+                                                                                        $CATACUCount = $rowCATACU['CATACUcount'];
+                                                                            ?>
+                                                                            <h5 class="mb-1"><?=$CATACUCount?></h5>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                            <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <?php
+                                                                                $countPAC = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$cacus_id."' ";
+                                                                                $pecCount = $conn -> prepare($countPAC);
+                                                                                $pecCount -> execute();
+                                                                                $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                if( $pecCount -> rowCount()>0 ){
+                                                                                    foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                        $PecCount = $rowPec['PECcount'];
+                                                                            ?>
+                                                                            <h5 class="mb-1"><?=$PecCount?></h5>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                            <p class="text-muted mb-0">Total Packages</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                    <h5 class="mb-1"><?=$referral4['contact_no']?></h5>
+                                                                    <p class="text-muted mb-0">Phone No</p>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                    <div class="text-center">
+                                                                        <a href="#" onclick="overviewPage('<?= $referral4['ca_customer_id'] .','.  $referral4['reference_no'] . ',' .$referral4['country']. ',' .$referral4['state']. ',' .$referral4['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <!-- customer ref level 1 -->
+                                                <div class="panel">
+                                                    <?php
+                                                        $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                        $stmt5 -> execute([$cacus_id]);
+                                                        $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                        $no_team=0;
+                                                        foreach($referrals5 as $referral5){
+                                                            $no_team=1;
+                                                            $customer_id = $referral5['ca_customer_id'];
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                        <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                            <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                <img src="../uploading/<<?=$referral5['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                            </div>
+                                                                            <div>
+                                                                                <a href="#" class="d-block">
+                                                                                    <h5 class="fs-5 mb-1"><?=$referral5['firstname'].' '.$referral5['lastname'].' '.$customer_id?></h5>
+                                                                                </a>
+                                                                                <p class="text-muted mb-0">Customer</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                        <div class="row text-center">
+                                                                            <div class="col-6 border-end">
+                                                                                <?php
+                                                                                    $countCU = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id."' ";
+                                                                                    $cuCount = $conn -> prepare($countCU);
+                                                                                    $cuCount -> execute();
+                                                                                    $cuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                    if( $cuCount -> rowCount()>0 ){
+                                                                                        foreach( ($cuCount -> fetchAll()) as $keycu => $rowcu ){
+                                                                                            $cuCount = $rowcu['CATAcount'];
+                                                                                ?>
+                                                                                <h5 class="mb-1"><?=$cuCount?></h5>
+                                                                                <?php
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <?php
+                                                                                    $countPAC = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id."' ";
+                                                                                    $pecCount = $conn -> prepare($countPAC);
+                                                                                    $pecCount -> execute();
+                                                                                    $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                    if( $pecCount -> rowCount()>0 ){
+                                                                                        foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                            $PecCount = $rowPec['PECcount'];
+                                                                                ?>
+                                                                                <h5 class="mb-1">20</h5>
+                                                                                <?php
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <p class="text-muted mb-0">Total Packages</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                        <h5 class="mb-1"><?=$referral5['contact_no']?></h5>
+                                                                        <p class="text-muted mb-0">Phone No</p>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                        <div class="text-center">
+                                                                            <a href="#" onclick="overviewPage('<?= $referral5['ca_customer_id'] .','.  $referral5['reference_no'] . ',' .$referral5['country']. ',' .$referral5['state']. ',' .$referral5['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <!-- cumtomer ref level 2 -->
+                                                    <div class="panel">
+                                                        <?php
+                                                            $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                            $stmt6 -> execute([$customer_id]);
+                                                            $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                            $no_team=0;
+                                                            foreach($referrals6 as $referral6){
+                                                                $no_team=1;
+                                                                $customer_id2 = $referral6['ca_customer_id'];
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                            <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                                <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                    <img src="../uploading/<?=$referral6['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                                </div>
+                                                                                <div>
+                                                                                    <a href="#" class="d-block">
+                                                                                        <h5 class="fs-5 mb-1"><?=$referral6['firstname'].' '.$referral6['lastname'].' '.$customer_id2?></h5>
+                                                                                    </a>
+                                                                                    <p class="text-muted mb-0">Customer</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                            <div class="row text-center">
+                                                                                <div class="col-6 border-end">
+                                                                                    <?php
+                                                                                        $countCU2 = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id2."' ";
+                                                                                        $cuCount2 = $conn -> prepare($countCU2);
+                                                                                        $cuCount2 -> execute();
+                                                                                        $cuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                        if( $cuCount2 -> rowCount()>0 ){
+                                                                                            foreach( ($cuCount2 -> fetchAll()) as $keycu2 => $rowcu2 ){
+                                                                                                $cu2Count = $rowcu2['CATAcount'];
+                                                                                    ?>
+                                                                                    <h5 class="mb-1"><?= $cu2Count?></h5>
+                                                                                    <?php
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <?php
+                                                                                        $countPAC2 = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id2."' ";
+                                                                                        $pecCount2 = $conn -> prepare($countPAC2);
+                                                                                        $pecCount2 -> execute();
+                                                                                        $pecCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                        if( $pecCount2 -> rowCount()>0 ){
+                                                                                            foreach( ($pecCount2 -> fetchAll()) as $keyPec2 => $rowPec2 ){
+                                                                                                $PecCount2 = $rowPec2['PECcount'];
+                                                                                    ?>
+                                                                                    <h5 class="mb-1"><?=$PecCount2?></h5>
+                                                                                    <?php
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <p class="text-muted mb-0">Total Packages</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                            <h5 class="mb-1"><?=$referral6['contact_no']?></h5>
+                                                                            <p class="text-muted mb-0">Phone No</p>
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                            <div class="text-center">
+                                                                                <a href="#" onclick="overviewPage('<?= $referral6['ca_customer_id'] .','.  $referral6['reference_no'] . ',' .$referral6['country']. ',' .$referral6['state']. ',' .$referral6['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <!-- cumtomer ref level 3 -->
+                                                        <div class="panel">
+                                                            <?php
+                                                                $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                                $stmt6 -> execute([$customer_id2]);
+                                                                $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                                $no_team=0;
+                                                                foreach($referrals6 as $referral6){
+                                                                    $no_team=1;
+                                                                    $customer_id3 = $referral6['ca_customer_id'];
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                                <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                                    <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                        <img src="../uploading/<?=$referral6['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <a href="#" class="d-block">
+                                                                                            <h5 class="fs-5 mb-1"><?=$referral6['firstname'].' '.$referral6['lastname'].' '.$customer_id3?></h5>
+                                                                                        </a>
+                                                                                        <p class="text-muted mb-0">Customer</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                                <div class="row text-center">
+                                                                                    <div class="col-6 border-end">
+                                                                                        <?php
+                                                                                            $countCU2 = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id3."' ";
+                                                                                            $cuCount2 = $conn -> prepare($countCU2);
+                                                                                            $cuCount2 -> execute();
+                                                                                            $cuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                            if( $cuCount2 -> rowCount()>0 ){
+                                                                                                foreach( ($cuCount2 -> fetchAll()) as $keycu2 => $rowcu2 ){
+                                                                                                    $cu2Count = $rowcu2['CATAcount'];
+                                                                                        ?>
+                                                                                        <h5 class="mb-1"><?=$cu2Count?></h5>
+                                                                                        <?php
+                                                                                                }
+                                                                                            }
+                                                                                        ?>
+                                                                                        <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <?php
+                                                                                            $countPAC2 = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id3."' ";
+                                                                                            $pecCount2 = $conn -> prepare($countPAC2);
+                                                                                            $pecCount2 -> execute();
+                                                                                            $pecCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                            if( $pecCount2 -> rowCount()>0 ){
+                                                                                                foreach( ($pecCount2 -> fetchAll()) as $keyPec2 => $rowPec2 ){
+                                                                                                    $PecCount2 = $rowPec2['PECcount'];
+                                                                                        ?>
+                                                                                        <h5 class="mb-1"><?=$PecCount2?></h5>
+                                                                                        <?php
+                                                                                                }
+                                                                                            }
+                                                                                        ?>
+                                                                                        <p class="text-muted mb-0">Total Packages</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                                <h5 class="mb-1"><?=$referral6['contact_no']?></h5>
+                                                                                <p class="text-muted mb-0">Phone No</p>
+                                                                            </div>
+                                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                                <div class="text-center">
+                                                                                    <a href="#" onclick="overviewPage('<?= $referral6['ca_customer_id'] .','.  $referral6['reference_no'] . ',' .$referral6['country']. ',' .$referral6['state']. ',' .$referral6['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <?php
+                                                                }
+                                                                if($no_team == 0){
+                                                            ?>
+                                                            <button class="accordion p-0">
+                                                                <div class="card mb-0 rounded-0">
+                                                                    <div class="card-body p-2">
+                                                                        <div class="row align-items-center">
+                                                                            <h4>No Team found</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                        </div>
+                                                        <?php
+                                                            }
+                                                            if($no_team == 0){
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <h4>No Team found</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                        <!-- end cumtomer ref level 3 -->
+                                                    </div>
+                                                    <!-- end cumtomer ref level 2 -->
+                                                    <?php
+                                                        }
+                                                        if($no_team == 0){
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <h4>No Team found</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <!-- end customer ref level 1 -->
+                                                <?php
+                                                    }
+                                                    if($no_team == 0){
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <h4>No Team found</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </div>
+                                            <!-- end all Customers onboarded by TC -->
+                                            <?php
+                                                }
+                                                if($no_team == 0){
+                                            ?>
+                                            <button class="accordion p-0">
+                                                <div class="card mb-0 rounded-0">
+                                                    <div class="card-body p-2">
+                                                        <div class="row align-items-center">
+                                                            <h4>No Team found</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
                                             <?php
                                                 }
                                             ?>
@@ -4981,6 +6444,20 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         <!-- end all TC recruted by TE -->
                                         <?php
                                             }
+                                            if($no_team == 0){
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <h4>No Team found</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <?php
+                                            }
+
                                         ?>
                                         <!-- TC recruted by BM -->
                                         <?php
@@ -4988,6 +6465,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             $stmt2_3 -> execute([$id]);
                                             $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
                                             foreach($referrals2_3 as $referral2){
+                                                $no_team=1;
                                                 $cas_id = $referral2['ca_travelagency_id'];
                                         ?>
                                         <button class="accordion p-0">
@@ -5388,6 +6866,19 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             <!-- end all Customers onboarded by TC -->
                                         <?php
                                             }
+                                            if($no_team == 0){
+                                        ?>
+                                        <button class="accordion p-0">
+                                            <div class="card mb-0 rounded-0">
+                                                <div class="card-body p-2">
+                                                    <div class="row align-items-center">
+                                                        <h4>No Team found</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <?php
+                                        }
                                         ?>
                                         <!-- end TC recruted by BM -->
                                         
@@ -5395,8 +6886,417 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     <!-- end all TE under given BM -->
                                     <!-- end all bms -->
                                     <!-- all TC recruted by TE -->
+                                    <!-- master Franchisee -->
                                     <?php 
                                     }else if($DBtable == 'corporate_agency'){
+                                        $stmt2_3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
+                                        $stmt2_3 -> execute([$id]);
+                                        $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
+
+                                        foreach($referrals2_3 as $referral2){
+                                            $cas_id = $referral2['ca_travelagency_id'];
+                                    ?>
+                                    <button class="accordion p-0">
+                                        <div class="card mb-0 rounded-0">
+                                            <div class="card-body p-2">
+                                                <div class="row align-items-center">
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                        <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                            <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                <img src="../uploading/<?=$referral2['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                            </div>
+                                                            <div>
+                                                                <a href="#" class="d-block">
+                                                                    <h5 class="fs-5 mb-1"><?=$referral2['firstname'].' '.$referral2['lastname'].' '.$cas_id?></h5>
+                                                                </a>
+                                                                <p class="text-muted mb-0">Travel Consultant</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                        <div class="row text-center">
+                                                            <div class="col-6 border-end">
+                                                                <?php
+                                                                    $countCACU2 = "SELECT COUNT(ca_customer_id) AS CACUcount FROM ca_customer WHERE ta_reference_no='".$cas_id."' ";
+                                                                    $cacuCount2 = $conn -> prepare($countCACU2);
+                                                                    $cacuCount2 -> execute();
+                                                                    $cacuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if( $cacuCount2 -> rowCount()>0 ){
+                                                                        foreach( ($cacuCount2 -> fetchAll()) as $keyCACU => $rowCACU ){
+                                                                            $CACUCount2 = $rowCACU['CACUcount'];
+                                                                ?>
+                                                                <h5 class="mb-1"><?=$CACUCount2?></h5>
+                                                                <?php
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                                <p class="text-muted mb-0">Total Team Member</p>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <?php
+                                                                    $countPAC3 = "SELECT COUNT(ta_id) AS PECcount FROM product_payout WHERE ta_id='".$cas_id."' ";
+                                                                    $pecCount3 = $conn -> prepare($countPAC3);
+                                                                    $pecCount3 -> execute();
+                                                                    $pecCount3 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if( $pecCount3 -> rowCount()>0 ){
+                                                                        foreach( ($pecCount3 -> fetchAll()) as $keyPec => $rowPec ){
+                                                                            $PecCount3 = $rowPec['PECcount'];
+                                                                ?>
+                                                                <h5 class="mb-1"><?=$PecCount3?></h5>
+                                                                <?php
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                                <p class="text-muted mb-0">Total Packages</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                        <h5 class="mb-1"><?=$referral2['contact_no']?></h5>
+                                                        <p class="text-muted mb-0">Phone No</p>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                        <div class="text-center">
+                                                            <a href="#" onclick="overviewPage('<?= $referral2['ca_travelagency_id'] .','.  $referral2['reference_no'] . ',' .$referral2['country']. ',' .$referral2['state']. ',' .$referral2['city']. ',travel_consultant' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <!-- all Customers onboarded by TC -->
+                                        <div class="panel">
+                                            <?php
+                                                $stmt4 = $conn -> prepare(" SELECT * FROM ca_customer WHERE ta_reference_no = ? AND reference_no IS NUll AND status = '1' ORDER BY ca_customer_id ASC");
+                                                $stmt4 -> execute([$cas_id]);
+                                                $referrals4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                                                foreach($referrals4 as $referral4){
+                                                    $cacus_id = $referral4['ca_customer_id'];
+                                            ?>
+                                            <button class="accordion p-0">
+                                                <div class="card mb-0 rounded-0">
+                                                    <div class="card-body p-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                    <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                        <img src="../uploading/<?=$referral4['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <a href="#" class="d-block">
+                                                                            <h5 class="fs-5 mb-1"><?=$referral4['firstname'].' '.$referral4['lastname'].' '.$cacus_id?></h5>
+                                                                        </a>
+                                                                        <p class="text-muted mb-0">Customer</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                <div class="row text-center">
+                                                                    <div class="col-6 border-end">
+                                                                        <?php
+                                                                            $countCATACU = "SELECT COUNT(ca_customer_id) AS CATACUcount FROM ca_customer WHERE reference_no='".$cacus_id."' ";
+                                                                            $catacuCount = $conn -> prepare($countCATACU);
+                                                                            $catacuCount -> execute();
+                                                                            $catacuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if( $catacuCount -> rowCount()>0 ){
+                                                                                foreach( ($catacuCount -> fetchAll()) as $keyCATACU => $rowCATACU ){
+                                                                                    $CATACUCount = $rowCATACU['CATACUcount'];
+                                                                        ?>
+                                                                        <h5 class="mb-1"><?=$CATACUCount?></h5>
+                                                                        <?php
+                                                                                }
+                                                                            }
+                                                                        ?>
+                                                                        <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <?php
+                                                                            $countPAC = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$cacus_id."' ";
+                                                                            $pecCount = $conn -> prepare($countPAC);
+                                                                            $pecCount -> execute();
+                                                                            $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if( $pecCount -> rowCount()>0 ){
+                                                                                foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                    $PecCount = $rowPec['PECcount'];
+                                                                        ?>
+                                                                        <h5 class="mb-1"><?=$PecCount?></h5>
+                                                                        <?php
+                                                                                }
+                                                                            }
+                                                                        ?>
+                                                                        <p class="text-muted mb-0">Total Packages</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                <h5 class="mb-1"><?=$referral4['contact_no']?></h5>
+                                                                <p class="text-muted mb-0">Phone No</p>
+                                                            </div>
+                                                            <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                <div class="text-center">
+                                                                    <a href="#" onclick="overviewPage('<?= $referral4['ca_customer_id'] .','.  $referral4['reference_no'] . ',' .$referral4['country']. ',' .$referral4['state']. ',' .$referral4['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <!-- customer ref level 1 -->
+                                            <div class="panel">
+                                                <?php
+                                                    $stmt5 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                    $stmt5 -> execute([$cacus_id]);
+                                                    $referrals5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                                                    foreach($referrals5 as $referral5){
+                                                        $customer_id = $referral5['ca_customer_id'];
+                                                ?>
+                                                <button class="accordion p-0">
+                                                    <div class="card mb-0 rounded-0">
+                                                        <div class="card-body p-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                    <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                        <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                            <img src="../uploading/<<?=$referral5['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                        </div>
+                                                                        <div>
+                                                                            <a href="#" class="d-block">
+                                                                                <h5 class="fs-5 mb-1"><?=$referral5['firstname'].' '.$referral5['lastname'].' '.$customer_id?></h5>
+                                                                            </a>
+                                                                            <p class="text-muted mb-0">Customer</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                    <div class="row text-center">
+                                                                        <div class="col-6 border-end">
+                                                                            <?php
+                                                                                $countCU = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id."' ";
+                                                                                $cuCount = $conn -> prepare($countCU);
+                                                                                $cuCount -> execute();
+                                                                                $cuCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                if( $cuCount -> rowCount()>0 ){
+                                                                                    foreach( ($cuCount -> fetchAll()) as $keycu => $rowcu ){
+                                                                                        $cuCount = $rowcu['CATAcount'];
+                                                                            ?>
+                                                                            <h5 class="mb-1"><?=$cuCount?></h5>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                            <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <?php
+                                                                                $countPAC = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id."' ";
+                                                                                $pecCount = $conn -> prepare($countPAC);
+                                                                                $pecCount -> execute();
+                                                                                $pecCount -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                if( $pecCount -> rowCount()>0 ){
+                                                                                    foreach( ($pecCount -> fetchAll()) as $keyPec => $rowPec ){
+                                                                                        $PecCount = $rowPec['PECcount'];
+                                                                            ?>
+                                                                            <h5 class="mb-1">20</h5>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                            <p class="text-muted mb-0">Total Packages</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                    <h5 class="mb-1"><?=$referral5['contact_no']?></h5>
+                                                                    <p class="text-muted mb-0">Phone No</p>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                    <div class="text-center">
+                                                                        <a href="#" onclick="overviewPage('<?= $referral5['ca_customer_id'] .','.  $referral5['reference_no'] . ',' .$referral5['country']. ',' .$referral5['state']. ',' .$referral5['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                                <!-- cumtomer ref level 2 -->
+                                                <div class="panel">
+                                                    <?php
+                                                        $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                        $stmt6 -> execute([$customer_id]);
+                                                        $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                        foreach($referrals6 as $referral6){
+                                                            $customer_id2 = $referral6['ca_customer_id'];
+                                                    ?>
+                                                    <button class="accordion p-0">
+                                                        <div class="card mb-0 rounded-0">
+                                                            <div class="card-body p-2">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                        <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                            <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                <img src="../uploading/<?=$referral6['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                            </div>
+                                                                            <div>
+                                                                                <a href="#" class="d-block">
+                                                                                    <h5 class="fs-5 mb-1"><?=$referral6['firstname'].' '.$referral6['lastname'].' '.$customer_id2?></h5>
+                                                                                </a>
+                                                                                <p class="text-muted mb-0">Customer</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                        <div class="row text-center">
+                                                                            <div class="col-6 border-end">
+                                                                                <?php
+                                                                                    $countCU2 = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id2."' ";
+                                                                                    $cuCount2 = $conn -> prepare($countCU2);
+                                                                                    $cuCount2 -> execute();
+                                                                                    $cuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                    if( $cuCount2 -> rowCount()>0 ){
+                                                                                        foreach( ($cuCount2 -> fetchAll()) as $keycu2 => $rowcu2 ){
+                                                                                            $cu2Count = $rowcu2['CATAcount'];
+                                                                                ?>
+                                                                                <h5 class="mb-1"><?= $cu2Count?></h5>
+                                                                                <?php
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <?php
+                                                                                    $countPAC2 = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id2."' ";
+                                                                                    $pecCount2 = $conn -> prepare($countPAC2);
+                                                                                    $pecCount2 -> execute();
+                                                                                    $pecCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                    if( $pecCount2 -> rowCount()>0 ){
+                                                                                        foreach( ($pecCount2 -> fetchAll()) as $keyPec2 => $rowPec2 ){
+                                                                                            $PecCount2 = $rowPec2['PECcount'];
+                                                                                ?>
+                                                                                <h5 class="mb-1"><?=$PecCount2?></h5>
+                                                                                <?php
+                                                                                        }
+                                                                                    }
+                                                                                ?>
+                                                                                <p class="text-muted mb-0">Total Packages</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                        <h5 class="mb-1"><?=$referral6['contact_no']?></h5>
+                                                                        <p class="text-muted mb-0">Phone No</p>
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                        <div class="text-center">
+                                                                            <a href="#" onclick="overviewPage('<?= $referral6['ca_customer_id'] .','.  $referral6['reference_no'] . ',' .$referral6['country']. ',' .$referral6['state']. ',' .$referral6['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                    <!-- cumtomer ref level 3 -->
+                                                    <div class="panel">
+                                                        <?php
+                                                            $stmt6 = $conn -> prepare(" SELECT * FROM ca_customer WHERE reference_no = ? AND status = '1' ORDER BY ca_customer_id ASC");
+                                                            $stmt6 -> execute([$customer_id2]);
+                                                            $referrals6 = $stmt6->fetchAll(PDO::FETCH_ASSOC);
+                                                            foreach($referrals6 as $referral6){
+                                                                $customer_id3 = $referral6['ca_customer_id'];
+                                                        ?>
+                                                        <button class="accordion p-0">
+                                                            <div class="card mb-0 rounded-0">
+                                                                <div class="card-body p-2">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                            <div class="team-profile-img d-flex align-items-center justify-content-around">
+                                                                                <div class="avatar-md img-thumbnail rounded float-start rounded-circle">
+                                                                                    <img src="../uploading/<?=$referral6['profile_pic']?>" alt="" class="img-fluid d-block rounded-circle" />
+                                                                                </div>
+                                                                                <div>
+                                                                                    <a href="#" class="d-block">
+                                                                                        <h5 class="fs-5 mb-1"><?=$referral6['firstname'].' '.$referral6['lastname'].' '.$customer_id3?></h5>
+                                                                                    </a>
+                                                                                    <p class="text-muted mb-0">Customer</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 py-2">
+                                                                            <div class="row text-center">
+                                                                                <div class="col-6 border-end">
+                                                                                    <?php
+                                                                                        $countCU2 = "SELECT COUNT(ca_customer_id) AS CATAcount FROM ca_customer WHERE reference_no='".$customer_id3."' ";
+                                                                                        $cuCount2 = $conn -> prepare($countCU2);
+                                                                                        $cuCount2 -> execute();
+                                                                                        $cuCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                        if( $cuCount2 -> rowCount()>0 ){
+                                                                                            foreach( ($cuCount2 -> fetchAll()) as $keycu2 => $rowcu2 ){
+                                                                                                $cu2Count = $rowcu2['CATAcount'];
+                                                                                    ?>
+                                                                                    <h5 class="mb-1"><?=$cu2Count?></h5>
+                                                                                    <?php
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <p class="text-muted mb-0">Total Refered Customers</p>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <?php
+                                                                                        $countPAC2 = "SELECT COUNT(cu_id) AS PECcount FROM product_payout WHERE cu_id='".$customer_id3."' ";
+                                                                                        $pecCount2 = $conn -> prepare($countPAC2);
+                                                                                        $pecCount2 -> execute();
+                                                                                        $pecCount2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                                        if( $pecCount2 -> rowCount()>0 ){
+                                                                                            foreach( ($pecCount2 -> fetchAll()) as $keyPec2 => $rowPec2 ){
+                                                                                                $PecCount2 = $rowPec2['PECcount'];
+                                                                                    ?>
+                                                                                    <h5 class="mb-1"><?=$PecCount2?></h5>
+                                                                                    <?php
+                                                                                            }
+                                                                                        }
+                                                                                    ?>
+                                                                                    <p class="text-muted mb-0">Total Packages</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                            <h5 class="mb-1"><?=$referral6['contact_no']?></h5>
+                                                                            <p class="text-muted mb-0">Phone No</p>
+                                                                        </div>
+                                                                        <div class="col-lg-2 col-md-2 col-sm-6 col-6 py-2">
+                                                                            <div class="text-center">
+                                                                                <a href="#" onclick="overviewPage('<?= $referral6['ca_customer_id'] .','.  $referral6['reference_no'] . ',' .$referral6['country']. ',' .$referral6['state']. ',' .$referral6['city']. ',customer' ?>')" class="btn btn-primary view-btn">View Profile</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </div>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                    <!-- end cumtomer ref level 3 -->
+                                                </div>
+                                                <!-- end cumtomer ref level 2 -->
+                                                <?php
+                                                    }
+                                                ?>
+                                            </div>
+                                            <!-- end customer ref level 1 -->
+                                            <?php
+                                                }
+                                            ?>
+                                        </div>
+                                    <!-- end all Customers onboarded by TC -->
+                                    <!-- end TC recruted by TE -->
+                                    <!-- all Customers onboarded by TC -->
+                                    <?php
+                                        }
+                                    }else if($DBtable == 'sub_franchisee'){
                                         $stmt2_3 = $conn -> prepare(" SELECT * FROM ca_travelagency WHERE reference_no = ? AND status = '1' ORDER BY ca_travelagency_id ASC");
                                         $stmt2_3 -> execute([$id]);
                                         $referrals2_3 = $stmt2_3->fetchAll(PDO::FETCH_ASSOC);
@@ -5801,6 +7701,19 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     <!-- end all Customers onboarded by TC -->
                                     <!-- end TC recruted by TE -->
                                     <!-- all Customers onboarded by TC -->
+                                    <?php
+                                        }
+                                        if(empty($referrals2_3)){
+                                    ?>
+                                    <button class="accordion p-0">
+                                        <div class="card mb-0 rounded-0">
+                                            <div class="card-body p-2">
+                                                <div class="row align-items-center">
+                                                    <h4>No Team found</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </button>
                                     <?php
                                         }
                                     }else if ($DBtable == 'ca_travelagency'){
@@ -6656,6 +8569,20 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
     <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
         <i class="mdi mdi-arrow-up"></i>
     </button>
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <?php echo $date; ?> © Uniqbizz.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Mirthcon
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
     <script src="assets/libs/jquery/jquery.min.js"></script>

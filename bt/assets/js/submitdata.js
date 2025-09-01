@@ -2035,18 +2035,19 @@ $("#edit_employee").click(function (e) {
 $("#addBusinessMentor").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
-    var url = register_as == 'business_mentor'
-    ? 'addBusinessMentorData.php'
-    : register_as == 'master_franchisee'
-        ? 'addMasterFranchiseeData.php'
-        : '';
+    var url = register_as == 'business_mentor' ? 'addBusinessMentorData.php' 
+            : register_as == 'master_franchisee' ? 'addMasterFranchiseeData.php' 
+            : register_as == 'sponsor_franchisee' ? 'addSponsorFranchiseeData.php' 
+            : '';
     // console.log('Add customer button clicked');
 
-    var designation = register_as == 'business_mentor'
-    ? $("#designation1").val() == 'NA' ? 'Not Applicable' : $("#designation1").val()
-    : register_as == 'master_franchisee'
-        ? $("#designation2").val() == 'NA' ? 'Not Applicable' : $("#designation2").val()
-        : '';
+    // var designation = register_as == 'business_mentor'
+    // ? $("#designation1").val() == 'NA' ? 'Not Applicable' : $("#designation1").val()
+    // : register_as == 'master_franchisee'
+    //     ? $("#designation2").val() == 'NA' ? 'Not Applicable' : $("#designation2").val()
+    //     : register_as == 'sponsor_franchisee'
+    //     ? $("#designation2").val() == 'NA' ? 'Not Applicable' : $("#designation2").val()
+    //     : '';
     var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' : $("#user_id_name").val();
     var reference_name = $("#reference_name").val() == 'NA' ? 'Not Applicable' : $("#reference_name").val();
 
@@ -2089,7 +2090,12 @@ $("#addBusinessMentor").on("click", function (e) {
         transactionNo = "",
         payment_proof = "";
 
-    payment_fee = $("#payment_fee").val().trim();
+    if (register_as == "sponsor_franchisee"){
+        payment_fee = $("#payment_fee2").val().trim();
+    }else{
+        payment_fee = $("#payment_fee").val().trim();
+    }
+
     if (payment_fee == "FOC") {
         paymentMode = "Free";
         chequeNo = "";
@@ -2186,9 +2192,9 @@ $("#addBusinessMentor").on("click", function (e) {
         alert("Enter Payment Proof");
     } else {
         var dataString =
-            "designation=" +
-            designation +
-            "&user_id_name=" +
+            // "designation=" +
+            // designation +
+            "user_id_name=" +
             user_id_name +
             "&reference_name=" +
             reference_name +
@@ -2279,12 +2285,18 @@ $("#addBusinessMentor").on("click", function (e) {
 // Edit Business Mentor by admin
 $("#editBuisnessMentor").on("click", function (e) {
     e.preventDefault();
+    // var register_as = $('#registered').val();
+    // var url = register_as == 'bm'
+    // ? 'editBusinessMentorData.php'
+    // : register_as == 'mf'
+    //     ? 'editMasterFranchiseeData.php'
+    //     : '';
+
     var register_as = $('#registered').val();
-    var url = register_as == 'bm'
-    ? 'editBusinessMentorData.php'
-    : register_as == 'mf'
-        ? 'editMasterFranchiseeData.php'
-        : '';
+    var url = register_as == 'bm' ? 'editBusinessMentorData.php' 
+            : register_as == 'mf' ? 'editMasterFranchiseeData.php' 
+            : register_as == 'sf' ? 'editSponsorFranchiseeData.php' 
+            : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();
@@ -2333,7 +2345,12 @@ $("#editBuisnessMentor").on("click", function (e) {
         transactionNo = "",
         payment_proof = "";
 
-    payment_fee = $("#payment_fee").val().trim();
+     if (register_as == "sf"){
+        payment_fee = $("#payment_fee2").val().trim();
+    }else{
+        payment_fee = $("#payment_fee").val().trim();
+    }
+    
     if (payment_fee == "FOC") {
         paymentMode = "Free";
         chequeNo = "";

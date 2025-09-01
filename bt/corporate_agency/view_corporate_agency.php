@@ -313,13 +313,13 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city 
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
                                                             FROM corporate_agency 
-                                                            WHERE status IN ('1', '3') 
+                                                            WHERE status IN ('1') 
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city 
+                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
                                                             FROM sub_franchisee 
-                                                            WHERE status IN ('1', '3') 
+                                                            WHERE status IN ('1') 
                                                             ORDER BY register_date ASC
                                                         ";
 
@@ -334,14 +334,26 @@
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
+                                                                if ($row["tc_assign_status"] == 1) {
+                                                                    $rowClass = 'bg-success'; // TC allotted = green
+                                                                    // $hoverText = 'TC Allotted';
+                                                                } else {
+                                                                    $rowClass = 'bg-secondary'; // TC not allotted = no background
+                                                                    // $hoverText = '';
+                                                                }
 
                                                                 echo '<tr>
                                                                         <td>' . $row['user_id'] . '</td>
                                                                         <td> 
-                                                                            <span class="badge bg-secondary lable-width">'
+                                                                            <span class="badge '.$rowClass.' lable-width">'
                                                                                 . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
-                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] . 
-                                                                        '</td>
+                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] ;
+                                                                            if($row["tc_assign_status"] == 1){
+                                                                                echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
+                                                                                        TC Allotted
+                                                                                      </small>';
+                                                                            } 
+                                                                echo'   </td>
                                                                         <td>
                                                                             <p class="mb-1">' . $row['reference_no'] . '</p>
                                                                             <p class="mb-0">' . $row['registrant'] . '</p>
@@ -362,8 +374,35 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                    <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","registered","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
+                                                                                    if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
+                                                                                        echo '<li>
+                                                                                                <a href="#" 
+                                                                                                class="dropdown-item" 
+                                                                                                data-bs-toggle="modal" 
+                                                                                                data-bs-target="#tcAllotmentModal" 
+                                                                                                data-bs-assign="' . htmlspecialchars($row["tc_assign_status"]) . '"
+                                                                                                data-bs-tcnum="' . htmlspecialchars($row["no_tc_alloted"]??0) . '"
+                                                                                                data-bs-teid="' . htmlspecialchars($row["user_id"]) . '"
+                                                                                                >
+                                                                                                    <i class="mdi mdi-account-group font-size-16 text-info me-1"></i> Allocate TC
+                                                                                                </a>
+                                                                                            </li>';
+                                                                                    }else if($row['user_type'] == 'te' && $row["tc_assign_status"] == 1){
+                                                                                       echo '<li>
+                                                                                                <a href="#" 
+                                                                                                class="dropdown-item" 
+                                                                                                data-bs-toggle="modal" 
+                                                                                                data-bs-target="#allottedTCModal" 
+                                                                                                data-bs-assign="' . htmlspecialchars($row["tc_assign_status"]) . '"
+                                                                                                data-bs-tcnum="' . htmlspecialchars($row["no_tc_alloted"]??0) . '"
+                                                                                                data-bs-teid="' . htmlspecialchars($row["user_id"]) . '"
+                                                                                                >
+                                                                                                    <i class="mdi mdi-account-group font-size-16 text-info me-1"></i> Show Allocated TC
+                                                                                                </a>
+                                                                                            </li>'; 
+                                                                                    }
+                                                                    echo'           <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","registered","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                 </ul>
                                                                             </div>
@@ -401,6 +440,123 @@
                             <!-- end col -->
                         </div>
                         <!-- end row -->
+                        <!--Deleted Users-->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-6">
+                                                <div class="search-box me-2 mb-2 d-inline-block">
+                                                    <div class="position-relative">
+                                                        <h4>Deleted Techno Enterprise / Franchisee List</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="table-responsive" id="registered_ca">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>TE/F Id</th>
+                                                        <th>Full Name</th>
+                                                        <th>Reference ID / Name</th>
+                                                        <th>Phone / Email</th>
+                                                        <!-- <th>Address</th> -->
+                                                        <th>Amount</th>
+                                                        <th>Joining Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $sql = "
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            FROM corporate_agency 
+                                                            WHERE status IN ('3') 
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            FROM sub_franchisee 
+                                                            WHERE status IN ('3') 
+                                                            ORDER BY register_date ASC
+                                                        ";
+
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $row) {
+                                                                $bd = new DateTime($row['date_of_birth']);
+                                                                $bdate = $bd->format('d-m-Y');
+
+                                                                $rd = new DateTime($row['register_date']);
+                                                                $rdate = $rd->format('d-m-Y');
+                                                                if ($row["tc_assign_status"] == 1) {
+                                                                    $rowClass = 'bg-success'; // TC allotted = green
+                                                                    // $hoverText = 'TC Allotted';
+                                                                } else {
+                                                                    $rowClass = 'bg-secondary'; // TC not allotted = no background
+                                                                    // $hoverText = '';
+                                                                }
+
+                                                                echo '<tr>
+                                                                        <td>' . $row['user_id'] . '</td>
+                                                                        <td> 
+                                                                            <span class="badge '.$rowClass.' lable-width">'
+                                                                                . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
+                                                                            '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] ;
+                                                                            if($row["tc_assign_status"] == 1){
+                                                                                echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
+                                                                                        TC Allotted
+                                                                                      </small>';
+                                                                            } 
+                                                                echo'   </td>
+                                                                        <td>
+                                                                            <p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                            <p class="mb-0">' . $row['registrant'] . '</p>
+                                                                        </td>
+                                                                        <td>
+                                                                            <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                            <p class="mb-0">' . $row['email'] . '</p>
+                                                                        </td>
+                                                                        <td>' . $row['amount'] . '</td>
+                                                                        <td>' . $rdate . '</td>';
+                                                                echo '  <td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                        <td>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                                </a>
+                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
+                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </td>';
+                                                                echo '</tr>';
+                                                            }
+                                                        }
+                                                    ?>
+
+                                                </tbody>
+                                            </table>
+                                            <!-- end table -->
+                                        </div>
+                                        
+                                        <!-- end table responsive -->
+                                    </div>
+                                    <!-- end card body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        <!--end Deleted Users-->
+                        
 
                     </div> <!-- container-fluid -->
                 </div> <!-- End Page-content -->
@@ -512,7 +668,122 @@
             </div>
         </div>
         <!-- end confirmItemModal -->
+        <!-- Allocation Modal -->
+        <div class="modal fade" id="tcAllotmentModal" tabindex="-1" aria-labelledby="tcAllotmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg"> <!-- Use modal-lg for wider layout -->
+                <div class="modal-content">
+                    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tcAllotmentModalLabel">TC Allotment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="input-block mb-3">
+                            <!-- <h4>TC Allotment:</h4> -->
+                            
+                            <!-- radio in a row -->
+                            <div class="d-flex flex-column gap-2 mb-2" id="tcallotment">
+                                <label class="form-label fw-bolder">NO. TC Allotment: <span class="text-danger">*</span></label>
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" id="purpose0" name="official_purpose" value="0">
+                                        <label class="form-check-label" for="purpose0">0</label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" id="purpose1" name="official_purpose" value="1">
+                                        <label class="form-check-label" for="purpose1">1</label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" id="purpose2" name="official_purpose" value="2">
+                                        <label class="form-check-label" for="purpose2">2</label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" id="purpose3" name="official_purpose" value="3">
+                                        <label class="form-check-label" for="purpose3">3</label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" id="purpose4" name="official_purpose" value="5">
+                                        <label class="form-check-label" for="purpose4">5</label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" id="purpose5" name="official_purpose" value="7">
+                                        <label class="form-check-label" for="purpose5">7</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="availableTCs" class="mt-3">
+                                <div class="mb-2">
+                                    <strong>Selected: <span id="selectedCount">0</span>/<span id="allowedCount">0</span></strong>
+                                </div>
+                                <div id="tcListContainer" style="max-height: 250px; overflow-y: auto;">
+                                    <!-- TC checkboxes will be injected here -->
+                                </div>
+                                <input type="hidden" name="selected_tc_ids" id="selectedTCsInput">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <input type="hidden" id="hiddenAssign" name="assign_status">
+                        <input type="hidden" id="hiddenTcNum" name="tc_num">
+                        <input type="hidden" id="hiddenTeid" name="te_id">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="AlocTC">Save changes</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- end Allocation Modal -->
+        <!-- Allotted TC Details Modal -->
+        <div class="modal fade" id="allottedTCModal" tabindex="-1" aria-labelledby="allottedTCModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl"> <!-- Wider for table -->
+                <div class="modal-content">
 
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="allottedTCModalLabel">Allotted TC Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="allottedTCTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Sr. No</th>
+                                        <th>TC Name / ID</th>
+                                        <th>TE Name / ID</th>
+                                        <th>TE's Ref BM Name /ID</th>
+                                        <th>TC's Ref BM Name /ID</th>
+                                        <th>Allotment Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be appended dynamically via AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <input type="hidden" id="hiddenAssign1" name="assign_status">
+                        <input type="hidden" id="hiddenTcNum1" name="tc_num">
+                        <input type="hidden" id="hiddenTeid1" name="te_id">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end  Allotted TC Details Modal -->
         <!-- Modal -->
         <!-- <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -589,6 +860,10 @@
                 });
 
                 $("#registeredCustomerList-table").DataTable({
+                    order: [[5, 'asc']]
+                });
+                
+                $("#deletedCustomerList-table").DataTable({
                     order: [[5, 'asc']]
                 });
             });
@@ -727,6 +1002,178 @@
                 });
 
             });
+
+            //for tc allotment
+            //on load
+            document.addEventListener('DOMContentLoaded', function () {
+                var tcAllotmentModal = document.getElementById('tcAllotmentModal');
+
+                tcAllotmentModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget; // The <a> tag that triggered the modal
+
+                    // Get values from data attributes
+                    var assignStatus = button.getAttribute('data-bs-assign');
+                    var tcNum = button.getAttribute('data-bs-tcnum');
+                    var teId = button.getAttribute('data-bs-teid');
+
+                    // Store these values in hidden inputs inside the modal
+                    // (Create these hidden inputs in the modal footer or body)
+                    document.getElementById('hiddenAssign').value = assignStatus;
+                    document.getElementById('hiddenTcNum').value = tcNum;
+                    document.getElementById('hiddenTeid').value = teId;
+
+                    // (Optional) Update the UI dynamically if needed
+                    document.getElementById('allowedCount').textContent = tcNum; // Show allowed TC count
+                });
+            });
+            let allowedCount = 0;
+
+            // Bind official_purpose change ONCE (outside the checkbox toggle)
+            $('input[name="official_purpose"]').on('change', function() {
+                allowedCount = parseInt($(this).val());
+                $('#allowedCount').text(allowedCount);
+                $('#selectedCount').text(0);
+                $('#selectedTCsInput').val('');
+
+                // let reference_no = $('#user_id_name').val();
+
+                $.ajax({
+                    url: 'get_all_bm_tc.php',
+                    type: 'POST',
+                    data: {
+                        tc_count: allowedCount
+                    },
+                    success: function(response) {
+                        $('#tcListContainer').html(response);
+                        $('#availableTCs').removeClass('d-none');
+
+                        // Attach event to checkboxes inside response
+                        $('#tcListContainer').on('change', '.tc-checkbox', function() {
+                            let selected = $('.tc-checkbox:checked').length;
+                            if (selected > allowedCount) {
+                                this.checked = false;
+                                alert('You can only select ' + allowedCount + ' TC(s).');
+                                return;
+                            }
+                            $('#selectedCount').text(selected);
+
+                            let selectedIds = [];
+                            $('.tc-checkbox:checked').each(function() {
+                                selectedIds.push($(this).val());
+                            });
+
+                            $('#selectedTCsInput').val(selectedIds.join(','));
+                        });
+                    }
+                    
+                });
+            }); 
+            //save changes
+            $("#AlocTC").on('click',function(){
+                var teid = $("#hiddenTeid").val();
+                var tcCount = $('input[name="official_purpose"]:checked').val();
+                var selected_count = $('#selectedCount').text();
+                let selectedIds = [];
+                $('input[name="tc_ids[]"]:checked').each(function () {
+                    selectedIds.push($(this).val());
+                });
+                var data={
+                    id:teid,
+                    tcCount:tcCount,
+                    selectedIds:selectedIds
+                }
+                console.log(data);
+                
+                //AJAX request
+                $.ajax({
+                    url: 'allocate_tcs.php', // Replace with your actual PHP handler
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json', // Important for JSON
+                    dataType: 'json', // Expect JSON response
+                    success: function (response) {
+                        if (response.status == 'success') {
+                            // Success case
+                            alert(response.message);
+                            $('#tcAllotmentModal').modal('hide');
+                            // Optional: refresh table or update UI
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+            //end
+            //show tc allotment
+            document.addEventListener('DOMContentLoaded', function () {
+                var allottedTCModal = document.getElementById('allottedTCModal');
+
+                allottedTCModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget; // The <a> tag that triggered the modal
+
+                    // Get values from data attributes
+                    var assignStatus = button.getAttribute('data-bs-assign');
+                    var tcNum = button.getAttribute('data-bs-tcnum');
+                    var teId = button.getAttribute('data-bs-teid');
+
+                    // Store these values in hidden inputs inside the modal
+                    // (Create these hidden inputs in the modal footer or body)
+                    document.getElementById('hiddenAssign1').value = assignStatus;
+                    document.getElementById('hiddenTcNum1').value = tcNum;
+                    document.getElementById('hiddenTeid1').value = teId;
+
+                    
+                });
+            });
+            function loadAllottedTCs() {
+                var teId = $("#hiddenTeid1").val(); // added missing '#' for id selector
+                $.ajax({
+                    url: 'get_allotted_tcs.php',
+                    type: 'POST',
+                    contentType: 'application/json', // tell server we send JSON
+                    data: JSON.stringify({ te_id: teId }), // convert to JSON string
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            let tbody = $('#allottedTCTable tbody');
+                            tbody.empty();
+                            
+                            response.data.forEach((item, index) => {
+                                let row = `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${item.travel_agency}</br> ( ${item.tc_id} )</td>
+                                        <td>${item.corporate_agency}</br> ( ${item.te_id} )</td>
+                                        <td>${item.registrant}</br> ( ${item.reference_no} )</td>
+                                        <td>${item.business_mentor}</br> (${item.bm_id})</td>
+                                        <td>${item.map_date}</td>
+                                    </tr>
+                                `;
+                                tbody.append(row);
+                            });
+
+                            $('#allottedTCModal').modal('show');
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        alert('Failed to fetch allotted TC details.');
+                    }
+                });
+            }
+
+
+            $('#allottedTCModal').on('shown.bs.modal', function (event) {
+                loadAllottedTCs();
+            });
+
+            //end 
         </script>
 
     </body>

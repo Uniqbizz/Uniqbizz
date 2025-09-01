@@ -1946,8 +1946,8 @@ $('#add-customer').click(function (e) {
     var reference_name = $("#reference_name").val(); // Travel agent reference Name
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
-    var nominee_name = $("#nominee_name").val().trim();
-    var nominee_relation = $("#nominee_relation").val().trim();
+    // var nominee_name = $("#nominee_name").val().trim();
+    // var nominee_relation = $("#nominee_relation").val().trim();
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
     var gender = $(".gender:checked").val();
@@ -2015,8 +2015,8 @@ $('#add-customer').click(function (e) {
         "&reference_name=" + reference_name +
         "&firstname=" + firstname +
         "&lastname=" + lastname +
-        "&nominee_name=" + nominee_name +
-        "&nominee_relation=" + nominee_relation +
+        // "&nominee_name=" + nominee_name +
+        // "&nominee_relation=" + nominee_relation +
         "&email=" + email +
         "&dob=" + dob +
         "&gender=" + gender +
@@ -2060,11 +2060,13 @@ $('#add-customer').click(function (e) {
         alert("Enter Proper First Name");
     } else if (lastname === '') {
         alert("Enter Proper Last Name");
-    } else if (nominee_name === '') {
-        alert("Enter Nominee Name");
-    } else if (nominee_relation === '') {
-        alert("Enter Nominee Relation");
-    } else if (email == '') {
+    } 
+    // else if (nominee_name === '') {
+    //     alert("Enter Nominee Name");
+    // } else if (nominee_relation === '') {
+    //     alert("Enter Nominee Relation");
+    // } 
+    else if (email == '') {
         alert("Enter Email");
     } else if (!emailReg.test(email)) {
         alert("Enter Proper Email");
@@ -2149,8 +2151,8 @@ $('#edit-customer').click(function (e) {
     var customer_type = $('#customer_type').val(); // customer type
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
-    var nominee_name = $("#nominee_name").val().trim();
-    var nominee_relation = $("#nominee_relation").val().trim();
+    // var nominee_name = $("#nominee_name").val().trim();
+    // var nominee_relation = $("#nominee_relation").val().trim();
     var email = $("#email").val().trim();
     var dob = $("#dob").val().trim();
     var gender = $(".gender:checked").val();
@@ -2213,8 +2215,8 @@ $('#edit-customer').click(function (e) {
         "&id=" + id +
         "&firstname=" + firstname +
         "&lastname=" + lastname +
-        "&nominee_name=" + nominee_name +
-        "&nominee_relation=" + nominee_relation +
+        // "&nominee_name=" + nominee_name +
+        // "&nominee_relation=" + nominee_relation +
         "&email=" + email +
         "&dob=" + dob +
         "&gender=" + gender +
@@ -2262,11 +2264,13 @@ $('#edit-customer').click(function (e) {
         alert("Enter Proper First Name");
     } else if (lastname === '') {
         alert("Enter Proper Last Name");
-    } else if (nominee_name === '') {
-        alert("Enter Nominee Name");
-    } else if (nominee_relation === '') {
-        alert("Enter Nominee Relation");
-    } else if (email == '') {
+    } 
+    // else if (nominee_name === '') {
+    //     alert("Enter Nominee Name");
+    // } else if (nominee_relation === '') {
+    //     alert("Enter Nominee Relation");
+    // } 
+    else if (email == '') {
         alert("Enter Email");
     } else if (!emailReg.test(email)) {
         alert("Enter Proper Email");

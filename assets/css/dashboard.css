@@ -1,0 +1,279 @@
+.heroHeight {
+    height: 680px !important;
+    padding-top: 0px !important;
+}
+.heroCard {
+    z-index: 1 !important;
+}
+.fontFamily {
+    font-family: Poppins, sans-serif;
+}
+.capitalText {
+    text-transform: uppercase;
+}
+.carousel {
+    position: relative;;
+}
+.prevIcon {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: white;
+    position: absolute;
+    top: 300px;
+    left: 140px;
+    opacity: 1;
+    border-radius: 50%;
+}
+.prevIcon:hover {
+    background-color: #e03d42;
+}
+.arrow-left {
+    color: #e03d42 !important;
+    padding-top: 12px;
+}
+.arrow-left:hover {
+    color: white !important;
+}
+.nextIcon {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: white;
+    position: absolute;
+    top: 300px;
+    right: 140px;
+    opacity: 1;
+    border-radius: 50%;
+}
+.nextIcon:hover {
+    background-color: #e03d42;
+}
+.arrow-right {
+    color: #e03d42 !important;
+    padding-top: 12px;
+}
+.arrow-right:hover {
+    color: white !important;
+}
+
+.sliderWidth {
+    width: 100%;
+    height: 710px;
+    object-fit: cover; /* or 'contain' based on design preference */
+    object-position: center;
+}
+
+/* Text White */
+.header-sticky .single-list a {
+    color: white !important;
+    font-weight: bolder !important;
+}
+.header-sticky .title a {
+    color: white !important;
+    font-weight: bolder !important;
+}
+.header-sticky .pera {
+    color: white !important;
+    font-weight: bolder !important;
+}
+.header-sticky .change-theme-mode i {
+    color: white !important;
+    font-weight: bolder !important;
+}
+.header-sticky .callBtn i {
+    color: white !important;
+    font-weight: bolder !important;
+}
+
+.offerText {
+    font-size: 17px !important;
+}
+.packageBtn {
+    background-color: #e03d42;
+    color: #fff;
+    padding: 12px 15px;
+}
+.packageBtn:hover {
+    background-color: #fff;
+    color: #e03d42;
+    border: 2px solid #e03d42;
+}
+.captionPosition {
+    position: absolute;
+    bottom: 180px !important;
+}
+.captionPosition1 {
+    position: absolute;
+    bottom: 480px !important;
+}
+
+.header-sticky.sticky-bar {
+    z-index: 20;
+    background-color: #fff;
+}
+.header-sticky.sticky-bar .single-list a {
+    color: black !important;
+    font-weight: bolder !important;
+}
+.header-sticky.sticky-bar .title a {
+    color: black !important;
+    font-weight: bolder !important;
+}
+.header-sticky.sticky-bar .pera {
+    color: black !important;
+    font-weight: bolder !important;
+}
+.header-sticky.sticky-bar .change-theme-mode i {
+    color: black !important;
+    font-weight: bolder !important;
+}
+.callBtn {
+    width: 40px !important;
+    height: 40px !important;
+}
+.header-sticky.sticky-bar .callBtn i {
+    color: #e03d42 !important;
+    font-weight: bolder !important;
+}
+.header-sticky.sticky-bar .callBtn {
+    border: 2px solid #e03d42 !important;
+}
+.header-sticky.sticky-bar .sign-btn a {
+    color: #e03d42 !important;
+    font-weight: bolder !important;
+}
+.header-sticky.sticky-bar .sign-btn a {
+    border: 2px solid #e03d42 !important;
+}
+.phoneSize {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+}
+.header-area-three .main-menu .listing .single-list:hover > .single {
+    color: var(--primary-color);
+    -webkit-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    background-color: #e03d42 !important;
+}
+.header-area-three .main-menu .listing .single-list:hover > .single::after {
+    bottom: -24px;
+    content: "";
+    opacity: 1;
+    right: auto;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 25px;
+    -webkit-clip-path: polygon(100% 0%, 100% 100%, 50% 27%, 0px 100%, 0% 50%, 0px 0px);
+    clip-path: polygon(100% 0%, 100% 100%, 50% 27%, 0px 100%, 0% 50%, 0px 0px);
+    background-color: #e03d42 !important;
+}
+.header-area-three .main-menu .listing .single-list .single {
+    padding: 20px !important;
+}
+.contact-section {
+    padding-top: 11px;
+}
+
+/* destination List */
+.col-xl-4 .destination-banner {
+    height: 300px !important;
+}
+.col-lg-3 .destination-banner {
+    height: 225px !important;
+}
+
+/* footer */
+.footer-body p {
+    max-width: 500px !important;
+}
+/* .top-shadow {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 188px;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 100%);
+    top: 0;
+    left: 0;
+    z-index: 1;
+} */
+
+@media screen and (max-width: 991px) {
+    .sliderWidth {
+        width: 100% !important;
+        height: 610px !important;
+    }
+    .heroHeight {
+        height: 585px !important;
+        padding-top: 0px !important;
+    }
+    .heroCard .top-header-right {
+        position: absolute;
+        top: -8px !important;
+        right: 100px;
+    }
+    .header-sticky .single-list a {
+        color: black !important;
+        font-weight: bolder !important;
+    }
+    .header-sticky .change-theme-mode i {
+        color: black !important;
+        font-weight: bolder !important;
+    }
+    
+
+}
+@media screen and (max-width: 767px) {
+    .sliderWidth {
+        width: 100% !important;
+        height: 610px !important;
+    }
+    .captionPosition {
+        position: absolute;
+        bottom: 150px !important;
+    }
+    .captionPosition1 {
+        position: absolute;
+        bottom: 450px !important;
+    }
+    .heroHeight {
+        height: 585px !important;
+        padding-top: 0px !important;
+    }
+    .prevIcon {
+        display: none !important;
+    }
+    .nextIcon {
+       display: none !important;
+    }
+}
+@media screen and (max-width: 578px) {
+    .sliderWidth {
+        width: 100% !important;
+        height: 610px !important;
+    }
+    .heroHeight {
+        height: 585px !important;
+        padding-top: 0px !important;
+    }
+    .prevIcon {
+        display: none !important;
+    }
+    .nextIcon {
+       display: none !important;
+    }
+    .heroCard .top-header-right {
+        display: none;
+    }
+    .captionPosition {
+        position: absolute;
+        bottom: 130px !important;
+    }
+    .captionPosition1 {
+        position: absolute;
+        bottom: 420px !important;
+    }
+    .col-lg-3 .destination-banner {
+        height: 300px !important;
+    }
+}

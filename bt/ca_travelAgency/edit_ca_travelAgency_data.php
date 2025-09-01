@@ -52,12 +52,14 @@ $state=$_POST['state'];
 $city=$_POST['city'];
 $payment_fee=$_POST['payment_fee'];
 $note=$_POST['note'];
+$comp_check=$_POST['comp_check'];
+
 $user_type_id = '11';
 
 $title="Travel Consultant";
 
-$fromWhom="15";
-$register_by="15";
+$fromWhom="1";
+$register_by="1";
 $operation="Edit";
  
 if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' ||$dob !='' ||$address !='' ||$profile_pic !=''){
@@ -79,6 +81,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
 		pincode=:pincode,
 		address=:address,
 		note=:note,
+		comp_check=:comp_check,
 		profile_pic=:profile_pic,
 		pan_card=:pan_card,
 		aadhar_card=:aadhar_card,
@@ -111,6 +114,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':pincode' => $pincode,
             ':address' => $address,
             ':note' => $note,
+        	':comp_check' => $comp_check,
             ':profile_pic' => $profile_pic,
             // ':kyc' => $kyc,
             ':age' => $age,

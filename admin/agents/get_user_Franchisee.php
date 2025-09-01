@@ -38,6 +38,8 @@ require '../connect.php';
         $user = $conn->prepare("SELECT * FROM zonal_manager WHERE status = '1' ORDER BY zonal_manager_id");
     }else if($table == "sub_franchisee"){
         $user = $conn->prepare("SELECT * FROM sub_franchisee WHERE status = '1' ORDER BY sub_franchisee_id");
+    }else if($table == "sponsor_franchisee"){
+        $user = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE status = '1' ORDER BY sponsor_franchisee_id");
     }else if($table == "Prime"){
         $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Prime' ORDER BY ca_customer_id");
     }else if($table == "Premium"){
@@ -89,6 +91,8 @@ require '../connect.php';
             echo '<option value="">--Select Zonal Manager ID & Name--</option>';
         }else if ( $table == "sub_franchisee" ) {
             echo '<option value="">--Select Franchisee ID & Name--</option>';
+        }else if ( $table == "sponsor_franchisee" ) {
+            echo '<option value="">--Select Sponsor Franchisee ID & Name--</option>';
         }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" ) {
             echo '<option value="">--Select Customer ID & Name--</option>';
         }
@@ -126,6 +130,8 @@ require '../connect.php';
                 echo '<option value="'.$value['zonal_manager_id'].'">'.$value['zonal_manager_id'].' - '.$value['name'].'</option>';
             }else if ( $table == "sub_franchisee" ) {
                 echo '<option value="'.$value['sub_franchisee_id'].'">'.$value['sub_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "sponsor_franchisee" ) {
+                echo '<option value="'.$value['sponsor_franchisee_id'].'">'.$value['sponsor_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" ) {
                 echo '<option value="'.$value['ca_customer_id'].'">'.$value['ca_customer_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }

@@ -9,8 +9,8 @@ $user_id_name = $_POST['user_id_name'];
 $registrant = $_POST['reference_name'];
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
-$nominee_name = $_POST['nominee_name'];
-$nominee_relation = $_POST['nominee_relation'];
+// $nominee_name = $_POST['nominee_name'];
+// $nominee_relation = $_POST['nominee_relation'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $payment_fee = $_POST['payment_fee'];
@@ -83,8 +83,8 @@ function divideAmount($totalAmount, $fixedAmount = 3000)
     if($totalAmount == 10000){
 		$fixedAmount = 2500;
 	}
-    if ($totalAmount == 15000) {
-        $fixedAmount = 1500;
+    if ($totalAmount == 25000) {
+        $fixedAmount = 5000;
     }
     $fullParts = floor($totalAmount / $fixedAmount);
     $remaining = $totalAmount % $fixedAmount;
@@ -115,11 +115,11 @@ function generateUniqueCoupon()
     return strtoupper($year . substr($uniquePart, 0, 11)); // Ensures it's exactly 15 characters
 }
 
-$sql = "INSERT INTO `ca_customer` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , 
+$sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , 
         date_of_birth, age, gender, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof,payment_mode, 
         cheque_no, cheque_date, bank_name, transaction_no, country, state, city, pincode, address,  user_type, registrant, 
         reference_no, register_by, ta_reference_no, ta_reference_name,paid_amount,customer_type) 
-    VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , 
+    VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , 
         :profile_pic, :pan_card, :aadhar_card, :voting_card, :passbook, :payment_proof,:payment_mode, :cheque_no, :cheque_date, 
         :bank_name, :transaction_no, :country, :state, :city, :pincode,:address, :user_type,:registrant,  :reference_no, :register_by , 
         :ta_reference_no, :ta_reference_name,:paid_amount,:customer_type)";
@@ -279,17 +279,27 @@ if ($result2) {
         $stmt1 = $conn->prepare($sql2);
         $stmt1->execute();
         $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-        $cp_parts = divideAmount('15000');
+        $cp_parts = divideAmount('25000');
         $payment_id = generatePaymentID();
         // Define the SQL query once
-        $sqlInsertCoupon = "INSERT INTO cu_coupons (user_id, payment_id, code, coupon_amt, usage_status, confirm_status) 
-                            VALUES (:user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status)";
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
 
-        $stmt = $conn->prepare($sqlInsertCoupon); // Prepare the statement once
+        $stmt = $conn->prepare($sqlInsertCoupon);
 
-        // Loop through all coupon parts dynamically
+        $counter = 0; // To track the number of inserted coupons
+
         foreach ($cp_parts as $coupon_amt) {
             $couponCode = generateUniqueCoupon();
+            $counter++;
+
+            // Set bonus_check = 1 only for the 5th entry
+            $bonusCheck = ($counter === 5) ? 1 : 0;
 
             $stmt->execute([
                 ':user_id' => $row['id'],
@@ -297,9 +307,11 @@ if ($result2) {
                 ':code' => $couponCode,
                 ':coupon_amt' => $coupon_amt,
                 ':usage_status' => 0,
-                ':confirm_status' => 0
+                ':confirm_status' => 0,
+                ':bonus_check' => $bonusCheck
             ]);
         }
+
     }else if ($payment_mode == 'Free') {
         
     }

@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
 
@@ -49,6 +52,12 @@
     <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
+
+    <style>
+        .destination-area a {
+            height: 412px !important;
+        }
+    </style>
 </head>
 <body>
     <?php include_once "header.php" ?>
@@ -56,13 +65,13 @@
         <!-- Breadcrumbs S t a r t -->
         <section class="breadcrumbs-area breadcrumb-bg">
             <div class="container">
-                <h1 class="title wow fadeInUp" data-wow-delay="0.0s">Blogs</h1>
+                <h1 class="title wow fadeInUp" data-wow-delay="0.0s">Destination</h1>
                 <div class="breadcrumb-text">
                     <nav aria-label="breadcrumb" class="breadcrumb-nav wow fadeInUp" data-wow-delay="0.1s">
                         <ul class="breadcrumb listing">
                             <li class="breadcrumb-item single-list"><a href="index.php" class="single">Home</a></li>
                             <li class="breadcrumb-item single-list" aria-current="page"><a href="javascript:void(0)"
-                                    class="single active">Blogs</a></li>
+                                    class="single active">Destination</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -83,7 +92,7 @@
                                         <i class="ri-star-s-fill"></i>
                                         <span>4.5</span>
                                     </div> -->
-                                    <div class="destination-info">
+                                    <div class="destination-info p-4">
                                         <div class="destination-name">
                                             <p class="pera">Kerala</p>
                                             <!-- <div class="location">
@@ -121,7 +130,190 @@
                                 </div>
                             </a>
                         </div>
-                       
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="blog_details/blog-details-kerala.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/kerala1.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Kerala</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-8 col-sm-6">
+                            <a href="blog_details/blog-details-goa.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/goa5.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Goa</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="blog_details/blog-details-kerala.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/kerala1.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Kerala</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-5 col-sm-6">
+                            <a href="blog_details/blog-details-goa.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/goa5.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Goa</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-7 col-sm-6">
+                            <a href="blog_details/blog-details-kerala.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/kerala1.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Kerala</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="blog_details/blog-details-goa.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/goa5.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Goa</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="blog_details/blog-details-kerala.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/kerala1.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Kerala</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="blog_details/blog-details-goa.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/goa5.jpg" alt="travello">
+                                <div class="destination-content">
+                                    <!-- <div class="ratting-badge">
+                                        <i class="ri-star-s-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Goa</p>
+                                            <!-- <div class="location">
+                                                <i class="ri-map-pin-line"></i>
+                                                <p class="name">Malaga View</p>
+                                            </div> -->
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

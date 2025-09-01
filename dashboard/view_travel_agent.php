@@ -121,7 +121,7 @@
                                                             <tr>
                                                                 <th data-ordering="false">SR No.</th>
                                                                 <th data-ordering="false">Name</th>
-                                                                <th data-ordering="false">BM Ref ID & Name</th>
+                                                                <th data-ordering="false"><?=$userType == '28'?'Ref ID & Name':'BM Ref ID & Name'?></th>
                                                                 <?php if($userType == "24"){ ?>
                                                                 <th data-ordering="false">BDM Ref ID & Name</th>
                                                                 <?php } ?>
@@ -387,38 +387,6 @@
                                                                                 }
                                                                             echo'</tr>';
                                                                         }
-
-                                                                    }
-
-                                                                    //direct TC with BDM Ref
-                                                                    $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '2' OR status = '0')");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['id'];
-                                                                        //echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                        $bd= new DateTime($userCATA['date_of_birth']);
-                                                                        $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($userCATA['added_on']);
-                                                                        $datev= $dt->format('d-m-Y'); 
-
-                                                                        echo'<tr>
-                                                                            <td>'.$userCATA['id'].'</td>
-                                                                            <td>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</td>
-                                                                            <td>
-                                                                                <p>'.$userCATA['reference_no'].'</p>
-                                                                                <p>'.$userCATA['registrant'].'</p>
-                                                                            </td>
-                                                                            <td>'.$userCATA['contact_no'].'</td>
-                                                                            <td>'.$datev.'</td>';
-                                                                            if($userCATA['status'] == '2')
-                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                            else{
-                                                                                echo'<td><span class="badge bg-danger">Delete</span></td>';
-                                                                            }
-                                                                        echo'</tr>';
                                                                     }
                                                                     
                                                                 }else if($userType == "18"){
@@ -469,18 +437,21 @@
                                                                             }   
                                                                         }
                                                                     }
-                                                                }else if($userType == "3" || $userType == "26"){
-                                                                   
-                                                                    $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                }else if($userType == "3" || $userType == "26" || $userType == "28"){
+                                                                    if ($userLname == "28") {
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
+                                                                    }else{
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                    }
                                                                     $stmt2->execute([$userId]);
                                                                     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                                                                     foreach($referrals as $referral){
-                                                                        $userCA = $referral['corporate_agency_id'];
+                                                                        $userCA = $userType == '28'?$referral['sub_franchisee_id']:$referral['corporate_agency_id'];
                                                                         // echo $userCA;
 
                                                                         $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '2' OR status = '0')");
-                                                                        $stmt4->execute([$referral['corporate_agency_id']]);
+                                                                        $stmt4->execute([$userCA]);
                                                                         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                                                                         foreach ($userCATAs as $userCATA) {
@@ -533,6 +504,7 @@
                                                                     }
                                                                     
                                                                     //direct TC with BM Ref
+                                                                    
                                                                     $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '2' OR status = '0')");
                                                                     $stmt4->execute([$userId]);
                                                                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -584,8 +556,11 @@
                                                                             }
                                                                         echo'</tr>';
                                                                     }   
-                                                                }else if($userType == "16"){
-                                                                    $sql3 = "SELECT * FROM `ca_travelagency` WHERE reference_no = '$userId' AND (status = '2' OR status = '0') ";
+                                                                }else if($userType == "16" || $userType == "29"){
+                                                                    $sql3 = "SELECT *
+                                                                            FROM `ca_travelagency` 
+                                                                            WHERE reference_no = '$userId' AND (status = '2' OR status = '0') ";
+                                                                    
                                                                     $stmt3 = $conn -> prepare($sql3);
                                                                     $stmt3 -> execute();
                                                                     $stmt3 -> setFetchMode(PDO::FETCH_ASSOC);
@@ -594,6 +569,7 @@
                                                                             $bd= new DateTime($row['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($row['added_on']);
+                                                                            
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$row['id'].'</td>
@@ -632,14 +608,14 @@
                                                         <thead>
                                                             <tr>
                                                                 <th data-ordering="false">TC ID & Name</th>
-                                                                <th data-ordering="false">BM Ref ID & Name</th>
+                                                                <th data-ordering="false"><?=$userType == '28'?'Ref ID & Name':'BM Ref ID & Name'?></th>
                                                                 <?php if($userType == "24"){ ?>
                                                                 <th data-ordering="false">BDM Ref ID & Name</th>
                                                                 <?php } ?>
                                                                 <th data-ordering="false">Phone</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                <?php  if($userType == '16' || $userType == '26'){ ?>
+                                                                <?php  if($userType == '16' || $userType == '26' || $userType == '28' || $userType == '29'){ ?>
                                                                     <th data-ordering="false">Action</th>
                                                                 <?php } ?>
                                                             </tr>
@@ -876,38 +852,6 @@
                                                                             echo'</tr>';
                                                                         }
                                                                     }
-
-                                                                    //direct TC with BDM Ref
-                                                                    $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
-                                                                    $stmt4->execute([$userId]);
-                                                                    $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCATAs as $userCATA) {
-                                                                        $userTA = $userCATA['id'];
-                                                                        //echo $userCA.'=>'.$userTA.'</br>';
-
-                                                                        $bd= new DateTime($userCATA['date_of_birth']);
-                                                                        $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($userCATA['added_on']);
-                                                                        $datev= $dt->format('d-m-Y'); 
-
-                                                                        echo'<tr>
-                                                                            <td>
-                                                                                <p>'.$userCATA['ca_travelagency_id'].'</p>
-                                                                                <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p></td>
-                                                                            <td>
-                                                                                <p>'.$userCATA['reference_no'].'</p>
-                                                                                <p>'.$userCATA['registrant'].'</p>
-                                                                            </td>
-                                                                            <td>'.$userCATA['contact_no'].'</td>
-                                                                            <td>'.$datev.'</td>';
-                                                                            if($userCATA['status'] == '1')
-                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                            else{
-                                                                                echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                            }
-                                                                        echo'</tr>';
-                                                                    }
                                                                     
                                                                 }else if($userType == "18"){
                                                                    
@@ -960,18 +904,19 @@
                                                                         }
                                                                     }
                                                                 }
-                                                                // else if($userType == "3" || $userType == "26"){
+                                                                // else if($userType == "3" || $userType == "26"){ //changed on 02-08-2025
+                                                                
                                                                    
-                                                                //     $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                                //     $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
                                                                 //     $stmt2->execute([$userId]);
                                                                 //     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                                                                 //     foreach($referrals as $referral){
-                                                                //         $userCA = $referral['corporate_agency_id'];
+                                                                //         $userCA = $referral['sub_franchisee_id'];
                                                                 //         // echo $userCA;
 
                                                                 //         $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
-                                                                //         $stmt4->execute([$referral['corporate_agency_id']]);
+                                                                //         $stmt4->execute([$userCA]);
                                                                 //         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                                                                 //         foreach ($userCATAs as $userCATA) {
@@ -1025,8 +970,83 @@
                                                                 //         }   
                                                                 //     }
                                                                 // }
-                                                                else if($userType == "16" || $userType == "3" || $userType == "26"){
-                                                                    $sql4 = "SELECT * FROM `ca_travelagency` WHERE reference_no = '$userId' AND (status = '1' OR status = '3') ";
+                                                                else if($userType == "16" || $userType == "3" || $userType == "26" || $userType == "29" || $userType == "28"){
+                                                                    if($userType == "28"){
+                                                                   
+                                                                        $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
+                                                                        $stmt2->execute([$userId]);
+                                                                        $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                        foreach($referrals as $referral){
+                                                                            $userCA = $referral['sub_franchisee_id'];
+                                                                            // echo $userCA;
+
+                                                                            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
+                                                                            $stmt4->execute([$userCA]);
+                                                                            $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                            foreach ($userCATAs as $userCATA) {
+                                                                                $userTA = $userCATA['ca_travelagency_id'];
+                                                                                //echo $userCA.'=>'.$userTA.'</br>';
+
+                                                                                $bd= new DateTime($userCATA['date_of_birth']);
+                                                                                $bdate= $bd->format('d-m-Y');
+                                                                                $dt= new DateTime($userCATA['register_date']);
+                                                                                $datev= $dt->format('d-m-Y'); 
+
+                                                                                echo'<tr>
+                                                                                    <td>
+                                                                                        <p>'.$userCATA['ca_travelagency_id'].'</p>
+                                                                                        <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <p>'.$userCATA['reference_no'].'</p>
+                                                                                        <p>'.$userCATA['registrant'].'</p>
+                                                                                    </td>
+                                                                                    <td>'.$userCATA['contact_no'].'</td>
+                                                                                    <td>'.$datev.'</td>';
+                                                                                    if($userCATA['status'] == '1'){
+                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                                        echo'<td>
+                                                                                            <div class="dropdown d-inline-block">
+                                                                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                                    <i class="ri-more-fill align-middle"></i>
+                                                                                                </button>
+                                                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["ca_travelagency_id"]. '","' .$userCATA["reference_no"]. '","' .$userCATA["country"]. '","' .$userCATA["state"]. '","' .$userCATA["city"]. '","ca_travelagency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                                                                                    
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </td>';
+                                                                                    }else{
+                                                                                        echo'<td><span class="badge bg-danger">Deactive</span></td>';
+                                                                                        //for F->TC's
+                                                                                        $logsCheck=$conn->prepare("SELECT * FROM logs WHERE user_id=?");
+                                                                                        $logsCheck->execute([$userCATA["id"]]);
+                                                                                        $resLog = $logsCheck->fetchAll(PDO::FETCH_ASSOC);
+                                                                                        echo '<td>Deactivated by '.($resLog['reference_no'] == "1"?"Admin":($resLog['reference_no'] == "29"?"Franchisee":"")).'</td>';
+                                                                                        // <td>
+                                                                                        //     <div class="dropdown d-inline-block">
+                                                                                        //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                        //             <i class="ri-more-fill align-middle"></i>
+                                                                                        //         </button>
+                                                                                        //         <ul class="dropdown-menu dropdown-menu-end">
+                                                                                        //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCATA["id"].'","'.$userCATA["ca_travelagency_id"].'","deactivate")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                                                                                        //         </ul>
+                                                                                        //     </div>
+                                                                                        // </td>';
+                                                                                    }
+                                                                                echo'</tr>';
+                                                                            }   
+                                                                        }
+                                                                    }else if($userType == '16'){
+                                                                        $sql4 = "SELECT *,CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
+                                                                                FROM `ca_travelagency` 
+                                                                                LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "'
+                                                                                WHERE (reference_no = '$userId' OR tm.te_id = '" . $userId . "') AND (status = '1' OR status = '3') ";
+                                                                    }else{
+                                                                        $sql4 = "SELECT * FROM `ca_travelagency` WHERE reference_no = '$userId' AND (status = '1' OR status = '3') ";
+                                                                    }
                                                                     $stmt4 = $conn -> prepare($sql4);
                                                                     $stmt4 -> execute();
                                                                     $stmt4 -> setFetchMode(PDO::FETCH_ASSOC);
@@ -1036,10 +1056,20 @@
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($row['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
+                                                                            $lastName=$row['lastname'];
+                                                                            if($userType ='16'){
+                                                                                if(!empty($row['alloted_check'])){
+                                                                                    if($row['alloted_check'] == 1){
+                                                                                        $lastName.='<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea; width: fit-content;">
+                                                                                                Allotted TC
+                                                                                            </small>';
+                                                                                    }
+                                                                                }
+                                                                            }
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$row['ca_travelagency_id'].'</p>
-                                                                                    <p>'.$row['firstname'].' '.$row['lastname'].'</p>
+                                                                                    <p>'.$row['firstname'].' '.$lastName.'</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <p>'.$row['reference_no'].'</p>
@@ -1053,7 +1083,7 @@
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-danger">Deactive</span></td>';
                                                                                 }
-                                                                                if($userType == '16' || $userType == "3" || $userType == "26"){ 
+                                                                                if($userType == '16' || $userType == "3" || $userType == "26" || $userType == "28" || $userType == "29"){ 
                                                                                     if($row['status'] == '1'){
                                                                                         echo'<td>
                                                                                             <div class="dropdown d-inline-block">
@@ -1061,10 +1091,19 @@
                                                                                                     <i class="ri-more-fill align-middle"></i>
                                                                                                 </button>
                                                                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                                    <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                                </ul>
+                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>';
+                                                                                        if($userType =='16'){
+                                                                                            if(!empty($row['alloted_check'])){
+                                                                                                if($row['alloted_check'] == 0){
+                                                                                                    echo'<li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                                                                        <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>';
+                                                                                                }
+                                                                                            }else{
+                                                                                                echo'<li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                                                                     <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>'; 
+                                                                                            }
+                                                                                        }
+                                                                                        echo'   </ul>
                                                                                             </div>
                                                                                         </td>';
                                                                                     }else{
@@ -1096,7 +1135,7 @@
                             </div>
 
                         </div>
-                        <?php if($userType == "16" || $userType == "3" || $userType == "26" || $userType == "25"){ ?>
+                        <?php if($userType == "16" || $userType == "3" || $userType == "26" || $userType == "25" || $userType =="29"){ ?>
                             <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
                                 <a href="add_travel_agent.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                     <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
@@ -1197,7 +1236,7 @@
 
             function deletefunc(id,fid,refid,action,userId,userType){
                 var dataString = 'id='+id+'&fid='+fid+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType;
-
+                                
                 $.ajax({
                     type: "POST",
                     url: "travel_agent/delete_travel_agent_data.php",
@@ -1247,7 +1286,7 @@
             };
 
             function overviewPage(id,ref,cut,st,ct,message){
-                var designation = 'ca_travelagency';
+                var designation = 'Travel Consultant';
                 window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
         </script>

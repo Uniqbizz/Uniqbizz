@@ -276,14 +276,27 @@ if($user_type == 'te'){
                     $reference_no_lname = $business_mentor['lastname'];
                     // $business_trainees_reference_no = $business_trainee['reference_no'];
                 }
-            } else if ($reference_id == "ZM") {
+            } 
+            // else if ($reference_id == "ZM") { // not in use 26-07-2025
+            //     // business development manger name
+            //     $business_development_manager = $conn->prepare("SELECT name, zonal_manager_id FROM zonal_manager where zonal_manager_id='" . $reference_no . "'");
+            //     $business_development_manager->execute();
+            //     $business_development_manager->setFetchMode(PDO::FETCH_ASSOC);
+            //     if ($business_development_manager->rowCount() > 0) {
+            //         $business_development_manager = $business_development_manager->fetch();
+            //         $reference_no_name = $business_development_manager['name'];
+            //         // $business_trainees_reference_no = $business_trainee['reference_no'];
+            //     }
+            // } 
+            else if ($reference_id == "SF") {
                 // business development manger name
-                $business_development_manager = $conn->prepare("SELECT name, zonal_manager_id FROM zonal_manager where zonal_manager_id='" . $reference_no . "'");
+                $business_development_manager = $conn->prepare("SELECT firstname, lastname FROM sponsor_franchisee where sponsor_franchisee_id='" . $reference_no . "'");
                 $business_development_manager->execute();
                 $business_development_manager->setFetchMode(PDO::FETCH_ASSOC);
                 if ($business_development_manager->rowCount() > 0) {
                     $business_development_manager = $business_development_manager->fetch();
-                    $reference_no_name = $business_development_manager['name'];
+                    $reference_no_fname = $business_development_manager['firstname'];
+                    $reference_no_lname = $business_development_manager['lastname'];
                     // $business_trainees_reference_no = $business_trainee['reference_no'];
                 }
             }

@@ -422,30 +422,27 @@ input::file-selector-button:hover {
     background: linear-gradient(45deg,#ff5370,#ff869a) !important;
 }
 
-@media screen and (min-width: 767px) {
+/* @media screen and (min-width: 767px) {
     .topnav-hamburger {
         display: none !important;
     }
-}
+} */
 
 /* Customer section on Index page buttons */
 /* Green card */
 .primeBtnGreen {
-    background-color: green;
+    background-color: rgb(21, 187, 21);
     color: white;
     border-radius: 10px;
-    border: 2px solid green !important;
+    border: 2px solid rgb(21, 187, 21) !important;
 }
 .primeBtnGreen:hover{
-    background-color: white;
-    color: green;
+    background-color: white !important;
+    color: rgb(21, 187, 21);
     font-weight: bolder;
 }
-.borderColorGreen {
-    border: 2px solid green !important;
-}
 .hightlightTextGreen{
-    color: green;
+    color: rgb(21, 187, 21);
 }
 /* Blue Card */
 .primeBtnBlue {
@@ -458,9 +455,6 @@ input::file-selector-button:hover {
     background-color: white;
     color: blue;
     font-weight: bolder;
-}
-.borderColorBlue {
-    border: 2px solid blue !important;
 }
 .hightlightTextBlue{
     color: blue;
@@ -477,9 +471,6 @@ input::file-selector-button:hover {
     color: purple;
     font-weight: bolder;
 }
-.borderColorPurple {
-    border: 2px solid purple !important;
-}
 .hightlightTextPurple{
     color: purple;
 }
@@ -495,9 +486,6 @@ input::file-selector-button:hover {
     color: orange;
     font-weight: bolder;
 }
-.borderColorOrange {
-    border: 2px solid orange !important;
-}
 .hightlightTextOrange{
     color: orange;
 }
@@ -512,9 +500,6 @@ input::file-selector-button:hover {
     background-color: white;
     color: red;
     font-weight: bolder;
-}
-.borderColorRed {
-    border: 2px solid red !important;
 }
 .hightlightTextRed{
     color: red;
@@ -533,5 +518,77 @@ input::file-selector-button:hover {
 @media screen and (max-width: 767px) {
     .imageAvatar {
         display: none !important;
+    }
+}
+
+/* Contact info card pop up */
+.contactBtn {
+    border-radius: 100%;
+    position: fixed;
+    bottom: 110px;
+    right: 28px;
+    width: 40px;
+    height: 40px;
+
+    i {
+        display: inline-block;
+        background-color: #4b38b3;
+        color: #ffffff;
+        text-align: center;
+        font-size: 16px;
+        width: var(--btn-size, 39px);
+        height: var(--btn-size, 39px);
+        line-height: var(--btn-size, 40px);
+        z-index: 2;
+        border-radius: inherit;
+        position: relative;
+        right: 14px;
+        bottom: 9px;
+        transition: all ease 0.8s;
+        box-shadow: 0 0 20px 0 rgba(#000, 0.02);
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        left: var(--extra-shape, -6px);
+        top: var(--extra-shape, -6px);
+        right: var(--extra-shape, -6px);
+        bottom: var(--extra-shape, -6px);
+        background-color: transparent;
+        border-radius: inherit;
+        z-index: 1;
+        border: 2px dashed #4b38b3;
+        transition: all ease 0.4s;
+        animation: spin 13s infinite linear;
+    }
+
+    &:focus,
+    &:hover {
+        i {
+        background-color: #FF681A;
+        color: #ffffff;
+        }
+
+        &:before {
+        border-color: #FF681A;
+        }
+    }
+
+    &.show {
+        bottom: 120px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @include sm {
+        --btn-size: 40px;
+        --extra-shape: -4px;
+        right: 15px;
+        bottom: 50px;
+
+        &.show {
+        bottom: 15px;
+        }
     }
 }

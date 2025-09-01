@@ -86,6 +86,16 @@
                                         <form>
                                             <h3>Add Travel Consultant Form</h3>
                                             <div class="row">
+                                                <div class="col-md-12 col-sm-12 d-flex justify-content-end">
+                                                    <div class="input-block mb-3 form-check">
+                                                        <input class="form-check-input" type="checkbox" id="is_complementary">
+                                                        <label class="form-check-label" for="is_complementary">
+                                                            Complementary
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <!-- <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="user_id_name">User Id & Name<span class="text-danger">*</span></label>
@@ -117,7 +127,6 @@
                                                         <label class="col-form-label">Designation<span class="text-danger">*</span></label>
                                                         <select id="designation" class="form-select">
                                                             <option value="NA">--Select Designation--</option>
-                                                            <option value="business_development_manager">Business Development Manager</option>
                                                             <option value="business_mentor">Business Mentor</option>
                                                             <option value="corporate_agency">Techno Enterprise</option>
                                                             <option value="sub_franchisee">Franchisee</option>
@@ -272,9 +281,9 @@
                                                         <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null" selected>--Select Payment Fee--</option>
-                                                            <option value="FOC" >Free</option>
+                                                            <option value="FOC" selected >Free</option>
                                                             <option value="3000"><span>&#8377 </span>3000/-</option>
-                                                            <option value="10000" selected><span>&#8377 </span>10,000/-</option>
+                                                            <option value="10000"><span>&#8377 </span>10,000/-</option>
                                                             <!-- <option value="5000"><span>&#8377 </span>5000/-</option>
                                                             <option value="15000"><span>&#8377 </span>15,000/-</option> -->
                                                         </select>
@@ -533,7 +542,16 @@
             //         }
             //     });
             // });
-
+            //on change of compcheck
+            $('#is_complementary').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('#payment_fee').prop('disabled', true);
+                    $('.payment').prop('disabled', true);
+                } else {
+                    $('#payment_fee').prop('disabled', false);
+                    $('.payment').prop('disabled', false);
+                }
+            });
             // select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();

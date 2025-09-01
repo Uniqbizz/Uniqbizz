@@ -682,7 +682,7 @@ if ($user_type_id == '16') {
 	} else {
 		echo 0;
 	}
-} else if ($user_type_id == '29') {
+} else if ($user_type_id == '29') { //franchisee
 	$sql9 = $conn->prepare("SELECT * from sub_franchisee where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
@@ -713,46 +713,61 @@ if ($user_type_id == '16') {
 			foreach (($sql10->fetchAll()) as $key10 => $row10) {
 				$Sf_id = $row10['master_franchisee_id'];
 				$Sf_name = $row10['firstname'] . ' ' . $row10['lastname'];
-				$Sf_ref = $row10['reference_no'];
+				// $Sf_ref = $row10['reference_no']; No ref for MF since ZM removed 26-07-2025
 			}
 		}
-		//zonal manager
-		$sql11 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $Sf_ref . "'");
+		//zonal manager removed from system, 26-07-2025
+		// $sql11 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $Sf_ref . "'");
+		// $sql11->execute();
+		// $sql11->setFetchMode(PDO::FETCH_ASSOC);
+		// if ($sql11->rowCount() > 0) {
+		// 	foreach (($sql11->fetchAll()) as $key11 => $row11) {
+		// 		$Mf_id = $row11['zonal_manager_id'];
+		// 		$Mf_name = $row11['name'];
+		// 	}
+		// }
+	}
+
+	//sponsor Franchisee
+	if ($reference_id == 'SF') {
+
+		$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $reference_no . "'");
 		$sql11->execute();
 		$sql11->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql11->rowCount() > 0) {
 			foreach (($sql11->fetchAll()) as $key11 => $row11) {
-				$Mf_id = $row11['zonal_manager_id'];
-				$Mf_name = $row11['name'];
+				$Zm_id = $row11['sponsor_franchisee_id'];
+				$Zm_name = $row11['firstname'] .' '. $row1['lastname'] ;
 			}
 		}
 	}
-	//Zonal Manager
-	if ($reference_id == 'ZM') {
 
-		$sql11 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $reference_no . "'");
-		$sql11->execute();
-		$sql11->setFetchMode(PDO::FETCH_ASSOC);
-		if ($sql11->rowCount() > 0) {
-			foreach (($sql11->fetchAll()) as $key11 => $row11) {
-				$Zm_id = $row11['zonal_manager_id'];
-				$Zm_name = $row11['name'];
-			}
-		}
+	//Zonal Manager removed from system 26-07-2025
+	// if ($reference_id == 'ZM') {
 
-	}
+	// 	$sql11 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $reference_no . "'");
+	// 	$sql11->execute();
+	// 	$sql11->setFetchMode(PDO::FETCH_ASSOC);
+	// 	if ($sql11->rowCount() > 0) {
+	// 		foreach (($sql11->fetchAll()) as $key11 => $row11) {
+	// 			$Zm_id = $row11['zonal_manager_id'];
+	// 			$Zm_name = $row11['name'];
+	// 		}
+	// 	}
+	// }
+
 	if ($amount == "500000") {
 		$business_package = "premium";
 	}
 	// Fetch the highest numeric part from all sub_franchisee_id, ignoring prefix
 	$sql2 = $conn->prepare("
-    SELECT sub_franchisee_id,
-           CAST(RIGHT(sub_franchisee_id, 5) AS UNSIGNED) AS numeric_part
-    FROM sub_franchisee
-    WHERE status = '1' OR status = '3'
-    ORDER BY numeric_part DESC
-    LIMIT 1
-");
+		SELECT sub_franchisee_id,
+			CAST(RIGHT(sub_franchisee_id, 5) AS UNSIGNED) AS numeric_part
+		FROM sub_franchisee
+		WHERE status = '1' OR status = '3'
+		ORDER BY numeric_part DESC
+		LIMIT 1
+	");
 	$sql2->execute();
 	$sql2->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -824,16 +839,14 @@ if ($user_type_id == '16') {
 				':from_whom' => $fromWhom,
 				':operation' => $operation
 			));
+			
 			//payouts
 			// Determine who referred and calculate commissions
-			
-			// Determine who referred and calculate commissions
 
-			$zonal_manager = '';
+			$zonal_manager = 'NA';
+			$message_zm = 'Not Applicable';
+			$zmCommiAmt = '0';
 			$master_franchisee = '';
-			$message_zm = '';
-			$message_mf = '';
-			$message_zm = '';
 			$message_mf = '';
 
 			// Master Franchisee Referral
@@ -847,37 +860,51 @@ if ($user_type_id == '16') {
 
 				if ($row) {
 					$mf_name = $row['firstname'] . ' ' . $row['lastname'];
-					$mfCommiAmt = $amount * 0.025;
-					$message_mf = "MF commission (2.5%) for referring SF ($uid)";
+					$mfCommiAmt = $amount * 0.05;
+					$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) commission (5%) for referring Franchisee(F) ($uid)";
 
-					if (!empty($row['reference_no'])) {
-						$zonal_manager = $row['reference_no'];
+					// if (!empty($row['reference_no']) && ($row['reference_no']) != 'NA') {
+					// 	$zonal_manager = $row['reference_no'];
 
-						// Get ZM name
-						$stmt2 = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :zm_id");
-						$stmt2->execute([':zm_id' => $zonal_manager]);
-						$zm = $stmt2->fetch(PDO::FETCH_ASSOC);
-						$zm_name = $zm ? $zm['name'] : '';
-						$message_zm = "ZM commission (2.5%) for MF referral via $mf_name ($master_franchisee)";
-						$zmCommiAmt = $amount * 0.025; //12500
-					}
+					// 	// Get ZM name
+					// 	$stmt2 = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :zm_id");
+					// 	$stmt2->execute([':zm_id' => $zonal_manager]);
+					// 	$zm = $stmt2->fetch(PDO::FETCH_ASSOC);
+					// 	$zm_name = $zm ? $zm['name'] : '';
+					// 	$message_zm = "ZM commission (2.5%) for MF referral via $mf_name ($master_franchisee)";
+					// 	$zmCommiAmt = $amount * 0.025; //12500
+					// }
 				}
 				$message_sf=$name . '(' . $uid . ') was on-boarded via '. $mf_name .'('.$master_franchisee.') as a Franchisee and paid Rs.' . $amount . '/-';
 			}
 			// Direct ZM Referral
-			elseif (strpos($reference_no, 'ZM') === 0) {
-				$zonal_manager = $reference_no;
+			// elseif (strpos($reference_no, 'ZM') === 0) {
+			// 	$zonal_manager = $reference_no;
+
+			// 	// Get ZM name
+			// 	$stmt = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :zm_id");
+			// 	$stmt->execute([':zm_id' => $zonal_manager]);
+			// 	$zm = $stmt->fetch(PDO::FETCH_ASSOC);
+			// 	$zm_name = $zm ? $zm['name'] : '';
+			// 	$message_zm = "Direct ZM commission (5%) for referring  $name . '(' . $uid . ') by $zm_name ($zonal_manager)";
+			// 	$zmCommiAmt = $amount * 0.05; //25000
+			// 	$message_mf = '';
+			// 	$mfCommiAmt = 0;
+			// 	$message_sf=$name . '(' . $uid . ') was on-boarded via '. $zm_name .'('.$zonal_manager.') as a Franchisee and paid Rs.' . $amount . '/-';
+			// }
+
+			// Direct ZM Referral
+			elseif (strpos($reference_no, 'SF') === 0) {
+				$master_franchisee = $reference_no;
 
 				// Get ZM name
-				$stmt = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :zm_id");
-				$stmt->execute([':zm_id' => $zonal_manager]);
-				$zm = $stmt->fetch(PDO::FETCH_ASSOC);
-				$zm_name = $zm ? $zm['name'] : '';
-				$message_zm = "Direct ZM commission (5%) for referring  $name . '(' . $uid . ') by $zm_name ($zonal_manager)";
-				$zmCommiAmt = $amount * 0.05; //25000
-				$message_mf = '';
-				$mfCommiAmt = 0;
-				$message_sf=$name . '(' . $uid . ') was on-boarded via '. $zm_name .'('.$zonal_manager.') as a Franchisee and paid Rs.' . $amount . '/-';
+				$stmt = $conn->prepare("SELECT firstname, lastname FROM sponsor_franchisee WHERE sponsor_franchisee_id = :sf_id");
+				$stmt->execute([':sf_id' => $master_franchisee]);
+				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+				$message_mf = "Sponsor Franchisee(SF) $mf_name ($master_franchisee) commission (5%) for referring Franchisee(F) ($uid)";
+				$mfCommiAmt = $amount * 0.05; //25000
+				$message_sf=$name . '(' . $uid . ') was on-boarded via '. $sf_name .'('.$master_franchisee.') as a Franchisee and paid Rs.' . $amount . '/-';
 			}
 
 			// Insert into payout table
@@ -1053,6 +1080,7 @@ if ($user_type_id == '16') {
 						</table>
 						</body>
 						</html>';
+				
 				$mail = new PHPMailer();
 				$mail->IsSMTP();
 				$mail->SMTPAuth = true;

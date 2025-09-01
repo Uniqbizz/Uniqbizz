@@ -10,7 +10,7 @@ $current_month = $get_data['current_month'];
 $user_id = $get_data['user_id'];
 $user_type = $get_data['user_type'];
 
-function monthlyChartData($conn, $reference_no, $get_year, $current_year, $current_month, $user_type){
+function monthlyChartData($conn, $reference_no, $get_year, $current_year, $current_month, $user_type,$user_id){
     $data = array_fill(0, 12, 0);
 
     $tableMap = [
@@ -24,7 +24,10 @@ function monthlyChartData($conn, $reference_no, $get_year, $current_year, $curre
         '20' => 'training_manager',
         '21' => 'sales_executive',
         '25' => 'business_mentor',
-        '26' => 'corporate_agency'
+        '26' => 'corporate_agency',
+        '28' => 'sub_franchisee',
+        '28' => 'ca_travelagency',
+        '29' => 'ca_travelagency'
     ];
 
     $columnMap = [
@@ -34,10 +37,16 @@ function monthlyChartData($conn, $reference_no, $get_year, $current_year, $curre
     if (array_key_exists($user_type, $tableMap)) {
         $table = $tableMap[$user_type];
         $refCol = $columnMap[$user_type] ?? 'reference_no';
-
-        $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
+        if($user_type){
+            $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
                 FROM $table 
-                WHERE $refCol = :reference_no AND status = '1'";
+                LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $user_id . "'
+                WHERE ($refCol = :reference_no OR tm.te_id = '" . $user_id . "') AND status = '1'";
+        }else{
+            $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
+                    FROM $table 
+                    WHERE $refCol = :reference_no AND status = '1'";
+        }
         $stmt = $conn->prepare($sql);
         $stmt->execute([':reference_no' => $reference_no]);
 
@@ -178,9 +187,69 @@ if ($user_type == '24') {
     }
 
     echo json_encode([ $tc ]);
+} else if($user_type == '28'){
+    $f = array_fill(0, 12, 0);
+    $tc = array_fill(0, 12, 0);
+
+    //for MF -> F only
+    $sql = "SELECT sub_franchisee_id, register_date FROM sub_franchisee 
+            WHERE reference_no = :ref AND user_type = 26 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $fRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($fRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $f[$month - 1]++;
+        }
+    }
+
+    // Get TCs under those Fs
+    $fIds = array_column($fRows, 'sub_franchisee_id');
+    if (!empty($fIds)) {
+        $inClause = implode(',', array_fill(0, count($fIds), '?'));
+        $sql = "SELECT register_date FROM ca_travelagency 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($fIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $tc[$month - 1]++;
+            }
+        }
+    }
+    
+    // For MF → TC only
+    $tc = array_fill(0, 12, 0);
+
+    $sql = "SELECT register_date FROM ca_travelagency 
+            WHERE reference_no = :ref AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $year = date('Y', strtotime($row['register_date']));
+        $month = date('n', strtotime($row['register_date']));
+        if ($year == $get_year) {
+            $tc[$month - 1]++;
+        }
+    }
+
+    if ($current_year == $get_year) {
+        array_splice($f, $current_month);
+        array_splice($tc, $current_month);
+    }
+    echo json_encode([ $f, $tc ]);
 } else {
     // fallback for other users
-    $data = monthlyChartData($conn, $user_id, $get_year, $current_year, $current_month, $user_type);
+    $data = monthlyChartData($conn, $user_id, $get_year, $current_year, $current_month, $user_type,$user_id);
     echo json_encode([$data]);
 }
 ?>

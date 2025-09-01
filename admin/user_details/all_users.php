@@ -82,7 +82,7 @@
                                                         <?php
                                                             require '../connect.php';
                                                             
-                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26'  ");
+                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30'  ");
                                                             $stmt->execute();
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             $firstname='';
@@ -108,12 +108,20 @@
                                                                         $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '25' ");
                                                                     } else if ( $userType == 26 ) {
                                                                         $users = $conn->prepare("SELECT firstname,lastname FROM business_mentor where business_mentor_id='".$userId."' ");
+                                                                    } else if ( $userType == 27 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM zonal_manager where zonal_manager_id='".$userId."' ");
+                                                                    } else if ( $userType == 28 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM master_franchisee where master_franchisee_id='".$userId."' ");
+                                                                    } else if ( $userType == 29 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sub_franchisee where sub_franchisee_id='".$userId."' ");
+                                                                    }  else if ( $userType == 30 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sponsor_franchisee where sponsor_franchisee_id='".$userId."' ");
                                                                     } 
                                                                     $users->execute();
                                                                     $users->setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($users->rowCount()>0){
                                                                         $user = $users->fetch();
-                                                                        if($userType == 24 || $userType == 25){
+                                                                        if($userType == 24 || $userType == 25 || $userType == 27){
                                                                             $firstname = $user['name'] ;
                                                                             $lastneam =  '';
                                                                         } else{

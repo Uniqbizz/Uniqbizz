@@ -182,7 +182,7 @@
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
                                                                                     <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '","' .$row["reference_no"]. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '","' .$row["reference_no"]. '","'.$row["comp_check"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -266,6 +266,31 @@
                                                     </div>  
                                                 </div> -->
                                                 <!-- designation -->
+                                                <div class="col-sm-2 col-md-2"> 
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label"><span>State</span></label>
+                                                        <select class="form-control" id="filter_state" aria-label="Floating label select example"> 
+                                                            <option value="0">All</option>
+                                                            <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `states` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt -> execute();
+                                                                $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                if($stmt-> rowCount()>0 ){
+                                                                    foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                        echo'
+                                                                            <option value="'.$row['id'].'">'.$row['state_name'].'</option>
+                                                                        ';
+                                                                    }
+                                                                }else{
+                                                                    echo '<option value="">Department not available</option>'; 
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                        
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-3 col-md-3"> 
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="designation"><span>Designation</span></label>
@@ -296,11 +321,15 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="col-sm-3 col-md-3"> 
+                                                <div class="col-sm-1 col-md-1"> 
                                                     <div class="input-block">
                                                         <label class="col-form-label" for=""><span>Count</span></label>
                                                         <input type="text" name="" id="filterCount" class="form-control" readonly>
                                                     </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-2 col-md-2 d-flex justify-content-center align-items-end" id="download_icon">
+                                                    <button type="button" onclick="regTcDownload()" class="btn bg-primary text-white mb-3">Download</button>
                                                 </div>
                                             </div>
                                             <!-- Search Filter -->
@@ -315,6 +344,7 @@
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Referal Ref ID/ Name</th>
+                                                        <th>Paid Amount</th>
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
                                                         <th>Joining Date</th>
@@ -324,7 +354,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `ca_travelagency` WHERE status = '1' OR status = '3' ORDER BY ca_travelagency_id ASC ";
+                                                        $sql = "SELECT * FROM `ca_travelagency` WHERE status = '1' ORDER BY ca_travelagency_id ASC ";
                                                         $stmt = $conn -> prepare($sql);
                                                         $stmt -> execute();
                                                         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -372,40 +402,27 @@
                                                                     <td><p class="mb-1">'.$id.'</p>
                                                                         <p class="mb-0">'.$name.'</p>
                                                                     </td>
+                                                                    <td>'.(trim($row['amount']) !== '' ? $row['amount'] : 0) .'</td>
                                                                     <td>
                                                                         <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
                                                                         <p class="mb-0">'.$row['email'].'</p>
                                                                     </td>
                                                                     <td>'.$row['address'].'</td>
                                                                     <td>'.$rdate.'</td>';
-                                                                    if($row['status']== '1'){
-                                                                        echo'<td><span class="badge text-bg-success">Active</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                    <li><a href="#" onclick=\'editfuncCust("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_travelagency_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                        <td>
-                                                                            <div class="dropdown">
-                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                                </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_travelagency_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </td>';
-                                                                    }
-                                                                echo'</tr>';
+                                                                echo'<td><span class="badge text-bg-success">Active</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
+                                                                                <li><a href="#" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_travelagency_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                            echo'</tr>';
                                                             }
                                                         }
                                                     ?>
@@ -423,6 +440,125 @@
                             <!-- end col -->
                         </div>
                         <!-- end row -->
+                        <!--Deleted Users-->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-6">
+                                                <div class="search-box me-2 mb-2 d-inline-block">
+                                                    <div class="position-relative">
+                                                        <h4>Deleted Travel Consultant List</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="table-responsive" id="tcView">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedTravelAgentList-table">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Travel Consultant Id</th>
+                                                        <th>Full Name</th>
+                                                        <th>Reference ID / Name</th>
+                                                        <th>Referal Ref ID/ Name</th>
+                                                        <th>Paid Amount</th>
+                                                        <th>Phone / Email</th>
+                                                        <th>Address</th>
+                                                        <th>Joining Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $sql = "SELECT * FROM `ca_travelagency` WHERE status = '3' ORDER BY ca_travelagency_id ASC ";
+                                                        $stmt = $conn -> prepare($sql);
+                                                        $stmt -> execute();
+                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                        if($stmt->rowCount()>0){
+                                                            foreach(($stmt->fetchAll()) as $key => $row) {
+                                                                $bd= new DateTime($row['date_of_birth']);
+                                                                $bdate= $bd->format('d-m-Y');
+
+                                                                $rd= new DateTime($row['register_date']);
+                                                                $rdate= $rd->format('d-m-Y');
+
+
+                                                                $reference_no = substr($row['reference_no'], 0, 2);
+			                                                    if ($reference_no == "TE" || $reference_no == "CA") {
+                                                                    $sql2 = "SELECT * FROM `corporate_agency` WHERE corporate_agency_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY corporate_agency_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "BM"){
+                                                                    $sql2 = "SELECT * FROM `business_mentor` WHERE business_mentor_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }
+
+
+                                                            echo'<tr>
+                                                                    <td>'.$row['ca_travelagency_id'].'</td>
+                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                    <td><p class="mb-1">'.$row['reference_no'].'</p>
+                                                                        <p class="mb-0">'.$row['registrant'].'</p>
+                                                                    </td>
+                                                                    <td><p class="mb-1">'.$id.'</p>
+                                                                        <p class="mb-0">'.$name.'</p>
+                                                                    </td>
+                                                                    <td>'.(trim($row['amount']) !== '' ? $row['amount'] : 0) .'</td>
+                                                                    <td>
+                                                                        <p class="mb-1">+'.$row['country_code'].' '.$row['contact_no'].'</p>
+                                                                        <p class="mb-0">'.$row['email'].'</p>
+                                                                    </td>
+                                                                    <td>'.$row['address'].'</td>
+                                                                    <td>'.$rdate.'</td>';
+                                                                echo'<td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
+                                                                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_travelagency_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                            echo'</tr>';
+                                                            }
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                            <!-- end table -->
+                                        </div>
+                                        
+                                        <!-- end table responsive -->
+                                    </div>
+                                    <!-- end card body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        <!--End Deleted Users-->
 
                     </div> <!-- container-fluid -->
                 </div> <!-- End Page-content -->
@@ -607,6 +743,7 @@
             $(document).ready(function(){
                 $("#pendingCustomerList-table").DataTable();
                 $("#registeredCustomerList-table").DataTable();
+                $("#deletedTravelAgentList-table").DataTable();
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
@@ -643,9 +780,9 @@
                 
             };
 
-            function confirmfunc(id,email,ref){ 
+            function confirmfunc(id,email,ref,compCheck){ 
 
-                var dataString = 'id='+ id+'&uname='+email+'&ref='+ref;
+                var dataString = 'id='+ id+'&uname='+email+'&ref='+ref+'&compCheck='+compCheck;
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
@@ -703,6 +840,12 @@
                     });
                 }
 			});
+			
+			function regTcDownload(){
+                const filterState = $('#filter_state').val();
+                const stateText = $('#filter_state option:selected').text();
+                window.location.href='download_list?filterState='+filterState+'&stateText='+stateText;
+            }
 
             $('#designation').on('change', function () {
                 const designation = $(this).val();

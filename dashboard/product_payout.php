@@ -151,7 +151,25 @@
                                                                                 $amtCal = 'bch_amt';
                                                                             }
 
-                                                                            $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                                                            if($userType == '10'){
+                                                                                $previousPayout = $conn -> prepare("SELECT
+                                                                                                                    SUM(
+                                                                                                                        CASE
+                                                                                                                            WHEN cu1_id = '$userId' THEN cu1_amt
+                                                                                                                            WHEN cu2_id = '$userId' THEN cu2_amt
+                                                                                                                            WHEN cu3_id = '$userId' THEN cu3_amt
+                                                                                                                            ELSE 0
+                                                                                                                        END
+                                                                                                                    ) AS previousPayout
+                                                                                                                FROM product_payout
+                                                                                                                WHERE 
+                                                                                                                    ('$userId' IN (cu1_id, cu2_id, cu3_id))
+                                                                                                                    AND YEAR(created_date) = '$prevDateYear'
+                                                                                                                    AND MONTH(created_date) = '$prevDateMonth' 
+                                                                                                                    ");
+                                                                            }else{
+                                                                                $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                                                            }
                                                                             $previousPayout -> execute();
                                                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($previousPayout -> rowCount()>0){
@@ -195,7 +213,23 @@
                                                                                 $userIdCommi = 'bch_id';
                                                                                 $amtCal = 'bch_amt';
                                                                             }
-                                                                            $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                                                            
+                                                                            if($userType == '10'){
+                                                                                $nextPayout = $conn -> prepare("SELECT
+                                                                                                                    SUM(
+                                                                                                                        CASE
+                                                                                                                            WHEN cu1_id = '$userId' THEN cu1_amt
+                                                                                                                            WHEN cu2_id = '$userId' THEN cu2_amt
+                                                                                                                            WHEN cu3_id = '$userId' THEN cu3_amt
+                                                                                                                            ELSE 0
+                                                                                                                        END
+                                                                                                                    ) AS nextPayout
+                                                                                                                FROM product_payout
+                                                                                                                WHERE 
+                                                                                                                    ('$userId' IN (cu1_id, cu2_id, cu3_id)) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                                                            }else{
+                                                                                $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM product_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                                                            }
                                                                             $nextPayout -> execute();
                                                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($nextPayout -> rowCount()>0){
@@ -308,7 +342,7 @@
                                                                             <?php
 
                                                                                 if($userType == '10'){
-                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')   ";
+                                                                                    $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."' OR cu2_id = '".$userId."' OR cu3_id = '".$userId."')   ";
                                                                                 }else if($userType == '11'){
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."' ";
                                                                                 }else if($userType == '16'){
@@ -577,7 +611,7 @@
                                                 <?php
 
                                                     if($userType == '10'){
-                                                        $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."') AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'  ";
+                                                        $sql = "SELECT * FROM `product_payout` WHERE (cu1_id = '".$userId."' OR cu2_id = '".$userId."' OR cu3_id = '".$userId."') AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
                                                     }else if($userType == '11'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
                                                     }else if($userType == '16'){
@@ -820,7 +854,7 @@
                                                 <?php
 
                                                     if($userType == '10'){
-                                                        $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."') OR (cu2_id = '".$userId."') OR (cu3_id = '".$userId."')  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
+                                                        $sql = "SELECT * FROM `product_payout` WHERE  (cu1_id = '".$userId."' OR cu2_id = '".$userId."' OR cu3_id = '".$userId."')  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
                                                     }else if($userType == '11'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  ta_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
                                                     }else if($userType == '16'){

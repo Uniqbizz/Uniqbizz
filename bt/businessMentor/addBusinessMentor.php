@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Business Mentor / Master Franchisee | Admin Dashboard </title>
+	<title>Add Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee </h4>
+								<h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee </h4>
 							</div>
 						</div>
 					</div>
@@ -84,7 +84,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Business Mentor / Master Franchisee</h3>
+										<h3>Add Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
 										<div class="row">
 											<!-- Personal Details -->
 
@@ -92,9 +92,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												<div class="input-block mb-3">
 													<label class="col-form-label">Register As<span class="text-danger">*</span></label>
 													<select id="registered" class="form-select">
-														<option value="NA">--Select--</option>
+														<option value="">--Select--</option>
 														<option value="business_mentor">Business Mentor</option>
 														<option value="master_franchisee">Master Franchisee</option>
+														<option value="sponsor_franchisee">Sponsor Franchisee</option>
 													</select>
 												</div>
 											</div>
@@ -298,6 +299,9 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 														<option value="FOC">Free</option>
 														<option value="5000">₹ 5000/-</option>
 														<option value="12000">₹ 12000/-</option>
+													</select>
+													<select class="form-select d-none" id="payment_fee2">
+														<option value="500000" selected>₹ 5,00,000/-</option>
 													</select>
 												</div>
 											</div>
@@ -519,12 +523,21 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 				$('#designation1').removeClass('d-none');
 				$('#designation2').addClass('d-none');
 				$('#payment_fee').prop('disabled',false);
-
+				$('#payment_fee2').addClass('d-none');
+				$('#payment_fee').removeClass('d-none');
 			}else if(register_type == 'master_franchisee'){
 				$('#designation2').removeClass('d-none');
+				$('#designation2').prop('disabled',false);
 				$('#designation1').addClass('d-none');
 				$('#payment_fee').val('FOC');
 				$('#payment_fee').prop('disabled',true);
+				$('#payment_fee2').addClass('d-none');
+				$('#payment_fee').removeClass('d-none');
+			}else if(register_type == 'sponsor_franchisee'){
+				$('#designation1').prop('disabled',true);
+				$('#designation2').prop('disabled',true);
+				$('#payment_fee').addClass('d-none');
+				$('#payment_fee2').removeClass('d-none');
 			}
 		});
 		//select Designation
@@ -671,6 +684,37 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			}else {
 				$('#paymentModeBlock').addClass("d-none"); 
 				$('#payProof').addClass("d-none"); 
+			}
+		});
+		$('#registered').on('change', function(){
+			var registeredAs = $('#registered').val();
+			if(registeredAs == 'sponsor_franchisee'){
+				var paytype=$('#payment_fee2').val();
+				if (paytype !='FOC') {
+					$('#paymentModeBlock').removeClass("d-none"); 
+					$('#payProof').removeClass("d-none"); 
+				}else {
+					$('#paymentModeBlock').addClass("d-none"); 
+					$('#payProof').addClass("d-none"); 
+				}
+			}else if(registeredAs == 'master_franchisee'){
+				var paytype=$('#payment_fee').val();
+				if (paytype !='FOC') {
+					$('#paymentModeBlock').removeClass("d-none"); 
+					$('#payProof').removeClass("d-none"); 
+				}else {
+					$('#paymentModeBlock').addClass("d-none"); 
+					$('#payProof').addClass("d-none"); 
+				}
+			}else if(registeredAs == 'business_mentor'){
+				var paytype=$('#payment_fee').val();
+				if (paytype !='FOC') {
+					$('#paymentModeBlock').removeClass("d-none"); 
+					$('#payProof').removeClass("d-none"); 
+				}else {
+					$('#paymentModeBlock').addClass("d-none"); 
+					$('#payProof').addClass("d-none"); 
+				}
 			}
 		});
 		//payment details

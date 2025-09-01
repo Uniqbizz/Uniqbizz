@@ -38,13 +38,17 @@
         if ($editfor == 'pending') {
             $identifier_name = 'id=';
         } else if ($editfor == 'registered') {
-            $identifier_name = ($usertype == 'mf') ? 'master_franchisee_id=' : 'business_mentor_id=';
+            $identifier_name = $usertype == 'mf' ? 'master_franchisee_id=' :($usertype == 'bm' ? 'business_mentor_id=' : ($usertype == 'sf' ? 'sponsor_franchisee_id=' : ''));
         }
+
+        $testValue = $usertype == 'bm' ? '26' : ($usertype == 'mf' ? '28' : ($usertype == 'sf' ? '30' : ''));
 
         if ($usertype == 'mf') {
             $stmt = $conn->prepare("SELECT * FROM `master_franchisee` WHERE master_franchisee_id='" . $id . "' OR id = '" . $id . "'");
-        } else {
+        } else if($usertype == 'bm') {
             $stmt = $conn->prepare("SELECT * FROM `business_mentor` WHERE business_mentor_id='" . $id . "' OR id = '" . $id . "'");
+        } else if($usertype == 'sf') {
+            $stmt = $conn->prepare("SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id='" . $id . "' OR id = '" . $id . "'");
         }
 
         $stmt->execute();
@@ -146,7 +150,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Business Mentor / Master Franchisee | Admin Dashboard </title>
+        <title>Edit Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -195,7 +199,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee</h4>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +210,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Business Mentor / Master Franchisee</h3>
+                                            <h3>Edit Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
                                             <div class="row">
                                                 <!-- Personal Details -->
 
@@ -399,20 +403,23 @@
 														<option value="5000"<?=$paid_amount == '5000'?'selected':''?>>₹ 5000/-</option>
 														<option value="12000"<?=$paid_amount == '12000'?'selected':''?>>₹ 12000/-</option>
 													</select>
+                                                    <select class="form-select d-none" id="payment_fee2" required disabled>
+														<option value="500000" <?=$paid_amount == '500000'?'selected':''?>>₹ 5,00,000/-</option>
+													</select>
 												</div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 d-none" id="paymentModeBlock">
+                                                <div class="col-md-6 col-sm-6 <?= $payment_mode == "FOC"?'d-none':''?>" id="paymentModeBlock">
                                                     <div class="input-block mb-3">
                                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
                                                         <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
                                                             <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash"
-                                                                <?php if ($payment_mode == "cash") echo 'checked'; ?>>Cash
+                                                                <?php if ($payment_mode == "cash") echo 'checked'; ?> disabled>Cash
                                                             </label>
                                                             <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment" class="form-check-input payment me-3" name="payment" value="cheque"
-                                                                <?php if ($payment_mode == "cheque") echo 'checked'; ?>>Cheque
+                                                                <?php if ($payment_mode == "cheque") echo 'checked'; ?> disabled>Cheque
                                                             </label>
                                                             <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment" class="form-check-input payment me-3" name="payment" value="online"
-                                                                <?php if ($payment_mode == "online") echo 'checked'; ?>>UPI/NEFT
+                                                                <?php if ($payment_mode == "online") echo 'checked'; ?> disabled>UPI/NEFT
                                                             </label>
                                                         </div>
                                                     </div>
@@ -603,7 +610,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 d-none" id="payProof">  
+                                                <div class="col-md-6 col-sm-6 <?=(!$payment_mode ||$payment_mode == 'Free')?'d-none':''?>" id="payProof">  
 													<div class="input-block mb-3">
 														<label class="col-form-label">Payment Proof
                                                         <?php
@@ -627,9 +634,7 @@
                                                                 echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
                                                             } else {
                                                                 echo '<img src="../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
-                                                                <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
-                                                                    <i class="fa fa-download fa-1x" aria-hidden="true"></i>
-                                                                </a>
+                                                                
                                                         <?php } ?>
 														</div>
 													</div>
@@ -651,7 +656,7 @@
                                             <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>"> <!--registered -->
                                             <input type="hidden" id="id" name="id" value="<?php echo $id;?>"> <!--BM250001 -->
                                             <input type="hidden" id="registered" name="registered" value="<?php echo $usertype;?>"> <!--BM250001 -->
-                                            <input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
+                                            <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> <!-- Business mentor -->
 
                                             <div class="submit-section d-flex justify-content-center mb-4">
                                                 <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editBuisnessMentor">Submit</button>
@@ -732,6 +737,29 @@
         <script>
 
             $(document).ready(function(){
+                var registered = $("#registered").val();
+                if(registered == 'bm'){
+                    // $('#designation1').prop('disabled',false);
+                    // $('#designation1').removeClass('d-none');
+                    // $('#designation2').addClass('d-none');
+                    $('#payment_fee').prop('disabled',false);
+                    $('#payment_fee2').addClass('d-none');
+                    $('#payment_fee').removeClass('d-none');
+                // }else if(registered == 'mf'){
+                //     $('#designation2').removeClass('d-none');
+                //     $('#designation2').prop('disabled',false);
+                //     $('#designation1').addClass('d-none');
+                    $('#payment_fee').val('FOC');
+                    $('#payment_fee').prop('disabled',true);
+                    $('#payment_fee2').addClass('d-none');
+                    $('#payment_fee').removeClass('d-none');
+                }else if(registered == 'sf'){
+                    // $('#designation1').prop('disabled',true);
+                    // $('#designation2').prop('disabled',true);
+                    $('#payment_fee').addClass('d-none');
+                    $('#payment_fee2').removeClass('d-none');
+                }
+                
                 var paymentMode = $(".payment:checked").val();
                 if(paymentMode == "cheque"){
                     $("#chequeOpt").removeClass("d-none");

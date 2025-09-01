@@ -107,7 +107,7 @@
 
         $output .= '</table>';
         header("Content-Type: application/xls");
-        header("Content-Disposition: attachment;filename='".$stateName."'_Registered_corporate_agency_List.xls");
+        header("Content-Disposition: attachment;filename='".$stateName."'_Registered_Travel_Consultant_List.xls");
         echo $output;
     }else{
         if($state == '0'){

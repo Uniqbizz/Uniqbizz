@@ -309,6 +309,19 @@ if ($stmt->rowCount() > 0) {
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="personalDetails" role="tabpanel">
                                                 <div class="row mt-4">
+                                                    <?php  if($userType == '10'){ ?>
+                                                    <div class="col-lg-12">
+                                                        <?php 
+                                                            if($value['comp_chek'] == '1'){
+                                                        ?>
+                                                            <div class="alert alert-secondary" role="alert">
+                                                                Complimentary Membership
+                                                            </div>
+                                                        <?php 
+                                                            } 
+                                                        ?>
+                                                    </div>
+                                                    <?php  } ?>
                                                     <div class="col-lg-6">
                                                         <div class="mb-4 form-floating">
                                                             <input type="hidden" id="user_type" value="<?php echo $userType; ?>">

@@ -134,6 +134,11 @@
                                                 <span data-key="t-contracting-payout">Reference Payout</span>
                                             </a>
                                         </li>
+                                        <li class="nav-item  <?php if ($first_part=="customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
+                                            <a href="customer_recruitment_payout.php" class="nav-link menu-link">
+                                                <span data-key="t-customer_recruitment_payout">Customer Recruitment Payout</span>
+                                            </a>
+                                        </li>
                                     <?php
                                         }
                                     ?>

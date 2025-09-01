@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Business Mentor / Master Franchisee | Admin Dashboard </title>
+        <title>Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee</h4>
 
                                     <!-- <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -116,10 +116,10 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row mb-2">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Business Mentor / Master Franchisee List</h4>
+                                                        <h4>Pending Business Mentor / Master Franchisee / Sponsor Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,6 +150,8 @@
                                                             SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'BM' AS user_type FROM business_mentor WHERE status IN ('0', '2')
                                                             UNION ALL
                                                             SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
+                                                            UNION ALL
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('0', '2')
                                                             ORDER BY id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -164,7 +166,20 @@
                                                                 $rd = new DateTime($row['added_on']);
                                                                 $rdate = $rd->format('d-m-Y');
 
-                                                                $label = $row['user_type'] == 'BM' ? '<span class="badge bg-primary me-1">BM</span>' : '<span class="badge bg-success me-1">MF</span>';
+                                                                // $label = $row['user_type'] == 'BM' ? '<span class="badge bg-primary me-1">BM</span>' : '<span class="badge bg-success me-1">MF</span>';
+                                                                switch ($row['user_type']) {
+                                                                    case 'BM':
+                                                                        $label = '<span class="badge bg-primary me-1">BM</span>';
+                                                                        break;
+                                                                    case 'MF':
+                                                                        $label = '<span class="badge bg-success me-1">MF</span>';
+                                                                        break;
+                                                                    case 'SF':
+                                                                        $label = '<span class="badge bg-info me-1">SF</span>';
+                                                                        break;
+                                                                    default:
+                                                                        $label = '';
+                                                                }
 
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
@@ -229,7 +244,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Business Mentor / Master Franchisee List</h4>
+                                                        <h4>Registered Business Mentor / Master Franchisee / Sponsor Franchisee List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -301,9 +316,11 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT *, 'BM' AS user_type FROM business_mentor WHERE status IN ('1', '3')
+                                                            SELECT *, 'BM' AS user_type FROM business_mentor WHERE status IN ('1')
                                                             UNION ALL
-                                                            SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1', '3')
+                                                            SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1')
+                                                            UNION ALL
+                                                            SELECT *, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('1')
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -330,9 +347,10 @@
 
                                                                 $label = $row['user_type'] === 'BM'
                                                                     ? '<span class="badge bg-primary me-1">BM</span>'
-                                                                    : '<span class="badge bg-success me-1">MF</span>';
+                                                                    : ($row['user_type'] === 'MF' ? '<span class="badge bg-success me-1">MF</span>'
+                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
 
-                                                                echo '<tr>
+                                                            echo '<tr>
                                                                     <td>' . $row['business_mentor_id'] . '</td>
                                                                     <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
@@ -346,8 +364,7 @@
                                                                     <td>' . $row['paid_amount'] . '</td>
                                                                     <td>' . $rdate . '</td>';
 
-                                                                if ($row['status'] == '1') {
-                                                                    echo '<td><span class="badge text-bg-success">Active</span></td>
+                                                                echo'<td><span class="badge text-bg-success">Active</span></td>
                                                                     <td>
                                                                         <div class="dropdown">
                                                                             <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
@@ -360,21 +377,8 @@
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
-                                                                } else {
-                                                                    echo '<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                    <td>
-                                                                        <div class="dropdown">
-                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["business_mentor_id"] . '","deactivate","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </td>';
-                                                                }
 
-                                                                echo '</tr>';
+                                                            echo '</tr>';
                                                             }
                                                         }
                                                     ?>
@@ -393,6 +397,120 @@
                             <!-- end col -->
                         </div>
                         <!-- end row -->
+                        <!--Deleted Users-->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-6">
+                                                <div class="search-box me-2 mb-2 d-inline-block">
+                                                    <div class="position-relative">
+                                                        <h4>Deleted Business Mentor / Master Franchisee / Sponsor Franchisee List</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="table-responsive" id="bmView">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>BM/MF Id</th>
+                                                        <th>Full Name</th>
+                                                        <th>Reference ID / Name</th>
+                                                        <th>Phone / Email</th>
+                                                        <th>Branch</th>
+                                                        <th>Amt</th>
+                                                        <th>Joining Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $sql = "
+                                                            SELECT *, 'BM' AS user_type FROM business_mentor WHERE status IN ('3')
+                                                            UNION ALL
+                                                            SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('3')
+                                                            UNION ALL
+                                                            SELECT *, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('3')
+                                                        ";
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach ($stmt->fetchAll() as $key => $row) {
+                                                                $bd = new DateTime($row['date_of_birth']);
+                                                                $bdate = $bd->format('d-m-Y');
+
+                                                                $rd = new DateTime($row['register_date']);
+                                                                $rdate = $rd->format('d-m-Y');
+
+                                                                $branchID = $row['branch'];
+                                                                $branch = '';
+
+                                                                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
+                                                                $stmtId = $conn->prepare($sqlBranch);
+                                                                $stmtId->execute([$branchID]);
+                                                                if ($stmtId->rowCount() > 0) {
+                                                                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
+                                                                    $branch = $branchData['branch_name'];
+                                                                }
+
+                                                                $label = $row['user_type'] === 'BM'
+                                                                    ? '<span class="badge bg-primary me-1">BM</span>'
+                                                                    : ($row['user_type'] === 'MF' ? '<span class="badge bg-success me-1">MF</span>'
+                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
+
+                                                            echo '<tr>
+                                                                    <td>' . $row['business_mentor_id'] . '</td>
+                                                                    <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
+                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
+                                                                        <p class="mb-0">' . $row['email'] . '</p>
+                                                                    </td>
+                                                                    <td>' . $branch . '</td>
+                                                                    <td>' . $row['paid_amount'] . '</td>
+                                                                    <td>' . $rdate . '</td>';
+
+                                                                echo'<td><span class="badge text-bg-danger">Deactive</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["business_mentor_id"] . '","deactivate","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+
+                                                            echo '</tr>';
+                                                            }
+                                                        }
+                                                    ?>
+
+                                                </tbody>
+                                            </table>
+                                            <!-- end table -->
+                                        </div>
+                                        
+                                        <!-- end table responsive -->
+                                    </div>
+                                    <!-- end card body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        <!-- end row -->
+                        <!--end Deleted Users-->
 
                     </div> <!-- container-fluid -->
                 </div> <!-- End Page-content -->
@@ -584,6 +702,10 @@
                 });
 
                 $("#registeredCustomerList-table").DataTable({
+                    order: [[5, 'asc']]
+                });
+                
+                $("#deletedCustomerList-table").DataTable({
                     order: [[5, 'asc']]
                 });
             });

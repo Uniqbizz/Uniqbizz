@@ -150,7 +150,7 @@ try {
 
     if (!empty($rows)) {
         echo '<table id="registeredCustomerList-tableFilter" class="table align-middle table-nowrap dt-responsive nowrap w-100">';
-        echo '<thead class="table-light"><tr><th>Travel Consultant Id</th><th>Full Name</th><th>Reference ID / Name</th><th>Referal Ref ID/ Name</th><th>Phone / Email</th><th>Address</th><th>Joining Date</th><th>Status</th><th>Action</th></tr></thead><tbody>';
+        echo '<thead class="table-light"><tr><th>TC Id / Full Name</th><th>Reference ID / Name</th><th>Referal Ref ID/ Name</th><th>Paid Amount</th><th>Phone / Email</th><th>Address</th><th>Joining Date</th><th>Status</th><th>Action</th></tr></thead><tbody>';
 
         foreach ($rows as $row) {
             $rdate = (new DateTime($row['register_date']))->format('d-m-Y');
@@ -171,13 +171,25 @@ try {
                     $name = $refData['registrant'];
                     $id = $refData['reference_no'];
                 }
+            }elseif ($reference_no == 'BH') {
+                $stmt2 = $conn->prepare("SELECT * FROM employees WHERE employee_id = ? AND (status = '1' OR status = '3')");
+                $stmt2->execute([$row['reference_no']]);
+                if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                    $reporting_manager = $refData['reporting_manager'];
+                }
+                $stmt3 = $conn->prepare("SELECT * FROM employees WHERE employee_id = ? AND (status = '1' OR status = '3')");
+                $stmt3->execute([$reporting_manager]);
+                if ($refData2 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+                    $id = $refData2['employee_id'];
+                    $name = $refData2['name'];
+                }
             }
 
             echo '<tr>';
-            echo '<td>' . htmlspecialchars($row['ca_travelagency_id']) . '</td>';
-            echo '<td>' . htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) . '</td>';
+            echo '<td><p class="mb-1">' . htmlspecialchars($row['ca_travelagency_id']) . '</p><p class="mb-0"> ' . htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) . ' </p></td>';
             echo '<td><p class="mb-1">' . htmlspecialchars($row['reference_no']) . '</p><p class="mb-0">' . htmlspecialchars($row['registrant']) . '</p></td>';
             echo '<td><p class="mb-1">' . htmlspecialchars($id) . '</p><p class="mb-0">' . htmlspecialchars($name) . '</p></td>';
+            echo '<td>' . htmlspecialchars(trim($row['amount']) !== '' ? $row['amount'] : 0) .'</td>';
             echo '<td><p class="mb-1">+' . htmlspecialchars($row['country_code']) . ' ' . htmlspecialchars($row['contact_no']) . '</p><p class="mb-0">' . htmlspecialchars($row['email']) . '</p></td>';
             echo '<td>' . htmlspecialchars($row['address']) . '</td>';
             echo '<td>' . $rdate . '</td>';

@@ -66,6 +66,7 @@
             $transaction_no=$row['transaction_no'];
             $pincode=$row['pincode'];
             $note=$row['note'];
+            $comp_check=$row['comp_check'];
             // $complimentary=$row['complimentary'];
             // $converted=$row['converted'];
 
@@ -108,7 +109,20 @@
                     $reference_no_fname = $business_mentor['firstname'];
                     $reference_no_lname = $business_mentor['lastname'];
                 }
-            }else if($reference_id == "TE"){
+            }else if($reference_id == "BH"){
+                // business Mentor name
+                $business_mentors = $conn->prepare("SELECT name FROM employees where employee_id='".$reference_no."'");
+                $business_mentors ->execute();
+                $business_mentors ->setFetchMode(PDO::FETCH_ASSOC);
+                if(  $business_mentors->rowCount()>0 ){
+                    $business_mentor = $business_mentors->fetch();
+                    $ref_fullname=$business_mentor['name'];
+                    $parts = explode(' ', trim($ref_fullname));
+                    $reference_no_fname = implode(' ', $parts);
+                    $reference_no_lname = array_pop($parts);
+                }
+            }
+            else if($reference_id == "TE"){
                 // corporate agency name
                 $corporate_agencys = $conn->prepare("SELECT firstname, lastname FROM corporate_agency where corporate_agency_id='".$reference_no."'");
                 $corporate_agencys ->execute();
@@ -142,16 +156,6 @@
             else if($reference_id == "NA"){
                 $reference_no_fname = "Not Applicable";
                 $reference_no_lname = "";
-            }else if($reference_id == "BH"){
-                // corporate agency name
-                $corporate_agencys = $conn->prepare("SELECT name FROM employees where employee_id='".$reference_no."'");
-                $corporate_agencys ->execute();
-                $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
-                if(  $corporate_agencys->rowCount()>0 ){
-                    $corporate_agencys = $corporate_agencys->fetch();
-                    $reference_no_fname = $corporate_agencys['name'];
-                    $reference_no_lname = '';
-                }
             }
         }
     }
@@ -222,6 +226,16 @@
                                     <div class="card-body">
                                         <form>
                                             <h3>Edit Travel Agency Form</h3>
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 d-flex justify-content-end">
+                                                    <div class="input-block mb-3 form-check">
+                                                        <input class="form-check-input" type="checkbox" id="is_complementary" <?=$comp_check==1?'checked':'disabled'?> >
+                                                        <label class="form-check-label" for="is_complementary">
+                                                            Complementary
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -701,6 +715,14 @@
 
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
+            //on change of compcheck
+            $('#is_complementary').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('#payment_fee').prop('disabled', true);
+                } else {
+                    $('#payment_fee').prop('disabled', false);
+                }
+            });
             $(document).ready(function(){
                 var paymentMode = $(".payment:checked").val();
                 if(paymentMode == "cheque"){

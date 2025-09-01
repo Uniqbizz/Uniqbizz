@@ -56,9 +56,8 @@ function divideAmount($totalAmount, $fixedAmount = 3000)
     if($totalAmount == 10000){
 		$fixedAmount = 2500;
 	}
-    //premium select lite 10 coupons worth Rs 15000, balance Rs 6000.
-    if ($totalAmount == 15000) {
-        $fixedAmount = 1500;
+    if ($totalAmount == 25000) {
+        $fixedAmount = 5000;
     }
     $fullParts = floor($totalAmount / $fixedAmount);
     $remaining = $totalAmount % $fixedAmount;
@@ -89,8 +88,14 @@ function generateUniqueCoupon()
     return strtoupper($year . substr($uniquePart, 0, 11)); // Ensures it's exactly 15 characters
 }
 
-$sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
-        VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :ta_reference_no,  :ta_reference_name,:paid_amount,:customer_type, :comp_chek, :register_by, :status)";
+$sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , 
+        date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, 
+        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, 
+        ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
+        VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, 
+        :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, 
+        :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :ta_reference_no,  
+        :ta_reference_name,:paid_amount,:customer_type, :comp_chek, :register_by, :status)";
 $stmt3 = $conn->prepare($sql);
 
 $result2 = $stmt3->execute(array(
@@ -186,7 +191,7 @@ if ($result2) {
                 ':confirm_status' => 0
             ]);
         }
-    }else if ($payment_label == 'Premium Select') {
+    }else if ($payment_label == 'Premium Plus') {
         //get the inserted customer
         $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
         $stmt1 = $conn->prepare($sql2);
@@ -248,15 +253,58 @@ if ($result2) {
         $stmt1 = $conn->prepare($sql2);
         $stmt1->execute();
         $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-        $cp_parts = divideAmount('21000');
+        $cp_parts = divideAmount('25000');
         $payment_id = generatePaymentID();
         // Define the SQL query once
-        $sqlInsertCoupon = "INSERT INTO cu_coupons (user_id, payment_id, code, coupon_amt, usage_status, confirm_status) 
-                            VALUES (:user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status)";
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
 
-        $stmt = $conn->prepare($sqlInsertCoupon); // Prepare the statement once
+        $stmt = $conn->prepare($sqlInsertCoupon);
 
-        // Loop through all coupon parts dynamically
+        $counter = 0; // To track the number of inserted coupons
+
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+            $counter++;
+
+            // Set bonus_check = 1 only for the 5th entry
+            $bonusCheck = ($counter === 5) ? 1 : 0;
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0,
+                ':bonus_check' => $bonusCheck
+            ]);
+        }
+
+    }else if ($payment_label == 'Neo Select') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('15000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
+
+        $stmt = $conn->prepare($sqlInsertCoupon);
+
         foreach ($cp_parts as $coupon_amt) {
             $couponCode = generateUniqueCoupon();
 
@@ -266,9 +314,11 @@ if ($result2) {
                 ':code' => $couponCode,
                 ':coupon_amt' => $coupon_amt,
                 ':usage_status' => 0,
-                ':confirm_status' => 0
+                ':confirm_status' => 0,
+                ':bonus_check' => 0
             ]);
         }
+
     }
 
     $sql3 = "INSERT INTO logs (title,message,message2,reference_no, register_by, from_whom, operation) 

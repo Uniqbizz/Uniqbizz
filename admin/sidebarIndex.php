@@ -94,13 +94,13 @@
                 <li>
                     <a href="businessMentor/businessMentor.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Business Mentor</span>
+                        <span key="t-contacts">BM / MF / SF</span>
                     </a>
                 </li>
                 <li>
                     <a href="corporate_agency/view_corporate_agency.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Techno Enterprise</span>
+                        <span key="t-contacts">TE / F</span>
                     </a>
                 </li>
                 <li>

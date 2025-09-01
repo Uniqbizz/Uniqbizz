@@ -570,6 +570,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" role="tab" href="#Coupon">Coupons</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" role="tab" href="#t_c">Terms And Conditions</a>
+                                    </li>
                                     <?php 
                                         } 
                                     ?>
@@ -9737,26 +9740,27 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     </thead>
                                                     <tbody>
                                                     <?php foreach ($coupons as $coupon): ?>
-                                                        <?php
-                                                            $createdDate = new DateTime($coupon['created_date']);
-                                                            $expiryDate = (clone $createdDate)->modify('+5 years');
-                                                            $now = new DateTime();
-                                                        ?>
+                                                       
                                                         <tr>
                                                             <td><?= htmlspecialchars($coupon['code']) ?></td>
                                                             <td><?= $customer_type?></td>
                                                             <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
-                                                            <td><?= $expiryDate->format('d-m-Y') ?></td>
+                                                            <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
                                                             <td>
                                                                 <?php
-                                                                if ($coupon['usage_status'] == 1) {
-                                                                    echo '<span class="badge bg-danger">Used</span> on ' . date('d-m-Y', strtotime($coupon['used_date']));
-                                                                } elseif  ($now > $expiryDate) {
-                                                                    echo '<span class="badge bg-secondary">Expired</span> on ' . $expiryDate->format('d-m-Y');
-                                                                } else {
-                                                                    echo '<span class="badge bg-success">Unused</span>';
-                                                                }
+                                                                    $created_ts = strtotime($coupon['created_date']);
+                                                                    $expiry_ts = strtotime($coupon['expiry_date']);
+                                                                    $used_ts = isset($coupon['used_date']) ? strtotime($coupon['used_date']) : null;
+                                                                    
+                                                                    if ($coupon['usage_status'] == 1 && $used_ts) {
+                                                                        echo '<span class="badge bg-danger">Used</span> on ' . date('d-m-Y', $used_ts);
+                                                                    } elseif ($expiry_ts < time()) {
+                                                                        echo '<span class="badge bg-secondary">Expired</span> on ' . date('d-m-Y', $expiry_ts);
+                                                                    } else {
+                                                                        echo '<span class="badge bg-success">Unused</span>';
+                                                                    }
                                                                 ?>
+
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>
@@ -9790,6 +9794,40 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     </div>
                                 </div>
                                 <!-- coupons only for customers end -->
+
+                                <div class="tab-pane fade show" id="t_c" role="tabpanel">
+                                    <div class="card rounded-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Terms And Conditions</label>
+                                                        <input class="form-control" type="file" name="fileTerms" id="terms_condition" <?php if($row['terms_condition']){echo 'disabled';} ?>>
+                                                    </div>
+                                                    <input type="hidden" id="img_pathTerms" value="<?php if($row['terms_condition']){echo $row['terms_condition'];} ?>">
+                                                    <?php if($row['terms_condition']){ ?>
+                                                        <div id="previewTerms">
+                                                            <div id="image_previewTerms">
+                                                                <img alt="Preview" class="imgSize" id="img_preTerms" width="150px" height="150px" src="../../uploading/<?php echo $row['terms_condition']; ?>">
+                                                            </div>
+                                                        </div>
+                                                    <?php }else{ ?>
+                                                        <div id="previewTerms" style = "display:none;">
+                                                            <div id="image_previewTerms">
+                                                                <img alt="Preview" class="imgSize" id="img_preTerms" width="150px" height="150px">
+                                                            </div>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="d-flex justify-content-center mb-4">
+                                                        <button type="submit" class="btn btn-primary px-5 py-2" id="terms_condition_submit" <?php if($row['terms_condition']){echo 'disabled';} ?>>Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php 
                                 } 
                             ?>
@@ -10251,6 +10289,42 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             }
         });
 
+        $('#terms_condition_submit').on('click', function(e){
+            e.preventDefault(); 
+            // console.log('terms_condition Clicked');
+            var cust_id = <?php echo json_encode($id); ?>;
+            var termsAndConditionImg = $('#img_pathTerms').val();
+            var termsAndConditionSection = $('#t_c').val();
+            // console.log(termsAndConditionImg);
+            if(termsAndConditionImg){
+                var data = {
+                    cust_id : cust_id,
+                    termsAndConditionImg : termsAndConditionImg
+                }
+                // console.log(data);
+                $.ajax({
+                    url: 'forms/upload_terms_condition.php',
+                    type: 'POST',
+                    data: data,
+                    // dataType: 'json',
+                    success: function (response) {
+                        if (response==1) {
+                            alert('Terms And Condition Image updated successfully!');
+                            $('#terms_condition_submit').prop('disabled', true);
+                            $('#terms_condition').prop('disabled', true);
+                        } else {
+                            alert('Failed: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                        alert('An error occurred. Check console.');
+                    }
+                });
+            }else{
+                alert("No Terms And Condition Image Found!")
+            }
+        });
     </script>
 </body>
 

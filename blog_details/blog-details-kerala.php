@@ -57,13 +57,13 @@
         <!-- Breadcrumbs S t a r t -->
         <section class="breadcrumbs-area breadcrumb-bg">
             <div class="container">
-                <h1 class="title wow fadeInUp" data-wow-delay="0.0s">Blogs</h1>
+                <h1 class="title wow fadeInUp" data-wow-delay="0.0s">Destination</h1>
                 <div class="breadcrumb-text">
                     <nav aria-label="breadcrumb" class="breadcrumb-nav wow fadeInUp" data-wow-delay="0.1s">
                         <ul class="breadcrumb listing">
                             <li class="breadcrumb-item single-list"><a href="../index.php" class="single">Home</a></li>
                             <li class="breadcrumb-item single-list" aria-current="page"><a href="javascript:void(0)"
-                                    class="single active">Blogs</a></li>
+                                    class="single active">Destination</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -267,89 +267,6 @@
                                 / Offer card
                             </div> -->
                             <div class="col-lg-12">
-                                <!-- <div class="tour-list-card">
-                                    <h4 class="title">Tour List</h4>
-                                    <ul class="tour-listing"> -->
-                                        <!-- Single -->
-                                        <!-- <li class="list">
-                                            <div class="package-img imgEffect4">
-                                                <a href="tour-details.html"><img src="assets/images/destination/destination-4.png" alt="travello"></a>
-                                            </div>
-                                            <div class="package-content">
-                                                <h4 class="area-name">
-                                                    <a href="tour-details.html">Dusitd2 Samyan Bangkok</a>
-                                                </h4>
-                                                <div class="location">
-                                                    <i class="ri-map-pin-line"></i>
-                                                    <div class="name">Bangkok, Thailand</div>
-                                                </div>
-                                                <div class="price-review">
-                                                    <div class="d-flex gap-10">
-                                                        <p class="light-pera">From</p>
-                                                        <p class="pera"><span>&#8377</span>20,000</p>
-                                                    </div> -->
-                                                    <!-- <div class="rating">
-                                                        <i class="ri-star-s-fill"></i>
-                                                        <p class="pera">4.7 (20 Reviews)</p>
-                                                    </div> -->
-                                                <!-- </div>
-                                            </div>
-                                        </li> -->
-                                        <!-- Single -->
-                                        <!-- <li class="list">
-                                            <div class="package-img imgEffect4">
-                                                <a href="tour-details.html"><img src="assets/images/destination/destination-3.png" alt="travello"></a>
-                                            </div>
-                                            <div class="package-content">
-                                                <h4 class="area-name">
-                                                    <a href="tour-details.html">Dusitd2 Samyan Bangkok</a>
-                                                </h4>
-                                                <div class="location">
-                                                    <i class="ri-map-pin-line"></i>
-                                                    <div class="name">Bangkok, Thailand</div>
-                                                </div>
-                                                <div class="price-review">
-                                                    <div class="d-flex gap-10">
-                                                        <p class="light-pera">From</p>
-                                                        <p class="pera"><span>&#8377</span>20,000</p>
-                                                    </div> -->
-                                                    <!-- <div class="rating">
-                                                        <i class="ri-star-s-fill"></i>
-                                                        <p class="pera">4.7 (20 Reviews)</p>
-                                                    </div> -->
-                                                <!-- </div>
-                                            </div>
-                                        </li> -->
-                                        <!-- Single -->
-                                        <!-- <li class="list">
-                                            <div class="package-img imgEffect4">
-                                                <a href="tour-details.html"><img src="assets/images/destination/destination-2.png" alt="travello"></a>
-                                            </div>
-                                            <div class="package-content">
-                                                <h4 class="area-name">
-                                                    <a href="tour-details.html">Dusitd2 Samyan Bangkok</a>
-                                                </h4>
-                                                <div class="location">
-                                                    <i class="ri-map-pin-line"></i>
-                                                    <div class="name">Bangkok, Thailand</div>
-                                                </div>
-                                                <div class="price-review">
-                                                    <div class="d-flex gap-10">
-                                                        <p class="light-pera">From</p>
-                                                        <p class="pera"><span>&#8377</span>20,000</p>
-                                                    </div> -->
-                                                    <!-- <div class="rating">
-                                                        <i class="ri-star-s-fill"></i>
-                                                        <p class="pera">4.7 (20 Reviews)</p>
-                                                    </div> -->
-                                                <!-- </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="text-center mt-10">
-                                        <a href="tour-list.html" class="see-more-text">See More</a>
-                                    </div>
-                                </div> -->
                                 <!-- info -->
                                 <div class="destination-details-info">
                                     <h4 class="title">Basic Information</h4>
@@ -386,8 +303,178 @@
 
                                 </div>
                                 <!-- /info  -->
+                                <!-- <div class="tour-list-card mb-2">
+                                    <h4 class="title">Tour List</h4>
+                                    <ul class="tour-listing">
+
+                                        <?php 
+
+                                            require '../connect.php';
+                                            $searchPac = "Goa";
+                                            $user_id = 0;
+                                            $ta_id = 0;
+                                            // get TA id
+                                            if ( $user_id ) {
+                                                if (  $user_type == '2' ) {
+                                                    $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
+                                                    $ta_data->execute();
+                                                    $ta = $ta_data->fetch();
+                                                    $ta_id = $ta['ta_reference'];
+                                                } else if (  $user_type == '3' ) {
+                                                    $ta_id = $user_id;
+                                                }
+                                            }
+
+                                            $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id DESC LIMIT 5 ");
+                                            $stmt->execute();
+                                            $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                            if($stmt->rowCount()>0){
+                                                foreach (($stmt->fetchAll()) as $key => $row) {
+                                                    // $name = $row['name'].''.$row['unique_code'];
+                                                    // echo $srno.' '.$name.'</br>';
+
+                                                    // get images
+                                                    $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
+                                                    $data->execute();
+                                                    $value = $data->fetch();
+                                                    // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+
+                                                    $adult_price = (int)$row['total_package_price_per_adult'];
+                                                    $child_price = (int)$row['total_package_price_per_child'];
+                                                    $markup_price = (int)$row['markup_total'];
+                                                    $total_base_price = $adult_price + $markup_price;
+
+                                                    if ( $ta_id ) {
+                                                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
+                                                        $ta_markup_data->execute();
+                                                        $ta_markup = $ta_markup_data->fetch();
+
+                                                        $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                                    } else {
+                                                        $total_price = $total_base_price;
+                                                    }
+
+                                                    echo'
+                                                        <li class="list">
+                                                            <div class="package-img imgEffect4">
+                                                                <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
+                                                                    <img src="../'.$value['image'].'" alt="BizzMirth">
+                                                                </a>
+                                                            </div>
+                                                            <div class="package-content">
+                                                                <h4 class="area-name">
+                                                                    <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
+                                                                </h4>
+                                                                <div class="location">
+                                                                    <i class="ri-map-pin-line"></i>
+                                                                    <div class="name">'.$row['destination'].'</div>
+                                                                </div>
+                                                                <div class="price-review">
+                                                                    <div class="d-flex gap-10">
+                                                                        <p class="light-pera">From</p>
+                                                                        <p class="pera"><span>&#8377</span>'.$total_price.'</p>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    ';
+                                                }
+                                            }
+                                        ?>
+                                        
+                                    </ul>
+                                    <div class="text-center mt-10">
+                                        <a href="../tour-list.php" class="see-more-text">See More</a>
+                                    </div>
+                                </div> -->
+                                
                             </div>
                         </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12">
+                        
+                        <div class="row g-4">
+                            <?php 
+                                require '../connect.php';
+                                $searchPac = "Kerala";
+                                $user_id = 0;
+                                $ta_id = 0;
+                                // get TA id
+                                if ( $user_id ) {
+                                    if (  $user_type == '2' ) {
+                                        $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
+                                        $ta_data->execute();
+                                        $ta = $ta_data->fetch();
+                                        $ta_id = $ta['ta_reference'];
+                                    } else if (  $user_type == '3' ) {
+                                        $ta_id = $user_id;
+                                    }
+                                }
+
+                                $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id DESC LIMIT 4 ");
+                                $stmt->execute();
+                                $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                if($stmt->rowCount()>0){
+                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                        // $name = $row['name'].''.$row['unique_code'];
+                                        // echo $srno.' '.$name.'</br>';
+
+                                        // get images
+                                        $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
+                                        $data->execute();
+                                        $value = $data->fetch();
+                                        // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+
+                                        $adult_price = (int)$row['total_package_price_per_adult'];
+                                        $markup_price = (int)$row['markup_total'];
+                                        $total_base_price = $adult_price + $markup_price;
+
+                                        if ( $ta_id ) {
+                                            $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
+                                            $ta_markup_data->execute();
+                                            $ta_markup = $ta_markup_data->fetch();
+
+                                            $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                        } else {
+                                            $total_price = $total_base_price;
+                                        }
+
+                                        echo'
+                                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                                <div class="package-card">
+                                                    <div class="package-img imgEffect4">
+                                                        <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
+                                                            <img src="../'.$value['image'].'" alt="BizzMirth">
+                                                        </a>
+                                                    </div>
+                                                    <div class="package-content">
+                                                        <h4 class="area-name">
+                                                            <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
+                                                        </h4>
+                                                        <div class="location">
+                                                            <i class="ri-map-pin-line"></i>
+                                                            <div class="name">'.$row['destination'].'</div>
+                                                        </div>
+                                                        <div class="packages-person">
+                                                            <div class="count">
+                                                                <i class="ri-time-line"></i>
+                                                                <p class="pera">'.$row['location'].'</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="price-review">
+                                                            <div class="d-flex gap-10">
+                                                                <p class="light-pera">From</p>
+                                                                <p class="pera"><span>&#8377</span>'.$total_price.'</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ';
+                                    }
+                                }
+                            ?>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -416,6 +503,12 @@
     <!-- Main js-->
     <script src="../assets/js/main.js"></script>
     <script type="../text/javascript" src="logout/logout.js"></script>
+    <script>
+        function viewPackage(id)
+        { 
+            window.location.href='../tour-details.php?pacId='+id;  
+        }
+    </script>
 </body>
 
 <!-- Mirrored from travelloo.vercel.app/template/destination-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:53:06 GMT -->

@@ -103,7 +103,7 @@ $today = date('Y-m-d H:i:s');
                 ':net_price_child_with_GST' => $mydata['net_price_child_with_GST'],
                 ':total_package_price_per_adult'=>$mydata['total_package_price_per_adult'],
                 ':total_package_price_per_child'=>$mydata['total_package_price_per_child'],
-                ':price_up_per_adult'=>$mydata['add_adult_price']
+                ':price_up_per_adult'=>$mydata['add_adult_price']??0
                 
             ]);
 
@@ -171,11 +171,11 @@ $today = date('Y-m-d H:i:s');
         $sql_8 = 'INSERT INTO package_pricing_markup (
             package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission, ca_incentive,
             bm_mark_up_total, bm_direct_commission, bm_incentive, bdm_mark_up_total, bdm_direct_commission,
-            bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer
+            bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer, total_mark_up
         ) VALUES (
             :package_id, :company, :customer, :ta_markup, :ca_mark_up_total, :ca_direct_commission, :ca_incentive,
             :bm_mark_up_total, :bm_direct_commission, :bm_incentive, :bdm_mark_up_total, :bdm_direct_commission,
-            :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive , :prime_customer, :L1_customer, :L2_customer
+            :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive , :prime_customer, :L1_customer, :L2_customer, :total_mark_up
         )';
     
         $statement_8 = $conn->prepare($sql_8);
@@ -197,9 +197,10 @@ $today = date('Y-m-d H:i:s');
             ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
             ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
             ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['prime_customer_share'],
-            ':L1_customer' => $mydata['L1_customer_share'],
-            ':L2_customer' => $mydata['L2_customer_share']
+            ':prime_customer' => $mydata['L1_customer_share'],
+            ':L1_customer' => $mydata['L2_customer_share'],
+            ':L2_customer' => $mydata['L3_customer_share'],
+            ':total_mark_up'=>$mydata['total_mark_up']
         ]);
        
     }

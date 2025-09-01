@@ -109,7 +109,7 @@ net_price_child_with_GST=:net_price_child_with_GST,total_package_price_per_adult
         ':net_price_child_with_GST' => $mydata['net_price_child_with_GST'],
         ':total_package_price_per_adult' => $mydata['total_package_price_per_adult'],
         ':total_package_price_per_child' => $mydata['total_package_price_per_child'],
-        ':price_up_per_adult' => $mydata['add_adult_price']
+        ':price_up_per_adult' => $mydata['add_adult_price']??0
     ]);
 }
 // insert package pictures / images
@@ -170,7 +170,8 @@ if ($mydata['ta_mark_up']) {
     $statement_9->execute([':package_id' => $get_id]);
     $result_9 = $statement_9->fetch(PDO::FETCH_ASSOC);
     if($result_9 == null){
-        $sql_8 = 'INSERT INTO package_pricing_markup (package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission, ca_incentive, bm_mark_up_total, bm_direct_commission, bm_incentive, bdm_mark_up_total, bdm_direct_commission, bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer) VALUES(:package_id, :company, :customer, :ta_markup, :ca_mark_up_total, :ca_direct_commission, :ca_incentive, :bm_mark_up_total, :bm_direct_commission, :bm_incentive, :bdm_mark_up_total, :bdm_direct_commission, :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive, :prime_customer, :L1_customer, :L2_customer)';
+        $sql_8 = 'INSERT INTO package_pricing_markup (package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission, ca_incentive, bm_mark_up_total, bm_direct_commission, bm_incentive, bdm_mark_up_total, bdm_direct_commission, bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer,total_mark_up) 
+        VALUES(:package_id, :company, :customer, :ta_markup, :ca_mark_up_total, :ca_direct_commission, :ca_incentive, :bm_mark_up_total, :bm_direct_commission, :bm_incentive, :bdm_mark_up_total, :bdm_direct_commission, :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive, :prime_customer, :L1_customer, :L2_customer,:total_mark_up)';
         $statement_8 = $conn->prepare($sql_8);
         $result_8 = $statement_8->execute([
             ':package_id' => $get_id,
@@ -189,9 +190,10 @@ if ($mydata['ta_mark_up']) {
             ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
             ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
             ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['prime_customer_share'],
-            ':L1_customer' => $mydata['L1_customer_share'],
-            ':L2_customer' => $mydata['L2_customer_share']
+            ':prime_customer' => $mydata['L1_customer_share'],
+            ':L1_customer' => $mydata['L2_customer_share'],
+            ':L2_customer' => $mydata['L3_customer_share'],
+            ':total_mark_up' => $mydata['total_mark_up']
         ]);
 
     }else{
@@ -199,7 +201,7 @@ if ($mydata['ta_mark_up']) {
         $sql_8 = 'UPDATE package_pricing_markup set 
                 company=:company, customer=:customer, ta_markup=:ta_markup, ca_mark_up_total=:ca_mark_up_total, ca_direct_commission=:ca_direct_commission, ca_incentive=:ca_incentive,
                 bm_mark_up_total=:bm_mark_up_total, bm_direct_commission=:bm_direct_commission, bm_incentive=:bm_incentive, bdm_mark_up_total=:bdm_mark_up_total, bdm_direct_commission=:bdm_direct_commission,
-                bdm_incentive=:bdm_incentive, bcm_mark_up_total=:bcm_mark_up_total, bcm_direct_commission=:bcm_direct_commission, bcm_incentive=:bcm_incentive, prime_customer=:prime_customer, L1_customer=:L1_customer, L2_customer=:L2_customer WHERE package_id=:package_id';
+                bdm_incentive=:bdm_incentive, bcm_mark_up_total=:bcm_mark_up_total, bcm_direct_commission=:bcm_direct_commission, bcm_incentive=:bcm_incentive, prime_customer=:prime_customer, L1_customer=:L1_customer, L2_customer=:L2_customer, total_mark_up=:total_mark_up WHERE package_id=:package_id';
 
         $statement_8 = $conn->prepare($sql_8);
 
@@ -220,9 +222,10 @@ if ($mydata['ta_mark_up']) {
             ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
             ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
             ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['prime_customer_share'],
-            ':L1_customer' => $mydata['L1_customer_share'],
-            ':L2_customer' => $mydata['L2_customer_share']
+            ':prime_customer' => $mydata['L1_customer_share'],
+            ':L1_customer' => $mydata['L2_customer_share'],
+            ':L2_customer' => $mydata['L3_customer_share'],
+            ':total_mark_up' => $mydata['total_mark_up']
         ]);
     }
 }

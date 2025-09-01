@@ -424,3 +424,42 @@ $('#upload_file61').change(function () {
         }
     });
 });
+
+//terms and condition upload for customer from overview profile page in Terms and condition tab
+$('#terms_condition').change(function(){
+    var folder = 'terms_condition';
+    
+    var file_data = $('#terms_condition').prop('files')[0];   
+    var form_data = new FormData();                  
+    form_data.append('file', file_data);
+    form_data.append('folder',folder);
+    $.ajax({
+        url: uploadUrl,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(data){
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#terms_condition').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#terms_condition').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#terms_condition').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#terms_condition').val('');
+            }else{
+                $("#previewTerms").show();
+                $("#img_preTerms").attr("src","../../uploading/"+data);
+                $("#img_pathTerms").val(data);
+            }
+                
+        }
+    });
+});

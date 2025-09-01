@@ -39,6 +39,7 @@
     $state=$_POST['state'];
     $city=$_POST['city'];
     $note=$_POST['note'];
+    $comp_check=$_POST['comp_check'];
     $status="2";
     $user_type="11";
     $register_by="1";
@@ -55,8 +56,8 @@
     $fromWhom="1";
     $operation="Add";
 
-    $sql= "INSERT INTO `ca_travelagency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof, amount, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) 
-    VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook,:payment_proof, :amount, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type,:registrant,  :reference_no, :register_by, :status)";
+    $sql= "INSERT INTO `ca_travelagency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof, amount, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type,comp_check, registrant, reference_no, register_by, status) 
+    VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook,:payment_proof, :amount, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type,:comp_check,:registrant,  :reference_no, :register_by, :status)";
     $stmt3 =$conn->prepare($sql);
 
     $result2=$stmt3->execute(array(
@@ -81,6 +82,7 @@
         ':age' => $age,  
         ':gender' => $gender,
         ':note' => $note,
+        ':comp_check' => $comp_check,
         ':profile_pic' => $profile_pic,
         // ':kyc' => $kyc,
         ':pan_card' => $pan_card,

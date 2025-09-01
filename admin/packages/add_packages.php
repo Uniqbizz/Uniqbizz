@@ -144,7 +144,7 @@ $product_payout_data = $data7->fetchAll();
                                     <!-- p4 -->
                                     <h4 id="package_form_pricing_title" style="display: none">Add New Package - Pricing</h4>
                                     <!-- p5 -->
-                                    <h4 id="package_form_picture_title" style="display: none">Add New Package - Picture</h4>
+                                    <h4 id="package_form_picture_title" style="display: none">Add New Package - Pictures</h4>
                                 </div>
                                 <div class="col-lg-12">
                                     <form id="package_form" enctype="multipart/form-data">
@@ -237,7 +237,7 @@ $product_payout_data = $data7->fetchAll();
                                                 </div>
                                                 <div class="col-md-2 col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <input type="text" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
+                                                        <input type="number" class="form-control" id="tour_days" name="tour_days" placeholder="Unique Code">
                                                         <label for="tour_days" class="required">Tour Days</label>
                                                     </div>
                                                 </div>
@@ -453,82 +453,68 @@ $product_payout_data = $data7->fetchAll();
                                         <!-- Fourth Box Pricing -->
                                         <div id="package_form_pricing" style="display: none;">
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="col-md-12 col-sm-12 mt-3">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" onkeyup="getNetPrice()" id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
-                                                            <label for="netPriceAdult" class="required">NET Price for 1 Adult:</label>
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-sm-4 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceAdult" name="net_price_adult" value="" placeholder="NET Price for 1 Adult:" class="form-control">
+                                                                <label for="netPriceAdult" class="required">NET Price for 1 Adult:</label>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 mt-3" id="netPriceChildData">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" onkeyup="getNetPrice()" id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
-                                                            <label for="netPriceChild" class="required">NET Price for 1 Child:</label>
+                                                        <div class="col-md-4 col-sm-4 mt-3" id="netPriceChildData">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="netPriceChild" name="netPriceChild" value="" placeholder="NET Price for 1 Child" class="form-control" value='0'>
+                                                                <label for="netPriceChild" class="required">NET Price for 1 Child:</label>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 mt-3">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" onkeyup="getNetPrice()" id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
-                                                            <label id="net_gst_title" for="nGst">Net GST Title :</label>
+                                                        <div class="col-md-4 col-sm-4 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' id="nGst" name="nGst" value="" placeholder="Net GST Title" class="form-control">
+                                                                <label id="net_gst_title" for="nGst">Net GST Title :</label>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 mt-3">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" id="totalNetPriceAdult" name="totalNetPriceAdult" value="" placeholder="Net Total for Adult" class="form-control" readonly>
-                                                            <label id="totalNetPriceAdult" for="nGst">Net Total for Adult :</label>
+                                                        <div class="col-md-6 col-sm-6 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="totalNetPriceAdult" name="totalNetPriceAdult" value="" placeholder="Net Total for Adult" class="form-control" readonly>
+                                                                <label id="totalNetPriceAdult" for="nGst">Net Total for Adult :</label>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 mt-3" id="totalNetPriceChildData">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" id="totalNetPriceChild" name="totalNetPriceChild" value="" placeholder="Net Total for Child" class="form-control" readonly>
-                                                            <label id="totalNetPriceChild" for="nGst">Net Total for Child :</label>
+                                                        <div class="col-md-6 col-sm-6 mt-3" id="totalNetPriceChildData">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="totalNetPriceChild" name="totalNetPriceChild" value="" placeholder="Net Total for Child" class="form-control" readonly>
+                                                                <label id="totalNetPriceChild" for="nGst">Net Total for Child :</label>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </div>    
                                                 </div>
-
-                                            </div>
-
-                                            <div class="col-md-12 " style="padding:20px 0px 0px 0px">
-                                                <div class="col-md-6 col-sm-6 mt-3">
-                                                    <div class="form-floating mb-3"><!-- added on 23 Jan 2025 SV-->
-                                                        <input type="number" value="" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
-                                                        <label for="mrp_per_adult">Total Price Per Adult</label>
-                                                    </div>
-                                                    <div class="form-floating mb-3">
-                                                        <input type="number" id="add_adult_price" name="add_adult_price" value="" class="form-control">
-                                                        <label for="add_adult_price">Additional Adult Price</label>
-                                                    </div>
-                                                    <div class="form-floating mb-3" id="total_child_price">
-                                                        <input type="number" value="" id="mrp_per_child" placeholder="Total Price Per Child" class="form-control" readOnly>
-                                                        <label for="mrp_per_child">Total Price Per Child</label>
-                                                    </div>
-                                                </div><!-- added on 23 Jan 2025 SV-->
-                                            </div>
-                                            <!-- updatde markuplogic in 23 Jan 2025 by SV -->
-                                            <div class="col-md-12 " style="padding:20px 0px 0px 0px">
-                                                <div class="row">
-                                                    <h4 class="p-3 fw-bolder">Mark-Up Price Distribution</h4>
+                                                <div class="col-md-12">
+                                                    <h4 class="pt-3 ps3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution</h4>
 
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_company" name="company_share" value="" placeholder="Company Share" class="form-control" onchange="finalfill()">
+                                                                <input type="number" id="mp_company" name="company_share" value="" placeholder="Company Share" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="mp_company" class="required">Company </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ca_ta" name="ca_ta_share" value="" placeholder="Travel Agency share" class="form-control" onchange='getMarkUpDistribution(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
+                                                                <input type="number" id="mp_ca_ta" name="ca_ta_share" value="" placeholder="Travel Agency share" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
                                                                 <label for="mp_franchise">Travel Consultant</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" onchange="finalfill()" readonly>
-                                                                <label for="mp_customer" class="required">Customer</label>
-                                                                <input type="hidden" id="prime_cust_comm" value="" />
-                                                                <input type="hidden" id="l1_cust_comm" value="" />
+                                                                <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
+                                                                <label for="mp_customer" class="required">Customer (L1 + L2 + L3)</label>
                                                                 <input type="hidden" id="l2_cust_comm" value="" />
+                                                                <input type="hidden" id="l3_cust_comm" value="" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" placeholder="L1 Customer" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="l1_cust_comm" class="required">L1 Customer</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="ca_div">
@@ -551,6 +537,18 @@ $product_payout_data = $data7->fetchAll();
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="mp_bm_ins" name="bm_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
                                                                 <label for="mp_bcm_ins">Incentive </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3">
+                                                            <div class="form-floating mb-3"><!-- added on 23 Jan 2025 SV-->
+                                                                <input type="number" value="" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
+                                                                <label for="mrp_per_adult">Total Price Per Adult</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3">
+                                                            <div class="form-floating mb-3" id="total_child_price">
+                                                                <input type="number" value="" id="mrp_per_child" placeholder="Total Price Per Child" class="form-control" readOnly>
+                                                                <label for="mrp_per_child">Total Price Per Child</label>
                                                             </div>
                                                         </div>
                                                         <!--<div class="col-md-6 col-sm-2 mt-3" id="bdm_div">-->
@@ -577,28 +575,30 @@ $product_payout_data = $data7->fetchAll();
                                                         <!--</div>-->
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- cancelation policy 23 jan 2025 SV-->
-                                            <div class="row">
-                                                <h4 class="p-3 fw-bolder">Cancellation Policy</h4>
-                                                <div class="form-group row">
-                                                    <div class="col-md-5 col-sm-5 mt-3">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" id="can_per_1" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                            <label for="can_per_1" class="required">30+ Days Before Travel (%) </label>
+                                                <!-- cancelation policy 23 jan 2025 SV-->
+                                                <div class="col-md-12">
+                                                    <h4 class="pt-3 ps-3 fw-bolder">Cancellation Policy</h4>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-4 col-sm-4 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="can_per_1" name="cancel_per_1" value="" class="form-control" maxlength="3">
+                                                                <label for="can_per_1" class="required">30+ Days Before Travel (%) </label>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" id="can_per_2" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                            <label for="can_per_1" class="required">15-30 Days Before Travel (%) </label>
+                                                        <div class="col-md-4 col-sm-4 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="can_per_2" name="cancel_per_1" value="" class="form-control" maxlength="3">
+                                                                <label for="can_per_1" class="required">15-30 Days Before Travel (%) </label>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-floating mb-3">
-                                                            <input type="number" id="can_per_3" name="cancel_per_1" value="" class="form-control" maxlength="3">
-                                                            <label for="can_per_1" class="required">less then 15 Days Before Travel (%)</label>
+                                                        <div class="col-md-4 col-sm-4 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="can_per_3" name="cancel_per_1" value="" class="form-control" maxlength="3">
+                                                                <label for="can_per_1" class="required">less then 15 Days Before Travel (%)</label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <!-- end added on 23 Jan SV-->
-                                                <div class="row">
+                                                    <!-- end added on 23 Jan SV-->
                                                     <div class="btn bg-primary col-sm-1 col-2 m-4 ms-3" id="package_form_pricing_nextBtn">
                                                         <a href="#" class="waves-effect waves-light btn-large" style=" color: white;">Next</a>
                                                     </div>
@@ -608,11 +608,11 @@ $product_payout_data = $data7->fetchAll();
                                         <!-- Fifth Box Package Picture  -->
                                         <div id="package_form_picture" style="display: none;">
                                             <div class="col-md-6 col-sm-12">
-                                                <label style="margin-top: -34px;font-size: 0.8rem;">Picture</label>
+                                                <label style="margin-top: -34px;font-size: 0.8rem;">Pictures:</label>
                                                 <div class="file-field input-field">
                                                     <div class="btn">
                                                         <!-- <span>Upload</span> -->
-                                                        <input type="file" id="gallery-photo-add" accept=".jpg,.png,.jpeg" multiple>
+                                                        <input class="form-control" type="file" id="gallery-photo-add" accept=".jpg,.png,.jpeg" multiple>
                                                     </div>
                                                     <!-- <div class="file-path-wrapper">
                                                         <input class="file-path validate" type="text">
@@ -628,12 +628,27 @@ $product_payout_data = $data7->fetchAll();
                                                 </div>
                                             </div>
                                         </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <?php echo $date; ?> © Uniqbizz.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Mirthcon
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
@@ -679,6 +694,28 @@ $product_payout_data = $data7->fetchAll();
         mybutton && (window.onscroll = function() {
             scrollFunction()
         });
+        // delete images
+        function deleteImageFunction(e, id){
+            e.preventDefault();
+            // console.log(id);
+            var r = confirm("Do you want to delete this image ?");
+            if (r == true) {
+                $.ajax({
+                type: "POST",
+                url: "forms/deleteImages",
+                data: 'id='+id,
+                cache: false,
+                    success:function(data){
+                        if(data == "success"){
+                            document.getElementById("image_"+id).style.display = "none";
+                            alert("Deleted Succesfully");
+                        }else{
+                            alert("Failed to Delete");
+                        }
+                    }
+                }); 
+            }            
+        }
     </script>
     <!-- <script>
             $(document).ready(function(){

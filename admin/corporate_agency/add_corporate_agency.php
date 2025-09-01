@@ -102,12 +102,12 @@
                                                         <select id="designation1" class="form-select" disabled>
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
-                                                            <option value="business_consultant">Business Consultant</option>
+                                                            <!-- <option value="business_consultant">Business Consultant</option> -->
                                                             <option value="business_mentor">Business Mentor</option>
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="">--Select Designation--</option>
-                                                            <option value="zonal_manager">Zonal Manager</option>
+                                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                         </select>
                                                     </div>
@@ -172,6 +172,10 @@
                                                             <option value="500000">5,00,000/-</option> 
                                                         </select>
                                                         <select id="business_package_amount2" class="form-select d-none"> 
+                                                            <option value="">--Select Business Package/Amount--</option> 
+                                                            <option value="100000">1,00,000/-</option> 
+                                                            <option value="200000">2,00,000/-</option> 
+                                                            <option value="300000">3,00,000/-</option> 
                                                             <option value="500000">5,00,000/-</option> 
                                                         </select>
                                                     </div>
@@ -504,8 +508,8 @@
                     $('#business_package_amount2').removeClass('d-none');
                     $('#business_package_amount1').addClass('d-none');
                     
-                    var business_package_amount = $('#business_package_amount2').val();
-                    $('#flex_amount').val(business_package_amount);
+                    // var business_package_amount = $('#business_package_amount2').val();
+                    // $('#flex_amount').val(business_package_amount);
                 }
             });
 
@@ -624,6 +628,11 @@
             });
 
             $('#business_package_amount1').on('change', function(){
+                var business_package_amount = $(this).val();
+                $('#flex_amount').val(business_package_amount);
+            });
+
+            $('#business_package_amount2').on('change', function(){
                 var business_package_amount = $(this).val();
                 $('#flex_amount').val(business_package_amount);
             });
