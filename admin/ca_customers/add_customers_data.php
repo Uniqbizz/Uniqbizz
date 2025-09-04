@@ -4,6 +4,8 @@ $current_year = date('Y');
 
 $user_id_name = $_POST['user_id_name'];
 $registrant = $_POST['reference_name'];
+$cust_id_name = $_POST['cust_id_name'];
+$cust_name = $_POST['cust_name'];
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
@@ -90,7 +92,7 @@ function generateUniqueCoupon()
 
 $sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , 
         date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, 
-        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, 
+        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant,
         ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
         VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, 
         :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, 

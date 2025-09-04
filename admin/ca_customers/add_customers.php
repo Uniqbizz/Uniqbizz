@@ -12,6 +12,10 @@ $today = date('Y-m-d');
 //current year
 $date = date('Y');
 
+$cust_ref_id = isset($_GET['id']) ? $_GET['id'] : '';
+$cust_ref_name = isset($_GET['fullname']) ? $_GET['fullname'] : '';
+$cust_type = isset($_GET['status']) ? $_GET['status'] : '0';
+
 // Calculate 20 years before the current date
 $dateTwentyYearsAgo = strtotime("-18 years");
 
@@ -139,6 +143,20 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6 col-sm-6" id="indirect_add_cust_id">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="cust_ref_id">Customer Reference Id <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cust_ref_id" placeholder="Customer Id" readonly value="<?php echo $cust_ref_id; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6" id="indirect_add_cust_name">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="cust_ref_name">Customer Reference Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cust_ref_name" placeholder="Customer Name" value="<?php echo $cust_ref_name; ?>" readonly>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
@@ -492,6 +510,20 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         }
         mybutton && (window.onscroll = function() {
             scrollFunction()
+        });
+
+        //get page status
+        var customer_type;
+        $(document).ready(function() {
+            customer_type = <?php echo json_encode($cust_type, JSON_HEX_TAG); ?>;
+            
+            if(customer_type == 0 ){
+                document.getElementById('indirect_add_cust_id').style.display = 'none';
+                document.getElementById('indirect_add_cust_name').style.display = 'none';
+            }else{
+                document.getElementById('indirect_add_cust_id').style.display = 'block';
+                document.getElementById('indirect_add_cust_name').style.display = 'block';
+            } 
         });
     </script>
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->

@@ -38,7 +38,7 @@
     <meta name="csrf-token" content="...">
     <meta name="currency" content="$">
     <!-- Title -->
-    <title>Multipurpose travel and tour booking</title>
+    <title>Bizzmirth Holidays Private Ltd</title>
     <link rel="icon" type="image/x-icon" sizes="20x20" href="../assets/images/icon/fav.png">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-5.3.0.min.css">
@@ -77,16 +77,16 @@
                 <div class="row g-4">
                     <!-- Destination details banner -->
                     <div class="destination-details-banner o-hidden radius-12 p-0">
-                        <div class="swiper destinationSwiper-active">
+                        <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="../assets/images/destination/kerala2.jpg" alt="travello">
+                                    <img src="../assets/images/destination/kerala2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="../assets/images/destination/kerala3.jpg" alt="travello">
+                                    <img src="../assets/images/destination/kerala3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="../assets/images/destination/kerala4.jpg" alt="travello">
+                                    <img src="../assets/images/destination/kerala4.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                 </div>
                             </div>
                         </div>
@@ -302,90 +302,6 @@
                                     </div>
 
                                 </div>
-                                <!-- /info  -->
-                                <!-- <div class="tour-list-card mb-2">
-                                    <h4 class="title">Tour List</h4>
-                                    <ul class="tour-listing">
-
-                                        <?php 
-
-                                            require '../connect.php';
-                                            $searchPac = "Goa";
-                                            $user_id = 0;
-                                            $ta_id = 0;
-                                            // get TA id
-                                            if ( $user_id ) {
-                                                if (  $user_type == '2' ) {
-                                                    $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
-                                                    $ta_data->execute();
-                                                    $ta = $ta_data->fetch();
-                                                    $ta_id = $ta['ta_reference'];
-                                                } else if (  $user_type == '3' ) {
-                                                    $ta_id = $user_id;
-                                                }
-                                            }
-
-                                            $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id DESC LIMIT 5 ");
-                                            $stmt->execute();
-                                            $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-                                            if($stmt->rowCount()>0){
-                                                foreach (($stmt->fetchAll()) as $key => $row) {
-                                                    // $name = $row['name'].''.$row['unique_code'];
-                                                    // echo $srno.' '.$name.'</br>';
-
-                                                    // get images
-                                                    $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
-                                                    $data->execute();
-                                                    $value = $data->fetch();
-                                                    // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
-
-                                                    $adult_price = (int)$row['total_package_price_per_adult'];
-                                                    $child_price = (int)$row['total_package_price_per_child'];
-                                                    $markup_price = (int)$row['markup_total'];
-                                                    $total_base_price = $adult_price + $markup_price;
-
-                                                    if ( $ta_id ) {
-                                                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
-                                                        $ta_markup_data->execute();
-                                                        $ta_markup = $ta_markup_data->fetch();
-
-                                                        $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                                    } else {
-                                                        $total_price = $total_base_price;
-                                                    }
-
-                                                    echo'
-                                                        <li class="list">
-                                                            <div class="package-img imgEffect4">
-                                                                <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
-                                                                    <img src="../'.$value['image'].'" alt="BizzMirth">
-                                                                </a>
-                                                            </div>
-                                                            <div class="package-content">
-                                                                <h4 class="area-name">
-                                                                    <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
-                                                                </h4>
-                                                                <div class="location">
-                                                                    <i class="ri-map-pin-line"></i>
-                                                                    <div class="name">'.$row['destination'].'</div>
-                                                                </div>
-                                                                <div class="price-review">
-                                                                    <div class="d-flex gap-10">
-                                                                        <p class="light-pera">From</p>
-                                                                        <p class="pera"><span>&#8377</span>'.$total_price.'</p>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    ';
-                                                }
-                                            }
-                                        ?>
-                                        
-                                    </ul>
-                                    <div class="text-center mt-10">
-                                        <a href="../tour-list.php" class="see-more-text">See More</a>
-                                    </div>
-                                </div> -->
                                 
                             </div>
                         </div>
