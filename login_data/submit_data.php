@@ -312,12 +312,68 @@ if($stmt->rowCount()>0){
 					
 				}
 			}
+		}else if($_SESSION["user_type_id_value"] =='27'){
+			$stmt = $conn->prepare("SELECT * FROM zonal_manager where email='".$username."' AND user_type = '27' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['name'] ;
+					$_SESSION["lname"] = '' ;
+					
+				}
+			}
+		}else if($_SESSION["user_type_id_value"] =='28'){
+			$stmt = $conn->prepare("SELECT * FROM master_franchisee where email='".$username."' AND user_type = '28' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
+		}else if($_SESSION["user_type_id_value"] =='29'){
+			$stmt = $conn->prepare("SELECT * FROM sub_franchisee where email='".$username."' AND user_type = '29' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
+		}else if($_SESSION["user_type_id_value"] =='30'){
+			$stmt = $conn->prepare("SELECT * FROM sponsor_franchisee where email='".$username."' AND user_type = '30' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
 		}else{
 			$_SESSION["username2"] = '' ;
 			$_SESSION["lname"]='';
 		}	
 
-	if ($_SESSION["user_type_id_value"] =='2' || $_SESSION["user_type_id_value"]== '3' || $_SESSION["user_type_id_value"]== '4' || $_SESSION["user_type_id_value"]== '5' || $_SESSION["user_type_id_value"]== '6' || $_SESSION["user_type_id_value"]== '7' || $_SESSION["user_type_id_value"]== '8' || $_SESSION["user_type_id_value"]== '9' || $_SESSION["user_type_id_value"]== '10' || $_SESSION["user_type_id_value"]== '11' || $_SESSION["user_type_id_value"]== '12' || $_SESSION["user_type_id_value"]== '13' || $_SESSION["user_type_id_value"]== '14' || $_SESSION["user_type_id_value"]== '15' || $_SESSION["user_type_id_value"]== '16' || $_SESSION["user_type_id_value"]== '17' || $_SESSION["user_type_id_value"]== '18' || $_SESSION["user_type_id_value"]== '19' || $_SESSION["user_type_id_value"]== '24' || $_SESSION["user_type_id_value"]== '25' || $_SESSION["user_type_id_value"]== '26'){
+	if ($_SESSION["user_type_id_value"] =='2' || $_SESSION["user_type_id_value"]== '3' || $_SESSION["user_type_id_value"]== '4' || $_SESSION["user_type_id_value"]== '5' || $_SESSION["user_type_id_value"]== '6' || $_SESSION["user_type_id_value"]== '7' || $_SESSION["user_type_id_value"]== '8' || $_SESSION["user_type_id_value"]== '9' || $_SESSION["user_type_id_value"]== '10' || $_SESSION["user_type_id_value"]== '11' || $_SESSION["user_type_id_value"]== '12' || $_SESSION["user_type_id_value"]== '13' || $_SESSION["user_type_id_value"]== '14' || $_SESSION["user_type_id_value"]== '15' || $_SESSION["user_type_id_value"]== '16' || $_SESSION["user_type_id_value"]== '17' || $_SESSION["user_type_id_value"]== '18' || $_SESSION["user_type_id_value"]== '19' || $_SESSION["user_type_id_value"]== '24' || $_SESSION["user_type_id_value"]== '25' || $_SESSION["user_type_id_value"]== '26' || $_SESSION["user_type_id_value"]== '27' || $_SESSION["user_type_id_value"]== '28' || $_SESSION["user_type_id_value"]== '29' || $_SESSION["user_type_id_value"]== '30'){
 		if ($remember_me == 'true') {
 				setcookie('user2',$username, time() + (86400 * 30), "/"); // 86400 = 1 day
 				// setcookie('user2',$username , time() + (86400 * 30), "/"); // 86400 = 1 day

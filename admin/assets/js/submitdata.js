@@ -2092,6 +2092,8 @@ $("#addBusinessMentor").on("click", function (e) {
 
     if (register_as == "sponsor_franchisee"){
         payment_fee = $("#payment_fee2").val().trim();
+    }else if(register_as == "master_franchisee"){
+        payment_fee = $("#payment_fee2").val().trim();
     }else{
         payment_fee = $("#payment_fee").val().trim();
     }
@@ -2345,7 +2347,9 @@ $("#editBuisnessMentor").on("click", function (e) {
         transactionNo = "",
         payment_proof = "";
 
-     if (register_as == "sf"){
+    if (register_as == "sf"){
+        payment_fee = $("#payment_fee2").val().trim();
+    }else if(register_as == "mf"){
         payment_fee = $("#payment_fee2").val().trim();
     }else{
         payment_fee = $("#payment_fee").val().trim();
@@ -3925,6 +3929,8 @@ $("#addCustomer").on("click", function (e) {
     // var designation = $("#designation").val().trim();
     var user_id_name = $("#user_id_name").val().trim();
     var reference_name = $("#reference_name").val().trim();
+    var cust_id_name = $("#indirect_add_cust_id").val().trim();
+    var cust_name = $("#indirect_add_cust_name").val().trim();
 
     var isComplementary = $('#is_complementary').is(':checked') ? 1 : 2;
     var firstname = $("#firstname").val().trim();
@@ -4073,6 +4079,10 @@ $("#addCustomer").on("click", function (e) {
             user_id_name +
             "&reference_name=" +
             reference_name +
+            "cust_id_name=" +
+            cust_id_name +
+            "&cust_name=" +
+            cust_name +
             "&firstname=" +
             firstname +
             "&lastname=" +

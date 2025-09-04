@@ -87,7 +87,7 @@
                         <div class="col-lg-6 col-md-5 col-sm-12 col-12">
                             <div class="d-flex flex-column gap-20">
                                 <div class="logo">
-                                    <img src="assets/images/bizz_logo.png" alt="Bizzmirth Holidays" height="75px" width="120px">
+                                    <img src="../assets/images/bizz_logo.png" alt="Bizzmirth Holidays" height="75px" width="120px">
                                 </div>
                                 <p class="pera pb-2">
                                     © Bizzmirth Holidays Pvt. Ltd. – A trusted name in travel, holidays, and business consultancy. 
@@ -101,23 +101,23 @@
                         </div>
                         <div class="col-lg-6 col-md-7 col-sm-12 col-12 d-flex align-items-end">
                             <div class="row g-2 d-flex justify-content-center">
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-6 d-flex justify-content-center">
-                                    <img src="assets/images/footer/card1.jpg" class="rounded-4" alt="Bizzmirth Holidays" height="100px" width="180px" style="object-fit: cover;">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-9 d-flex justify-content-center">
+                                    <img src="../assets/images/footer/card1.jpg" class="rounded-4" alt="Bizzmirth Holidays" style="object-fit: cover; height:100px; width:180px;">
                                 </div>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-6 d-flex justify-content-center">
-                                    <img src="assets/images/footer/card2.jpg" class="rounded-4" alt="Bizzmirth Holidays" height="100px" width="180px" style="object-fit: cover;">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-9 d-flex justify-content-center">
+                                    <img src="../assets/images/footer/card2.jpg" class="rounded-4" alt="Bizzmirth Holidays" style="object-fit: cover; height:100px; width:180px;">
                                 </div>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-6 d-flex justify-content-center">
-                                    <img src="assets/images/footer/card3.jpg" class="rounded-4" alt="Bizzmirth Holidays" height="100px" width="180px" style="object-fit: cover;">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-9 d-flex justify-content-center">
+                                    <img src="../assets/images/footer/card3.jpg" class="rounded-4" alt="Bizzmirth Holidays" style="object-fit: cover; height:100px; width:180px;">
                                 </div>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-6 d-flex justify-content-center">
-                                    <img src="assets/images/footer/card4.jpg" class="rounded-4" alt="Bizzmirth Holidays" height="100px" width="180px" style="object-fit: cover;">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-9 d-flex justify-content-center">
+                                    <img src="../assets/images/footer/card4.jpg" class="rounded-4" alt="Bizzmirth Holidays" style="object-fit: cover; height:100px; width:180px;">
                                 </div>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-6 d-flex justify-content-center">
-                                    <img src="assets/images/footer/card5.jpg" class="rounded-4" alt="Bizzmirth Holidays" height="100px" width="180px" style="object-fit: cover;">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-9 d-flex justify-content-center">
+                                    <img src="../assets/images/footer/card5.jpg" class="rounded-4" alt="Bizzmirth Holidays" style="object-fit: cover; height:100px; width:180px;">
                                 </div>
-                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-6 d-flex justify-content-center">
-                                    <img src="assets/images/footer/card6.jpg" class="rounded-4" alt="Bizzmirth Holidays" height="100px" width="180px" style="object-fit: cover;">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-4 col-9 d-flex justify-content-center">
+                                    <img src="../assets/images/footer/card6.jpg" class="rounded-4" alt="Bizzmirth Holidays" style="object-fit: cover; height:100px; width:180px;">
                                 </div>
                             </div>
                         </div>
