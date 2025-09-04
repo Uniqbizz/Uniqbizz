@@ -13,7 +13,7 @@ $commision = $_POST['Commision'] ?? '';
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
 if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
     $message = "message_bm";
-}else if ($user_id_str =='F' || $user_id_str =='CA' || $$user_id_str=='TE'){
+}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE'){
     $message = "message_te";
 }
 
@@ -60,28 +60,10 @@ if($totalTableMessage){
                             cap.status,
                             cap.date AS paydate
                         FROM ca_ta_payout ca
-                        LEFT JOIN ca_ta_payout_paid cap ON cap.$designation = ca.$designation
+                        LEFT JOIN ca_ta_payout_paid cap ON cap.$designation = ca.$designation AND cap.techno_enterprise = ca.techno_enterprise
                         WHERE ca.$designation = '".$user_id."' 
                         AND YEAR(ca.created_date) = '".$TotalYear."' 
                         AND MONTH(ca.created_date) = '".$TotalMonth."'
-
-                        UNION ALL
-
-                        SELECT 
-                            ca.created_date,
-                            ca.status,
-                            ca.id,
-                            ca.message_bm,
-                            ca.message_te,
-                            ca.commision_te,
-                            ca.commision_bm,
-                            0 AS status,
-                            NULL AS paydate
-                        FROM ca_ta_payout ca
-                        WHERE ca.$designation = '".$user_id."' 
-                        AND YEAR(ca.created_date) = '".$TotalYear."' 
-                        AND MONTH(ca.created_date) = '".$TotalMonth."'
-                        AND ca.$designation NOT IN (SELECT $designation FROM ca_ta_payout_paid);
                         ";
             $model2 = $conn -> prepare($model2);
             $model2 -> execute();

@@ -450,7 +450,7 @@ function totalPayoutExel(){
         //         console.log(data);
         //     }
         // });
-        window.location.href='payout/forms/recruitment_payout/download_exel_ca?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&user_id='+totalUserId+'&designation='+totalUserDesignation;
+        window.location.href='payout/forms/recruitment_payout/download_exel_ca.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&user_id='+totalUserId+'&designation='+totalUserDesignation;
         // console.log('payoutmessage='+payoutmessage);
         // console.log('payoutYear='+payoutYear);
         // console.log('payoutMonth='+payoutMonth);

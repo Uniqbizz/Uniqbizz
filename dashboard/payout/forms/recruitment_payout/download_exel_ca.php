@@ -12,7 +12,31 @@ $monthName = $dateObj->format('F');
 
 if($payoutmessage == 'PreviousPayout'){
     $output="";
-    $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    $stmt2 = "SELECT 
+                    ca.created_date,
+                    ca.status,
+                    ca.id,
+                    ca.business_mentor,
+                    ca.message_bm,
+                    ca.commision_bm,
+                    ca.status_bm,
+                    ca.techno_enterprise,
+                    ca.message_te,
+                    ca.commision_te,
+                    ca.status_te,
+                    COALESCE(cap.status, 0) AS status,
+                    cap.date AS paydate
+                FROM ca_ta_payout ca
+                LEFT JOIN ca_ta_payout_paid cap 
+                    ON cap.$designation = ca.$designation
+                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND YEAR(cap.date) = '".$payoutYear."'
+                    AND MONTH(cap.date) = '".$payoutMonth."'
+                WHERE ca.$designation = '".$user_id."' 
+                AND YEAR(ca.created_date) = '".$payoutYear."' 
+                AND MONTH(ca.created_date) = '".$payoutMonth."'
+                ";
     $stmt2 = $conn -> prepare($stmt2);
     $stmt2 -> execute();
     $stmt2 ->setFetchMode(PDO::FETCH_ASSOC);
@@ -25,7 +49,7 @@ if($payoutmessage == 'PreviousPayout'){
                 if($user_id_str == "BM"){
                     $output .= '<th class="mobile_view">Business Mentor</th>
                     <th class="mobile_view">Business Mentor Name</th>';
-                }else if($user_id_str == "TE" || $$user_id_str == "CA"){
+                }else if($user_id_str == "TE" || $user_id_str == "CA"){
                     $output .= '<th class="mobile_view">Techno Enterprise</th>
                     <th class="mobile_view">Techno Enterprise Name</th>';
                 }else if($user_id_str == "SF"){
@@ -44,6 +68,7 @@ if($payoutmessage == 'PreviousPayout'){
                 <th class="mobile_view" >TDS</th>
                 <th style="text-align:center;">Total Payable</th>
                 <th style="text-align:center;">Status</th>
+                <th style="text-align:center;">Paid Date</th>
             </tr>';
             foreach($stmt2->fetchAll() as $key => $row2){
                 $rd= new DateTime($row2['created_date']);
@@ -87,10 +112,12 @@ if($payoutmessage == 'PreviousPayout'){
                         <td style="text-align:center;">'.$BC_Commi.'</td>
                         <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                        if($row2['status_bm'] == 0){
-                            $output .='<td style="text-align:center;">Pending</td>';
-                        }else{
-                            $output .='<td style="text-align:center;">Paid</td>';
+                        if($row2['status_bm'] == 2){
+                            $output .='<td style="text-align:center;">Pending</td>
+                                       <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_bm'] == 1){
+                            $output .='<td style="text-align:center;">Paid</td>
+                                       <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
                 }else if($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
@@ -123,10 +150,12 @@ if($payoutmessage == 'PreviousPayout'){
                         <td style="text-align:center;">'.$CA_Commi.'</td>
                         <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                        if($row2['status_te'] == 0){
-                            $output .= '<td style="text-align:center;">Pending</td>';
-                        }else{
-                            $output .= '<td style="text-align:center;">Paid</td>';
+                        if($row2['status_te'] == 2){
+                            $output .= '<td style="text-align:center;">Pending</td>
+                                        <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_te'] == 1){
+                            $output .= '<td style="text-align:center;">Paid</td>
+                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
                 }
@@ -143,7 +172,30 @@ if($payoutmessage == 'PreviousPayout'){
 
 if($payoutmessage == 'NextPayout'){
     $output="";
-    $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    $stmt2 ="SELECT 
+                    ca.created_date,
+                    ca.status,
+                    ca.id,
+                    ca.business_mentor,
+                    ca.message_bm,
+                    ca.commision_bm,
+                    ca.status_bm,
+                    ca.techno_enterprise,
+                    ca.message_te,
+                    ca.commision_te,
+                    ca.status_te,
+                    COALESCE(cap.status, 0) AS status,
+                    cap.date AS paydate
+                FROM ca_ta_payout ca
+                LEFT JOIN ca_ta_payout_paid cap 
+                    ON cap.$designation = ca.$designation
+                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND YEAR(cap.date) = '".$payoutYear."'
+                    AND MONTH(cap.date) = '".$payoutMonth."'
+                WHERE ca.$designation = '".$user_id."' 
+                AND YEAR(ca.created_date) = '".$payoutYear."' 
+                AND MONTH(ca.created_date) = '".$payoutMonth."'";
     $stmt2 = $conn -> prepare($stmt2);
     $stmt2 -> execute();
     $stmt2 ->setFetchMode(PDO::FETCH_ASSOC);
@@ -219,10 +271,12 @@ if($payoutmessage == 'NextPayout'){
                         <td style="text-align:center;">'.$BC_Commi.'</td>
                         <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                        if($row2['status_bm'] == 0){
-                            $output .='<td style="text-align:center;">Pending</td>';
-                        }else{
-                            $output .='<td style="text-align:center;">Paid</td>';
+                        if($row2['status_bm'] == 2){
+                            $output .='<td style="text-align:center;">Pending</td>
+                                       <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_bm'] == 1){
+                            $output .='<td style="text-align:center;">Paid</td>
+                                       <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
                 }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
@@ -256,10 +310,12 @@ if($payoutmessage == 'NextPayout'){
                         <td style="text-align:center;">'.$CA_Commi.'</td>
                         <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                        if($row2['status_te'] == 0){
-                            $output .= '<td style="text-align:center;">Pending</td>';
-                        }else{
-                            $output .= '<td style="text-align:center;">Paid</td>';
+                        if($row2['status_te'] == 2){
+                            $output .= '<td style="text-align:center;">Pending</td>
+                                        <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_te'] == 1){
+                            $output .= '<td style="text-align:center;">Paid</td>
+                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
                 }
@@ -275,7 +331,30 @@ if($payoutmessage == 'NextPayout'){
 
 if($payoutmessage == 'TotalPayout'){
     $output="";
-    $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    $stmt2 ="SELECT 
+                    ca.created_date,
+                    ca.status,
+                    ca.id,
+                    ca.business_mentor,
+                    ca.message_bm,
+                    ca.commision_bm,
+                    ca.status_bm,
+                    ca.techno_enterprise,
+                    ca.message_te,
+                    ca.commision_te,
+                    ca.status_te,
+                    COALESCE(cap.status, 0) AS status,
+                    cap.date AS paydate
+                FROM ca_ta_payout ca
+                LEFT JOIN ca_ta_payout_paid cap 
+                    ON cap.$designation = ca.$designation
+                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND YEAR(cap.date) = '".$payoutYear."'
+                    AND MONTH(cap.date) = '".$payoutMonth."'
+                WHERE ca.$designation = '".$user_id."' 
+                AND YEAR(ca.created_date) = '".$payoutYear."' 
+                AND MONTH(ca.created_date) = '".$payoutMonth."'";
     $stmt2 = $conn -> prepare($stmt2);
     $stmt2 -> execute();
     $stmt2 ->setFetchMode(PDO::FETCH_ASSOC);
@@ -351,10 +430,12 @@ if($payoutmessage == 'TotalPayout'){
                         <td style="text-align:center;">'.$BC_Commi.'</td>
                         <td style="text-align:center;">'.$BC_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$BC_Commi_Total.'/-</td>';
-                        if($row2['status_bm'] == 0){
-                            $output .='<td style="text-align:center;">Pending</td>';
-                        }else{
-                            $output .='<td style="text-align:center;">Paid</td>';
+                        if($row2['status_bm'] == 2){
+                            $output .='<td style="text-align:center;">Pending</td>
+                                       <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_bm'] == 1){
+                            $output .='<td style="text-align:center;">Paid</td>
+                                       <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
                 }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
@@ -388,10 +469,12 @@ if($payoutmessage == 'TotalPayout'){
                         <td style="text-align:center;">'.$CA_Commi.'</td>
                         <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
                         <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
-                        if($row2['status_te'] == 0){
-                            $output .= '<td style="text-align:center;">Pending</td>';
-                        }else{
-                            $output .= '<td style="text-align:center;">Paid</td>';
+                        if($row2['status_te'] == 2){
+                            $output .= '<td style="text-align:center;">Pending</td>
+                                        <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_te'] == 1){
+                            $output .= '<td style="text-align:center;">Paid</td>
+                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
                 }
@@ -406,11 +489,34 @@ if($payoutmessage == 'TotalPayout'){
 }
 
 if($payoutmessage == 'allPayout'){
-    if($user_id_str == 'BM' || $user_id_str == 'SF' || $user_id_str == 'MF'){
-        $stmt2 = " SELECT * FROM ca_ta_payout WHERE business_mentor = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($user_id_str == 'TE' || $user_id_str == 'CA' || $user_id_str == 'F'){
-        $stmt2 = " SELECT * FROM ca_ta_payout WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }
+    // if($user_id_str == 'BM' || $user_id_str == 'SF' || $user_id_str == 'MF'){
+    //     $stmt2 = " SELECT * FROM ca_ta_payout WHERE business_mentor = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // }else if($user_id_str == 'TE' || $user_id_str == 'CA' || $user_id_str == 'F'){
+    //     $stmt2 = " SELECT * FROM ca_ta_payout WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // }
+    $stmt2 = " SELECT 
+                    ca.created_date,
+                    ca.status,
+                    ca.id,
+                    ca.business_mentor,
+                    ca.message_bm,
+                    ca.commision_bm,
+                    ca.status_bm,
+                    ca.techno_enterprise,
+                    ca.message_te,
+                    ca.commision_te,
+                    ca.status_te,
+                    COALESCE(cap.status, 0) AS status,
+                    cap.date AS paydate
+                FROM ca_ta_payout ca
+                LEFT JOIN ca_ta_payout_paid cap 
+                    ON cap.$designation = ca.$designation
+                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND YEAR(cap.date) = '".$payoutYear."'
+                    AND MONTH(cap.date) = '".$payoutMonth."'
+                WHERE ca.$designation = '".$user_id."' 
+                AND YEAR(ca.created_date) = '".$payoutYear."' 
+                AND MONTH(ca.created_date) = '".$payoutMonth."'";
     
     $output="";
     $stmt2 = $conn -> prepare($stmt2);
