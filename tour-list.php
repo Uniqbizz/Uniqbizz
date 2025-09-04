@@ -64,6 +64,19 @@ if (isset($_SESSION['user_type_id_value'])) {
     <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
+    <style>
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            font-size: 16px;
+            color: #999999;
+            font-family: var(--Dm);
+        }
+    </style>
 </head>
 
 <body>
@@ -105,6 +118,24 @@ if (isset($_SESSION['user_type_id_value'])) {
                                         stroke-linejoin="round" />
                                 </svg>
                                 <h4 class="title">Search By Filter</h4>
+                            </div>
+                            <div class="p-3" style="max-width: 300px;">
+                                <h4 class="title">
+                                    <i class="bi bi-ticket-perforated"></i> Tour Type
+                                </h4>
+                                <hr class="my-2">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input tour-type" type="checkbox" value="2" id="dometic" checked>
+                                    <label class="form-check-label text-muted" for="dometic">
+                                        Domestic
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input tour-type" type="checkbox" value="1" id="international" checked>
+                                    <label class="form-check-label text-muted" for="international">
+                                        International
+                                    </label>
+                                </div>
                             </div>
                             <div class="tour-search">
                                 <div class="select-dropdown-section">
@@ -188,6 +219,9 @@ if (isset($_SESSION['user_type_id_value'])) {
                                         </span>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="mt-4">
+                                <button id="clearAll" class="btn btn-outline-secondary btn-sm">Clear</button>
                             </div>
                         </div>
                         <div class="cover"></div>
@@ -374,9 +408,20 @@ if (isset($_SESSION['user_type_id_value'])) {
             });
             return selected;
         }
+        
+        //extract tour type
+        function getTourType() {
+            return $(".tour-type:checked").map(function() {
+                return $(this).val();
+            }).get();
+        }
 
-        function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration,destination) {
+
+
+
+        function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration,destination,tourType) {
             let ratings = getSelectedRatings(); // get selected ratings
+            //let tourType = getTourType(); // get selected tour type
 
             $.ajax({
                 url: "assets/submit/fetch_sorted_products.php",
@@ -390,7 +435,8 @@ if (isset($_SESSION['user_type_id_value'])) {
                     minDuration: minDuration,
                     maxDuration: maxDuration,
                     ratings: ratings, // send ratings array
-                    destination: destination
+                    destination: destination,
+                    tourType:tourType
                 },
                 success: function(response) {
                     $("#all-tour-list").html(response);
@@ -400,6 +446,19 @@ if (isset($_SESSION['user_type_id_value'])) {
                 }
             });
         }
+        // Run AJAX on sort change
+        $(".tour-type").on("change", function() {
+            var sortValue = $(".sort-options").val();
+            var priceRange = $("#amount").val();
+            let prices = extractPrices(priceRange);
+
+            let minDuration = $("#slider-range-duration").slider("values", 0);
+            let maxDuration = $("#slider-range-duration").slider("values", 1);
+            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            let tourType = getTourType()??0;
+            console.log("tourType:", tourType);
+            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
+        });
 
         // Run AJAX on sort change
         $(".sort-options").on("change", function() {
@@ -410,10 +469,11 @@ if (isset($_SESSION['user_type_id_value'])) {
             let minDuration = $("#slider-range-duration").slider("values", 0);
             let maxDuration = $("#slider-range-duration").slider("values", 1);
             let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-
-
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
+            let tourType = getTourType();
+            
+            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
         });
+
 
         // Run AJAX on price change
         $("#amount").on("change", function() {
@@ -425,7 +485,7 @@ if (isset($_SESSION['user_type_id_value'])) {
             let maxDuration = $("#slider-range-duration").slider("values", 1);
 
             let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-
+            let tourType = getTourType();
 
             fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
         });
@@ -440,9 +500,13 @@ if (isset($_SESSION['user_type_id_value'])) {
             let maxDuration = $("#slider-range-duration").slider("values", 1);
 
             let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            let tourType = getTourType();
 
-
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
+            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
+        });
+        
+        $("#clearAll").on("click", function() {
+            location.reload(); // Or window.location.reload();
         });
 
         $(document).ready(function() {
@@ -454,10 +518,11 @@ if (isset($_SESSION['user_type_id_value'])) {
             let minDuration = $("#slider-range-duration").slider("values", 0);
             let maxDuration = $("#slider-range-duration").slider("values", 1);
             let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-
+            let tourType = getTourType();
 
             console.log("Description:", selectedDescription);
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription);
+            
+            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType);
         });
         $(document).on("change", ".destination-dropdown", function() {
             let selectedId = $(this).val(); // gets the selected ID
@@ -468,13 +533,13 @@ if (isset($_SESSION['user_type_id_value'])) {
             var sortValue = $(".sort-options").val();
             let minDuration = $("#slider-range-duration").slider("values", 0);
             let maxDuration = $("#slider-range-duration").slider("values", 1);
-            
+            let tourType = getTourType();
             console.log("Destination Changed:");
             console.log("ID:", selectedId);
             console.log("Text:", selectedText);
             console.log("Description:", selectedDescription);
 
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
+            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
         });
 
         // duration slider

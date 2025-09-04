@@ -1,4 +1,7 @@
 <?php
+//last chaged on 04-09-2025
+//added logic for F->SF/MF and BM->TC/MF-TC
+//F == TE/CA
 require '../../connect.php';
 // include '../send_sms_helper.php';
 // include '../../admin/assets/generate_invoice_number.php';
@@ -640,9 +643,9 @@ if ($result2) {
         }
     }
 
-    function levelConti($ca_ta_ref,$ca_ta_ref_name){
+    function levelConti($ca_ta_ref,$ca_ta_ref_name,$conn){
         
-        global $conn;
+        //global $conn;
 
         $cuIds2 = [];
         $cuName2 = [];
@@ -664,60 +667,166 @@ if ($result2) {
         }
 
         // corporate_agency / Techno Enterprise
-        $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
-        $sql5 -> execute();
-        $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
-        if( $sql5 -> rowCount()>0 ){
-            foreach( ($sql5 -> fetchAll()) as $key => $row ){
-                $bm_ref = $row['reference_no'];
-                $bm_name = $row['registrant'];
-                $cuIds2[] = $bm_ref; 
-                $cuName2[] = $bm_name;
-            }
-        }
-
-        // Business Mentor
-        $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
-        $sql6 -> execute();
-        $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
-        if( $sql6 -> rowCount()>0 ){
-            foreach( ($sql6 -> fetchAll()) as $key => $row ){
-                $bdm_ref = $row['reference_no'];
-                $bdm_name = $row['registrant'];
-                $cuIds2[] = $bdm_ref; 
-                $cuName2[] = $bdm_name;
-            }
-        }
-
-        // Business Development manager
-        $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
-        $sql7 -> execute();
-        $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
-        if( $sql7 -> rowCount()>0 ){
-            foreach( ($sql7 -> fetchAll()) as $key => $row ){
-                $bcm_ref = $row['reporting_manager'];
-
+        $ca_ref_str=substr($ca_ref,0,1)=='F'?
+                    substr($ca_ref,0,1):
+                    substr($ca_ref,0,2);
+        if($ca_ref_str == 'TE' || $ca_ref_str == 'CA'){
+          $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
+          $sql5 -> execute();
+          $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql5 -> rowCount()>0 ){
+              foreach( ($sql5 -> fetchAll()) as $key => $row ){
+                  $bm_ref = $row['reference_no'];
+                  $bm_name = $row['registrant'];
+                  $cuIds2[] = $bm_ref; 
+                  $cuName2[] = $bm_name;
+              }
+          }
+          // Business Mentor
+          $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
+          $sql6 -> execute();
+          $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql6 -> rowCount()>0 ){
+              foreach( ($sql6 -> fetchAll()) as $key => $row ){
+                  $bdm_ref = $row['reference_no'];
+                  $bdm_name = $row['registrant'];
+                  $cuIds2[] = $bdm_ref; 
+                  $cuName2[] = $bdm_name;
+              }
+          }
+          // Business Development manager
+          $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
+          $sql7 -> execute();
+          $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql7 -> rowCount()>0 ){
+              foreach( ($sql7 -> fetchAll()) as $key => $row ){
+                $bcm_ref = $row['reporting_manager']??'NA';
                 $bcm_name ='';
-                $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
-                $sqlBchName -> execute();
-                $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
-                if( $sqlBchName -> rowCount()>0 ){
-                    foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
-                        $bcm_name = $row['name'];
-                    }
+                if($bcm_ref == 'NA'){
+                  $bcm_name ='NA';
+                }else{
+                  $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
+                  $sqlBchName -> execute();
+                  $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
+                  if( $sqlBchName -> rowCount()>0 ){
+                      foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
+                          $bcm_name = $row['name'];
+                      }
+                  }
                 }
 
                 $cuIds2[] = $bcm_ref; 
                 $cuName2[] = $bcm_name;
-            }
+              }
+          }
+        }
+        //franchisee
+        else if($ca_ref_str == 'F'){
+          $sql5 = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca_ref."' AND status= '1' ");
+          $sql5 -> execute();
+          $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql5 -> rowCount()>0 ){
+              foreach( ($sql5 -> fetchAll()) as $key => $row ){
+                  $bm_ref = $row['reference_no'];
+                  $bm_name = $row['registrant'];
+                  $cuIds2[] = $bm_ref; 
+                  $cuName2[] = $bm_name;
+              }
+          }
+            //NA in case of MF/SF
+            //no upper ref of MF /SF
+            $bdm_ref='NA';
+            $bdm_name='NA';
+            $cuIds2[] = $bdm_ref; 
+            $cuName2[] = $bdm_name;
+            $bcm_ref='NA';
+            $bcm_name='NA';
+            $cuIds2[] = $bcm_ref; 
+            $cuName2[] = $bcm_name;
         }
 
-        // return $cuIds2 ;
-        // return $cuName2 ;
+        // Business Mentor BM->TC
+        else if($ca_ref_str == 'BM'){
+          $ca_ref = 'NA';
+          $ca_name = 'NA';
+          $cuIds2[] = $ca_ref; 
+          $cuName2[] = $ca_name;
+          
+          // Business Mentor
+          $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$ca_ta_ref."' AND status= '1' ");
+          $sql6 -> execute();
+          $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql6 -> rowCount()>0 ){
+              foreach( ($sql6 -> fetchAll()) as $key => $row ){
+                  $bm_ref = $row['business_mentor_id'];
+                  $bm_name = $row['fisrtname'].' '.$row['lastname'];
+                  $cuIds2[] = $bm_ref; 
+                  $cuName2[] = $bm_name;
+                  $bdm_ref = $row['reference_no'];
+                  $bdm_name = $row['registrant'];
+                  $cuIds2[] = $bdm_ref; 
+                  $cuName2[] = $bdm_name;
+              }
+          }
+          // Business Development manager
+          $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
+          $sql7 -> execute();
+          $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql7 -> rowCount()>0 ){
+              foreach( ($sql7 -> fetchAll()) as $key => $row ){
+                  $bcm_ref = $row['reporting_manager']??'NA';
+                  $bcm_name ='';
+                  if($bcm_ref == 'NA'){
+                    $bcm_name ='NA';
+                  }else{
+                    $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
+                    $sqlBchName -> execute();
+                    $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
+                    if( $sqlBchName -> rowCount()>0 ){
+                        foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
+                            $bcm_name = $row['name'];
+                        }
+                    }
+                  }
+
+                  $cuIds2[] = $bcm_ref; 
+                  $cuName2[] = $bcm_name;
+              }
+          }
+        }
+        // Master Franchisee MF->TC
+        else if($ca_ref_str == 'MF'){
+          $ca_ref = 'NA';
+          $ca_name = 'NA';
+          $cuIds2[] = $ca_ref; 
+          $cuName2[] = $ca_name;
+          // Master Franchisee
+          $sql6 = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$ca_ta_ref."' AND status= '1' ");
+          $sql6 -> execute();
+          $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
+          if( $sql6 -> rowCount()>0 ){
+              foreach( ($sql6 -> fetchAll()) as $key => $row ){
+                  $bm_ref = $row['master_franchisee_id'];
+                  $bm_name = $row['fisrtname'].' '.$row['lastname'];
+                  $cuIds2[] = $bm_ref; 
+                  $cuName2[] = $bm_name;
+              }
+          }
+          //NA in case of MF
+          $bdm_ref = 'NA';
+          $bdm_name = 'NA';
+          $cuIds2[] = $bdm_ref; 
+          $cuName2[] = $bdm_name;
+          $bcm_ref='NA';
+          $bcm_name='NA';
+          $cuIds2[] = $bcm_ref; 
+          $cuName2[] = $bcm_name;
+          
+        }
         return array($cuIds2,$cuName2);
     }
 
-    list($cuIds2,$cuName2) = levelConti($ca_ta_ref,$ca_ta_ref_name);
+    list($cuIds2,$cuName2) = levelConti($ca_ta_ref,$ca_ta_ref_name,$conn);
 
     // Now you can access $cuIds2 and $cuName2 separately
     // echo "Customer IDs: ";
@@ -783,13 +892,34 @@ if ($result2) {
     $ta_amt = $total_passenger*$ta_commi;
 
     $te = $cuIds2[1];
-    $te_message = 'Techno Enterprise '. $cuIds2[1].' ('.$cuName2[1].') Has Earned Rs.'.$te_commi.' X '.$total_passenger.' =  '.$total_passenger*$te_commi.'/-';
-    $te_amt = $total_passenger*$te_commi;
+    if(!$te){
+      $te_str=substr($te,0,1) == 'F'?
+              substr($te,0,1):
+              substr($te,0,2);
+      if($te_str == 'TE' || $te_str == 'CA'){
+        $telable='Techno Enterprise ';
+      }else if($te_str == 'F'){
+        $telable='Farnchisee ';
+      }
+      $te_message = $telable. $cuIds2[1].' ('.$cuName2[1].') Has Earned Rs.'.$te_commi.' X '.$total_passenger.' =  '.$total_passenger*$te_commi.'/-';
+      $te_amt = $total_passenger*$te_commi;
+    }else{
+      $te_message = 'NA';
+      $te_amt = 'NA';
+    }
 
     $bm = $cuIds2[2];
-    $bm_message = 'Business Mentor '. $cuIds2[2].' ('.$cuName2[2].') Has Earned Rs.'.$bm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bm_commi.'/-';
+    $bm_str=substr($bm,0,2);
+    if($bm_str == 'BM'){
+      $bmlable='Business Mentor ';
+    }else if($bm_str == 'MF'){
+      $bmlable='Master Farnchisee ';
+    }else if($bm_str == 'SF'){
+      $bmlable='Sponsor Franchisee ';
+    }
+    $bm_message = $bmlable . $cuIds2[2].' ('.$cuName2[2].') Has Earned Rs.'.$bm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bm_commi.'/-';
     $bm_amt = $total_passenger*$bm_commi;
-
+    //no entries in product payout for bdm/bcm as ther are salaried employees
     // $bdm = '';
     // $bdm_message = '';
     // $bdm_amt = '';
