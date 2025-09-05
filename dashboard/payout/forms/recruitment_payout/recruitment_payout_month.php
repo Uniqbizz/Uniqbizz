@@ -10,10 +10,11 @@ $designation = $_POST['designation'] ?? '';
 $user_id = $_POST['user_id'] ?? '';
 $commision = $_POST['Commision'] ?? '';
 
-if($designation == "business_consultant"){
-    $message = "message_bc";
-}else{
-    $message = "message_ca";
+$user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
+if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
+    $message = "message_bm";
+}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE'){
+    $message = "message_te";
 }
 
 if($totalAmountMessage){
@@ -43,11 +44,27 @@ if($totalTableMessage){
                 <th style="text-align:center;" class="mobile_view tab_view">Amount</th>
                 <th style="text-align:center;" class="mobile_view" >TDS</th>
                 <th style="text-align:center;">Total Payable</th>
+                <th style="text-align:center;">Remark</th>
             </tr>
         </thead>
         <tbody >';
-           
-            $model2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' ";
+            //to get all entries paid and pending payout
+            $model2 = " SELECT 
+                            ca.created_date,
+                            ca.status,
+                            ca.id,
+                            ca.message_bm,
+                            ca.message_te,
+                            ca.commision_te,
+                            ca.commision_bm,
+                            cap.status,
+                            cap.date AS paydate
+                        FROM ca_ta_payout ca
+                        LEFT JOIN ca_ta_payout_paid cap ON cap.$designation = ca.$designation AND cap.techno_enterprise = ca.techno_enterprise
+                        WHERE ca.$designation = '".$user_id."' 
+                        AND YEAR(ca.created_date) = '".$TotalYear."' 
+                        AND MONTH(ca.created_date) = '".$TotalMonth."'
+                        ";
             $model2 = $conn -> prepare($model2);
             $model2 -> execute();
             $model2 -> setFetchMode(PDO::FETCH_ASSOC);
@@ -59,21 +76,29 @@ if($totalTableMessage){
                     $dt = $dt->format('Y-m-d');
 
                     $Commision = $row[$commision];
-                    $CommisionTDS = $Commision * 5/100;
+                    $CommisionTDS = $Commision * 2/100;
                     $CommisionTotal = $Commision - $CommisionTDS;
+                    $status=$row['status'];
 
-                    echo'<tr>
+                echo'<tr>
                         <td>'.$row['id'].'</td>
                         <td>'.$dt.'</td>
                         <td>'.$row[$message].'</td>
                         <td style="text-align:center;">'.$Commision.'</td>
                         <td style="text-align:center;">'.$CommisionTDS.'</td>
-                        <td style="text-align:center;">'.$CommisionTotal.'</td>
-                    </tr>';
+                        <td style="text-align:center;">'.$CommisionTotal.'
+                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$designation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$Commision.'&paydate='.$row['paydate'].'">
+                                <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                            </a>
+                        </td>';
+                if($status == '1'){
+                    echo'<td><span class="badge bg-success fw-bold ms-4">Paid</span></td>';
+                }else{
+                    echo'<td><span class="badge bg-warning fw-bold ms-4">Pending</span></td>';
+                }
+                echo'</tr>';
                 }
             }
-            
-            
         echo'</tbody>
     </table>';
 

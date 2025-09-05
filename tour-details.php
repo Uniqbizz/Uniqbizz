@@ -597,7 +597,7 @@ $customer_labels = [
 
                                                             //  If Customer then
                                                             if ($user_type == "10") {
-                                                                $stmt = $conn->prepare("SELECT * FROM customer where cust_id='" . $user_cust_id . "' ");
+                                                                $stmt = $conn->prepare("SELECT * FROM ca_customer where ca_customer_is='" . $user_cust_id . "' AND status=1");
                                                                 $stmt->execute();
                                                                 $data = $stmt->fetch();
                                                                 if ($data) {
@@ -1431,7 +1431,7 @@ $customer_labels = [
         function getCustomersID(user_cust_id, cust_type) {
             $.ajax({
                 type: "POST",
-                url: 'assets/submit/customers_id',
+                url: 'assets/submit/customers_id.php',
                 data: 'user_cust_id=' + user_cust_id + '&status=' + cust_type,
                 success: function(e) {
                     $("#customer_suggestion").html(e);
@@ -1448,11 +1448,11 @@ $customer_labels = [
         $("#cust_id").keyup(function() {
             var customerData;
             cust_id = $("#cust_id").val();
-
+             console.log('customerId:'+cust_id);
             if (cust_id) {
                 $.ajax({
                     type: "POST",
-                    url: 'assets/submit/get_customer_details',
+                    url: 'assets/submit/get_customer_details.php',
                     data: 'cust_id=' + cust_id + '&user_type=10',
                     success: function(res) {
                         if (res == "fail") {
@@ -1466,9 +1466,10 @@ $customer_labels = [
                             $("#dob").val(customerData.age);
                             $("#coupon_code").val('');
                             let customerTypeRaw = customerData.customer_type.trim().toLowerCase(); // e.g., "premium"
-                            let formattedCustomerType = customerTypeRaw.charAt(0).toUpperCase() + customerTypeRaw.slice(1); // "Premium"
+                            //let formattedCustomerType = customerTypeRaw.charAt(0).toUpperCase() + customerTypeRaw.slice(1); // "Premium"
 
-                            $("#specCust").text(formattedCustomerType + ' Customer');
+                            $("#specCust").text(customerTypeRaw + ' Customer');
+                            console.log('customerTypeRaw:'+customerTypeRaw);
                             
                             // Check for customer coupons
                             checkCustomerCoupons(cust_id);
