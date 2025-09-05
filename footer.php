@@ -31,7 +31,7 @@
                                         <a href="tour-list.php">Tour Listings</a>
                                     </li>
                                     <li class="single-lsit">
-                                        <a href="blogs.php">Destination</a>
+                                        <a href="destinations.php">Destination</a>
                                     </li>
                                 </ul>
                             </div>

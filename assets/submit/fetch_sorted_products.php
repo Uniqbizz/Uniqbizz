@@ -9,10 +9,12 @@ $min_duration = intval($_POST['minDuration']);
 $max_duration = intval($_POST['maxDuration']);
 $sort = $_POST['sort'];
 $ratings = $_POST['ratings']; // Array of selected ratings
+$tour_type = $_POST['tourType']??[0]; // Array of selected tour_type
 $destination = trim($_POST['destination'] ?? '');
 // destination text
 
 $ratingsStr = implode(",", $ratings);
+$tour_typeStr = implode(",", $tour_type);
 
 // Base SELECT
 $select = "
@@ -38,7 +40,7 @@ if ($sort === 'popular') {
 $from = "
     FROM package p
     JOIN package_pricing t ON p.id = t.package_id
-    JOIN category c ON p.category_id = c.id
+    JOIN category c ON p.category_id = c.id and c.status=1
     JOIN category_hotel c_h ON p.category_hotel_id = c_h.id";
 
 if ($sort === 'popular') {
@@ -57,6 +59,12 @@ if ($sort === 'popular') {
 // ✅ Ratings filter
 if (!empty($ratingsStr)) {
     $where .= " AND FIND_IN_SET(c_h.id, '{$ratingsStr}') > 0";
+}
+// tour type filter
+if (!empty($tour_typeStr) && in_array($tour_typeStr,['1','2'])) {
+    $where .= " AND FIND_IN_SET(c.id, '{$tour_typeStr}') > 0";
+}else if(!empty($tour_typeStr) && in_array($tour_typeStr,['0'])){
+    $where .= " AND FIND_IN_SET(c.id, '{1,2}') > 0";
 }
 
 // ✅ Destination filter (optional)

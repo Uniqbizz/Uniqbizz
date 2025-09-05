@@ -108,7 +108,7 @@
                                                     <a href="about.php" class="single">About</a>
                                                 </li>
                                                 <li class="single-list">
-                                                    <a href="blogs.php" class="single">Destination</a>
+                                                    <a href="destinations.php" class="single">Destination</a>
                                                 </li>
                                                 <li class="single-list">
                                                     <a href="tour-list.php" class="single">Tour Package</a>

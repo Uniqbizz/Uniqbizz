@@ -16,8 +16,8 @@ require '../../connect.php';
         // get Travel Agent data
         $stmt = $conn->prepare("SELECT firstname,lastname,email,contact_no FROM ca_travelagency where ca_travelagency_id='".$cust_id."' ");
     } else if ( $user_type == '10' ) {
-        // get Travel Agent data
-        $stmt = $conn->prepare("SELECT firstname,lastname,email,contact_no,age FROM ca_customer where ca_customer_id='".$cust_id."' ");
+        // get cutomer data
+        $stmt = $conn->prepare("SELECT firstname,lastname,email,contact_no,age,customer_type FROM ca_customer where ca_customer_id='".$cust_id."' ");
     }
     
     $stmt->execute();

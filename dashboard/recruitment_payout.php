@@ -30,13 +30,13 @@
     }else if($userType == '16' || $userType == '29'){
         $columnDesignation = 'techno_enterprise';
         $columnMessage = 'message_te';
-        $columnCommision = 'commision_bm';
-        $columnStatus = 'status_bm';
+        $columnCommision = 'commision_te';
+        $columnStatus = 'status_te';
     }else if($userType == '28' || $userType == '26' || $userType == '30') {
         $columnDesignation = 'business_mentor';
         $columnMessage = 'message_bm';
-        $columnCommision = 'commision_te';
-        $columnStatus = 'status_te';
+        $columnCommision = 'commision_bm';
+        $columnStatus = 'status_bm';
     }
 ?>
 
@@ -250,7 +250,26 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <?php
-                                                                                $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND  status = '1' ORDER BY `ca_ta_payout`.`id` DESC";
+                                                                                //$sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND  status = '1' ORDER BY `ca_ta_payout`.`id` DESC";
+                                                                                $sql = "SELECT 
+                                                                                            ca.created_date,
+                                                                                            ca.status,
+                                                                                            ca.id,
+                                                                                            ca.business_mentor,
+                                                                                            ca.message_bm,
+                                                                                            ca.commision_bm,
+                                                                                            ca.status_bm,
+                                                                                            ca.techno_enterprise,
+                                                                                            ca.message_te,
+                                                                                            ca.commision_te,
+                                                                                            ca.status_te,
+                                                                                            COALESCE(cap.status, 0) AS status,
+                                                                                            cap.date AS paydate
+                                                                                        FROM ca_ta_payout ca
+                                                                                        LEFT JOIN ca_ta_payout_paid cap 
+                                                                                            ON cap.$columnDesignation = ca.$columnDesignation
+                                                                                            AND cap.techno_enterprise = ca.techno_enterprise
+                                                                                        WHERE ca.$columnDesignation = '".$userId."' ";
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
                                                                                 $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -404,7 +423,30 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'";
+                                                    // $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'";
+                                                    $sql = "SELECT 
+                                                                ca.created_date,
+                                                                ca.status,
+                                                                ca.id,
+                                                                ca.business_mentor,
+                                                                ca.message_bm,
+                                                                ca.commision_bm,
+                                                                ca.status_bm,
+                                                                ca.techno_enterprise,
+                                                                ca.message_te,
+                                                                ca.commision_te,
+                                                                ca.status_te,
+                                                                COALESCE(cap.status, 0) AS status,
+                                                                cap.date AS paydate
+                                                            FROM ca_ta_payout ca
+                                                            LEFT JOIN ca_ta_payout_paid cap 
+                                                                ON cap.$columnDesignation = ca.$columnDesignation
+                                                                AND cap.techno_enterprise = ca.techno_enterprise
+                                                                AND YEAR(cap.date) = '".$prevDateYear."'
+                                                                AND MONTH(cap.date) = '".$prevDateMonth."'
+                                                            WHERE ca.$columnDesignation = '".$user_id."' 
+                                                            AND YEAR(ca.created_date) = '".$prevDateYear."' 
+                                                            AND MONTH(ca.created_date) = '".$prevDateMonth."'";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -537,7 +579,30 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'";
+                                                    // $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'";
+                                                    $sql=  "SELECT 
+                                                                ca.created_date,
+                                                                ca.status,
+                                                                ca.id,
+                                                                ca.business_mentor,
+                                                                ca.message_bm,
+                                                                ca.commision_bm,
+                                                                ca.status_bm,
+                                                                ca.techno_enterprise,
+                                                                ca.message_te,
+                                                                ca.commision_te,
+                                                                ca.status_te,
+                                                                COALESCE(cap.status, 0) AS status,
+                                                                cap.date AS paydate
+                                                            FROM ca_ta_payout ca
+                                                            LEFT JOIN ca_ta_payout_paid cap 
+                                                                ON cap.$columnDesignation = ca.$columnDesignation
+                                                                AND cap.techno_enterprise = ca.techno_enterprise
+                                                                AND YEAR(cap.date) = '".$nextDateYear."'
+                                                                AND MONTH(cap.date) = '".$nextDateMonth."'
+                                                            WHERE ca.$columnDesignation = '".$user_id."' 
+                                                            AND YEAR(ca.created_date) = '".$nextDateYear."' 
+                                                            AND MONTH(ca.created_date) = '".$nextDateMonth."'";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -677,9 +742,28 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND $columnStatus = '1' ";
-                                                    $stmt = $conn -> prepare($sql);
+                                                    //$sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND $columnStatus = '1' ";
+                                                    $sql = "SELECT 
+                                                                ca.created_date,
+                                                                ca.status,
+                                                                ca.id,
+                                                                ca.business_mentor,
+                                                                ca.message_bm,
+                                                                ca.commision_bm,
+                                                                ca.status_bm,
+                                                                ca.techno_enterprise,
+                                                                ca.message_te,
+                                                                ca.commision_te,
+                                                                ca.status_te,
+                                                                COALESCE(cap.status, 0) AS status,
+                                                                cap.date AS paydate
+                                                            FROM ca_ta_payout ca
+                                                            LEFT JOIN ca_ta_payout_paid cap 
+                                                                ON cap.$columnDesignation = ca.$columnDesignation
+                                                                AND cap.techno_enterprise = ca.techno_enterprise
+                                                            WHERE ca.$columnDesignation = '".$user_id."' AND ca.$columnStatus = '1' ";
                                                     $stmt -> execute();
+                                                    print_r($stmt);
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                     if( $stmt -> rowCount()>0 ){
                                                         foreach( ($stmt -> fetchALL()) as $key => $row ){
