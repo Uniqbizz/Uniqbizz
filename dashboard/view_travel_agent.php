@@ -1089,12 +1089,26 @@
                                                                                     <td>
                                                                                         <p>'.$row['ca_travelagency_id'].'</p>
                                                                                         <p>'.$row['firstname'].' '.$lastName.'</p>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <p>'.$row['reference_no'].'</p>
-                                                                                        <p>'.$row['registrant'].'</p>
-                                                                                    </td>
-                                                                                    <td>'.$row['contact_no'].'</td>
+                                                                                    </td>';
+                                                                                    if(!empty($row['alloted_check'])){
+                                                                                        if($row['alloted_check'] == 1){
+                                                                                            echo'<td>
+                                                                                                    <p>Alloted TC</p>
+                                                                                                </td>';
+                                                                                        }
+                                                                                        // else{
+                                                                                        //     echo'<td>
+                                                                                        //             <p>'.$row['reference_no'].'</p>
+                                                                                        //             <p>'.$row['registrant'].'</p>
+                                                                                        //         </td>';
+                                                                                        // }
+                                                                                    }else{
+                                                                                        echo'<td>
+                                                                                                <p>'.$row['reference_no'].'</p>
+                                                                                                <p>'.$row['registrant'].'</p>
+                                                                                            </td>';
+                                                                                    }
+                                                                                echo'<td>'.$row['contact_no'].'</td>
                                                                                     <td>'.$datev.'</td>';
                                                                                     
                                                                                     if($row['status'] == '1')
