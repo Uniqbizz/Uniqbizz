@@ -1093,6 +1093,7 @@
                                                                                     if(!empty($row['alloted_check'])){
                                                                                         if($row['alloted_check'] == 1){
                                                                                             echo'<td>
+
                                                                                                     <p>Allotted TC</p>
                                                                                                 </td>';
                                                                                         }
