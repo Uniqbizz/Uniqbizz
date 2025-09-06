@@ -1,6 +1,8 @@
 <?php
 // session_start();
 require '../connect.php';
+// Set default timezone to India (IST = Asia/Kolkata)
+date_default_timezone_set("Asia/Kolkata");
 
 $ta_id = $_POST['ta_id'];
 $ta_fname = $_POST['ta_fname'];
@@ -14,7 +16,12 @@ $ta_transaction_id = $_POST['ta_transaction_id'];
 $ta_ref_img = $_POST['ta_ref_img'];
 $ta_created_date = $_POST['ta_created_date'];
 $ta_status=$_POST['ta_status'];
-$payment_id = $_POST['payment_id'];
+//generate payment id
+function generatePaymentID()
+{
+    return "PAID" . date("YmdHis"); // Format: PAIDYYYYMMDDHHMMSS
+}
+$payment_id = generatePaymentID();
 
 // data insertion for logs tables 
 $title = "TA top up";

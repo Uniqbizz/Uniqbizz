@@ -113,12 +113,12 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
             $ta_id = 0;
             // get TA id
             if ($user_id) {
-                if ($user_type == '2') {
+                if ($user_type == '10') {
                     $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '" . $user_id . "' ");
                     $ta_data->execute();
                     $ta = $ta_data->fetch();
                     $ta_id = $ta['ta_reference'];
-                } else if ($user_type == '3') {
+                } else if ($user_type == '11') {
                     $ta_id = $user_id;
                 }
             }
@@ -147,7 +147,7 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
                         $ta_markup_data->execute();
                         $ta_markup = $ta_markup_data->fetch();
 
-                        $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                        $total_price = $ta_markup['selling_price_adult'] ?? $total_base_price;
                     } else {
                         $total_price = $total_base_price;
                     }
