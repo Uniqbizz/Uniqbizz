@@ -1,6 +1,6 @@
 <?php
 require '../../connect.php';
-
+date_default_timezone_set("Asia/Kolkata");
 // get Row data
 $getdata = stripslashes(file_get_contents("php://input"));
 // json Decoding, true -> for getting data in associative manner

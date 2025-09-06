@@ -226,14 +226,14 @@
                                                                     echo'<td>';
                                                                         if ( $ta_markup ) {
                                                                             if($markup_status == '3'){
-                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","1")\' class="btn btn-danger">Rejected</button>';
+                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","1")\' class="btn btn-danger">Rejected</button>';
                                                                             }else if($markup_status == '2'){
-                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","1")\' class="btn btn-warning">Pending</button>';
+                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","1")\' class="btn btn-warning">Pending</button>';
                                                                             }else if($markup_status == '1'){
-                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","1")\' class="btn btn-success">Approved</button>';
+                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","1")\' class="btn btn-success">Approved</button>';
                                                                             }
                                                                         } else {
-                                                                            echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","0")\' class="btn btn-secondary">Add</button>';
+                                                                            echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","0")\' class="btn btn-secondary">Add</button>';
                                                                         }
                                                                     '</td>';
                                                                 } else if ($userType == '16') {
@@ -317,13 +317,14 @@
                 }
             }
 
-            function addMarkup(ta_id,package_id,product_price,update){ 
+            function addMarkup(ta_id,package_id,product_price_adult,product_price_child,update){ 
 
                 var markup = document.getElementById('markup_'+package_id).value;
                 var data = {
                     ta_id:ta_id,
                     package_id:package_id,
-                    product_price:product_price,
+                    product_price_adult:product_price_adult,
+                    product_price_child:product_price_child,
                     markup:markup
                 }
 

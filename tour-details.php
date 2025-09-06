@@ -114,11 +114,19 @@ if ($data9->rowCount() > 0) {
     $cancel_policy['policy_2'] = 0;
     $cancel_policy['policy_3'] = 0;
 }
-$customer_labels = [
-    'Prime' => 'Prime Customer',
-    'Premium' => 'Premium Customer',
-];
-
+//ta markup
+if($user_type_id_value == '11'){
+    $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $user_id . "' AND package_id = '" . $id . "' LIMIT 1");
+    $ta_markup_data->execute();
+    $ta_markup = $ta_markup_data->fetch();
+    if ($ta_markup) {
+        $ta_markup_price_val = $ta_markup['markup'] ?? 0;
+    }else {
+        $ta_markup_price_val = 0;
+    } 
+}else {
+    $ta_markup_price_val = 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -302,7 +310,7 @@ $customer_labels = [
                                 <div class="d-flex gap-10 align-items-end">
                                     <p class="light-pera">Starting From</p>
                                     <p class="pera">
-                                        <span>&#8377</span><?php echo $amount['total_package_price_per_adult'] + $amount['price_up_per_adult'] ?>/-
+                                        <span>&#8377</span><?php echo $amount['total_package_price_per_adult'] + $amount['price_up_per_adult'] + $ta_markup_price_val ?>/-
                                     </p>
                                     <!-- <p class="light-pera">exclusive of Tax</p> -->
                                 </div>
@@ -551,7 +559,7 @@ $customer_labels = [
                                                 <div class="sidebar-item sidebar-item-dark">
                                                     <div class="detail-title mb-3">
                                                         <p class="fs-6 text-muted">Per Adult Price: <b>₹
-                                                                <?php echo $amount['total_package_price_per_adult'] + $amount['price_up_per_adult']; ?>/-</b>
+                                                                <?php echo $amount['total_package_price_per_adult'] + $amount['price_up_per_adult'] + $ta_markup_price_val; ?>/-</b>
                                                         </p>
                                                         <p class="fs-6 text-muted">Per Child Price: <b>₹
                                                                 <?php echo $amount['total_package_price_per_child']; ?>/-</b>
@@ -1148,10 +1156,10 @@ $customer_labels = [
                     dataType: "json",
                     success: function(response) {
                         const couponSelect = $('#coupon_select');
-                        couponSelect.empty().append('<option value="">Select a coupon</option>');
+                        couponSelect.empty().append('<option value="" selected>Select a coupon</option>');
 
                         if (response.coupons && response.coupons.length > 0) {
-                            couponSelect.empty().append('<option value="" disabled>Select a coupon</option>');
+                            couponSelect.empty().append('<option value="" disabled selected>Select a coupon</option>');
 
                             response.coupons.forEach(coupon => {
                                 couponSelect.append(
@@ -1328,7 +1336,8 @@ $customer_labels = [
                 const selectedValue = $(this).val();
                 handleCustomerType(selectedValue);
             });
-
+            //console.log("ta_markup_price:"+ta_markup_price);
+            
             // Call once on load if you want to run the function based on default selection
             handleCustomerType($('input[name="cust_type"]:checked').val());
 
@@ -1401,28 +1410,28 @@ $customer_labels = [
             });
 
             // Travel Agent data setup
-            user_type = <?php echo $user_type; ?>;
-            if (user_type === 11) {
-                $.ajax({
-                    type: "POST",
-                    url: 'assets/submit/get_customer_details',
-                    data: {
-                        cust_id: user_cust_id,
-                        user_type: 11
-                    },
-                    success: function(res) {
-                        if (res !== "fail") {
-                            const travelAgentData = JSON.parse(res);
-                            $("#payee_name").val(travelAgentData.firstname + ' ' + travelAgentData.lastname);
-                            $("#payee_email").val(travelAgentData.email);
-                            $("#payee_contact").val(travelAgentData.contact_no);
-                        }
-                    },
-                    error: function(err) {
-                        console.error("AJAX error:", err);
-                    }
-                });
-            }
+            // user_type = <?php //echo $user_type; ?>;
+            // if (user_type === 11) {
+            //     $.ajax({
+            //         type: "POST",
+            //         url: 'assets/submit/get_customer_details',
+            //         data: {
+            //             cust_id: user_cust_id,
+            //             user_type: 11
+            //         },
+            //         success: function(res) {
+            //             if (res !== "fail") {
+            //                 const travelAgentData = JSON.parse(res);
+            //                 $("#payee_name").val(travelAgentData.firstname + ' ' + travelAgentData.lastname);
+            //                 $("#payee_email").val(travelAgentData.email);
+            //                 $("#payee_contact").val(travelAgentData.contact_no);
+            //             }
+            //         },
+            //         error: function(err) {
+            //             console.error("AJAX error:", err);
+            //         }
+            //     });
+            // }
         });
 
 

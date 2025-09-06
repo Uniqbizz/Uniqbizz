@@ -171,7 +171,7 @@ include_once 'dashboard_user_details.php';
                                                 <div class="col-lg-8 d-none" id="cheque_upl">
                                                     <div class="mb-8">
                                                         <label for="file1"><b>Payment Image</b></label><br />
-                                                        <input type="file" name="upload_cheque" id="upload_cheque">
+                                                        <input type="file" class="form-control" name="upload_cheque" id="upload_cheque">
                                                     </div>
                                                     <div id="feedbackcheque" class="error"></div>
                                                     <input type="hidden" id="previewcheque2" value="">
