@@ -138,8 +138,8 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
                     // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
                     $adult_price = (float)$row['total_package_price_per_adult'] + (float)$row['price_up_per_adult'];
-                    $markup_price = (float)$row['markup_total'];
-                    $total_base_price = $adult_price + $markup_price;
+                    // $markup_price = (float)$row['markup_total'];
+                    $total_base_price = $adult_price ;
                     //print_r($total_base_price);
 
                     if ($ta_id) {
