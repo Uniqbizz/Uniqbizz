@@ -32,7 +32,7 @@ function monthlyChartData($conn, $reference_no, $get_year, $current_year, $curre
     if (array_key_exists($user_type, $tableMap)) {
         $table = $tableMap[$user_type];
         $refCol = $columnMap[$user_type] ?? 'reference_no';
-        if($user_type){
+        if($user_type == '16'){
             $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
                 FROM $table 
                 LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $user_id . "'

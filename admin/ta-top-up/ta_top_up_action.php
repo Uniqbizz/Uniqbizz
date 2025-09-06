@@ -10,11 +10,11 @@ $taid = $_POST['taid'];
 $status = $_POST['status'];
 
 // Update the status in ta_top_up_payment
-$stmt = $conn->prepare("UPDATE ta_top_up_payment SET status = :status WHERE ta_id = :ta_id AND created_date = :created_date");
+$stmt = $conn->prepare("UPDATE ta_top_up_payment SET status = :status WHERE ta_id = :ta_id AND updated_date = :updated_date");
 $result = $stmt->execute(array(
     ':status' => $status,
     ':ta_id' => $taid,
-    ':created_date' => $created_date
+    ':updated_date' => $created_date
 ));
 
 // If the update is successful and status is 2 (approved), proceed to add the balance
