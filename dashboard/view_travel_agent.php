@@ -1093,7 +1093,8 @@
                                                                                     if(!empty($row['alloted_check'])){
                                                                                         if($row['alloted_check'] == 1){
                                                                                             echo'<td>
-                                                                                                    <p>Alloted TC</p>
+
+                                                                                                    <p>Allotted TC</p>
                                                                                                 </td>';
                                                                                         }
                                                                                         // else{
