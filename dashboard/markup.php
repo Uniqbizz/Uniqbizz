@@ -100,11 +100,11 @@
                     <div class="container-fluid">  
                         <div class="row">
                             <div class="card">
-                                <div class="col-lg-12 d-flex justify-content-between pb-3 pt-3 mb-4 mt-2" style="border-bottom: 1px solid #DDDDDD; background-color: #0036A2;">
+                                <div class="col-lg-12 d-flex justify-content-between pb-3 pt-3 mb-4 mt-2" style="border-bottom: 1px solid #DDDDDD;">
                                 <?php  if($userType == '11'){ ?>
-                                    <h5 class="mt-3 ms-3 fw-bold fs-3 text-white">Product MarkUp</h5>
+                                    <h5 class="mt-3 ms-3 fw-bold fs-3 text-dark">Product MarkUp</h5>
                                 <?php }else{ ?>
-                                    <h5 class="mt-3 ms-3 fw-bold fs-3 text-white">Packages</h5>
+                                    <h5 class="mt-3 ms-3 fw-bold fs-3 text-dark">Packages</h5>
                                 <?php } ?>
                                 </div>
                                 <div class="col-lg-12">
@@ -193,7 +193,7 @@
                                                             $ta_markups->setFetchMode(PDO::FETCH_ASSOC);
                                                             $ta_markup = $ta_markups->fetch();
                                                                 $markup = $ta_markup['markup'] ?? 0;
-                                                                $markup_total = $ta_markup['selling_price'] ?? $Aproduct_price;
+                                                                $markup_total = $ta_markup['selling_price_adult'] ?? $Aproduct_price;
                                                                 $markup_status = $ta_markup['status'] ?? 1;
                                                             // $ta_commission = 0;
                                                             $stmt2 = $conn->prepare("SELECT * FROM package_pricing_markup WHERE package_id='".$package_id."' ");
@@ -219,23 +219,9 @@
                                                                     echo'<td>₹ '.$te_direct_comm.'/PAX</td>';
                                                                 }
                                                                 if($userType == '11'){ 
-                                                                    echo'<td>₹ <input type="text" id="markup_'.$package_id.'" value="'.$markup.'" onkeyup="validatePrice(this)" style="padding:0px 4px; width:45px;" maxlength="4">/Package</td>';
+                                                                    echo'<td>₹ <input type="text" id="markup_'.$package_id.'" value="'.$markup.'" style="padding:0px 4px; width:45px;" maxlength="4">/Package</td>';
                                                                     echo'<td>₹ '.$markup_total.'</td>';
-                                                                }
-                                                                if($userType == '11'){ 
-                                                                    echo'<td>';
-                                                                        if ( $ta_markup ) {
-                                                                            if($markup_status == '3'){
-                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","1")\' class="btn btn-danger">Rejected</button>';
-                                                                            }else if($markup_status == '2'){
-                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","1")\' class="btn btn-warning">Pending</button>';
-                                                                            }else if($markup_status == '1'){
-                                                                                echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","1")\' class="btn btn-success">Approved</button>';
-                                                                            }
-                                                                        } else {
-                                                                            echo '<button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","0")\' class="btn btn-secondary">Add</button>';
-                                                                        }
-                                                                    '</td>';
+                                                                    echo'<td> <button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","0")\' class="btn btn-secondary">Add</button></td>';
                                                                 } else if ($userType == '16') {
                                                                     echo'<td>';
                                                                     echo '<button type="button" class="btn btn-secondary" ><a class="dropdown-item" href="dowload_pack_details.php?id='.urldecode($row["id"]).'" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a></button>';
@@ -308,15 +294,7 @@
                 // $('#registeredTable').DataTable();
             });
             
-            function validatePrice(e){
-                var price = e.value;
-                if ( price > 2000 ) {
-                    showBottomSnackBar("Mark-Up Price Cannot be more than ₹2000 !!");
-                } else {
-                    x.style.display = "none";
-                }
-            }
-
+            
             function addMarkup(ta_id,package_id,product_price_adult,product_price_child,update){ 
 
                 var markup = document.getElementById('markup_'+package_id).value;
@@ -330,6 +308,7 @@
 
                 if ( markup > 2000 ) {
                     alert('Mark-up Price cannot be more than ₹2000');
+                    window.location.reload();
                 } else if ( update == 0 && markup == 0 ) {
                     alert('Please Add valid Amount !');
                 } else {
