@@ -3929,8 +3929,8 @@ $("#addCustomer").on("click", function (e) {
     // var designation = $("#designation").val().trim();
     var user_id_name = $("#user_id_name").val().trim();
     var reference_name = $("#reference_name").val().trim();
-    var cust_id_name = $("#indirect_add_cust_id").val().trim();
-    var cust_name = $("#indirect_add_cust_name").val().trim();
+    var cust_id_name = ($("#cust_ref_id").val() || "").trim();
+    var cust_name   = ($("#cust_ref_name").val() || "").trim();
 
     var isComplementary = $('#is_complementary').is(':checked') ? 1 : 2;
     var firstname = $("#firstname").val().trim();
@@ -4177,6 +4177,8 @@ $("#editCustomer").on("click", function (e) {
     var editfor = $("#editfor").val().trim();
     var ref_id = $("#ref_id").val().trim();
     var id = $("#id").val().trim();
+    var cust_id_name = ($("#cust_ref_id").val() || "").trim();
+    var cust_name   = ($("#cust_reference_name").val() || "").trim();
 
     var isComplementary = $('#is_complementary').is(':checked') ? 1 : 2;
     var firstname = $("#firstname").val().trim();
@@ -4319,6 +4321,10 @@ $("#editCustomer").on("click", function (e) {
             ref_id +
             "&id=" +
             id +
+            "&cust_id_name=" +
+            cust_id_name +
+            "&cust_name=" +
+            cust_name +
             "&firstname=" +
             firstname +
             "&lastname=" +

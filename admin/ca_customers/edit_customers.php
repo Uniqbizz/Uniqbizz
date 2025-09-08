@@ -45,6 +45,8 @@ if ($stmt->rowCount() > 0) {
         // $nominee_relation = $row['nominee_relation'];
         $email = $row['email'];
         $contact_no = $row['contact_no'];
+        $cust_ref = $row['reference_no']??'';
+        $cust_ref_name = $row['registrant']??'';
         // $business_package=$row['business_package'];
         // $amount=$row['amount'];
 
@@ -236,6 +238,26 @@ if ($stmt->rowCount() > 0) {
                                                     <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?php echo $reference_no_fname . ' ' . $reference_no_lname; ?>" readonly>
                                                 </div>
                                             </div>
+                                            <?php
+                                                if($cust_ref_name){
+                                            ?>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="cust_ref_id">Customer Reference Id<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cust_ref_id" placeholder="Enter First Name" value="<?php echo $cust_ref; ?>" readonly>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="cust_reference_name">Customer Reference Full Name<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cust_reference_name" placeholder="Enter Last Name" value="<?php echo $cust_ref_name; ?>" readonly>
+                                                </div>
+                                            </div>
+                                            <?php
+                                                }
+                                            ?>
+                                            
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
