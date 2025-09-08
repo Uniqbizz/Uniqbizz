@@ -309,6 +309,7 @@
                                                                 $rdate= $rd->format('d-m-Y');
                                                                 $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                 $fullname = $row['firstname'].' '.$row['lastname'];
+                                                                $TAfullname = $row['firstname'].' '.$row['lastname'];
 
                                                                 echo'<tr>
                                                                     <td><p class="mb-1">'.$row['ca_customer_id'].'</p>
