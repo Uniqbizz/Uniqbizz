@@ -20,9 +20,10 @@ $markup_data->execute();
 $markup = $markup_data->fetch();
 // print_r($markup);
 
+//if exist then update
 if ($markup) {
     //  update
-    $status = "2";
+    $status = "1";
     $sql = "UPDATE package_markup_travelagent SET markup=:markup,selling_price_adult=:total_adult,selling_price_child=:total_child, status=:status WHERE travelagent_id='" . $ta_id . "' AND package_id='" . $package_id . "' ";
     $stmt = $conn->prepare($sql);
     $result =  $stmt->execute(array(
