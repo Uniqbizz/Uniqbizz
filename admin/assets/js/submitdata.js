@@ -4079,7 +4079,7 @@ $("#addCustomer").on("click", function (e) {
             user_id_name +
             "&reference_name=" +
             reference_name +
-            "cust_id_name=" +
+            "&cust_id_name=" +
             cust_id_name +
             "&cust_name=" +
             cust_name +
@@ -4141,7 +4141,7 @@ $("#addCustomer").on("click", function (e) {
             payment_label +
             '&isComplementary=' +
             isComplementary;
-        // console.log(dataString);
+        console.log(dataString);
 
         $("#addCustomer").attr("disabled", "disabled");
         // console.log(dataString);
