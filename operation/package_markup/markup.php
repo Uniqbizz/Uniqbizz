@@ -103,8 +103,8 @@ $date = date('Y');
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row mb-2">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 p-3" style="background-color: #0036A2;">
-                                            <h4 class="text-white">Pending Markup</h4>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 p-3" style="border-bottom: 1px solid #DDDDDD;">
+                                            <h4 class="text-dark">Markup List</h4>
                                         </div>
                                     </div>
 
@@ -122,14 +122,13 @@ $date = date('Y');
                                                     <th>Markup Added</th>
                                                     <th>Selling Price(Adult)</th>
                                                     <th>Selling Price(Child)</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 require '../connect.php';
 
-                                                $stmt1 = $conn->prepare(" SELECT * FROM package_markup_travelagent WHERE status = '2' order by id ASC");
+                                                $stmt1 = $conn->prepare(" SELECT * FROM package_markup_travelagent order by id ASC");
                                                 $stmt1->execute();
                                                 $stmt1->setFetchMode(PDO::FETCH_ASSOC);
                                                 if ($stmt1->rowCount() > 0) {
@@ -155,7 +154,7 @@ $date = date('Y');
                                                         $TA_Fname = $TANames['firstname'] ?? '';
                                                         $TA_Lname = $TANames['lastname'] ?? '';
 
-                                                        $stmt4 = $conn->prepare(" SELECT net_price_adult_with_GST,net_price_child_with_GST, markup_price FROM package_pricing WHERE package_id = '" . $packageId . "'  ");
+                                                        $stmt4 = $conn->prepare(" SELECT total_package_price_per_adult,total_package_price_per_child, markup_price FROM package_pricing WHERE package_id = '" . $packageId . "'  ");
                                                         $stmt4->execute();
                                                         $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                                                         //get the company markup from package_pricing_markup 
@@ -165,8 +164,8 @@ $date = date('Y');
                                                         //--------------
                                                         $packagePricings = $stmt4->fetch();
                                                         $packagePricingsComp = $stmt5->fetch();
-                                                        $packagePricingAdult = $packagePricings['net_price_adult_with_GST'];
-                                                        $packagePricingChild = $packagePricings['net_price_child_with_GST'];
+                                                        $packagePricingAdult = $packagePricings['total_package_price_per_adult'];
+                                                        $packagePricingChild = $packagePricings['total_package_price_per_child'];
                                                         $markup_price = $packagePricingsComp['company']??0;
 
                                                         echo '<tr>
@@ -180,17 +179,7 @@ $date = date('Y');
                                                                     <td>' . $markup . '</td>
                                                                     <td>' . $sellPriceAdult . '</td>
                                                                     <td>' . $sellPriceChild . '</td>
-                                                                    <td>
-                                                                        <div class="dropdown">
-                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu">
-                                                                                <li><a href="#" class="dropdown-item" onclick=\'actionMarkup("' . $PMTid . '","' . $packageId . '","' . $TAId . '","1")\' ><i class="mdi mdi-check-bold font-size-16 text-success me-1"></i> Approve</a></li>
-                                                                                <li><a href="#" class="dropdown-item" onclick=\'actionMarkup("' . $PMTid . '","' . $packageId . '","' . $TAId . '","3")\' ><i class="mdi mdi-close-circle font-size-16 text-danger me-1"></i> Reject</a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </td>
+                                                                    
                                                                 </tr>';
                                                     }
                                                 }
@@ -208,108 +197,7 @@ $date = date('Y');
                         <!-- end col -->
                     </div>
                     <!-- end row -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row mb-2">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 p-3" style="background-color: #0036A2;">
-                                            <h4 class="text-white">Approved Markup</h4>
-                                        </div>
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="approvedMarkup-table">
-                                            <thead class="table-light">
-                                                <tr>
-                                                <th>Id</th>
-                                                    <th>Package Id</th>
-                                                    <th>Package Name</th>
-                                                    <th>Name of TA</th>
-                                                    <th>Actual Price (Adult)</th>
-                                                    <th>Actual Price (Child)</th>
-                                                    <th>Company</th>
-                                                    <th>Markup Added</th>
-                                                    <th>Selling Price(Adult)</th>
-                                                    <th>Selling Price(Child)</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                require '../connect.php';
-
-                                                $stmt1 = $conn->prepare(" SELECT * FROM package_markup_travelagent WHERE status = '1' order by id ASC");
-                                                $stmt1->execute();
-                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt1->rowCount() > 0) {
-                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
-
-                                                        $packageId = $row['package_id'];
-                                                        $TAId = $row['travelagent_id'];
-                                                        $markup = $row['markup'];
-                                                        $sellPriceAdult = $row['selling_price_adult'];
-                                                        $sellPriceChild = $row['selling_price_child'];
-
-                                                        $stmt2 = $conn->prepare(" SELECT name FROM package WHERE id = '" . $packageId . "'  ");
-                                                        $stmt2->execute();
-                                                        $stmt2->setFetchMode(PDO::FETCH_ASSOC);
-                                                        $packageNames = $stmt2->fetch();
-                                                        $packageName = $packageNames['name'];
-
-                                                        $stmt3 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $TAId . "' AND status = '1' ");
-                                                        $stmt3->execute();
-                                                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
-                                                        $TANames = $stmt3->fetch();
-                                                        $TA_Fname = $TANames['firstname'] ?? '';
-                                                        $TA_Lname = $TANames['lastname'] ?? '';
-
-                                                        $stmt4 = $conn->prepare(" SELECT net_price_adult_with_GST,net_price_child_with_GST, markup_price FROM package_pricing WHERE package_id = '" . $packageId . "'  ");
-                                                        $stmt4->execute();
-                                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
-                                                        //get the company markup from package_pricing_markup 
-                                                        $stmt5 = $conn->prepare(" SELECT * FROM `package_pricing_markup` WHERE package_id = " . $packageId . "  ");
-                                                        $stmt5->execute();
-                                                        $stmt5->setFetchMode(PDO::FETCH_ASSOC);
-                                                        //--------------
-                                                        $packagePricings = $stmt4->fetch();
-                                                        $packagePricingsComp = $stmt5->fetch();
-            
-                                                        $packagePricingadult = $packagePricings['net_price_adult_with_GST'];
-                                                        $packagePricingchild = $packagePricings['net_price_child_with_GST'];
-                                                        $markup_price = $packagePricingsComp['company']??0;
-
-                                                        echo '<tr>
-                                                                    <td>' . $row['id'] . '</td>
-                                                                    <td>' . $packageId . '</td>
-                                                                    <td>' . $packageName . '</td>
-                                                                    <td>' . $TAId . ' ' . $TA_Fname . ' ' . $TA_Lname . '</td>
-                                                                    <td>' . $packagePricingadult . '</td>
-                                                                    <td>' . $packagePricingchild . '</td>
-                                                                    <td>' . $markup_price . '</td>
-                                                                    <td>' . $markup . '</td>
-                                                                    <td>' . $sellPriceAdult . '</td>
-                                                                    <td>'.$sellPriceChild.'</td>
-                                                                    <td class="text-center">
-                                                                        <a class="dropdown-item" href="#"><i class="mdi mdi-check-decagram font-size-16 text-success me-1"></i>Approved</a>
-                                                                    </td>
-                                                                </tr>';
-                                                    }
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- end table -->
-                                    </div>
-                                    <!-- end table responsive -->
-                                </div>
-                                <!-- end card body -->
-                            </div>
-                            <!-- end card -->
-                        </div>
-                        <!-- end col -->
-                    </div>
-                    <!-- end row -->
+                    
 
                 </div> <!-- container-fluid -->
             </div> <!-- End Page-content -->
@@ -361,15 +249,7 @@ $date = date('Y');
     <!-- dataTable -->
     <script>
         $(document).ready(function() {
-            $("#pendingMarkup-table").DataTable({
-                scrollX: true,
-                autoWidth: false, // Ensures columns don't shrink unexpectedly
-                paging: true,
-                searching: true,
-                ordering: true
-            });
-
-            $("#approvedMarkup-table").DataTable();
+            $("#pendingMarkup-table").DataTable();
         });
 
         function actionMarkup(id, pid, taid, status) {
