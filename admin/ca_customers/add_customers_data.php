@@ -92,11 +92,11 @@ function generateUniqueCoupon()
 
 $sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , 
         date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, 
-        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant,
+        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no,
         ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
         VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, 
         :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, 
-        :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :ta_reference_no,  
+        :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :registrant, :reference_no, :ta_reference_no,  
         :ta_reference_name,:paid_amount,:customer_type, :comp_chek, :register_by, :status)";
 $stmt3 = $conn->prepare($sql);
 
@@ -127,6 +127,8 @@ $result2 = $stmt3->execute(array(
     ':bank_name' => $bankName,
     ':transaction_no' => $transactionNo,
     ':user_type' => $user_type,
+    ':reference_no' => $cust_id_name,
+    ':registrant' => $cust_name,
     ':ta_reference_no' => $user_id_name,
     ':ta_reference_name' => $registrant,
     ':paid_amount' => $payment_fee,
