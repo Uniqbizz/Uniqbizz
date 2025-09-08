@@ -171,9 +171,9 @@ if ($stmt->rowCount() > 0) {
                 $lastname = $row['lastname'];
                 $nominee_name = $row['nominee_name'];
                 $nominee_relation = $row['nominee_relation'];
-                $reference_no = $row['reference_no'];
+                $reference_no = $row['reference_no']??'';
                 $contact_no = $row['country_code'] . $row['contact_no'];
-                $registrant = $row['registrant'];
+                $registrant = $row['registrant']??'';
                 $voting_card = $row['voting_card'];
             }
             $email = $row['email'];
@@ -899,6 +899,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <?php
+                                                        if ($reference_no) {
+                                                    ?>
                                                     <div class="row">
                                                         <div class="col-md-6 col-sm-12">
                                                             <div class="input-block mb-3">
@@ -913,7 +916,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <?php } else { ?>
+                                                    <?php
+                                                        }
+                                                     } else { ?>
                                                     <div class="row">
                                                         <div class="col-md-6 col-sm-12">
                                                             <div class="input-block mb-3">

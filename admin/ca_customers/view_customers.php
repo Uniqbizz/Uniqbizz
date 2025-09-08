@@ -341,7 +341,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'addCustRef("'.$row["ca_customer_id"]. '","' .$fullname. '","1")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-plus font-size-16 text-info me-1"></i>Add</a></li>
+                                                                                    <li><a href="#" onclick=\'addCustRef("'.$row["ca_customer_id"]. '","' .$fullname. '","'.$row['ta_reference_no'].'","1")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-plus font-size-16 text-info me-1"></i>Add Ref</a></li>
                                                                                     <li><a href="#" onclick=\'overviewPage("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_customer")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                     <li><a href="#" onclick=\'editfuncCust("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_customer_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
@@ -662,8 +662,8 @@
                 window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
             };
 
-            function addCustRef(id,fullname,status){ 
-                window.location.href='add_customers.php?id='+id+'&fullname='+fullname+'&status='+status;
+            function addCustRef(id,fullname,taRef,status){ 
+                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
             };
 
             // function addCustRef(id, fullname, status) {
