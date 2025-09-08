@@ -13,6 +13,7 @@ $today = date('Y-m-d');
 $date = date('Y');
 
 $cust_ref_id = isset($_GET['id']) ? $_GET['id'] : '';
+$ta_ref_id = isset($_GET['taRef']) ? $_GET['taRef'] : '';
 $cust_ref_name = isset($_GET['fullname']) ? $_GET['fullname'] : '';
 $cust_type = isset($_GET['status']) ? $_GET['status'] : '0';
 
@@ -129,8 +130,11 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         $stmt->execute();
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         if ($stmt->rowCount() > 0) {
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                echo '<option value="' . $row['ca_travelagency_id'] . '">' . $row['ca_travelagency_id'] . ' (' . $row['firstname'] . ' ' . $row['lastname'] . ')</option>';
+                                                            foreach ($stmt->fetchAll() as $row) {
+                                                                // Check if current row matches the $ta_ref_id
+                                                                $selected = ($ta_ref_id == $row['ca_travelagency_id']) ? 'selected' : '';
+                                                                echo '<option value="' . $row['ca_travelagency_id'] . '" ' . $selected . '>'
+                                                                    . $row['ca_travelagency_id'] .'</option>';
                                                             }
                                                         }
                                                         ?>
@@ -524,6 +528,28 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                 document.getElementById('indirect_add_cust_id').style.display = 'block';
                 document.getElementById('indirect_add_cust_name').style.display = 'block';
             } 
+            // Fetch User based on selected designation add by SV on 08-09-2025
+            $('#user_id_name').on('change', function() {
+                var user_id_name = $(this).val();
+                var designation = 'ca_travelagency';
+
+                if (user_id_name !== '') { // ✅ only fire if something is selected
+                    $.ajax({
+                        type: 'POST',
+                        url: '../agents/getUsers.php',
+                        data: { user_id_name: user_id_name, designation: designation },
+                        success: function(response) {
+                            $('#reference_name').val(response);
+                        }
+                    });
+                }
+            });
+
+            // 🔥 Fire once on page load if a value is already selected
+            if ($('#user_id_name').val() !== '') {
+                $('#user_id_name').trigger('change');
+                $('#user_id_name').prop('disabled',true);
+            }
         });
     </script>
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
@@ -545,26 +571,27 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         //         },
         //     });
         // });
-        // fetch User based on selected designation
-        $('#user_id_name').on('change', function() {
-            var user_id_name = $(this).val();
-            // console.log(user_id_name);
+        //commented on 08-09-2025 by SV to make the preselet of TC work on add ref
+        // // fetch User based on selected designation
+        // $('#user_id_name').on('input', function() {
+        //     var user_id_name = $(this).val();
+        //     // console.log(user_id_name);
 
-            var designation = 'ca_travelagency';
-            // console.log(designation);
+        //     var designation = 'ca_travelagency';
+        //     // console.log(designation);
 
-            $.ajax({
-                type: 'POST',
-                url: '../agents/getUsers.php',
-                data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-                success: function(response) {
-                    // console.log(response);
-                    // $('#pin').html(response);
-                    $('#reference_name').val(response);
-                }
-            });
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '../agents/getUsers.php',
+        //         data: 'user_id_name=' + user_id_name + '&designation=' + designation,
+        //         success: function(response) {
+        //             // console.log(response);
+        //             // $('#pin').html(response);
+        //             $('#reference_name').val(response);
+        //         }
+        //     });
 
-        });
+        // });
 
         $('#country').on('change', function() {
             var countryID = $(this).val();
