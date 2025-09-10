@@ -1759,6 +1759,16 @@ if ($userType == 10){
                                                                 } //CATA foreach ends
                                                             } //CATA if loop ends
                                                         } //CA foreach ends 
+                                                        //dierect TC by BDM
+                                                        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
+                                                            $stmt4->execute([$userId]);
+                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                            if ($stmt4->rowCount() > 0) {
+                                                                foreach (($stmt4->fetchAll()) as $userTEs => $userTE) {
+                                                                    $userTECHNO = $userTE['ca_travelagency_id'] . ' ';
+                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                } //CATA foreach ends
+                                                            } //CATA if loop ends
                                                         echo '<h1 class="mb-0 text-white"> ' . $count . '</h1>';
                                                         ?>
                                                     </div>
@@ -1785,6 +1795,16 @@ if ($userType == 10){
                                                             } //CATA foreach ends
                                                         } //CATA if loop ends
                                                     } //CA foreach ends 
+                                                    //direct TC by BDM
+                                                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1' ");
+                                                    $stmt4->execute([$userId]);
+                                                    $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt4->rowCount() > 0) {
+                                                        foreach (($stmt4->fetchAll()) as $userTEs => $userTE) {
+                                                            $userTECHNO = $userTE['ca_travelagency_id'] . ' ';
+                                                            $count++; // Increment count for each ca_travelagency_id
+                                                        } //CATA foreach ends
+                                                    } //CATA if loop ends
                                                     echo '<p class="text-white"> ' . $count . '</p>';
                                                     ?>
                                                 </div>
@@ -2349,8 +2369,8 @@ if ($userType == 10){
                                                         $topCustomerTableName = "Business Development Manager";
                                                         $topCustomerTableRefCol = "BDM";
                                                     } else if ($userType == "25") {
-                                                        $topCustomerTableName = "Business Mentor";
-                                                        $topCustomerTableRefCol = "BM";
+                                                        $topCustomerTableName = "BM/TC";
+                                                        $topCustomerTableRefCol = "BM/TC";
                                                     } else if ($userType == "26") {
                                                         $topCustomerTableName = "Travel Consultant";
                                                         $topCustomerTableRefCol = "TC";
@@ -2487,6 +2507,14 @@ if ($userType == 10){
                                                                     $tableId2 = 'corporate_agency_id';
                                                                     $tableColumnName = 'reference_no';
                                                                     $tableColumnName2 = 'reference_no';
+                                                                    //for direct TC
+                                                                    $tableName3 = 'ca_travelagency'; //TC
+                                                                    $tableId3 = 'ca_travelagency_id'; //TC ID
+                                                                    $tableNameDesignation2 = 'Travel Consultant';
+                                                                    $tableName4 = 'ca_customer';
+                                                                    $tableId4 = 'ca_customer_id';
+                                                                    $tableColumnName3 = 'reference_no';
+                                                                    $tableColumnName4 = 'ta_reference_no';
                                                                 }
                                                                 // Business Mentor
                                                                 if ($userType == '26') {
@@ -2498,8 +2526,8 @@ if ($userType == 10){
                                                                     // $tableColumnName = 'reference_no';
                                                                     // $tableColumnName2 = 'reference_no';
                                                                     //for direct tc
-                                                                    $tableName1 = 'ca_travelagency'; //BDM
-                                                                    $tableId1 = 'ca_travelagency_id'; //BDM ID
+                                                                    $tableName1 = 'ca_travelagency'; //TC
+                                                                    $tableId1 = 'ca_travelagency_id'; //TC ID
                                                                     $tableNameDesignation = 'Travel Consultant';
                                                                     $tableName2 = 'ca_customer';
                                                                     $tableId2 = 'ca_customer_id';
@@ -2561,20 +2589,49 @@ if ($userType == 10){
                                                                     $countTC = $resultTC['total'];
                                                                     if($countSF>0 && $countTC>0){
                                                                         $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
-                                                                                                        SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=?
+                                                                                                        SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
                                                                                                         UNION
-                                                                                                        SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? 
+                                                                                                        SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
                                                                                                         )AS combined
                                                                                                         ORDER BY id DESC
                                                                                                         limit 5");
                                                                         $stmt2->execute([$userId, $userId]);
                                                                     }else if($countSF>0){
-                                                                        $stmt2=$conn->prepare("SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? ORDER BY id DESC limit 5");
+                                                                        $stmt2=$conn->prepare("SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                                                         $stmt2->execute([$userId]);
                                                                     }else if($countTC>0){
-                                                                        $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? ORDER BY id DESC limit 5");
+                                                                        $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                                                         $stmt2->execute([$userId]);
                                                                     }
+                                                                }else if($userType == '25'){
+                                                                    //get business mentor
+                                                                    $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM business_mentor WHERE reference_no=? AND status='1'");
+                                                                    $selectSF->execute([$userId]);
+                                                                    $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
+                                                                    $countSF = $resultSF['total'];
+                                                                    //get TC
+                                                                    $selectTC=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
+                                                                    $selectTC->execute([$userId]);
+                                                                    $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
+                                                                    $countTC = $resultTC['total'];
+                                                                    
+                                                                    if($countSF>0 && $countTC>0){
+                                                                        $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
+                                                                                                        SELECT id,business_mentor_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                                                        )AS combined
+                                                                                                        ORDER BY id DESC
+                                                                                                        limit 5");
+                                                                        $stmt2->execute([$userId, $userId]);
+                                                                    }else if($countSF>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,business_mentor_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }else if($countTC>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }
+                                                                    
                                                                 }else{
                                                                     if($userType == '24'){
                                                                         $name_colum=',name,';
@@ -2592,7 +2649,7 @@ if ($userType == 10){
                                                                         $stmt2 = $conn->prepare("SELECT $tableId1 as user_id $name_colum register_date FROM $tableName1 WHERE $tableColumnName = ? AND status='1' order by $tableId1 desc limit 5");
                                                                     }
                                                                     $stmt2->execute([$userId]);
-                                                                    //print_r($stmt2);
+                                                                    
                                                                 }
                                                                 $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
@@ -2624,7 +2681,7 @@ if ($userType == 10){
                                                                     //$status = $referral['status'];
 
                                                                     if ($userType == '28') {
-                                                                        if (str_starts_with($id, 'F')) {
+                                                                        if (substr($id,0,1)== 'F') {
                                                                             // Total Count Loop End $count
                                                                             $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1'");
                                                                             $stmt4->execute([$id]);
@@ -2656,7 +2713,74 @@ if ($userType == 10){
                                                                                     $inactiveCount++; // Increment count for each ca_travelagency_id
                                                                                 } //CATA foreach ends
                                                                             } //CATA if loop ends
-                                                                        }else if (str_starts_with($id, 'TA')) {
+                                                                        }else if (substr($id,0,2)== 'TA') {
+                                                                            // Total Count Loop End $count
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                            // Active Count Loop End $activeCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $activeCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+
+                                                                            // Inactive Count Loop End $inactiveCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $inactiveCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                        }
+
+                                                                    }else if ($userType == '25') {
+                                                                        if (substr($id,0,2)== 'BM') {
+                                                                            // Total Count Loop End $count
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1'");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                            // Active Count Loop End $activeCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $activeCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+
+                                                                            // Inactive Count Loop End $inactiveCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $inactiveCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                        }else if (substr($id,0,2)== 'TA') {
                                                                             // Total Count Loop End $count
                                                                             $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'");
                                                                             $stmt4->execute([$id]);
@@ -2924,6 +3048,10 @@ if ($userType == 10){
                                                                 $tableId = 'business_mentor_id';
                                                                 $tableNameDesignation = 'Business Mentor';
                                                                 $tableColumn = 'reference_no';
+                                                                $tableName1 = 'ca_travelagency';
+                                                                $tableId1 = 'ca_travelagency_id';
+                                                                $tableNameDesignation1 = 'Travel Agency';
+                                                                $tableColumn1 = 'reference_no';
                                                             }
                                                             //Business Mentor (BM->TC)
                                                             if ($userType == '26') {
@@ -2995,6 +3123,45 @@ if ($userType == 10){
                                                                                         WHERE $tableColumn1 = '$userId' AND status = '1'";
                                                                     $candidates = $conn->prepare($sqlCandidates);
                                                                 }
+                                                            }else if ($userType=='25') {
+                                                                //get franchisee
+                                                                $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM business_mentor WHERE reference_no=? AND status='1'");
+                                                                $selectSF->execute([$userId]);
+                                                                $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
+                                                                $countSF = $resultSF['total'];
+                                                                //get TC
+                                                                $selectTC=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
+                                                                $selectTC->execute([$userId]);
+                                                                $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
+                                                                $countTC = $resultTC['total'];
+                                                                
+                                                                if ($countSF>0 && $countTC>0) {
+                                                                    $sqlCandidates = "SELECT id, userid, firstname, lastname, profile_pic, desination FROM (
+                                                                                        SELECT id, business_mentor_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                                                        FROM $tableName 
+                                                                                        WHERE $tableColumn = '$userId' AND status = '1'
+
+                                                                                        UNION
+
+                                                                                        SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                                                        FROM $tableName1 
+                                                                                        WHERE $tableColumn1 = '$userId' AND status = '1'
+                                                                                    ) AS combined
+                                                                                    ORDER BY id DESC
+                                                                                ";
+
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                }else if ($countSF>0){
+                                                                    $sqlCandidates="SELECT id, business_mentor_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                                                        FROM $tableName 
+                                                                                        WHERE $tableColumn = '$userId' AND status = '1'";
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                }else if($countTC>0){
+                                                                    $sqlCandidates="SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                                                        FROM $tableName1 
+                                                                                        WHERE $tableColumn1 = '$userId' AND status = '1'";
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                }
                                                             }else{
                                                                 if($userType =='16'){
                                                                     $sqlCandidates = "SELECT *, CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
@@ -3011,13 +3178,13 @@ if ($userType == 10){
                                                             $candidates->setFetchMode(PDO::FETCH_ASSOC);
                                                             if ($candidates->rowCount() > 0) {
                                                                 foreach (($candidates->fetchAll()) as $key => $row) {
-                                                                if ($userType == '28') {
+                                                                if ($userType == '28' || $userType =='25') {
                                                                     $selected_user =$row['userid'];
                                                                 }else{
                                                                     $selected_user = ($userType == '24') ? $row['employee_id'] :
-                                                                                     (($userType == '25') ? $row['business_mentor_id'] :
                                                                                      (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] :
-                                                                                     (($userType == '30') ? $row['sub_franchisee_id'] : '')));
+                                                                                     (($userType == '30') ? $row['sub_franchisee_id'] : ''));
+
 
 
                                                                 }
@@ -3035,7 +3202,7 @@ if ($userType == 10){
                                                                             }
                                                                         }
                                                                     }
-                                                                    $tableNameDesignation=$userType == '28'?$row['desination']:$tableNameDesignation;
+                                                                    $tableNameDesignation=($userType == '28' || $userType == '25')?$row['desination']:$tableNameDesignation;
                                                                     if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30') {
                                                                         # code...
                                                                        echo '
@@ -3050,7 +3217,7 @@ if ($userType == 10){
                                                                                             <h5 class="fs-13 mb-1 text-truncate">
                                                                                                 <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
                                                                                             </h5>
-                                                                                            <div class="' . ($userType == '28' ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
+                                                                                            <div class="' . (($userType == '28'|| $userType == '25') ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
                                                                                         </div>
                                                                                     </a>
                                                                                 </li>
@@ -3561,7 +3728,8 @@ if ($userType == 10){
                             `);
                         }
                         if (userType == '25'){
-                            tableBody.append(`
+                            if (userId.startsWith('BM')) {
+                                tableBody.append(`
                                 <tr>
                                     <th>Travel Consultant</th>
                                     <td>${data.pendingTC}</td>
@@ -3575,6 +3743,16 @@ if ($userType == 10){
                                     <td>${data.deletedCU}</td>
                                 </tr>
                             `);
+                            }else if((userId.startsWith('TA'))){
+                                tableBody.append(`
+                                <tr>
+                                    <th>Customer</th>
+                                    <td>${data.pendingCU}</td>
+                                    <td>${data.registeredCU}</td>
+                                    <td>${data.deletedCU}</td>
+                                </tr>
+                            `);
+                            }
                         }
                         if (userType == '26'){
                             tableBody.append(`
