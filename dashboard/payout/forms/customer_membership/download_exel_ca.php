@@ -12,7 +12,7 @@ $monthName = $dateObj->format('F');
 
 if($payoutmessage == 'PreviousPayout'){
     $output="";
-    // $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // $stmt2 = "SELECT * FROM ca_cu_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     $stmt2 = "SELECT 
                     ca.created_date,
                     ca.status,
@@ -25,12 +25,16 @@ if($payoutmessage == 'PreviousPayout'){
                     ca.message_te,
                     ca.commision_te,
                     ca.status_te,
+                    ca.travel_consultant,
+                    ca.message_tc,
+                    ca.commision_tc,
+                    ca.status_tc,
                     COALESCE(cap.status, 0) AS status,
                     cap.date AS paydate
-                FROM ca_ta_payout ca
-                LEFT JOIN ca_ta_payout_paid cap 
+                FROM ca_cu_payout ca
+                LEFT JOIN ca_cu_payout_paid cap 
                     ON cap.$designation = ca.$designation
-                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND cap.travel_consultant = ca.travel_consultant
                     AND YEAR(cap.date) = '".$payoutYear."'
                     AND MONTH(cap.date) = '".$payoutMonth."'
                 WHERE ca.$designation = '".$user_id."' 
@@ -61,6 +65,9 @@ if($payoutmessage == 'PreviousPayout'){
                 }else if($user_id_str == "F"){
                     $output .= '<th class="mobile_view">Franchisee</th>
                     <th class="mobile_view">Franchisee Name</th>';
+                }else if($user_id_str == "TA"){
+                    $output .= '<th class="mobile_view">Travel Agency</th>
+                    <th class="mobile_view">Franchisee Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -79,7 +86,7 @@ if($payoutmessage == 'PreviousPayout'){
 
                     $BC_Commi = $row2['commision_bm'];
                 
-                    (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
+                    (int)$BC_Commi_TDS = (int)$BC_Commi*2/100;
                     (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
 
                     // date in proper formate
@@ -124,7 +131,7 @@ if($payoutmessage == 'PreviousPayout'){
 
                     $CA_Commi = $row2['commision_te'];
 
-                    (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
+                    (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
                     (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
                     $message2 = $row2['message_te'];
@@ -158,6 +165,42 @@ if($payoutmessage == 'PreviousPayout'){
                                         <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
+                }else if($user_id_str == "TA"){
+
+                    $CA_Commi = $row2['commision_tc'];
+
+                    (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
+                    (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
+
+                    $message2 = $row2['message_tc'];
+                    $message2 =  str_replace('.','<br>',$message2); 
+                    if($user_id_str == "TA"){
+                        $sql1= $conn->prepare("SELECT firstname,lastname FROM `ca_travelagency` where ca_travelagency_id='".$row2['travel_consultant']."'");
+                    }
+                    $sql2->execute();
+                    $sql2->setFetchMode(PDO::FETCH_ASSOC);
+                    if($sql2->rowCount()>0){
+                        foreach (($sql2->fetchAll()) as $key => $row3) {
+                            $ca_name = $row3['firstname']. ' ' .$row3['lastname'];
+                        }
+                    } 
+                    
+                    $output .='<tr>
+                        <td >'.$newDate.'</td>
+                        <td>'.$row2['travel_consultant'].'</td>
+                        <td>'.$ca_name.'</td>
+                        <td >'.$message2.'</td>
+                        <td style="text-align:center;">'.$CA_Commi.'</td>
+                        <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
+                        <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
+                        if($row2['status_tc'] == 2){
+                            $output .= '<td style="text-align:center;">Pending</td>
+                                        <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_tc'] == 1){
+                            $output .= '<td style="text-align:center;">Paid</td>
+                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
+                        }
+                    $output .='</tr>';
                 }
             
             }
@@ -172,7 +215,7 @@ if($payoutmessage == 'PreviousPayout'){
 
 if($payoutmessage == 'NextPayout'){
     $output="";
-    // $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // $stmt2 = "SELECT * FROM ca_cu_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     $stmt2 ="SELECT 
                     ca.created_date,
                     ca.status,
@@ -185,12 +228,16 @@ if($payoutmessage == 'NextPayout'){
                     ca.message_te,
                     ca.commision_te,
                     ca.status_te,
+                    ca.travel_consultant,
+                    ca.message_tc,
+                    ca.commision_tc,
+                    ca.status_tc,
                     COALESCE(cap.status, 0) AS status,
                     cap.date AS paydate
-                FROM ca_ta_payout ca
-                LEFT JOIN ca_ta_payout_paid cap 
+                FROM ca_cu_payout ca
+                LEFT JOIN ca_cu_payout_paid cap 
                     ON cap.$designation = ca.$designation
-                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND cap.travel_consultant = ca.travel_consultant
                     AND YEAR(cap.date) = '".$payoutYear."'
                     AND MONTH(cap.date) = '".$payoutMonth."'
                 WHERE ca.$designation = '".$user_id."' 
@@ -208,7 +255,7 @@ if($payoutmessage == 'NextPayout'){
                if($user_id_str == "BM"){
                     $output .= '<th class="mobile_view">Business Mentor</th>
                     <th class="mobile_view">Business Mentor Name</th>';
-                }else if($user_id_str == "TE" || $$user_id_str == "CA"){
+                }else if($user_id_str == "TE" || $user_id_str == "CA"){
                     $output .= '<th class="mobile_view">Techno Enterprise</th>
                     <th class="mobile_view">Techno Enterprise Name</th>';
                 }else if($user_id_str == "SF"){
@@ -220,6 +267,9 @@ if($payoutmessage == 'NextPayout'){
                 }else if($user_id_str == "F"){
                     $output .= '<th class="mobile_view">Franchisee</th>
                     <th class="mobile_view">Franchisee Name</th>';
+                }else if($user_id_str == "TA"){
+                    $output .= '<th class="mobile_view">Travel Agency</th>
+                    <th class="mobile_view">Travel Agency Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -238,7 +288,7 @@ if($payoutmessage == 'NextPayout'){
 
                     $BC_Commi = $row2['commision_bm'];
                 
-                    (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
+                    (int)$BC_Commi_TDS = (int)$BC_Commi*2/100;
                     (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
 
                     // date in proper formate
@@ -284,7 +334,7 @@ if($payoutmessage == 'NextPayout'){
 
                     $CA_Commi = $row2['commision_te'];
 
-                    (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
+                    (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
                     (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
                     $message2 = $row2['message_te'];
@@ -319,6 +369,43 @@ if($payoutmessage == 'NextPayout'){
                                         <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
+                }elseif($user_id_str == "TA"){
+
+                    $CA_Commi = $row2['commision_tc'];
+
+                    (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
+                    (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
+
+                    $message2 = $row2['message_tc'];
+                    $message2 =  str_replace('.','<br>',$message2); 
+
+                    if($user_id_str == "TA"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `ca_travelagency` where ca_travelagency_id='".$row2['travel_consultant']."'");
+                    }
+                    $sql2->execute();
+                    $sql2->setFetchMode(PDO::FETCH_ASSOC);
+                    if($sql2->rowCount()>0){
+                        foreach (($sql2->fetchAll()) as $key => $row3) {
+                            $ca_name = $row3['firstname']. ' ' .$row3['lastname'];
+                        }
+                    } 
+                    
+                    $output .='<tr>
+                        <td >'.$newDate.'</td>
+                        <td>'.$row2['travel_consultant'].'</td>
+                        <td>'.$ca_name.'</td>
+                        <td >'.$message2.'</td>
+                        <td style="text-align:center;">'.$CA_Commi.'</td>
+                        <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
+                        <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
+                        if($row2['status_tc'] == 2){
+                            $output .= '<td style="text-align:center;">Pending</td>
+                                        <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_tc'] == 1){
+                            $output .= '<td style="text-align:center;">Paid</td>
+                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
+                        }
+                    $output .='</tr>';
                 }
             }
         $output .= '</table>';
@@ -332,7 +419,7 @@ if($payoutmessage == 'NextPayout'){
 
 if($payoutmessage == 'TotalPayout'){
     $output="";
-    // $stmt2 = "SELECT * FROM ca_ta_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    // $stmt2 = "SELECT * FROM ca_cu_payout WHERE $designation = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     $stmt2 ="SELECT 
                     ca.created_date,
                     ca.status,
@@ -345,12 +432,16 @@ if($payoutmessage == 'TotalPayout'){
                     ca.message_te,
                     ca.commision_te,
                     ca.status_te,
+                    ca.travel_consultant,
+                    ca.message_tc,
+                    ca.commision_tc,
+                    ca.status_tc,
                     COALESCE(cap.status, 0) AS status,
                     cap.date AS paydate
-                FROM ca_ta_payout ca
-                LEFT JOIN ca_ta_payout_paid cap 
+                FROM ca_cu_payout ca
+                LEFT JOIN ca_cu_payout_paid cap 
                     ON cap.$designation = ca.$designation
-                    AND cap.techno_enterprise = ca.techno_enterprise
+                    AND cap.travel_consultant = ca.travel_consultant
                     AND YEAR(cap.date) = '".$payoutYear."'
                     AND MONTH(cap.date) = '".$payoutMonth."'
                 WHERE ca.$designation = '".$user_id."' 
@@ -380,6 +471,9 @@ if($payoutmessage == 'TotalPayout'){
                 }else if($user_id_str == "F"){
                     $output .= '<th class="mobile_view">Franchisee</th>
                     <th class="mobile_view">Franchisee Name</th>';
+                }else if($user_id_str == "TA"){
+                    $output .= '<th class="mobile_view">Travel Agency</th>
+                    <th class="mobile_view">Travel Agency Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -398,7 +492,7 @@ if($payoutmessage == 'TotalPayout'){
 
                     $BC_Commi = $row2['commision_bm'];
                 
-                    (int)$BC_Commi_TDS = (int)$BC_Commi*5/100;
+                    (int)$BC_Commi_TDS = (int)$BC_Commi*2/100;
                     (int)$BC_Commi_Total = (int)$BC_Commi-(int)$BC_Commi_TDS; 
 
                     // date in proper formate
@@ -444,7 +538,7 @@ if($payoutmessage == 'TotalPayout'){
 
                     $CA_Commi = $row2['commision_te'];
 
-                    (int)$CA_Commi_TDS = (int)$CA_Commi*5/100;
+                    (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
                     (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
 
                     $message2 = $row2['message_te'];
@@ -479,6 +573,43 @@ if($payoutmessage == 'TotalPayout'){
                                         <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
+                }elseif($user_id_str == "TA"){
+
+                    $CA_Commi = $row2['commision_tc'];
+
+                    (int)$CA_Commi_TDS = (int)$CA_Commi*2/100;
+                    (int)$CA_Commi_Total = (int)$CA_Commi-(int)$CA_Commi_TDS; 
+
+                    $message2 = $row2['message_tc'];
+                    $message2 =  str_replace('.','<br>',$message2); 
+
+                    if($user_id_str == "TE" || $user_id_str == "CA"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `ca_travelagency` where ca_travelagency_id='".$row2['travel_consultant']."'");
+                    }
+                    $sql2->execute();
+                    $sql2->setFetchMode(PDO::FETCH_ASSOC);
+                    if($sql2->rowCount()>0){
+                        foreach (($sql2->fetchAll()) as $key => $row3) {
+                            $ca_name = $row3['firstname']. ' ' .$row3['lastname'];
+                        }
+                    } 
+                    
+                    $output .='<tr>
+                        <td >'.$newDate.'</td>
+                        <td>'.$row2['travel_consultant'].'</td>
+                        <td>'.$ca_name.'</td>
+                        <td >'.$message2.'</td>
+                        <td style="text-align:center;">'.$CA_Commi.'</td>
+                        <td style="text-align:center;">'.$CA_Commi_TDS.'/-</td>
+                        <td style="text-align:center;">'.$CA_Commi_Total.'/-</td>';
+                        if($row2['status_tc'] == 2){
+                            $output .= '<td style="text-align:center;">Pending</td>
+                                        <td style="text-align:center;">NA</td>';
+                        }else if($row2['status_tc'] == 1){
+                            $output .= '<td style="text-align:center;">Paid</td>
+                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
+                        }
+                    $output .='</tr>';
                 }
             }
         $output .= '</table>';
@@ -489,12 +620,12 @@ if($payoutmessage == 'TotalPayout'){
         echo '<script>alert("No Payout Data"); window.history.back();</script>';                                                
     }
 }
-
+//not in use 
 if($payoutmessage == 'allPayout'){
     // if($user_id_str == 'BM' || $user_id_str == 'SF' || $user_id_str == 'MF'){
-    //     $stmt2 = " SELECT * FROM ca_ta_payout WHERE business_mentor = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    //     $stmt2 = " SELECT * FROM ca_cu_payout WHERE business_mentor = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     // }else if($user_id_str == 'TE' || $user_id_str == 'CA' || $user_id_str == 'F'){
-    //     $stmt2 = " SELECT * FROM ca_ta_payout WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
+    //     $stmt2 = " SELECT * FROM ca_cu_payout WHERE techno_enterprise = '".$user_id."' AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     // }
     $stmt2 = " SELECT 
                     ca.created_date,
@@ -508,10 +639,14 @@ if($payoutmessage == 'allPayout'){
                     ca.message_te,
                     ca.commision_te,
                     ca.status_te,
+                    ca.travel_consultant,
+                    ca.message_tc,
+                    ca.commision_tc,
+                    ca.status_tc,
                     COALESCE(cap.status, 0) AS status,
                     cap.date AS paydate
-                FROM ca_ta_payout ca
-                LEFT JOIN ca_ta_payout_paid cap 
+                FROM ca_cu_payout ca
+                LEFT JOIN ca_cu_payout_paid cap 
                     ON cap.$designation = ca.$designation
                     AND cap.techno_enterprise = ca.techno_enterprise
                     AND YEAR(cap.date) = '".$payoutYear."'

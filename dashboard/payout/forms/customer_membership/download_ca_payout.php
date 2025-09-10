@@ -31,6 +31,8 @@ if($tableSearch == "CA" || $tableSearch =="TE"){
     $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$designation."' AND status = 1");
 }else if($tableSearch == "BM"){
     $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$designation."' AND status = 1");
+}else if($tableSearch == "TA"){
+    $bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$designation."' AND status = 1");
 }else{
     $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$designation."' AND status = 1");
 }
@@ -88,7 +90,7 @@ if($bcNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../recruitment_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../customer_recruitment_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -124,7 +126,7 @@ if($bcNames -> rowCount()>0){
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Travel Consultant </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Customer Membership </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>
@@ -132,7 +134,11 @@ if($bcNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE" ) ? "Techno Enterprise" :($tableSearch == "F"  ? "Franchisee" :($tableSearch == "BM" ? "Business Mentor" :($tableSearch == "SF" ? "Sponsor Franchisee" :($tableSearch == "MF" ? "Master Franchisee" : "Unknown"))));?> Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE") ? "Techno Enterprise" :
+                                                                                                    ($tableSearch == "F"  ? "Franchisee" :
+                                                                                                    ($tableSearch == "BM" ? "Business Mentor" :
+                                                                                                    ($tableSearch == "SF" ? "Sponsor Franchisee" :
+                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" : "Travel Consultant"))));?> Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
