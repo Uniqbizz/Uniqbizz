@@ -152,6 +152,21 @@ if ($user_type == '24') {
             }
         }
     }
+    // Get TC from BDM
+    $sql = "SELECT register_date FROM ca_travelagency 
+            WHERE reference_no = :ref AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $bmRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($bmRows as $row) {
+        $year = date('Y', strtotime($row['register_date']));
+        $month = date('n', strtotime($row['register_date']));
+        if ($year == $get_year) {
+            $tc[$month - 1]++;
+        }
+    }
 
     if ($current_year == $get_year) {
         array_splice($bm, $current_month);

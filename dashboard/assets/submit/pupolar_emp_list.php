@@ -106,25 +106,11 @@ try {
                 // TC -> CU
                 fetchCustomerCounts($conn, $tcId, $counts);
             }
-
-        // // BDM -> TE
-        // $sqltes = "SELECT * FROM ca_te WHERE reference_no = ?";
-        // $tes = $conn->prepare($sqltes);
-        // $tes->execute([$userId]);
-        // foreach ($tes->fetchAll(PDO::FETCH_ASSOC) as $te) {
-        //     $teId = $te['ca_te_id'];
-
-        //     $counts['pendingTE'] += getCount($conn, "SELECT count(*) as cnt FROM ca_te WHERE reference_no = ? AND status = '2'", [$userId]);
-        //     $counts['registeredTE'] += getCount($conn, "SELECT count(*) as cnt FROM ca_te WHERE reference_no = ? AND status = '1'", [$userId]);
-        //     $counts['deletedTE'] += getCount($conn, "SELECT count(*) as cnt FROM ca_te WHERE reference_no = ? AND (status = '0' OR status = '3')", [$userId]);
-
-        //     $sqltcs = "SELECT * FROM ca_travelagency WHERE reference_no = ?";
-        //     $tcs = $conn->prepare($sqltcs);
-        //     $tcs->execute([$teId]);
-        //     foreach ($tcs->fetchAll(PDO::FETCH_ASSOC) as $tc) {
-        //         fetchCustomerCounts($conn, $tc['ca_travelagency_id'], $counts);
-        //     }
-        // }
+            //for direct TC by BDM
+            $user_id_str=substr($userId,0,2);
+            if($user_id_str == 'TC'){
+                fetchCustomerCounts($conn, $userId, $counts);
+            }
     }
 
     elseif ($userType == '26') {
