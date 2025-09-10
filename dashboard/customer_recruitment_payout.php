@@ -22,12 +22,12 @@
     $tdsPercentage = 2/100;
 
     // for displaying result for specific loged in user 
-    if($userType == '26'){ //business Mentor
+    if($userType == '26' || $userType == '28' || $userType == '30'){ //business Mentor/ Master Franchisee/ Sponsor Franchisee
         $columnDesignation = 'business_mentor';
         $columnMessage = 'message_bm';
         $columnCommision = 'commision_bm';
         $columnStatus = 'status_bm';
-    }else if($userType == '16'){ //Techno Enterprise / Corporate Agency
+    }else if($userType == '16' || $userType == '29'){ //Techno Enterprise / Corporate Agency/ Franchisee
         $columnDesignation = 'techno_enterprise';
         $columnMessage = 'message_te';
         $columnCommision = 'commision_te';
@@ -150,7 +150,7 @@
                                                                     <div class="m-0 mt-2 p-2 ms-n2">
                                                                         <p class="font-size-14">Previous Payout<span class="fw-bold font-size-10 ms-4"><?php echo "$prevdate" ?></span></p>
                                                                         <?php 
-                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_cu_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                                                             $previousPayout -> execute();
                                                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($previousPayout -> rowCount()>0){
@@ -165,7 +165,7 @@
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#previousPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                                         </a>
-                                                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                                                        <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
                                                                             <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                                                         </a>
                                                                     </div>
@@ -174,7 +174,7 @@
                                                                     <div class="m-0 mt-2 p-2">
                                                                         <p class="font-size-14">Next Payout<span class="fw-bold font-size-10 date-layout "><?php echo "$date" ?></span></p>
                                                                         <?php 
-                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_cu_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
                                                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                                                             if($nextPayout -> rowCount()>0){
@@ -189,7 +189,7 @@
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#nextPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                                         </a>
-                                                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                                                        <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
                                                                             <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                                                         </a>
                                                                     </div>
@@ -210,7 +210,7 @@
                                                                         </p>
                                                                     </div>
                                                                     <?php 
-                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
+                                                                        $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_cu_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
                                                                         $Payout = $conn -> prepare($totalPayout);
                                                                         $Payout -> execute();
                                                                         $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -255,7 +255,7 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <?php
-                                                                                $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND  status = '1' ORDER BY `ca_ta_payout`.`id` DESC";
+                                                                                $sql = "SELECT * FROM `ca_cu_payout` WHERE $columnDesignation = '".$userId."' ORDER BY `ca_cu_payout`.`id` DESC";
                                                                                 $stmt = $conn -> prepare($sql);
                                                                                 $stmt -> execute();
                                                                                 $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -281,7 +281,7 @@
                                                                                                 <td class="text-end">'.$CommAmt.'</td>
                                                                                                 <td class="text-end">'.$tds.'</td>
                                                                                                 <td class="text-end">'.$totalAmt.'
-                                                                                                    <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                                                    <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                                     </a>
                                                                                                 </td>';
@@ -350,7 +350,7 @@
                                     <p class="font-size-18 pt-2">Previous Payout<span class="fw-bold font-size-12 date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
                                     <div class="d-flex">
                                         <?php 
-                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                            $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_cu_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($previousPayout -> rowCount()>0){
@@ -364,7 +364,7 @@
                                             }
                                         ?>
                                         
-                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                        <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
                                             <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                         </a>
                                     </div>
@@ -409,7 +409,7 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'";
+                                                    $sql = "SELECT * FROM `ca_cu_payout` WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -435,7 +435,7 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
@@ -482,7 +482,7 @@
                                     <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
                                         <?php 
-                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                            $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_cu_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($nextPayout -> rowCount()>0){
@@ -496,7 +496,7 @@
                                             }
                                         ?>
                                         
-                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                        <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
                                             <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                         </a>
                                     </div>
@@ -542,7 +542,7 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'";
+                                                    $sql = "SELECT * FROM `ca_cu_payout` WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -568,7 +568,7 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
@@ -617,7 +617,7 @@
                                     <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
                                         <?php 
-                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
+                                            $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_cu_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
                                             $Payout = $conn -> prepare($totalPayout);
                                             $Payout -> execute();
                                             $Payout -> setFetchMode(PDO::FETCH_ASSOC);
@@ -682,7 +682,7 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND $columnStatus = '1' ";
+                                                    $sql = "SELECT * FROM `ca_cu_payout` WHERE $columnDesignation = '".$userId."' AND $columnStatus = '1' ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -708,7 +708,7 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
+                                                                        <a href="payout/forms/customer_membership/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$row[$columnDesignation].'&date='.$dt.'&message='.$message1.'&message_status='.$row[$columnStatus].'&commission='.$row[$columnCommision].'">
                                                                             <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                         </a>
                                                                     </td>';
@@ -801,7 +801,7 @@
         <script src="assets/js/app.js"></script>
 
         <!-- custom js  -->
-        <script src="payout/payout.js"></script>
+        <script src="payout/customer_membership.js"></script>
         <!-- Chart JS -->
         <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
 

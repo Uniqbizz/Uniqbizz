@@ -125,6 +125,15 @@
                                                 <span data-key="t-contracting-payout">Product Payout</span>
                                             </a>
                                         </li>
+                                    <?php
+                                        }
+                                        if($userType == "26" || $userType == "25" || $userType == "24" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30"){ 
+                                    ?>
+                                        <li class="nav-item  <?php if ($first_part=="customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
+                                            <a href="customer_recruitment_payout.php" class="nav-link menu-link">
+                                                <span data-key="t-contracting-payout">CU Membership Payout</span>
+                                            </a>
+                                        </li>
                                     <?php 
                                         } 
                                         if ($userType =='10') {
@@ -157,7 +166,7 @@
                                     ?>    
                                     <li class="nav-item  <?php if ($first_part=="recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                         <a href="recruitment_payout.php" class="nav-link menu-link">
-                                            <span data-key="t-recruitment-payout">T.A. Recruitment Payout</span>
+                                            <span data-key="t-recruitment-payout">TC Recruitment Payout</span>
                                         </a>
                                     </li>
                                     <?php } 
