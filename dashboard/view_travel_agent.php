@@ -817,8 +817,40 @@
                                                                                 echo'</tr>';
                                                                             }   
                                                                         }
+                                                                        //direct TC through BM Ref
+                                                                        $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
+                                                                        $stmt4->execute([$bm_id]);
+                                                                        $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+    
+                                                                        foreach ($userCATAs as $userCATA) {
+                                                                            $userTA = $userCATA['id'];
+                                                                            //echo $userCA.'=>'.$userTA.'</br>';
+    
+                                                                            $bd= new DateTime($userCATA['date_of_birth']);
+                                                                            $bdate= $bd->format('d-m-Y');
+                                                                            $dt= new DateTime($userCATA['register_date']);
+                                                                            $datev= $dt->format('d-m-Y'); 
+    
+                                                                            echo'<tr>
+                                                                                <td>
+                                                                                    <p>'.$userCATA['ca_travelagency_id'].'</p>
+                                                                                    <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p>'.$userCATA['reference_no'].'</p>
+                                                                                    <p>'.$userCATA['registrant'].'</p>
+                                                                                </td>
+                                                                                <td>'.$userCATA['contact_no'].'</td>
+                                                                                <td>'.$datev.'</td>';
+                                                                                if($userCATA['status'] == '1')
+                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                                else{
+                                                                                    echo'<td><span class="badge bg-danger">Deactive</span></td>';
+                                                                                }
+                                                                            echo'</tr>';
+                                                                        }
                                                                     }
-                                                                    //direct TC without BM Ref
+                                                                    //TC from Direct BDM
                                                                     $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
                                                                     $stmt4->execute([$userId]);
                                                                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -849,7 +881,7 @@
                                                                                 echo'<td><span class="badge bg-danger">Deactive</span></td>';
                                                                             }
                                                                         echo'</tr>';
-                                                                    }
+                                                                    }  
                                                                     
                                                                 }else if($userType == "18"){
                                                                    
