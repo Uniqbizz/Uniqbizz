@@ -456,7 +456,7 @@
                 </div>
                 <div class="row g-4">
                     <div class="col-xl-4 col-lg-7 col-md-7">
-                        <a href="blog_details/blog-details-kerala.php" class="destination-banner">
+                        <a href="destination-details/destination-details-kerala.php" class="destination-banner">
                             <img src="assets/images/destination/Kerala-main.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                             <div class="destination-content">
                               
@@ -474,7 +474,7 @@
                         </a>
                     </div>
                     <div class="col-xl-4 col-lg-7 col-md-7">
-                        <a href="blog_details/blog-details-goa.php" class="destination-banner">
+                        <a href="destination-details/destination-details-goa.php" class="destination-banner">
                             <img src="assets/images/destination/Goa.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                             <div class="destination-content">
                                 <div class="destination-info">
@@ -491,7 +491,7 @@
                         </a>
                     </div>
                     <div class="col-xl-4 col-lg-7 col-md-7">
-                        <a href="destination-details.php" class="destination-banner">
+                        <a href="destination-details/destination-details-gujarat.php" class="destination-banner">
                             <img src="assets/images/destination/Gujarat.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                             <div class="destination-content">
                                
@@ -511,7 +511,7 @@
                     <div class="destination-gallery">
                         <div class="row g-4">
                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                <a href="destination-details.php" class="destination-banner">
+                                <a href="destination-details/destination-details-uttarakhand.php" class="destination-banner">
                                     <img src="assets/images/destination/Uttarakhand.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                                     <div class="destination-content">
                                      
@@ -529,7 +529,7 @@
                                 </a>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                <a href="destination-details.php" class="destination-banner">
+                                <a href="#" class="destination-banner">
                                     <img src="assets/images/destination/Dubai.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                                     <div class="destination-content">
                                       
@@ -548,7 +548,7 @@
                                 </a>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                <a href="destination-details.php" class="destination-banner">
+                                <a href="#" class="destination-banner">
                                         <img src="assets/images/destination/Thailand.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                                     <div class="destination-content">
                                         
@@ -566,7 +566,7 @@
                                 </a>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
-                                <a href="destination-details.php" class="destination-banner">
+                                <a href="destination-details/destination-details-rajasthan.php" class="destination-banner">
                                         <img src="assets/images/destination/Rajasthan.jpg" alt="Bizzmirth Holidays" style="  object-fit: cover;">
                                     <div class="destination-content">
                                         <div class="destination-info">
