@@ -39,7 +39,11 @@
         <!-- App js -->
         <!-- <script src="../assets/js/plugin.js"></script> -->
         <!-- Font awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />            
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+        <!-- Date Range Picker CSS Start -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />         
 
         <style>
             /* dataTable, action col, dropdown align right  */
@@ -256,10 +260,23 @@
                                             <!-- end col-->
                                             <!-- Search Filter -->
                                             <div class="row filter-row p-2">
-                                                <div class="col-sm-6 col-md-6"> 
+                                                <div class="col-sm-3 col-md-3"> 
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label"><span>Desigantion</span></label>
+                                                        <select class="form-control Fileter-list" id="designation_value" aria-label=" Floating label select example"> 
+                                                            <option value="All">All</option>
+                                                            <option value="BM">Business Mentor</option>
+                                                            <option value="MF">Master Franchisee</option>
+                                                            <option value="SF">Sponsor Franchisee</option>
+                                                            
+                                                        </select>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 col-md-3"> 
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label"><span>Branch</span></label>
-                                                        <select class="form-control" id="filter_branch" aria-label="Floating label select example"> 
+                                                        <select class="form-control Fileter-list" id="filter_branch" aria-label=" Floating label select example"> 
                                                             <option value="">--- Select ---</option>
                                                             <?php
                                                                 require '../connect.php';
@@ -278,22 +295,27 @@
                                                                 }
                                                             ?>
                                                         </select>
-                                                        
-                                                    </div>
+                                                    </div>    
                                                 </div>
                                                 
-                                                <!-- <div class="col-sm-4 col-md-2">
-                                                    <div class="d-grid ">
-                                                        <a href="#" id="filterBranch" class="btn btn-success w-100 "> Search </a>  
-                                                    </div>  
-                                                </div> -->
+                                                <!-- date range -->
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label class="col-form-label"><span>Date Range</span></label>
+                                                    <div id="reportrange" class="Fileter-list input-block text-dark px-3 py-2 w-100 text-center dateRange " style="background-color:#e5e5e5; border-radius: 6px;">
+                                                        <i class="fa fa-calendar"></i>&nbsp;
+                                                        <span id='selectedDate'></span> <i class="fa-solid fa-angle-down"></i>
+                                                    </div>
+                                                </div>
 
-                                                <div class="col-sm-6 col-md-6"> 
+                                                <div class="col-sm-3 col-md-3"> 
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for=""><span>Count</span></label>
                                                         <input type="text" name="" id="filterCount" class="form-control" readonly>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-2 col-md-2 d-flex justify-content-left align-items-start" id="download_icon">
+                                                <button type="button" onclick="regTcDownload()" class="btn bg-primary text-white mb-3">Download</button>
                                             </div>
                                             <!-- Search Filter -->
                                         </div>
@@ -316,11 +338,11 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT *, 'BM' AS user_type FROM business_mentor WHERE status IN ('1')
+                                                            SELECT business_mentor_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'BM' AS user_type FROM business_mentor WHERE status IN ('1')
                                                             UNION ALL
-                                                            SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1')
+                                                            SELECT master_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1')
                                                             UNION ALL
-                                                            SELECT *, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('1')
+                                                            SELECT sponsor_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('1')
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -351,7 +373,7 @@
                                                                     : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
 
                                                             echo '<tr>
-                                                                    <td>' . $row['business_mentor_id'] . '</td>
+                                                                    <td>' . $row['user_id'] . '</td>
                                                                     <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p>
@@ -371,9 +393,9 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["business_mentor_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'mf' ? 'master_franchisee' : (strtolower($row['user_type']) == 'bm' ? 'business_mentor' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["business_mentor_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["business_mentor_id"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'MF' ? 'master_franchisee' : (strtolower($row['user_type']) == 'BM' ? 'business_mentor' : (strtolower($row['user_type']) == 'SF' ? 'sponsor_franchisee' : ''))) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -669,6 +691,8 @@
         <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
         <!-- ecommerce-customer-list init -->
         <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
@@ -767,49 +791,119 @@
                 });
                 
             };
-            
-            $('#filter_branch').on('change', function(){
-				// e.preventDefault();
-				// alert('Hello');
-				// let filterEmpID = $('#bmId').val() ;
-				// let filterEmpName = $('#bmName').val();
-				let filterDesig = $('#filter_branch').val();
-				// console.log(filterEmpID +' '+ filterEmpName +' '+ filterDesig);
-
-                if(!filterDesig){
-                    alert("Select Branch First");
-                }else{
-
-                    let dataString = 'branch='+filterDesig;
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'filterBM.php',
-                        data: dataString,
-                        cache: false,
-                        success: function(data){
-                            if(data){
-                                console.log('success'+' '+data);
-                                $('#bmView').html(data);
-                                $("#registeredCustomerList-tableFilter").DataTable();
-                                var totalRows = $("#registeredCustomerList-tableFilter").DataTable().rows().count();
-                                $('#filterCount').val(totalRows);
-                                // console.log("Total DataTable rows:", totalRows);
-                            }else{
-                                console.log('unsuccess'+' '+data);
-                                $('#bmView').html(data);
-                            }
-                        }
-                    });
-                }
-			});
 
             function overviewPage(id,ref,cut,st,ct,message){
 
                 var designation = message == 'business_mentor'?'Business Mentor':(message == 'master_franchisee'?'Master Franchisee':'');
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
+            
+            // Global flag
+            let dateRangeChanged = false;
+            let fromDate = '', toDate = '';
+
+            // On dropdown/filter change
+            $('.Fileter-list').on('change', function(){
+                reloadBMData();
+            });
+
+            // On date range apply
+            $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+                dateRangeChanged = true;
+                fromDate = picker.startDate.format('DD-MM-YYYY');
+                toDate   = picker.endDate.format('DD-MM-YYYY');
+                $('#selectedDate').text(fromDate + ' to ' + toDate);
+
+                reloadBMData(); // 🔥 reload table when date changes
+            });
+
+            // Reload function
+            function reloadBMData(){
+                let filterDesig = $('#filter_branch').val();
+                let desig = $('#designation_value').val();
+
+                let dataString = 'branch='+filterDesig+'&designation='+desig;
+                if (dateRangeChanged) {
+                    dataString += '&fromDate='+fromDate+'&toDate='+toDate;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'filterBM.php',
+                    data: dataString,
+                    cache: false,
+                    success: function(data){
+                        if(data){
+                            $('#bmView').html(data);
+                            $("#registeredCustomerList-tableFilter").DataTable();
+                            var totalRows = $("#registeredCustomerList-tableFilter").DataTable().rows().count();
+                            $('#filterCount').val(totalRows);
+                        }else{
+                            $('#bmView').html(data);
+                        }
+                    }
+                });
+}
+
+            //download excel
+            function regTcDownload() {
+                var branchVal  = $('#filter_branch').val() || "";
+                var designation = $('#designation_value').val()   || "";
+                let fromDate = '', toDate = '';
+
+                if (dateRangeChanged) {
+                    const dateRange = $('#selectedDate').text().trim();
+                    if (dateRange.includes(' to ')) {
+                        [fromDate, toDate] = dateRange.split(' to ');
+                    }
+                }
+
+                var params = new URLSearchParams({
+                    branch: branchVal,
+                    designation: designation
+                });
+
+                if (dateRangeChanged && fromDate && toDate) {
+                    params.append("fromDate", fromDate);
+                    params.append("toDate", toDate);
+                }
+
+                window.location.href = "download_list.php?" + params.toString();
+            }
+            
         </script>
+        <!-- Date Range Script -->
+        <script type="text/javascript">
+            $(function () {
+                function cb(start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+
+                $('#reportrange').daterangepicker({
+                    autoUpdateInput: false, // prevents default range selection
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    }
+                }, cb);
+
+                // Update input field manually when user selects range
+                $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+                    cb(picker.startDate, picker.endDate);
+                });
+
+                // Clear input when user cancels
+                $('#reportrange').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).find('span').html('');
+                });
+            });
+
+        </script>
+        <!-- Date Range Script -->
 
     </body>
 
