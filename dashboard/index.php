@@ -3584,14 +3584,14 @@ if ($userType == 10){
         // console.log(getCurrentMonth);
         var userType, monthYear;
         // get month for input tag
-        var monthControl = document.querySelector('#month_year');
+        //var monthControl = document.querySelector('#month_year');
 
         $(function() {
             // get min and max month for input tag
             const date = new Date()
             const month = ("0" + (date.getMonth() + 1)).slice(-2)
             const year = date.getFullYear()
-            monthControl.value = `${year}-${month}`;
+            //monthControl.value = `${year}-${month}`;
             // console.log(monthControl.value);
 
             userId = <?php echo json_encode($_SESSION['user_id'], JSON_HEX_TAG); ?>;
