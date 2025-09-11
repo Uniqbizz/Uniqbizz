@@ -24,7 +24,7 @@
     // echo "prev Month ".$prevDateMonth.' ;';
     // echo "prev year ".$prevDateYear.' ;';
 
-    $tdsPercentage = 2/100;
+    $tdsPer = 2/100;
 
 ?>
 <!doctype html>
@@ -56,18 +56,7 @@
         <!-- Responsive datatable examples -->
         <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
   
-        <style>
-            /* font size */
-            .head{
-                font-size: 18px!important;
-            }
-            .sub-head{
-                font-size: 16px!important;
-            }
-            .cursor{
-                cursor: pointer;
-            }
-        </style>
+
     </head>
     
 
@@ -95,7 +84,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h2 class="mb-sm-0 fw-bolder ps-4">Product Payouts</h2>
+                                    <h2 class="mb-sm-0 fw-bolder ps-4">Payouts</h2>
                                 </div>
                                 
                             </div>
@@ -109,24 +98,32 @@
                                             <div class="col-lg-6 col-sm-6 col-6  border-4 border-end border-end-dashed">
                                                 <div class="page-title-box p-3">
                                                     <p class="font-size-14">Previous Payout<span class="fw-bold font-size-10 ms-5"><?php echo "$prevdate" ?></span></p>
-                                                    <?php 
-                                                        $previousPayout = $conn -> prepare("SELECT SUM(ta_markup+ta_amt+te_amt+bm_amt+bdm_amt+bch_amt+cu1_amt+cu2_amt+cu3_amt) as previousPayout FROM product_payout WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
-                                                        $previousPayout -> execute();
-                                                        $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($previousPayout -> rowCount()>0){
-                                                            foreach(($previousPayout -> fetchAll()) as $key => $row){
-                                                                $previousPayout = $row['previousPayout'];
-                                                                $previousPayoutTDS = $previousPayout * $tdsPercentage;
-                                                                $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
-                                                                $truncatedPrevAmount = floor($TotalpreviousPayout * 100) / 100;
-                                                                echo'<p class="fs-5 fw-bolder mt-n2">Rs. ' .number_format($truncatedPrevAmount,2). '/- <span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4">Pending</span> </p>';
-                                                            }
+                                                    <?php
+                                                        $query = "
+                                                            SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month                                                            
+                                                        ";
+
+                                                        $stmt = $conn->prepare($query);
+                                                        $stmt->execute(['year' => $prevDateYear, 'month' => $prevDateMonth]);
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        $totalPayout = 0;
+                                                        while ($row = $stmt->fetch()) {
+                                                            $totalPayout += $row['payout'] ?? 0;
+                                                        }
+
+                                                        if ($totalPayout > 0) {
+                                                            $tds = $totalPayout * 0.02; //tds
+                                                            $netPayout = $totalPayout - $tds;
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. ' . round($netPayout) . '/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                        }else{
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. 0/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
                                                         }
                                                     ?>
+
                                                     <a type="button" data-bs-toggle="modal" data-bs-target="#previousPayout" style=" cursor: pointer;">
                                                         <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                     </a>
-                                                    <a href="forms/product_payout/download_exel_product_payout?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
+                                                    <a href="forms/sub_franchisee/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
                                                         <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                                     </a>
                                                 </div>
@@ -134,24 +131,33 @@
                                             <div class="col-lg-6 col-sm-6 col-6 ">
                                                 <div class="page-title-box p-3">
                                                     <p class="font-size-14">Next Payout<span class="fw-bold font-size-10 ms-5 date-layout "><?php echo "$date" ?></span></p>
-                                                    <?php 
-                                                        $nextPayout = $conn -> prepare("SELECT SUM(ta_markup+ta_amt+te_amt+bm_amt+bdm_amt+bch_amt+cu1_amt+cu2_amt+cu3_amt) as nextPayout FROM product_payout WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
-                                                        $nextPayout -> execute();
-                                                        $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if($nextPayout -> rowCount()>0){
-                                                            foreach(($nextPayout -> fetchAll()) as $key => $row2){
-                                                                $nextPayoutTotal = $row2['nextPayout'];
-                                                                $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
-                                                                $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
-                                                                $truncatedNextAmount = floor($TotalNextPayout * 100) / 100;
-                                                                echo'<p class="fs-5 fw-bolder mt-n2">Rs.' .number_format($truncatedNextAmount,2). '/- <span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4">Pending</span> </p>';
-                                                            }
+                                                    <?php
+                                                        $query = "
+                                                            SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                                        ";
+
+                                                        $stmt = $conn->prepare($query);
+                                                        $stmt->execute(['year' => $nextDateYear, 'month' => $nextDateMonth]);
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                        $totalPayout = 0;
+                                                        while ($row = $stmt->fetch()) {
+                                                            $totalPayout += $row['payout'] ?? 0;
+                                                        }
+
+                                                        if ($totalPayout > 0) {
+                                                            $tds = $totalPayout * 0.02;
+                                                            $netPayout = $totalPayout - $tds;
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. ' . round($netPayout) . '/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                        }else{
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. 0/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
                                                         }
                                                     ?>
+
                                                     <a type="button" data-bs-toggle="modal" data-bs-target="#nextPayout" style=" cursor: pointer;">
                                                         <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                     </a>
-                                                    <a href="forms/product_payout/download_exel_product_payout?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout">
+                                                    <a href="forms/sub_franchisee/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout">
                                                         <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                                     </a>
                                                 </div>
@@ -171,31 +177,30 @@
                                                         <input type="month" id="month_year" value="" min="2020-01" max="" class="font-size-10 fw-bold rounded-4 d-none border-round">
                                                     </p>
                                                 </div>
-                                                <?php 
-                                                    // $totalPayout = "SELECT SUM(
-                                                    //                     CASE WHEN bc_status = '1' THEN bc_amt ELSE 0 END +
-                                                    //                     CASE WHEN ca_status = '1' THEN ca_amt ELSE 0 END +
-                                                    //                     CASE WHEN ca_ta_status = '1' THEN ca_ta_amt ELSE 0 END +
-                                                    //                     CASE WHEN ca_cu1_status = '1' THEN ca_cu1_amt ELSE 0 END +
-                                                    //                     CASE WHEN ca_cu2_status = '1' THEN ca_cu2_amt ELSE 0 END +
-                                                    //                     CASE WHEN ca_cu3_status = '1' THEN ca_cu3_amt ELSE 0 END +
-                                                    //                     CASE WHEN ca_ta_status = '1' THEN ta_markup ELSE 0 END
-                                                    //                 ) as total_payable 
-                                                    //             FROM product_payout";
-                                                    $totalPayout = "SELECT SUM(ta_markup+ta_amt+te_amt+bm_amt+bdm_amt+bch_amt+cu1_amt+cu2_amt+cu3_amt) as total_payable FROM product_payout";
-                                                    $Payout = $conn -> prepare($totalPayout);
-                                                    $Payout -> execute();
-                                                    $Payout -> setFetchMode(PDO::FETCH_ASSOC);
-                                                    if($Payout->rowCount()>0){
-                                                        foreach(($Payout->fetchAll()) as $key => $row){
-                                                            $total_payable = $row["total_payable"] ?? '0';
-                                                            $totalPayoutTDS = $total_payable * $tdsPercentage;
-                                                            $TotalPayout = $total_payable - $totalPayoutTDS;
-                                                            $truncatedTotalAmount = floor($TotalPayout * 100) / 100;
-                                                            echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.number_format($truncatedTotalAmount,2).'/-</p>';
-                                                        }
+                                                
+                                                <?php
+                                                    $query = "
+                                                        SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE status = :status
+                                                    ";
+
+                                                    $stmt = $conn->prepare($query);
+                                                    $stmt->execute(['status' => '1']);
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                    $totalPayout = 0;
+                                                    while ($row = $stmt->fetch()) {
+                                                        $totalPayout += $row['payout'] ?? 0;
+                                                    }
+
+                                                    if ($totalPayout > 0) {
+                                                        $tds = $totalPayout * 0.02;
+                                                        $netPayout = $totalPayout - $tds;
+                                                        echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs.'.$netPayout.'/-</p>';
+                                                    }else{
+                                                        echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs. 0/-</p>';
                                                     }
                                                 ?>
+
                                                 <a type="button" data-bs-toggle="modal" data-bs-target="#totalPayout" style=" cursor: pointer;">
                                                     <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;"> View Payout</p>
                                                 </a>
@@ -215,12 +220,9 @@
                                                 <!-- <label> Filter Payouts</label> -->
                                                 <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
                                                     <option value="">--Select Filter Option--</option>
-                                                    <option value="business_channel_manager">Business Channel Manager</option>
-                                                    <option value="business_development_manager">Business Development Manager</option>
-                                                    <option value="business_mentor">Business Mentor</option>
-                                                    <option value="corporate_agency">Techno Enterprise</option>
-                                                    <option value="ca_travelagency">Travel Consultant</option>
-                                                    <option value="ca_customer">Customer</option>
+                                                    <option value="zonal_manager">Zonal Manager</option>
+                                                    <option value="master_franchisee">Master Franchisee</option>
+                                                    <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                     <!-- <option value="base_agency">Base Agency</option> -->
                                                 </select>
                                             </div>
@@ -275,20 +277,20 @@
                                                 <table class="table table-hover" id="payoutDetailsTable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="fw-bolder font-size-16" style="display: none;">ID</th>
-                                                            <th class="fw-bolder font-size-16">Date</th>
-                                                            <!-- <th class="fw-bolder font-size-16">ID</th>
-                                                            <th class="fw-bolder font-size-16">Pkg ID</th> -->
-                                                            <th class="fw-bolder font-size-16">Payout Details</th>
-                                                            <th class="fw-bolder font-size-16">Amount</th>
-                                                            <th class="fw-bolder font-size-16">TDS</th>
-                                                            <th class="fw-bolder font-size-16">Total Payable</th>
-                                                            <th class="fw-bolder font-size-16">Remark</th>
+                                                            <th class="ceterText fw-bolder font-size-16">Date</th>
+                                                            <th class="ceterText fw-bolder font-size-16">Payout Details</th>
+                                                            <th class="ceterText fw-bolder font-size-16">Amount</th>
+                                                            <th class="ceterText fw-bolder font-size-16">TDS</th>
+                                                            <th class="ceterText fw-bolder font-size-16">Total Payable</th>
+                                                            <th class="ceterText fw-bolder font-size-16">Remark</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "SELECT * FROM `product_payout` ORDER BY `created_date` ASC";
+                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA') 
+                                                                    UNION ALL 
+                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA')
+                                                                    ORDER BY created_date DESC ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
                                                             $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -299,222 +301,38 @@
                                                                     $dt = new DateTime($row['created_date']);
                                                                     $dt = $dt->format('Y-m-d');
 
-                                                                    $ta_markup = $row['ta_markup'] ;
-                                                                    $no_of_adult = $row['no_of_adult'] ;
-                                                                    $no_of_child = $row['no_of_child'] ;
-                                                                    $customer_id = $row['cu_id'] ;
+                                                                    // replace dot at end of the line with break statement
+                                                                    $message1 = $row['message'];
+                                                                    $message1 =  str_replace('.','<br>',$message1);  
 
-                                                                    $stmt1 = $conn -> prepare(" SELECT name FROM package WHERE id = '".$row['package_id']."' ");
-                                                                    $stmt1 -> execute();
-                                                                    $pkgName = $stmt1 -> fetch();
-                                                                    $packageName = $pkgName['name'];
-
-                                                                    $stmt8 = $conn -> prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '".$customer_id."' ");
-                                                                    $stmt8 -> execute();
-                                                                    $cu_name = $stmt8 -> fetch();
-                                                                    $cuName = $cu_name['firstname'].' '.$cu_name['lastname'];
-
-                                                                    $cu3_id = $row['cu3_id'];
-                                                                    $cu2_id = $row['cu2_id'];
-                                                                    $cu1_id = $row['cu1_id'];
-                                                                    $bdm_id = $row['bdm_id'];
-                                                                    $bch_id = $row['bch_id'];
-
-                                                                    // ta message
-                                                                    $ta_id = $row['ta_id'];
-                                                                    $ta_mess = $row['ta_mess'];
-                                                                    $ta_amt = $row['ta_amt'];
-                                                                    $ta_status = $row['ta_status'];
-                                                                    $ta_tds = $ta_amt * $tdsPercentage;
-                                                                    $ta_total = $ta_amt - $ta_tds;
-
-                                                                    // te message
-                                                                    $te_id = $row['te_id'];
-                                                                    $te_mess = $row['te_mess'];
-                                                                    $te_amt = $row['te_amt'];
-                                                                    $te_status = $row['te_status'];
-                                                                    $te_tds = $te_amt * $tdsPercentage;
-                                                                    $te_total = $te_amt - $te_tds;
-
-                                                                    // bm message
-                                                                    $bm_id = $row['bm_id'];
-                                                                    $bm_mess = $row['bm_mess'];
-                                                                    $bm_amt = $row['bm_amt'];
-                                                                    $bm_status = $row['bm_status'];
-                                                                    $bm_tds = $bm_amt * $tdsPercentage;
-                                                                    $bm_total = $bm_amt - $bm_tds;
-
-                                                                    // bdm message
-                                                                    if($bdm_id){
-                                                                        // $bdm_id = $row['bdm_id'];
-                                                                        $bdm_mess = $row['bdm_mess'];
-                                                                        $bdm_amt = $row['bdm_amt'];
-                                                                        $bdm_status = $row['bdm_status'];
-                                                                        $bdm_tds = $bdm_amt * $tdsPercentage;
-                                                                        $bdm_total = $bdm_amt - $bdm_tds;
+                                                                    // total Amt Cal for BC 
+                                                                    if($row['comm_amt'] == "null"){
+                                                                        $CommAmt = "null";
+                                                                        $tds = "null";
+                                                                        $totalAmt = "null";
+                                                                    }else{
+                                                                        $CommAmt = $row['comm_amt'];
+                                                                        $tds = $CommAmt * $tdsPer;
+                                                                        $totalAmt = $CommAmt - $tds;
                                                                     }
-
-                                                                    // bcm message
-                                                                    if($bch_id){
-                                                                        // $bch_id = $row['bch_id'];
-                                                                        $bch_mess = $row['bch_mess'];
-                                                                        $bch_amt = $row['bch_amt'];
-                                                                        $bch_status = $row['bch_status'];
-                                                                        $bch_tds = $bch_amt * $tdsPercentage;
-                                                                        $bch_total = $bch_amt - $bch_tds;
-                                                                    }
-
-                                                                    // cu1 message
-                                                                    if($cu1_id){
-                                                                        // $cu1_id = $row['cu1_id'];
-                                                                        $cu1_mess = $row['cu1_mess'];
-                                                                        $cu1_amt = $row['cu1_amt'];
-                                                                        $cu1_status = $row['cu1_status'];
-                                                                        $cu1_tds = $cu1_amt * $tdsPercentage;
-                                                                        $cu1_total = $cu1_amt - $cu1_tds;
-                                                                    }
-
-                                                                    // cu2 message
-                                                                    if($cu2_id){
-                                                                        // $cu2_id = $row['cu2_id'];
-                                                                        $cu2_mess = $row['cu2_mess'];
-                                                                        $cu2_amt = $row['cu2_amt'];
-                                                                        $cu2_status = $row['cu2_status'];
-                                                                        $cu2_tds = $cu2_amt * $tdsPercentage;
-                                                                        $cu2_total = $cu2_amt - $cu2_tds;
-                                                                    }
-
-                                                                    // cu3 message
-                                                                    if($cu3_id){
-                                                                        // $cu3_id = $row['cu3_id'];
-                                                                        $cu3_mess = $row['cu3_mess'];
-                                                                        $cu3_amt = $row['cu3_amt'];
-                                                                        $cu3_status = $row['cu3_status'];
-                                                                        $cu3_tds = $cu3_amt * $tdsPercentage;
-                                                                        $cu3_total = $cu3_amt - $cu3_tds;
-                                                                    }
-
-                                                                    if($cu3_id){
-                                                                        echo'<tr>
-                                                                                <td style="display: none;">'.$row['id'].'</td>
-                                                                                <td>'.$dt.'</td>
-                                                                                <td>'.$cu3_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                                <td>'.$cu3_amt.'</td>
-                                                                                <td>'.$cu3_tds.'</td>
-                                                                                <td>'.$cu3_total.'</td>';
-                                                                                if($cu3_status == '1'){
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                                }else{
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu3_id']. '","' .$row['cu3_mess']. '","' .$row['cu3_amt']. '","cu3_status","AllPayoutCaCu3")\'>Pending</span></td>';
-                                                                                }
-                                                                        echo'</tr>';
-                                                                    }
-
-                                                                    if($cu2_id){
-                                                                        echo'<tr>
-                                                                                <td style="display: none;">'.$row['id'].'</td>
-                                                                                <td>'.$dt.'</td>
-                                                                                <td>'.$cu2_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                                <td>'.$cu2_amt.'</td>
-                                                                                <td>'.$cu2_tds.'</td>
-                                                                                <td>'.$cu2_total.'</td>';
-                                                                                if($cu2_status == '1'){
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                                }else{
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu2_id']. '","' .$row['cu2_mess']. '","' .$row['cu2_amt']. '","cu2_status","AllPayoutCaCu2")\'>Pending</span></td>';
-                                                                                }
-                                                                        echo'</tr>';
-                                                                    }
-
-                                                                    if($cu1_id){
-                                                                        echo'<tr>
-                                                                                <td style="display: none;">'.$row['id'].'</td>
-                                                                                <td>'.$dt.'</td>
-                                                                                <td>'.$cu1_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                                <td>'.$cu1_amt.'</td>
-                                                                                <td>'.$cu1_tds.'</td>
-                                                                                <td>'.$cu1_total.'</td>';
-                                                                                if($cu1_status == '1'){
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                                }else{
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu1_id']. '","' .$row['cu1_mess']. '","' .$row['cu1_amt']. '","cu1_status","AllPayoutCaCu1")\'>Pending</span></td>';
-                                                                                }
-                                                                        echo'</tr>';
-                                                                    }
-
+                                                                    
                                                                     echo '<tr>
-                                                                            <td style="display: none;">'.$row['id'].'</td>
                                                                             <td>'.$dt.'</td>
-                                                                            <td>'.$ta_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'<br/> Travel Consultant Markup ->Rs. '.$ta_markup.'</td>
-                                                                            <td>'.$ta_amt.'</td>
-                                                                            <td>'.$ta_tds.'</td>
-                                                                            <td>'.$ta_total.'</td>';
-                                                                            if($ta_status == '1'){
+                                                                            <td>'.$message1.'</td>
+                                                                            <td class="text-end">'.$CommAmt.'</td>
+                                                                            <td class="text-end">'.$tds.'</td>
+                                                                            <td class="text-end">'.$totalAmt.'
+                                                                                <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
+                                                                                    <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                                </a>
+                                                                            </td>';
+                                                                            if($row['status'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['ta_id']. '","' .$row['ta_mess']. '","' .$row['ta_amt']. '","ta_status","AllPayoutTa")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                    echo'<tr>
-                                                                            <td style="display: none;">'.$row['id'].'</td>
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$te_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$te_amt.'</td>
-                                                                            <td>'.$te_tds.'</td>
-                                                                            <td>'.$te_total.'</td>';
-                                                                            if($te_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['te_id']. '","' .$row['te_mess']. '","' .$row['te_amt']. '","te_status","AllPayoutTe")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                    echo'<tr>
-                                                                            <td style="display: none;">'.$row['id'].'</td>
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$bm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$bm_amt.'</td>
-                                                                            <td>'.$bm_tds.'</td>
-                                                                            <td>'.$bm_total.'</td>';
-                                                                            if($bm_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bm_id']. '","' .$row['bm_mess']. '","' .$row['bm_amt']. '","bm_status","AllPayoutBm")\'>Pending</span></td>';
+                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
                                                                             }
                                                                     echo'</tr>';
 
-                                                                    if($row['bdm_id']){
-                                                                        echo'<tr>
-                                                                                <td style="display: none;">'.$row['id'].'</td>
-                                                                                <td>'.$dt.'</td>
-                                                                                <td>'.$bdm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                                <td>'.$bdm_amt.'</td>
-                                                                                <td>'.$bdm_tds.'</td>
-                                                                                <td>'.$bdm_total.'</td>';
-                                                                                if($bdm_status == '1'){
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                                }else{
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bdm_id']. '","' .$row['bdm_mess']. '","' .$row['bdm_amt']. '","bdm_status","AllPayoutBdm")\'>Pending</span></td>';
-                                                                                }
-                                                                        echo'</tr>';
-                                                                    }
-
-                                                                    if($row['bch_id']){
-                                                                        echo'<tr>
-                                                                                <td style="display: none;">'.$row['id'].'</td>
-                                                                                <td>'.$dt.'</td>
-                                                                                <td>'.$bch_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                                <td>'.$bch_amt.'</td>
-                                                                                <td>'.$bch_tds.'</td>
-                                                                                <td>'.$bch_total.'</td>';
-                                                                                if($bch_status == '1'){
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                                }else{
-                                                                                    echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bch_id']. '","' .$row['bch_mess']. '","' .$row['bch_amt']. '","bch_status","AllPayoutBch")\'>Pending</span></td>';
-                                                                                }
-                                                                        echo'</tr>';
-                                                                    }
-                                                                    
-                                                                    
                                                                 }
                                                             }
                                                         ?>
@@ -553,35 +371,57 @@
 
         
         <!-- sample modal content -->
-        <div id="previousPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style="border-radius: 20px !important;">
+        <div id="previousPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style=" border-radus: 20px !important;">
             <div class="modal-dialog modal-fullscreen" style="width: 80%; margin: auto; margin-top: 30px; margin-bottom: 30px; height: 90vh;" >
                 <div class="modal-content modal-radius">
                     <div class="modal-header">
-                        <h5 class="modal-title head fw-bold" id="exampleModalFullscreenLabel">Previous Payout</h5>
+                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Previous Payout</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row d-flex justify-content-evenly">   
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="page-title-box p-3">
-                                    <p class="head pt-3">Previous Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$prevdate" ?></span></p>
+                                    <p class="font-size-18 pt-3">Previous Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$prevdate" ?></span></p>
                                     <div class="d-flex">
-                                        <?php 
-                                            $previousPayout = $conn -> prepare("SELECT SUM(ta_markup+ta_amt+te_amt+bm_amt+bdm_amt+bch_amt+cu1_amt+cu2_amt+cu3_amt) as previousPayout FROM product_payout WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                        <!-- <?php 
+                                            $previousPayout = $conn -> prepare("SELECT SUM(commision_zm+commision_mf) as previousPayout FROM sub_franchisee_payout WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($previousPayout -> rowCount()>0){
                                                 foreach(($previousPayout -> fetchAll()) as $key => $row){
                                                     $previousPayout = $row['previousPayout'];
-                                                    $previousPayoutTDS = $previousPayout * $tdsPercentage;
+                                                    $previousPayoutTDS = $previousPayout * 5/100;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
-                                                    $truncatedPrevAmount = floor($TotalpreviousPayout * 100) / 100;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .number_format($truncatedPrevAmount,2). '/- </p><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Pending</span>';
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
+                                            }
+                                        ?> -->
+
+                                        <?php
+                                            $query = "
+                                                SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                            ";
+
+                                            $stmt = $conn->prepare($query);
+                                            $stmt->execute(['year' => $prevDateYear, 'month' => $prevDateMonth]);
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                            $totalPayout = 0;
+                                            while ($row = $stmt->fetch()) {
+                                                $totalPayout += $row['payout'] ?? 0;
+                                            }
+
+                                            if ($totalPayout > 0) {
+                                                $tds = $totalPayout * 0.02; //tds
+                                                $netPayout = $totalPayout - $tds;
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($netPayout). '/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                            }else{
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.0/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                             }
                                         ?>
                                         
-                                        <a href="forms/product_payout/download_exel_product_payout?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
+                                        <a href="forms/sub_franchisee/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
                                             <i class="bx bx-download download-icon status1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                         </a>
                                     </div>
@@ -597,13 +437,10 @@
                                     <div class="designation-filter no-space1 col-lg-5 col-md-5 col-sm-12">
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationPrevious" class="selectdesign filter-opt-1 fw-bolder">
-                                            <option value="">--Select Filter Option--</option>
-                                            <option value="business_channel_manager">Business Channel Manager</option>
-                                            <option value="business_development_manager">Business Development Manager</option>
-                                            <option value="business_mentor">Business Mentor</option>
-                                            <option value="corporate_agency">Techno Enterprise</option>
-                                            <option value="ca_travelagency">Travel Consultant</option>
-                                            <option value="ca_customer">Customer</option>
+                                            <option value="none">--Select Filter Option--</option>
+                                            <option value="zonal_manager">Zonal Manager</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -651,252 +488,72 @@
                                         <table class="table table-hover" id="previous_payout_table">
                                             <thead>
                                                 <tr>
-                                                    <tr>
-                                                        
-                                                        <th class="fw-bolder font-size-16">Date</th>
-                                                        <!--<th class="fw-bolder font-size-16">Pkg ID</th> -->
-                                                        <th class="fw-bolder font-size-16">Payout Details</th>
-                                                        <th class="fw-bolder font-size-16">Amount</th>
-                                                        <th class="fw-bolder font-size-16">TDS</th>
-                                                        <th class="fw-bolder font-size-16">Total Payable</th>
-                                                        <th class="fw-bolder font-size-16">Remark</th>
-                                                    </tr>
+                                                    <th class="ceterText fw-bolder font-size-16">Date</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Payout Details</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Amount</th>
+                                                    <th class="ceterText fw-bolder font-size-16">TDS</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Total Payable</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Remark</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                    <?php
-                                                        $sql = "SELECT * FROM `product_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ORDER BY `created_date` ASC";
-                                                        $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if( $stmt -> rowCount()>0 ){
-                                                            foreach( ($stmt -> fetchALL()) as $key => $row ){
+                                                
+                                                <?php
+                                                    // $sql = "SELECT id, bdm_id as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
+                                                    //         SELECT id, bm_id as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' UNION ALL
+                                                    //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'
+                                                    //         order by created_date desc ";
 
-                                                                // date in proper formate
-                                                                $dt = new DateTime($row['created_date']);
-                                                                $dt = $dt->format('Y-m-d');
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."') 
+                                                            UNION ALL
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."')
+                                                            order by created_date desc ";
+                                                    $stmt = $conn -> prepare($sql);
+                                                    $stmt -> execute();
+                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                    if( $stmt -> rowCount()>0 ){
+                                                        foreach( ($stmt -> fetchALL()) as $key => $row ){
 
-                                                                $ta_markup = $row['ta_markup'] ;
-                                                                $no_of_adult = $row['no_of_adult'] ;
-                                                                $no_of_child = $row['no_of_child'] ;
-                                                                $customer_id = $row['cu_id'] ;
+                                                            // date in proper formate
+                                                            $dt = new DateTime($row['created_date']);
+                                                            $dt = $dt->format('Y-m-d');
 
-                                                                $stmt1 = $conn -> prepare(" SELECT name FROM package WHERE id = '".$row['package_id']."' ");
-                                                                $stmt1 -> execute();
-                                                                $pkgName = $stmt1 -> fetch();
-                                                                $packageName = $pkgName['name'];
+                                                            // replace dot at end of the line with break statement
+                                                            $message1 = $row['message'];
+                                                            $message1 =  str_replace('.','<br>',$message1);  
 
-                                                                $stmt8 = $conn -> prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '".$customer_id."' ");
-                                                                $stmt8 -> execute();
-                                                                $cu_name = $stmt8 -> fetch();
-                                                                $cuName = $cu_name['firstname'].' '.$cu_name['lastname'];
-
-
-                                                                // ta message
-                                                                $cu3_id = $row['cu3_id'];
-                                                                $cu2_id = $row['cu2_id'];
-                                                                $cu1_id = $row['cu1_id'];
-                                                                $bdm_id = $row['bdm_id'];
-                                                                $bch_id = $row['bch_id'];
-                                                                $ta_id = $row['ta_id'];
-                                                                $ta_mess = $row['ta_mess'];
-                                                                $ta_amt = $row['ta_amt'];
-                                                                $ta_status = $row['ta_status'];
-                                                                $ta_tds = $ta_amt * $tdsPercentage;
-                                                                $ta_total = $ta_amt - $ta_tds;
-
-                                                                // te message
-                                                                $te_id = $row['te_id'];
-                                                                $te_mess = $row['te_mess'];
-                                                                $te_amt = $row['te_amt'];
-                                                                $te_status = $row['te_status'];
-                                                                $te_tds = $te_amt * $tdsPercentage;
-                                                                $te_total = $te_amt - $te_tds;
-
-                                                                // bm message
-                                                                $bm_id = $row['bm_id'];
-                                                                $bm_mess = $row['bm_mess'];
-                                                                $bm_amt = $row['bm_amt'];
-                                                                $bm_status = $row['bm_status'];
-                                                                $bm_tds = $bm_amt * $tdsPercentage;
-                                                                $bm_total = $bm_amt - $bm_tds;
-
-                                                                // bdm message
-                                                                if($bdm_id){
-                                                                    // $bdm_id = $row['bdm_id'];
-                                                                    $bdm_mess = $row['bdm_mess'];
-                                                                    $bdm_amt = $row['bdm_amt'];
-                                                                    $bdm_status = $row['bdm_status'];
-                                                                    $bdm_tds = $bdm_amt * $tdsPercentage;
-                                                                    $bdm_total = $bdm_amt - $bdm_tds;
-                                                                }
-
-                                                                // bcm message
-                                                                if($bch_id){
-                                                                    // $bch_id = $row['bch_id'];
-                                                                    $bch_mess = $row['bch_mess'];
-                                                                    $bch_amt = $row['bch_amt'];
-                                                                    $bch_status = $row['bch_status'];
-                                                                    $bch_tds = $bch_amt * $tdsPercentage;
-                                                                    $bch_total = $bch_amt - $bch_tds;
-                                                                }
-
-                                                                // cu1 message
-                                                                if($cu1_id){
-                                                                    // $cu1_id = $row['cu1_id'];
-                                                                    $cu1_mess = $row['cu1_mess'];
-                                                                    $cu1_amt = $row['cu1_amt'];
-                                                                    $cu1_status = $row['cu1_status'];
-                                                                    $cu1_tds = $cu1_amt * $tdsPercentage;
-                                                                    $cu1_total = $cu1_amt - $cu1_tds;
-                                                                }
-
-                                                                // cu2 message
-                                                                if($cu2_id){
-                                                                    // $cu2_id = $row['cu2_id'];
-                                                                    $cu2_mess = $row['cu2_mess'];
-                                                                    $cu2_amt = $row['cu2_amt'];
-                                                                    $cu2_status = $row['cu2_status'];
-                                                                    $cu2_tds = $cu2_amt * $tdsPercentage;
-                                                                    $cu2_total = $cu2_amt - $cu2_tds;
-                                                                }
-
-                                                                // cu3 message
-                                                                if($cu3_id){
-                                                                    // $cu3_id = $row['cu3_id'];
-                                                                    $cu3_mess = $row['cu3_mess'];
-                                                                    $cu3_amt = $row['cu3_amt'];
-                                                                    $cu3_status = $row['cu3_status'];
-                                                                    $cu3_tds = $cu3_amt * $tdsPercentage;
-                                                                    $cu3_total = $cu3_amt - $cu3_tds;
-                                                                }
-
-                                                                if($cu3_id){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$cu3_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$cu3_amt.'</td>
-                                                                            <td>'.$cu3_tds.'</td>
-                                                                            <td>'.$cu3_total.'</td>';
-                                                                            if($cu3_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu3_id']. '","' .$row['cu3_mess']. '","' .$row['cu3_amt']. '","cu3_status","AllPayoutCaCu3")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                if($cu2_id){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$cu2_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$cu2_amt.'</td>
-                                                                            <td>'.$cu2_tds.'</td>
-                                                                            <td>'.$cu2_total.'</td>';
-                                                                            if($cu2_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu2_id']. '","' .$row['cu2_mess']. '","' .$row['cu2_amt']. '","cu2_status","AllPayoutCaCu2")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                if($cu1_id){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$cu1_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$cu1_amt.'</td>
-                                                                            <td>'.$cu1_tds.'</td>
-                                                                            <td>'.$cu1_total.'</td>';
-                                                                            if($cu1_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu1_id']. '","' .$row['cu1_mess']. '","' .$row['cu1_amt']. '","cu1_status","AllPayoutCaCu1")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                echo '<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$ta_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$ta_amt.'</td>
-                                                                        <td>'.$ta_tds.'</td>
-                                                                        <td>'.$ta_total.'</td>';
-                                                                        if($ta_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['ta_id']. '","' .$row['ta_mess']. '","' .$row['ta_amt']. '","ta_status","AllPayoutTa")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                                echo'<tr>
-                                                                        
-                                                                        <td><input id="product_id" type="hidden" value="'.$row['id'].'">'.$dt.'</td>
-                                                                        <td>'.$te_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$te_amt.'</td>
-                                                                        <td>'.$te_tds.'</td>
-                                                                        <td>'.$te_total.'</td>';
-                                                                        if($te_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['te_id']. '","' .$row['te_mess']. '","' .$row['te_amt']. '","te_status","AllPayoutTe")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$bm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$bm_amt.'</td>
-                                                                        <td>'.$bm_tds.'</td>
-                                                                        <td>'.$bm_total.'</td>';
-                                                                        if($bm_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bm_id']. '","' .$row['bm_mess']. '","' .$row['bm_amt']. '","bm_status","AllPayoutBm")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-
-                                                                if($row['bdm_id']){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$bdm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$bdm_amt.'</td>
-                                                                            <td>'.$bdm_tds.'</td>
-                                                                            <td>'.$bdm_total.'</td>';
-                                                                            if($bdm_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bdm_id']. '","' .$row['bdm_mess']. '","' .$row['bdm_amt']. '","bdm_status","AllPayoutBdm")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                if($row['bch_id']){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$bch_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$bch_amt.'</td>
-                                                                            <td>'.$bch_tds.'</td>
-                                                                            <td>'.$bch_total.'</td>';
-                                                                            if($bch_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bch_id']. '","' .$row['bch_mess']. '","' .$row['bch_amt']. '","bch_status","AllPayoutBch")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-                                                                
-                                                                
+                                                            // total Amt Cal for BC 
+                                                            if($row['comm_amt'] == "null"){
+                                                                $CommAmt = "null";
+                                                                $tds = "null";
+                                                                $totalAmt = "null";
+                                                            }else{
+                                                                $CommAmt = $row['comm_amt'];
+                                                                $tds = $CommAmt * $tdsPer;
+                                                                $totalAmt = $CommAmt - $tds;
                                                             }
+                                                            
+                                                            echo '<tr>
+                                                                    <td>'.$dt.'</td>
+                                                                    <td>'.$message1.'</td>
+                                                                    <td class="text-end">'.$CommAmt.'</td>
+                                                                    <td class="text-end">'.$tds.'</td>
+                                                                    <td class="text-end">'.$totalAmt.'
+                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
+                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        </a>
+                                                                    </td>';
+                                                                    if($row['status'] == '1'){
+                                                                        echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
+                                                                    }else{
+                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                    }
+                                                            echo'</tr>';
+
                                                         }
-                                                    ?>
-                                                    
-                                                </tbody>
+                                                    }
+                                                ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -915,36 +572,58 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- sample modal content -->
-        <div id="nextPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style=" border-radius: 20px !important;">
+        <div id="nextPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style=" border-radus: 20px !important;">
             <div class="modal-dialog modal-fullscreen" style="width: 80%; margin: auto; margin-top: 30px; margin-bottom: 30px; height: 90vh;" >
                 <div class="modal-content modal-radius">
                     <div class="modal-header">
-                        <h5 class="modal-title head fw-bold" id="exampleModalFullscreenLabel">Next Payout</h5>
+                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Next Payout</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row d-flex justify-content-evenly">   
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="page-title-box p-3">
-                                    <p class="head pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
+                                    <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
-                                        <?php 
-                                            $nextPayout = $conn -> prepare("SELECT SUM(ta_markup+ta_amt+te_amt+bm_amt+bdm_amt+bch_amt+cu1_amt+cu2_amt+cu3_amt) as nextPayout FROM product_payout WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                        <!-- <?php 
+                                            $nextPayout = $conn -> prepare("SELECT SUM(commision_zm+commision_mf) as nextPayout FROM sub_franchisee_payout WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($nextPayout -> rowCount()>0){
                                                 foreach(($nextPayout -> fetchAll()) as $key => $row2){
                                                     $nextPayoutTotal = $row2['nextPayout'];
-                                                    $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
+                                                    $nextPayoutTDS = $nextPayoutTotal * 5/100;
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
-                                                    $truncatedNextAmount = floor($TotalNextPayout * 100) / 100;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .number_format($truncatedNextAmount,2). '/- </p>
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalNextPayout). '/- </p>
                                                     <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
+                                        ?> -->
+                                        <?php
+                                            $query = "
+                                                SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                            ";
+
+                                            $stmt = $conn->prepare($query);
+                                            $stmt->execute(['year' => $nextDateYear, 'month' => $nextDateMonth]);
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                            $totalPayout = 0;
+                                            while ($row = $stmt->fetch()) {
+                                                $totalPayout += $row['payout'] ?? 0;
+                                            }
+
+                                            if ($totalPayout > 0) {
+                                                $tds = $totalPayout * 0.02;
+                                                $netPayout = $totalPayout - $tds;
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($netPayout). '/- </p>
+                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                            }else{
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs 0/- </p>
+                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                            }
                                         ?>
-                                        
-                                        <a href="forms/product_payout/download_exel_product_payout?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=NextPayout">
+                                        <a href="forms/sub_franchisee/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
                                             <i class="bx bx-download download-icon status1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
                                         </a>
                                     </div>
@@ -960,13 +639,10 @@
                                     <div class="designation-filter no-space1 col-lg-5 col-md-5 col-sm-12">
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationNext" class="selectdesign filter-opt-1 fw-bolder">
-                                            <option value="">--Select Filter Option--</option>
-                                            <option value="business_channel_manager">Business Channel Manager</option>
-                                            <option value="business_development_manager">Business Development Manager</option>
-                                            <option value="business_mentor">Business Mentor</option>
-                                            <option value="corporate_agency">Techno Enterprise</option>
-                                            <option value="ca_travelagency">Travel Consultant</option>
-                                            <option value="ca_customer">Customer</option>
+                                            <option value="none">--Select Filter Option--</option>
+                                            <option value="zonal_manager">Zonal Manager</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -1013,250 +689,73 @@
                                         <table class="table table-hover" id="next_payout_table">
                                             <thead>
                                                 <tr>
-                                                    <tr>
-                                                        
-                                                        <th class="fw-bolder font-size-16">Date</th>
-                                                        <!-- <th class="fw-bolder font-size-16">Pkg ID</th> -->
-                                                        <th class="fw-bolder font-size-16">Payout Details</th>
-                                                        <th class="fw-bolder font-size-16">Amount</th>
-                                                        <th class="fw-bolder font-size-16">TDS</th>
-                                                        <th class="fw-bolder font-size-16">Total Payable</th>
-                                                        <th class="fw-bolder font-size-16">Remark</th>
-                                                    </tr>
+                                                    <th class="ceterText fw-bolder font-size-16">Date</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Payout Details</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Amount</th>
+                                                    <th class="ceterText fw-bolder font-size-16">TDS</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Total Payable</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Remark</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                 <?php
-                                                    $sql = "SELECT * FROM `product_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ORDER BY `created_date` ASC ";
+                                           <tbody>
+                                               
+
+                                                <?php
+                                                    // $sql = "SELECT id, bdm_id as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
+                                                    //         SELECT id, bm_id as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' UNION ALL
+                                                    //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'
+                                                    //         order by created_date desc ";
+
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
+                                                            UNION ALL
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
+                                                            order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
-                                                        $stmt -> execute();
-                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                        if( $stmt -> rowCount()>0 ){
-                                                            foreach( ($stmt -> fetchALL()) as $key => $row ){
+                                                    $stmt -> execute();
+                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                    if( $stmt -> rowCount()>0 ){
+                                                        foreach( ($stmt -> fetchALL()) as $key => $row ){
 
-                                                                // date in proper formate
-                                                                $dt = new DateTime($row['created_date']);
-                                                                $dt = $dt->format('Y-m-d');
+                                                            // date in proper formate
+                                                            $dt = new DateTime($row['created_date']);
+                                                            $dt = $dt->format('Y-m-d');
 
-                                                                $ta_markup = $row['ta_markup'] ;
-                                                                $no_of_adult = $row['no_of_adult'] ;
-                                                                $no_of_child = $row['no_of_child'] ;
-                                                                $customer_id = $row['cu_id'] ;
+                                                            // replace dot at end of the line with break statement
+                                                            $message1 = $row['message'];
+                                                            $message1 =  str_replace('.','<br>',$message1);  
 
-                                                                $stmt1 = $conn -> prepare(" SELECT name FROM package WHERE id = '".$row['package_id']."' ");
-                                                                $stmt1 -> execute();
-                                                                $pkgName = $stmt1 -> fetch();
-                                                                $packageName = $pkgName['name'];
-
-                                                                $stmt8 = $conn -> prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '".$customer_id."' ");
-                                                                $stmt8 -> execute();
-                                                                $cu_name = $stmt8 -> fetch();
-                                                                $cuName = $cu_name['firstname'].' '.$cu_name['lastname'];
-
-
-                                                                // ta message
-                                                                $cu3_id = $row['cu3_id'];
-                                                                $cu2_id = $row['cu2_id'];
-                                                                $cu1_id = $row['cu1_id'];
-                                                                $bdm_id = $row['bdm_id'];
-                                                                $bch_id = $row['bch_id'];
-                                                                $ta_id = $row['ta_id'];
-                                                                $ta_mess = $row['ta_mess'];
-                                                                $ta_amt = $row['ta_amt'];
-                                                                $ta_status = $row['ta_status'];
-                                                                $ta_tds = $ta_amt * $tdsPercentage;
-                                                                $ta_total = $ta_amt - $ta_tds;
-
-                                                                // te message
-                                                                $te_id = $row['te_id'];
-                                                                $te_mess = $row['te_mess'];
-                                                                $te_amt = $row['te_amt'];
-                                                                $te_status = $row['te_status'];
-                                                                $te_tds = $te_amt * $tdsPercentage;
-                                                                $te_total = $te_amt - $te_tds;
-
-                                                                // bm message
-                                                                $bm_id = $row['bm_id'];
-                                                                $bm_mess = $row['bm_mess'];
-                                                                $bm_amt = $row['bm_amt'];
-                                                                $bm_status = $row['bm_status'];
-                                                                $bm_tds = $bm_amt * $tdsPercentage;
-                                                                $bm_total = $bm_amt - $bm_tds;
-
-                                                                // bdm message
-                                                                if($bdm_id){
-                                                                    // $bdm_id = $row['bdm_id'];
-                                                                    $bdm_mess = $row['bdm_mess'];
-                                                                    $bdm_amt = $row['bdm_amt'];
-                                                                    $bdm_status = $row['bdm_status'];
-                                                                    $bdm_tds = $bdm_amt * $tdsPercentage;
-                                                                    $bdm_total = $bdm_amt - $bdm_tds;
-                                                                }
-
-                                                                // bcm message
-                                                                if($bch_id){
-                                                                    // $bch_id = $row['bch_id'];
-                                                                    $bch_mess = $row['bch_mess'];
-                                                                    $bch_amt = $row['bch_amt'];
-                                                                    $bch_status = $row['bch_status'];
-                                                                    $bch_tds = $bch_amt * $tdsPercentage;
-                                                                    $bch_total = $bch_amt - $bch_tds;
-                                                                }
-
-                                                                // cu1 message
-                                                                if($cu1_id){
-                                                                    // $cu1_id = $row['cu1_id'];
-                                                                    $cu1_mess = $row['cu1_mess'];
-                                                                    $cu1_amt = $row['cu1_amt'];
-                                                                    $cu1_status = $row['cu1_status'];
-                                                                    $cu1_tds = $cu1_amt * $tdsPercentage;
-                                                                    $cu1_total = $cu1_amt - $cu1_tds;
-                                                                }
-
-                                                                // cu2 message
-                                                                if($cu2_id){
-                                                                    // $cu2_id = $row['cu2_id'];
-                                                                    $cu2_mess = $row['cu2_mess'];
-                                                                    $cu2_amt = $row['cu2_amt'];
-                                                                    $cu2_status = $row['cu2_status'];
-                                                                    $cu2_tds = $cu2_amt * $tdsPercentage;
-                                                                    $cu2_total = $cu2_amt - $cu2_tds;
-                                                                }
-
-                                                                // cu3 message
-                                                                if($cu3_id){
-                                                                    // $cu3_id = $row['cu3_id'];
-                                                                    $cu3_mess = $row['cu3_mess'];
-                                                                    $cu3_amt = $row['cu3_amt'];
-                                                                    $cu3_status = $row['cu3_status'];
-                                                                    $cu3_tds = $cu3_amt * $tdsPercentage;
-                                                                    $cu3_total = $cu3_amt - $cu3_tds;
-                                                                }
-
-                                                                if($cu3_id){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$cu3_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$cu3_amt.'</td>
-                                                                            <td>'.$cu3_tds.'</td>
-                                                                            <td>'.$cu3_total.'</td>';
-                                                                            if($cu3_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu3_id']. '","' .$row['cu3_mess']. '","' .$row['cu3_amt']. '","cu3_status","AllPayoutCaCu3")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                if($cu2_id){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$cu2_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$cu2_amt.'</td>
-                                                                            <td>'.$cu2_tds.'</td>
-                                                                            <td>'.$cu2_total.'</td>';
-                                                                            if($cu2_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu2_id']. '","' .$row['cu2_mess']. '","' .$row['cu2_amt']. '","cu2_status","AllPayoutCaCu2")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                if($cu1_id){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$cu1_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$cu1_amt.'</td>
-                                                                            <td>'.$cu1_tds.'</td>
-                                                                            <td>'.$cu1_total.'</td>';
-                                                                            if($cu1_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu1_id']. '","' .$row['cu1_mess']. '","' .$row['cu1_amt']. '","cu1_status","AllPayoutCaCu1")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                echo '<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$ta_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$ta_amt.'</td>
-                                                                        <td>'.$ta_tds.'</td>
-                                                                        <td>'.$ta_total.'</td>';
-                                                                        if($ta_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['ta_id']. '","' .$row['ta_mess']. '","' .$row['ta_amt']. '","ta_status","AllPayoutTa")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$te_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$te_amt.'</td>
-                                                                        <td>'.$te_tds.'</td>
-                                                                        <td>'.$te_total.'</td>';
-                                                                        if($te_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['te_id']. '","' .$row['te_mess']. '","' .$row['te_amt']. '","te_status","AllPayoutTe")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$bm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$bm_amt.'</td>
-                                                                        <td>'.$bm_tds.'</td>
-                                                                        <td>'.$bm_total.'</td>';
-                                                                        if($bm_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bm_id']. '","' .$row['bm_mess']. '","' .$row['bm_amt']. '","bm_status","AllPayoutBm")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-
-                                                                if($row['bdm_id']){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$bdm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$bdm_amt.'</td>
-                                                                            <td>'.$bdm_tds.'</td>
-                                                                            <td>'.$bdm_total.'</td>';
-                                                                            if($bdm_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bdm_id']. '","' .$row['bdm_mess']. '","' .$row['bdm_amt']. '","bdm_status","AllPayoutBdm")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-
-                                                                if($row['bch_id']){
-                                                                    echo'<tr>
-                                                                            
-                                                                            <td>'.$dt.'</td>
-                                                                            <td>'.$bch_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                            <td>'.$bch_amt.'</td>
-                                                                            <td>'.$bch_tds.'</td>
-                                                                            <td>'.$bch_total.'</td>';
-                                                                            if($bch_status == '1'){
-                                                                                echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                            }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bch_id']. '","' .$row['bch_mess']. '","' .$row['bch_amt']. '","bch_status","AllPayoutBch")\'>Pending</span></td>';
-                                                                            }
-                                                                    echo'</tr>';
-                                                                }
-                                                                
-                                                                
+                                                            // total Amt Cal for BC 
+                                                            if($row['comm_amt'] == "null"){
+                                                                $CommAmt = "null";
+                                                                $tds = "null";
+                                                                $totalAmt = "null";
+                                                            }else{
+                                                                $CommAmt = $row['comm_amt'];
+                                                                $tds = $CommAmt * $tdsPer;
+                                                                $totalAmt = $CommAmt - $tds;
                                                             }
+                                                            
+                                                            echo '<tr>
+                                                                    <td>'.$dt.'</td>
+                                                                    <td>'.$message1.'</td>
+                                                                    <td class="text-end">'.$CommAmt.'</td>
+                                                                    <td class="text-end">'.$tds.'</td>
+                                                                    <td class="text-end">'.$totalAmt.'
+                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
+                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        </a>
+                                                                    </td>';
+                                                                    if($row['status'] == '1'){
+                                                                        echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
+                                                                    }else{
+                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                    }
+                                                            echo'</tr>';
+
                                                         }
+                                                    }
                                                 ?>
+
                                             </tbody>
                                         </table>
                                         <!-- pegination start -->
@@ -1278,47 +777,44 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!-- sample modal content -->
-        <div id="totalPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style=" border-radius: 20px !important;">
+        <div id="totalPayout" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true" data-bs-backdrop="static"  data-bs-keyboard="false" style=" border-radus: 20px !important;">
             <div class="modal-dialog modal-fullscreen" style="width: 80%; margin: auto; margin-top: 30px; margin-bottom: 30px; height: 90vh;" >
                 <div class="modal-content modal-radius">
                     <div class="modal-header">
-                        <h5 class="modal-title head fw-bold" id="exampleModalFullscreenLabel">Total Payout</h5>
+                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Total Payout</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row d-flex justify-content-evenly">   
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="page-title-box p-3">
-                                    <p class="head pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
+                                    <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
-                                        <?php 
-                                            // $totalPayout = "SELECT SUM(
-                                            //                             CASE WHEN bc_status = '1' THEN bc_amt ELSE 0 END +
-                                            //                             CASE WHEN ca_status = '1' THEN ca_amt ELSE 0 END +
-                                            //                             CASE WHEN ca_ta_status = '1' THEN ca_ta_amt ELSE 0 END +
-                                            //                             CASE WHEN ca_cu1_status = '1' THEN ca_cu1_amt ELSE 0 END +
-                                            //                             CASE WHEN ca_cu2_status = '1' THEN ca_cu2_amt ELSE 0 END +
-                                            //                             CASE WHEN ca_cu3_status = '1' THEN ca_cu3_amt ELSE 0 END +
-                                            //                             CASE WHEN ca_ta_status = '1' THEN ta_markup ELSE 0 END
-                                            //                         ) as total_payable 
-                                            //                     FROM product_payout";
-                                            $totalPayout = "SELECT SUM(ta_markup+ta_amt+te_amt+bm_amt+bdm_amt+bch_amt+cu1_amt+cu2_amt+cu3_amt) as total_payable FROM product_payout";
-                                            $Payout = $conn -> prepare($totalPayout);
-                                            $Payout -> execute();
-                                            $Payout -> setFetchMode(PDO::FETCH_ASSOC);
-                                            if($Payout->rowCount()>0){
-                                                foreach(($Payout->fetchAll()) as $key => $row){
-                                                    $total_payable = $row["total_payable"] ?? '0';
-                                                    $totalPayoutTDS = $total_payable * $tdsPercentage;
-                                                    $TotalPayout = $total_payable - $totalPayoutTDS;
-                                                    $truncatedTotalAmount = floor($TotalPayout * 100) / 100;
-                                                    echo'
-                                                    <p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.number_format($truncatedTotalAmount,2).'/- </p>
-                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>
-                                                    ';
-                                                }
+                                        
+                                        <?php
+                                            $query = "
+                                                SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE status = :status
+                                            ";
+
+                                            $stmt = $conn->prepare($query);
+                                            $stmt->execute(['status' => '1']);
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                                            $totalPayout = 0;
+                                            while ($row = $stmt->fetch()) {
+                                                $totalPayout += $row['payout'] ?? 0;
+                                            }
+
+                                            if ($totalPayout > 0) {
+                                                $tds = $totalPayout * 0.02;
+                                                $netTotalPayout = $totalPayout - $tds;
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.$netTotalPayout.'/- </p>
+                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                            }else{
+                                                echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs. 0/-</p>';
                                             }
                                         ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -1330,13 +826,10 @@
                                     <div class="designation-filter no-space1 col-lg-5 col-md-5 col-sm-12">
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationTotal" class="selectdesign filter-opt-1 fw-bolder">
-                                            <option value="">--Select Filter Option--</option>
-                                            <option value="business_channel_manager">Business Channel Manager</option>
-                                            <option value="business_development_manager">Business Development Manager</option>
-                                            <option value="business_mentor">Business Mentor</option>
-                                            <option value="corporate_agency">Techno Enterprise</option>
-                                            <option value="ca_travelagency">Travel Consultant</option>
-                                            <option value="ca_customer">Customer</option>
+                                            <option value="none">--Select Filter Option--</option>
+                                            <option value="zonal_manager">Zonal Manager</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -1381,25 +874,30 @@
                                     <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                     <div class="table-responsive table-desi" id="filteredTotalTable">
                                         <!-- table roe limit -->
-                                         <!-- <table class="table table-hover" id="total_payout_table"> -->
                                         <table class="table table-hover" id="total_payout_table">
                                             <thead>
                                                 <tr>
-                                                    <tr>
-                                                        
-                                                        <th class="fw-bolder font-size-16">Date</th>
-                                                        <!--<th class="fw-bolder font-size-16">Pkg ID</th> -->
-                                                        <th class="fw-bolder font-size-16">Payout Details</th>
-                                                        <th class="fw-bolder font-size-16">Amount</th>
-                                                        <th class="fw-bolder font-size-16">TDS</th>
-                                                        <th class="fw-bolder font-size-16">Total Payable</th>
-                                                        <th class="fw-bolder font-size-16">Remark</th>
-                                                    </tr>
+                                                    <th class="ceterText fw-bolder font-size-16">Date</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Payout Message</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Payout Details</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Amount</th>
+                                                    <th class="ceterText fw-bolder font-size-16">TDS</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Total Payable</th>
+                                                    <th class="ceterText fw-bolder font-size-16">Remark</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                
                                                 <?php
-                                                    $sql = "SELECT * FROM `product_payout`  ORDER BY `created_date` ASC";
+                                                    // $sql = "SELECT id, bdm_id as userId, message, business_package, business_package_amount, message_details, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'goaBdm' as identity FROM `goa_bdm_payout` WHERE status = '1'  UNION ALL
+                                                    //         SELECT id, bm_id as userId, message, business_package, business_package_amount, message_details, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'goaBm' as identity FROM `goa_bm_payout` WHERE status = '1'  UNION ALL
+                                                    //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, message_details, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE status = '1' 
+                                                    //         order by created_date desc ";
+
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND status = '1')
+                                                            UNION ALL
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND status = '1')
+                                                            order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -1410,226 +908,46 @@
                                                             $dt = new DateTime($row['created_date']);
                                                             $dt = $dt->format('Y-m-d');
 
-                                                            $ta_markup = $row['ta_markup'] ;
-                                                            $no_of_adult = $row['no_of_adult'] ;
-                                                            $no_of_child = $row['no_of_child'] ;
-                                                            $customer_id = $row['cu_id'] ;
+                                                            // replace dot at end of the line with break statement
+                                                            $message1 = $row['message'];
+                                                            $message1 =  str_replace('.','<br>',$message1);  
 
-                                                            $stmt1 = $conn -> prepare(" SELECT name FROM package WHERE id = '".$row['package_id']."' ");
-                                                            $stmt1 -> execute();
-                                                            $pkgName = $stmt1 -> fetch();
-                                                            $packageName = $pkgName['name'];
+                                                            // replace dot at end of the line with break statement
+                                                            $message2 = $row['message_details'];
+                                                            $message2 =  str_replace('.','<br>',$message2);  
 
-                                                            $stmt8 = $conn -> prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '".$customer_id."' ");
-                                                            $stmt8 -> execute();
-                                                            $cu_name = $stmt8 -> fetch();
-                                                            $cuName = $cu_name['firstname'].' '.$cu_name['lastname'];
-
-
-                                                            // ta message
-                                                            $cu3_id = $row['cu3_id'];
-                                                            $cu2_id = $row['cu2_id'];
-                                                            $cu1_id = $row['cu1_id'];
-                                                            $bdm_id = $row['bdm_id'];
-                                                            $bch_id = $row['bch_id'];
-                                                            $ta_id = $row['ta_id'];
-                                                            $ta_mess = $row['ta_mess'];
-                                                            $ta_amt = $row['ta_amt'];
-                                                            $ta_status = $row['ta_status'];
-                                                            $ta_tds = $ta_amt * $tdsPercentage;
-                                                            $ta_total = $ta_amt - $ta_tds;
-
-                                                            // te message
-                                                            $te_id = $row['te_id'];
-                                                            $te_mess = $row['te_mess'];
-                                                            $te_amt = $row['te_amt'];
-                                                            $te_status = $row['te_status'];
-                                                            $te_tds = $te_amt * $tdsPercentage;
-                                                            $te_total = $te_amt - $te_tds;
-
-                                                            // bm message
-                                                            $bm_id = $row['bm_id'];
-                                                            $bm_mess = $row['bm_mess'];
-                                                            $bm_amt = $row['bm_amt'];
-                                                            $bm_status = $row['bm_status'];
-                                                            $bm_tds = $bm_amt * $tdsPercentage;
-                                                            $bm_total = $bm_amt - $bm_tds;
-
-                                                            // bdm message
-                                                            if($bdm_id){
-                                                                // $bdm_id = $row['bdm_id'];
-                                                                $bdm_mess = $row['bdm_mess'];
-                                                                $bdm_amt = $row['bdm_amt'];
-                                                                $bdm_status = $row['bdm_status'];
-                                                                $bdm_tds = $bdm_amt * $tdsPercentage;
-                                                                $bdm_total = $bdm_amt - $bdm_tds;
+                                                            // total Amt Cal for BC 
+                                                            if($row['comm_amt'] == "null"){
+                                                                $CommAmt = "null";
+                                                                $tds = "null";
+                                                                $totalAmt = "null";
+                                                            }else{
+                                                                $CommAmt = $row['comm_amt'];
+                                                                $tds = $CommAmt * $tdsPer;
+                                                                $totalAmt = $CommAmt - $tds;
                                                             }
-
-                                                            // bcm message
-                                                            if($bch_id){
-                                                                // $bch_id = $row['bch_id'];
-                                                                $bch_mess = $row['bch_mess'];
-                                                                $bch_amt = $row['bch_amt'];
-                                                                $bch_status = $row['bch_status'];
-                                                                $bch_tds = $bch_amt * $tdsPercentage;
-                                                                $bch_total = $bch_amt - $bch_tds;
-                                                            }
-
-                                                            // cu1 message
-                                                            if($cu1_id){
-                                                                // $cu1_id = $row['cu1_id'];
-                                                                $cu1_mess = $row['cu1_mess'];
-                                                                $cu1_amt = $row['cu1_amt'];
-                                                                $cu1_status = $row['cu1_status'];
-                                                                $cu1_tds = $cu1_amt * $tdsPercentage;
-                                                                $cu1_total = $cu1_amt - $cu1_tds;
-                                                            }
-
-                                                            // cu2 message
-                                                            if($cu2_id){
-                                                                // $cu2_id = $row['cu2_id'];
-                                                                $cu2_mess = $row['cu2_mess'];
-                                                                $cu2_amt = $row['cu2_amt'];
-                                                                $cu2_status = $row['cu2_status'];
-                                                                $cu2_tds = $cu2_amt * $tdsPercentage;
-                                                                $cu2_total = $cu2_amt - $cu2_tds;
-                                                            }
-
-                                                            // cu3 message
-                                                            if($cu3_id){
-                                                                // $cu3_id = $row['cu3_id'];
-                                                                $cu3_mess = $row['cu3_mess'];
-                                                                $cu3_amt = $row['cu3_amt'];
-                                                                $cu3_status = $row['cu3_status'];
-                                                                $cu3_tds = $cu3_amt * $tdsPercentage;
-                                                                $cu3_total = $cu3_amt - $cu3_tds;
-                                                            }
-
-                                                            if($cu3_id){
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$cu3_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$cu3_amt.'</td>
-                                                                        <td>'.$cu3_tds.'</td>
-                                                                        <td>'.$cu3_total.'</td>';
-                                                                        if($cu3_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu3_id']. '","' .$row['cu3_mess']. '","' .$row['cu3_amt']. '","cu3_status","AllPayoutCaCu3")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                            }
-
-                                                            if($cu2_id){
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$cu2_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$cu2_amt.'</td>
-                                                                        <td>'.$cu2_tds.'</td>
-                                                                        <td>'.$cu2_total.'</td>';
-                                                                        if($cu2_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu2_id']. '","' .$row['cu2_mess']. '","' .$row['cu2_amt']. '","cu2_status","AllPayoutCaCu2")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                            }
-
-                                                            if($cu1_id){
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$cu1_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$cu1_amt.'</td>
-                                                                        <td>'.$cu1_tds.'</td>
-                                                                        <td>'.$cu1_total.'</td>';
-                                                                        if($cu1_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['cu1_id']. '","' .$row['cu1_mess']. '","' .$row['cu1_amt']. '","cu1_status","AllPayoutCaCu1")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                            }
-
+                                                            
                                                             echo '<tr>
-                                                                    
                                                                     <td>'.$dt.'</td>
-                                                                    <td>'.$ta_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                    <td>'.$ta_amt.'</td>
-                                                                    <td>'.$ta_tds.'</td>
-                                                                    <td>'.$ta_total.'</td>';
-                                                                    if($ta_status == '1'){
+                                                                    <td>'.$message1.'</td>
+                                                                    <td>'.$message2.'</td>
+                                                                    <td class="text-end">'.$CommAmt.'</td>
+                                                                    <td class="text-end">'.$tds.'</td>
+                                                                    <td class="text-end">'.$totalAmt.'
+                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
+                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        </a>
+                                                                    </td>';
+                                                                    if($row['status'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['ta_id']. '","' .$row['ta_mess']. '","' .$row['ta_amt']. '","ta_status","AllPayoutTa")\'>Pending</span></td>';
-                                                                    }
-                                                            echo'</tr>';
-                                                            echo'<tr>
-                                                                    
-                                                                    <td><input id="product_id" type="hidden" value="'.$row['id'].'">'.$dt.'</td>
-                                                                    <td>'.$te_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                    <td>'.$te_amt.'</td>
-                                                                    <td>'.$te_tds.'</td>
-                                                                    <td>'.$te_total.'</td>';
-                                                                    if($te_status == '1'){
-                                                                        echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['te_id']. '","' .$row['te_mess']. '","' .$row['te_amt']. '","te_status","AllPayoutTe")\'>Pending</span></td>';
-                                                                    }
-                                                            echo'</tr>';
-                                                            echo'<tr>
-                                                                    
-                                                                    <td>'.$dt.'</td>
-                                                                    <td>'.$bm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                    <td>'.$bm_amt.'</td>
-                                                                    <td>'.$bm_tds.'</td>
-                                                                    <td>'.$bm_total.'</td>';
-                                                                    if($bm_status == '1'){
-                                                                        echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                    }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bm_id']. '","' .$row['bm_mess']. '","' .$row['bm_amt']. '","bm_status","AllPayoutBm")\'>Pending</span></td>';
+                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
-                                                            if($row['bdm_id']){
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$bdm_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$bdm_amt.'</td>
-                                                                        <td>'.$bdm_tds.'</td>
-                                                                        <td>'.$bdm_total.'</td>';
-                                                                        if($bdm_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bdm_id']. '","' .$row['bdm_mess']. '","' .$row['bdm_amt']. '","bdm_status","AllPayoutBdm")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                            }
-
-                                                            if($row['bch_id']){
-                                                                echo'<tr>
-                                                                        
-                                                                        <td>'.$dt.'</td>
-                                                                        <td>'.$bch_mess.'<br/> on selling '.$packageName.' package to  Customer ->'.$cuName.'<br/> No of Adult -> '.$no_of_adult.'. No of child ->'. $no_of_child.'</td>
-                                                                        <td>'.$bch_amt.'</td>
-                                                                        <td>'.$bch_tds.'</td>
-                                                                        <td>'.$bch_total.'</td>';
-                                                                        if($bch_status == '1'){
-                                                                            echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
-                                                                        }else{
-                                                                            echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","' .$row['bch_id']. '","' .$row['bch_mess']. '","' .$row['bch_amt']. '","bch_status","AllPayoutBch")\'>Pending</span></td>';
-                                                                        }
-                                                                echo'</tr>';
-                                                            }
-                                                            
-                                                            
                                                         }
                                                     }
                                                 ?>
-                                                
                                             </tbody>
                                         </table>
                                         <!-- pegination start -->
@@ -1660,10 +978,10 @@
                             <!-- <input type="text" id="paymentIds" value="" class="input1 mb-4" readonly> -->
                             <textarea name="paymentMessage" id="paymentMessageDetails" class="input2" cols="70" rows="4" readonly></textarea>
                         </div>
-                        <!-- <div>
+                        <div>
                             <label class="text-muted d-block">Payment Message</label>
                             <textarea id="paymentMessage" name="paymentMessage" rows="4" cols="70" class="input2" ></textarea>
-                        </div>   -->
+                        </div>  
                         <div class="modal-footer">
                             <button type="button" id="submitPayment" class="btn btn-success rounded-3" data-dismiss="modal">Submit</button>
                         </div> 
@@ -1691,7 +1009,7 @@
         <script src="../assets/js/app.js"></script>
 
         <!-- custom js  -->
-        <script src="payout_product.js"></script>
+        <script src="payout_franchisee.js"></script>
 
     </body>
 
