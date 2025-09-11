@@ -243,8 +243,16 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row filter-options" id="filterCA">
-                                                    <div class="designation-filter no-space col-md-3 col-sm-12">
-                                                        <select id="business_pack" class="selectdesign filter-opt-1 fw-bolder">
+                                                    <div class="designation-filter no-space col-md-2 col-sm-12">
+                                                        <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
+                                                            <option value="" selected disabled>--Select Designation--</option>
+                                                            <option value="All">All</option>
+                                                            <option value="TE">Techno Enterprise</option>
+                                                            <option value="F">Franchisee</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="designation-filter no-space col-md-2 col-sm-12">
+                                                        <select id="business_pack" class="selectdesign filter-opt-2 fw-bolder">
                                                             <option value="">--Select Business Packages--</option>
                                                             <!-- <option value="all">All</option> -->
                                                             <option value="200000">Standard</option>
@@ -278,6 +286,7 @@
                                                             <input type="text" class="form-control search control text-center" id="caAmt" placeholder="Amount" readonly>
                                                         </div>
                                                     </div>
+                                                    
                                                     <!-- <div class="col-lg-1" id="download_icon" style="display: none;">
                                                         <i class="bx bx-download" onclick="allPayoutExel()" style="font-size: 20px; color: black; margin-left: 40%; cursor: pointer;"></i>
                                                     </div> -->
@@ -286,6 +295,9 @@
                                                         <i id="download_exel" onclick="allPayoutExel()" style="color: #263238; background: #b6b6b64d; border-radius: 4px; font-size:25px; padding:0; display: none; cursor:pointer;" class="material-icons">play_for_work</i>
                                                     </div> -->
                                                 </div> 
+                                                <div class="col-sm-2 col-md-2 d-flex justify-content-left align-items-start d-none" id="download_icon">
+                                                    <button type="button" onclick="regTcDownload()" class="btn bg-primary text-white mb-3">Download</button>
+                                                </div>
                                             </div>
                                             <!-- <div class="col-sm-8">
                                                 <div class="text-sm-end">
@@ -949,6 +961,8 @@
 
             $('#filterCA').on('change',function(e){
                 e.preventDefault(e);
+                $('#download_icon').removeClass('d-none')
+                var designation = $('#designation').val()   || "";
                 var package = $('#business_pack').val();
                 // var converted = $('#converted').prop('checked') ? 1 : "" ;
                 // var complimentary = $('#complimentary').prop('checked') ? 1 : "" ;
@@ -966,7 +980,7 @@
                 //     window.location.reload();
                 // }
 
-                var dataString =  'package='+package+'&StartFrom='+StartFrom+'&EndFrom='+EndFrom;
+                var dataString =  'package='+package+'&StartFrom='+StartFrom+'&EndFrom='+EndFrom+'&designation='+designation;
                 // var dataString =  'package='+package+'&converted='+converted+'&complimentary='+complimentary+'&StartFrom='+StartFrom+'&EndFrom='+EndFrom;
                 // console.log(dataString);
                 $.ajax({
@@ -1174,6 +1188,22 @@
             });
 
             //end 
+            //download excel
+            function regTcDownload() {
+                var packageVal  = $('#business_pack').val() || "";
+                var designation = $('#designation').val()   || "";
+                var startFrom   = $('#cap_date').val()      || "";
+                var endFrom     = $('#month_year_1').val()  || "";
+
+                var params = new URLSearchParams({
+                    package: packageVal,
+                    StartFrom: startFrom,
+                    EndFrom: endFrom,
+                    designation: designation
+                });
+
+                window.location.href = "download_list.php?" + params.toString();
+            }
         </script>
 
     </body>

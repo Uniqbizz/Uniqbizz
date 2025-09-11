@@ -1,14 +1,15 @@
 <?php
 require "../connect.php";
 
-$package = $_POST['package'] ?? '';
-$startFrom = $_POST['StartFrom'] ?? '';
-$endFrom = $_POST['EndFrom'] ?? '';
+$disgnation = $_POST['designation'];
+$package    = $_POST['package'] ?? '';
+$startFrom  = $_POST['StartFrom'] ?? '';
+$endFrom    = $_POST['EndFrom'] ?? '';
 
 $conditions = [];
 $params = [];
 
-// Common conditions
+// Filters
 if ($package) {
     $conditions[] = "amount = :package";
     $params[':package'] = $package;
@@ -89,13 +90,21 @@ $subQuery = "
     WHERE status = '1' $filter
 ";
 
-// Final combined query
-$finalQuery = "
-    ($baseQuery)
-    UNION ALL
-    ($subQuery)
-    ORDER BY ca_id ASC
-";
+// Pick query based on designation
+if ($disgnation == "TE") {
+    $finalQuery = $baseQuery . " ORDER BY ca_id ASC";
+} elseif ($disgnation == "F") {
+    $finalQuery = $subQuery . " ORDER BY ca_id ASC";
+} elseif ($disgnation == "All") {
+    $finalQuery = "
+        ($baseQuery)
+        UNION ALL
+        ($subQuery)
+        ORDER BY ca_id ASC
+    ";
+} else {
+    die("Invalid designation"); // safety
+}
 
 $stmt = $conn->prepare($finalQuery);
 
@@ -106,6 +115,7 @@ foreach ($params as $key => $val) {
 
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
 
 // Table display
 echo ' 
