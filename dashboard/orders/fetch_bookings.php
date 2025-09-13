@@ -34,7 +34,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
                         <?php
                         require '../connect.php';
-                        $customer_fil='';
+                        $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
                             // BCM: BDM → BM → TE → TC
@@ -45,9 +45,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
                                     INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
                                     WHERE ca.status = 1 AND bcm.employee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '25') {
+                        } elseif ($userType == '25') {
                             // BDM: BM → TE → TC AND TE → TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -63,9 +61,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
                                     INNER JOIN employees te ON co.corporate_agency_id = te.employee_id AND te.status = 1
                                     WHERE ca.status = 1 AND te.reporting_manager = '$userId'";
-                        }
-
-                        elseif ($userType == '26') {
+                        } elseif ($userType == '26') {
                             // BM: TE → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -78,8 +74,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '28') {
+                        } elseif ($userType == '28') {
                             // MF: F → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -92,31 +87,24 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '30') {
+                        } elseif ($userType == '30') {
                             // SF: F → TC 
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
                                     INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
                                     WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '16' || $userType == '29') {
+                        } elseif ($userType == '16' || $userType == '29') {
                             // TE: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-
-                        elseif ($userType == '11') {
+                        } elseif ($userType == '11') {
                             // TC: self only
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.ca_travelagency_id = '$userId'";
-                        }
-
-                        elseif ($userType == '10') {
+                        } elseif ($userType == '10') {
                             // Customer
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -128,10 +116,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                         $stmt0 = $conn->prepare($sql0);
                         $stmt0->execute();
                         $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                         // Check if travel agencies exist
                         if (empty($ta_list)) {
-                             echo'<tr>
+                            echo '<tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -142,15 +130,15 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            
+
                             // exit; // Stop further execution
-                        }else{
+                        } else {
 
                             // Create an array mapping travel agency IDs to their details
                             $ta_details = [];
                             $ta_ids = [];
-    
-    
+
+
                             foreach ($ta_list as $ta) {
                                 $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
                                 $ta_details[$ta['ca_travelagency_id']] = [
@@ -160,7 +148,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     'phone' => $ta['contact_no']
                                 ];
                             }
-    
+
                             if (!empty($ta_list)) {
                                 $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
                                 $sql = "
@@ -183,10 +171,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
                             // Check if bookings exist
                             if (empty($bookings)) {
-                            ?>
+                        ?>
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -198,17 +186,17 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     <td></td>
                                     <td></td>
                                 </tr>
-                            <?php
+                                <?php
                             } else {
                                 $i = 0;
-    
+
                                 foreach ($bookings as $booking) {
                                     $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
                                     $stmt3 = $conn->prepare($sql3);
                                     $stmt3->execute();
                                     $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
                                     $formattedDate = date("d-m-Y", strtotime($booking['date']));
-                                    ?>
+                                ?>
                                     <tr>
                                         <td><?= ++$i ?></td>
                                         <td><?= $booking['order_id'] ?></td>
@@ -217,10 +205,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
                                         <?php
                                         $ta_id = $booking['ta_id']; // Get the agency ID from booking
-    
+
                                         // Retrieve travel agency details safely
                                         $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-    
+
                                         ?>
                                         <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
                                         <?php
@@ -260,14 +248,14 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             $booking_paid_amt = $booking_bill['amount'];
                                             $booking_full_amt = $booking_bill['final_price'];
                                         }
-    
+
                                         if ($perecent_fill == 100) {
                                             $load_modal = '';
                                             $border = 'border-success';
                                             $bg_color = 'bg-success';
                                             $cursor = '';
                                         } else {
-                                            $load_modal = '';
+                                            $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
                                             $border = 'border-primary';
                                             $bg_color = '';
                                             $cursor = 'cursor: pointer';
@@ -276,7 +264,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         <td>
                                             <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
                                                 <?php
-    
+
                                                 if ($perecent_fill == 40) {
                                                     echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
                                                 } else if ($perecent_fill == 70) {
@@ -284,7 +272,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 } else if ($perecent_fill == 50) {
                                                     echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
                                                 }
-    
+
                                                 ?>>
                                                 <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>"><?= $perecent_fill ?>%
                                                 </div>
@@ -295,15 +283,15 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         <td>
                                             <?php
                                             $startDate = new DateTime($booking['date']); // Convert to DateTime object
-    
+
                                             $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
-    
+
                                             $endDate = clone $startDate; // Clone to avoid modifying original date
                                             $endDate->modify("+$tourDays days"); // Add tour days
-    
+
                                             $today = new DateTime(); // Get the current date
                                             $today->setTime(0, 0); // Reset time for accurate comparison
-    
+
                                             if ($booking['status'] === '2') { // Canceled
                                             ?>
                                                 <div class="d-block">
@@ -345,7 +333,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                     </a>
                                                 </div>
                                             <?php } ?>
-    
+
                                         </td>
                                         <td class="text-center">
                                             <div class="dropdown">
@@ -366,10 +354,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </div>
                                         </td>
                                     </tr>
-                             <?php 
-                               }
-                            } 
-                        }?>
+                        <?php
+                                }
+                            }
+                        } ?>
                     </tbody>
                 </table>
                 <!-- pegination start -->
@@ -397,7 +385,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     <tbody>
                         <?php
                         require '../connect.php';
-                        $customer_fil='';
+                        $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
                             // BCM: BDM → BM → TE → TC
@@ -408,9 +396,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
                                     INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
                                     WHERE ca.status = 1 AND bcm.employee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '25') {
+                        } elseif ($userType == '25') {
                             // BDM: BM → TE → TC AND TE → TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -426,9 +412,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
                                     INNER JOIN employees te ON co.corporate_agency_id = te.employee_id AND te.status = 1
                                     WHERE ca.status = 1 AND te.reporting_manager = '$userId'";
-                        }
-
-                        elseif ($userType == '26') {
+                        } elseif ($userType == '26') {
                             // BM: TE → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -441,8 +425,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '29') {
+                        } elseif ($userType == '29') {
                             // MF: F → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -455,23 +438,17 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-
-                        elseif ($userType == '16' || $userType == '29') {
+                        } elseif ($userType == '16' || $userType == '29') {
                             // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-
-                        elseif ($userType == '11') {
+                        } elseif ($userType == '11') {
                             // TC: self only
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.ca_travelagency_id = '$userId'";
-                        }
-
-                        elseif ($userType == '10') {
+                        } elseif ($userType == '10') {
                             // Customer
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -486,7 +463,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
                         // Check if travel agencies exist
                         if (empty($ta_list)) {
-                             echo'<tr>
+                            echo '<tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -498,7 +475,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                         </tr>';
                             // exit; // Stop further execution
-                        }else{
+                        } else {
 
                             // Travel Agency Mapping
                             $ta_details = [];
@@ -512,10 +489,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     'phone' => $ta['contact_no']
                                 ];
                             }
-    
+
                             // Convert IDs to SQL format
                             $ta_ids_str = "'" . implode("','", $ta_ids) . "'";
-    
+
                             // Fetch Bookings
                             $sql = "
                                         SELECT b.id, b.order_id, b.customer_id, b.package_id, p.name AS package_name, 
@@ -524,7 +501,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         JOIN package p ON b.package_id = p.id
                                         WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'
                                         AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date ";
-    
+
                             // Debugging: Log SQL query and TA IDs
                             // echo "<script>console.log('TA List: " . json_encode($ta_list) . "');</script>";
                             // echo "<script>console.log('🔍 SQL Query: " . addslashes($sql) . "');</script>";
@@ -532,12 +509,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    
-    
+
+
+
                             // Check if bookings exist
                             if (empty($bookings)) {
-                            ?>
+                        ?>
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -549,121 +526,119 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     <td></td>
                                     <td></td>
                                 </tr>
-                            <?php } else
-    
-                                {
-                                    $i = 0;
-                                    //$data_found = false;
-                                    foreach ($bookings as $booking) {
-                                        $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
-                                        $stmt3 = $conn->prepare($sql3);
-                                        $stmt3->execute();
-                                        $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                        $formattedDate = date("d-m-Y", strtotime($booking['date']));
-    
-                                        // Tour Status Calculation
-                                        $startDate = new DateTime($booking['date']);
-                                        $tourDays = (int)$booking['tour_days'];
-                                        $endDate = clone $startDate;
-                                        $endDate->modify("+$tourDays days");
-    
-                                        $today = new DateTime();
-                                        $today->setTime(0, 0);
-                                        $endDate->setTime(0, 0);
-    
-                                        if ($today > $endDate) {
-                                            continue;
-                                        }
-    
-                                        //$data_found = true;
-                                        ?>
-                                        <tr>
-                                            <td><?= ++$i ?></td>
-                                            <td><?= $booking['order_id'] ?></td>
-                                            <td><?= $formattedDate ?></td>
-                                            <td><?= $booking['package_name'] ?></td>
-                                            <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-    
-                                            <?php
-                                            $ta_id = $booking['ta_id'];
-                                            $agency_info = $ta_details[$ta_id] ?? ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-    
-                                            ?>
-                                            <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
-                                            <?php
-                                            // Payment Progress Calculation
-                                            $perecent_fill = 0;
-                                            $booking_paid_amt = 0;
-                                            $booking_full_amt = 0;
-    
-                                            if ($booking_bill) {
-                                                $pay_type = $booking_bill['pay_type'];
-                                                $final_price = $booking_bill['final_price'];
-    
-                                                if ($pay_type == 2) {
-                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                        $perecent_fill = 50;
-                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                        $perecent_fill = 100;
-                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                    }
-                                                } elseif ($pay_type == 3) {
-                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                        $perecent_fill = 40;
-                                                        $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                        $perecent_fill = 70;
-                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                        $perecent_fill = 100;
-                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                    }
-                                                } else {
-                                                    $perecent_fill = 100;
-                                                    $booking_paid_amt = $booking_bill['amount'];
-                                                }
-    
-                                                $booking_full_amt = $final_price;
-                                            }
-    
-                                            ?>
-                                            <td>
-                                                <div class="progress border <?= ($perecent_fill == 100 ? 'border-success' : 'border-primary') ?>" role="progressbar"
-                                                    aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar <?= ($perecent_fill == 100 ? 'bg-success' : '') ?>" style="width: <?= $perecent_fill ?>%;">
-                                                        <?= $perecent_fill ?>%
-                                                    </div>
-                                                </div>
-                                                <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
-                                            </td>
-    
-                                            <?php if ($today >= $startDate && $today <= $endDate) { ?>
-                                                <td>
-                                                    <div class="d-block">
-                                                        <a href="#">
-                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            <?php } else { ?>
-                                                <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
-                                            <?php } ?>
-    
-                                            <td class="text-center">
-                                                <div class="dropdown mt-">
-                                                    <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
-                                                    <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                        <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                             <?php  
+                                <?php } else {
+                                $i = 0;
+                                //$data_found = false;
+                                foreach ($bookings as $booking) {
+                                    $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
+                                    $stmt3 = $conn->prepare($sql3);
+                                    $stmt3->execute();
+                                    $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
+                                    $formattedDate = date("d-m-Y", strtotime($booking['date']));
+
+                                    // Tour Status Calculation
+                                    $startDate = new DateTime($booking['date']);
+                                    $tourDays = (int)$booking['tour_days'];
+                                    $endDate = clone $startDate;
+                                    $endDate->modify("+$tourDays days");
+
+                                    $today = new DateTime();
+                                    $today->setTime(0, 0);
+                                    $endDate->setTime(0, 0);
+
+                                    if ($today > $endDate) {
+                                        continue;
                                     }
-                                } 
-                        }?>
+
+                                    //$data_found = true;
+                                ?>
+                                    <tr>
+                                        <td><?= ++$i ?></td>
+                                        <td><?= $booking['order_id'] ?></td>
+                                        <td><?= $formattedDate ?></td>
+                                        <td><?= $booking['package_name'] ?></td>
+                                        <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
+
+                                        <?php
+                                        $ta_id = $booking['ta_id'];
+                                        $agency_info = $ta_details[$ta_id] ?? ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+
+                                        ?>
+                                        <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
+                                        <?php
+                                        // Payment Progress Calculation
+                                        $perecent_fill = 0;
+                                        $booking_paid_amt = 0;
+                                        $booking_full_amt = 0;
+
+                                        if ($booking_bill) {
+                                            $pay_type = $booking_bill['pay_type'];
+                                            $final_price = $booking_bill['final_price'];
+
+                                            if ($pay_type == 2) {
+                                                if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                    $perecent_fill = 50;
+                                                    $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                    $perecent_fill = 100;
+                                                    $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                }
+                                            } elseif ($pay_type == 3) {
+                                                if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                    $perecent_fill = 40;
+                                                    $booking_paid_amt = $booking_bill['part_pay_1'];
+                                                } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                    $perecent_fill = 70;
+                                                    $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                    $perecent_fill = 100;
+                                                    $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                }
+                                            } else {
+                                                $perecent_fill = 100;
+                                                $booking_paid_amt = $booking_bill['amount'];
+                                            }
+
+                                            $booking_full_amt = $final_price;
+                                        }
+
+                                        ?>
+                                        <td>
+                                            <div class="progress border <?= ($perecent_fill == 100 ? 'border-success' : 'border-primary') ?>" role="progressbar"
+                                                aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar <?= ($perecent_fill == 100 ? 'bg-success' : '') ?>" style="width: <?= $perecent_fill ?>%;">
+                                                    <?= $perecent_fill ?>%
+                                                </div>
+                                            </div>
+                                            <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
+                                        </td>
+
+                                        <?php if ($today >= $startDate && $today <= $endDate) { ?>
+                                            <td>
+                                                <div class="d-block">
+                                                    <a href="#">
+                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        <?php } else { ?>
+                                            <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
+                                        <?php } ?>
+
+                                        <td class="text-center">
+                                            <div class="dropdown mt-">
+                                                <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
+                                                <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
+                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                        <?php
+                                }
+                            }
+                        } ?>
                     </tbody>
                 </table>
                 <!-- pegination start -->
@@ -691,7 +666,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     <tbody>
                         <?php
                         require '../connect.php';
-                        $customer_fil='';
+                        $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
                             // BCM: BDM → BM → TE → TC
@@ -702,9 +677,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
                                     INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
                                     WHERE ca.status = 1 AND bcm.employee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '25') {
+                        } elseif ($userType == '25') {
                             // BDM: BM → TE → TC AND TE → TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -720,9 +693,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
                                     INNER JOIN employees te ON co.corporate_agency_id = te.employee_id AND te.status = 1
                                     WHERE ca.status = 1 AND te.reporting_manager = '$userId'";
-                        }
-
-                        elseif ($userType == '26') {
+                        } elseif ($userType == '26') {
                             // BM: TE → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -735,8 +706,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '28') {
+                        } elseif ($userType == '28') {
                             // MF: F → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -749,31 +719,24 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '30') {
+                        } elseif ($userType == '30') {
                             // SF: F → TC 
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
                                     INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
                                     WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '16' || $userType =='29') {
+                        } elseif ($userType == '16' || $userType == '29') {
                             // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-
-                        elseif ($userType == '11') {
+                        } elseif ($userType == '11') {
                             // TC: self only
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.ca_travelagency_id = '$userId'";
-                        }
-
-                        elseif ($userType == '10') {
+                        } elseif ($userType == '10') {
                             // Customer
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -785,10 +748,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                         $stmt0 = $conn->prepare($sql0);
                         $stmt0->execute();
                         $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                         // Check if travel agencies exist
                         if (empty($ta_list)) {
-                             echo'<tr>
+                            echo '<tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -800,12 +763,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                         </tr>';
                             // exit; // Stop further execution
-                        }else{
+                        } else {
 
                             // Create an array mapping travel agency IDs to their details
                             $ta_details = [];
                             $ta_ids = [];
-    
+
                             foreach ($ta_list as $ta) {
                                 $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
                                 $ta_details[$ta['ca_travelagency_id']] = [
@@ -815,7 +778,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     'phone' => $ta['contact_no']
                                 ];
                             }
-    
+
                             if (!empty($ta_list)) {
                                 $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
                                 $sql = "
@@ -835,15 +798,15 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 JOIN package p ON b.package_id = p.id
                                                 WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date "; // Use IN clause to match multiple IDs
                             }
-    
+
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    
+
+
                             // Check if bookings exist
                             if (empty($bookings)) {
-                            ?>
+                        ?>
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -855,22 +818,21 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     <td></td>
                                     <td></td>
                                 </tr>
-                            <?php
-                            } else
-                            {
+                                <?php
+                            } else {
                                 $i = 0;
                                 foreach ($bookings as $booking) {
                                     $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
                                     $stmt3 = $conn->prepare($sql3);
                                     $stmt3->execute();
                                     $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-    
+
                                     $formattedDate = date("d-m-Y", strtotime($booking['date']));
-    
+
                                     // Travel agency details
                                     $ta_id = $booking['ta_id'];
                                     $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-    
+
                                     // Payment calculations
                                     if ($booking_bill['pay_type'] == 2) {
                                         if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
@@ -895,12 +857,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         $booking_paid_amt = $booking_bill['amount'];
                                         $booking_full_amt = $booking_bill['final_price'];
                                     }
-    
+
                                     // **Skip entry if `$perecent_fill` is not 100**
                                     if ($perecent_fill !== 100) {
                                         continue;
                                     }
-    
+
                                     // Display the booking details
                                 ?>
                                     <tr>
@@ -910,7 +872,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         <td><?= $booking['package_name'] ?></td>
                                         <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
                                         <td><?= $agency_info['firstname'] . ' ' . $agency_info['lastname'] . '<br>' . $agency_info['phone'] . '<br>' . $agency_info['email'] ?></td>
-    
+
                                         <td>
                                             <div class="progress border border-success" role="progressbar" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100">
                                                 <div class="progress-bar bg-success" style="width: <?= $perecent_fill ?>%; height:10px;"><?= $perecent_fill ?>%</div>
@@ -925,7 +887,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         $endDate->modify("+$tourDays days");
                                         $today = new DateTime();
                                         $today->setTime(0, 0);
-    
+
                                         if ($today > $endDate) {
                                         ?>
                                             <td>
@@ -952,7 +914,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 </div>
                                             </td>
                                         <?php } ?>
-    
+
                                         <td class="text-center">
                                             <div class="dropdown mt-">
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
@@ -962,10 +924,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr> 
+                                    </tr>
                         <?php   }
-                            } 
-                        }?>
+                            }
+                        } ?>
                     </tbody>
                 </table>
                 <!-- pegination start -->
@@ -993,7 +955,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     <tbody>
                         <?php
                         require '../connect.php';
-                        $customer_fil='';
+                        $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
                             // BCM: BDM → BM → TE → TC
@@ -1004,9 +966,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
                                     INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
                                     WHERE ca.status = 1 AND bcm.employee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '25') {
+                        } elseif ($userType == '25') {
                             // BDM: BM → TE → TC AND TE → TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1022,9 +982,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
                                     INNER JOIN employees te ON co.corporate_agency_id = te.employee_id AND te.status = 1
                                     WHERE ca.status = 1 AND te.reporting_manager = '$userId'";
-                        }
-
-                        elseif ($userType == '26') {
+                        } elseif ($userType == '26') {
                             // BM: TE → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1037,8 +995,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '28') {
+                        } elseif ($userType == '28') {
                             // MF: F → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1051,31 +1008,24 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '30') {
+                        } elseif ($userType == '30') {
                             // SF: F → TC 
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
                                     INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
                                     WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '16' || $userType =='29') {
+                        } elseif ($userType == '16' || $userType == '29') {
                             // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-
-                        elseif ($userType == '11') {
+                        } elseif ($userType == '11') {
                             // TC: self only
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.ca_travelagency_id = '$userId'";
-                        }
-
-                        elseif ($userType == '10') {
+                        } elseif ($userType == '10') {
                             // Customer
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1087,10 +1037,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                         $stmt0 = $conn->prepare($sql0);
                         $stmt0->execute();
                         $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                         // Check if travel agencies exist
                         if (empty($ta_list)) {
-                             echo'<tr>
+                            echo '<tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -1107,7 +1057,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                             // Create an array mapping travel agency IDs to their details
                             $ta_details = [];
                             $ta_ids = [];
-    
+
                             foreach ($ta_list as $ta) {
                                 $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
                                 $ta_details[$ta['ca_travelagency_id']] = [
@@ -1117,7 +1067,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     'phone' => $ta['contact_no']
                                 ];
                             }
-    
+
                             if (!empty($ta_list)) {
                                 $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
                                 $sql = "
@@ -1137,15 +1087,15 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 JOIN package p ON b.package_id = p.id
                                                 WHERE b.ta_id IN ($ta_ids_str) AND b.status='2' AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date "; // Use IN clause to match multiple IDs
                             }
-    
+
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    
+
+
                             // Check if bookings exist
                             if (empty($bookings)) {
-                            ?>
+                        ?>
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -1157,10 +1107,8 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     <td></td>
                                     <td></td>
                                 </tr>
-                            <?php
-                            }else
-    
-                            {
+                                <?php
+                            } else {
                                 $i = 0;
                                 foreach ($bookings as $booking) {
                                     $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
@@ -1172,7 +1120,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         continue; // Skip this booking if no matching record is found
                                     }
                                     $formattedDate = date("d-m-Y", strtotime($booking['date']));
-                                    ?>
+                                ?>
                                     <tr>
                                         <td><?= ++$i ?></td>
                                         <td><?= $booking['order_id'] ?></td>
@@ -1181,7 +1129,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         <td><? $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
                                         <?php
                                         $ta_id = $booking['ta_id']; // Get the agency ID from booking
-    
+
                                         // Retrieve travel agency details safely
                                         $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
                                         ?>
@@ -1223,14 +1171,14 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             $booking_paid_amt = $booking_bill['amount'];
                                             $booking_full_amt = $booking_bill['final_price'];
                                         }
-    
+
                                         if ($perecent_fill == 100) {
                                             $load_modal = '';
                                             $border = 'border-success';
                                             $bg_color = 'bg-success';
                                             $cursor = '';
                                         } else {
-                                            $load_modal = '';
+                                            $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
                                             $border = 'border-primary';
                                             $bg_color = '';
                                             $cursor = 'cursor: pointer';
@@ -1268,7 +1216,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </div>
                                         </td>
                                     </tr>
-                                <?php 
+                        <?php
                                 }
                             }
                         } ?>
@@ -1300,7 +1248,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     <tbody>
                         <?php
                         require '../connect.php';
-                        $customer_fil='';
+                        $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
                             // BCM: BDM → BM → TE → TC
@@ -1311,9 +1259,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
                                     INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
                                     WHERE ca.status = 1 AND bcm.employee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '25') {
+                        } elseif ($userType == '25') {
                             // BDM: BM → TE → TC AND TE → TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1329,9 +1275,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
                                     INNER JOIN employees te ON co.corporate_agency_id = te.employee_id AND te.status = 1
                                     WHERE ca.status = 1 AND te.reporting_manager = '$userId'";
-                        }
-
-                        elseif ($userType == '26') {
+                        } elseif ($userType == '26') {
                             // BM: TE → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1344,8 +1288,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '28') {
+                        } elseif ($userType == '28') {
                             // MF: F → TC AND TC directly
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1358,31 +1301,24 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-                        elseif ($userType == '30') {
+                        } elseif ($userType == '30') {
                             // SF: F → TC 
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
                                     INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
                                     WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'";
-                        }
-
-                        elseif ($userType == '16' || $userType =='29') {
+                        } elseif ($userType == '16' || $userType == '29') {
                             // TE/F: direct TC
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.reference_no = '$userId'";
-                        }
-
-                        elseif ($userType == '11') {
+                        } elseif ($userType == '11') {
                             // TC: self only
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
                                     WHERE ca.status = 1 AND ca.ca_travelagency_id = '$userId'";
-                        }
-
-                        elseif ($userType == '10') {
+                        } elseif ($userType == '10') {
                             // Customer
                             $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                                     FROM ca_travelagency ca
@@ -1394,10 +1330,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                         $stmt0 = $conn->prepare($sql0);
                         $stmt0->execute();
                         $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                
+
                         // Check if travel agencies exist
                         if (empty($ta_list)) {
-                             echo'<tr>
+                            echo '<tr>
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
@@ -1409,12 +1345,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                         </tr>';
                             // exit; // Stop further execution
-                        }else{
+                        } else {
 
                             // Create an array mapping travel agency IDs to their details
                             $ta_details = [];
                             $ta_ids = [];
-    
+
                             foreach ($ta_list as $ta) {
                                 $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
                                 $ta_details[$ta['ca_travelagency_id']] = [
@@ -1424,7 +1360,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     'phone' => $ta['contact_no']
                                 ];
                             }
-    
+
                             if (!empty($ta_list)) {
                                 $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
                                 $sql = "
@@ -1444,13 +1380,13 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 JOIN package p ON b.package_id = p.id
                                                 WHERE b.ta_id IN ($ta_ids_str) AND b.status='3' AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date "; // Use IN clause to match multiple IDs
                             }
-    
+
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             // Check if bookings exist
                             if (empty($bookings)) {
-                            ?>
+                        ?>
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -1462,9 +1398,8 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     <td></td>
                                     <td></td>
                                 </tr>
-                            <?php
-                            }else
-                            {
+                                <?php
+                            } else {
                                 $i = 0;
                                 foreach ($bookings as $booking) {
                                     $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
@@ -1472,17 +1407,17 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     $stmt3->execute();
                                     $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
                                     $formattedDate = date("d-m-Y", strtotime($booking['date']));
-                                    ?>
+                                ?>
                                     <tr>
                                         <td><?= ++$i ?></td>
                                         <td><?= $booking['order_id'] ?></td>
                                         <td><?= $formattedDate ?></td>
                                         <td><?= $booking['package_name'] ?></td>
                                         <td><?= $booking['c_name'] . '(' . $booking['customer_id'] . ')<br>' . $booking['phone'] . '<br>' . $booking['email'] ?></td>
-    
+
                                         <?php
                                         $ta_id = $booking['ta_id']; // Get the agency ID from booking
-    
+
                                         // Retrieve travel agency details safely
                                         $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
                                         ?>
@@ -1524,24 +1459,24 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             $booking_paid_amt = $booking_bill['amount'];
                                             $booking_full_amt = $booking_bill['final_price'];
                                         }
-    
+
                                         if ($perecent_fill == 100) {
                                             $load_modal = '';
                                             $border = 'border-success';
                                             $bg_color = 'bg-success';
                                             $cursor = '';
                                         } else {
-                                            $load_modal = '';
+                                            $load_modal = $userType == '11' ? 'data-bs-toggle="modal"' : '';
                                             $border = 'border-primary';
                                             $bg_color = '';
                                             $cursor = '';
                                         }
                                         ?>
-    
-    
+
+
                                         <td>
                                             <div class="progress border  <?= $border . '" role="progressbar" aria-label="Example with label" aria-valuenow="' . $perecent_fill . '" aria-valuemin="0" aria-valuemax="100" ' . $load_modal . '" data-bs-target="#paymentModal" data-booking-id="' . $booking['id'] . '" data-booking-fullamt="' . $booking_full_amt . '" data-booking-paytype="' . $booking_bill['pay_type'] . '" data-booking-fill="' . $perecent_fill ?>"
-    
+
                                                 <?php
                                                 if ($perecent_fill == 40) {
                                                     echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
@@ -1571,9 +1506,9 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </div>
                                         </td>
                                     </tr>
-                                <?php 
+                        <?php
                                 }
-                            } 
+                            }
                         } ?>
 
                     </tbody>
