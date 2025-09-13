@@ -287,9 +287,9 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA') 
-                                                                    UNION ALL 
-                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA')
+                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)) 
+                                                                    UNION 
+                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
                                                                     ORDER BY created_date DESC ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
@@ -788,16 +788,32 @@
                         <div class="row d-flex justify-content-evenly">   
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="page-title-box p-3">
-                                    <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
+                                    <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1" id='totalDate1'><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
                                         
                                         <?php
                                             $query = "
-                                                SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE status = :status
+                                                SELECT 
+                                                    SUM(
+                                                        CASE 
+                                                            WHEN zonal_manager IS NOT NULL 
+                                                                AND zonal_manager NOT IN ('NA','Not Applicable') 
+                                                            THEN commision_zm 
+                                                            ELSE 0 
+                                                        END
+                                                        +
+                                                        CASE 
+                                                            WHEN master_franchisee IS NOT NULL 
+                                                                AND master_franchisee NOT IN ('NA','Not Applicable') 
+                                                            THEN commision_mf 
+                                                            ELSE 0 
+                                                        END
+                                                    ) AS payout
+                                                FROM sub_franchisee_payout
                                             ";
 
                                             $stmt = $conn->prepare($query);
-                                            $stmt->execute(['status' => '1']);
+                                            $stmt->execute();
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
                                             $totalPayout = 0;
@@ -808,7 +824,7 @@
                                             if ($totalPayout > 0) {
                                                 $tds = $totalPayout * 0.02;
                                                 $netTotalPayout = $totalPayout - $tds;
-                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.$netTotalPayout.'/- </p>
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon" >Rs.'.$netTotalPayout.'/- </p>
                                                     <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                             }else{
                                                 echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs. 0/-</p>';
@@ -848,7 +864,7 @@
                                     
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding-top: 10px; margin-top: 10px">
                                         <div  id="download_icon " >
-                                            <p class="font-size-14">Name: <span>------</span><span class="fw-bold font-size-10 ms-4 date-layout layout-2"><?php echo "$date" ?></span></p>
+                                            <p class="font-size-14">Name: <span>------</span><span class="fw-bold font-size-10 ms-4 date-layout layout-2" id='totalDate'><?php echo "$date" ?></span></p>
                                             <p class="fs-5 fw-bolder mt-n2 icon">Rs. 0/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>

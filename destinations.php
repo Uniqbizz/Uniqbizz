@@ -245,14 +245,14 @@
                                 </div>
                             </a>
                         </div>
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <a href="destination-details/destination-details-goa.php" class="destination-banner h-calc">
-                                <img src="assets/images/destination/goa5.jpg" alt="travello">
+                         <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-tamil-nadu.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/TamilNadu1.jpg" alt="Tamil Nadu">
                                 <div class="destination-content">
                                     
                                     <div class="destination-info">
                                         <div class="destination-name">
-                                            <p class="pera">Goa</p>
+                                            <p class="pera">Tamil Nadu</p>
                                             
                                         </div>
                                         <div class="button-section">
@@ -261,15 +261,15 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> -->
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <a href="destination-details/destination-details-kerala.php" class="destination-banner h-calc">
-                                <img src="assets/images/destination/kerala1.jpg" alt="travello">
+                        </div> 
+                         <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-dubai.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Dubai2.jpg" alt="Dubai">
                                 <div class="destination-content">
                                   
                                     <div class="destination-info p-4">
                                         <div class="destination-name">
-                                            <p class="pera">Kerala</p>
+                                            <p class="pera">Dubai</p>
                                            
                                         </div>
                                         <div class="button-section">
@@ -278,7 +278,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> -->
+                        </div> 
                         <!-- <div class="col-lg-4 col-sm-6">
                             <a href="destination-details/destination-details-goa.php" class="destination-banner h-calc">
                                 <img src="assets/images/destination/goa5.jpg" alt="travello">
