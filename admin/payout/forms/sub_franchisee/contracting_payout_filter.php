@@ -3,8 +3,8 @@
 
 require "../../../connect.php";
 
-$cap_id = $_POST['cap_id'];
-$designation = $_POST['designation'];
+$cap_id = $_POST['cap_id']??'';
+$designation = $_POST['designation']??'';
 $cap_year = $_POST['year_split']?? '';
 $cap_month = $_POST['month_split']?? '';
 $TotalPayoutFilter = $_POST['TotalPayoutFilter']?? '';
@@ -16,18 +16,34 @@ $tdsPer = 2/100;
 
             $sqlId = "SELECT s.id, s.zonal_manager as userId, s.message_zm as message, sp.payout_details, s.commision_zm as comm_amt, s.sub_franchisee, s.created_date, s.status, 'zonal_manager' as identity 
                         FROM sub_franchisee_payout s
-                        LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.zonal_manager and sp.status='1'
-                        WHERE s.zonal_manager = '".$cap_id."' AND s.status = '1' 
+                        LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.zonal_manager
+                        WHERE s.zonal_manager = '".$cap_id."' AND (s.zonal_manager <> 'NA' AND s.zonal_manager <> 'Not Applicable' AND s.zonal_manager IS NOT NULL) 
                         order by s.created_date DESC";
 
-        }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
+        }else if($designation == 'master_franchisee'){
 
-            $sqlId = "SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commision_mf as comm_amt, s.sub_franchisee, s.created_date, s.status, 'master_franchisee' as identity 
+            $sqlId = "SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commision_mf as comm_amt, s.sub_franchisee, s.created_date, s.status, '".$designation."' as identity 
                         FROM sub_franchisee_payout s
-                        LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee and sp.status='1'
-                        WHERE s.master_franchisee = '".$cap_id."' AND s.status = '1' 
+                        LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
+                        WHERE s.master_franchisee = '".$cap_id."' AND master_franchisee LIKE 'MF%' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
                         order by s.created_date DESC";
 
+        }else if($designation == 'sponsor_franchisee'){
+            $sqlId = "SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commision_mf as comm_amt, s.sub_franchisee, s.created_date, s.status, '".$designation."' as identity 
+                        FROM sub_franchisee_payout s
+                        LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee 
+                        WHERE s.master_franchisee = '".$cap_id."' AND master_franchisee LIKE 'SF%' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)
+                        order by s.created_date DESC";
+        }else{
+            $sqlId = "  (SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
+                        FROM sub_franchisee_payout 
+                        WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL))
+                        UNION
+                        (SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                        FROM sub_franchisee_payout 
+                        WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
+                        order by created_date DESC";
+            
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -101,14 +117,28 @@ $tdsPer = 2/100;
         if($designation == 'zonal_manager'){
             $sqlId = "SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
                         FROM sub_franchisee_payout
-                        WHERE zonal_manager = '".$cap_id."'
+                        WHERE zonal_manager = '".$cap_id."' AND (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)
                         order by created_date DESC";
-        }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
-            // $sqlId = "SELECT * FROM ca_payout WHERE business_consultant = '".$cap_id."' order by id DESC";
+        }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){    
             $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
                         FROM sub_franchisee_payout 
-                        WHERE master_franchisee = '".$cap_id."' 
+                        WHERE master_franchisee = '".$cap_id."' AND master_franchisee LIKE 'MF%' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL)
                         order by created_date DESC";
+        }else if($designation == 'sponsor_franchisee'){
+            $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                        FROM sub_franchisee_payout 
+                        WHERE master_franchisee = '".$cap_id."' AND master_franchisee LIKE 'SF%' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL)
+                        order by created_date DESC";
+        }else{
+            $sqlId = "  (SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
+                        FROM sub_franchisee_payout 
+                        WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL))
+                        UNION
+                        (SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                        FROM sub_franchisee_payout 
+                        WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
+                        order by created_date DESC";
+            
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -176,16 +206,46 @@ $tdsPer = 2/100;
     }else{    
 
         if($designation == 'zonal_manager'){
-            $sqlId = "SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
+            if($cap_id){
+                $sqlId = "SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
+                            FROM sub_franchisee_payout 
+                            WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) order by created_date DESC";
+            }else{
+                $sqlId = "SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
+                            FROM sub_franchisee_payout 
+                            WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) order by created_date DESC";
+            }
+        }else if($designation == 'master_franchisee'){ 
+            if($cap_id){
+                $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                            FROM sub_franchisee_payout 
+                            WHERE master_franchisee = '".$cap_id."' AND master_franchisee LIKE 'MF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) order by created_date desc";
+            }else{
+                $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                            FROM sub_franchisee_payout 
+                            WHERE master_franchisee LIKE 'MF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) order by created_date desc";
+            }
+        }else if($designation == 'sponsor_franchisee'){
+            if($cap_id){
+                $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                            FROM sub_franchisee_payout 
+                            WHERE master_franchisee = '".$cap_id."' AND master_franchisee LIKE 'SF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) order by created_date desc";
+            }else{
+                $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                            FROM sub_franchisee_payout 
+                            WHERE master_franchisee LIKE 'SF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) order by created_date desc";
+            }
+        }else{
+            $sqlId = "  (SELECT id, zonal_manager as userId, message_zm as message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' as identity 
                         FROM sub_franchisee_payout 
-                        WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date DESC";
-        }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
-            // $sqlId = "SELECT * FROM ca_payout WHERE business_consultant = '".$cap_id."' order by id DESC";
-            $sqlId = "SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
+                        WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL))
+                        UNION
+                        (SELECT id, master_franchisee as userId, message_mf as message, commision_mf as comm_amt, sub_franchisee, created_date, status, 'master_franchisee' as identity 
                         FROM sub_franchisee_payout 
-                        WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by created_date desc";
+                        WHERE YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
+                        order by created_date DESC";
+            
         }
-
         echo'<div class="table-responsive table-desi" id="filterTable">
             <table class="table table-hover" id="payoutDetailsTable">
                 <thead>

@@ -11,7 +11,7 @@ if($totalAmountMessage){
 
     $sqlIdAmt = "SELECT SUM(commision_zm+commision_mf) as payout 
                  FROM `sub_franchisee_payout` 
-                 WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."' AND status = '1'";
+                 WHERE YEAR(created_date) = '".$TotalYear."' AND MONTH(created_date) = '".$TotalMonth."'";
 
     $stmt = $conn->prepare($sqlIdAmt);
     $stmt->execute();
@@ -49,12 +49,12 @@ if($totalTableMessage){
             $model_2 = "(SELECT s.id, s.zonal_manager as userId, s.message_zm as message, sp.payout_details, s.commision_zm as comm_amt, s.sub_franchisee, s.created_date, s.status, 'zonal_manager' as identity 
                         FROM sub_franchisee_payout s
                         LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.zonal_manager and sp.status='1'
-                        WHERE YEAR(s.created_date) = '".$TotalYear."' AND MONTH(s.created_date) = '".$TotalMonth."'   AND s.status = '1' AND (s.zonal_manager <> 'NA' AND s.zonal_manager <> 'Not Applicable' AND s.zonal_manager IS NOT NULL)) 
-                        UNION ALL
+                        WHERE YEAR(s.created_date) = '".$TotalYear."' AND MONTH(s.created_date) = '".$TotalMonth."'   AND (s.zonal_manager <> 'NA' AND s.zonal_manager <> 'Not Applicable' AND s.zonal_manager IS NOT NULL)) 
+                        UNION
                         (SELECT s.id, s.master_franchisee as userId, s.message_mf as message, sp.payout_details, s.commision_mf as comm_amt, s.sub_franchisee, s.created_date, s.status, 'master_franchisee' as identity 
                         FROM sub_franchisee_payout s
                         LEFT JOIN sub_franchisee_payout_paid sp on sp.user_id=s.master_franchisee and sp.status='1'
-                        WHERE YEAR(s.created_date) = '".$TotalYear."' AND MONTH(s.created_date) = '".$TotalMonth."'   AND s.status = '1' AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)) 
+                        WHERE YEAR(s.created_date) = '".$TotalYear."' AND MONTH(s.created_date) = '".$TotalMonth."'   AND (s.master_franchisee <> 'NA' AND s.master_franchisee <> 'Not Applicable' AND s.master_franchisee IS NOT NULL)) 
                         order by created_date desc ";
             $model2 = $conn -> prepare($model_2);
             // print_r($model2);
