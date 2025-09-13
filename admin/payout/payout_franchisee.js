@@ -70,37 +70,33 @@ $('#user_id_name').on('change', function(){
 //date split for filter for All payout
 $('#cap_date').on('change', function(){
     designation = $('#designation').val();
-    if(!designation){
-        alert("Select Designation");
-        window.location.reload();
-    }else{
-        cap_id = $('#user_id_name').val();
-        cap_date = $(this).val();
-        // $('#download_exel').css('display','block');
-        $('#download_icon').css('display','block');
-        const myArray = cap_date.split('-');  //split date on '-' sign and store it in array
-        const year_split = myArray[0]; // store splited year in new variable
-        const month_split = myArray[1]; // store splited month in new variable
+    
+    cap_id = $('#user_id_name').val();
+    cap_date = $(this).val();
+    // $('#download_exel').css('display','block');
+    $('#download_icon').css('display','block');
+    const myArray = cap_date.split('-');  //split date on '-' sign and store it in array
+    const year_split = myArray[0]; // store splited year in new variable
+    const month_split = myArray[1]; // store splited month in new variable
 
-        dataString={
-            cap_id,
-            designation,
-            year_split,
-            month_split
-        }
-        // console.log(dataString);
-        $.ajax({
-            type: 'POST',
-            url: 'forms/sub_franchisee/contracting_payout_filter.php',
-            data: dataString,
-            cache: false,
-            success: function(data){
-                // console.log(data);
-                $("#filterTable").html(data);
-                $('#payoutDetailsTable').DataTable();
-            }
-        });
+    dataString={
+        cap_id,
+        designation,
+        year_split,
+        month_split
     }
+    // console.log(dataString);
+    $.ajax({
+        type: 'POST',
+        url: 'forms/sub_franchisee/contracting_payout_filter.php',
+        data: dataString,
+        cache: false,
+        success: function(data){
+            // console.log(data);
+            $("#filterTable").html(data);
+            $('#payoutDetailsTable').DataTable();
+        }
+    });
 });
 
 
@@ -303,8 +299,16 @@ $('#user_id_nameTotal').on('change', function(){
 // Total payout filter option select display name and amout below 
 $('#user_id_nameTotal').on('change', function(){
     cap_id = $(this).val();
-    year_split = $("#nextYear").val();
-    month_split = $("#nextMonth").val();
+    let totalDateValue = $('#totalDate').text().trim(); // get the span text
+    let dateObj = new Date(totalDateValue);
+    let year_split = '';
+    let month_split = '';
+    // Check if the date is valid
+    if (!isNaN(dateObj.getTime())) {
+        month_split = dateObj.getMonth() + 1; // months are 0-based
+        year_split = dateObj.getFullYear();
+        // console.log("Month:", month, "Year:", year);
+    } 
 
     dataString={
             cap_id,
@@ -325,7 +329,18 @@ $('#user_id_nameTotal').on('change', function(){
 });
 
 $('#month_year').on('change', function(){
+    
     var Totaldate = $(this).val();
+    let dateObj = new Date(Totaldate);
+    let formatedTotalDate='';
+    if (!isNaN(dateObj.getTime())) {
+        let options = { month: 'long', year: 'numeric' }; 
+        formatedTotalDate = dateObj.toLocaleDateString('en-US', options);
+        //console.log(formatedTotalDate); // Example: "September 2025"
+    }
+    $('#totalDate').text(formatedTotalDate);
+    $('#totalDate1').text(formatedTotalDate);
+
     const myArray = Totaldate.split('-');  //split date on '-' sign and store it in array
     const TotalYear = myArray[0]; // store splited year in new variable
     const TotalMonth = myArray[1]; // store splited month in new variable
@@ -434,7 +449,7 @@ function totalPayoutExel(){
         //         console.log(data);
         //     }
         // });
-        window.location.href='forms/sub_franchisee/download_exel_ca?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
+        window.location.href='forms/sub_franchisee/download_exel_ca.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
     }else{
         alert("Select date first");
         window.location.reload();
@@ -452,7 +467,7 @@ function allPayoutExel(){
     const payoutYear = myArray[0]; // store splited year in new variable
     const payoutMonth = myArray[1]; // store splited month in new variable
     // console.log(designation + user_id + date + payoutmessage);
-    window.location.href='forms/sub_franchisee/download_exel_ca?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
+    window.location.href='forms/sub_franchisee/download_exel_ca.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
 }
 
 // **** contracting_payout Javascript End ****

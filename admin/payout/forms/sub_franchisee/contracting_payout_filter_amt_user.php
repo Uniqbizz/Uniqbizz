@@ -82,9 +82,9 @@
                 $fullName = $row['firstname']. ' ' .$row['lastname'];
                 
                 if($designation == 'zonal_manager'){
-                    $sqlIdAmt = "SELECT SUM(commision_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' ";
+                    $sqlIdAmt = "SELECT SUM(commision_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
                 }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
-                    $sqlIdAmt = "SELECT SUM(commision_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1'";
+                    $sqlIdAmt = "SELECT SUM(commision_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);
