@@ -109,6 +109,7 @@
                                                             <option value="">--Select Designation--</option>
                                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
+                                                            <option value="business_development_manager">Business Development Manager </option>
                                                         </select>
                                                     </div>
                                                 </div>
