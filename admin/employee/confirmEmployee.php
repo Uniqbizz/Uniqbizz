@@ -17,7 +17,7 @@ $status = '1';
 $register_by = '1';
 
 $subY = substr($todayYear, 2, 4);
-if ($usertype == '24' || $usertype == '25') {
+if ($usertype == '24' || $usertype == '25' || $usertype == '31') {
 	$sql9 = $conn->prepare("SELECT * from employees where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);

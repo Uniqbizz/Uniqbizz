@@ -18,7 +18,7 @@ $dateFilter = " AND created_date BETWEEN '$start_date' AND '$end_date'";
 
 $sqlUnion = '';
 
-if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager') {
+if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'relationship_manager' ) {
     if ($user_type == 24) {
         $sqlUnion = "SELECT 'BCM Payout' AS title, bcm_user_id, message_bcm AS message, payout_amount AS amount, payout_date AS date, payout_status AS status
                      FROM bcm_payout_history WHERE bcm_user_id = '$id' AND payout_date BETWEEN '$start_date' AND '$end_date'
@@ -26,7 +26,7 @@ if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_
                      SELECT 'Product Payout' AS title, bch_id, bch_mess AS message, bch_amt AS amount, created_date AS date, bch_status AS status
                      FROM product_payout WHERE bch_id = '$id' $dateFilter
                      ORDER BY date DESC";
-    } elseif ($user_type == 25) {
+    } elseif ($user_type == 25 || $user_type == 31) {
         $sqlUnion = "SELECT 'BDM Payout' AS title, bdm_user_id, message_bdm AS message, payout_amount AS amount, payout_date AS date, payout_status AS status
                      FROM bdm_payout_history WHERE bdm_user_id = '$id' AND payout_date BETWEEN '$start_date' AND '$end_date'
                      UNION 

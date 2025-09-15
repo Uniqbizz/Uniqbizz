@@ -43,7 +43,9 @@ else if ($DBtable == 'sub_franchisee') { // 29
 }
 else if ($DBtable == 'zonal_manager') { // 29
     $sql = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $id . "' AND status = '1'";
-}
+}else if ($DBtable == 'relationship_manager') { // 31
+    $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
+} 
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
@@ -57,7 +59,7 @@ if ($stmt->rowCount() > 0) {
     $pincode='';
     $aadhar_card ='';
     foreach (($stmt->fetchAll()) as $key => $row) {
-        if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager') {
+        if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'relationship_manager') {
             $bank_passbook='';
             $pan_card='';
             $fid = $row['id'];
@@ -236,7 +238,7 @@ if ($stmt->rowCount() > 0) {
         }
     }
 }
-$User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager') ? $name : $firstname . ' ' . $lastname;
+$User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager' || $DBtable == 'relationship_manager') ? $name : $firstname . ' ' . $lastname;
 
 ?>
 
@@ -584,7 +586,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                             <div class="tab-pane fade show active" id="overview" role="tabpanel">
                                 <div class="card rounded-4">
                                     <div class="card-body">
-                                        <?php if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager') { ?>
+                                        <?php if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager'|| $DBtable == 'relationship_manager') { ?>
                                             <form>
                                                 <div class="row" id="formParent">
                                                     <!-- Personal Details -->
@@ -636,7 +638,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         </div>
                                                     </div>
 
-                                                    <div id="employee" class="row <?= in_array($DBtable, ['business_developement_manager', 'business_chanel_manager']) ? '' : 'd-none' ?>">
+                                                    <div id="employee" class="row <?= in_array($DBtable, ['business_developement_manager', 'business_chanel_manager','relationship_manager']) ? '' : 'd-none' ?>">
                                                         <!-- Employment Details -->
                                                         <h4 class="my-2">Employment Details</h4>
                                                         <div class="col-sm-6">
@@ -1352,6 +1354,12 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 $condition = 'reference_no = :ref_id AND user_type = 29';
                                                 $selectField .= ', sub_franchisee_id';
                                                 $idField = 'sub_franchisee_id';
+                                                break;
+                                            case strpos($title, 'Relationship Manager') !== false:
+                                                $table = 'employees';
+                                                $condition = 'reference_no = :ref_id AND user_type = 31';
+                                                $selectField = 'name, employee_id, profile_pic';
+                                                $idField = 'employee_id';
                                                 break;
                                             default:
                                                 return ['name' => 'Unknown User', 'profile_pic' => 'not_uploaded.png'];
@@ -4662,6 +4670,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             }
                                         }
                                     ?>
+                                    
                                     <!-- all ZMs -->
                                     <?php
                                     } else if ($DBtable == 'zonal_manager') {
@@ -10287,7 +10296,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             $('#formParent').empty();
 
             // Append based on condition
-            if (selected_div === 'business_developement_manager' || selected_div === 'business_chanel_manager') {
+            if (selected_div === 'business_developement_manager' || selected_div === 'business_chanel_manager' || selected_div ==='relationship_manager') {
                 $('#formParent').append($empBlock);
             } else if (selected_div === 'zonal_manager') {
                 $('#formParent').append($zmBlock);

@@ -82,7 +82,7 @@
                                                         <?php
                                                             require '../connect.php';
                                                             
-                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30'  ");
+                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE (user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30' || user_type_id ='31')  AND status='1'");
                                                             $stmt->execute();
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             $firstname='';
@@ -96,32 +96,55 @@
                                                                     $userType= $row['user_type_id'];
 
                                                                     // //get users
+                                                                    //customer
                                                                     if ( $userType == 10 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_customer where ca_customer_id='".$userId."'  ");
-                                                                    } else if ( $userType == 11 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_travelagency where ca_travelagency_id='".$userId."'  ");
-                                                                    } else if ( $userType == 16 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM corporate_agency where corporate_agency_id='".$userId."' ");
-                                                                    } else if ( $userType == 24 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '24'  ");
-                                                                    } else if ( $userType == 25 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '25' ");
-                                                                    } else if ( $userType == 26 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM business_mentor where business_mentor_id='".$userId."' ");
-                                                                    } else if ( $userType == 27 ) {
-                                                                        $users = $conn->prepare("SELECT name FROM zonal_manager where zonal_manager_id='".$userId."' ");
-                                                                    } else if ( $userType == 28 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM master_franchisee where master_franchisee_id='".$userId."' ");
-                                                                    } else if ( $userType == 29 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sub_franchisee where sub_franchisee_id='".$userId."' ");
-                                                                    }  else if ( $userType == 30 ) {
-                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sponsor_franchisee where sponsor_franchisee_id='".$userId."' ");
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_customer where ca_customer_id='".$userId."' AND status='1'  ");
+                                                                    }
+                                                                    //Travel consultant 
+                                                                    else if ( $userType == 11 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM ca_travelagency where ca_travelagency_id='".$userId."' AND status='1'  ");
+                                                                    }
+                                                                    //Techno Enterprise
+                                                                     else if ( $userType == 16 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM corporate_agency where corporate_agency_id='".$userId."' AND status='1' ");
+                                                                    } 
+                                                                    //BCM/BCH
+                                                                    else if ( $userType == 24 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '24' AND status='1'  ");
+                                                                    } 
+                                                                    //BDM
+                                                                    else if ( $userType == 25 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '25' AND status='1' ");
+                                                                    } 
+                                                                    //BM
+                                                                    else if ( $userType == 26 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM business_mentor where business_mentor_id='".$userId."' AND status='1' ");
+                                                                    } 
+                                                                    //ZM
+                                                                    else if ( $userType == 27 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM zonal_manager where zonal_manager_id='".$userId."' AND status='1' ");
+                                                                    } 
+                                                                    //MF
+                                                                    else if ( $userType == 28 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM master_franchisee where master_franchisee_id='".$userId."' AND status='1' ");
+                                                                    }
+                                                                    //Franchisee 
+                                                                    else if ( $userType == 29 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sub_franchisee where sub_franchisee_id='".$userId."' AND status='1' ");
+                                                                    }  
+                                                                    //SF
+                                                                    else if ( $userType == 30 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM sponsor_franchisee where sponsor_franchisee_id='".$userId."' AND status='1' ");
+                                                                    }
+                                                                    //RM
+                                                                    else if ( $userType == 31 ) {
+                                                                        $users = $conn->prepare("SELECT name FROM employees where employee_id='".$userId."' AND user_type = '31' AND status='1'");
                                                                     } 
                                                                     $users->execute();
                                                                     $users->setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($users->rowCount()>0){
                                                                         $user = $users->fetch();
-                                                                        if($userType == 24 || $userType == 25 || $userType == 27){
+                                                                        if($userType == 24 || $userType == 25 || $userType == 27 || $userType == 31){
                                                                             $firstname = $user['name'] ;
                                                                             $lastneam =  '';
                                                                         } else{
@@ -131,7 +154,7 @@
                                                                     }
                                                                     
                                                                     //get user type
-                                                                    $users_types = $conn->prepare("SELECT name FROM user_type where id='".$userType."'  ");
+                                                                    $users_types = $conn->prepare("SELECT name FROM user_type where id='".$userType."' AND status='1' ");
                                                                     $users_types->execute();
                                                                     $users_types->setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($users_types->rowCount()>0){

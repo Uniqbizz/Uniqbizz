@@ -43,6 +43,10 @@
         $user_type = '24'; //BCM
     }else if($designation == '2'){
         $user_type = '25'; //BDM
+    }else if($designation == '3'){
+        $user_type = '31'; //Relationship  manager
+    }else{
+        $user_type = '00'; //adding employee without error if usertype not define
     }
 
     // get age of the user
