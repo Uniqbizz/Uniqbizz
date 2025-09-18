@@ -11,7 +11,7 @@ $user_id = $_POST['user_id'] ?? '';
 $commision = $_POST['Commision'] ?? '';
 
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
-if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
+if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM' || $user_id_str=='BH' || $user_id_str=='RM'){
     $message = "message_bm";
 }else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE'){
     $message = "message_te";
@@ -87,7 +87,7 @@ if($totalTableMessage){
                         <td style="text-align:center;">'.$Commision.'</td>
                         <td style="text-align:center;">'.$CommisionTDS.'</td>
                         <td style="text-align:center;">'.$CommisionTotal.'
-                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$designation.'&date='.$dt.'&message='.$message.'&message_status='.$status.'&commission='.$Commision.'&paydate='.$row['paydate'].'">
+                        <a href="payout/forms/recruitment_payout/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&designation='.$user_id.'&date='.$dt.'&message='.$row[$message].'&message_status='.$status.'&commission='.$Commision.'&paydate='.$row['paydate'].'">
                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                             </a>
                         </td>';

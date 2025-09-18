@@ -1,23 +1,21 @@
 <?php
 include_once 'dashboard_user_details.php';
 
-$id = $_GET['vkvbvjfgfikix'];
+$id = $_GET['id'];
 $country_id = $_GET['cty'];
 $state_id = $_GET['st'];
 $city_id = $_GET['ct'];
 $zone_id = $_GET['zn'];
 $branch_id = $_GET['br'];
 $editfor = $_GET['editfor'];
-
-if ($editfor == 'pending') {
-    // $identifier_id= $_POST["vkvbvjfgfikix"];
-    $identifier_name = 'id=';
-} else if ($editfor == 'registered') {
-    // $identifier_id= $_POST["vkvbvjfgfikix"];
-    $identifier_name = 'business_mentor_id=';
+ 
+if ($editfor == 'registered') {
+    $identifier_id= substr($_GET["id"],0,2);
+    $identifier_name = $identifier_id=='BM'?'business_mentor_id=':($identifier_id=='MF'?'master_franchisee_id=':($identifier_id == 'SF'?'sponsor_franchisee_id=':'NA'));
+    $identifier_tablename = $identifier_id=='BM'?'business_mentor':($identifier_id=='MF'?'master_franchisee':($identifier_id == 'SF'?'sponsor_franchisee':'NA'));
 }
 
-$stmt = $conn->prepare("SELECT * FROM `business_mentor` where business_mentor_id='" . $id . "' OR id = '" . $id . "'");
+$stmt = $conn->prepare("SELECT *FROM `$identifier_tablename` where $identifier_name'" . $id . "'");
 $stmt->execute();
 // set the resulting array to associative
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -25,18 +23,15 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
 if ($stmt->rowCount() > 0) {
     foreach (($stmt->fetchAll()) as $key => $row) {
         $fid = $row['id'];
-        // $sales_manager_name=$row['fname'];
         $firstname = $row['firstname'];
-        // $username=$row['username'];
         $lastname = $row['lastname'];
         $nominee_name = $row['nominee_name'];
         $nominee_relation = $row['nominee_relation'];
         $email = $row['email'];
         $contact_no = $row['contact_no'];
-        // $business_package=$row['business_package'];
         $paid_amount=$row['paid_amount'];
         $reference_no = $row['reference_no'];
-        // $gst_no=$row['gst_no'];
+        $registrant = $row['registrant'];
         $date_of_birth = $row['date_of_birth'];
         $gender = $row['gender'];
         $country = $row['country'];
@@ -45,9 +40,7 @@ if ($stmt->rowCount() > 0) {
         $address = $row['address'];
         $zone = $row['zone'];
         $branch = $row['branch'];
-        // $id_proof=$row['id_proof'];
-        $profile_pic = $row['profile_pic'];
-        // $kyc=$row['kyc'];
+        $profile_pic1 = $row['profile_pic'];
         $payment_mode = $row['payment_mode'];
         $payment_proof = $row['payment_proof'];
         $pan_card = $row['pan_card'];
@@ -59,8 +52,6 @@ if ($stmt->rowCount() > 0) {
         $cheque_date = $row['cheque_date'];
         $bank_name = $row['bank_name'];
         $transaction_no = $row['transaction_no'];
-        // $complimentary=$row['complimentary'];
-        // $converted=$row['converted'];
 
         //get country
         $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
@@ -104,17 +95,6 @@ if ($stmt->rowCount() > 0) {
         if ($branchs->rowCount() > 0) {
             $branch = $branchs->fetch();
             $branch_name = $branch['branch_name'];
-        }
-
-        // Business Channel manager name 
-        $business_channel_managers = $conn->prepare("SELECT name, reporting_manager FROM employees where employee_id='" . $reference_no . "'");
-        $business_channel_managers->execute();
-        $business_channel_managers->setFetchMode(PDO::FETCH_ASSOC);
-        if ($business_channel_managers->rowCount() > 0) {
-            $business_channel_manager = $business_channel_managers->fetch();
-            $reference_no_fname = $business_channel_manager['name'];
-            // $reference_no_lname = $business_channel_manager['lastname'];
-            // $business_trainees_reference_no = $business_trainee['reference_no'];
         }
     }
 }
@@ -201,13 +181,13 @@ if ($stmt->rowCount() > 0) {
                         <div class="col-lg-12">
                             <!-- Page title -->
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Edit Business Mentor</h4>
+                                <h4 class="mb-sm-0">Edit Business Mentor/Master Franchisee/Sponsor Franchisee</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item">
-                                            <a href="view_business_mentor.php">View Business Mentor</a>
+                                            <a href="view_business_mentor.php">View BM/MF/SF</a>
                                         </li>
-                                        <li class="breadcrumb-item active">Add</li>
+                                        <li class="breadcrumb-item active">Add BM/MF/SF</li>
                                     </ol>
                                 </div>
                             </div>
@@ -218,31 +198,6 @@ if ($stmt->rowCount() > 0) {
                                         <form>
                                             <div class="row">
                                                 <!-- Personal Details -->
-
-                                                <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <div class="input-block mb-3">
-                                                            <label class="col-form-label">Designation<span class="text-danger">*</span></label>
-                                                            <select id="designation" class="form-select">
-                                                                <option value="">--Select Designation--</option>
-                                                                <option value="sales_manager">Sales Manager</option>
-                                                                <option value="channel_business_director">Channel Business Director</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                                                        <div class="input-block mb-3">
-                                                            <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
-                                                            <select id="user_id_name" class="form-select"> 
-                                                                <option value="">--Select Designation First--</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                                        <div class="input-block mb-3">
-                                                            <label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
-                                                        </div>    
-                                                    </div> -->
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Reference Id<span class="text-danger">*</span></label>
@@ -253,7 +208,7 @@ if ($stmt->rowCount() > 0) {
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Reference Full Name <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?php echo $reference_no_fname; ?>" readonly>
+                                                        <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?php echo $registrant; ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -427,13 +382,17 @@ if ($stmt->rowCount() > 0) {
                                                         <label for="payment_fee" class="col-form-label">Payment Fee</label>
                                                         <select class="form-select" id="payment_fee" disabled>
                                                             <option value="null">--Select Payment Fee--</option>
-                                                            <option value="FOC" <?= $paid_amount == 'FOC'?'selected':''?>>Free</option>
+                                                            <option value="FOC" <?= ($paid_amount == 'FOC' || $paid_amount == 0) ?'selected':''?>>Free</option>
                                                             <option value="5000"<?=$paid_amount == '5000'?'selected':''?>><span>&#8377 </span> 5000/-</option>
-                                                            <option value="12000"<?= $paid_amount != 'Free'?'selected':''?>><span>&#8377 </span>12000/-</option>
+                                                            <option value="12000"<?= $paid_amount == '12000'?'selected':''?>><span>&#8377 </span>12000/-</option>
+                                                            <option value="100000"<?= $paid_amount == '100000'?'selected':''?>><span>&#8377 </span>100000/-</option>
+                                                            <option value="200000"<?= $paid_amount == '200000'?'selected':''?>><span>&#8377 </span>200000/-</option>
+                                                            <option value="300000"<?= $paid_amount == '300000'?'selected':''?>><span>&#8377 </span>300000/-</option>
+                                                            <option value="500000"<?= $paid_amount == '500000'?'selected':''?>><span>&#8377 </span>500000/-</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 <?=$payment_mode == 'Free'?'d-none':''?>" id="paymentModeBlock">
+                                                <div class="col-md-6 col-sm-6 <?=($payment_mode == 'Free' || $payment_mode == null)?'d-none':''?>" id="paymentModeBlock">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Payment Mode: <span class="text-danger">*</span></label>
                                                         <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
@@ -453,7 +412,7 @@ if ($stmt->rowCount() > 0) {
                                                     </div>
                                                 </div>
 
-                                                <div class="pb-3 <?=$payment_mode == 'Free'?'d-none':''?>" id="paymentFields">
+                                                <div class="pb-3 <?=($payment_mode == 'Free' || $payment_mode == null)?'d-none':''?>" id="paymentFields">
                                                     <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
                                                         <div class="row d-flex justify-content-center">
                                                             <div class="col-md-4 py-1">
@@ -495,10 +454,10 @@ if ($stmt->rowCount() > 0) {
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Profile Picture
                                                         <?php
-                                                            if ($profile_pic) {
+                                                            if ($profile_pic1) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../uploading/' . $profile_pic1; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -507,14 +466,14 @@ if ($stmt->rowCount() > 0) {
                                                         </label>
                                                         <input class="form-control" type="file" name="file1" id="upload_file1">
                                                     </div>
-                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                    <input type="hidden" id="img_path1" value="<?php echo $profile_pic1; ?>">
                                                     <div id="preview1">
                                                         <div id="image_preview1">
                                                             <?php
-                                                            if ($profile_pic == '') {
+                                                            if ($profile_pic1 == '') {
                                                                 echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
                                                             } else {
-                                                                echo '<img src="../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1" class="imgSize">';
+                                                                echo '<img src="../uploading/' . $profile_pic1 . '" alt="Preview" id="img_pre1" class="imgSize">';
                                                             }
                                                             ?>
                                                         </div>
@@ -636,7 +595,7 @@ if ($stmt->rowCount() > 0) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 <?=$payment_mode == 'Free'?'d-none':''?>" id="payProof">
+                                                <div class="col-md-6 col-sm-6 <?=($payment_mode == 'Free' || $payment_mode == null)?'d-none':''?>" id="payProof">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="file6"><b>PAYMENT PROOF</b>
                                                         <?php

@@ -6,10 +6,10 @@ require "../connect.php";
 
 $f_id= $_POST["fid"];
 $id= $_POST["id"];
-$user_type="26";
+$user_type=$f_id_str == 'BM'? '26':($f_id_str == 'MF'?'28':($f_id_str == 'SF'?'30':'NA'));"26";
 $userId = $_POST['userId']; //BH250001
 $userType = $_POST['userType']; //24
-
+$f_id_str=substr($f_id,0,2);
 $status;
 $action= $_POST["action"];
 
@@ -20,38 +20,38 @@ if($action == 'pending'){
 	$operation = "deleted";
 }else if($action == 'registered') {
 	$ta_id = $_POST["fid"]; //set business_mentor id
-    $identifier_name = 'business_mentor_id=';
+    $identifier_name = $f_id_str == 'BM'? 'business_mentor_id=':($f_id_str == 'MF'?'master_franchisee_id=':($f_id_str == 'SF'?'sponsor_franchisee_id=':'NA'));
 	$status= '3';
 	$operation = "deactivated";
 } else if($action == 'deactivate') {
 	$ta_id = $_POST["fid"]; //set business_mentor id
-    $identifier_name = 'business_mentor_id=';
+    $identifier_name = $f_id_str == 'BM'? 'business_mentor_id=':($f_id_str == 'MF'?'master_franchisee_id=':($f_id_str == 'SF'?'sponsor_franchisee_id=':'NA'));
 	$status= '1';					// activate user
 	$today = null;
 	$operation = "activated";
 } else if($action == 'deleted') {
 	$ta_id = ""; //set business_mentor id
-    $identifier_name = 'business_mentor_id=';
+    $identifier_name = $f_id_str == 'BM'? 'business_mentor_id=':($f_id_str == 'MF'?'master_franchisee_id=':($f_id_str == 'SF'?'sponsor_franchisee_id=':'NA'));
 	$status= '2';					// activate user
 	$today = null;
 	$operation = "pending";
 }
 
 
- $title="Business Mentor";
+ $title= $f_id_str == 'BM'? 'Business Mentor':($f_id_str == 'MF'?'Master Franchisee':($f_id_str == 'SF'?'Sponsor Franchisee':'NA'));
+ $table= $f_id_str == 'BM'? 'business_mentor':($f_id_str == 'MF'?'master_franchisee':($f_id_str == 'SF'?'sponsor_franchisee':'NA'));
 if($ta_id ==''){
-	$message="Deleted Business Mentor from ".$action. " list";
-	$message2="Deleted Business Mentor from ".$action. " list";
+	$message="Deleted ".$title." from ".$action. " list";
+	$message2="Deleted ".$title." from ".$action. " list";
 }else{
-	$message="Deleted Business Mentor(".$ta_id.") from ".$action. " list";
-	$message2="Deleted Business Mentor(".$ta_id.") from ".$action. " list";
+	$message="Deleted ".$title." (".$ta_id.") from ".$action. " list";
+	$message2="Deleted ".$title." (".$ta_id.") from ".$action. " list";
 }
 
 $fromWhom=$userType;
 $register_by=$userType; 
-// $operation = "Delete";
 
-$sql1 = "UPDATE business_mentor SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";
+$sql1 = "UPDATE ".$table." SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";
 $stmt = $conn->prepare($sql1);
 $result=  $stmt->execute(array(
 	':status' => $status,
@@ -96,10 +96,5 @@ if(isset($_POST["fid"])){
 }else{
 	echo $status;
 }
-
-
-
-	
-
 
 ?>

@@ -9747,6 +9747,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <tr>
                                                             <th>Coupon Code</th>
                                                             <th>Coupon</th>
+                                                            <th>Coupon Value</th>
                                                             <th>Date</th>
                                                             <th>Expiry Date</th>
                                                             <th>Status</th>
@@ -9758,6 +9759,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <tr>
                                                             <td><?= htmlspecialchars($coupon['code']) ?></td>
                                                             <td><?= $customer_type?></td>
+                                                            <td>&#8377;<?= $coupon['coupon_amt']?></td>
                                                             <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
                                                             <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
                                                             <td>

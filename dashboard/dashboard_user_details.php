@@ -62,6 +62,8 @@
         $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '$userId' ";
     }else if($userType == '30'){
         $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '$userId' ";
+    }else if($userType == '31'){
+        $sql2 = "SELECT * FROM `employees` WHERE employee_id = '$userId' ";
     }
 
     $stmt = $conn -> prepare($sql2);
@@ -69,7 +71,7 @@
     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
     if($stmt -> rowCount()>0){
         foreach(($stmt -> fetchAll()) as $key => $value){
-            if($userType == '24' || $userType == '25' || $userType == '27'){
+            if($userType == '24' || $userType == '25' || $userType == '27' || $userType == '31'){
                 $firstname = $value['name'];
                 $lastname = '';
             }else{   
@@ -119,6 +121,8 @@
         $directNext = "Travel Consultant";
     }else if($userType == '26'){ //SF
         $directNext = "Franchisee";
+    }else if($userType == '31'){ //RM
+        $directNext = "Master Franchisee";
     }
 
     $tdsPercentage=2/100;

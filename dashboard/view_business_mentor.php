@@ -84,11 +84,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">View Business Mentor</h4> 
+                                <h4 class="mb-sm-0">View <?=$userType == '31'?'Master Franchisee / Sponsor Franchisee':'Business Mentor / Master Franchisee / Sponsor Franchisee'?></h4> 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="index.php">Dashboard </a></li>
-                                        <li class="breadcrumb-item active">View Business Mentor</li>
+                                        <li class="breadcrumb-item active">View <?=$userType == '31'?'MF/SF':'BM/MF/SF'?></li>
                                     </ol>
                                 </div>
 
@@ -132,52 +132,65 @@
                                                                     $stmt -> execute([$userId]);
                                                                     $userBDMS = $stmt -> fetchAll(PDO::FETCH_ASSOC);
                                                                     // print_r($userBDMS);
+                                                                    $i=1;
                                                                     foreach( $userBDMS as $userBDM ){
+                                                                        
                                                                         $bdm_id = $userBDM['employee_id'];
                                                                         
-                                                                        $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = ? AND user_type = '26' AND  status = '2' OR status = '0'");
-                                                                        $stmt2->execute([$bdm_id]);
-                                                                        $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                        // print_r($userBMS);
-                                                                        foreach ($userBMS as $userBM) {
-                                                                            $bm_id = $userBM['business_mentor_id'];
-                                                                            $bd= new DateTime($userBM['date_of_birth']);
-                                                                            $bdate= $bd->format('d-m-Y');
-                                                                            $dt= new DateTime($userBM['added_on']);
-                                                                            $datev= $dt->format('d-m-Y'); 
-
-                                                                            echo'<tr>
-                                                                                <td>'.$userBM['id'].'</td>
-                                                                                <td>'.$userBM['firstname'].' '.$userBM['lastname'].'</td>
-                                                                                <td>
-                                                                                    <p>'.$userBM['reference_no'].'</p>
-                                                                                    <p>'.$userBM['registrant'].'</p>
-                                                                                </td>
-                                                                                <td>'.$userBM['contact_no'].'</td>
-                                                                                <td>'.$datev.'</td>';
-                                                                                if($userBM['status'] == '2')
-                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                                else{
-                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
-                                                                                }
-                                                                            echo'</tr>';
-
-
+                                                                        $stmt = $conn -> prepare("SELECT * FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '0' OR status = '2')
+                                                                                                UNION
+                                                                                                SELECT * FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' AND (status = '0' OR status = '2')
+                                                                                                UNION
+                                                                                                SELECT * FROM master_franchisee WHERE reference_no = ? AND user_type = '28' AND (status = '0' OR status = '2')
+                                                                                                ORDER BY added_on ASC"
+                                                                                                );
+                                                                        $stmt -> execute([$bdm_id,$bdm_id,$bdm_id]);
+                                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if($stmt -> rowCount()>0){
+                                                                            foreach(($stmt -> fetchAll()) as $key => $row){
+                                                                                $bd= new DateTime($row['date_of_birth']);
+                                                                                $bdate= $bd->format('d-m-Y');
+                                                                                $dt= new DateTime($row['added_on']);
+                                                                                $datev= $dt->format('d-m-Y'); 
+                                                                                echo'<tr>
+                                                                                    <td>'.$i.'</td>
+                                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                    <td>
+                                                                                        <p>'.$row['reference_no'].'</p>
+                                                                                        <p>'.$row['registrant'].'</p>
+                                                                                    </td>
+                                                                                    <td>'.$row['contact_no'].'</td>
+                                                                                    <td>'.$datev.'</td>';
+                                                                                    if($row['status'] == '2')
+                                                                                        echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                                    else{
+                                                                                        echo'<td><span class="badge bg-danger">Deleted</span></td>';
+                                                                                    }
+                                                                                echo'</tr>';
+                                                                                $i++;
+                                                                            }
                                                                         }
+
                                                                     }
 
                                                                 }else if($userType == '25'){
-                                                                    $stmt = $conn -> prepare("SELECT * FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '0' OR status = '2')");
-                                                                    $stmt -> execute([$userId]);
+                                                                    $stmt = $conn -> prepare("SELECT * FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '0' OR status = '2')
+                                                                                              UNION
+                                                                                              SELECT * FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' AND (status = '0' OR status = '2')
+                                                                                              UNION
+                                                                                              SELECT * FROM master_franchisee WHERE reference_no = ? AND user_type = '28' AND (status = '0' OR status = '2')
+                                                                                              ORDER BY added_on ASC");
+                                                                    $stmt -> execute([$userId,$userId,$userId]);
                                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($stmt -> rowCount()>0){
+                                                                        $i=0;
                                                                         foreach(($stmt -> fetchAll()) as $key => $row){
                                                                             $bd= new DateTime($row['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($row['added_on']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
-                                                                                <td>'.$row['id'].'</td>
+                                                                                <td>'.$i.'</td>
                                                                                 <td>'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                 <td>
                                                                                     <p>'.$row['reference_no'].'</p>
@@ -191,6 +204,39 @@
                                                                                     echo'<td><span class="badge bg-danger">Deleted</span></td>';
                                                                                 }
                                                                             echo'</tr>';
+                                                                            $i++;
+                                                                        }
+                                                                    }
+                                                                }else if($userType == '31'){
+                                                                    $stmt = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' AND (status = '0' OR status = '2')
+                                                                                              UNION
+                                                                                              SELECT * FROM master_franchisee WHERE reference_no = ? AND user_type = '28' AND (status = '0' OR status = '2')
+                                                                                              ORDER BY added_on ASC");
+                                                                    $stmt -> execute([$userId,$userId]);
+                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt -> rowCount()>0){
+                                                                        $i++;
+                                                                        foreach(($stmt -> fetchAll()) as $key => $row){
+                                                                            $bd= new DateTime($row['date_of_birth']);
+                                                                            $bdate= $bd->format('d-m-Y');
+                                                                            $dt= new DateTime($row['added_on']);
+                                                                            $datev= $dt->format('d-m-Y'); 
+                                                                            echo'<tr>
+                                                                                <td>'.$i.'</td>
+                                                                                <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                <td>
+                                                                                    <p>'.$row['reference_no'].'</p>
+                                                                                    <p>'.$row['registrant'].'</p>
+                                                                                </td>
+                                                                                <td>'.$row['contact_no'].'</td>
+                                                                                <td>'.$datev.'</td>';
+                                                                                if($row['status'] == '2')
+                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                                else{
+                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
+                                                                                }
+                                                                            echo'</tr>';
+                                                                            $i++;
                                                                         }
                                                                     }
                                                                 }
@@ -230,12 +276,81 @@
                                                                     foreach( $userBDMS as $userBDM ){
                                                                         $bdm_id = $userBDM['employee_id'];
                                                                         
-                                                                        $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = ? AND user_type = '26' AND  (status = '1' OR status = '3')");
-                                                                        $stmt2->execute([$bdm_id]);
-                                                                        $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                        // print_r($userBMS);
-                                                                        foreach ($userBMS as $userBM) {
-                                                                            $bm_id = $userBM['business_mentor_id'];
+                                                                        $stmt = $conn -> prepare("SELECT id,business_mentor_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'business_mentor' AS identity FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')
+                                                                                                    UNION
+                                                                                                    SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
+                                                                                                    UNION
+                                                                                                    SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
+                                                                                                    ORDER BY register_date ASC");
+                                                                        $stmt -> execute([$bdm_id,$bdm_id,$bdm_id]);
+                                                                        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                        if($stmt -> rowCount()>0){
+                                                                            foreach(($stmt -> fetchAll()) as $key => $userBM){
+                                                                                $bm_id = $userBM['user_id'];
+                                                                                $bd= new DateTime($userBM['date_of_birth']);
+                                                                                $bdate= $bd->format('d-m-Y');
+                                                                                $dt= new DateTime($userBM['register_date']);
+                                                                                $datev= $dt->format('d-m-Y'); 
+
+                                                                                echo'<tr>
+                                                                                    <td>
+                                                                                        <p>'.$userBM['user_id'].'</p>
+                                                                                        <p>'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <p>'.$userBM['reference_no'].'</p>
+                                                                                        <p>'.$userBM['registrant'].'</p>
+                                                                                    </td>
+                                                                                    <td>'.$userBM['contact_no'].'</td>
+                                                                                    <td>'.$datev.'</td>';
+                                                                                    if($userBM['status'] == '3')
+                                                                                        echo'<td><span class="badge bg-warning">Deactive</span></td>';
+                                                                                    else{
+                                                                                        echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                                    }
+                                                                                    if($userBM['status'] == '1'){
+                                                                                        echo'<td>
+                                                                                            <div class="dropdown d-inline-block">
+                                                                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                                    <i class="ri-more-fill align-middle"></i>
+                                                                                                </button>
+                                                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userBM["user_id"]. '","' .$userBM["reference_no"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","'.$userBM['identity'].'")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                                                                                    <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userBM["user_id"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                                                                    <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["user_id"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </td>';
+                                                                                    }else{
+                                                                                        echo'<td>
+                                                                                        <div class="dropdown d-inline-block">
+                                                                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                                <i class="ri-more-fill align-middle"></i>
+                                                                                            </button>
+                                                                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["user_id"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                        </td>';
+                                                                                    }
+                                                                                echo'</tr>';
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    
+
+                                                                }else if($userType == '25'){
+                                                                    $stmt = $conn -> prepare("SELECT id,business_mentor_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'business_mentor' AS identity FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')
+                                                                                              UNION
+                                                                                              SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
+                                                                                              UNION
+                                                                                              SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
+                                                                                              ORDER BY register_date ASC");
+                                                                    $stmt -> execute([$userId,$userId,$userId]);
+                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt -> rowCount()>0){
+                                                                        foreach(($stmt -> fetchAll()) as $key => $userBM){
+                                                                            $bm_id = $userBM['user_id'];
                                                                             $bd= new DateTime($userBM['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($userBM['register_date']);
@@ -243,7 +358,7 @@
 
                                                                             echo'<tr>
                                                                                 <td>
-                                                                                    <p>'.$userBM['business_mentor_id'].'</p>
+                                                                                    <p>'.$userBM['user_id'].'</p>
                                                                                     <p>'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
@@ -264,9 +379,9 @@
                                                                                                 <i class="ri-more-fill align-middle"></i>
                                                                                             </button>
                                                                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userBM["business_mentor_id"]. '","' .$userBM["reference_no"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","business_mentor")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userBM["business_mentor_id"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["business_mentor_id"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userBM["user_id"]. '","' .$userBM["reference_no"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","'.$userBM['identity'].'")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userBM["user_id"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["user_id"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
                                                                                             </ul>
                                                                                         </div>
                                                                                     </td>';
@@ -277,7 +392,7 @@
                                                                                             <i class="ri-more-fill align-middle"></i>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["business_mentor_id"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
+                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["user_id"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
                                                                                         </ul>
                                                                                     </div>
                                                                                     </td>';
@@ -285,14 +400,16 @@
                                                                             echo'</tr>';
                                                                         }
                                                                     }
-
-                                                                }else if($userType == '25'){
-                                                                    $stmt = $conn -> prepare("SELECT * FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')");
-                                                                    $stmt -> execute([$userId]);
+                                                                }else if($userType == '31'){
+                                                                    $stmt = $conn -> prepare("SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
+                                                                                              UNION
+                                                                                              SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
+                                                                                              ORDER BY register_date ASC");
+                                                                    $stmt -> execute([$userId,$userId]);
                                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
                                                                     if($stmt -> rowCount()>0){
                                                                         foreach(($stmt -> fetchAll()) as $key => $userBM){
-                                                                            $bm_id = $userBM['business_mentor_id'];
+                                                                            $bm_id = $userBM['user_id'];
                                                                             $bd= new DateTime($userBM['date_of_birth']);
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($userBM['register_date']);
@@ -300,7 +417,7 @@
 
                                                                             echo'<tr>
                                                                                 <td>
-                                                                                    <p>'.$userBM['business_mentor_id'].'</p>
+                                                                                    <p>'.$userBM['user_id'].'</p>
                                                                                     <p>'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
@@ -321,9 +438,9 @@
                                                                                                 <i class="ri-more-fill align-middle"></i>
                                                                                             </button>
                                                                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userBM["business_mentor_id"]. '","' .$userBM["reference_no"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","business_mentor")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userBM["business_mentor_id"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["business_mentor_id"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userBM["user_id"]. '","' .$userBM["reference_no"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","'.$userBM['identity'].'")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                                                                                <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userBM["user_id"]. '","' .$userBM["country"]. '","' .$userBM["state"]. '","' .$userBM["city"]. '","' .$userBM["zone"]. '", "'.$userBM['branch'].'","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["user_id"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
                                                                                             </ul>
                                                                                         </div>
                                                                                     </td>';
@@ -334,7 +451,7 @@
                                                                                             <i class="ri-more-fill align-middle"></i>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["business_mentor_id"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
+                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userBM["id"].'","'.$userBM["user_id"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
                                                                                         </ul>
                                                                                     </div>
                                                                                     </td>';
@@ -343,73 +460,6 @@
                                                                         }
                                                                     }
                                                                 }
-
-
-                                                                // $sql = "SELECT * FROM `employees` WHERE reporting_manager = ? AND (status = '1' OR status = '3')";
-                                                                // $stmt = $conn -> prepare($sql);
-                                                                // $stmt -> execute([$userId]);
-                                                                // $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                // if($stmt -> rowCount()>0){
-                                                                //     foreach(($stmt -> fetchAll()) as $key => $row){
-                                                                //         $bd= new DateTime($row['date_of_birth']);
-                                                                //         $bdate= $bd->format('d-m-Y');
-                                                                //         $dt= new DateTime($row['register_date']);
-                                                                //         $datev= $dt->format('d-m-Y'); 
-
-                                                                //         $reporting_manager = $row['reporting_manager'];
-                                                                //         $stmt2 = $conn->prepare(' SELECT name FROM employees WHERE employee_id = ? ');
-                                                                //         $stmt2 -> execute([$reporting_manager]);
-                                                                //         $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                //         if($stmt2-> rowCount()>0){
-                                                                //             foreach(($stmt2 -> fetchAll()) as $row2 => $key2){
-                                                                //                 $reporting_manager_name = $key2['name'];
-                                                                //             }
-                                                                //         }
-                                                                //         echo'<tr>
-                                                                //             <td>
-                                                                //                 <p>'.$row['employee_id'].'</p>
-                                                                //                 <p>'.$row['name'].'</p>
-                                                                //             </td>
-                                                                //             <td>
-                                                                //                 <p>'.$reporting_manager.'</p>
-                                                                //                 <p>'.$reporting_manager_name.'</p>
-                                                                //             </td>
-                                                                //             <td>'.$row['contact'].'</td>
-                                                                //             <td>'.$datev.'</td>';
-                                                                            
-                                                                //             if($row['status'] == '3')
-                                                                //                 echo'<td><span class="badge bg-danger">Deactive</span></td>';
-                                                                //             else{
-                                                                //                 echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                //             }
-                                                                //             if($row['status'] == '1'){
-                                                                //                 echo'<td>
-                                                                //                     <div class="dropdown d-inline-block">
-                                                                //                         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                //                             <i class="ri-more-fill align-middle"></i>
-                                                                //                         </button>
-                                                                //                         <ul class="dropdown-menu dropdown-menu-end">
-                                                                //                             <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["employee_id"]. '","' .$row["reporting_manager"]. '","' .$row["department"]. '","' .$row["designation"]. '","' .$row["zone"]. '", "'.$row['branch'].'","employee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                //                             <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["employee_id"]. '","' .$row["department"]. '","' .$row["designation"]. '","' .$row["zone"]. '", "'.$row['branch'].'","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                //                             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["employee_id"].'","registered")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                //                         </ul>
-                                                                //                     </div>
-                                                                //                 </td>';
-                                                                //             }else{
-                                                                //                 echo'<td>
-                                                                //                 <div class="dropdown d-inline-block">
-                                                                //                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                //                         <i class="ri-more-fill align-middle"></i>
-                                                                //                     </button>
-                                                                //                     <ul class="dropdown-menu dropdown-menu-end">
-                                                                //                         <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["employee_id"].'","deactivate")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
-                                                                //                     </ul>
-                                                                //                 </div>
-                                                                //                 </td>';
-                                                                //             }
-                                                                //         echo'</tr>';
-                                                                //     }
-                                                                // }
                                                             ?>
                                                         </tbody>
                                                     </table>
@@ -423,7 +473,7 @@
 
                         </div>
                         
-                        <?php if($userType == '24' || $userType == '25'){ ?> 
+                        <?php if($userType == '24' || $userType == '25' || $userType == '31'){ ?> 
                             <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
                                 <a href="add_business_mentor.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                     <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
@@ -474,38 +524,13 @@
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <!-- <script src="assets/js/pages/datatables.init.js"></script> -->
-
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
-
         <!-- !-- materialdesign icon js- -->
         <script src="assets/js/pages/remix-icons-listing.js"></script>
 
-        <!-- apexcharts -->
-        <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-<!--  -->
-        <!-- Vector map-->
-        <!-- <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script> -->
-        <!-- <script src="assets/libs/jsvectormap/maps/world-merc.js"></script> -->
-
-        <!--Swiper slider js-->
-        <!-- <script src="assets/libs/swiper/swiper-bundle.min.js"></script> -->
-
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script>// -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script>// -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
          <script>
             $(document).ready(function(){
@@ -514,7 +539,7 @@
             });
 
             function editfunc(id,cty,st,ct,zn,br,editfor){
-                window.location.href='edit_business_mentor.php?vkvbvjfgfikix='+id+'&cty='+cty+'&st='+st+'&ct='+ct+'&zn='+zn+'&br='+br+'&editfor='+editfor;
+                window.location.href='edit_business_mentor.php?id='+id+'&cty='+cty+'&st='+st+'&ct='+ct+'&zn='+zn+'&br='+br+'&editfor='+editfor;
             };
 
             

@@ -22,7 +22,7 @@ if($userType == '11'){ //travel_consultant
 }elseif($userType == '26' || $userType =='28' || $userType == '30'){//business Mentor/MF/SF
     $userIdCommi = 'bm_id';
     $amtCal = 'bm_amt';
-}elseif($userType == '25'){// business Development manager
+}elseif($userType == '25' || $userType == '31'){// business Development manager
     $userIdCommi = 'bdm_id';
     $amtCal = 'bdm_amt';
 }elseif($userType == '24'){ // business channel manager
@@ -132,7 +132,7 @@ if($totalTableMessage){
                         $status = $row['bch_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '25'){
+                    }else if($userType == '25' || $userType == '31'){
                         $id = $row['bdm_id'];
                         $message = $row['bdm_mess'];
                         $amt = $row['bdm_amt'];

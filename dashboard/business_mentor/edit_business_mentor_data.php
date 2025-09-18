@@ -5,14 +5,11 @@ $current_year = date('Y');
 $fid= $_POST["ref_id"];
 $editfor= $_POST["editfor"];
 
-if($editfor == 'pending'){
-	$identifier_id= $_POST["id"];
-	$identifier_name = 'id=';
-	$message="Updated Business Mentor details from ".$editfor. " list";
-	$message2="Updated Business Mentor details from ".$editfor. " list";
-}else if($editfor == 'registered') {
-	$identifier_id= $_POST["id"];
-	$identifier_name = 'business_mentor_id=';
+$identifier_id= $_POST["id"];
+$identifier_id_str=substr($identifier_id,0,2);
+if($editfor == 'registered') {
+	$identifier_name = $identifier_id_str == 'BM'?'business_mentor_id=':($identifier_id_str == 'MF'?'master_franchisee_id=':($identifier_id_str == 'SF'?'sponsor_franchisee_id=':'NA'));
+	$identifier_tablename = $identifier_id_str == 'BM'?'business_mentor':($identifier_id_str == 'MF'?'master_franchisee':($identifier_id_str == 'SF'?'sponsor_franchisee':'NA'));
 	$message=$identifier_id. " Details has been updated from ".$editfor. " list";
 	$message2=$identifier_id. " Details has been updated from ".$editfor. " list";
 }
@@ -25,15 +22,10 @@ $email=$_POST['email'];
 $gender=$_POST['gender'];
 $country_code=$_POST['country_code'];
 $phone=$_POST['phone'];
-// $age=$_POST['age'];
 $dob=$_POST['dob'];
-// get age of the user
 $birthYear = str_split($dob,4);
 $birth_year = $birthYear[0];
 $age = $current_year - $birth_year;
-// $gst_no=$_POST['gst_no'];
-// $amount=$_POST['amount'];
-// $kyc=$_POST['kyc'];
 $profile_pic=$_POST['profile_pic'];
 $pan_card=$_POST['pan_card'];
 $aadhar_card=$_POST['aadhar_card'];
@@ -44,7 +36,6 @@ $pincode=$_POST['pincode'];
 $country=$_POST['country'];
 $state=$_POST['state'];
 $city=$_POST['city'];
-
 $zone=$_POST['zone'];
 $branch=$_POST['branch'];
 $payment_fee=$_POST['payment_fee'];
@@ -58,9 +49,9 @@ $transaction_no=$_POST['transactionNo'];
 $userId = $_POST['userId']; // BH250001 
 $userType = $_POST['userType']; //25
 
-$user_type_id = '26';
+$user_type_id = $identifier_id_str == 'BM'?'26':($identifier_id_str == 'MF'?'28':($identifier_id_str == 'SF'?'30':'NA'));;
 
-$title="Business Mentor";
+$title = $identifier_id_str == 'BM'?'Business Mentor':($identifier_id_str == 'MF'?'Master Franchisee':($identifier_id_str == 'SF'?'Sponsor Franchisee':'NA'));
 
 $fromWhom=$userType;
 $register_by=$userType;
@@ -69,7 +60,7 @@ $operation = "Edit";
  
 if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' ||$dob !='' ||$address !='' ||$profile_pic !=''){
 	
-    $sql1 = "UPDATE business_mentor SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, country=:country,state=:state,city=:city,pincode=:pincode,address=:address,zone=:zone,branch=:branch,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,bank_passbook=:passbook WHERE $identifier_name:identifier_id ";
+    $sql1 = "UPDATE $identifier_tablename SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, country=:country,state=:state,city=:city,pincode=:pincode,address=:address,zone=:zone,branch=:branch,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,bank_passbook=:passbook WHERE $identifier_name:identifier_id ";
         $stmt = $conn->prepare($sql1);
         $result=  $stmt->execute(array(
             ':firstname' => $firstname,
@@ -79,8 +70,6 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':country_code' => $country_code,
             ':contact_no' => $phone,
             ':email' => $email,
-            // ':gst_no' => $gst_no,
-			// ':amount' => $amount,
             ':gender' => $gender,
             ':date_of_birth' => $dob,
             ':country' => $country,
@@ -91,7 +80,6 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':zone' => $zone,
             ':branch' => $branch,
             ':profile_pic' => $profile_pic,
-            // ':kyc' => $kyc,
             ':age' => $age,
             ':pan_card' => $pan_card,
             ':aadhar_card' => $aadhar_card,
@@ -125,30 +113,22 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
 			':from_whom' => $fromWhom,
 			':operation' => $operation
 			));
-
 			if($result3){
 				echo 1;
 			}
 			else{
 				echo 0	;
 			}
-			// echo 1;
 		}
 		else{
 		echo 0	;
 		}
-
 	}
 	else{
 		echo 0;
 	}
-
 }else{
 	echo 0;
 
 }
-
-
-
-
 ?>

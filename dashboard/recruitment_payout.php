@@ -37,6 +37,11 @@
         $columnMessage = 'message_bm';
         $columnCommision = 'commision_bm';
         $columnStatus = 'status_bm';
+    }else if($userType == '25' || $userType == '31') {
+        $columnDesignation = 'business_mentor';
+        $columnMessage = 'message_bm';
+        $columnCommision = 'commision_bm';
+        $columnStatus = 'status_bm';
     }
 ?>
 
