@@ -5,7 +5,6 @@ include_once 'dashboard_user_details.php';
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-
     <meta charset="utf-8" />
     <title>Add Business Mentor | Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
