@@ -147,11 +147,10 @@
                                                                 
                                                                 foreach( $userBDMS as $userBDM ){
                                                                     $bdm_id = $userBDM['employee_id'];
-                                                                    
+                                                                    //TE through BM 
                                                                     $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
                                                                     $stmt2->execute([$bdm_id]);
-                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                                                 
+                                                                    
                                                                     foreach ($userBMS as $userBM) {
                                                                         $bm_id = $userBM['business_mentor_id'];
                                                                         
@@ -167,7 +166,91 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$srNo++.'</td>
-                                                                                <td>'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                                <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                                <td>'.$userCA['contact_no'].'</td>
+                                                                                <td>'.$datev.'</td>';
+                                                                                if($userCA['status'] == '2')
+                                                                                    echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                                else{
+                                                                                    echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                                }
+                                                                            echo'</tr>';
+                                                                        }
+                                                                    }
+                                                                    //direct TE by BDM
+                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                                    $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                    $stmt4->execute([ $bdm_id]);
+                                                                    $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                    foreach ($userCAs as $userCA) {
+                                                                        $userBC = $userCA['id'];
+                                                                        $bd= new DateTime($userCA['date_of_birth']);
+                                                                        $bdate= $bd->format('d-m-Y');
+                                                                        $dt= new DateTime($userCA['added_on']);
+                                                                        $datev= $dt->format('d-m-Y'); 
+                                                                        echo'<tr>
+                                                                            <td>'.$srNo++.'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                            <td>'.$userCA['contact_no'].'</td>
+                                                                            <td>'.$datev.'</td>';
+                                                                            if($userCA['status'] == '2')
+                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                            else{
+                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                            }
+                                                                        echo'</tr>';
+                                                                    }
+                                                                    
+                                                                    //direct Franchisee by BDM
+                                                                    $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                                    $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                    $stmt4->execute([$bdm_id]);
+                                                                    $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+    
+                                                                    foreach ($userCAs as $userCA) {
+                                                                        $userBC = $userCA['id'];
+                                                                        $bd= new DateTime($userCA['date_of_birth']);
+                                                                        $bdate= $bd->format('d-m-Y');
+                                                                        $dt= new DateTime($userCA['added_on']);
+                                                                        $datev= $dt->format('d-m-Y'); 
+                                                                        echo'<tr>
+                                                                            <td>'.$srNo++.'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                            <td>'.$userCA['contact_no'].'</td>
+                                                                            <td>'.$datev.'</td>';
+                                                                            if($userCA['status'] == '2')
+                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                            else{
+                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                            }
+                                                                        echo'</tr>';
+                                                                    }
+                                                                    //Franchisee through MF/SF 
+                                                                    $stmt2 = $conn->prepare("SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
+                                                                                             UNION
+                                                                                             SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
+                                                                    $stmt2->execute([$bdm_id,$bdm_id]);
+                                                                    
+                                                                    foreach ($userBMS as $userBM) {
+                                                                        $bm_id = $userBM['id'];
+                                                                        
+                                                                        $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                        $stmt4->execute([$bm_id]);
+                                                                        $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                        foreach ($userCAs as $userCA) {
+                                                                            $userBC = $userCA['id'];
+                                                                            $bd= new DateTime($userCA['date_of_birth']);
+                                                                            $bdate= $bd->format('d-m-Y');
+                                                                            $dt= new DateTime($userCA['added_on']);
+                                                                            $datev= $dt->format('d-m-Y'); 
+                                                                            echo'<tr>
+                                                                                <td>'.$srNo++.'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                                 <td>'.$userCA['contact_no'].'</td>
                                                                                 <td>'.$datev.'</td>';
@@ -181,7 +264,7 @@
                                                                     }
                                                                 }
                                                             }else if($userType == "25"){
-
+                                                                //TE through BM
                                                                 $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
                                                                 $stmt2->execute([$userId]);
                                                                 $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
@@ -201,7 +284,90 @@
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
-                                                                            <td>'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                            <td>'.$userCA['contact_no'].'</td>
+                                                                            <td>'.$datev.'</td>';
+                                                                            if($userCA['status'] == '2')
+                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                            else{
+                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                            }
+                                                                        echo'</tr>';
+                                                                    }
+                                                                }
+                                                                //dirct TE by BDM
+                                                                $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                                $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                $stmt4->execute([$userId]);
+                                                                $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                foreach ($userCAs as $userCA) {
+                                                                    $userBC = $userCA['id'];
+                                                                    $bd= new DateTime($userCA['date_of_birth']);
+                                                                    $bdate= $bd->format('d-m-Y');
+                                                                    $dt= new DateTime($userCA['added_on']);
+                                                                    $datev= $dt->format('d-m-Y'); 
+                                                                    echo'<tr>
+                                                                        <td>'.$srNo++.'</td>
+                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                        <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                        <td>'.$userCA['contact_no'].'</td>
+                                                                        <td>'.$datev.'</td>';
+                                                                        if($userCA['status'] == '2')
+                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                        else{
+                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                        }
+                                                                    echo'</tr>';
+                                                                }
+                                                                //direct Franchisee by BDM
+                                                                $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                                $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                $stmt4->execute([$userId]);
+                                                                $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                foreach ($userCAs as $userCA) {
+                                                                    $userBC = $userCA['id'];
+                                                                    $bd= new DateTime($userCA['date_of_birth']);
+                                                                    $bdate= $bd->format('d-m-Y');
+                                                                    $dt= new DateTime($userCA['added_on']);
+                                                                    $datev= $dt->format('d-m-Y'); 
+                                                                    echo'<tr>
+                                                                        <td>'.$srNo++.'</td>
+                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                        <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                        <td>'.$userCA['contact_no'].'</td>
+                                                                        <td>'.$datev.'</td>';
+                                                                        if($userCA['status'] == '2')
+                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                        else{
+                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                        }
+                                                                    echo'</tr>';
+                                                                }
+                                                                //Franchisee through MF/SF 
+                                                                $stmt2 = $conn->prepare("SELECT master_franchisee_id AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '28'
+                                                                                         UNION
+                                                                                         SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30' ");
+                                                                $stmt2->execute([$userId,$userId]);
+                                                                
+                                                                foreach ($userBMS as $userBM) {
+                                                                    $bm_id = $userBM['id'];
+                                                                    
+                                                                    $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                    $stmt4->execute([$bm_id]);
+                                                                    $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                    foreach ($userCAs as $userCA) {
+                                                                        $userBC = $userCA['id'];
+                                                                        $bd= new DateTime($userCA['date_of_birth']);
+                                                                        $bdate= $bd->format('d-m-Y');
+                                                                        $dt= new DateTime($userCA['added_on']);
+                                                                        $datev= $dt->format('d-m-Y'); 
+                                                                        echo'<tr>
+                                                                            <td>'.$srNo++.'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
                                                                             <td>'.$datev.'</td>';
@@ -276,6 +442,68 @@
                                                                         echo'</tr>';
                                                                     }
                                                                 }
+                                                            }else if($userType == "31"){
+                                                                //Franchisee through MF/SF
+                                                                $stmt2 = $conn->prepare("SELECT master_franchisee AS id FROM master_franchisee WHERE reference_no = ? AND user_type = '26' 
+                                                                                         UNOIN 
+                                                                                         SELECT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '26'");
+                                                                $stmt2->execute([$userId,$userId]);
+                                                                $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                                
+                                                                foreach ($userBMS as $userBM) {
+                                                                    $bm_id = $userBM['id'];
+                                                                    
+                                                                    $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                    $stmt4->execute([$bm_id]);
+                                                                    $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                    foreach ($userCAs as $userCA) {
+                                                                        $userBC = $userCA['id'];
+                                                                        $bd= new DateTime($userCA['date_of_birth']);
+                                                                        $bdate= $bd->format('d-m-Y');
+                                                                        $dt= new DateTime($userCA['added_on']);
+                                                                        $datev= $dt->format('d-m-Y'); 
+                                                                        echo'<tr>
+                                                                            <td>'.$srNo++.'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                            <td>'.$userCA['contact_no'].'</td>
+                                                                            <td>'.$datev.'</td>';
+                                                                            if($userCA['status'] == '2')
+                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                            else{
+                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                            }
+                                                                        echo'</tr>';
+                                                                    }
+                                                                }
+                                                                
+                                                                //direct Franchisee by RM
+                                                                $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                                                                $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                                                                $stmt4->execute([$userId]);
+                                                                $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                                foreach ($userCAs as $userCA) {
+                                                                    $userBC = $userCA['id'];
+                                                                    $bd= new DateTime($userCA['date_of_birth']);
+                                                                    $bdate= $bd->format('d-m-Y');
+                                                                    $dt= new DateTime($userCA['added_on']);
+                                                                    $datev= $dt->format('d-m-Y'); 
+                                                                    echo'<tr>
+                                                                        <td>'.$srNo++.'</td>
+                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                        <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
+                                                                        <td>'.$userCA['contact_no'].'</td>
+                                                                        <td>'.$datev.'</td>';
+                                                                        if($userCA['status'] == '2')
+                                                                            echo'<td><span class="badge bg-warning">Pending</span></td>';
+                                                                        else{
+                                                                            echo'<td><span class="badge bg-success">Active</span></td>';
+                                                                        }
+                                                                    echo'</tr>';
+                                                                }
+                                                                
                                                             }
                                                             ?>
                                                         </tbody>

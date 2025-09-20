@@ -844,24 +844,7 @@ if($user_type_id_value == '11'){
                                                                             <h5>Please Note:<p class="fst-italic text-muted"> Cancellation (%) will be applicable to only to the amount paid and not on remaining balance in case of part payment</p>
                                                                             </h5>
                                                                         </div>
-                                                                        <!-- <div class="col-7 col-sm-8 text-color t1 pt-2">
-                                                                <h5 class="fw-bold fs-6">Convenience Fee @3%
-                                                                </h5>
-                                                            </div>
-                                                            <div class="col-5 col-sm-4 text-color t2 pt-2">
-                                                                <h5 class="fw-bold fs-6">₹ <span
-                                                                        id="convenience_fee">3</span></h5>
-                                                            </div> -->
                                                                         <?php
-                                                                        // require 'connect.php';
-                                                                        // $dissql = "SELECT * FROM `cu_coupons` WHERE user_id:user_id AND confirm_status=:confirm_status AND usage_status";
-                                                                        // $disstmt = $conn->prepare($dissql);
-                                                                        // $disstmt->execute([
-                                                                        //     ':user_id' => 'tetes',
-                                                                        //     ':confirm_status' => 1,
-                                                                        //     ':usage_status' => 0
-                                                                        // ]);
-                                                                        // $disres = $disstmt->fetchAll();
 
                                                                         ?>
 
@@ -1031,7 +1014,7 @@ if($user_type_id_value == '11'){
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="cancel_order" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Close</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-primary">Place Order</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#paymentModal" class="btn btn-primary" id="pay_modal">Place Order</button>
                     </div>
                 </div>
             </div>
@@ -1142,9 +1125,7 @@ if($user_type_id_value == '11'){
     <script type="text/javascript" src="logout/logout.js"></script>
 
     <script>
-        // $(window).on('load', function() {
-        //     $('#show_ticket_book_box').modal('show');
-        // });
+
         function checkCustomerCoupons(cust_id) {
             if (cust_id) {
                 $.ajax({
@@ -1204,62 +1185,6 @@ if($user_type_id_value == '11'){
             }
         }
 
-        // Add this function to handle coupon selection
-        // function applySelectedCoupon() {
-        //     const selectedOption = $('#coupon_select option:selected');
-        //     if (selectedOption.val()) {
-        //         const discountAmount = selectedOption.data('discount');
-        //         $('#get_total_discount_price').text(discountAmount);
-
-        //         // Calculate and update the offer price
-        //         const totalPrice = parseFloat($('#get_total_package_price_actual').text());
-        //         const offerPrice = totalPrice - discountAmount;
-        //         $('#get_total_package_price_actual').text(offerPrice.toFixed(2));
-
-        //         // Store the selected coupon code for later use
-        //         $('#coupon_code').val(selectedOption.val());
-        //         $('#get_coupon_price').val(discountAmount);
-        //     } else {
-        //         // No coupon selected
-        //         $('#get_total_discount_price').text('0');
-        //         const totalPrice = parseFloat($('#get_total_package_price_actual').text());
-        //         $('#get_total_package_price_actual').text(totalPrice.toFixed(2));
-        //         $('#coupon_code').val('');
-        //         $('#get_coupon_price').val('0');
-        //     }
-        // }
-        function applySelectedCoupon() {
-            const selectedOptions = $('#coupon_select option:selected');
-
-            if (selectedOptions.length > 1) {
-                alert("Only one coupon can be applied.");
-                $('#coupon_select').val('').trigger('change');
-                return;
-            }
-
-            let totalDiscount = 0;
-            let selectedCoupons = [];
-
-            selectedOptions.each(function () {
-                const discount = parseFloat($(this).data('discount')) || 0;
-                totalDiscount += discount;
-                selectedCoupons.push($(this).val());
-            });
-
-            // Apply coupon discount
-            $('#get_total_discount_price').text(totalDiscount.toFixed(2));
-
-            const totalPrice = parseFloat($('#get_total_package_price').text()) || 0;
-            const offerPrice = totalPrice - totalDiscount;
-
-            $('#get_total_package_price_actual').text(offerPrice.toFixed(2));
-            $('#coupon_code').val(selectedCoupons.join(','));
-            $('#get_coupon_price').val(totalDiscount.toFixed(2));
-        }
-
-
-
-
         // date function
         $(function() {
             var dtToday = new Date();
@@ -1283,20 +1208,11 @@ if($user_type_id_value == '11'){
             if (day < 10)
                 day = '0' + day.toString();
             var maxDate = year + '-' + month + '-' + day;
-
-            // or instead:
-            // var maxDate = dtToday.toISOString().substr(0, 10);
-            // alert(maxDate);
             $('#b_date').attr('min', minDate);
             $('#b_date').attr('max', maxDate);
             $('#b_date').attr('value', '');
         });
         // date function
-
-        // let allowedAdults = parseInt($("#b_no_adult").val()) || 0;
-        // let allowedChildren = parseInt($("#b_no_child").val()) || 0;
-        // let allowedInfants = parseInt($("#b_no_infants").val()) || 0;
-        // set package price
 
         // Initialize variables after DOM is loaded
         var adult_price, child_price, net_total, markup_total, coupon_offer = 0,
@@ -1336,7 +1252,6 @@ if($user_type_id_value == '11'){
                 const selectedValue = $(this).val();
                 handleCustomerType(selectedValue);
             });
-            //console.log("ta_markup_price:"+ta_markup_price);
             
             // Call once on load if you want to run the function based on default selection
             handleCustomerType($('input[name="cust_type"]:checked').val());
@@ -1410,28 +1325,7 @@ if($user_type_id_value == '11'){
             });
 
             // Travel Agent data setup
-            // user_type = <?php //echo $user_type; ?>;
-            // if (user_type === 11) {
-            //     $.ajax({
-            //         type: "POST",
-            //         url: 'assets/submit/get_customer_details',
-            //         data: {
-            //             cust_id: user_cust_id,
-            //             user_type: 11
-            //         },
-            //         success: function(res) {
-            //             if (res !== "fail") {
-            //                 const travelAgentData = JSON.parse(res);
-            //                 $("#payee_name").val(travelAgentData.firstname + ' ' + travelAgentData.lastname);
-            //                 $("#payee_email").val(travelAgentData.email);
-            //                 $("#payee_contact").val(travelAgentData.contact_no);
-            //             }
-            //         },
-            //         error: function(err) {
-            //             console.error("AJAX error:", err);
-            //         }
-            //     });
-            // }
+            user_type = <?php echo $user_type; ?>;
         });
 
 
@@ -1482,13 +1376,7 @@ if($user_type_id_value == '11'){
                             
                             // Check for customer coupons
                             checkCustomerCoupons(cust_id);
-                            // check for customer details
-                            // if ( customerData.date_of_birth == "0000-00-00" || customerData.kyc == "" || customerData.pan_card == "" || customerData.aadhar_card == "" || customerData.voting_card == "" || customerData.bank_passbook == "" ) {
-                            //     alert("Incomplete Customer Information !");
-                            //     showButton.classList.add('disable_clickablea_area');
-                            // } else {
-                            //     showButton.classList.remove('disable_clickablea_area');
-                            // }
+                            
                         }
                     },
                     error: function(err) {
@@ -1506,58 +1394,57 @@ if($user_type_id_value == '11'){
             }
         });
 
-        $('#b_no_adult').on('change', function() {
-            var adults = adult_count.value;
-            adults = parseInt(adults, 10);
+        let appliedDiscount = 0;
 
-            total_adults = (adult_price) * adults;
+        function applySelectedCoupon() {
+            const selectedOptions = $('#coupon_select option:selected');
+
+            if (selectedOptions.length > 1) {
+                alert("Only one coupon can be applied.");
+                $('#coupon_select').val('').trigger('change');
+                appliedDiscount = 0;
+                updateFinalPrice();
+                return;
+            }
+
+            appliedDiscount = 0;
+            let selectedCoupons = [];
+
+            selectedOptions.each(function () {
+                const discount = parseFloat($(this).data('discount')) || 0;
+                appliedDiscount += discount;
+                selectedCoupons.push($(this).val());
+            });
+
+            $('#get_total_discount_price').text(appliedDiscount.toFixed(2));
+            $('#coupon_code').val(selectedCoupons.join(','));
+            $('#get_coupon_price').val(appliedDiscount.toFixed(2));
+
+            updateFinalPrice();
+        }
+        let offerPrice=0
+        function updateFinalPrice() {
+            const totalPrice = parseFloat($('#get_total_package_price').text()) || 0;
+            offerPrice = totalPrice - appliedDiscount;
+            $('#get_total_package_price_actual').text(offerPrice.toFixed(2));
+        }
+
+        // adults change
+        $('#b_no_adult').on('change', function () {
+            var adults = parseInt($('#b_no_adult').val(), 10) || 0;
+            total_adults = adult_price * adults;
             getTotalPrice();
-            //getCouponStatus();
-            // console.log(adults+ '---'+ total_adults);
+            updateFinalPrice(); // just recalc with existing discount
         });
 
-        $('#b_no_child').on('change', function() {
-            var children = child_count.value;
-            children = parseInt(children, 10);
-
+        // children change
+        $('#b_no_child').on('change', function () {
+            var children = parseInt($('#b_no_child').val(), 10) || 0;
             total_children = child_price * children;
             getTotalPrice();
-            //getCouponStatus();
-            // console.log(children+ '---'+ total_children);
+            updateFinalPrice(); // just recalc with existing discount
         });
 
-        // function getCouponStatus() {
-        //     var adults = adult_count.value;
-        //     adults = parseInt(adults, 10);
-        //     var child = child_count.value
-        //     if (child) {
-        //         child = parseInt(child, 10);
-        //     } else {
-        //         child = 0;
-        //     }
-        //     count_members = adults + child
-
-        //     if (count_members < 2) {
-        //         if (checkbox_status_coupon.checked) {
-        //             checkbox_status_coupon.checked = false;
-        //             document.getElementById('coupon_code_box').style.display = "none";
-        //             // hide offer price
-        //             discount_price_box.style.display = "none";
-        //             offer_price_box.style.display = "none";
-        //             // nullable offer value 
-        //             get_total_discount_price.innerText = 0;
-        //             total_offer_price = 0;
-
-        //             coupon_error.style.display = "block";
-        //         }
-        //     } else {
-        //         coupon_error.style.display = "none";
-        //         if (coupon_applied_status == 'true') {
-        //             // get coupon applied
-        //             getCouponPrice();
-        //         }
-        //     }
-        // }
 
         function getTotalPrice() {
             var adults = adult_count.value;
@@ -1567,6 +1454,7 @@ if($user_type_id_value == '11'){
             package_price.innerText = parseFloat(total).toFixed(2);
             package_price_np.innerText = parseFloat(total1).toFixed(2);
             $('#get_total_offer_price').text(parseFloat(total).toFixed(2));
+            // $("#get_total_package_price_actual").text(parseFloat(total).toFixed(2));
             console.log('total:' + total + '--- tptal1:' + total1);
         }
 
@@ -1575,87 +1463,6 @@ if($user_type_id_value == '11'){
         var offer_price_box = document.getElementById('offer_price_box');
         var get_total_discount_price = document.getElementById('get_total_discount_price');
         var get_total_offer_price = document.getElementById('get_total_offer_price');
-        // 
-
-        // get coupon code apply
-        // $('#apply_coupon_btn').on('click', function(e) {
-        //     e.preventDefault();
-
-        //     var coupon_code = $("#coupon_code").val();
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: 'assets/submit/coupons',
-        //         data: 'coupon_code=' + coupon_code,
-        //         success: function(e) {
-        //             // console.log(e);
-        //             if (e == "invalid") {
-        //                 // console.log('Please Enter valid code');
-        //                 invalid_coupon_error.style.display = "block";
-        //                 used_coupon_error.style.display = "none";
-
-        //                 hideOfferValue();
-
-        //             } else if (e == "used") {
-        //                 // console.log('This code is already been used');
-        //                 used_coupon_error.style.display = "block";
-        //                 invalid_coupon_error.style.display = "none";
-
-        //                 hideOfferValue();
-        //             } else {
-        //                 // console.log('valid code');
-        //                 $('#get_coupon_price').val(e);
-        //                 getCouponPrice();
-        //                 // show offer price
-        //                 discount_price_box.style.display = "block";
-        //                 offer_price_box.style.display = "block";
-        //                 // hide errors
-        //                 invalid_coupon_error.style.display = "none";
-        //                 used_coupon_error.style.display = "none";
-
-        //                 coupon_applied_status = 'true';
-        //             }
-        //         },
-        //         error: function(err) {
-        //             console.log(err);
-        //         },
-        //     });
-        // });
-
-        // function getCouponPrice() {
-        //     var adults = adult_count.value;
-        //     adults = parseInt(adults, 10);
-        //     var total_adults = adult_price * adults;
-
-        //     var children = child_count.value;
-        //     var total_children = 0;
-        //     children = parseInt(children, 10);
-        //     if (children >= 1) {
-        //         total_children = child_price * children;
-        //     }
-
-        //     total = total_adults + total_children + ta_markup_price; // markup price removed from final package and added to per person
-
-        //     coupon_offer = $('#get_coupon_price').val();
-        //     coupon_offer = parseInt(coupon_offer, 10);
-
-        //     total_offer_price = total - coupon_offer;
-        //     // offer price
-        //     get_total_discount_price.innerText = coupon_offer;
-        //     get_total_offer_price.innerText = total_offer_price;
-
-        //     // SM542174
-        //     // console.log('total = '+total+'coupon_offer = '+coupon_offer+ '--- total_offer_price = '+total_offer_price );
-        // }
-
-        // hide offer section
-        // function hideOfferValue() {
-        //     // hide offer price
-        //     discount_price_box.style.display = "none";
-        //     offer_price_box.style.display = "none";
-        //     // nullable offer value 
-        //     get_total_discount_price.innerText = 0;
-        //     total_offer_price = 0;
-        // }
 
 
         // check Box
@@ -1677,81 +1484,7 @@ if($user_type_id_value == '11'){
                 // console.log('gst_status'+gst_status);
             }
         });
-        // coupons_check.change(function(event) {
-        //     checkbox_status_coupon = event.target;
-        //     if (checkbox_status_coupon.checked) {
-        //         var adults = adult_count.value
-        //         adults = parseInt(adults, 10);
-        //         var child = child_count.value
-        //         if (child) {
-        //             child = parseInt(child, 10);
-        //         } else {
-        //             child = 0;
-        //         }
-        //         count_members = adults + child
-        //         // console.log('count_members = ' + count_members);
-
-        //         if (count_members > 1) {
-        //             coupon_status = 'true';
-        //             document.getElementById('coupon_code_box').style.display = "flex";
-        //             // console.log('coupon_status'+coupon_status);
-        //         } else {
-        //             checkbox_status_coupon.checked = false;
-        //             document.getElementById('coupon_error').style.display = "block";
-        //             console.log('Coupon cannot be applied on Single Member, Minimum 2 members required !!');
-        //         }
-        //     } else {
-        //         coupon_status = 'false';
-        //         document.getElementById('coupon_code_box').style.display = "none";
-        //         // console.log('coupon_status'+coupon_status);
-
-        //         hideOfferValue();
-        //         // console.log( ' set Couopn Code to null !');
-        //         coupon_code = '';
-        //         $("#coupon_code").val('');
-        //     }
-        // });
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     const bookNowBtn = document.getElementById('book_tour');
-        //     const modal = document.getElementById('myModal');
-        //     const addMemberButton = document.getElementById('addMemberButton');
-
-        //     // Show the modal when "Book Now" is clicked
-        //     bookNowBtn.addEventListener('click', function() {
-        //         modal.style.display = 'block'; // Show the modal
-        //         attachEventListeners(); // Attach event listeners after modal is shown
-        //     });
-
-        //     // Function to attach event listeners dynamically
-        //     function attachEventListeners() {
-        //         const mAgeInputs = modal.querySelectorAll('input[name="m_age[]"]');
-
-        //         // Add event listener to each age input in the modal
-        //         mAgeInputs.forEach(function(input) {
-        //             input.addEventListener('input', function(e) {
-        //                 validateAge(e.target);
-        //             });
-        //         });
-
-        //         // Example for adding member button functionality
-        //         addMemberButton.addEventListener('click', function() {
-        //             console.log("Add Member button clicked");
-        //             // Add functionality to add members
-        //         });
-        //     }
-
-        //     // Age validation logic
-        //     function validateAge(input) {
-        //         let age = parseInt(input.value, 10);
-        //         if (isNaN(age) || age < 0) {
-        //             // Show error for invalid age
-        //             input.classList.add('invalid_input');
-        //         } else {
-        //             // Hide error if age is valid
-        //             input.classList.remove('invalid_input');
-        //         }
-        //     }
-        // });
+        
 
         // Add members
         var max_fields = 10,
@@ -2168,51 +1901,51 @@ if($user_type_id_value == '11'){
         const amountInput = document.getElementById('amountInput');
         const divToToggle = document.getElementById('toggleDiv');
 
-        $('#paymentModal').on('show.bs.modal', function() {
+        $('#pay_modal').on('click', function () {
+                        
             // Part Payment Modal Start
-            // Fetch the total amount dynamically from the "Amount to be Paid" section
             const amountToBePaidElement = document.getElementById('amountToBePaid');
-            var np_total=$('#get_total_package_price_np').text().trim();
-            var p_total=$('#get_total_package_price_actual').text().trim();
-            var final_pack_amount = $('#offer_price_box').is(':visible')
-            ? $('#get_total_offer_price').text().trim()
-            : $('#nonprimeCustomer').is(':visible')
-                ? np_total
-                : p_total
-            var bal_amt;
-            let totalAmount
+            var np_total = $('#get_total_package_price_np').text().trim();
+            var p_total = offerPrice;
+            let final_pack_amount;
+
+            if ($('#offer_price_box').hasClass('d-none')) {
+                if ($('#nonprimeCustomer').hasClass('d-none')) {
+                    final_pack_amount = p_total;
+                } else {
+                    final_pack_amount = np_total;
+                }
+            } else {
+                final_pack_amount = offerPrice;
+            }
+
             $('#amountToBePaid').text(final_pack_amount);
-            setTimeout(function() {
+            console.log("modal price: " + final_pack_amount);
 
-                var bal_amt = $.trim($('#avalableBalance').text());
+            let totalAmount = parseFloat(final_pack_amount) || 0;
 
-                var amountToBePaidVal = $('#amountToBePaid').text();
-                totalAmount = parseFloat(amountToBePaidElement.textContent.replace('₹', '').trim()); // Get amount without '₹' symbol
-                bal_amt = parseFloat(bal_amt);
-                amountToBePaidVal = parseFloat(amountToBePaidVal);
-                // Ensure the values are numbers (NaN check)
+            setTimeout(function () {
+                var bal_amt = parseFloat($.trim($('#avalableBalance').text())) || 0;
+                var amountToBePaidVal = parseFloat($('#amountToBePaid').text()) || 0;
+
                 if (isNaN(bal_amt) || isNaN(amountToBePaidVal)) {
-                    console.log('Error: One of the values is not a valid number');
-                    return; // Exit if either is NaN
+                    console.log('Error: invalid number');
+                    return;
                 }
 
-                console.log('Available Balance:', typeof bal_amt);
-                console.log('amountToBePaidVal:', typeof amountToBePaidVal);
                 console.log('Available Balance:', bal_amt);
-                console.log('amountToBePaidVal:', amountToBePaidVal);
+                console.log('Amount To Be Paid:', amountToBePaidVal);
 
                 if (bal_amt < amountToBePaidVal) {
-                    console.log('bal:' + bal_amt);
-                    console.log('amt:' + amountToBePaidVal);
                     $('#low_bal').removeClass('d-none');
                     partRadio.checked = true;
                     fullRadio.checked = false;
                     fullRadio.disabled = true; // Disable full payment option
-                    divToToggle.style.display = 'block'; // Show part payment dropdown
+                    divToToggle.style.display = 'block';
                     updateAmount();
+
                     var part1 = totalAmount * 0.4;
                     var partAmount = totalAmount / 2;
-                    console.log('part1:' + part1 + ' partAmount:' + partAmount);
 
                     if (bal_amt < part1 && bal_amt < partAmount) {
                         $('#low_bal').text('Low balance! Please TopUp');
@@ -2226,64 +1959,48 @@ if($user_type_id_value == '11'){
                 } else {
                     updateAmount();
                     $('#low_bal').addClass('d-none');
-                    // $('#payTypeDiv').removeClass('d-none');
-                    // $('#place_order').removeClass('d-none');
                 }
             }, 500);
-            console.log('Final price:', final_pack_amount);
-            console.log('avl bal:', bal_amt);
-            // const totalAmount = document.getElementById('amountPaying');  // Amount to be Paid
 
             // Initially, hide the "Part" selection
             divToToggle.style.display = 'none';
             amountInput.value = totalAmount;
 
-            //if(bal_amt<)
-
-
-
-            // Event listener for the 'Part' radio button
-            partRadio.addEventListener('change', function() {
+            // radio & dropdown listeners
+            partRadio.addEventListener('change', function () {
                 if (this.checked) {
-                    divToToggle.style.display = 'block'; // Show the select dropdown
-
-                    updateAmount(); // Update amount based on selection
+                    divToToggle.style.display = 'block';
+                    updateAmount();
                 }
             });
 
-            // Event listener for the 'Full' radio button
-            fullRadio.addEventListener('change', function() {
+            fullRadio.addEventListener('change', function () {
                 if (this.checked) {
-                    divToToggle.style.display = 'none'; // Hide the select dropdown
-                    amountInput.value = totalAmount; // Set the amount back to full amount
+                    divToToggle.style.display = 'none';
+                    amountInput.value = totalAmount;
                 }
             });
 
-            // Event listener for the Pay Type dropdown (2 parts or 3 parts)
-            payTypeSelect.addEventListener('change', function() {
-                updateAmount(); // Update amount when Pay Type is selected
+            payTypeSelect.addEventListener('change', function () {
+                updateAmount();
             });
 
-            // Function to update amount in the input field based on the Pay Type selection
             function updateAmount() {
                 const selectedValue = payTypeSelect.value;
-
                 if (selectedValue === '2') {
-                    // 2 parts: 50% each
-                    const partAmount = totalAmount / 2;
-                    amountInput.value = `${partAmount}`; // (First part)
+                    amountInput.value = (totalAmount / 2).toFixed(2); // 50% each
                 } else if (selectedValue === '3') {
-                    // 3 parts: 40%, 30%, 30%
-                    const part1 = totalAmount * 0.4;
-                    const part2 = totalAmount * 0.3;
-                    const part3 = totalAmount * 0.3;
-                    amountInput.value = `${part1}`; //(First part - 40%)
+                    amountInput.value = (totalAmount * 0.4).toFixed(2); // First part - 40%
                 } else {
-                    amountInput.value = totalAmount; // Default full amount
+                    amountInput.value = totalAmount.toFixed(2); // Full amount
                 }
             }
             // Part Payment Modal end
+
+            // finally, show the modal
+            $('#paymentModal').modal('show');
         });
+
 
         $('#place_order').click(async function(e) {
             e.preventDefault();
@@ -2521,7 +2238,7 @@ if($user_type_id_value == '11'){
                     let data = JSON.stringify(formdata);
                     $.ajax({
                         type: "POST",
-                        url: "assets/submit/book-tickets",
+                        url: "assets/submit/book-tickets.php",
                         data: data,
                         headers: {
                             "Content-Type": "application/json",

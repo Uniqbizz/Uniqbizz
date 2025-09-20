@@ -278,6 +278,7 @@ try {
                 // F -> CU
                 fetchCustomerCounts($conn, $fId, $counts);
             }
+            
 
             // ---- Direct role-specific counts (when logged user is TE, TC, F, CU, etc.) ----
             $userPrefix = substr($userId, 0, 2);

@@ -236,7 +236,7 @@ if ($user_type == '24') {
         ':ref' => $user_id,
         ':get_year' => $get_year
     ]);
-//tc and ci are not coming
+    //tc and ci are not coming
 
 
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
@@ -263,126 +263,222 @@ if ($user_type == '24') {
         array_splice($sf, $current_month);
     }
 
-    echo json_encode([$bdm, $bm, $te, $f, $tc, $cu, $mf, $sf]);
+    echo json_encode([$bdm, $bm, $mf, $sf, $te, $f, $tc, $cu]);
 } else if ($user_type == '25') {
-    function incrementUnique(&$arr, &$seen, $id, $date, $get_year) {
-        if (isset($seen[$id])) return; // Already counted
+    $months = 12;
+    // Initialize arrays
+    $bm = $te = $f = $tc = $cu = $mf = $sf = array_fill(0, $months, 0);
 
-        $year = date('Y', strtotime($date));
-        $month = date('n', strtotime($date));
-        if ($year == $get_year) {
-            $arr[$month - 1]++;
-            $seen[$id] = $date; // Mark ID as seen with its date
-        }
-    }
+    $sql = " SELECT user_type, y, m, SUM(cnt) AS cnt
+                FROM (
+                    -- 1. BM under BDM
+                    SELECT 'BM' AS user_type, YEAR(bm.register_date) AS y, MONTH(bm.register_date) AS m, COUNT(DISTINCT bm.id) AS cnt
+                    FROM business_mentor AS bm
+                    WHERE bm.reference_no = :ref 
+                    AND bm.user_type = 26 AND bm.status = '1'
+                    AND YEAR(bm.register_date) = :get_year
+                    GROUP BY YEAR(bm.register_date), MONTH(bm.register_date)
 
-    function getUniqueTCsByRefs($conn, $ids, $get_year, &$tc, &$seenTCs) {
-        if (empty($ids)) return;
+                    UNION ALL
 
-        $inClause = implode(',', array_fill(0, count($ids), '?'));
-        $sql = "SELECT ca_travelagency_id, register_date 
-                FROM ca_travelagency 
-                WHERE reference_no IN ($inClause) AND status='1'";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($ids);
+                    -- 2. TE under BDM or BM
+                    SELECT 'TE' AS user_type, YEAR(te.register_date) AS y, MONTH(te.register_date) AS m, COUNT(DISTINCT te.id) AS cnt
+                    FROM corporate_agency AS te
+                    WHERE te.status = '1'
+                    AND YEAR(te.register_date) = :get_year
+                    AND (
+                        te.reference_no = :ref
+                        OR te.reference_no IN (
+                            SELECT bm.business_mentor_id 
+                            FROM business_mentor bm 
+                            WHERE bm.reference_no = :ref AND bm.status='1' AND bm.user_type=26
+                        )
+                    )
+                    GROUP BY YEAR(te.register_date), MONTH(te.register_date)
 
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            incrementUnique($tc, $seenTCs, $row['ca_travelagency_id'], $row['register_date'], $get_year);
-        }
-    }
+                    UNION ALL
 
-    // Init arrays
-    $bm = array_fill(0, 12, 0);
-    $tc = array_fill(0, 12, 0);
-    $te = array_fill(0, 12, 0);
-    $f = array_fill(0, 12, 0);
+                    -- 3. Sub-Franchisees (F) via BDM → F, MF → F, SF → F
+                    SELECT 'F' AS user_type, YEAR(f.register_date) AS y, MONTH(f.register_date) AS m, COUNT(DISTINCT f.sub_franchisee_id) AS cnt
+                    FROM sub_franchisee f
+                    WHERE f.status='1'
+                    AND YEAR(f.register_date)=:get_year
+                    AND (
+                        f.reference_no = :ref
+                        OR f.reference_no IN (
+                            SELECT mf.master_franchisee_id 
+                            FROM master_franchisee mf 
+                            WHERE mf.reference_no=:ref AND mf.status='1'
+                        )
+                        OR f.reference_no IN (
+                            SELECT sf.sponsor_franchisee_id 
+                            FROM sponsor_franchisee sf 
+                            WHERE sf.reference_no=:ref AND sf.status='1'
+                        )
+                    )
+                    GROUP BY YEAR(f.register_date), MONTH(f.register_date)
 
-    // Seen trackers (associative arrays for uniqueness)
-    $seenBMs = [];
-    $seenTEs = [];
-    $seenFs  = [];
-    $seenTCs = [];
+                    UNION ALL
 
-    // 1. Direct BMs
-    $sql = "SELECT business_mentor_id, register_date 
-            FROM business_mentor 
-            WHERE reference_no=:ref AND user_type=26 AND status='1'";
+                    -- 4. Master Franchisee (MF)
+                    SELECT 'MF' AS user_type, YEAR(mf.register_date) AS y, MONTH(mf.register_date) AS m, COUNT(DISTINCT mf.master_franchisee_id) AS cnt
+                    FROM master_franchisee mf
+                    WHERE mf.reference_no=:ref AND mf.status='1'
+                    AND YEAR(mf.register_date)=:get_year
+                    GROUP BY YEAR(mf.register_date), MONTH(mf.register_date)
+
+                    UNION ALL
+
+                    -- 5. Sponsor Franchisee (SF)
+                    SELECT 'SF' AS user_type, YEAR(sf.register_date) AS y, MONTH(sf.register_date) AS m, COUNT(DISTINCT sf.sponsor_franchisee_id) AS cnt
+                    FROM sponsor_franchisee sf
+                    WHERE sf.reference_no=:ref AND sf.status='1'
+                    AND YEAR(sf.register_date)=:get_year
+                    GROUP BY YEAR(sf.register_date), MONTH(sf.register_date)
+
+                    UNION ALL
+
+                    -- 6. TC from all paths
+                    SELECT 'TC' AS user_type, YEAR(tc.register_date) AS y, MONTH(tc.register_date) AS m, COUNT(DISTINCT tc.ca_travelagency_id) AS cnt
+                    FROM ca_travelagency tc
+                    WHERE tc.status='1'
+                    AND YEAR(tc.register_date)=:get_year
+                    AND (
+                        tc.reference_no = :ref
+                        OR tc.reference_no IN (
+                            SELECT bm.business_mentor_id 
+                            FROM business_mentor bm 
+                            WHERE bm.reference_no=:ref AND bm.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT te.corporate_agency_id 
+                            FROM corporate_agency te 
+                            WHERE te.reference_no=:ref AND te.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT te.corporate_agency_id 
+                            FROM corporate_agency te 
+                            WHERE te.reference_no IN (
+                                SELECT bm.business_mentor_id 
+                                FROM business_mentor bm 
+                                WHERE bm.reference_no=:ref AND bm.status='1'
+                            ) AND te.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT mf.master_franchisee_id 
+                            FROM master_franchisee mf 
+                            WHERE mf.reference_no=:ref AND mf.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT f.sub_franchisee_id 
+                            FROM sub_franchisee f 
+                            WHERE f.reference_no=:ref AND f.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT f.sub_franchisee_id 
+                            FROM sub_franchisee f 
+                            JOIN master_franchisee mf 
+                              ON f.reference_no=mf.master_franchisee_id 
+                            WHERE mf.reference_no=:ref AND mf.status='1' AND f.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT f.sub_franchisee_id 
+                            FROM sub_franchisee f 
+                            JOIN sponsor_franchisee sf 
+                              ON f.reference_no=sf.sponsor_franchisee_id 
+                            WHERE sf.reference_no=:ref AND sf.status='1' AND f.status='1'
+                        )
+                    )
+                    GROUP BY YEAR(tc.register_date), MONTH(tc.register_date)
+
+                    UNION ALL
+
+                    -- 7. CU via all TCs
+                    SELECT 'CU' AS user_type, YEAR(c.register_date) AS y, MONTH(c.register_date) AS m, COUNT(DISTINCT c.ca_customer_id) AS cnt
+                    FROM ca_customer c
+                    JOIN ca_travelagency tc ON c.ta_reference_no = tc.ca_travelagency_id
+                    WHERE c.status='1' AND tc.status='1'
+                    AND YEAR(c.register_date)=:get_year
+                    AND (
+                        tc.reference_no = :ref
+                        OR tc.reference_no IN (
+                            SELECT bm.business_mentor_id 
+                            FROM business_mentor bm 
+                            WHERE bm.reference_no=:ref AND bm.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT te.corporate_agency_id 
+                            FROM corporate_agency te 
+                            WHERE te.reference_no=:ref AND te.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT te.corporate_agency_id 
+                            FROM corporate_agency te 
+                            WHERE te.reference_no IN (
+                                SELECT bm.business_mentor_id 
+                                FROM business_mentor bm 
+                                WHERE bm.reference_no=:ref AND bm.status='1'
+                            ) AND te.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT mf.master_franchisee_id 
+                            FROM master_franchisee mf 
+                            WHERE mf.reference_no=:ref AND mf.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT f.sub_franchisee_id 
+                            FROM sub_franchisee f 
+                            WHERE f.reference_no=:ref AND f.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT f.sub_franchisee_id 
+                            FROM sub_franchisee f 
+                            JOIN master_franchisee mf 
+                              ON f.reference_no=mf.master_franchisee_id 
+                            WHERE mf.reference_no=:ref AND mf.status='1' AND f.status='1'
+                        )
+                        OR tc.reference_no IN (
+                            SELECT f.sub_franchisee_id 
+                            FROM sub_franchisee f 
+                            JOIN sponsor_franchisee sf 
+                              ON f.reference_no=sf.sponsor_franchisee_id 
+                            WHERE sf.reference_no=:ref AND sf.status='1' AND f.status='1'
+                        )
+                    )
+                    GROUP BY YEAR(c.register_date), MONTH(c.register_date)
+                ) AS t
+                GROUP BY user_type, y, m
+                ORDER BY user_type, y, m";
+
     $stmt = $conn->prepare($sql);
-    $stmt->execute([':ref' => $user_id]);
-    $bmRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($bmRows as $row) {
-        incrementUnique($bm, $seenBMs, $row['business_mentor_id'], $row['register_date'], $get_year);
-    }
-    // BM → TC
-    getUniqueTCsByRefs($conn, array_column($bmRows, 'business_mentor_id'), $get_year, $tc, $seenTCs);
-
-    // BM → TE → TC
-    if (!empty($bmRows)) {
-        $sql = "SELECT corporate_agency_id, register_date 
-                FROM corporate_agency 
-                WHERE reference_no IN (" . implode(',', array_fill(0, count($bmRows), '?')) . ") 
-                AND user_type=16 AND status='1'";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute(array_column($bmRows, 'business_mentor_id'));
-        $bmTeRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($bmTeRows as $row) {
-            incrementUnique($te, $seenTEs, $row['corporate_agency_id'], $row['register_date'], $get_year);
-        }
-        getUniqueTCsByRefs($conn, array_column($bmTeRows, 'corporate_agency_id'), $get_year, $tc, $seenTCs);
-    }
-
-    // 2. Direct TEs
-    $sql = "SELECT corporate_agency_id, register_date 
-            FROM corporate_agency 
-            WHERE reference_no=:ref AND user_type=16 AND status='1'";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([':ref' => $user_id]);
-    $teRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($teRows as $row) {
-        incrementUnique($te, $seenTEs, $row['corporate_agency_id'], $row['register_date'], $get_year);
-    }
-    // TE → TC
-    getUniqueTCsByRefs($conn, array_column($teRows, 'corporate_agency_id'), $get_year, $tc, $seenTCs);
-
-    // 3. Direct Fs
-    $sql = "SELECT sub_franchisee_id, register_date 
-            FROM sub_franchisee 
-            WHERE reference_no=:ref AND user_type=30 AND status='1'";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([':ref' => $user_id]);
-    $fRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($fRows as $row) {
-        incrementUnique($f, $seenFs, $row['sub_franchisee_id'], $row['register_date'], $get_year);
-    }
-    // F → TC
-    getUniqueTCsByRefs($conn, array_column($fRows, 'sub_franchisee_id'), $get_year, $tc, $seenTCs);
-
-    // 4. Direct TCs from BDM
-    $sql = "SELECT ca_travelagency_id, register_date 
-            FROM ca_travelagency 
-            WHERE reference_no=:ref AND status='1'";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([':ref' => $user_id]);
+    $stmt->execute([
+        ':ref' => $user_id,
+        ':get_year' => $get_year
+    ]);
 
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-        incrementUnique($tc, $seenTCs, $row['ca_travelagency_id'], $row['register_date'], $get_year);
+        switch($row['user_type']){
+            case 'BM': $bm[$row['m']-1] = (int)$row['cnt']; break;
+            case 'TE': $te[$row['m']-1] = (int)$row['cnt']; break;
+            case 'F':  $f[$row['m']-1]  = (int)$row['cnt']; break;
+            case 'MF': $mf[$row['m']-1] = (int)$row['cnt']; break;
+            case 'SF': $sf[$row['m']-1] = (int)$row['cnt']; break;
+            case 'TC': $tc[$row['m']-1] = (int)$row['cnt']; break;
+            case 'CU': $cu[$row['m']-1] = (int)$row['cnt']; break;
+        }
     }
 
-    // Trim arrays if current year
     if ($current_year == $get_year) {
         array_splice($bm, $current_month);
         array_splice($te, $current_month);
         array_splice($f, $current_month);
+        array_splice($mf, $current_month);
+        array_splice($sf, $current_month);
         array_splice($tc, $current_month);
+        array_splice($cu, $current_month);
     }
 
-    echo json_encode([$bm, $te,$f, $tc]);
-
-
+    echo json_encode([$bm, $mf, $sf, $te, $f, $tc, $cu]);
 } else if ($user_type == '26') {
     // For BM → TC only
     $tc = array_fill(0, 12, 0);
@@ -509,10 +605,44 @@ if ($user_type == '24') {
     echo json_encode([ $f, $tc ]);
 }else if ($user_type == '31') {
     // For RM → MF/SF → F-> TC
-    $bm = array_fill(0, 12, 0);
-    $te = array_fill(0, 12, 0);
+    $mf = array_fill(0, 12, 0);
+    $sf = array_fill(0, 12, 0);
+    $f = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
+    $cu = array_fill(0, 12, 0);
 
+    // Get direct MFs
+    $sql = "SELECT master_franchisee_id AS id, register_date FROM master_franchisee 
+            WHERE reference_no = :ref AND user_type = 28 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $mfRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($mfRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $mf[$month - 1]++;
+        }
+    }
+    // Get direct SFs
+    $sql = "SELECT sponsor_franchisee_id AS id, register_date FROM sponsor_franchisee 
+            WHERE reference_no = :ref AND user_type = 30 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $sfRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($sfRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $sf[$month - 1]++;
+        }
+    }
     // Get direct MFs/SFs
     $sql = "SELECT master_franchisee_id AS id, register_date FROM master_franchisee 
             WHERE reference_no = :ref AND user_type = 28 AND status = '1'
@@ -532,7 +662,6 @@ if ($user_type == '24') {
             $bm[$month - 1]++;
         }
     }
-
     // Get TCs under those MFs/SFs
     $bmIds = array_column($bmRows, 'id');
     if (!empty($bmIds)) {
@@ -546,12 +675,12 @@ if ($user_type == '24') {
             $year = date('Y', strtotime($row['register_date']));
             $month = date('n', strtotime($row['register_date']));
             if ($year == $get_year) {
-                $te[$month - 1]++;
+                $f[$month - 1]++;
 
             }
             $fIds = array_column($rows, 'id');
             $inClause = implode(',', array_fill(0, count($fIds), '?'));
-            $sql = "SELECT register_date FROM ca_travelagency 
+            $sql = "SELECT register_date,ca_travelagency_id as id FROM ca_travelagency 
                     WHERE reference_no IN ($inClause) AND status = '1'";
             $stmt = $conn->prepare($sql);
             $stmt->execute($fIds);
@@ -562,32 +691,34 @@ if ($user_type == '24') {
                 if ($year == $get_year) {
                     $tc[$month - 1]++;
                 }
+                //get customers for the TC's
+                $tcids = array_column($rows, 'id');
+                $inClause = implode(',', array_fill(0, count($tcids), '?'));
+                $sql = "SELECT register_date FROM ca_customer
+                        WHERE reference_no IN ($inClause) AND status = '1'";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute($tcids);
+
+                foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                    $year = date('Y', strtotime($row['register_date']));
+                    $month = date('n', strtotime($row['register_date']));
+                    if ($year == $get_year) {
+                        $cu[$month - 1]++;
+                    }
+                }
             }
         }
     }
-    // // Get TC from BDM
-    // $sql = "SELECT register_date FROM ca_travelagency 
-    //         WHERE reference_no = :ref AND status = '1'";
-    // $stmt = $conn->prepare($sql);
-    // $stmt->execute([':ref' => $user_id]);
-
-    // $bmRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // foreach ($bmRows as $row) {
-    //     $year = date('Y', strtotime($row['register_date']));
-    //     $month = date('n', strtotime($row['register_date']));
-    //     if ($year == $get_year) {
-    //         $tc[$month - 1]++;
-    //     }
-    // }
 
     if ($current_year == $get_year) {
-        array_splice($bm, $current_month);
-        array_splice($te, $current_month);
+        array_splice($mf, $current_month);
+        array_splice($sf, $current_month);
+        array_splice($f, $current_month);
         array_splice($tc, $current_month);
+        array_splice($cu, $current_month);
     }
 
-    echo json_encode([ $bm,$te, $tc ]);
+    echo json_encode([ $mf,$sf,$tc,$cu]);
 
 } else {
     // fallback for other users
