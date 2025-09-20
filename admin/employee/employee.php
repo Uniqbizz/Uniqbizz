@@ -189,6 +189,8 @@
                                                                 $prefixBadge = '<span class="badge bg-info text-dark me-1">BDM</span>';
                                                             } elseif ($row['user_type'] == '24') {
                                                                 $prefixBadge = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }elseif ($row['user_type'] == '31') {
+                                                                $prefixBadge = '<span class="badge bg-secondary me-1">RM</span>';
                                                             }
 
                                                             // Final display name
@@ -315,7 +317,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","NA","NA","NA","NA","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 <li><a href="#" onclick=\'editfuncCust("' . $row["zonal_manager_id"] . '","NA","' . $row["register_by"] . '","NA","NA","' . $row["zone"] . '","NA","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["zonal_manager_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
@@ -345,6 +347,8 @@
                                                                 $prefix = '<span class="badge bg-info text-dark me-1">BDM</span>';
                                                             } elseif ($row['user_type'] == '24') {
                                                                 $prefix = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }elseif ($row['user_type'] == '31') {
+                                                                $prefix = '<span class="badge bg-secondary me-1">RM</span>';
                                                             }
 
                                                             echo '<tr>
@@ -366,7 +370,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 <li><a href="#" onclick=\'editfuncCust("' . $row["employee_id"] . '","' . $row["reporting_manager"] . '","' . $row["register_by"] . '","'.$row['department'].'","'.$row['designation'].'","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["employee_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
@@ -488,6 +492,8 @@
                                                                 $prefix = '<span class="badge bg-info text-dark me-1">BDM</span>';
                                                             } elseif ($row['user_type'] == '24') {
                                                                 $prefix = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }elseif ($row['user_type'] == '31') {
+                                                                $prefix = '<span class="badge bg-secondary me-1">RM</span>';
                                                             }
 
                                                         echo '<tr>
@@ -775,16 +781,20 @@
             };
 
             function overviewPage(id,ref,dept,desig,zn,br,message,userType){
-                if (userType == 24) {
+                if (userType == "24") {
                     var designation = 'business_chanel_manager';
                     message='business_chanel_manager';
-                }else if (userType == 25){
+                }else if (userType == "25"){
                     var designation = 'business_developement_manager';
                     message='business_developement_manager';
 
-                }else if(userType ==27){
+                }else if(userType =="27"){
                    var designation = 'zonal_manager';
                     message='zonal_manager'; 
+                }else if (userType == "31"){
+                    var designation = 'relationship_manager';
+                    message='relationship_manager';
+
                 }
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&message='+message+'&designation='+designation;
             }

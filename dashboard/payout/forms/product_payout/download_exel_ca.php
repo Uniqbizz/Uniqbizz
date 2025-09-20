@@ -21,7 +21,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '26' || $userType =='28' || $userType =='30'){
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '25'){
+    }else if($userType == '25' || $userType == '31'){
         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '24'){
         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
@@ -109,7 +109,7 @@ if($payoutmessage == 'PreviousPayout' || $payoutmessage == 'NextPayout'){
                     $status = $row['bch_status'];
                     $tds = $amt * $tdsPercentage;
                     $total = $amt - $tds;
-                }else if($userType == '25'){
+                }else if($userType == '25' || $userType == '31'){
                     $id = $row['bdm_id'];
                     $message = $row['bdm_mess'];
                     $amt = $row['bdm_amt'];
@@ -169,7 +169,7 @@ if($payoutmessage == 'TotalPayout'){
         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '26'|| $userType =='28' || $userType =='30'){
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
-    }else if($userType == '25'){
+    }else if($userType == '25' || $userType == '31'){
         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
     }else if($userType == '24'){
         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'  AND YEAR(created_date) = '".$payoutYear."' AND MONTH(created_date) = '".$payoutMonth."' ";
@@ -257,7 +257,7 @@ if($payoutmessage == 'TotalPayout'){
                     $status = $row['bch_status'];
                     $tds = $amt * $tdsPercentage;
                     $total = $amt - $tds;
-                }else if($userType == '25'){
+                }else if($userType == '25' || $userType == '31'){
                     $id = $row['bdm_id'];
                     $message = $row['bdm_mess'];
                     $amt = $row['bdm_amt'];

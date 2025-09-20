@@ -5,7 +5,6 @@ include_once 'dashboard_user_details.php';
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-
     <meta charset="utf-8" />
     <title>Add Business Mentor | Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,13 +82,13 @@ include_once 'dashboard_user_details.php';
                         <div class="col-lg-12">
                             <!-- Page title -->
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Add Business Mentor</h4>
+                                <h4 class="mb-sm-0">Add <?=$userType == '31'?'Master Franchisee / Sponsor Franchisee':'Business Mentor / Master Franchisee / Sponsor Franchisee'?></h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item">
-                                            <a href="view_business_mentor.php">View Business Mentor</a>
+                                            <a href="view_business_mentor.php">View <?=$userType == '31'?'MF/SF':'BM/MF/SF'?></a>
                                         </li>
-                                        <li class="breadcrumb-item active">Add</li>
+                                        <li class="breadcrumb-item active">Add <?=$userType == '31'?'MF/SF':'BM/MF/SF'?></li>
                                     </ol>
                                 </div>
                             </div>
@@ -101,7 +100,18 @@ include_once 'dashboard_user_details.php';
                                             <div class="row">
                                                 <!-- Personal Details -->
                                                 <?php if ($userType == '24') { ?>
-                                                    <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Register As<span class="text-danger">*</span></label>
+                                                            <select id="registered" class="form-select">
+                                                                <option value="">--Select--</option>
+                                                                <option value="business_mentor">Business Mentor</option>
+                                                                <option value="master_franchisee">Master Franchisee</option>
+                                                                <option value="sponsor_franchisee">Sponsor Franchisee</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
                                                             <select id="user_id_name" class="form-select">
@@ -126,6 +136,41 @@ include_once 'dashboard_user_details.php';
                                                         </div>
                                                     </div>
                                                 <?php } else if ($userType == '25') { ?>
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Register As<span class="text-danger">*</span></label>
+                                                            <select id="registered" class="form-select">
+                                                                <option value="">--Select--</option>
+                                                                <option value="business_mentor">Business Mentor</option>
+                                                                <option value="master_franchisee">Master Franchisee</option>
+                                                                <option value="sponsor_franchisee">Sponsor Franchisee</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Referance Id<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="user_id_name" placeholder="Referance ID" value="<?php echo $userId; ?>" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control" id="reference_name" placeholder="Referance ID" value="<?php echo $userFname; ?>" readonly>
+                                                        </div>
+                                                    </div>
+                                                <?php } else if ($userType == '31') { ?>
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Register As<span class="text-danger">*</span></label>
+                                                            <select id="registered" class="form-select">
+                                                                <option value="">--Select--</option>
+                                                                <option value="business_mentor">Business Mentor</option>
+                                                                <option value="master_franchisee">Master Franchisee</option>
+                                                                <option value="sponsor_franchisee">Sponsor Franchisee</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Referance Id<span class="text-danger">*</span></label>
@@ -297,14 +342,22 @@ include_once 'dashboard_user_details.php';
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label for="payment_fee" class="col-form-label">Payment Fee</label>
-                                                        <select class="form-select" id="payment_fee">
-                                                            <option value="null" selected>--Select Payment Fee--</option>
-                                                            <option value="FOC">Free</option>
-                                                            <option value="5000"><span>&#8377 </span>5000/-</option>
-                                                            <option value="12000"><span>&#8377 </span>12000/-</option>
-                                                        </select>
-                                                    </div>
+													<label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
+													<select class="form-select payment-value" id="payment_fee" required>
+														<option value="null" disabled >----Select Amount----</option>
+														<option value="FOC">Free</option>
+														<option value="5000">₹ 5000/-</option>
+														<option value="12000">₹ 12000/-</option>
+													</select>
+													<select class="form-select payment-value d-none" id="payment_fee2">
+                                                        <option value="null" disabled >----Select Amount----</option>
+														<option value="FOC">Free</option>
+													    <option value="100000">₹ 1,00,000/-</option>
+													    <option value="200000">₹ 2,00,000/-</option>
+													    <option value="300000">₹ 3,00,000/-</option>
+														<option value="500000">₹ 5,00,000/-</option>
+													</select>
+												</div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 d-none" id="paymentModeBlock">
                                                     <div class="input-block mb-3">
@@ -507,6 +560,20 @@ include_once 'dashboard_user_details.php';
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
+        $('#registered').on('change',function(){
+			var register_type = $(this).val();
+			if(register_type == 'business_mentor'){
+				$('#payment_fee').prop('disabled',false);
+				$('#payment_fee2').addClass('d-none');
+				$('#payment_fee').removeClass('d-none');
+			}else if(register_type == 'master_franchisee'){
+				$('#payment_fee').addClass('d-none');
+				$('#payment_fee2').removeClass('d-none');
+			}else if(register_type == 'sponsor_franchisee'){
+				$('#payment_fee').addClass('d-none');
+				$('#payment_fee2').removeClass('d-none');
+			}
+		});
         //select Designation
         $('#designation').on('change', function() {
             var designation = $('#designation').val();
@@ -602,9 +669,9 @@ include_once 'dashboard_user_details.php';
             }
         });
 
-        $('#payment_fee').on('change', function() {
+        $('.payment-value').on('change', function() {
             var payment_fee = $(this).val();
-            // console.log(payment_fee);
+            console.log(payment_fee);
             if (payment_fee == "FOC") {
                 $("#paymentModeBlock").addClass("d-none");
                 $("#paymentFields").addClass("d-none");

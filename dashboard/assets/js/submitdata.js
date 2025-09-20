@@ -376,7 +376,7 @@ $('#edit_bdm').click(function (e) {
 $('#addBusinessMentor').on('click', function (e) {
     e.preventDefault();
     // console.log('Add customer button clicked');
-
+    var registeredas=$('#registered').val().trim();
     // var designation = $("#designation").val();
     var user_id_name = $("#user_id_name").val();
     var reference_name = $("#reference_name").val();
@@ -419,7 +419,7 @@ $('#addBusinessMentor').on('click', function (e) {
         transactionNo = "",
         payment_proof = "";
 
-    payment_fee = $("#payment_fee").val().trim();
+    payment_fee = $(".payment-value").val().trim();
     if (payment_fee == "FOC") {
         paymentMode = "Free";
         chequeNo = "";
@@ -435,12 +435,6 @@ $('#addBusinessMentor').on('click', function (e) {
         transactionNo = $("#transactionNo").val().trim();
         payment_proof = $(":hidden#img_path6").val().trim();
     }
-    // var paymentMode = $(".payment:checked").val();
-    // var chequeNo = $("#chequeNo").val().trim();
-    // var chequeDate = $("#chequeDate").val().trim();
-    // var bankName = $("#bankName").val().trim();
-    // var transactionNo = $("#transactionNo").val().trim();
-    // var payment_proof = $(":hidden#img_path6").val().trim();
 
     // var testp= $('#testphone').val();
     var testE = $('#testemail').val();
@@ -459,7 +453,9 @@ $('#addBusinessMentor').on('click', function (e) {
     
     //var payment_fee =getNumericValue();
 
-    if (reference_name == '') {
+    if(registeredas == ''){
+        alert("Select Register As");
+    }else if (reference_name == '') {
         alert("Select Referance name");
     } else if (firstname === '') {
         alert("Enter Proper First Name");
@@ -513,7 +509,8 @@ $('#addBusinessMentor').on('click', function (e) {
 
         var dataString =
             //  "designation=" +designation+ 
-            "user_id_name=" + user_id_name +
+            "registeredas="+registeredas+
+            "&user_id_name=" + user_id_name +
             "&reference_name=" + reference_name +
             "&firstname=" + firstname +
             "&lastname=" + lastname +
@@ -547,7 +544,7 @@ $('#addBusinessMentor').on('click', function (e) {
             "&payment_fee="+payment_fee+ 
             '&userId=' + userId+ 
             '&userType=' + userType;
-        // console.log(dataString);                 
+        //console.log(dataString);                 
 
 
         $("#addBusinessMentor").attr("disabled", "disabled");
@@ -575,12 +572,6 @@ $('#addBusinessMentor').on('click', function (e) {
 // Edit Business Mentor by BCH
 $('#editBuisnessMentor').on('click', function (e) {
     e.preventDefault();
-    // console.log('Add customer button clicked');
-
-    // var designation = $("#designation").val();
-    // var user_id_name = $("#user_id_name").val();
-    // var reference_name = $("#reference_name").val();
-
     var editfor = $('#editfor').val().trim();
     var ref_id = $('#ref_id').val().trim();
     var id = $('#id').val().trim();
@@ -623,7 +614,7 @@ $('#editBuisnessMentor').on('click', function (e) {
         transactionNo = "",
         payment_proof = "";
 
-    payment_fee = $("#payment_fee").val().trim();
+    payment_fee = $(".payment-value").val().trim();
     if (payment_fee == "FOC") {
         paymentMode = "Free";
         chequeNo = "";
@@ -1139,10 +1130,6 @@ $('#add-business-trainee').click(function (e) {
 $('#edit-business-trainee').click(function (e) {
     e.preventDefault();
 
-    // var designation = $("#designation").val();
-    // var user_id_name = $("#user_id_name").val();
-    // var reference_name = $("#reference_name").val();
-
     var editfor = $('#editfor').val(); // registered OR pending
     var ref_id = $('#ref_id').val();  // reference id
     var id = $('#id').val(); // customer id
@@ -1161,11 +1148,6 @@ $('#edit-business-trainee').click(function (e) {
     var pin = $("#pin").val().trim();
     var address = $("#address").val().trim();
 
-    // var profile_pic = $(":hidden#img_path1").val().trim();
-    // var aadhar_card = $(":hidden#img_path2").val().trim();
-    // var pan_card = $(":hidden#img_path3").val().trim();
-    // var passbook = $(":hidden#img_path4").val().trim();
-    // var voting_card = $(":hidden#img_path5").val().trim();
 
     var testE = $('#testemail').val();
 
@@ -1185,13 +1167,7 @@ $('#edit-business-trainee').click(function (e) {
         "&state=" + mystate +
         "&city=" + city +
         "&pincode=" + pin +
-        "&address=" + address;
-    //  "&profile_pic="+profile_pic+
-    //  "&aadhar_card="+aadhar_card+
-    //  "&pan_card="+pan_card+
-    //  "&passbook="+passbook+
-    //  "&voting_card="+voting_card;
-    // console.log(dataString);                 
+        "&address=" + address;                 
 
     // validation for email, phone, name 
     var characterLetters = /^[A-Za-z\s]+$/;

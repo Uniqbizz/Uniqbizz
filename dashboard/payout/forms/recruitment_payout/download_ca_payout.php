@@ -31,6 +31,10 @@ if($tableSearch == "CA" || $tableSearch =="TE"){
     $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$designation."' AND status = 1");
 }else if($tableSearch == "BM"){
     $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$designation."' AND status = 1");
+}else if($tableSearch == "BH"){
+    $bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$designation."' AND status = 1 AND user_type='25'");
+}else if($tableSearch == "RM"){
+    $bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$designation."' AND status = 1 AND user_type='31'");
 }else{
     $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$designation."' AND status = 1");
 }
@@ -39,8 +43,13 @@ $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
     foreach(($bcNames -> fetchAll()) as $key => $row){
-        $firstname = $row['firstname'];
-        $lastname = $row['lastname'];
+        if($tableSearch == "BH" || $tableSearch == "RM"){
+            $firstname = $row['name'];
+            $lastname = '';
+        }else{
+            $firstname = $row['firstname'];
+            $lastname = $row['lastname'];
+        }
     }
 }  
 
@@ -132,7 +141,13 @@ if($bcNames -> rowCount()>0){
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE" ) ? "Techno Enterprise" :($tableSearch == "F"  ? "Franchisee" :($tableSearch == "BM" ? "Business Mentor" :($tableSearch == "SF" ? "Sponsor Franchisee" :($tableSearch == "MF" ? "Master Franchisee" : "Unknown"))));?> Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?= ($tableSearch == "CA" || $tableSearch == "TE") ? "Techno Enterprise" :
+                                                                                                    (($tableSearch == "F")  ? "Franchisee" :
+                                                                                                    (($tableSearch == "BM") ? "Business Mentor" :
+                                                                                                    (($tableSearch == "SF") ? "Sponsor Franchisee" :
+                                                                                                    (($tableSearch == "MF") ? "Master Franchisee" :
+                                                                                                    (($tableSearch == "BH") ? "Business Development Manager" :
+                                                                                                    (($tableSearch == "RM") ? "Relationship Manager" : "Unknown"))))))?> Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

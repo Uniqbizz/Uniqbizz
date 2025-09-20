@@ -22,7 +22,7 @@ if ($user_type == 27) {
 } else {
     $table_name = 'employees';
     $identifier_field = 'employee_id';
-    $title = "Employee";
+    $title = $user_type == 31?"Relationship Manager":"Employee";
 }
 
 // Action-specific behavior
@@ -62,7 +62,11 @@ if ($user_type == 27) {
     $message  = $employee_id ? "Zonal Manager ($employee_id) has been removed from the $action list" : "Zonal Manager removed from the $action list";
     $operation = "Zonal $action";
 } else {
-    $message  = $employee_id ? "Employee ($employee_id) has been removed from the $action list" : "Employee removed from the $action list";
+    $message = $employee_id
+    ? ($user_type == 31 
+        ? "Relationship Manager ($employee_id) has been removed from the $action list"
+        : "Employee ($employee_id) has been removed from the $action list")
+    : "Employee removed from the $action list";
     $operation = "Employee $action";
 }
 $message2 = $message;
