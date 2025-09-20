@@ -91,7 +91,7 @@ if($caNames -> rowCount()>0){
 
             <div class="d-flex justify-content-center main-box" id="htmlContent">
                 <div class="row rounded-4"  style="width:650px; border:1px solid #417482;">
-                    <div class="col-md-12 col-sm-12 col-12 ps-3 pe-3" style=" ">
+                    <div class="col-md-12 col-sm-12 col-12 ps-3 pe-3" >
                         <div class="row">
                             <table class="col-md-12 col-sm-12" style="border-bottom: 2px solid #417482;">
                                 <tbody>
@@ -124,7 +124,7 @@ if($caNames -> rowCount()>0){
                                     </tr>
                                 </tbody>
                             </table>  
-                            <div class="col-md-12 col-sm-12" style="" >
+                            <div class="col-md-12 col-sm-12" >
                                 <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">

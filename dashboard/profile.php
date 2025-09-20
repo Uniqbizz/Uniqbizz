@@ -595,7 +595,7 @@ if ($stmt->rowCount() > 0) {
                                                                     <?php endif; ?>
                                                                 </td>
 
-                                                                <td><?= $coupon['coupon_amt']?></td>
+                                                                <td>&#8377;<?= $coupon['coupon_amt']?></td>
                                                                 <td><?= date('d-m-Y', strtotime($coupon['created_date'])) ?></td>
                                                                 <td><?= date('d-m-Y', strtotime($coupon['expiry_date'])) ?></td>
                                                                 <td>

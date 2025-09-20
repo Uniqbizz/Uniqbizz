@@ -109,7 +109,7 @@
                     <?php } ?>   
 
                     <?php  
-                         if($userType != "18" && $userType != "19"){
+                         if($userType != "18" && $userType != "19" && $userType !="24" && $userType !="25" && $userType!='31'){
                     ?>
                         <li class="nav-item">  <!--payout -->
                             <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
@@ -118,7 +118,7 @@
                             <div class="collapse menu-dropdown" id="sidebarMultilevel">
                                 <ul class="nav nav-sm flex-column">
                                     <?php 
-                                        if($userType == "26" || $userType == "25" || $userType == "24" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30"){ 
+                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="31"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="product_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="product_payout.php" class="nav-link menu-link">
@@ -127,7 +127,7 @@
                                         </li>
                                     <?php
                                         }
-                                        if($userType == "26" || $userType == "25" || $userType == "24" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30"){ 
+                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="customer_recruitment_payout.php" class="nav-link menu-link">
@@ -162,7 +162,7 @@
                                         </li>
                                     <?php 
                                         } 
-                                        if($userType == "3" || $userType == "16" || $userType == "28" || $userType =="29" || $userType == "26" || $userType == "30"){ 
+                                        if($userType == "3" || $userType == "16" || $userType == "28" || $userType =="29" || $userType == "26" || $userType == "30" || $userType == "25" || $userType == "31"){ 
                                     ?>    
                                     <li class="nav-item  <?php if ($first_part=="recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                         <a href="recruitment_payout.php" class="nav-link menu-link">
@@ -309,12 +309,12 @@
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_business_mentor.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_business_mentor.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Mentor</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">BM/MF/SF</span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Techno Enterprise</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">TE/F</span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">
@@ -341,12 +341,43 @@
                         </li> -->
                         <li class="nav-item <?php if ($first_part=="view_business_mentor.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_business_mentor.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Mentor</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">BM/SF/MF</span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Techno Enterprise</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">TE/F</span>
+                            </a>
+                        </li>
+                        <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">
+                            <a class="nav-link menu-link" href="view_travel_agent.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Travel Consultant</span>
+                            </a>
+                        </li>
+                        <li class="nav-item <?php if ($first_part=="view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">
+                            <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Customer</span>
+                            </a>
+                        </li>
+                    <?php             
+                        }
+                    ?>
+                    <?php             
+                        if($userType == "31"){ 
+                    ?>
+                        <!-- <li class="nav-item <?php if ($first_part=="view_business_development_manager.php") {echo "actives"; } else  {echo "noactive";}?>">
+                            <a class="nav-link menu-link" href="view_business_development_manager.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Development Manager</span>
+                            </a>
+                        </li> -->
+                        <li class="nav-item <?php if ($first_part=="view_business_mentor.php") {echo "actives"; } else  {echo "noactive";}?>">
+                            <a class="nav-link menu-link" href="view_business_mentor.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">SF/MF</span>
+                            </a>
+                        </li>
+                        <li class="nav-item <?php if ($first_part=="view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
+                            <a class="nav-link menu-link" href="view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Franchisee</span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">

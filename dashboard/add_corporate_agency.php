@@ -98,6 +98,16 @@
                                         <div class="h-100">
                                             <form>
                                                 <div class="row">
+                                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Register As<span class="text-danger">*</span></label>
+                                                            <select id="registered" class="form-select">
+                                                                <option value="">--Select--</option>
+                                                                <option value="corporate_agency">Techno Enterprise</option>
+                                                                <option value="sub_franchisee">Franchisee</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="user_id_name">User Id & Name<span class="text-danger">*</span></label>

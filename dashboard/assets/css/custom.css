@@ -410,17 +410,32 @@ input::file-selector-button:hover {
 }
 
 .cardBg1 {
-    background: linear-gradient(45deg,#4099ff,#73b4ff) !important;
+    background: linear-gradient(90deg, #3a7bd5, #00d2ff) !important; /* Blue */
 }
 .cardBg2 {
-    background: linear-gradient(45deg,#2ed8b6,#59e0c5) !important;
+    background: linear-gradient(90deg, #43cea2, #185a9d) !important; /* Teal */
 }
 .cardBg3 {
-    background: linear-gradient(45deg,#ffb64d,#ffcb80) !important;
+    background: linear-gradient(90deg, #f7b733, #fc4a1a) !important; /* Orange → Coral */
 }
 .cardBg4 {
-    background: linear-gradient(45deg,#ff5370,#ff869a) !important;
+    background: linear-gradient(90deg, #6a11cb, #2575fc) !important; /* Purple → Blue */
 }
+.cardBg5 {
+    background: linear-gradient(90deg, #6a5fff, #2ba75b) !important; /* Pink → Light Orange */
+}
+.cardBg6 {
+    background: linear-gradient(90deg, #11998e, #38ef7d) !important; /* Green → Aqua */
+}
+.cardBg7 {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b) !important; /* Peach → Soft Orange */
+}
+.cardBg8 {
+    background: linear-gradient(90deg, #9b5de5, #f15bb5) !important; /* Violet → Magenta */
+}
+
+
+
 
 /* @media screen and (min-width: 767px) {
     .topnav-hamburger {
