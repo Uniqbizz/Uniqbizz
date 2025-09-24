@@ -2048,32 +2048,173 @@ if($user_type_id_value == '11'){
                     //
                     try {
                         // Wait for getTourData to complete first
-                        const tourData = await getTourData();
-                        console.log('Tour Data:', tourData);
+                        // const tourData = await getTourData();
+                        // console.log('Tour Data:', tourData);
 
                         // // Now, proceed to call product_package_payout
                         // const payoutResult = await product_package_payout();
                         // console.log('Payout Result:', payoutResult);
 
-                        console.log("Both AJAX calls have completed successfully.");
-                        $("#b_name").val('');
-                        $("#b_email").val('');
-                        $("#b_phn_no").val('');
-                        $("#b_date").val('');
-                        $("#b_no_adult").val('');
-                        $("#b_no_child").val('');
-                        $("#b_no_infants").val('');
+                        var cust_id = $("#cust_id").val();
+                        var package_id = $("#package_id").val();
+                        var name = $("#b_name").val();
+                        var email = $("#b_email").val();
+                        var phone = $("#b_phn_no").val();
+                        var date = $("#b_date").val();
+                        // will generate current time stamp payment id 
+                        var payment_id = makepayid(25)
+                        var paid_amount = $('#amountInput').val()
+                        var selectedValue = $("input[name='inlineRadioOptions']:checked").val();
+                        var paytype
+                        //coupon details
+                        var selectedOption = $('#coupon_select option:selected');
+                        var couponDiscount = selectedOption.data('discount') || 0;
+                        var couponCode = $('#coupon_select').val();
+                        //payouts part
+                        var packageID = $('#package_id').val();
+                        var userID = $('#user_id').val();
+                        var cuID = $('#cust_id').val();
+                        var no_of_adult = $('#b_no_adult').val();
+                        var no_of_child = $('#b_no_child').val();
+                        var ta_markup = ta_markup_price ?? 0;
+                        //var book_id = $('#book_id').val();
+                        var tour_start_date = $('#b_date').val();
+                        var discounted_price = $('#get_total_offer_price').text();
 
-                        names.forEach(function(data, i) {
-                            data.value = "";
-                        });
-                        ages.forEach(function(data, i) {
-                            data.value = "";
-                        });
-                        genders.forEach(function(data, i) {
-                            data.value = "male";
-                        });
-                        location.reload();
+                        if (selectedValue == 'option1') {
+                            pay_type = 1 //full payment
+                        } //if part payment is seleted
+                        else if (selectedValue == 'option2') {
+                            pay_type = $("#payTypeSelect").val(); // 2 for 2 parts and 3 for 2 parts
+                        }
+                        if (partRadio.checked && (payTypeSelect.value === "" || payTypeSelect.value === "--Select the Pay Type")) {
+                            alert("Please select a valid payment type.");
+                            event.preventDefault(); // Prevent form submission
+                            return false;
+                        } else {
+                            // get payers details for travel agent
+                            if (user_type == 11) {
+                                payee_id = user_cust_id;
+                                payee_name = $("#payee_name").val();
+                                payee_email = $("#payee_email").val();
+                                payee_contact = $("#payee_contact").val();
+                            }
+                            var formdata = {
+                                user_cust_id: user_cust_id,
+                                cust_id: cust_id,
+                                package_id: package_id,
+                                name: name,
+                                email: email,
+                                phone: phone,
+                                date: date,
+                                adults: no_adult,
+                                child: no_child,
+                                infants: total_infants,
+                                total_price: package_price.innerText,
+                                ta_markup: ta_markup_price,
+                                members: [],
+                                payee_name: payee_name,
+                                payee_id: payee_id,
+                                payment_id: payment_id,
+                                paid_amount: paid_amount,
+                                pay_type: pay_type,
+                                couponCode: couponCode,
+                                couponDiscount: couponDiscount,
+                                packageID: packageID,
+                                userID: userID,
+                                cuID: cuID,
+                                no_of_adult: no_of_adult,
+                                no_of_child: no_of_child,
+                                ta_markup: ta_markup,
+                                tour_start_date: tour_start_date,
+                                discounted_price: discounted_price,
+                            };
+                            names.forEach(function(name, i) {
+                                formdata.members.push({
+                                    'name': name,
+                                    'age': ages[i],
+                                    'gender': genders[i]
+                                });
+                            });
+                            console.log("formdata");
+                            console.log(formdata);
+                            //resolve(formdata)
+                            // Book Package
+                            let data = JSON.stringify(formdata);
+                            $.ajax({
+                                type: "POST",
+                                url: "assets/submit/book-tickets.php",
+                                data: data,
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
+                                },
+                                success: function(res) {
+
+                                    //$('#book_id').val(res.bookid);
+                                    if (res == 1) {
+                                        console.log("success payment");
+                                        hideTourMemberForm();
+                                        // empty fields
+                                        $("#b_name").val('');
+                                        $("#b_email").val('');
+                                        $("#b_phn_no").val('');
+                                        $("#b_date").val('');
+                                        $("#b_no_adult").val('');
+                                        $("#b_no_child").val('');
+                                        $("#b_no_infants").val('');
+
+                                        names.forEach(function(data, i) {
+                                            data.value = "";
+                                        });
+                                        ages.forEach(function(data, i) {
+                                            data.value = "";
+                                        });
+                                        genders.forEach(function(data, i) {
+                                            data.value = "male";
+                                        });
+
+                                        alert('Booking is successful')
+                                        // resolve(res); // Resolve the promise on success
+                                        location.reload();
+                                        //make new snackbar
+                                        // showBottomSnackBar("Success !! Order placed for Booking ");
+                                        // setTimeout(function() {
+                                        //     location.reload();
+                                        // }, 4000);
+                                    } else {
+                                        alert("failed to book");
+                                        // resolve(res); // Resolve with unsuccessful result
+                                        // location.reload();
+                                    }
+                                },
+                                error: function(err) {
+                                    console.log(err);
+                                    reject(err); // Reject the promise on error
+                                }
+                            });
+                        }
+                        //console.log('paytype:' + paytype);
+
+                        // console.log("Both AJAX calls have completed successfully.");
+                        // $("#b_name").val('');
+                        // $("#b_email").val('');
+                        // $("#b_phn_no").val('');
+                        // $("#b_date").val('');
+                        // $("#b_no_adult").val('');
+                        // $("#b_no_child").val('');
+                        // $("#b_no_infants").val('');
+
+                        // names.forEach(function(data, i) {
+                        //     data.value = "";
+                        // });
+                        // ages.forEach(function(data, i) {
+                        //     data.value = "";
+                        // });
+                        // genders.forEach(function(data, i) {
+                        //     data.value = "male";
+                        // });
+                        // location.reload();
                     } catch (error) {
                         console.error("An error occurred:", error);
                     }
@@ -2091,206 +2232,206 @@ if($user_type_id_value == '11'){
             }
         });
 
-        function product_package_payout() {
-            return new Promise((resolve, reject) => {
-                var packageID = $('#package_id').val();
-                var userID = $('#user_id').val();
-                var cuID = $('#cust_id').val();
-                var no_of_adult = $('#b_no_adult').val();
-                var no_of_child = $('#b_no_child').val();
-                var ta_markup = ta_markup_price ?? 0;
-                var book_id = $('#book_id').val();
-                var tour_start_date = $('#b_date').val();
-                // console.log(packageID + ' ' + userID + ' ' + cuID +' '+ no_of_adult + ' ' + ta_markup+ ' '+book_id+' '+tour_start_date);
-                dataString = {
-                    packageID: packageID,
-                    userID: userID,
-                    cuID: cuID,
-                    no_of_adult: no_of_adult,
-                    no_of_child: no_of_child,
-                    ta_markup: ta_markup,
-                    book_id: book_id,
-                    tour_start_date: tour_start_date,
-                };
-                let data = JSON.stringify(dataString);
-                console.log(data);
-                $.ajax({
-                    type: "POST",
-                    url: "assets/submit/product_package_payout.php",
-                    data: data,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-                    },
-                    success: function(res) {
-                        // console.log(res);
-                        if (res == '1') {
-                            alert("SUCCESS");
-                            console.log(res);
-                            // setTimeout(() => {
-                            //     location.reload();
-                            // }, 2000);
-                            resolve(res); // Resolve the promise on success
-                        } else {
-                            alert("UNSUCCESS");
-                            console.log(res);
-                            // setTimeout(() => {
-                            //     location.reload();
-                            // }, 2000);
-                            resolve(res); // Resolve with unsuccessful result
-                        }
-                    },
-                    error: function(err) {
-                        console.log(err);
-                        reject(err); // Reject the promise on error
-                    }
-                });
-            });
-        }
+        // function product_package_payout() {
+        //     return new Promise((resolve, reject) => {
+        //         var packageID = $('#package_id').val();
+        //         var userID = $('#user_id').val();
+        //         var cuID = $('#cust_id').val();
+        //         var no_of_adult = $('#b_no_adult').val();
+        //         var no_of_child = $('#b_no_child').val();
+        //         var ta_markup = ta_markup_price ?? 0;
+        //         var book_id = $('#book_id').val();
+        //         var tour_start_date = $('#b_date').val();
+        //         // console.log(packageID + ' ' + userID + ' ' + cuID +' '+ no_of_adult + ' ' + ta_markup+ ' '+book_id+' '+tour_start_date);
+        //         dataString = {
+        //             packageID: packageID,
+        //             userID: userID,
+        //             cuID: cuID,
+        //             no_of_adult: no_of_adult,
+        //             no_of_child: no_of_child,
+        //             ta_markup: ta_markup,
+        //             book_id: book_id,
+        //             tour_start_date: tour_start_date,
+        //         };
+        //         let data = JSON.stringify(dataString);
+        //         console.log(data);
+        //         $.ajax({
+        //             type: "POST",
+        //             url: "assets/submit/product_package_payout.php",
+        //             data: data,
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
+        //             },
+        //             success: function(res) {
+        //                 // console.log(res);
+        //                 if (res == '1') {
+        //                     alert("SUCCESS");
+        //                     console.log(res);
+        //                     // setTimeout(() => {
+        //                     //     location.reload();
+        //                     // }, 2000);
+        //                     resolve(res); // Resolve the promise on success
+        //                 } else {
+        //                     alert("UNSUCCESS");
+        //                     console.log(res);
+        //                     // setTimeout(() => {
+        //                     //     location.reload();
+        //                     // }, 2000);
+        //                     resolve(res); // Resolve with unsuccessful result
+        //                 }
+        //             },
+        //             error: function(err) {
+        //                 console.log(err);
+        //                 reject(err); // Reject the promise on error
+        //             }
+        //         });
+        //     });
+        // }
 
-        function getTourData() {
-            return new Promise((resolve, reject) => {
-                var cust_id = $("#cust_id").val();
-                var package_id = $("#package_id").val();
-                var name = $("#b_name").val();
-                var email = $("#b_email").val();
-                var phone = $("#b_phn_no").val();
-                var date = $("#b_date").val();
-                // will generate current time stamp payment id 
-                var payment_id = makepayid(25)
-                var paid_amount = $('#amountInput').val()
-                var selectedValue = $("input[name='inlineRadioOptions']:checked").val();
-                var paytype
-                //coupon details
-                var selectedOption = $('#coupon_select option:selected');
-                var couponDiscount = selectedOption.data('discount') || 0;
-                var couponCode = $('#coupon_select').val();
-                //payouts part
-                var packageID = $('#package_id').val();
-                var userID = $('#user_id').val();
-                var cuID = $('#cust_id').val();
-                var no_of_adult = $('#b_no_adult').val();
-                var no_of_child = $('#b_no_child').val();
-                var ta_markup = ta_markup_price ?? 0;
-                //var book_id = $('#book_id').val();
-                var tour_start_date = $('#b_date').val();
-                var discounted_price = $('#get_total_offer_price').text();
+        // function getTourData() {
+        //     return new Promise((resolve, reject) => {
+        //         var cust_id = $("#cust_id").val();
+        //         var package_id = $("#package_id").val();
+        //         var name = $("#b_name").val();
+        //         var email = $("#b_email").val();
+        //         var phone = $("#b_phn_no").val();
+        //         var date = $("#b_date").val();
+        //         // will generate current time stamp payment id 
+        //         var payment_id = makepayid(25)
+        //         var paid_amount = $('#amountInput').val()
+        //         var selectedValue = $("input[name='inlineRadioOptions']:checked").val();
+        //         var paytype
+        //         //coupon details
+        //         var selectedOption = $('#coupon_select option:selected');
+        //         var couponDiscount = selectedOption.data('discount') || 0;
+        //         var couponCode = $('#coupon_select').val();
+        //         //payouts part
+        //         var packageID = $('#package_id').val();
+        //         var userID = $('#user_id').val();
+        //         var cuID = $('#cust_id').val();
+        //         var no_of_adult = $('#b_no_adult').val();
+        //         var no_of_child = $('#b_no_child').val();
+        //         var ta_markup = ta_markup_price ?? 0;
+        //         //var book_id = $('#book_id').val();
+        //         var tour_start_date = $('#b_date').val();
+        //         var discounted_price = $('#get_total_offer_price').text();
 
-                if (selectedValue == 'option1') {
-                    pay_type = 1 //full payment
-                } //if part payment is seleted
-                else if (selectedValue == 'option2') {
-                    pay_type = $("#payTypeSelect").val(); // 2 for 2 parts and 3 for 2 parts
-                }
-                if (partRadio.checked && (payTypeSelect.value === "" || payTypeSelect.value === "--Select the Pay Type")) {
-                    alert("Please select a valid payment type.");
-                    event.preventDefault(); // Prevent form submission
-                    return false;
-                } else {
-                    // get payers details for travel agent
-                    if (user_type == 11) {
-                        payee_id = user_cust_id;
-                        payee_name = $("#payee_name").val();
-                        payee_email = $("#payee_email").val();
-                        payee_contact = $("#payee_contact").val();
-                    }
-                    var formdata = {
-                        user_cust_id: user_cust_id,
-                        cust_id: cust_id,
-                        package_id: package_id,
-                        name: name,
-                        email: email,
-                        phone: phone,
-                        date: date,
-                        adults: no_adult,
-                        child: no_child,
-                        infants: total_infants,
-                        total_price: package_price.innerText,
-                        ta_markup: ta_markup_price,
-                        members: [],
-                        payee_name: payee_name,
-                        payee_id: payee_id,
-                        payment_id: payment_id,
-                        paid_amount: paid_amount,
-                        pay_type: pay_type,
-                        couponCode: couponCode,
-                        couponDiscount: couponDiscount,
-                        packageID: packageID,
-                        userID: userID,
-                        cuID: cuID,
-                        no_of_adult: no_of_adult,
-                        no_of_child: no_of_child,
-                        ta_markup: ta_markup,
-                        tour_start_date: tour_start_date,
-                        discounted_price: discounted_price,
-                    };
-                    names.forEach(function(name, i) {
-                        formdata.members.push({
-                            'name': name,
-                            'age': ages[i],
-                            'gender': genders[i]
-                        });
-                    });
-                    console.log("formdata");
-                    console.log(formdata);
-                    //resolve(formdata)
-                    // Book Package
-                    let data = JSON.stringify(formdata);
-                    $.ajax({
-                        type: "POST",
-                        url: "assets/submit/book-tickets.php",
-                        data: data,
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-                        },
-                        success: function(res) {
+        //         if (selectedValue == 'option1') {
+        //             pay_type = 1 //full payment
+        //         } //if part payment is seleted
+        //         else if (selectedValue == 'option2') {
+        //             pay_type = $("#payTypeSelect").val(); // 2 for 2 parts and 3 for 2 parts
+        //         }
+        //         if (partRadio.checked && (payTypeSelect.value === "" || payTypeSelect.value === "--Select the Pay Type")) {
+        //             alert("Please select a valid payment type.");
+        //             event.preventDefault(); // Prevent form submission
+        //             return false;
+        //         } else {
+        //             // get payers details for travel agent
+        //             if (user_type == 11) {
+        //                 payee_id = user_cust_id;
+        //                 payee_name = $("#payee_name").val();
+        //                 payee_email = $("#payee_email").val();
+        //                 payee_contact = $("#payee_contact").val();
+        //             }
+        //             var formdata = {
+        //                 user_cust_id: user_cust_id,
+        //                 cust_id: cust_id,
+        //                 package_id: package_id,
+        //                 name: name,
+        //                 email: email,
+        //                 phone: phone,
+        //                 date: date,
+        //                 adults: no_adult,
+        //                 child: no_child,
+        //                 infants: total_infants,
+        //                 total_price: package_price.innerText,
+        //                 ta_markup: ta_markup_price,
+        //                 members: [],
+        //                 payee_name: payee_name,
+        //                 payee_id: payee_id,
+        //                 payment_id: payment_id,
+        //                 paid_amount: paid_amount,
+        //                 pay_type: pay_type,
+        //                 couponCode: couponCode,
+        //                 couponDiscount: couponDiscount,
+        //                 packageID: packageID,
+        //                 userID: userID,
+        //                 cuID: cuID,
+        //                 no_of_adult: no_of_adult,
+        //                 no_of_child: no_of_child,
+        //                 ta_markup: ta_markup,
+        //                 tour_start_date: tour_start_date,
+        //                 discounted_price: discounted_price,
+        //             };
+        //             names.forEach(function(name, i) {
+        //                 formdata.members.push({
+        //                     'name': name,
+        //                     'age': ages[i],
+        //                     'gender': genders[i]
+        //                 });
+        //             });
+        //             console.log("formdata");
+        //             console.log(formdata);
+        //             //resolve(formdata)
+        //             // Book Package
+        //             let data = JSON.stringify(formdata);
+        //             $.ajax({
+        //                 type: "POST",
+        //                 url: "assets/submit/book-tickets.php",
+        //                 data: data,
+        //                 headers: {
+        //                     "Content-Type": "application/json",
+        //                     "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
+        //                 },
+        //                 success: function(res) {
 
-                            //$('#book_id').val(res.bookid);
-                            if (res == 1) {
-                                console.log("success payment");
-                                hideTourMemberForm();
-                                // empty fields
-                                // $("#b_name").val('');
-                                // $("#b_email").val('');
-                                // $("#b_phn_no").val('');
-                                // $("#b_date").val('');
-                                // $("#b_no_adult").val('');
-                                // $("#b_no_child").val('');
-                                // $("#b_no_infants").val('');
+        //                     //$('#book_id').val(res.bookid);
+        //                     if (res == 1) {
+        //                         console.log("success payment");
+        //                         hideTourMemberForm();
+        //                         // empty fields
+        //                         // $("#b_name").val('');
+        //                         // $("#b_email").val('');
+        //                         // $("#b_phn_no").val('');
+        //                         // $("#b_date").val('');
+        //                         // $("#b_no_adult").val('');
+        //                         // $("#b_no_child").val('');
+        //                         // $("#b_no_infants").val('');
 
-                                // names.forEach(function(data, i) {
-                                //     data.value = "";
-                                // });
-                                // ages.forEach(function(data, i) {
-                                //     data.value = "";
-                                // });
-                                // genders.forEach(function(data, i) {
-                                //     data.value = "male";
-                                // });
+        //                         // names.forEach(function(data, i) {
+        //                         //     data.value = "";
+        //                         // });
+        //                         // ages.forEach(function(data, i) {
+        //                         //     data.value = "";
+        //                         // });
+        //                         // genders.forEach(function(data, i) {
+        //                         //     data.value = "male";
+        //                         // });
 
-                                alert('Booking is successful')
-                                resolve(res); // Resolve the promise on success
-                                // location.reload();
-                                //make new snackbar
-                                // showBottomSnackBar("Success !! Order placed for Booking ");
-                                // setTimeout(function() {
-                                //     location.reload();
-                                // }, 4000);
-                            } else {
-                                alert("failed to book");
-                                resolve(res); // Resolve with unsuccessful result
-                            }
-                        },
-                        error: function(err) {
-                            console.log(err);
-                            reject(err); // Reject the promise on error
-                        }
-                    });
-                }
-                //console.log('paytype:' + paytype);
-            });
-        }
+        //                         alert('Booking is successful')
+        //                         resolve(res); // Resolve the promise on success
+        //                         // location.reload();
+        //                         //make new snackbar
+        //                         // showBottomSnackBar("Success !! Order placed for Booking ");
+        //                         // setTimeout(function() {
+        //                         //     location.reload();
+        //                         // }, 4000);
+        //                     } else {
+        //                         alert("failed to book");
+        //                         resolve(res); // Resolve with unsuccessful result
+        //                     }
+        //                 },
+        //                 error: function(err) {
+        //                     console.log(err);
+        //                     reject(err); // Reject the promise on error
+        //                 }
+        //             });
+        //         }
+        //         //console.log('paytype:' + paytype);
+        //     });
+        // }
 
         // generate order id
 

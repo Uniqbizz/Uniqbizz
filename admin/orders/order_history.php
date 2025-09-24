@@ -581,7 +581,7 @@ $date = date('Y');
                                                                     </button>
                                                                 </a>
                                                             </div>
-                                                         <?php
+                                                        <?php
                                                             } else if ($booking['confirm_status'] == 0){ // Pending
                                                         ?>
                                                             <div class="d-block">
@@ -635,7 +635,7 @@ $date = date('Y');
                                                                     <i class="fa-solid fa-eye"></i> View
                                                                 </a>
                                                                 <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
-                                                                    <i class="fa-solid fa-arrow-down"></i> Download Details
+                                                                    <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                 </a>
                                                                 <?php 
                                                                     if ($booking['status'] === '2') {
@@ -712,7 +712,7 @@ $date = date('Y');
                                                             p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id,b.confirm_status
                                                             FROM bookings b
                                                             JOIN package p ON b.package_id = p.id
-                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'
+                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' AND b.confirm_status=0
                                                             ";
 
                                                     // Debugging: Log SQL query and TA IDs
@@ -844,7 +844,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1039,7 +1039,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1253,7 +1253,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                 <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                             </div>
                                                         </div>
@@ -1465,7 +1465,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>

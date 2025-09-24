@@ -52,6 +52,24 @@
             <!-- ============================================================== -->
             <div class="main-content">
                 <div class="page-content">
+                    <div class="row d-flex justify-content-center align-items-center mt-5 d-none">
+                        <div class="col-md-6">
+                            <div class="card p-4">
+                                <h4 class="pb-2">User Credentials</h4>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label fs-5">Name:</label>
+                                    <input type="text" class="form-control" id="username">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPassword5" class="form-label fs-5">Password:</label>
+                                    <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-primary text-black py-2 px-4 fs-5"  id="login" type="submit">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="container-fluid">
                         <div id="user_cred">
                             <div class="row">
