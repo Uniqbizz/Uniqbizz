@@ -163,7 +163,8 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             b.email,
                                             b.date,
                                             b.ta_id,
-                                            b.status 
+                                            b.status,
+                                            b.confirm_status 
                                             FROM bookings b
                                             JOIN package p ON b.package_id = p.id
                                             WHERE b.ta_id IN ($ta_ids_str) AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date "; // Use IN clause to match multiple IDs
@@ -309,27 +310,43 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                     </a>
                                                 </div>
                                             <?php
-                                            } else if ($today > $endDate) { // Completed
+                                                } else if ($booking['confirm_status'] == 0){ // Pending
+                                            ?>
+                                                <div class="d-block">
+                                                    <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder open-status-modal"
+                                                        data-bs-toggle="modal" data-bs-target="#confirmStatusModal" data-border-id="<?= $booking['order_id'] ?>">
+                                                        Pending
+                                                    </button>
+                                                </div>
+                                            <?php
+                                                } else if ($booking['confirm_status'] == 1 && $today < $startDate){ // Confirmed
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
+                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
+                                                            Confirmed
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            
+                                            <?php
+                                                } else if ($today > $endDate) { // Completed
+                                            ?>
+                                                <div class="d-block">
+                                                    <a href="#">
+                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                                            Completed
+                                                        </button>
                                                     </a>
                                                 </div>
                                             <?php
-                                            } else if ($today >= $startDate && $today <= $endDate) { // In Progress
+                                                } else if ($today >= $startDate && $today <= $endDate) { // Traveling
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
-                                                    </a>
-                                                </div>
-                                            <?php
-                                            } else { // Upcoming
-                                            ?>
-                                                <div class="d-block">
-                                                    <a href="#">
-                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
+                                                            Traveling
+                                                        </button>
                                                     </a>
                                                 </div>
                                             <?php } ?>
@@ -340,7 +357,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <a id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                     <?php
                                                     if ($booking['status'] === '2') {
                                                     ?>
@@ -496,10 +513,10 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                             // Fetch Bookings
                             $sql = "
                                         SELECT b.id, b.order_id, b.customer_id, b.package_id, p.name AS package_name, 
-                                        p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id 
+                                        p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id, b.confirm_status 
                                         FROM bookings b
                                         JOIN package p ON b.package_id = p.id
-                                        WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'
+                                        WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' AND b.confirm_status=0
                                         AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date ";
 
                             // Debugging: Log SQL query and TA IDs
@@ -613,16 +630,17 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                         </td>
 
-                                        <?php if ($today >= $startDate && $today <= $endDate) { ?>
-                                            <td>
-                                                <div class="d-block">
-                                                    <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        <?php } else { ?>
-                                            <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
+                                        <?php if ( $booking['confirm_status'] == 0 ) { ?>
+                                            <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Pending</button></td>
+                                        <?php } else if ( $booking['confirm_status'] == 1 && $today >= $startDate && $today <= $endDate) { ?>
+                                                <td>
+                                                    <div class="d-block">
+                                                        <a href="#">
+                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                
                                         <?php } ?>
 
                                         <td class="text-center">
@@ -630,7 +648,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -793,10 +811,11 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                     b.email,
                                                     b.date,
                                                     b.ta_id, 
-                                                    b.status
+                                                    b.status,
+                                                    b.confirm_status
                                                 FROM bookings b
                                                 JOIN package p ON b.package_id = p.id
-                                                WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date "; // Use IN clause to match multiple IDs
+                                                WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' AND b.confirm_status=1 AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date "; // Use IN clause to match multiple IDs
                             }
 
                             $stmt = $conn->prepare($sql);
@@ -888,12 +907,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         $today = new DateTime();
                                         $today->setTime(0, 0);
 
-                                        if ($today > $endDate) {
+                                        if ($today > $endDate && ($booking['status'] === '0' || $booking['status'] === '1')) {
                                         ?>
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                                     </a>
                                                 </div>
                                             </td>
@@ -901,7 +920,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                                     </a>
                                                 </div>
                                             </td>
@@ -920,7 +939,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -1210,8 +1229,8 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
-                                                    <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
+                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                    <!-- <a class="dropdown-item refundAction" href="#" data-order-id=<?php //echo $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a> -->
                                                 </div>
                                             </div>
                                         </td>
@@ -1501,7 +1520,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                    <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                 </div>
                                             </div>
                                         </td>

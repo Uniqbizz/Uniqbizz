@@ -7,7 +7,7 @@ require "../connect.php";
 $id= $_POST["id"];
 $action= $_POST["action"];
 $refid = $_POST["refid"];
-$user_type="16";
+$user_type="29";
 $userId = $_POST['userId']; //BH250001
 $userType = $_POST['userType']; //24
 $status;

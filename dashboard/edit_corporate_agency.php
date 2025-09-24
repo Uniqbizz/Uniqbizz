@@ -2,12 +2,20 @@
     include_once 'dashboard_user_details.php';
 
     $id = $_GET['vkvbvjfgfikix'];
-    $country_id = $_GET['ncy'];
+    $ref=$_GET['ncy'];
+    $regby=$_GET['regby'];
+    $country_id = $_GET['country'];
     $state_id = $_GET['mst'];
     $city_id = $_GET['hct'];
     $editfor = $_GET['editfor'];
-
-    $stmt = $conn->prepare("SELECT * FROM `corporate_agency` WHERE corporate_agency_id='".$id."' ");
+    $edittype = $_GET['edittype'];
+    $registered_as=$edittype == '16'?'corporate_agency':($edittype == '29'?'sub_franchisee':'NA');
+    if($edittype == '16'){
+        $stmt = $conn->prepare("SELECT * FROM `corporate_agency` WHERE corporate_agency_id='".$id."' ");
+        
+    }else if($edittype == '29'){
+        $stmt = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id='".$id."' ");
+    }
     $stmt->execute();
     // set the resulting array to associative
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -15,15 +23,12 @@
     if($stmt->rowCount()>0){
         foreach (($stmt->fetchAll()) as $key => $row) {
             $fid=$row['id'];
-            // $sales_manager_name=$row['fname'];
             $firstname=$row['firstname'];
-            // $username=$row['username'];
             $lastname=$row['lastname'];
             $nominee_name=$row['nominee_name'];
             $nominee_relation=$row['nominee_relation'];
             $email=$row['email'];
             $contact_no=$row['contact_no'];
-            // $business_package=$row['business_package'];
             $amount=$row['amount'];
             $reference_no = $row['reference_no'];
             $registrant = $row['registrant'];
@@ -39,17 +44,13 @@
             $cheque_date=$row['cheque_date'];
             $bank_name=$row['bank_name'];
             $transaction_no=$row['transaction_no'];
-            // $id_proof=$row['id_proof'];
             $profile_pic=$row['profile_pic'];
-            // $kyc=$row['kyc'];
             $pan_card=$row['pan_card'];
             $aadhar_card=$row['aadhar_card'];
             $voting_card=$row['voting_card'];
             $bank_passbook=$row['bank_passbook'];
             $payment_proof=$row['payment_proof'];
             $pincode=$row['pincode'];
-            // $complimentary=$row['complimentary'];
-            // $converted=$row['converted'];
 
             //get country
             $countries = $conn->prepare("SELECT country_name FROM countries where id='".$country."' and status='1' ");
@@ -77,31 +78,6 @@
                 $city_name = $city['city_name'];
             }
 
-            // $reference_id = substr($reference_no, 0 , 2);
-            // if($reference_id == "BT"){
-            //     // business trainee name
-            //     $business_trainees = $conn->prepare("SELECT firstname, lastname, reference_no FROM business_trainee where business_trainee_id='".$reference_no."'");
-            //     $business_trainees ->execute();
-            //     $business_trainees ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $business_trainees->rowCount()>0 ){
-            //         $business_trainee = $business_trainees->fetch();
-            //         $reference_no_fname = $business_trainee['firstname'];
-            //         $reference_no_lname = $business_trainee['lastname'];
-            //         // $business_trainees_reference_no = $business_trainee['reference_no'];
-
-            //     }
-
-            // }else{
-            //     // Travel agent name
-            //     $travel_agents = $conn->prepare("SELECT firstname, lastname FROM travel_agent where travel_agent_id='".$reference_no."'");
-            //     $travel_agents ->execute();
-            //     $travel_agents ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $travel_agents->rowCount()>0 ){
-            //         $travel_agents = $travel_agents->fetch();
-            //         $reference_no_fname = $travel_agents['firstname'];
-            //         $reference_no_lname = $travel_agents['lastname'];
-            //     }
-            // } 
         }
     }
 ?>
@@ -184,11 +160,11 @@
                             <div class="col-lg-12">
                                 <!-- Page title -->
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Edit Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0">Edit Techno Enterprise / Franchisee</h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item">
-                                                <a href="view_corporate_agency.php">View Techno Enterprise</a>
+                                                <a href="view_corporate_agency.php">View Techno Enterprise / Franchisee</a>
                                             </li>
                                             <li class="breadcrumb-item active">Edit</li>
                                         </ol>
@@ -256,6 +232,7 @@
                                                                 <option value="">--Select Business Package/Amount--</option>
                                                                 <option value="100000">Standard - 1,00,000/-</option> 
                                                                 <option value="200000">Prime - 2,00,000/-</option> 
+                                                                <option value="300000">Prime - 3,00,000/-</option> 
                                                                 <option value="500000">Premium - 5,00,000/-</option> 
                                                             </select>
                                                         </div>
@@ -585,6 +562,7 @@
                                                 <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>">
                                                 <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>">
                                                 <input type="hidden" id="id" name="id" value="<?php echo $id;?>">
+                                                <input type="hidden" id="registered" name="registered" value="<?php echo  $registered_as;?>">
                                                 <!-- new added 14-06-2025 -->
                                                 <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
 											    <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> <!-- BH250001, BM250001 -->
