@@ -112,15 +112,6 @@
                                                                 <h5 class="card-title mb-0">Pending List</h5>
                                                             </div>
                                                         </div>
-                                                        <!-- <?php if($userType == '3'){ ?> 
-                                                            <div class="col-sm-auto">
-                                                                <a href="add_corporate_agency.php">
-                                                                    <button type="button" class="btn btn-success " data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
-                                                                        <i class="ri-add-line align-bottom me-1"></i>Add Techno Enterprise
-                                                                    </button>
-                                                                </a>
-                                                            </div>
-                                                        <?php } ?>  -->
                                                     </div>   
                                                 </div>    
                                                 <div class="card-body">
@@ -133,7 +124,6 @@
                                                                 <th data-ordering="false">Phone</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                 <!-- <th data-ordering="false">Action</th>  -->
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -167,7 +157,7 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$srNo++.'</td>
-                                                                                <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                                 <td>'.$userCA['contact_no'].'</td>
                                                                                 <td>'.$datev.'</td>';
@@ -192,7 +182,7 @@
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
-                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
                                                                             <td>'.$datev.'</td>';
@@ -218,7 +208,7 @@
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
-                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
                                                                             <td>'.$datev.'</td>';
@@ -250,7 +240,7 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$srNo++.'</td>
-                                                                                <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                                 <td>'.$userCA['contact_no'].'</td>
                                                                                 <td>'.$datev.'</td>';
@@ -284,7 +274,7 @@
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
-                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
                                                                             <td>'.$datev.'</td>';
@@ -310,7 +300,7 @@
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
                                                                         <td>'.$srNo++.'</td>
-                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
                                                                         <td>'.$datev.'</td>';
@@ -335,7 +325,7 @@
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
                                                                         <td>'.$srNo++.'</td>
-                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
                                                                         <td>'.$datev.'</td>';
@@ -367,7 +357,7 @@
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
-                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
                                                                             <td>'.$datev.'</td>';
@@ -380,40 +370,7 @@
                                                                     }
                                                                 }
                                                                 
-                                                            }else if($userType == "18"){
-                                                                $stmt2 = $conn->prepare("SELECT * FROM `business_consultant` WHERE reference_no = ? ");
-                                                                $stmt2->execute([$userId]);
-                                                                $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                foreach($referrals as $referral){
-                                                                    $userBC = $referral['business_consultant_id'];
-                                                                    // echo $userCA;
-
-                                                                    $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
-                                                                    $stmt4->execute([$referral['business_consultant_id']]);
-                                                                    $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                                                    foreach ($userCAs as $userCA) {
-                                                                        $userBC = $userCA['id'];
-                                                                        $bd= new DateTime($userCA['date_of_birth']);
-                                                                        $bdate= $bd->format('d-m-Y');
-                                                                        $dt= new DateTime($userCA['added_on']);
-                                                                        $datev= $dt->format('d-m-Y'); 
-                                                                        echo'<tr>
-                                                                            <td>'.$srNo++.'</td>
-                                                                            <td>'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
-                                                                            <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
-                                                                            <td>'.$userCA['contact_no'].'</td>
-                                                                            <td>'.$datev.'</td>';
-                                                                            if($userCA['status'] == '2')
-                                                                                echo'<td><span class="badge bg-warning">Pending</span></td>';
-                                                                            else{
-                                                                                echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                            }
-                                                                        echo'</tr>';
-                                                                    }
-                                                                }
-                                                            }else if($userType == "3" || $userType == '26' || $userType == '28' || $userType == '30'){
+                                                            }else if($userType == '26' || $userType == '28' || $userType == '30'){
                                                                 if ($userType == '28' || $userType == '30') {
                                                                     $sql = "SELECT * FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
                                                                 }else{
@@ -465,7 +422,7 @@
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
                                                                             <td>'.$srNo++.'</td>
-                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                            <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
                                                                             <td>'.$datev.'</td>';
@@ -492,7 +449,7 @@
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
                                                                         <td>'.$srNo++.'</td>
-                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                                                                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
                                                                         <td>'.$datev.'</td>';
@@ -570,7 +527,7 @@
                                                                             $dt= new DateTime($userCA['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
-                                                                                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                                 <td><p>'.$userCA['amount'].'</p></td>
                                                                                 <td>'.$userCA['contact_no'].'</td>
@@ -595,7 +552,7 @@
                                                                         $dt= new DateTime($userCA['register_date']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
-                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td><p>'.$userCA['amount'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
@@ -619,7 +576,7 @@
                                                                         $dt= new DateTime($userCA['register_date']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
-                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td><p>'.$userCA['amount'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
@@ -652,7 +609,7 @@
                                                                             $dt= new DateTime($userCA['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
-                                                                                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                                 <td><p>'.$userCA['amount'].'</p></td>
                                                                                 <td>'.$userCA['contact_no'].'</td>
@@ -687,7 +644,7 @@
                                                                         $dt= new DateTime($userCA['register_date']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
-                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td><p>'.$userCA['amount'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
@@ -734,7 +691,7 @@
                                                                     $dt= new DateTime($userCA['register_date']);
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
-                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td><p>'.$userCA['amount'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
@@ -780,7 +737,7 @@
                                                                     $dt= new DateTime($userCA['register_date']);
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
-                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td><p>'.$userCA['amount'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
@@ -836,7 +793,7 @@
                                                                         $dt= new DateTime($userCA['register_date']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
-                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td><p>'.$userCA['amount'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>
@@ -886,7 +843,7 @@
                                                                     $dt= new DateTime($userCA['register_date']);
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
-                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td><p>'.$userCA['amount'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
@@ -936,7 +893,7 @@
                                                                     $dt= new DateTime($userCA['register_date']);
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
-                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td><p>'.$userCA['amount'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
@@ -985,7 +942,7 @@
                                                                     $dt= new DateTime($userCA['register_date']);
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
-                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td><p>'.$userCA['amount'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
@@ -1041,7 +998,7 @@
                                                                         $dt= new DateTime($userCA['register_date']);
                                                                         $datev= $dt->format('d-m-Y'); 
                                                                         echo'<tr>
-                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                            <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                             <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                             <td><p>'.$userCA['amount'].'</p></td>
                                                                             <td>'.$userCA['contact_no'].'</td>

@@ -9,47 +9,205 @@ try {
     $params = ['userId' => $userId];
 
     switch ($userType) {
+
         case '24': // BCM
-            $sql0 = "SELECT ca_travelagency.ca_travelagency_id FROM ca_travelagency
-                INNER JOIN corporate_agency ON corporate_agency.corporate_agency_id = ca_travelagency.reference_no AND corporate_agency.status = 1
-                INNER JOIN business_mentor ON corporate_agency.reference_no = business_mentor.business_mentor_id AND business_mentor.status = 1
-                INNER JOIN employees ON employees.employee_id = business_mentor.reference_no AND employees.status = 1
-                INNER JOIN employees AS bcm ON bcm.employee_id = employees.reporting_manager AND bcm.status = 1
-                WHERE ca_travelagency.status = 1 AND bcm.employee_id = :userId";
+            $sql0 = "
+                -- BCM: all TA under BDM -> BM / MF / SF -> F / TE -> TC
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                INNER JOIN business_mentor bm ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                WHERE ca.status = 1 AND bcm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN business_mentor bm ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                WHERE ca.status = 1 AND bcm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                WHERE ca.status = 1 AND bcm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                WHERE ca.status = 1 AND bcm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN sponsor_franchisee sf ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                WHERE ca.status = 1 AND bcm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN employees bdm ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                INNER JOIN employees bcm ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                WHERE ca.status = 1 AND bcm.employee_id = :userId
+            ";
             break;
 
         case '25': // BDM
-            $sql0 = "SELECT ca_travelagency.ca_travelagency_id FROM ca_travelagency
-                INNER JOIN corporate_agency ON corporate_agency.corporate_agency_id = ca_travelagency.reference_no AND corporate_agency.status = 1
-                INNER JOIN business_mentor ON corporate_agency.reference_no = business_mentor.business_mentor_id AND business_mentor.status = 1
-                INNER JOIN employees ON employees.employee_id = business_mentor.reference_no AND employees.status = 1
-                WHERE ca_travelagency.status = 1 AND employees.employee_id = :userId";
+            $sql0 = "
+                -- BDM: all TA under BM / MF / SF -> F / TE -> TC
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                INNER JOIN business_mentor bm ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN business_mentor bm ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN sponsor_franchisee sf ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN employees bdm ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+            ";
+            break;
+        case '31': // RM
+            $sql0 = "
+                -- BDM: all TA under BM / MF / SF -> F / TE -> TC
+                
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN sponsor_franchisee sf ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                INNER JOIN employees bdm ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN employees bdm ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                WHERE ca.status = 1 AND bdm.employee_id = :userId
+            ";
+            break;
+        case '26': // BM
+            $sql0 = "
+                -- BM: TE -> TC AND TC directly
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
+                WHERE ca.status = 1 AND bm.business_mentor_id = :userId
+
+                UNION
+
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                WHERE ca.status = 1 AND ca.reference_no = :userId
+            ";
             break;
 
-        case '26': // BM
-            $sql0 = "SELECT ca_travelagency.ca_travelagency_id FROM ca_travelagency
-                INNER JOIN corporate_agency ON corporate_agency.corporate_agency_id = ca_travelagency.reference_no AND corporate_agency.status = 1
-                INNER JOIN business_mentor ON corporate_agency.reference_no = business_mentor.business_mentor_id AND business_mentor.status = 1
-                WHERE ca_travelagency.status = 1 AND business_mentor.business_mentor_id = :userId";
+        case '28': // MF
+            $sql0 = "
+                -- MF: TC directly under MF
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN master_franchisee mf ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                WHERE ca.status = 1 AND mf.master_franchisee_id = :userId
+            ";
+            break;
+
+        case '30': // SF
+            $sql0 = "
+                -- SF: F -> TC under SF
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                INNER JOIN sponsor_franchisee sf ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                WHERE ca.status = 1 AND sf.sponsor_franchisee_id = :userId
+            ";
+            break;
+
+        case '29': // F
+            $sql0 = "
+                -- F: TC under F directly
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
+            ";
             break;
 
         case '16': // TE
-            $sql0 = "SELECT ca_travelagency.ca_travelagency_id FROM ca_travelagency
-                INNER JOIN corporate_agency ON corporate_agency.corporate_agency_id = ca_travelagency.reference_no AND corporate_agency.status = 1
-                WHERE ca_travelagency.status = 1 AND corporate_agency.corporate_agency_id = :userId";
+            $sql0 = "
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                WHERE ca.status = 1 AND co.corporate_agency_id = :userId
+            ";
             break;
 
         case '11': // TC
-            $sql0 = "SELECT ca_travelagency.ca_travelagency_id FROM ca_travelagency
-                WHERE ca_travelagency.status = 1 AND ca_travelagency_id = :userId";
+            $sql0 = "
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                WHERE ca.status = 1 AND ca_travelagency_id = :userId
+            ";
             break;
 
         case '10': // Customer
-            $sql0 = "SELECT ca_travelagency.ca_travelagency_id FROM ca_travelagency
-                INNER JOIN ca_customer ON ca_customer.ta_reference_no = ca_travelagency.ca_travelagency_id AND ca_customer.status = 1
-                WHERE ca_travelagency.status = 1 AND ca_customer.ca_customer_id = :userId";
+            $sql0 = "
+                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                INNER JOIN ca_customer ccu ON ccu.ta_reference_no = ca.ca_travelagency_id AND ccu.status = 1
+                WHERE ca.status = 1 AND ccu.ca_customer_id = :userId
+            ";
             break;
     }
+
 
     if ($sql0 !== '') {
         $stmt0 = $conn->prepare($sql0);
@@ -78,7 +236,8 @@ try {
                 p.name AS package_name, 
                 c.profile_pic AS customer_profile_pic,
                 (SELECT image FROM package_pictures WHERE package_id = b.package_id LIMIT 1) AS package_image,
-                p.tour_days
+                p.tour_days,
+                b.confirm_status
             FROM bookings b
             LEFT JOIN package p ON b.package_id = p.id
             LEFT JOIN ca_customer c ON b.customer_id = c.ca_customer_id";

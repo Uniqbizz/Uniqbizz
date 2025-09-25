@@ -154,7 +154,7 @@
                                                                                 $datev= $dt->format('d-m-Y'); 
                                                                                 echo'<tr>
                                                                                     <td>'.$i.'</td>
-                                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                    <td><span class="badge bg-secondary lable-width">' . $row['user_type']=='26' ? strtoupper('bm'):($row['user_type']== '28'?strtoupper('mf'):($row['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                     <td>
                                                                                         <p>'.$row['reference_no'].'</p>
                                                                                         <p>'.$row['registrant'].'</p>
@@ -191,7 +191,7 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$i.'</td>
-                                                                                <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . $row['user_type']=='26' ? strtoupper('bm'):($row['user_type']== '28'?strtoupper('mf'):($row['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                 <td>
                                                                                     <p>'.$row['reference_no'].'</p>
                                                                                     <p>'.$row['registrant'].'</p>
@@ -223,7 +223,7 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$i.'</td>
-                                                                                <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . $row['user_type']=='26' ? strtoupper('bm'):($row['user_type']== '28'?strtoupper('mf'):($row['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                 <td>
                                                                                     <p>'.$row['reference_no'].'</p>
                                                                                     <p>'.$row['registrant'].'</p>
@@ -276,11 +276,11 @@
                                                                     foreach( $userBDMS as $userBDM ){
                                                                         $bdm_id = $userBDM['employee_id'];
                                                                         
-                                                                        $stmt = $conn -> prepare("SELECT id,business_mentor_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'business_mentor' AS identity FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')
+                                                                        $stmt = $conn -> prepare("SELECT id,business_mentor_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'business_mentor' AS identity,user_type FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')
                                                                                                     UNION
-                                                                                                    SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
+                                                                                                    SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity,user_type FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
                                                                                                     UNION
-                                                                                                    SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
+                                                                                                    SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity,user_type FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
                                                                                                     ORDER BY register_date ASC");
                                                                         $stmt -> execute([$bdm_id,$bdm_id,$bdm_id]);
                                                                         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -295,7 +295,7 @@
                                                                                 echo'<tr>
                                                                                     <td>
                                                                                         <p>'.$userBM['user_id'].'</p>
-                                                                                        <p>'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                        <p><span class="badge bg-secondary lable-width">' . $userBDM['user_type']=='26' ? strtoupper('bm'):($userBDM['user_type']== '28'?strtoupper('mf'):($userBDM['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                     </td>
                                                                                     <td>
                                                                                         <p>'.$userBM['reference_no'].'</p>
@@ -340,11 +340,11 @@
                                                                     
 
                                                                 }else if($userType == '25'){
-                                                                    $stmt = $conn -> prepare("SELECT id,business_mentor_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'business_mentor' AS identity FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')
+                                                                    $stmt = $conn -> prepare("SELECT id,business_mentor_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'business_mentor' AS identity,user_type FROM `business_mentor` WHERE reference_no = ? AND user_type = '26' AND (status = '1' OR status = '3')
                                                                                               UNION
-                                                                                              SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
+                                                                                              SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity,user_type FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
                                                                                               UNION
-                                                                                              SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
+                                                                                              SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity,user_type FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
                                                                                               ORDER BY register_date ASC");
                                                                     $stmt -> execute([$userId,$userId,$userId]);
                                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -359,7 +359,19 @@
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$userBM['user_id'].'</p>
-                                                                                    <p>'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                    <p><span class="badge bg-secondary lable-width">' 
+                                                                                        . ($userBM['user_type']=='26' 
+                                                                                            ? strtoupper('bm') 
+                                                                                            : ($userBM['user_type']=='28' 
+                                                                                                ? strtoupper('mf') 
+                                                                                                : ($userBM['user_type']=='30' 
+                                                                                                    ? strtoupper('sf') 
+                                                                                                    : ''
+                                                                                                )
+                                                                                            )
+                                                                                        ) 
+                                                                                        . '</span>&nbsp;' 
+                                                                                        . $userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <p>'.$userBM['reference_no'].'</p>
@@ -401,9 +413,9 @@
                                                                         }
                                                                     }
                                                                 }else if($userType == '31'){
-                                                                    $stmt = $conn -> prepare("SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
+                                                                    $stmt = $conn -> prepare("SELECT id,master_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'master_franchisee' AS identity,user_type FROM `master_franchisee` WHERE reference_no = ? AND user_type = '28' AND (status = '1' OR status = '3')
                                                                                               UNION
-                                                                                              SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
+                                                                                              SELECT id,sponsor_franchisee_id AS user_id,firstname,lastname,reference_no,registrant,contact_no,status,date_of_birth,register_date,country,state,city,branch,zone,'sponsor_franchisee' AS identity,user_type FROM `sponsor_franchisee` WHERE reference_no = ? AND user_type = '30' AND (status = '1' OR status = '3')
                                                                                               ORDER BY register_date ASC");
                                                                     $stmt -> execute([$userId,$userId]);
                                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -418,7 +430,7 @@
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$userBM['user_id'].'</p>
-                                                                                    <p>'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                    <p><span class="badge bg-secondary lable-width">' . $userBM['user_type']=='26' ? strtoupper('bm'):($userBM['user_type']== '28'?strtoupper('mf'):($userBM['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <p>'.$userBM['reference_no'].'</p>
