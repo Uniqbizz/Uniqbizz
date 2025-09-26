@@ -45,8 +45,8 @@ $gst_total = $mydata['total_price'];
 
 // Get TA Price
 $ta_markup = $mydata['ta_markup'];
-$discount_price=$mydata['discounted_price'];
-$final_price = $gst_total+$coupon_discount - $ta_markup; //without additional markup
+$discount_price=$mydata['discounted_price'] - $coupon_discount;
+$final_price = $gst_total - $ta_markup; //without additional markup
 
 $payType = 'Online Payment';
 

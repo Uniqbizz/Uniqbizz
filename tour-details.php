@@ -605,7 +605,7 @@ if($user_type_id_value == '11'){
 
                                                             //  If Customer then
                                                             if ($user_type == "10") {
-                                                                $stmt = $conn->prepare("SELECT * FROM ca_customer where ca_customer_is='" . $user_cust_id . "' AND status=1");
+                                                                $stmt = $conn->prepare("SELECT * FROM ca_customer where ca_customer_id='" . $user_cust_id . "' AND status=1");
                                                                 $stmt->execute();
                                                                 $data = $stmt->fetch();
                                                                 if ($data) {
@@ -614,9 +614,9 @@ if($user_type_id_value == '11'){
                                                                     $email = $data['email'];
                                                                     $phone = $data['contact_no'];
                                                                     $dob = $data['age'];
-                                                                    $customer_id = $data['cust_id'];
+                                                                    $customer_id = $data['ca_customer_id'];
 
-                                                                    $ta_id = $data['ta_reference'];
+                                                                    $ta_id = $data['ta_reference_no'];
                                                                 }
 
                                                             ?>
@@ -1643,7 +1643,7 @@ if($user_type_id_value == '11'){
             //--------------------------------------------------------------------------------------------
             //--------------------------------------------------------------------------------------------
 
-            if (user_type == '11' || user_type == '10') {
+            if (user_type == '11') {
                 var name = $("#b_name").val();
                 var email = $("#b_email").val();
                 var phone = $("#b_phn_no").val();
@@ -1902,7 +1902,7 @@ if($user_type_id_value == '11'){
         const divToToggle = document.getElementById('toggleDiv');
 
         $('#pay_modal').on('click', function () {
-                        
+            updateFinalPrice()            
             // Part Payment Modal Start
             const amountToBePaidElement = document.getElementById('amountToBePaid');
             var np_total = $('#get_total_package_price_np').text().trim();

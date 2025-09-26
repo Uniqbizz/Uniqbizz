@@ -244,7 +244,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     INNER JOIN ca_customer cc ON cc.ta_reference_no = ca.ca_travelagency_id AND cc.status = 1
                                     WHERE ca.status = 1 AND cc.ca_customer_id = :userId";
-                            $customer_fil = " AND b.customer_id = :userId";
+                            $customer_fil = " AND b.customer_id='" . $userId . "'";
                         }elseif ($userType == '31') {
                             // BDM and lower hierarchy (all TA paths under BDM)
                             $sql0 = "
@@ -501,7 +501,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                     </button>
                                                 </div>
                                             <?php
-                                                } else if ($booking['confirm_status'] == 1 && $today < $startDate){ // Confirmed
+                                                } else if ($booking['confirm_status'] == '1' && $today < $startDate){ // Confirmed
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">
@@ -794,7 +794,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     INNER JOIN ca_customer cc ON cc.ta_reference_no = ca.ca_travelagency_id AND cc.status = 1
                                     WHERE ca.status = 1 AND cc.ca_customer_id = :userId";
-                            $customer_fil = " AND b.customer_id = :userId";
+                            $customer_fil = " AND b.customer_id='" . $userId . "'";
                         }elseif ($userType == '31') {
                             // BDM and lower hierarchy (all TA paths under BDM)
                             $sql0 = "
@@ -1265,7 +1265,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     INNER JOIN ca_customer cc ON cc.ta_reference_no = ca.ca_travelagency_id AND cc.status = 1
                                     WHERE ca.status = 1 AND cc.ca_customer_id = :userId";
-                            $customer_fil = " AND b.customer_id = :userId";
+                            $customer_fil = " AND b.customer_id='" . $userId . "'";
                         }elseif ($userType == '31') {
                             // BDM and lower hierarchy (all TA paths under BDM)
                             $sql0 = "
@@ -1737,7 +1737,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     INNER JOIN ca_customer cc ON cc.ta_reference_no = ca.ca_travelagency_id AND cc.status = 1
                                     WHERE ca.status = 1 AND cc.ca_customer_id = :userId";
-                            $customer_fil = " AND b.customer_id = :userId";
+                            $customer_fil = " AND b.customer_id='" . $userId . "'";
                         }elseif ($userType == '31') {
                             // BDM and lower hierarchy (all TA paths under BDM)
                             $sql0 = "
@@ -2212,7 +2212,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     FROM ca_travelagency ca
                                     INNER JOIN ca_customer cc ON cc.ta_reference_no = ca.ca_travelagency_id AND cc.status = 1
                                     WHERE ca.status = 1 AND cc.ca_customer_id = :userId";
-                            $customer_fil = " AND b.customer_id = :userId";
+                            $customer_fil = " AND b.customer_id='" . $userId . "'";
                         }elseif ($userType == '31') {
                             // BDM and lower hierarchy (all TA paths under BDM)
                             $sql0 = "

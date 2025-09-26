@@ -114,10 +114,10 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
             // get TA id
             if ($user_id) {
                 if ($user_type == '10') {
-                    $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '" . $user_id . "' ");
+                    $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
                     $ta_data->execute();
                     $ta = $ta_data->fetch();
-                    $ta_id = $ta['ta_reference'];
+                    $ta_id = $ta['ta_reference_no'];
                 } else if ($user_type == '11') {
                     $ta_id = $user_id;
                 }
