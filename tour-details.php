@@ -183,7 +183,7 @@ if($user_type_id_value == '11'){
     <meta name="csrf-token" content="...">
     <meta name="currency" content="$">
     <!-- Title -->
-    <title>Book Tour </title>
+    <title>Bizzmirth Holidays Pvt Ltd</title>
     <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-5.3.0.min.css">
@@ -1643,7 +1643,9 @@ if($user_type_id_value == '11'){
             //--------------------------------------------------------------------------------------------
             //--------------------------------------------------------------------------------------------
 
+
             if (user_type == '11') {
+
                 var name = $("#b_name").val();
                 var email = $("#b_email").val();
                 var phone = $("#b_phn_no").val();

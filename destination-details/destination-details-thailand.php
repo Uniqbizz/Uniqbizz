@@ -80,13 +80,13 @@
                             <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Thailand1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Thailand2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Thailand3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -95,70 +95,58 @@
                         <div class="col-xl-8 col-lg-7">
                             <!-- Details content -->
                             <div class="destination-details-content">
-                                <h4 class="title">Uttarakhand - A Land Of Spirituality, Nature And Culture</h4>
+                                <h4 class="title">Thailand - A Kingdom Of Endless Wonders</h4>
                                 <p class="pera">
-                                    Uttarakhand is a north Indian state nestled in the midst of the Himalaya Mountains. It is a land of 
-                                    mythological heritage often referred to as “Devbhomi,” meaning the abode of the gods. The state has 
-                                    a great influx of pilgrim tourists, adventure seekers, and nature lovers. 
+                                    Thailand is a country located in the Mainland region of Southeast Asia. Bangkok, the capital city of 
+                                    Thailand, boasts numerous temples and palaces, attracting tourists from all around the world. 
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's famous spiritual destinations are the Char Dham pilgrim temples of Kedarnath, Badrinath, 
-                                    Gangotri, and Yamunotri, along with the sacred towns of Rishikesh and Haridwar, where the sacred Ganga 
-                                    River flows. These holy places attract countless pilgrims seeking solace and spiritual tranquility.
+                                    The most iconic Wat Pho temple, also known as the Temple of the Reclining Buddha, houses a massive 
+                                    statue of Buddha in a reclining position. It is here that the traditional Thai massage centre and 
+                                    medicines originated. Wat Traimit, the oldest temple, is renowned for the massive gold statue of 
+                                    Buddha. Another famous temple is Wat Arun, also known as the Temple of the Dawn, is located on the 
+                                    banks of the Chao Phraya River. The Grand Palace, which houses the Temple of the Emerald Buddha, 
+                                    a much-revered statue by the Royal family of Thailand and the people. Other tourist attractions 
+                                    are the Damnoen Saduak Floating Market, which offers a cultural experience with a boat ride through 
+                                    a maze of narrow canals filled with traditional vendors selling fresh produce and local goods on 
+                                    small wooden boats. A must-visit to the Khao San road, a vibrant street packed with hostels, food 
+                                    vendors, clothing stalls, bars, and restaurants. It's here you can try some fried insects, such as 
+                                    grubs or scorpions, and shop for souvenirs. 
                                 </p>
                                 <p class="pera">
-                                    The most famous spiritual event of Uttarakhand that attracts large devotees from around the world is 
-                                    the sacred Kumbh Mela. It takes place once in 12 years, in Prayagraj. The Pilgrims gather here to 
-                                    take a holy dip in the River Ganges for spiritual cleansing of the soul and to attain salvation. 
-                                    Other popular religious festivals in Uttarakhand are Dussehra, Diwali, Shivaratri, and Holi, which are 
-                                    also spiritually enriching. 
+                                    Pattaya, a city located near Bangkok, attracts tourists to its beach life, water sports activities, 
+                                    vibrant nightlife, amusement parks, and stunning islands. A day trip to the famous Coral Island, 
+                                    known for water sports activities that include snorkelling, scuba diving, and parasailing. The 
+                                    iconic Temple of Truth, a UNESCO World Heritage site, is a wooden structure with intricate 
+                                    carvings that attracts tourists. Pattaya is a shopper's paradise with goods like Thai silk, 
+                                    unique local handicrafts like wooden carvings and handmade jewellery, spices,  coconut products, 
+                                    various clothing and fashion items (especially beachwear), and affordable souvenirs like 
+                                    elephant-themed items. 
                                 </p>
                                 <p class="pera">
-                                    The states attracts tourists to the scenic hill stations of Nainital, Mussoorie and Auli.  Nanital 
-                                    is a hill station surrounded by forests and adorned with lakes. It offers activities of boating, 
-                                    birdwatching, and serene nature walks. Mussoorie, known as the Queen of Hills, offers panoramic 
-                                    mountain views and is ideal for hiking, camping, and exploring waterfalls. Whereas, Auli a hill 
-                                    station with snow-covered slopes and alpine meadows, is a dream destination for skiing enthusiasts. 
-                                    These captivating holiday hills stations are both relaxing and adventurous. 
+                                    Phuket, the largest Island in Thailand, is connected to the mainland by a bridge. It is famous 
+                                    for its Beaches, nightlife, a great shopping arena, and beautiful Islands like Phi Phi Island, 
+                                    Krabi, and James Bond Island. Maya Bay, situated on Koh Phi Phi Leh surrounded by limestone 
+                                    cliffs, is a stunning beach with powdery white sand, clear waters, and coral reefs that attract 
+                                    tourists. Bamboo Island is another beautiful beach in the Phi Phi Islands, which is less crowded 
+                                    and ideal for snorkelling activities. Its waters are rich with colourful coral reefs. Pileh 
+                                    Lagoon is another gem, surrounded by lush green limestone cliffs. As the boat enters the bay, 
+                                    the natural scenery, along with the clear, azure blue water, creates a spectacular scene that 
+                                    attracts tourists. Long Beach is the most popular beach in the Phi Phi Islands, ideal for 
+                                    sunbathing, snorkelling, and even shark spotting. It is a perfect spot for relaxation and fun. 
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand is a hub for eco-tourism. It has numerous national parks and wildlife sanctuaries. 
-                                    The best wildlife sanctuaries of Uttarakhand is the Jim Corbett National Park.  It is home 
-                                    to many endangered wildlife species such as the Royal Bengal Tiger, Sambar, Spotted Deer (Chital), 
-                                    Hog Deer, and Barking Deer—reptiles such as Gharial, Mugger crocodile, and various species of 
-                                    snakes, including the King Cobra. 
+                                    Krabi, a coastal province near the Phi Phi Islands, is renowned for its stunning limestone 
+                                    landscapes and cultural heritage. It highlights the Tiger Cave Temple, an impressive limestone 
+                                    cave featuring Buddha statues, accessible by climbing a flight of steps.  Another notable 
+                                    landmark is the Buddhist Wat Kaew Korawaram Temple, a beautiful white Buddha temple in Krabi. 
+                                    A visit to the Iconic Black Crab and Eagle statues is necessary for photography when visiting 
+                                    Krabi. The hot springs of Krabi are rich in minerals and bring healing benefits to the skin. 
                                 </p>
                                 <p class="pera">
-                                    The National Park of the Valley of Flowers is a UNESCO World Heritage site. It has more than 
-                                    500 species of flowers that bloom in the monsoon season (June – September). The Brahma Kamal 
-                                    flower, a rare species, is the state flower of Uttarakhand. It is, used in Tibetan medicines.  
-                                </p>
-                                <p class="pera">
-                                    Uttarakhand's local bazaars offer an enjoyable shopping experience with their high-quality 
-                                    leather goods, handicrafts, wooden items, carpets, gems, jewelry, bakery goods, and delicious 
-                                    homemade jams and squash. Woollen clothing and traditional Garhwali paintings make perfect 
-                                    souvenirs to take home. Nanital is, especially known for beautifully handcrafted wax candles, 
-                                    while Munsiyari, Mussoorie, and Nainital are places for unique handmade accessories, gems, 
-                                    and woodcrafts. 
-                                </p>
-                                <p class="pera">
-                                    The state celebrates many festivals that are deeply rooted in tradition, with reverence for 
-                                    nature and agricultural heritage. Some of these festivals are Phool Dei, Harela, Basant Panchami, 
-                                    and Ganga Dussehra, celebrated with holy dips and grand aartis in Haridwar and Rishikesh, and 
-                                    the Jat Yatra pilgrimage that occurs once in 12 year. Other festivals celebrated are the 
-                                    Kumaoni Holi, Makar Sankranti, and the Bissu Mela fair. 
-                                </p>
-                                <p class="pera">
-                                    Uttarakhand cuisine is simple and nutritious, made with local ingredient. The Garhwali dishes 
-                                    Kafuli, Chainsoo, and Phaanu (lentil stews), and Kumaoni dishes like Bhatt ki Churkani. Snacks 
-                                    include Aloo Gutke (spiced potatoes) and Bhang ki Chutney (hemp seed chutney), desserts like 
-                                    BAL Mithai (a fudge-like sweet) and Jhangora Ki Kheer (millet pudding). 
-                                </p>
-                                <p class="pera">
-                                    The inner peace of the ancient temples, the adventurous activity of river rafting at Rishikesh, 
-                                    the skiing adventures at Auli, the fragrance of blooming alpine flowers in the Himalayas, the 
-                                    traditional local festivals and vibrant local markets all leave an everlasting impression on 
-                                    the heart and soul of every tourist visiting Uttarakhand. 
+                                    The stunning temples, lively beach activities, and the serene Islands of Phuket, Phi Phi, 
+                                    Krabi each having its own charm provide an unforgettable experience to every kind of tourist 
+                                    visiting Thailand.  
                                 </p>
                             </div>
                             <!--/ details-content -->
@@ -303,27 +291,27 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Country</th>
-                                                        <td>India</td>
+                                                        <td>Thailand</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Language</th>
-                                                        <td>Hindi. Sanskrit. Garhwali. Kumaoni. Jaunsari.</td>
+                                                        <td>Central Thai (Siamese). Burmese. Malay.</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Currency</th>
-                                                        <td> INR (Rupees)</td>
+                                                        <td> Thai Baht (THB)</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Population</th>
-                                                        <td>1.19 Crores</td>
+                                                        <td>7.17 Crores</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Area</th>
-                                                        <td>20,650 Square Miles</td>
+                                                        <td>198,120 Square Miles</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Time to Travel</th>
-                                                        <td>March to June and September to November</td>
+                                                        <td>November To February</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -339,7 +327,7 @@
                             <div class="row g-4">
                                 <?php 
                                     require '../connect.php';
-                                    $searchPac = "Uttarakhand";
+                                    $searchPac = "Thailand";
                                     $user_id = 0;
                                     $ta_id = 0;
                                     // get TA id

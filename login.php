@@ -42,7 +42,7 @@
     <meta name="csrf-token" content="...">
     <meta name="currency" content="$">
     <!-- Title -->
-    <title>Uniqbizz</title>
+    <title>Bizzmirth Holidays Pvt Ltd</title>
     <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-5.3.0.min.css">
@@ -97,7 +97,7 @@
                                     <select id="user_type" class="contact-input">
                                         <option value=""> -- Select Login As -- </option>;
                                         <?php 
-                                            $sql = "SELECT * FROM `user_type` WHERE status = '1' AND id IN (24, 25, 26, 16, 11, 10, 28, 29, 30,31) ";
+                                            $sql = "SELECT * FROM `user_type` WHERE status = '1' AND id IN (24, 25, 26, 16, 11, 10, 28, 29) ";
                                             $stmt = $conn -> prepare($sql);
                                             $stmt -> execute();
                                             $stmt -> setFetchMode(PDO::FETCH_ASSOC);

@@ -80,13 +80,13 @@
                             <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Vietnam1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Vietnam2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Vietnam3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -95,71 +95,54 @@
                         <div class="col-xl-8 col-lg-7">
                             <!-- Details content -->
                             <div class="destination-details-content">
-                                <h4 class="title">Uttarakhand - A Land Of Spirituality, Nature And Culture</h4>
+                                <h4 class="title">Picture Perfect Vietnam</h4>
                                 <p class="pera">
-                                    Uttarakhand is a north Indian state nestled in the midst of the Himalaya Mountains. It is a land of 
-                                    mythological heritage often referred to as “Devbhomi,” meaning the abode of the gods. The state has 
-                                    a great influx of pilgrim tourists, adventure seekers, and nature lovers. 
+                                    Vietnam is a Southeast Asian country situated in the Indochina Peninsula. Vietnam's capital city is 
+                                    Hanoi, renowned for its cultural heritage and ancient architecture. It is home to the world's most 
+                                    popular landmarks, such as the Imperial Citadel of Thang Long, the Temple of Literature, the One 
+                                    Pillar Pagoda, the Ho Chi Minh Mausoleum, and Hoa Lo Prison.
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's famous spiritual destinations are the Char Dham pilgrim temples of Kedarnath, Badrinath, 
-                                    Gangotri, and Yamunotri, along with the sacred towns of Rishikesh and Haridwar, where the sacred Ganga 
-                                    River flows. These holy places attract countless pilgrims seeking solace and spiritual tranquility.
+                                    Halong Bay is a UNESCO World Heritage destination well known for its breathtaking natural landscape. 
+                                    It is comprised of many limestone islands emerging out of the water. The high cliffs, pristine 
+                                    sandy beaches, and world-famous caves like Sung Sot Cave (Surprise Cave) and Thien Cung Cave 
+                                    (Heavenly Palace Cave) provide an awe-inspiring experience for visitors to discover. They can 
+                                    also engage in boat tours, cruises, or kayaking.
                                 </p>
                                 <p class="pera">
-                                    The most famous spiritual event of Uttarakhand that attracts large devotees from around the world is 
-                                    the sacred Kumbh Mela. It takes place once in 12 years, in Prayagraj. The Pilgrims gather here to 
-                                    take a holy dip in the River Ganges for spiritual cleansing of the soul and to attain salvation. 
-                                    Other popular religious festivals in Uttarakhand are Dussehra, Diwali, Shivaratri, and Holi, which are 
-                                    also spiritually enriching. 
+                                    Ho Chi Minh City, a metropolitan city in Vietnam, was formerly, known as Saigon. it offers a unique 
+                                    historical experience for visitors. Tourists can visit various Historical sites, such as the 
+                                    Independence Palace, Notre-Dame Cathedral Basilica, the Central Post Office, Saigon Opera House, 
+                                    and the War Remnants Museum. The buildings show their French colonial heritage. A tourist can also 
+                                    enjoy the local cultural experience at Ben Thanh Market and savour a delicious bowl of Pho or 
+                                    banh mi. A day excursion to the Cu Chi tunnel or travel along the Saigon River is an exciting 
+                                    adventure.
                                 </p>
                                 <p class="pera">
-                                    The states attracts tourists to the scenic hill stations of Nainital, Mussoorie and Auli.  Nanital 
-                                    is a hill station surrounded by forests and adorned with lakes. It offers activities of boating, 
-                                    birdwatching, and serene nature walks. Mussoorie, known as the Queen of Hills, offers panoramic 
-                                    mountain views and is ideal for hiking, camping, and exploring waterfalls. Whereas, Auli a hill 
-                                    station with snow-covered slopes and alpine meadows, is a dream destination for skiing enthusiasts. 
-                                    These captivating holiday hills stations are both relaxing and adventurous. 
+                                    Da Nang is located in central Vietnam. It is famous for its pristine beaches, Marble Mountains, 
+                                    and the iconic Golden Bridge supported by giant stone-like hands. Da Nang is both modern and 
+                                    heritage-based. It holds a replica of a French village with European architecture. The world's 
+                                    longest cable car is located in Da Nang, offering beautiful flower gardens and other entertainment 
+                                    options. In Da Nang, you can either relax on the beach, enjoy the city life, or savour a variety 
+                                    of delectable street food.
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand is a hub for eco-tourism. It has numerous national parks and wildlife sanctuaries. 
-                                    The best wildlife sanctuaries of Uttarakhand is the Jim Corbett National Park.  It is home 
-                                    to many endangered wildlife species such as the Royal Bengal Tiger, Sambar, Spotted Deer (Chital), 
-                                    Hog Deer, and Barking Deer—reptiles such as Gharial, Mugger crocodile, and various species of 
-                                    snakes, including the King Cobra. 
+                                    Phu Quoc is Vietnam's biggest island. It is renowned for its beautiful white-sand beaches, 
+                                    clean turquoise waters, greenery, and lively marine creatures. Phu Quoc has emerged as one of 
+                                    the most visited tourist spots over the past few years. It is renowned for producing high-quality 
+                                    fish sauce and black pepper, both of which are, exported globally 
                                 </p>
                                 <p class="pera">
-                                    The National Park of the Valley of Flowers is a UNESCO World Heritage site. It has more than 
-                                    500 species of flowers that bloom in the monsoon season (June – September). The Brahma Kamal 
-                                    flower, a rare species, is the state flower of Uttarakhand. It is, used in Tibetan medicines.  
+                                    Vietnam markets are famous for a wide range of products like Vietnamese coffee, Ao Dai 
+                                    (long dress), Conical hats, Silk, Brocade, Potter/ceramics, watercolour paintings, T-shirts, 
+                                    Sedge products, and wooden puppets.  
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's local bazaars offer an enjoyable shopping experience with their high-quality 
-                                    leather goods, handicrafts, wooden items, carpets, gems, jewelry, bakery goods, and delicious 
-                                    homemade jams and squash. Woollen clothing and traditional Garhwali paintings make perfect 
-                                    souvenirs to take home. Nanital is, especially known for beautifully handcrafted wax candles, 
-                                    while Munsiyari, Mussoorie, and Nainital are places for unique handmade accessories, gems, 
-                                    and woodcrafts. 
+                                    From Hanoi and Ho Chi Minh City's vibrant streets to the peaceful waters of Halong Bay and the 
+                                    unspoiled beaches of Phu Quoc. Vietnam is a country of classic beauty. The old towns, urban cities, 
+                                    and natural beauty of Vietnam provide a picture perfect journey through history culture and nature. 
                                 </p>
-                                <p class="pera">
-                                    The state celebrates many festivals that are deeply rooted in tradition, with reverence for 
-                                    nature and agricultural heritage. Some of these festivals are Phool Dei, Harela, Basant Panchami, 
-                                    and Ganga Dussehra, celebrated with holy dips and grand aartis in Haridwar and Rishikesh, and 
-                                    the Jat Yatra pilgrimage that occurs once in 12 year. Other festivals celebrated are the 
-                                    Kumaoni Holi, Makar Sankranti, and the Bissu Mela fair. 
-                                </p>
-                                <p class="pera">
-                                    Uttarakhand cuisine is simple and nutritious, made with local ingredient. The Garhwali dishes 
-                                    Kafuli, Chainsoo, and Phaanu (lentil stews), and Kumaoni dishes like Bhatt ki Churkani. Snacks 
-                                    include Aloo Gutke (spiced potatoes) and Bhang ki Chutney (hemp seed chutney), desserts like 
-                                    BAL Mithai (a fudge-like sweet) and Jhangora Ki Kheer (millet pudding). 
-                                </p>
-                                <p class="pera">
-                                    The inner peace of the ancient temples, the adventurous activity of river rafting at Rishikesh, 
-                                    the skiing adventures at Auli, the fragrance of blooming alpine flowers in the Himalayas, the 
-                                    traditional local festivals and vibrant local markets all leave an everlasting impression on 
-                                    the heart and soul of every tourist visiting Uttarakhand. 
-                                </p>
+                                
                             </div>
                             <!--/ details-content -->
 
@@ -303,27 +286,27 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Country</th>
-                                                        <td>India</td>
+                                                        <td>Vietnam</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Language</th>
-                                                        <td>Hindi. Sanskrit. Garhwali. Kumaoni. Jaunsari.</td>
+                                                        <td>Vietnamese. Tay. Muong. Cham. Khmer.</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Currency</th>
-                                                        <td> INR (Rupees)</td>
+                                                        <td> Vietnamese dong (VND)</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Population</th>
-                                                        <td>1.19 Crores</td>
+                                                        <td>10.1 Crores</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Area</th>
-                                                        <td>20,650 Square Miles</td>
+                                                        <td>127,932 Square Miles</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Time to Travel</th>
-                                                        <td>March to June and September to November</td>
+                                                        <td>March to April and September to November</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -339,7 +322,7 @@
                             <div class="row g-4">
                                 <?php 
                                     require '../connect.php';
-                                    $searchPac = "Uttarakhand";
+                                    $searchPac = "Vietnam";
                                     $user_id = 0;
                                     $ta_id = 0;
                                     // get TA id

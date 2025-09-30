@@ -113,7 +113,7 @@ if ($userType == 10){
             width: 240px;
             padding: 10px 5px;
         }
-        
+
     </style>
 
 </head>
@@ -1670,7 +1670,7 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- TE -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
+                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg5">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Techno Enterprise</p>
                                                 </div>
@@ -5823,7 +5823,7 @@ if ($userType == 10){
                 const iconInfo = couponIcons[0];
                 icon1.className = `couponIcon fa-2xl text-white ${iconInfo.lib === 'fa' ? 'fa-solid' : ''} ${iconInfo.class}`;
             }
-            
+
             // Clone for Coupons 2–4
             for (let i = 2; i <= couponIcons.length; i++) {
                 const newCard = originalCard.cloneNode(true);
@@ -5849,6 +5849,7 @@ if ($userType == 10){
 
                 parentRow.appendChild(newCard);
             }
+
             if(couponUnlockCount == 1){
                 let lockDiv=originalCard.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
                 if (lockDiv) {

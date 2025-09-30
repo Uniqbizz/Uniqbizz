@@ -156,6 +156,12 @@ $Year = date('Y'); //year
         .fc-daygrid-day {
             position: relative;
         }
+
+        /* image class for profile-img from admin welcome section */
+        /* .img-fluid {
+            width: 100% !important;
+            height: 120px !important;
+        } */
     </style>
 </head>
 <!-- DataTables -->
@@ -202,67 +208,130 @@ $Year = date('Y'); //year
                                         <div class="col-7 pe-0">
                                             <div class="p-3 pb-4">
                                                 <h5 class="text-primary">Welcome Back !</h5>
-                                                <p class="text-primary">Dashboard</p>
+                                                <p class="text-primary">Admin</p>
                                             </div>
                                         </div>
                                         <div class="col-5 align-self-end">
-                                            <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                                            <!-- <img src="assets/images/profile-img.png" alt="" class="img-fluid"> -->
+                                            <div class="avatar-lg mb-2 mt-2">
+                                                <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body pt-0">
                                     <div class="row">
-                                        <div class="col-sm-4 col-4">
-                                            <div class="avatar-md profile-user-wid mb-4">
+                                        <!-- <div class="col-sm-4 col-4"> -->
+                                            <!-- <div class="avatar-lg mb-3 mt-n5">
                                                 <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
-                                            </div>
-                                            <h5 class="font-size-14 text-truncate">Admin</h5>
-                                        </div>
+                                            </div> -->
+                                            <!-- <h5 class="font-size-14 text-truncate fw-bolder">Admin</h5> -->
+                                        <!-- </div> -->
 
-                                        <div class="col-sm-8 col-8">
+                                        <div class="col-sm-12 col-12">
                                             <div class="pt-4">
-
                                                 <div class="row">
-                                                    <div class="col-5 p-0">
-                                                        <?php
-                                                        $sqlbooking = "SELECT COUNT(id) AS booked FROM `product_payout` ";
-                                                        $sqlBooked = $conn->prepare($sqlbooking);
-                                                        $sqlBooked->execute();
-                                                        $sqlBooked->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if (($sqlBooked->rowCount() > 0)) {
-                                                            foreach ($sqlBooked->fetchAll() as $key => $value) {
-                                                                $totalBooked = $value['booked'];
-                                                                echo '<h5 class="font-size-15">' . $totalBooked . '</h5>';
-                                                            }
-                                                        }
-                                                        ?>
-                                                        <p class="text-muted mb-0 font-size-11">Packages Sold</p>
-                                                    </div>
                                                     <div class="col-7 p-0">
+                                                        <p class="text-muted font-size-13 ps-2">Packages Sold</p>
+                                                        <p class="text-muted font-size-13 ps-2">Techno Enterprise</p>
+                                                        <p class="text-muted font-size-13 ps-2">Franchise</p>
+                                                        <p class="text-muted font-size-13 ps-2">Master Franchise</p>
+                                                        <p class="text-muted font-size-13 ps-2">Sponsor Franchise</p>
+                                                    </div>
+                                                    <div class="col-5 p-0">
+                                                        <!-- Packages Sold  -->
                                                         <?php
-
-                                                        $Amt = 0;
-                                                        $sqlCaAmt = "SELECT amount FROM `corporate_agency` WHERE status = '1'";
-                                                        $sqlTotalAmt = $conn->prepare($sqlCaAmt);
-                                                        $sqlTotalAmt->execute();
-                                                        $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if (($sqlTotalAmt->rowCount() > 0)) {
-                                                            foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
-                                                                $totalAmt = $value['amount'];
-
-                                                                if ($totalAmt == 'null') {
-                                                                    $totalAmt = 0;
-                                                                } else {
-                                                                    $totalAmt;
+                                                            $sqlbooking = "SELECT COUNT(id) AS booked FROM `bookings` WHERE confirm_status = '1' ";
+                                                            $sqlBooked = $conn->prepare($sqlbooking);
+                                                            $sqlBooked->execute();
+                                                            $sqlBooked->setFetchMode(PDO::FETCH_ASSOC);
+                                                            if (($sqlBooked->rowCount() > 0)) {
+                                                                foreach ($sqlBooked->fetchAll() as $key => $value) {
+                                                                    $totalBooked = $value['booked'];
+                                                                    echo '<h5 class="font-size-13">' . $totalBooked . '</h5>';
                                                                 }
-
-                                                                $Amt = $Amt + $totalAmt;
                                                             }
-                                                        }
-                                                        $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
-                                                        echo '<h5 class="font-size-15"><span>&#8377;</span>' . $Amt . '/-</h5>';
                                                         ?>
-                                                        <p class="text-muted mb-0 font-size-11">Techno Enterprise</p>
+                                                        <!-- Techno Enterprise -->
+                                                        <?php
+                                                            $Amt = 0;
+
+                                                            // Prepare and execute query
+                                                            $sql = "SELECT SUM(CASE WHEN amount IS NULL THEN 0 ELSE amount END) AS total_amount FROM corporate_agency WHERE status = '1'";
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->execute();
+                                                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                            // Fetch total amount
+                                                            $Amt = $result['total_amount'] ?? 0;
+
+                                                            // Format in Indian currency style (e.g., 12,34,567)
+                                                            $formattedAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+
+                                                            // Output
+                                                            echo '<h5 class="font-size-13"><span>&#8377;</span>' . $formattedAmt . '/-</h5>';
+                                                        ?>
+
+                                                        <!-- sub_franchisee -->
+                                                        <?php
+                                                            $Amt = 0;
+
+                                                            // Prepare and execute query
+                                                            $sql = "SELECT SUM(CASE WHEN amount IS NULL THEN 0 ELSE amount END) AS total_amount FROM sub_franchisee WHERE status = '1'";
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->execute();
+                                                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                            // Fetch total amount
+                                                            $Amt = $result['total_amount'] ?? 0;
+
+                                                            // Format in Indian currency style (e.g., 12,34,567)
+                                                            $formattedAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+
+                                                            // Output
+                                                            echo '<h5 class="font-size-13"><span>&#8377;</span>' . $formattedAmt . '/-</h5>';
+                                                        ?>
+
+                                                        <!-- Master Franchisee -->
+                                                        <?php
+                                                            $Amt = 0;
+
+                                                            // Prepare and execute query
+                                                            $sql = "SELECT SUM(CASE WHEN paid_amount IS NULL THEN 0 ELSE paid_amount END) AS total_amount FROM master_franchisee WHERE status = '1'";
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->execute();
+                                                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                            // Fetch total amount
+                                                            $Amt = $result['total_amount'] ?? 0;
+
+                                                            // Format in Indian currency style (e.g., 12,34,567)
+                                                            $formattedAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+
+                                                            // Output
+                                                            echo '<h5 class="font-size-13"><span>&#8377;</span>' . $formattedAmt . '/-</h5>';
+                                                        ?>
+
+                                                        <!-- Sponsor Franchise -->
+                                                        <?php
+                                                            $Amt = 0;
+
+                                                            // Prepare and execute query
+                                                            $sql = "SELECT SUM(CASE WHEN paid_amount IS NULL THEN 0 ELSE paid_amount END) AS total_amount FROM sponsor_franchisee WHERE status = '1'";
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->execute();
+                                                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                                            // Fetch total amount
+                                                            $Amt = $result['total_amount'] ?? 0;
+
+                                                            // Format in Indian currency style (e.g., 12,34,567)
+                                                            $formattedAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+
+                                                            // Output
+                                                            echo '<h5 class="font-size-13"><span>&#8377;</span>' . $formattedAmt . '/-</h5>';
+                                                        ?>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -503,11 +572,110 @@ $Year = date('Y'); //year
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="card card-equal mini-stats-wid rounded-4">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-muted fw-medium">Master Franchise</p>
+                                                    <?php
+                                                    $stmt = $conn->prepare("SELECT count(master_franchisee_id) as totalmaster_franchisee FROM master_franchisee where user_type='28' and status='1' ");
+                                                    $stmt->execute();
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt->rowCount() > 0) {
+                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                            $totalmaster_franchisee = $row['totalmaster_franchisee'];
+                                                            echo '<h4 class="mb-0">' . $totalmaster_franchisee . '</h4>';
+                                                        }
+                                                    } else {
+                                                        echo '<h4 class="mb-0">0</h4>';
+                                                    }
+                                                    ?>
+                                                </div>
+
+                                                <div class="flex-shrink-0">
+                                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                        <span class="avatar-title">
+                                                            <i class="fas fa-user-alt font-size-24"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="card card-equal mini-stats-wid rounded-4">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-muted fw-medium">Sponsor Franchise</p>
+                                                    <?php
+                                                    $stmt = $conn->prepare("SELECT count(sponsor_franchisee_id) as totalsponsor_franchisee FROM sponsor_franchisee where user_type='30' and status='1' ");
+                                                    $stmt->execute();
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt->rowCount() > 0) {
+                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                            $totalsponsor_franchisee = $row['totalsponsor_franchisee'];
+                                                            echo '<h4 class="mb-0">' . $totalsponsor_franchisee . '</h4>';
+                                                        }
+                                                    } else {
+                                                        echo '<h4 class="mb-0">0</h4>';
+                                                    }
+                                                    ?>
+                                                </div>
+
+                                                <div class="flex-shrink-0">
+                                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                        <span class="avatar-title">
+                                                            <i class="fas fa-user-alt font-size-24"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="card card-equal mini-stats-wid rounded-4">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-muted fw-medium">Franchise</p>
+                                                    <?php
+                                                    $stmt = $conn->prepare("SELECT count(sub_franchisee_id) as totalsub_franchisee FROM sub_franchisee where user_type='29' and status='1' ");
+                                                    $stmt->execute();
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt->rowCount() > 0) {
+                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                            $totalsub_franchisee = $row['totalsub_franchisee'];
+                                                            echo '<h4 class="mb-0">' . $totalsub_franchisee . '</h4>';
+                                                        }
+                                                    } else {
+                                                        echo '<h4 class="mb-0">0</h4>';
+                                                    }
+                                                    ?>
+                                                </div>
+
+                                                <div class="flex-shrink-0">
+                                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                        <span class="avatar-title">
+                                                            <i class="fas fa-user-alt font-size-24"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- Customer Types -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="card rounded-4">
                                 <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
@@ -800,9 +968,570 @@ $Year = date('Y'); //year
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end row -->
                     <div class="row">
+                        <!-- Customer Types -->
+                        <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <div class="row">
+                                
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Regular Customer</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalRegularCustomer FROM `ca_customer` WHERE customer_type = 'Free' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalRegularCustomer = $row['totalRegularCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalRegularCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="text-black text-end">Free</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalRegularCompCustomer FROM `ca_customer` WHERE customer_type = 'Free' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalRegularCompCustomer = $row['totalRegularCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalRegularCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Premium Customer</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumCustomer FROM `ca_customer` WHERE customer_type = 'Premium' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumCustomer = $row['totalPremiumCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                <?php
+                                                    $Amt = 0;
+                                                    $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Premium' AND status = '1'";
+                                                    $sqlTotalAmt = $conn->prepare($sqlCaAmt);
+                                                    $sqlTotalAmt->execute();
+                                                    $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if (($sqlTotalAmt->rowCount() > 0)) {
+                                                        foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
+                                                            $totalAmt = $value['paid_amount'];
+
+                                                            if ($totalAmt == 'null') {
+                                                                $totalAmt = 0;
+                                                            } else {
+                                                                $totalAmt;
+                                                            }
+
+                                                            $Amt = $Amt + $totalAmt;
+                                                        }
+                                                    }
+                                                    $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+                                                    echo '<p class="text-black text-end">'.$Amt.'</p>';
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumCompCustomer FROM `ca_customer` WHERE customer_type = 'Premium' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumCompCustomer = $row['totalPremiumCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Premium Plus Customer</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumPlusCustomer FROM `ca_customer` WHERE customer_type = 'Premium Plus' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumPlusCustomer = $row['totalPremiumPlusCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumPlusCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                <?php
+                                                    $Amt = 0;
+                                                    $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Premium Plus' AND status = '1'";
+                                                    $sqlTotalAmt = $conn->prepare($sqlCaAmt);
+                                                    $sqlTotalAmt->execute();
+                                                    $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if (($sqlTotalAmt->rowCount() > 0)) {
+                                                        foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
+                                                            $totalAmt = $value['paid_amount'];
+
+                                                            if ($totalAmt == 'null') {
+                                                                $totalAmt = 0;
+                                                            } else {
+                                                                $totalAmt;
+                                                            }
+
+                                                            $Amt = $Amt + $totalAmt;
+                                                        }
+                                                    }
+                                                    $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+                                                    echo '<p class="text-black text-end">'.$Amt.'</p>';
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumCompCustomer FROM `ca_customer` WHERE customer_type = 'Premium Plus' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumCompCustomer = $row['totalPremiumCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Premium Select</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumSelectCustomer FROM `ca_customer` WHERE customer_type = 'Premium Select' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumSelectCustomer = $row['totalPremiumSelectCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumSelectCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <?php
+                                                    $Amt = 0;
+                                                    $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Premium Select' AND status = '1'";
+                                                    $sqlTotalAmt = $conn->prepare($sqlCaAmt);
+                                                    $sqlTotalAmt->execute();
+                                                    $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if (($sqlTotalAmt->rowCount() > 0)) {
+                                                        foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
+                                                            $totalAmt = $value['paid_amount'];
+
+                                                            if ($totalAmt == 'null') {
+                                                                $totalAmt = 0;
+                                                            } else {
+                                                                $totalAmt;
+                                                            }
+
+                                                            $Amt = $Amt + $totalAmt;
+                                                        }
+                                                    }
+                                                    $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+                                                    echo '<p class="text-black text-end">'.$Amt.'</p>';
+                                                    ?>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumSelectCompCustomer FROM `ca_customer` WHERE customer_type = 'Premium Select' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumSelectCompCustomer = $row['totalPremiumSelectCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumSelectCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Premium Select Lite</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumSelectLiteCustomer FROM `ca_customer` WHERE customer_type = 'Premium Select Lite' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumSelectLiteCustomer = $row['totalPremiumSelectLiteCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumSelectLiteCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <?php
+                                                    $Amt = 0;
+                                                    $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Premium Select Lite' AND status = '1'";
+                                                    $sqlTotalAmt = $conn->prepare($sqlCaAmt);
+                                                    $sqlTotalAmt->execute();
+                                                    $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if (($sqlTotalAmt->rowCount() > 0)) {
+                                                        foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
+                                                            $totalAmt = $value['paid_amount'];
+
+                                                            if ($totalAmt == 'null') {
+                                                                $totalAmt = 0;
+                                                            } else {
+                                                                $totalAmt;
+                                                            }
+
+                                                            $Amt = $Amt + $totalAmt;
+                                                        }
+                                                    }
+                                                    $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+                                                    echo '<p class="text-black text-end">'.$Amt.'</p>';
+                                                    ?>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumSelectLiteCompCustomer FROM `ca_customer` WHERE customer_type = 'Premium Select Lite' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalPremiumSelectLiteCompCustomer = $row['totalPremiumSelectLiteCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalPremiumSelectLiteCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Neo Select</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalNeoSelectCustomer FROM `ca_customer` WHERE customer_type = 'Neo Select' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalNeoSelectCustomer = $row['totalNeoSelectCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalNeoSelectCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <?php
+                                                    $Amt = 0;
+                                                    $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Neo Select' AND status = '1'";
+                                                    $sqlTotalAmt = $conn->prepare($sqlCaAmt);
+                                                    $sqlTotalAmt->execute();
+                                                    $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if (($sqlTotalAmt->rowCount() > 0)) {
+                                                        foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
+                                                            $totalAmt = $value['paid_amount'];
+
+                                                            if ($totalAmt == 'null') {
+                                                                $totalAmt = 0;
+                                                            } else {
+                                                                $totalAmt;
+                                                            }
+
+                                                            $Amt = $Amt + $totalAmt;
+                                                        }
+                                                    }
+                                                    $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+                                                    echo '<p class="text-black text-end">'.$Amt.'</p>';
+                                                    ?>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalNeoSelectCompCustomer FROM `ca_customer` WHERE customer_type = 'Neo Select' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalNeoSelectCompCustomer = $row['totalNeoSelectCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalNeoSelectCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="card rounded-4">
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
+                                            <h5 class="text-primary-emphasis">Neo Select Ultra</h5>
+                                        </div>
+                                        <div class="card-body p-3 pt-2">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Count</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalNeoSelectUltraCustomer FROM `ca_customer` WHERE customer_type = 'Neo Select Ultra' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalNeoSelectUltraCustomer = $row['totalNeoSelectUltraCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalNeoSelectUltraCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <p class="fw-bolder text-black">Amount</p>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <?php
+                                                    $Amt = 0;
+                                                    $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Neo Select Ultra' AND status = '1'";
+                                                    $sqlTotalAmt = $conn->prepare($sqlCaAmt);
+                                                    $sqlTotalAmt->execute();
+                                                    $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if (($sqlTotalAmt->rowCount() > 0)) {
+                                                        foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
+                                                            $totalAmt = $value['paid_amount'];
+
+                                                            if ($totalAmt == 'null') {
+                                                                $totalAmt = 0;
+                                                            } else {
+                                                                $totalAmt;
+                                                            }
+
+                                                            $Amt = $Amt + $totalAmt;
+                                                        }
+                                                    }
+                                                    $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
+                                                    echo '<p class="text-black text-end">'.$Amt.'</p>';
+                                                    ?>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    <p class="fw-bolder text-black">Complimentary</p>
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-4">
+                                                    <?php
+                                                        $stmt = $conn->prepare("SELECT COUNT(id) as totalNeoSelectUltraCompCustomer FROM `ca_customer` WHERE customer_type = 'Neo Select Ultra' AND comp_chek = '1' AND status = '1' ");
+                                                        $stmt->execute();
+                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt->rowCount() > 0) {
+                                                            foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                $totalNeoSelectUltraCompCustomer = $row['totalNeoSelectUltraCompCustomer'];
+                                                                echo '<p class="text-end text-black">'.$totalNeoSelectUltraCompCustomer.'</p>';
+                                                            }
+                                                        } else {
+                                                            echo '<p class="text-end text-black">0</p>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <div class="card p-3 rounded-4">
+                                <h4 class="card-title mb-3">Customer Membership Line Chart</h4>
+                                <hr class="mb-5">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div style="float:right; padding: 10px 10px 10px 10px; font-weight:bold; margin-top: -50px; ">
+                                            <span>
+                                                Select Year
+                                                <select id="yearsCustMemb" onchange="getMonthlyUserDataCustMemb(this.value)"></select>
+                                            </span>
+                                        </div>
+                                        <div class="table-responsive table-desi">
+                                            <canvas id="myChartCust" style="width:100%; max-width:1000px"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
                             <div class="card p-3 rounded-4">
                                 <h4 class="card-title mb-3">Line Chart</h4>
@@ -822,6 +1551,7 @@ $Year = date('Y'); //year
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
                             <div class="card p-3 rounded-4" id="ca_chart_box">
                                 <div class="row">
@@ -2343,6 +3073,116 @@ $Year = date('Y'); //year
                             </div>
                         </div>
 
+                        <div class="col-xl-6 col-md-6 col-sm-12 p-3">
+                            <div class="card rounded-4">
+                                <div class="card-body">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Master Franchisee</h4>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical-circle-outline mdi-24px" style="color: grey;"></i></a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="businessMentor/businessMentor.php">View</a>
+                                                <a class="dropdown-item" href="businessMentor/addBusinessMentor.php">Add New</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                // $sql1 = "SELECT * FROM customer where user_type='2' and (status='1' or status='0' or status='3') and cust_id != '' order by cust_id desc limit 5";
+                                                $sql1 = "SELECT master_franchisee_id as id, firstname, lastname, status FROM master_franchisee 
+                                                                 WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
+                                                $stmt1 = $conn->prepare($sql1);
+                                                $stmt1->execute();
+                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                if ($stmt1->rowCount() > 0) {
+                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                        echo '<tr>
+                                                                    <td>' . $row['id'] . '</td>
+                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
+                                                        if ($row['status'] == '1') {
+                                                            echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                        } else {
+                                                            echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                        }
+                                                        echo '</tr>';
+                                                    }
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-md-6 col-sm-12 p-3">
+                            <div class="card rounded-4">
+                                <div class="card-body">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Sponsor Franchisee</h4>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical-circle-outline mdi-24px" style="color: grey;"></i></a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="businessMentor/businessMentor.php">View</a>
+                                                <a class="dropdown-item" href="businessMentor/addBusinessMentor.php">Add New</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                // $sql1 = "SELECT * FROM customer where user_type='2' and (status='1' or status='0' or status='3') and cust_id != '' order by cust_id desc limit 5";
+                                                $sql1 = "SELECT sponsor_franchisee_id as id, firstname, lastname, status FROM sponsor_franchisee 
+                                                                 WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
+                                                $stmt1 = $conn->prepare($sql1);
+                                                $stmt1->execute();
+                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                if ($stmt1->rowCount() > 0) {
+                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                        echo '<tr>
+                                                                    <td>' . $row['id'] . '</td>
+                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
+                                                        if ($row['status'] == '1') {
+                                                            echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                        } else {
+                                                            echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                        }
+                                                        echo '</tr>';
+                                                    }
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-xl-6 col-md-6 col-sm-12 p-3" style="display: none;">
                             <div class="card rounded-4">
                                 <div class="card-body">
@@ -2484,6 +3324,59 @@ $Year = date('Y'); //year
                                                     foreach (($stmt1->fetchAll()) as $key => $row) {
                                                         echo '<tr>
                                                                     <td>' . $row['corporate_agency_id'] . '</td>
+                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
+                                                        if ($row['status'] == '1') {
+                                                            echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                        } else {
+                                                            echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                        }
+                                                        echo '</tr>';
+                                                    }
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-md-6 col-sm-12 p-3">
+                            <div class="card rounded-4">
+                                <div class="card-body">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Franchisee</h4>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical-circle-outline mdi-24px" style="color: grey;"></i></a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="corporate_agency/view_corporate_agency.php">View</a>
+                                                <a class="dropdown-item" href="corporate_agency/add_corporate_agency.php">Add New</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $sql1 = "SELECT * FROM sub_franchisee where user_type='29' and (status='1' or status='0' or status='3') and sub_franchisee_id != '' order by sub_franchisee_id desc limit 6";
+                                                $stmt1 = $conn->prepare($sql1);
+                                                $stmt1->execute();
+                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                if ($stmt1->rowCount() > 0) {
+                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                        echo '<tr>
+                                                                    <td>' . $row['sub_franchisee_id'] . '</td>
                                                                     <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
                                                         if ($row['status'] == '1') {
                                                             echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
@@ -2707,20 +3600,25 @@ $Year = date('Y'); //year
             monthControl.value = `${year}-${month}`;
             // console.log(monthControl.value);
 
-            // Set Default value for years
+            // Set Default value for years for line chart
             for (let index = 2020; index <= getCurrentYear; index++) {
                 if (index == getCurrentYear) {
                     $("#years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
+                    $("#yearsCustMemb").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                     $("#consultant_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                     $("#partner_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                 } else {
                     $("#years").append('<option value="' + index + '">' + index + '</option>');
+                    $("#yearsCustMemb").append('<option value="' + index + '">' + index + '</option>');
                     $("#consultant_years").append('<option value="' + index + '">' + index + '</option>');
                     $("#partner_years").append('<option value="' + index + '">' + index + '</option>');
                 }
             }
+            
             // get chart data
             getMonthlyUserData(getCurrentYear);
+            // get chart data Customer Membership
+            getMonthlyUserDataCustMemb(getCurrentYear);
             // getBIPData(); //BIP pie chart
             getCAData(); //ca Amount Pie Chart
             //getCAData(); //ca Amount Pie Chart
@@ -2732,7 +3630,7 @@ $Year = date('Y'); //year
 
             // console.log('test 22');
         });
-
+        //line chart for all user, excuding Customer 
         async function getMonthlyUserData(get_year) {
             let option = {
                 method: 'POST',
@@ -2843,6 +3741,141 @@ $Year = date('Y'); //year
                             borderColor: "red",
                             fill: true
                         }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: true
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    title: {
+                        display: false,
+                        text: 'Registered Users'
+                    }
+                }
+            });
+        }
+
+        //line chart for customer membership
+        async function getMonthlyUserDataCustMemb(get_year) {
+            let option = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({
+                    year: get_year,
+                    current_year: getCurrentYear,
+                    current_month: getCurrentMonth,
+                    user_id: 0,
+                    user_type: 0
+                })
+            }
+            const response = await fetch('charts/monthly_customer_membership_count.php', option);
+            const data = await response.json();
+            // console.log(data);
+            length = data[0].length;
+            labels = [];
+            values_custF = [];
+            // values_custPR = [];
+            values_custP = [];
+            values_custPP = [];
+            values_custPS = [];
+            values_custPSL = [];
+            values_custNS = [];
+            values_custNSU = [];
+            // values_cacu = [];
+            // values_cbd = [];
+            // values_emp = [];
+            // values_bm = [];
+
+            for (i = 0; i < length; i++) {
+                values_custF.push(data[0][i]);
+                // values_custPR.push(data[1][i]);
+                values_custP.push(data[2][i]);
+                values_custPP.push(data[3][i]);
+                values_custPS.push(data[4][i]);
+                values_custPSL.push(data[5][i]);
+                values_custNS.push(data[6][i]);
+                values_custNSU.push(data[7][i]);
+                // values_cacu.push(data[7][i]);
+                // values_cbd.push(data[8][i]);
+                // values_emp.push(data[9][i]);
+                // values_bm.push(data[10][i]);
+            }
+            var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            new Chart(document.getElementById("myChartCust"), {
+                type: 'line',
+                data: {
+                    labels: xValues,
+                    datasets: [
+                        {
+                            label: "Regular",
+                            data: values_custF,
+                            borderColor: "green",
+                            fill: true
+                        },
+                        // {
+                        //     label: "Prime",
+                        //     data: values_custPR,
+                        //     borderColor: "yellow",
+                        //     fill: true
+                        // },
+                        {
+                            label: "Premium",
+                            data: values_custP,
+                            borderColor: "red",
+                            fill: true
+                        },
+                        {
+                            label: "Premium Plus",
+                            data: values_custPP,
+                            borderColor: "purple",
+                            fill: true
+                        },
+                        {
+                            label: "Premium Select",
+                            data: values_custPS,
+                            borderColor: "blue",
+                            fill: true
+                        },
+                        {
+                            label: "Premium Select Lite",
+                            data: values_custPSL,
+                            borderColor: "orange",
+                            fill: true
+                        },
+                        {
+                            label: "Neo Select",
+                            data: values_custNS,
+                            borderColor: "gray",
+                            fill: true
+                        },
+                        {
+                            label: "Neo Select Ultra",
+                            data: values_custNSU,
+                            borderColor: "black",
+                            fill: true
+                        },
+                        // {
+                        //     label: "Travel Consultant",
+                        //     data: values_cata,
+                        //     borderColor: "pink",
+                        //     fill: true
+                        // },
+                        // {
+                        //     label: "Customer",
+                        //     data: values_cacu,
+                        //     borderColor: "red",
+                        //     fill: true
+                        // }
                     ]
                 },
                 options: {

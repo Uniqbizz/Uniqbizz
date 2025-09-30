@@ -501,6 +501,7 @@ if ($coupon_code) {
     ':code' => $coupon_code
   ]);
 }
+
 //updating wallet balance after insert in booking_direct_bill
 if ($result2) {
   // Insert the new credited amount into ta_top_up_utilisation

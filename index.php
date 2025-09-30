@@ -693,7 +693,7 @@
                                 }
                             }
 
-                            $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' ORDER BY p.id DESC LIMIT 10 ");
+                            $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, p.tour_days, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' ORDER BY p.id DESC LIMIT 10 ");
                             $stmt->execute();
                             $stmt->SetFetchMode(PDO::FETCH_ASSOC);
                             if($stmt->rowCount()>0){
@@ -709,6 +709,10 @@
 
                                     $adult_price = (int)$row['total_package_price_per_adult'];
                                     $markup_price = (int)$row['markup_total'];
+                                    
+                                    $tourDay = (int)$row['tour_days'] - 1;
+                                    $tourNight = (int)$row['tour_days'] - 2;
+
                                     $total_base_price = $adult_price + $markup_price;
 
                                     if ( $ta_id ) {
@@ -739,7 +743,7 @@
                                                 <div class="packages-person mb-16">
                                                     <div class="count">
                                                         <i class="ri-time-line"></i>
-                                                        <p class="pera">3 Days 2 Night</p>
+                                                        <p class="pera"> '.$tourNight.' Night '.$tourDay.' Days</p>
                                                     </div>
                                                     <div class="count">
                                                         <i class="ri-user-line"></i>
@@ -759,12 +763,12 @@
                             }
                         ?>
                         </div>
-                        <div class="swiper-button-next">
+                        <!-- <div class="swiper-button-next">
                             <i class="ri-arrow-right-s-line"></i>
                         </div>
                         <div class="swiper-button-prev">
                             <i class="ri-arrow-left-s-line"></i>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row position-relative z-10">

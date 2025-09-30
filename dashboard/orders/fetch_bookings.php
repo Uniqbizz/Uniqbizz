@@ -501,7 +501,9 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                     </button>
                                                 </div>
                                             <?php
+
                                                 } else if ($booking['confirm_status'] == '1' && $today < $startDate){ // Confirmed
+
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">

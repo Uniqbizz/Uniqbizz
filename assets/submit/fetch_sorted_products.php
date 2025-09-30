@@ -25,6 +25,7 @@ $select = "
         p.description,
         p.destination,
         p.location,
+        p.tour_days,
         t.total_package_price_per_adult,
         t.price_up_per_adult,
         t.markup_total,
@@ -142,11 +143,13 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
                     $total_base_price = $adult_price ;
                     //print_r($total_base_price);
 
+                    $tourDay = (int)$row['tour_days'] - 1;
+                    $tourNight = (int)$row['tour_days'] - 2;
+
                     if ($ta_id) {
                         $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
                         $ta_markup_data->execute();
                         $ta_markup = $ta_markup_data->fetch();
-
                         $total_price = $ta_markup['selling_price_adult'] ?? $total_base_price;
                     } else {
                         $total_price = $total_base_price;
@@ -174,7 +177,8 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
                                 <div class="packages-person">
                                     <div class="count">
                                         <i class="ri-time-line"></i>
-                                        <p class="pera"><?= $row['location'] ?></p>
+                                        <!-- <p class="pera"><?= $row['location'] ?></p> -->
+                                        <p class="pera"> <?= $tourNight ?> Night <?= $tourDay ?> Days </p>
                                     </div>
                                     <!-- <div class="count">
                                             <i class="ri-user-line"></i>

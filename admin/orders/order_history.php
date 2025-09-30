@@ -67,9 +67,11 @@ $date = date('Y');
             font-size: 10px !important;
             font-weight: 500 !important;
         }
+
         .bookingDate {
             width: 130px !important;
         }
+
         .dateRange {
             border-radius: 14px !important;
         }
