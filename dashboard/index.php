@@ -15,6 +15,7 @@ if ($userType == 10){
     $stmt->execute([':user' => $userId]);
 
     $customerType = $stmt->fetchColumn();
+    $usedCount = 0;
 
 }
 
@@ -71,19 +72,31 @@ if ($userType == 10){
         }
 
         .cardBg1 {
-            background: linear-gradient(45deg, #4099ff, #73b4ff) !important;
+            background: linear-gradient(45deg, #0e7efdff, #73b4ff) !important;
         }
-
+ 
         .cardBg2 {
-            background: linear-gradient(45deg, #2ed8b6, #59e0c5) !important;
+            background: linear-gradient(45deg, #0aa486ff, #6de2caff) !important;
         }
-
+ 
         .cardBg3 {
-            background: linear-gradient(45deg, #ffb64d, #ffcb80) !important;
+            background: linear-gradient(45deg, #ffa21fff, #ffcb80) !important;
         }
-
+ 
         .cardBg4 {
-            background: linear-gradient(45deg, #ff5370, #ff869a) !important;
+            background: linear-gradient(45deg, #ed2042ff, #ff869a) !important;
+        }
+        .cardBg5 {
+            background: linear-gradient(45deg, #3c2ff6ff, #8aa9d9ff) !important;
+        }
+        .cardBg6 {
+            background: linear-gradient(45deg, #a800fbff, #be80ddff) !important;
+        }
+        .cardBg7 {
+            background: linear-gradient(45deg, #ee5630ff, #feb47b) !important;
+        }
+        .cardBg8 {
+            background: linear-gradient(45deg, #0518efff, #4d7ce3ff) !important;
         }
         .selected-li {
             border-left: 4px solid #0d6efd; /* Bootstrap primary blue */
@@ -96,6 +109,11 @@ if ($userType == 10){
             border-radius: 5px;
             padding: 5px;
         }
+        .couponCount {
+            width: 240px;
+            padding: 10px 5px;
+        }
+
     </style>
 
 </head>
@@ -348,6 +366,222 @@ if ($userType == 10){
 
                                 <?php if ($userType == '10') { ?> <!--customer => 10  -->
                                     <!-- Upgrade section  -->
+                                    <!-- Customer -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div>
+                                                <?php
+                                                    require 'connect.php';
+                                                    $cuponstmt = $conn->prepare("SELECT * FROM cu_coupons WHERE user_id = :id");
+                                                    $cuponstmt->execute(['id' => $userId]);
+                                                    $cupon = $cuponstmt->fetch(PDO::FETCH_ASSOC);
+                                                    
+                                                    // to get the query ouput in console
+                                                    // $debugQuery = "SELECT * FROM cu_coupons WHERE user_id = '" . $userId."'";
+                                                    
+                                                    // echo '<script>console.log("Prepared Query: ' . $debugQuery . '");</script>';
+                                                    
+                                                    // echo '<script>console.log("Coupon:", ' . json_encode($cupon) . ');</script>';
+                                                    
+                                                    if ($cupon) {
+                                                        if($customerType == 'Prime'){
+                                                ?>
+                                                <div class="card p-3 rounded-4">
+                                                    <div class="row d-flex justify-content-evenly">
+                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="assets/images/customer/popperImg.png" alt="Popper Image" width="85px" height="85px">
+                                                                </div>
+                                                                <div class="mt-3">
+                                                                    <h2>Congratulations! <span class="hightlightTextGreen">You're a Prime Member</span></h2>
+                                                                    <p class="mt-2 fs-5">Discover handpicked standard holiday packages made just for you.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
+                                                                    <a class="btn primeBtnGreen" href="#" role="button">Browse Prime Deals</a>
+                                                                    <a class="btn primeBtnGreen" href="#" role="button">View Your Packages</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
+                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                        } else if($customerType == 'Premium'){
+                                                ?>
+                                                <div class="card p-3 rounded-4">
+                                                    <div class="row d-flex justify-content-evenly">
+                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="assets/images/customer/multistarImg.png" alt="Popper Image" width="85px" height="85px">
+                                                                </div>
+                                                                <div class="mt-3">
+                                                                    <h2>Welcome, <span class="hightlightTextBlue">Premium Member!</span></h2>
+                                                                    <p class="mt-2 fs-5">Unlock luxury escapes and curated travel experiences.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
+                                                                    <a class="btn primeBtnBlue" href="#" role="button">Explore Premium Packages</a>
+                                                                    <a class="btn primeBtnBlue" href="#" role="button">Check Your Bookings</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
+                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                        }else if($customerType == 'Premium Plus'){
+                                                ?>
+                                                <div class="card p-3 rounded-4">
+                                                    <div class="row d-flex justify-content-evenly">
+                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="assets/images/customer/trophyImg.png" alt="Popper Image" width="85px" height="85px">
+                                                                </div>
+                                                                <div class="mt-3">
+                                                                    <h2>You're a <span class="hightlightTextPurple">Premium Plus Member</span></h2>
+                                                                    <p class="mt-2 fs-5">Access elite travel support, premium destinations, and concierge service.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
+                                                                    <a class="btn primeBtnPurple" href="#" role="button">Access Premium Plus Offers</a>
+                                                                    <a class="btn primeBtnPurple" href="#" role="button">My Travel Portfolio</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
+                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                        }else if($customerType == 'Premium Select'){
+                                                ?>
+                                                <div class="card p-3 rounded-4">
+                                                    <div class="row d-flex justify-content-evenly">
+                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="assets/images/customer/starImg.png" alt="Popper Image" width="85px" height="85px">
+                                                                </div>
+                                                                <div class="mt-3">
+                                                                    <h2>Congratulations! <span class="hightlightTextOrange">You're a Premium Select Member</span></h2>
+                                                                    <p class="mt-2 fs-5">Use points and vouchers to unlock premium & standard travel experiences.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
+                                                                    <a class="btn primeBtnOrange" href="#" role="button">Premium Select Deals</a>
+                                                                    <a class="btn primeBtnOrange" href="#" role="button">View Your Packages</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
+                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                        }else if($customerType == 'Premium Select Lite'){
+                                                ?>
+                                                <div class="card p-3 rounded-4">
+                                                    <div class="row d-flex justify-content-evenly">
+                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="assets/images/customer/starImg.png" alt="Popper Image" width="85px" height="85px">
+                                                                </div>
+                                                                <div class="mt-3">
+                                                                    <h2>Congratulations! <span class="hightlightTextRed">You're a Premium Select Lite Member</span></h2>
+                                                                    <p class="mt-2 fs-5">Use points and vouchers to unlock premium & standard travel experiences.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
+                                                                    <a class="btn primeBtnRed" href="#" role="button">Premium Select Lite</a>
+                                                                    <a class="btn primeBtnRed" href="#" role="button">View Your Packages</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
+                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                        }else if($customerType == 'Neo Select'){
+                                                ?>
+                                                <div class="card p-3 border borderColorRed rounded-4 border-3">
+                                                    <div class="row d-flex justify-content-evenly">
+                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                                                            <div class="d-flex">
+                                                                <div>
+                                                                    <img src="assets/images/customer/starImg.png" alt="Popper Image" width="85px" height="85px">
+                                                                </div>
+                                                                <div class="mt-3">
+                                                                    <h2>Congratulations! <span class="hightlightTextRed">You're a Neo Select Member</span></h2>
+                                                                    <p class="mt-2 fs-5">Use points and vouchers to unlock premium & standard travel experiences.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
+                                                                    <a class="btn primeBtnRed" href="#" role="button">Neo Select</a>
+                                                                    <a class="btn primeBtnRed" href="#" role="button">View Your Packages</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
+                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                        }
+                                                    } else {
+                                                ?>
+                                                <div class="card p-3">
+                                                    <div class="alert alert-warning border-0 rounded-0 m-0 d-flex align-items-center" role="alert">
+                                                        <i data-feather="alert-triangle" class="text-warning me-2 icon-sm"></i>
+                                                        <div class="flex-grow-1 text-truncate">
+                                                            Upgrade to prime membership.
+                                                        </div>
+                                                        <!-- <div class="flex-shrink-0">
+                                                            <a href="pages-pricing.html" class="text-reset text-decoration-underline"><b>Upgrade</b></a>
+                                                        </div> -->
+                                                    </div>
+
+                                                    <div class="row align-items-end">
+                                                        <div class="col-sm-8">
+                                                            <div class="p-3">
+                                                                <p class="fs-16 lh-base">Unlock more value – <span class="fw-semibold">Upgrade now</span> to become a <span class="fw-semibold">Prime Customer!</span> Enjoy exclusive benefits, faster support, and premium features tailored just for you.</p>
+                                                                <!--<div class="mt-3">-->
+                                                                <!--    <a href="pages-pricing.html" class="btn btn-success waves-effect waves-light">Upgrade</a>-->
+                                                                <!--</div>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="px-3">
+                                                                <img src="assets/images/user-illustarator-2.png" class="img-fluid" alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- end card-body-->
+                                                <?php
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div> <!-- end col-->
+                                    </div> <!-- end row-->
 
                                     <div class="row">
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -582,223 +816,60 @@ if ($userType == 10){
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Customer cu1, cu2, cu3 payout calculation -->
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div>
-                                                <?php
+                                    <?php
+                                        if($customerType == 'Premium'){
+                                    ?>
+                                    <!-- Progress Bar Start -->
+                                    <div class="d-flex justify-content-center">
+                                        <div class="rounded-pill bg-primary couponCount">
+                                            <h5 class="text-white text-center mb-0">Coupons Unlocked: <span>
+                                                <?php 
                                                     require 'connect.php';
-                                                    $cuponstmt = $conn->prepare("SELECT * FROM cu_coupons WHERE user_id = :id");
-                                                    $cuponstmt->execute(['id' => $userId]);
-                                                    $cupon = $cuponstmt->fetch(PDO::FETCH_ASSOC);
-                                                    
-                                                    // to get the query ouput in console
-                                                    // $debugQuery = "SELECT * FROM cu_coupons WHERE user_id = '" . $userId."'";
-                                                    
-                                                    // echo '<script>console.log("Prepared Query: ' . $debugQuery . '");</script>';
-                                                    
-                                                    // echo '<script>console.log("Coupon:", ' . json_encode($cupon) . ');</script>';
-                                                    
-                                                    if ($cupon) {
-                                                        if($customerType == 'Prime'){
+                                                    $cuponsusedtmt = $conn->prepare("SELECT COUNT(*) as used_count FROM cu_coupons WHERE user_id = :id AND usage_status =1");
+                                                    $cuponsusedtmt->execute(['id' => $userId]);
+                                                    $cupon = $cuponsusedtmt->fetch(PDO::FETCH_ASSOC);
+                                                    $usedCount = (int)$cupon['used_count'] > 3 ? 3:(int)$cupon['used_count'];
                                                 ?>
-                                                <div class="card p-3 border borderColorGreen rounded-4 border-3 ">
-                                                    <div class="row d-flex justify-content-evenly">
-                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
-                                                            <div class="d-flex">
-                                                                <div>
-                                                                    <img src="assets/images/customer/popperImg.png" alt="Popper Image" width="85px" height="85px">
-                                                                </div>
-                                                                <div class="mt-3">
-                                                                    <h2>Congratulations! <span class="hightlightTextGreen">You're a Prime Member</span></h2>
-                                                                    <p class="mt-2 fs-5">Discover handpicked standard holiday packages made just for you.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
-                                                                    <a class="btn primeBtnGreen" href="#" role="button">Browse Prime Deals</a>
-                                                                    <a class="btn primeBtnGreen" href="#" role="button">View Your Packages</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
-                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        } else if($customerType == 'Premium'){
-                                                ?>
-                                                <div class="card p-3 border borderColorBlue rounded-4 border-3">
-                                                    <div class="row d-flex justify-content-evenly">
-                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
-                                                            <div class="d-flex">
-                                                                <div>
-                                                                    <img src="assets/images/customer/multistarImg.png" alt="Popper Image" width="85px" height="85px">
-                                                                </div>
-                                                                <div class="mt-3">
-                                                                    <h2>Welcome, <span class="hightlightTextBlue">Premium Member!</span></h2>
-                                                                    <p class="mt-2 fs-5">Unlock luxury escapes and curated travel experiences.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
-                                                                    <a class="btn primeBtnBlue" href="#" role="button">Explore Premium Packages</a>
-                                                                    <a class="btn primeBtnBlue" href="#" role="button">Check Your Bookings</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
-                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        }else if($customerType == 'Premium Plus'){
-                                                ?>
-                                                <div class="card p-3 border borderColorPurple rounded-4 border-3">
-                                                    <div class="row d-flex justify-content-evenly">
-                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
-                                                            <div class="d-flex">
-                                                                <div>
-                                                                    <img src="assets/images/customer/trophyImg.png" alt="Popper Image" width="85px" height="85px">
-                                                                </div>
-                                                                <div class="mt-3">
-                                                                    <h2>You're a <span class="hightlightTextPurple">Premium Plus Member</span></h2>
-                                                                    <p class="mt-2 fs-5">Access elite travel support, premium destinations, and concierge service.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
-                                                                    <a class="btn primeBtnPurple" href="#" role="button">Access Premium Plus Offers</a>
-                                                                    <a class="btn primeBtnPurple" href="#" role="button">My Travel Portfolio</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
-                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        }else if($customerType == 'Premium Select'){
-                                                ?>
-                                                <div class="card p-3 border borderColorOrange rounded-4 border-3">
-                                                    <div class="row d-flex justify-content-evenly">
-                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
-                                                            <div class="d-flex">
-                                                                <div>
-                                                                    <img src="assets/images/customer/starImg.png" alt="Popper Image" width="85px" height="85px">
-                                                                </div>
-                                                                <div class="mt-3">
-                                                                    <h2>Congratulations! <span class="hightlightTextOrange">You're a Premium Select Member</span></h2>
-                                                                    <p class="mt-2 fs-5">Use points and vouchers to unlock premium & standard travel experiences.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
-                                                                    <a class="btn primeBtnOrange" href="#" role="button">Premium Select Deals</a>
-                                                                    <a class="btn primeBtnOrange" href="#" role="button">View Your Packages</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
-                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        }else if($customerType == 'Premium Select Lite'){
-                                                ?>
-                                                <div class="card p-3 border borderColorRed rounded-4 border-3">
-                                                    <div class="row d-flex justify-content-evenly">
-                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
-                                                            <div class="d-flex">
-                                                                <div>
-                                                                    <img src="assets/images/customer/starImg.png" alt="Popper Image" width="85px" height="85px">
-                                                                </div>
-                                                                <div class="mt-3">
-                                                                    <h2>Congratulations! <span class="hightlightTextRed">You're a Premium Select Lite Member</span></h2>
-                                                                    <p class="mt-2 fs-5">Use points and vouchers to unlock premium & standard travel experiences.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
-                                                                    <a class="btn primeBtnRed" href="#" role="button">Premium Select Lite</a>
-                                                                    <a class="btn primeBtnRed" href="#" role="button">View Your Packages</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
-                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        }else if($customerType == 'Neo Select'){
-                                                ?>
-                                                <div class="card p-3 border borderColorRed rounded-4 border-3">
-                                                    <div class="row d-flex justify-content-evenly">
-                                                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
-                                                            <div class="d-flex">
-                                                                <div>
-                                                                    <img src="assets/images/customer/starImg.png" alt="Popper Image" width="85px" height="85px">
-                                                                </div>
-                                                                <div class="mt-3">
-                                                                    <h2>Congratulations! <span class="hightlightTextRed">You're a Neo Select Member</span></h2>
-                                                                    <p class="mt-2 fs-5">Use points and vouchers to unlock premium & standard travel experiences.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-10 col-md-12 col-sm-12 col-12 d-flex justify-content-evenly mt-3">
-                                                                    <a class="btn primeBtnRed" href="#" role="button">Neo Select</a>
-                                                                    <a class="btn primeBtnRed" href="#" role="button">View Your Packages</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-4 col-md-4 col-sm-5 col-5 imageAvatar">
-                                                            <img src="assets/images/user-illustarator-2.png" alt="" width="260px" height="170px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                        }
-                                                    } else {
-                                                ?>
-                                                <div class="card p-3">
-                                                    <div class="alert alert-warning border-0 rounded-0 m-0 d-flex align-items-center" role="alert">
-                                                        <i data-feather="alert-triangle" class="text-warning me-2 icon-sm"></i>
-                                                        <div class="flex-grow-1 text-truncate">
-                                                            Upgrade to prime membership.
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                            <a href="pages-pricing.html" class="text-reset text-decoration-underline"><b>Upgrade</b></a>
-                                                        </div> -->
-                                                    </div>
-
-                                                    <div class="row align-items-end">
-                                                        <div class="col-sm-8">
-                                                            <div class="p-3">
-                                                                <p class="fs-16 lh-base">Unlock more value – <span class="fw-semibold">Upgrade now</span> to become a <span class="fw-semibold">Prime Customer!</span> Enjoy exclusive benefits, faster support, and premium features tailored just for you.</p>
-                                                                <!--<div class="mt-3">-->
-                                                                <!--    <a href="pages-pricing.html" class="btn btn-success waves-effect waves-light">Upgrade</a>-->
-                                                                <!--</div>-->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="px-3">
-                                                                <img src="assets/images/user-illustarator-2.png" class="img-fluid" alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> <!-- end card-body-->
-                                                <?php
-                                                    }
-                                                ?>
+                                            </span> <?= $usedCount??0 ?>/ <span>3</span></h5>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-md-8 col-sm-10 col-12 py-3">
+                                            <div class="progress border border-2" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar progressColor" style="width: <?= ($usedCount == 1) ? '25%' : (($usedCount == 2) ? '50%' : (($usedCount == 3) ? '100%' : '0%')) ?>"></div>
                                             </div>
-                                        </div> <!-- end col-->
-                                    </div> <!-- end row-->
-                                <?php } ?>
+                                        </div>
+                                    </div>
+                                    <!-- Progress Bar end -->
+                                    <!-- Coupon card start -->
+                                    <div class="row" id="couponRow">
+                                        <!-- Coupon 1 -->
+                                        <div class="col-md-3 col-sm-6 col-6 d-flex justify-content-center" id="coupon_card1">
+                                            <div class="card rounded-4 w-75 cardCoupon1 position-relative">
+                                                <div class="d-flex justify-content-center pt-3">
+                                                    <p class="rounded-circle text-center cardCouponIcon"></p>
+                                                    <i class="fa-solid fa-tag fa-2xl text-white couponIcon"></i>
+                                                </div>
+                                                <p class="fw-bolder text-center mb-0 text-white">Coupon 1</p>
+                                                <div class="d-flex justify-content-center">
+                                                    <p class="rounded-pill py-1 px-3 cardCouponButton"></p>
+                                                    <p class="couponButton text-white fw-bold">Used</p>
+                                                </div>
+
+                                                <!-- Lock overlay -->
+                                                <div class="cardCouponLock" id="cardCouponLockId">
+                                                    <div class="card rounded-4 w-100 h-100 couponLock">
+                                                        <i class="ri-lock-line text-white fs-1 d-flex justify-content-center align-items-center h-100"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Coupon card end -->
+
+                                <?php   }
+                                      } ?>
 
                                 <?php if ($userType == '11') { ?> <!--travel Agent => 11  -->
 
@@ -1599,7 +1670,7 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- TE -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
+                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg5">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Techno Enterprise</p>
                                                 </div>
@@ -3678,159 +3749,150 @@ if ($userType == 10){
                                                                         $stmt2->execute([$userId]);
                                                                     }
                                                                 }else if($userType == '25'){
-                                                                    // Check existence in all tables at once
-                                                                    $sqlCheck = "
-                                                                        SELECT 'BM' AS type, COUNT(*) AS total FROM business_mentor WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'TE' AS type, COUNT(*) AS total FROM corporate_agency WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'F' AS type, COUNT(*) AS total FROM sub_franchisee WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'TC' AS type, COUNT(*) AS total FROM ca_travelagency WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'MF' AS type, COUNT(*) AS total FROM master_franchisee WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'SF' AS type, COUNT(*) AS total FROM sponsor_franchisee WHERE reference_no=? AND status='1'
-                                                                    ";
-                                                                    $stmtCheck = $conn->prepare($sqlCheck);
-                                                                    $stmtCheck->execute([$userId, $userId, $userId, $userId,$userId, $userId]);
-                                                                    
+                                                                    $sql = "SELECT combined.id,
+                                                                                combined.user_id,
+                                                                                combined.firstname,
+                                                                                combined.lastname,
+                                                                                combined.register_date,
+                                                                                combined.type
+                                                                            FROM (
+                                                                                -- BM
+                                                                                SELECT bm.id,
+                                                                                    bm.business_mentor_id AS user_id,
+                                                                                    bm.firstname,
+                                                                                    bm.lastname,
+                                                                                    bm.register_date,
+                                                                                    'BM' AS type
+                                                                                FROM business_mentor bm
+                                                                                WHERE bm.reference_no = :userId AND bm.status = '1'
 
-                                                                    $counts = [];
-                                                                    while ($row = $stmtCheck->fetch(PDO::FETCH_ASSOC)) {
-                                                                        $counts[$row['type']] = (int)$row['total']; // force integer
-                                                                    }
+                                                                                UNION ALL
 
-                                                                    // Assign variables
-                                                                    $countBM = $counts['BM'] ?? 0;
-                                                                    $countMF = $counts['MF'] ?? 0;
-                                                                    $countSF = $counts['SF'] ?? 0;
-                                                                    $countTE = $counts['TE'] ?? 0;
-                                                                    $countF  = $counts['F'] ?? 0;
-                                                                    $countTC = $counts['TC'] ?? 0;
+                                                                                -- TC
+                                                                                SELECT tc.id,
+                                                                                    tc.ca_travelagency_id AS user_id,
+                                                                                    tc.firstname,
+                                                                                    tc.lastname,
+                                                                                    tc.register_date,
+                                                                                    'TC' AS type
+                                                                                FROM ca_travelagency tc
+                                                                                WHERE tc.reference_no = :userId AND tc.status = '1'
 
-                                                                    // Now decide query based on availability
-                                                                    $queries = [];
-                                                                    $params = [];
+                                                                                UNION ALL
 
-                                                                    // BM
-                                                                    if ($countBM > 0) {
-                                                                        $queries[] = "SELECT id, business_mentor_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName1 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
+                                                                                -- TE
+                                                                                SELECT te.id,
+                                                                                    te.corporate_agency_id AS user_id,
+                                                                                    te.firstname,
+                                                                                    te.lastname,
+                                                                                    te.register_date,
+                                                                                    'TE' AS type
+                                                                                FROM corporate_agency te
+                                                                                WHERE te.reference_no = :userId AND te.status = '1'
 
-                                                                    // TC
-                                                                    if ($countTC > 0) {
-                                                                        $queries[] = "SELECT id, ca_travelagency_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName3 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
+                                                                                UNION ALL
 
-                                                                    // TE
-                                                                    if ($countTE > 0) {
-                                                                        $queries[] = "SELECT id, corporate_agency_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName5 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
+                                                                                -- F
+                                                                                SELECT f.id,
+                                                                                    f.sub_franchisee_id AS user_id,
+                                                                                    f.firstname,
+                                                                                    f.lastname,
+                                                                                    f.register_date,
+                                                                                    'F' AS type
+                                                                                FROM sub_franchisee f
+                                                                                WHERE f.reference_no = :userId AND f.status = '1'
 
-                                                                    // F
-                                                                    if ($countF > 0) {
-                                                                        $queries[] = "SELECT id, sub_franchisee_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName7 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
-                                                                    // MF
-                                                                    if ($countMF > 0) {
-                                                                        $queries[] = "SELECT id, master_franchisee_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName9 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
-                                                                    // SF
-                                                                    if ($countSF > 0) {
-                                                                        $queries[] = "SELECT id, sponsor_franchisee_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName12 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
+                                                                                UNION ALL
 
-                                                                    // Execute only if we have something to query
-                                                                    
-                                                                    if (!empty($queries)) {
-                                                                        $sql = "SELECT * FROM (" . implode(" UNION ALL ", $queries) . ") AS combined
-                                                                                ORDER BY id DESC 
-                                                                                LIMIT 5";
-                                                                        $stmt2 = $conn->prepare($sql);
-                                                                        $stmt2->execute($params);
-                                                                        
-                                                                    }
+                                                                                -- MF
+                                                                                SELECT mf.id,
+                                                                                    mf.master_franchisee_id AS user_id,
+                                                                                    mf.firstname,
+                                                                                    mf.lastname,
+                                                                                    mf.register_date,
+                                                                                    'MF' AS type
+                                                                                FROM master_franchisee mf
+                                                                                WHERE mf.reference_no = :userId AND mf.status = '1'
 
-                                                                    
+                                                                                UNION ALL
+
+                                                                                -- SF
+                                                                                SELECT sf.id,
+                                                                                    sf.sponsor_franchisee_id AS user_id,
+                                                                                    sf.firstname,
+                                                                                    sf.lastname,
+                                                                                    sf.register_date,
+                                                                                    'SF' AS type
+                                                                                FROM sponsor_franchisee sf
+                                                                                WHERE sf.reference_no = :userId AND sf.status = '1'
+                                                                            ) AS combined
+                                                                            ORDER BY combined.id DESC
+                                                                            LIMIT 5
+                                                                        ";
+
+                                                                        $stmt = $conn->prepare($sql);
+                                                                        $stmt->execute(['userId' => $userId]); 
                                                                 }else if($userType == '31'){
-                                                                    // Check existence in all tables at once
-                                                                    $sqlCheck = "
-                                                                        SELECT 'F' AS type, COUNT(*) AS total FROM sub_franchisee WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'MF' AS type, COUNT(*) AS total FROM master_franchisee WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'SF' AS type, COUNT(*) AS total FROM sponsor_franchisee WHERE reference_no=? AND status='1'
-                                                                        UNION
-                                                                        SELECT 'TC' AS type, COUNT(*) AS total FROM ca_travelagency WHERE reference_no=? AND status='1'
-                                                                    ";
-                                                                    $stmtCheck = $conn->prepare($sqlCheck);
-                                                                    $stmtCheck->execute([$userId, $userId, $userId,$userId]);
-                                                                    
+                                                                                                                                       
+                                                                    $sql = "SELECT combined.id,
+                                                                                combined.user_id,
+                                                                                combined.firstname,
+                                                                                combined.lastname,
+                                                                                combined.register_date,
+                                                                                combined.type
+                                                                            FROM (
+                                                                                -- F
+                                                                                SELECT f.id,
+                                                                                    f.sub_franchisee_id AS user_id,
+                                                                                    f.firstname,
+                                                                                    f.lastname,
+                                                                                    f.register_date,
+                                                                                    'F' AS type
+                                                                                FROM sub_franchisee f
+                                                                                WHERE f.reference_no = :userId AND f.status = '1'
+                                                                                
+                                                                                UNION ALL
+                                                                                
+                                                                                -- MF
+                                                                                SELECT mf.id,
+                                                                                    mf.master_franchisee_id AS user_id,
+                                                                                    mf.firstname,
+                                                                                    mf.lastname,
+                                                                                    mf.register_date,
+                                                                                    'MF' AS type
+                                                                                FROM master_franchisee mf
+                                                                                WHERE mf.reference_no = :userId AND mf.status = '1'
+                                                                                
+                                                                                UNION ALL
+                                                                                
+                                                                                -- SF
+                                                                                SELECT sf.id,
+                                                                                    sf.sponsor_franchisee_id AS user_id,
+                                                                                    sf.firstname,
+                                                                                    sf.lastname,
+                                                                                    sf.register_date,
+                                                                                    'SF' AS type
+                                                                                FROM sponsor_franchisee sf
+                                                                                WHERE sf.reference_no = :userId AND sf.status = '1'
+                                                                                
+                                                                                UNION ALL
+                                                                                
+                                                                                -- TC
+                                                                                SELECT tc.id,
+                                                                                    tc.ca_travelagency_id AS user_id,
+                                                                                    tc.firstname,
+                                                                                    tc.lastname,
+                                                                                    tc.register_date,
+                                                                                    'TC' AS type
+                                                                                FROM ca_travelagency tc
+                                                                                WHERE tc.reference_no = :userId AND tc.status = '1'
+                                                                            ) AS combined
+                                                                            ORDER BY combined.id DESC
+                                                                            LIMIT 5
+                                                                        ";
 
-                                                                    $counts = [];
-                                                                    while ($row = $stmtCheck->fetch(PDO::FETCH_ASSOC)) {
-                                                                        $counts[$row['type']] = (int)$row['total']; // force integer
-                                                                    }
-
-                                                                    // Assign variables
-                                                                    
-                                                                    $countMF = $counts['MF'] ?? 0;
-                                                                    $countSF = $counts['SF'] ?? 0;
-                                                                    $countF  = $counts['F'] ?? 0;
-                                                                    $countTC  = $counts['TC'] ?? 0;
-
-                                                                    // Now decide query based on availability
-                                                                    $queries = [];
-                                                                    $params = [];
-
-                                                                    // F
-                                                                    if ($countF > 0) {
-                                                                        $queries[] = "SELECT id, sub_franchisee_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName1 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
-                                                                    // TC
-                                                                    if ($countF > 0) {
-                                                                        $queries[] = "SELECT id, ca_travelagency_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName5 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
-                                                                    // MF
-                                                                    if ($countMF > 0) {
-                                                                        $queries[] = "SELECT id, master_franchisee_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName3 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
-                                                                    // SF
-                                                                    if ($countSF > 0) {
-                                                                        $queries[] = "SELECT id, sponsor_franchisee_id AS user_id, firstname, lastname, register_date 
-                                                                                    FROM $tableName6 WHERE reference_no=? AND status='1'";
-                                                                        $params[] = $userId;
-                                                                    }
-
-                                                                    // Execute only if we have something to query
-                                                                    
-                                                                    if (!empty($queries)) {
-                                                                        $sql = "SELECT * FROM (" . implode(" UNION ALL ", $queries) . ") AS combined
-                                                                                ORDER BY id DESC 
-                                                                                LIMIT 5";
-                                                                        $stmt2 = $conn->prepare($sql);
-                                                                        $stmt2->execute($params);
-                                                                        
-                                                                    }
+                                                                    $stmt = $conn->prepare($sql);
+                                                                    $stmt->execute(['userId' => $userId]);
 
                                                                     
                                                                 }else{
@@ -5359,14 +5421,14 @@ if ($userType == 10){
         // console.log(getCurrentMonth);
         var userType, monthYear;
         // get month for input tag
-        //var monthControl = document.querySelector('#month_year');
+        var monthControl = document.querySelector('#month_year');
 
         $(function() {
             // get min and max month for input tag
             const date = new Date()
             const month = ("0" + (date.getMonth() + 1)).slice(-2)
             const year = date.getFullYear()
-            //monthControl.value = `${year}-${month}`;
+            monthControl.value = `${year}-${month}`;
             // console.log(monthControl.value);
 
             userId = <?php echo json_encode($_SESSION['user_id'], JSON_HEX_TAG); ?>;
@@ -5741,6 +5803,96 @@ if ($userType == 10){
             }
         }
     </script>
+    <!-- Coupon section for customer start -->
+    <script>
+        window.onload = function () {
+            const originalCard = document.getElementById('coupon_card1');
+            const parentRow = document.getElementById('couponRow');
+            const couponUnlockCount = <?=$usedCount?>
+
+            const couponIcons = [
+                { lib: "fa", class: "fa-tag" },              // Coupon 1
+                { lib: "ri", class: "ri-gift-line" },        // Coupon 2
+                { lib: "fa", class: "fa-tags" },             // Coupon 3
+                { lib: "ri", class: "ri-flight-takeoff-line" } // Coupon 4
+            ];
+
+            // Set icon for Coupon 1
+            const icon1 = originalCard.querySelector('i');
+            if (icon1) {
+                const iconInfo = couponIcons[0];
+                icon1.className = `couponIcon fa-2xl text-white ${iconInfo.lib === 'fa' ? 'fa-solid' : ''} ${iconInfo.class}`;
+            }
+
+            // Clone for Coupons 2–4
+            for (let i = 2; i <= couponIcons.length; i++) {
+                const newCard = originalCard.cloneNode(true);
+                newCard.id = `coupon_card${i}`;
+
+                // Update cardCoupon class
+                const cardDiv = newCard.querySelector('.card');
+                cardDiv.classList.forEach(cls => {
+                    if (cls.startsWith('cardCoupon')) cardDiv.classList.remove(cls);
+                });
+                cardDiv.classList.add(`cardCoupon${i}`);
+
+                // Update title
+                const couponTitle = newCard.querySelector('.fw-bolder');
+                if (couponTitle) couponTitle.textContent = `Coupon ${i}`;
+
+                // Update icon
+                const icon = newCard.querySelector('.couponIcon');
+                if (icon) {
+                    const iconInfo = couponIcons[i - 1];
+                    icon.className = `couponIcon fa-2xl text-white ${iconInfo.lib === 'fa' ? 'fa-solid' : ''} ${iconInfo.class}`;
+                }
+
+                parentRow.appendChild(newCard);
+            }
+
+            if(couponUnlockCount == 1){
+                let lockDiv=originalCard.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv) {
+                    lockDiv.classList.add('d-none');
+                }
+            }
+            else if(couponUnlockCount == 2){
+                let Card1=document.getElementById('coupon_card1');
+                let Card2=document.getElementById('coupon_card2');
+                let lockDiv1=Card1.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv1) {
+                    lockDiv1.classList.add('d-none');
+                }
+                let lockDiv2=Card2.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv2) {
+                    lockDiv2.classList.add('d-none');
+                }
+            }
+            else if(couponUnlockCount == 3){
+                let Card1=document.getElementById('coupon_card1');
+                let Card2=document.getElementById('coupon_card2');
+                let Card3=document.getElementById('coupon_card3');
+                let Card4=document.getElementById('coupon_card4');
+                let lockDiv1=Card1.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv1) {
+                    lockDiv1.classList.add('d-none');
+                }
+                let lockDiv2=Card2.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv2) {
+                    lockDiv2.classList.add('d-none');
+                }
+                let lockDiv3=Card3.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv3) {
+                    lockDiv3.classList.add('d-none');
+                }
+                let lockDiv4=Card4.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv4) {
+                    lockDiv4.classList.add('d-none');
+                }
+            }
+        };
+    </script>
+    <!-- Coupon section for customer end -->
 </body>
 
 </html>

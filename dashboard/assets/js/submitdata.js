@@ -1238,7 +1238,8 @@ $('#edit-business-trainee').click(function (e) {
 $('#add-corporate-agency').click(function (e) {
     e.preventDefault();
     // console.log('Add customer button clicked');
-
+    var registered =$('#registered').val();
+    var url= registered == 'corporate_agency'?"corporate_agency/add_corporate_agency_data.php":registered == 'sub_franchisee'?"corporate_agency/add_franchisee_data.php":"NA"
     // var designation = $("#designation").val().trim();
     var user_id_name = $("#user_id_name").val(); // reference id
     var reference_name = $("#reference_name").val(); // reference Name
@@ -1280,6 +1281,7 @@ $('#add-corporate-agency').click(function (e) {
         "user_id_name=" + user_id_name +
         "&reference_name=" + reference_name +
         "&firstname=" + firstname +
+        "&registered=" + registered +
         "&lastname=" + lastname +
         "&nominee_name=" + nominee_name +
         "&nominee_relation=" + nominee_relation +
@@ -1368,7 +1370,7 @@ $('#add-corporate-agency').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "corporate_agency/add_corporate_agency_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -1392,7 +1394,9 @@ $('#edit-corporate-agency').click(function (e) {
     // var designation = $("#designation").val();
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
-
+    var registered =$('#registered').val();
+    var url= registered == 'corporate_agency'?"corporate_agency/edit_corporate_agency_data.php":registered == 'sub_franchisee'?"corporate_agency/edit_franchisee_data.php":"NA"
+    
     var editfor = $('#editfor').val(); // registered OR pending
     var ref_id = $('#ref_id').val();  // reference id
     var id = $('#id').val(); // customer id
@@ -1524,7 +1528,7 @@ $('#edit-corporate-agency').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "corporate_agency/edit_corporate_agency_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {

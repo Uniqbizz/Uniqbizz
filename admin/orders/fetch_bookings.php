@@ -481,7 +481,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         <td>
                                             <div class="d-block">
                                                 <a href="#">
-                                                    <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Transit</button>
+                                                    <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                                 </a>
                                             </div>
                                         </td>
@@ -655,12 +655,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                 $today = new DateTime();
                                 $today->setTime(0, 0);
 
-                                if ($today > $endDate) {
+                                if ($today > $endDate && ($booking['status'] === '0' || $booking['status'] === '1')) {
                                 ?>
                                     <td>
                                         <div class="d-block">
                                             <a href="#">
-                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Transit</button>
+                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                             </a>
                                         </div>
                                     </td>
@@ -668,7 +668,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     <td>
                                         <div class="d-block">
                                             <a href="#">
-                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Transit</button>
+                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                             </a>
                                         </div>
                                     </td>

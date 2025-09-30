@@ -68,6 +68,10 @@ $date = date('Y');
             font-weight: 500 !important;
         }
 
+        .bookingDate {
+            width: 130px !important;
+        }
+
         .dateRange {
             border-radius: 14px !important;
         }
@@ -581,7 +585,7 @@ $date = date('Y');
                                                                     </button>
                                                                 </a>
                                                             </div>
-                                                         <?php
+                                                        <?php
                                                             } else if ($booking['confirm_status'] == 0){ // Pending
                                                         ?>
                                                             <div class="d-block">
@@ -635,7 +639,7 @@ $date = date('Y');
                                                                     <i class="fa-solid fa-eye"></i> View
                                                                 </a>
                                                                 <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
-                                                                    <i class="fa-solid fa-arrow-down"></i> Download Details
+                                                                    <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                 </a>
                                                                 <?php 
                                                                     if ($booking['status'] === '2') {
@@ -712,7 +716,7 @@ $date = date('Y');
                                                             p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id,b.confirm_status
                                                             FROM bookings b
                                                             JOIN package p ON b.package_id = p.id
-                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'
+                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' AND b.confirm_status=0
                                                             ";
 
                                                     // Debugging: Log SQL query and TA IDs
@@ -844,7 +848,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1039,7 +1043,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1253,7 +1257,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                 <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                             </div>
                                                         </div>
@@ -1465,7 +1469,7 @@ $date = date('Y');
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1939,7 +1943,7 @@ $date = date('Y');
                 <div class="card ${classVal} border border-primary-subtle rounded-4 p-2 mt-2 mb-0">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-center fs-5 fw-bold cardText ms-3">${booking.package_name}</span>
-                        <span class="text-muted text-end m-0 pera">${booking.date}</span>
+                        <span class="text-muted text-end m-0 pera bookingDate">${booking.date}</span>
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">

@@ -6,7 +6,7 @@ require "../connect.php";
 
 $f_id= $_POST["fid"];
 $id= $_POST["id"];
-$user_type=$f_id_str == 'BM'? '26':($f_id_str == 'MF'?'28':($f_id_str == 'SF'?'30':'NA'));"26";
+$user_type=$f_id_str == 'BM'? '26':($f_id_str == 'MF'?'28':($f_id_str == 'SF'?'30':'NA'));
 $userId = $_POST['userId']; //BH250001
 $userType = $_POST['userType']; //24
 $f_id_str=substr($f_id,0,2);

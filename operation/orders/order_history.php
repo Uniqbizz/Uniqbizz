@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION['username'])) {
     echo '<script>location.href = "../login.php";</script>';
 }
+$date = date('Y'); 
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +67,9 @@ if (!isset($_SESSION['username'])) {
             font-size: 10px !important;
             font-weight: 500 !important;
         }
-
+        .bookingDate {
+            width: 130px !important;
+        }
         .dateRange {
             border-radius: 14px !important;
         }
@@ -319,7 +322,7 @@ if (!isset($_SESSION['username'])) {
                         <!-- Calender End -->
 
                         <!-- Order History Start -->
-                        <div class="row rowAlign">
+                        <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
                                 <nav role="navigation">
                                     <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
@@ -341,14 +344,14 @@ if (!isset($_SESSION['username'])) {
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-5 col-5 pb-3 px-0">
                                 <div class="d-flex justify-content-center">
-                                    <div id="addHistory" class="bg-primary px-3 py-2 text-center w-75 rounded-4">
+                                    <div id="addHistory" class="bg-primary px-3 py-2 text-center rounded-4">
                                         <a href="placeOrder.php" class="text-white"><i class="fa fa-pencil-square me-2"></i>Place Order</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 pb-3">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-7 col-7 pb-3 ps-0">
                                 <div class="d-flex justify-content-end dateRangeAlign">
                                     <div id="reportrange" class="bg-primary text-white px-3 py-2 w-100 text-center dateRange">
                                         <i class="fa fa-calendar"></i>&nbsp;
@@ -516,23 +519,38 @@ if (!isset($_SESSION['username'])) {
                                                             $cursor = 'cursor: pointer';
                                                         }
                                                     ?>
+                                                    <?php
+                                                        $data_remaining_amt = '';
+                                                        $data_pending_amt = '';
+
+                                                        if ($perecent_fill == 40) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                            $data_pending_amt = $booking_bill['part_pay_2'];
+                                                        } else if ($perecent_fill == 70) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_3'];
+                                                            $data_pending_amt = $booking_bill['part_pay_3'];
+                                                        } else if ($perecent_fill == 50) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_2'];
+                                                            $data_pending_amt = $booking_bill['part_pay_2'];
+                                                        }
+                                                    ?>
+
                                                     <td>
-                                                        <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
-                                                            <?php
-
-                                                                if ($perecent_fill == 40) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                } else if ($perecent_fill == 70) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
-                                                                } else if ($perecent_fill == 50) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                }
-
-                                                            ?>
+                                                        <div class="progress border <?= $border ?>" role="progressbar" aria-label="Example with label"
+                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100"
+                                                            <?= $load_modal ?> data-bs-target="#paymentModal"
+                                                            data-booking-id="<?= $booking['id'] ?>"
+                                                            data-booking-fullamt="<?= $booking_full_amt ?>"
+                                                            data-booking-paytype="<?= $booking_bill['pay_type'] ?>"
+                                                            data-booking-fill="<?= $perecent_fill ?>"
+                                                            <?= $data_remaining_amt !== '' ? 'data-remaining-amt="' . $data_remaining_amt . '"' : '' ?>
+                                                            <?= $data_pending_amt !== '' ? 'data-pending-amt="' . $data_pending_amt . '"' : '' ?>
                                                         >
-                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>"><?= $perecent_fill ?>%</div>
+                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>">
+                                                                <?= $perecent_fill ?>%
+                                                            </div>
                                                         </div>
-                                                        <div id="" class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
+                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
                                                     </td>
                                                     <td>
                                                         <?php
@@ -565,7 +583,7 @@ if (!isset($_SESSION['username'])) {
                                                                     </button>
                                                                 </a>
                                                             </div>
-                                                         <?php
+                                                        <?php
                                                             } else if ($booking['confirm_status'] == 0){ // Pending
                                                         ?>
                                                             <div class="d-block">
@@ -619,7 +637,7 @@ if (!isset($_SESSION['username'])) {
                                                                     <i class="fa-solid fa-eye"></i> View
                                                                 </a>
                                                                 <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
-                                                                    <i class="fa-solid fa-arrow-down"></i> Download Details
+                                                                    <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                 </a>
                                                                 <?php 
                                                                     if ($booking['status'] === '2') {
@@ -696,7 +714,7 @@ if (!isset($_SESSION['username'])) {
                                                             p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id,b.confirm_status
                                                             FROM bookings b
                                                             JOIN package p ON b.package_id = p.id
-                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'
+                                                            WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' AND b.confirm_status=0
                                                             ";
 
                                                     // Debugging: Log SQL query and TA IDs
@@ -828,7 +846,7 @@ if (!isset($_SESSION['username'])) {
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1023,7 +1041,7 @@ if (!isset($_SESSION['username'])) {
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1193,20 +1211,38 @@ if (!isset($_SESSION['username'])) {
                                                             $cursor = 'cursor: pointer';
                                                         }
                                                     ?>
+                                                    <?php
+                                                        $data_remaining_amt = '';
+                                                        $data_pending_amt = '';
+
+                                                        if ($perecent_fill == 40) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                            $data_pending_amt = $booking_bill['part_pay_2'];
+                                                        } else if ($perecent_fill == 70) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_3'];
+                                                            $data_pending_amt = $booking_bill['part_pay_3'];
+                                                        } else if ($perecent_fill == 50) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_2'];
+                                                            $data_pending_amt = $booking_bill['part_pay_2'];
+                                                        }
+                                                    ?>
+
                                                     <td>
-                                                        <div class="progress border  <?= $border ?>" role="progressbar" aria-label="Example with label" aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100" <?= $load_modal ?> data-bs-target="#paymentModal" data-booking-id="<?= $booking['id'] ?>" data-booking-fullamt="<?= $booking_full_amt ?>" data-booking-paytype="<?= $booking_bill['pay_type'] ?>" data-booking-fill="<?= $perecent_fill ?>"
-                                                            <?php
-                                                                if ($perecent_fill == 40) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                } else if ($perecent_fill == 70) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
-                                                                } else if ($perecent_fill == 50) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                }
-                                                            ?>>
-                                                            <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
+                                                        <div class="progress border <?= $border ?>" role="progressbar" aria-label="Example with label"
+                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100"
+                                                            <?= $load_modal ?> data-bs-target="#paymentModal"
+                                                            data-booking-id="<?= $booking['id'] ?>"
+                                                            data-booking-fullamt="<?= $booking_full_amt ?>"
+                                                            data-booking-paytype="<?= $booking_bill['pay_type'] ?>"
+                                                            data-booking-fill="<?= $perecent_fill ?>"
+                                                            <?= $data_remaining_amt !== '' ? 'data-remaining-amt="' . $data_remaining_amt . '"' : '' ?>
+                                                            <?= $data_pending_amt !== '' ? 'data-pending-amt="' . $data_pending_amt . '"' : '' ?>
+                                                        >
+                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>">
+                                                                <?= $perecent_fill ?>%
+                                                            </div>
                                                         </div>
-                                                        <div id="" class="my-2 text-center">Paid Rs.<? $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
+                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
                                                     </td>
                                                     <td>
                                                         <div class="d-block">
@@ -1219,7 +1255,7 @@ if (!isset($_SESSION['username'])) {
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                 <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                             </div>
                                                         </div>
@@ -1387,21 +1423,38 @@ if (!isset($_SESSION['username'])) {
                                                     ?>
 
 
-                                                    <td>
-                                                        <div class="progress border  <?= $border . '" role="progressbar" aria-label="Example with label" aria-valuenow="' . $perecent_fill . '" aria-valuemin="0" aria-valuemax="100" ' . $load_modal . '" data-bs-target="#paymentModal" data-booking-id="' . $booking['id'] . '" data-booking-fullamt="' . $booking_full_amt . '" data-booking-paytype="' . $booking_bill['pay_type'] . '" data-booking-fill="' . $perecent_fill ?>"
+                                                    <?php
+                                                        $data_remaining_amt = '';
+                                                        $data_pending_amt = '';
 
-                                                            <?php
-                                                                if ($perecent_fill == 40) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                } else if ($perecent_fill == 70) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_3'] . '"data-pending-amt="' . $booking_bill['part_pay_3'] . '"';
-                                                                } else if ($perecent_fill == 50) {
-                                                                    echo ' data-remaining-amt="' . $booking_bill['part_pay_2'] . '" data-pending-amt="' . $booking_bill['part_pay_2'] . '"';
-                                                                }
-                                                            ?>>
-                                                            <div class="progress-bar <?= $bg_color . '" style="width: ' . $perecent_fill . '%; height:10px; ' . $cursor ?>"><?= $perecent_fill ?>%</div>
+                                                        if ($perecent_fill == 40) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                            $data_pending_amt = $booking_bill['part_pay_2'];
+                                                        } else if ($perecent_fill == 70) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_3'];
+                                                            $data_pending_amt = $booking_bill['part_pay_3'];
+                                                        } else if ($perecent_fill == 50) {
+                                                            $data_remaining_amt = $booking_bill['part_pay_2'];
+                                                            $data_pending_amt = $booking_bill['part_pay_2'];
+                                                        }
+                                                    ?>
+
+                                                    <td>
+                                                        <div class="progress border <?= $border ?>" role="progressbar" aria-label="Example with label"
+                                                            aria-valuenow="<?= $perecent_fill ?>" aria-valuemin="0" aria-valuemax="100"
+                                                            <?= $load_modal ?> data-bs-target="#paymentModal"
+                                                            data-booking-id="<?= $booking['id'] ?>"
+                                                            data-booking-fullamt="<?= $booking_full_amt ?>"
+                                                            data-booking-paytype="<?= $booking_bill['pay_type'] ?>"
+                                                            data-booking-fill="<?= $perecent_fill ?>"
+                                                            <?= $data_remaining_amt !== '' ? 'data-remaining-amt="' . $data_remaining_amt . '"' : '' ?>
+                                                            <?= $data_pending_amt !== '' ? 'data-pending-amt="' . $data_pending_amt . '"' : '' ?>
+                                                        >
+                                                            <div class="progress-bar <?= $bg_color ?>" style="width: <?= $perecent_fill ?>%; height:10px; <?= $cursor ?>">
+                                                                <?= $perecent_fill ?>%
+                                                            </div>
                                                         </div>
-                                                        <div id="" class="my-2 text-center">Paid Rs.' . $booking_paid_amt . ' of Rs.' . $booking_full_amt . '</div>
+                                                        <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt ?> of Rs.<?= $booking_full_amt ?></div>
                                                     </td>
                                                     <td>
                                                         <div class="d-block">
@@ -1414,7 +1467,7 @@ if (!isset($_SESSION['username'])) {
                                                             <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                             <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -1442,6 +1495,20 @@ if (!isset($_SESSION['username'])) {
                         </div>
                     </div>
                 </div>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <?php echo $date; ?> © Uniqbizz.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by MirthCon.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
         <!-- Refund Modal -->
@@ -1874,7 +1941,7 @@ if (!isset($_SESSION['username'])) {
                 <div class="card ${classVal} border border-primary-subtle rounded-4 p-2 mt-2 mb-0">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-center fs-5 fw-bold cardText ms-3">${booking.package_name}</span>
-                        <span class="text-muted text-end m-0 pera">${booking.date}</span>
+                        <span class="text-muted text-end m-0 pera bookingDate">${booking.date}</span>
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">

@@ -310,7 +310,7 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-4 d-flex justify-content-end heroCard">
-                            <div class="top-header-right">
+                            <!-- <div class="top-header-right">
                                 <div class="contact-section d-flex">
                                     <div class="btn btn-outline-light rounded-circle me-2 callBtn">
                                         <i class="ri-phone-line phoneSize"></i>
@@ -322,18 +322,18 @@
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Top Left Side -->
                             
                             <div class="header-right-three pl-15 d-none d-lg-flex">
-                                <div class="d-flex gap-20 align-items-center">
-                                    <div class="sign-btn">
+                                <div class="d-flex gap-10 align-items-center">
+                                    <div class="sign-btn d-flex gap-10">
                                         <?php 
                                             if(isset($_SESSION['username2'])){
-                                                echo '<a href="dashboard/" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
-                                                <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
+                                                echo '<a href="dashboard/" class="btn btn-outline-light radius-30 text-white fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
+                                                <a href="login.php" class="btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
                                             }else{
-                                                echo'<a href="login.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:80px; height:40px;">Log In</a>';
+                                                echo'<a href="login.php" class="btn btn-outline-light radius-30 text-white fw-bolder d-flex justify-content-center align-items-center" style="width:80px; height:40px;">Log In</a>';
                                             }
                                         ?>
                                     </div>
@@ -345,8 +345,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
+
                     <!-- Mobile Menu -->
                     <div class="div">
                         <div class="mobile_menu d-block d-lg-none"></div>
