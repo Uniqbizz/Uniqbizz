@@ -154,7 +154,9 @@
                                                                                 $datev= $dt->format('d-m-Y'); 
                                                                                 echo'<tr>
                                                                                     <td>'.$i.'</td>
-                                                                                    <td><span class="badge bg-secondary lable-width">' . $row['user_type']=='26' ? strtoupper('bm'):($row['user_type']== '28'?strtoupper('mf'):($row['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                    <td><span class="badge bg-secondary lable-width">' . 
+                                                                                        ($row['user_type']=='26' ? strtoupper('bm') : ($row['user_type']== '28' ? strtoupper('mf') : ($row['user_type'] == '30' ? strtoupper('sf') : ''))) . 
+                                                                                        '</span>&nbsp; '.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                     <td>
                                                                                         <p>'.$row['reference_no'].'</p>
                                                                                         <p>'.$row['registrant'].'</p>
@@ -191,7 +193,9 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$i.'</td>
-                                                                                <td><span class="badge bg-secondary lable-width">' . $row['user_type']=='26' ? strtoupper('bm'):($row['user_type']== '28'?strtoupper('mf'):($row['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . 
+                                                                                    ($row['user_type']=='26' ? strtoupper('bm') : ($row['user_type']== '28' ? strtoupper('mf') : ($row['user_type'] == '30' ? strtoupper('sf') : ''))) . 
+                                                                                    '</span>&nbsp; '.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                 <td>
                                                                                     <p>'.$row['reference_no'].'</p>
                                                                                     <p>'.$row['registrant'].'</p>
@@ -223,8 +227,9 @@
                                                                             $datev= $dt->format('d-m-Y'); 
                                                                             echo'<tr>
                                                                                 <td>'.$i.'</td>
-                                                                                <td><span class="badge bg-secondary lable-width">' . $row['user_type']=='26' ? strtoupper('bm'):($row['user_type']== '28'?strtoupper('mf'):($row['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
-                                                                                <td>
+                                                                                <td><span class="badge bg-secondary lable-width">' . 
+                                                                                    ($row['user_type']=='26' ? strtoupper('bm') : ($row['user_type']== '28' ? strtoupper('mf') : ($row['user_type'] == '30' ? strtoupper('sf') : ''))) . 
+                                                                                    '</span>&nbsp; '.$row['firstname'].' '.$row['lastname'].'</td>
                                                                                     <p>'.$row['reference_no'].'</p>
                                                                                     <p>'.$row['registrant'].'</p>
                                                                                 </td>
@@ -295,7 +300,9 @@
                                                                                 echo'<tr>
                                                                                     <td>
                                                                                         <p>'.$userBM['user_id'].'</p>
-                                                                                        <p><span class="badge bg-secondary lable-width">' . $userBDM['user_type']=='26' ? strtoupper('bm'):($userBDM['user_type']== '28'?strtoupper('mf'):($userBDM['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                        <p><span class="badge bg-secondary lable-width">' . 
+                                                                                            ($row['user_type']=='26' ? strtoupper('bm') : ($row['user_type']== '28' ? strtoupper('mf') : ($row['user_type'] == '30' ? strtoupper('sf') : ''))) . 
+                                                                                            '</span>&nbsp; '.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                     </td>
                                                                                     <td>
                                                                                         <p>'.$userBM['reference_no'].'</p>
@@ -359,19 +366,9 @@
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$userBM['user_id'].'</p>
-                                                                                    <p><span class="badge bg-secondary lable-width">' 
-                                                                                        . ($userBM['user_type']=='26' 
-                                                                                            ? strtoupper('bm') 
-                                                                                            : ($userBM['user_type']=='28' 
-                                                                                                ? strtoupper('mf') 
-                                                                                                : ($userBM['user_type']=='30' 
-                                                                                                    ? strtoupper('sf') 
-                                                                                                    : ''
-                                                                                                )
-                                                                                            )
-                                                                                        ) 
-                                                                                        . '</span>&nbsp;' 
-                                                                                        . $userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                    <p><span class="badge bg-secondary lable-width">' . 
+                                                                                            ($row['user_type']=='26' ? strtoupper('bm') : ($row['user_type']== '28' ? strtoupper('mf') : ($row['user_type'] == '30' ? strtoupper('sf') : ''))) . 
+                                                                                            '</span>&nbsp; '.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <p>'.$userBM['reference_no'].'</p>
@@ -430,7 +427,9 @@
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$userBM['user_id'].'</p>
-                                                                                    <p><span class="badge bg-secondary lable-width">' . $userBM['user_type']=='26' ? strtoupper('bm'):($userBM['user_type']== '28'?strtoupper('mf'):($userBM['user_type'] == '30'?strtoupper('sf'):'')) . '</span>&nbsp;'.$userBM['firstname'].' '.$userBM['lastname'].'</p>
+                                                                                    <p><span class="badge bg-secondary lable-width">' . 
+                                                                                            ($row['user_type']=='26' ? strtoupper('bm') : ($row['user_type']== '28' ? strtoupper('mf') : ($row['user_type'] == '30' ? strtoupper('sf') : ''))) . 
+                                                                                            '</span>&nbsp; '.$userBM['firstname'].' '.$userBM['lastname'].'</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <p>'.$userBM['reference_no'].'</p>
