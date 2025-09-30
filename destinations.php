@@ -279,14 +279,14 @@
                                 </div>
                             </a>
                         </div> 
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <a href="destination-details/destination-details-goa.php" class="destination-banner h-calc">
-                                <img src="assets/images/destination/goa5.jpg" alt="travello">
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-maldives.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Maldives1.jpg" alt="Maldives">
                                 <div class="destination-content">
                                     
                                     <div class="destination-info">
                                         <div class="destination-name">
-                                            <p class="pera">Goa</p>
+                                            <p class="pera">Maldives</p>
                                             
                                         </div>
                                         <div class="button-section">
@@ -295,7 +295,52 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> -->
+                        </div>
+                        <div class="col-lg-8 col-sm-6">
+                            <a href="destination-details/destination-details-thailand.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Thailand1.jpg" alt="Thailand">
+                                <div class="destination-content">
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Thailand</p>
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-vietnam.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Vietnam1.jpg" alt="Vietnam">
+                                <div class="destination-content">
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Vietnam</p>
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-5 col-sm-6">
+                            <a href="destination-details/destination-details-georgia.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Georgia1.jpg" alt="Georgia">
+                                <div class="destination-content">
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Georgia</p>
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

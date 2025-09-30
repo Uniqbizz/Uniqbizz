@@ -166,14 +166,14 @@ if ($data9->rowCount() > 0) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="price-review">
+                            <!-- <div class="price-review">
                                 <div class="d-flex gap-10 align-items-end">
                                     <p class="light-pera">Starting From</p>
                                     <p class="pera">
                                         <span>&#8377</span><?php echo $amount['total_package_price_per_adult'] ?>/-
                                     </p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="mt-30">
                             <div class="row g-4">
@@ -282,7 +282,7 @@ if ($data9->rowCount() > 0) {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-lg-5" id="sidebar-sticky">
+                                <!-- <div class="col-xl-4 col-lg-5" id="sidebar-sticky">
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12 mb-3" id="sidebar-sticky">
                                             <aside class="date-travel-card position-sticky top-0 pt-3 pb-1">
@@ -299,7 +299,7 @@ if ($data9->rowCount() > 0) {
                                             </aside>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

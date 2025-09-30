@@ -80,13 +80,13 @@
                             <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Maldives1.jpg" alt="Maldives" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Maldives2.jpg" alt="Maldives" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Maldives3.jpg" alt="Maldives" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -95,70 +95,68 @@
                         <div class="col-xl-8 col-lg-7">
                             <!-- Details content -->
                             <div class="destination-details-content">
-                                <h4 class="title">Uttarakhand - A Land Of Spirituality, Nature And Culture</h4>
+                                <h4 class="title">Maldives - A Symphony Of Sun, Sea And Serinity</h4>
                                 <p class="pera">
-                                    Uttarakhand is a north Indian state nestled in the midst of the Himalaya Mountains. It is a land of 
-                                    mythological heritage often referred to as “Devbhomi,” meaning the abode of the gods. The state has 
-                                    a great influx of pilgrim tourists, adventure seekers, and nature lovers. 
+                                    The Maldives is an archipelago of about 1,200 coral islands located in the Indian Ocean. It is 
+                                    divided into 26 atolls. Male is the capital of the Maldives. The main attractions in Male are the 
+                                    Ukuru Misky Mosque, the Islamic Centre, the President’s Palace, and the Maldives National Museum. 
+                                    The tropical Islands of the Maldives each have their own unique ecological charm for tourists to 
+                                    explore. 
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's famous spiritual destinations are the Char Dham pilgrim temples of Kedarnath, Badrinath, 
-                                    Gangotri, and Yamunotri, along with the sacred towns of Rishikesh and Haridwar, where the sacred Ganga 
-                                    River flows. These holy places attract countless pilgrims seeking solace and spiritual tranquility.
+                                    Ari Atoll is the largest atoll in the Maldives. It’s rich marine resources include sharks, turtles, 
+                                    and Manta rays. It is also a popular destination for scuba diving, snorkeling, and luxury travel. 
+                                    The pristine white sand beaches, turquoise waters, and stunning sunset views are ideal for a Honeymoon 
+                                    vacation. 
+                                </p>
+                                <p class="pera"> 
+                                    Baa Atol a UNESCO Biosphere Reserve is a home to the famous Hanafaru Bay, and a breeding ground for 
+                                    Manta Rays and Whale sharks. It has luxurious resorts and is less crowded. Its natural beauty and 
+                                    stunning biosphere make it a perfect holiday for nature lovers and eco-tourists. 
                                 </p>
                                 <p class="pera">
-                                    The most famous spiritual event of Uttarakhand that attracts large devotees from around the world is 
-                                    the sacred Kumbh Mela. It takes place once in 12 years, in Prayagraj. The Pilgrims gather here to 
-                                    take a holy dip in the River Ganges for spiritual cleansing of the soul and to attain salvation. 
-                                    Other popular religious festivals in Uttarakhand are Dussehra, Diwali, Shivaratri, and Holi, which are 
-                                    also spiritually enriching. 
+                                    Addu Atoll is an Island made up of several Islands, including Gan Island, which is the largest island. 
+                                    It has the best diving and snorkeling spots. Its rich Marine life includes the colourful coral reef 
+                                    fish, sharks, and turtles. History lovers can explore the British Loyalty Shipwreck from World War II, 
+                                    a popular diving site.    
                                 </p>
                                 <p class="pera">
-                                    The states attracts tourists to the scenic hill stations of Nainital, Mussoorie and Auli.  Nanital 
-                                    is a hill station surrounded by forests and adorned with lakes. It offers activities of boating, 
-                                    birdwatching, and serene nature walks. Mussoorie, known as the Queen of Hills, offers panoramic 
-                                    mountain views and is ideal for hiking, camping, and exploring waterfalls. Whereas, Auli a hill 
-                                    station with snow-covered slopes and alpine meadows, is a dream destination for skiing enthusiasts. 
-                                    These captivating holiday hills stations are both relaxing and adventurous. 
+                                    Vaadhoo Island is a small Island in the Maldives, located in the Raa Atoll. The Island is renowned for 
+                                    its natural bioluminescent beach, known as the “Sea of Stars”. The shoreline of this beach is, 
+                                    illuminated by a blue, luminescent light that is visible at night. This Island is a worldwide tourist 
+                                    attraction.  
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand is a hub for eco-tourism. It has numerous national parks and wildlife sanctuaries. 
-                                    The best wildlife sanctuaries of Uttarakhand is the Jim Corbett National Park.  It is home 
-                                    to many endangered wildlife species such as the Royal Bengal Tiger, Sambar, Spotted Deer (Chital), 
-                                    Hog Deer, and Barking Deer—reptiles such as Gharial, Mugger crocodile, and various species of 
-                                    snakes, including the King Cobra. 
+                                    Hulhumalé Island is a man-made Island in Male, connected by a bridge offering affordable guesthouses, 
+                                    local markets, and tasty, authentic Maldivian cuisine. It is also a hotspot for water sports activities 
+                                    such as windsurfing and kiteboarding. 
                                 </p>
                                 <p class="pera">
-                                    The National Park of the Valley of Flowers is a UNESCO World Heritage site. It has more than 
-                                    500 species of flowers that bloom in the monsoon season (June – September). The Brahma Kamal 
-                                    flower, a rare species, is the state flower of Uttarakhand. It is, used in Tibetan medicines.  
+                                    Thulhaagiri Island is a small Island. It is popular for scuba diving, snorkeling, and windsurfing. Its 
+                                    rich Marine waters include Turtles and Rays. The Island’s beautiful white sand beaches, crystal-clear 
+                                    waters and luxury resorts attract tourists.  
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's local bazaars offer an enjoyable shopping experience with their high-quality 
-                                    leather goods, handicrafts, wooden items, carpets, gems, jewelry, bakery goods, and delicious 
-                                    homemade jams and squash. Woollen clothing and traditional Garhwali paintings make perfect 
-                                    souvenirs to take home. Nanital is, especially known for beautifully handcrafted wax candles, 
-                                    while Munsiyari, Mussoorie, and Nainital are places for unique handmade accessories, gems, 
-                                    and woodcrafts. 
+                                    Alimatha Island is located in the Vaavu atoll. Its marine life includes colourful fish and coral reefs. 
+                                    It offers night diving activities and snorkeling with nurse sharks for diving enthusiasts. The Island’s 
+                                    luxury resorts and white sandy beaches are ideal for relaxation.  
                                 </p>
                                 <p class="pera">
-                                    The state celebrates many festivals that are deeply rooted in tradition, with reverence for 
-                                    nature and agricultural heritage. Some of these festivals are Phool Dei, Harela, Basant Panchami, 
-                                    and Ganga Dussehra, celebrated with holy dips and grand aartis in Haridwar and Rishikesh, and 
-                                    the Jat Yatra pilgrimage that occurs once in 12 year. Other festivals celebrated are the 
-                                    Kumaoni Holi, Makar Sankranti, and the Bissu Mela fair. 
+                                    Thoddo Island is referred to as the “Fruit Basket” of the Maldives. With Agriculture as the main source 
+                                    of livelihood, the land produces fresh watermelons, papayas, bananas, and other tropical fruits. The 
+                                    Island also offers beautiful bikini beaches with authentic cultural experiences. The local people here 
+                                    are very friendly in nature.  
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand cuisine is simple and nutritious, made with local ingredient. The Garhwali dishes 
-                                    Kafuli, Chainsoo, and Phaanu (lentil stews), and Kumaoni dishes like Bhatt ki Churkani. Snacks 
-                                    include Aloo Gutke (spiced potatoes) and Bhang ki Chutney (hemp seed chutney), desserts like 
-                                    BAL Mithai (a fudge-like sweet) and Jhangora Ki Kheer (millet pudding). 
+                                    Maafushi Island is located in the south of Male. Its vibrant bars, nightlife, with a variety of 
+                                    affordable restaurants and cafes on its shore attract tourists. It is the best location for activities 
+                                    like scuba diving and snorkeling and a great place to shop for souvenirs.  
                                 </p>
                                 <p class="pera">
-                                    The inner peace of the ancient temples, the adventurous activity of river rafting at Rishikesh, 
-                                    the skiing adventures at Auli, the fragrance of blooming alpine flowers in the Himalayas, the 
-                                    traditional local festivals and vibrant local markets all leave an everlasting impression on 
-                                    the heart and soul of every tourist visiting Uttarakhand. 
+                                    Fuvahmulah Island is the third-largest island in the Maldives. This volcanic island includes freshwater 
+                                    lakes, tropical woodlands, and marshy wetlands. Famous for its Pebble Beach the island's fertile soil 
+                                    produces a variety of fruits such as Mangoes, Pineapples, and Guavas. The Jamble Tree, nearly extinct, 
+                                    is grown here. It offers various activities like fishing, diving, and jungle trekking.  
                                 </p>
                             </div>
                             <!--/ details-content -->
@@ -295,6 +293,7 @@
                                     / Offer card
                                 </div> -->
                                 <div class="col-lg-12">
+                                    
                                     <!-- info -->
                                     <div class="destination-details-info">
                                         <h4 class="title">Basic Information</h4>
@@ -303,123 +302,124 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Country</th>
-                                                        <td>India</td>
+                                                        <td>Maldives</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Language</th>
-                                                        <td>Hindi. Sanskrit. Garhwali. Kumaoni. Jaunsari.</td>
+                                                        <td>Dhivehi. English. French. German. Mandarin.</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Currency</th>
-                                                        <td> INR (Rupees)</td>
+                                                        <td>Maldivian Rufiyaa</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Population</th>
-                                                        <td>1.19 Crores</td>
+                                                        <td>5.3 Lakhs</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Area</th>
-                                                        <td>20,650 Square Miles</td>
+                                                        <td>115 Square Miles</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Time to Travel</th>
-                                                        <td>March to June and September to November</td>
+                                                        <td>November to April</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
 
                                     </div>
-                                    
+                                    <!-- /info  -->
                                 </div>
+                                
                             </div>
                         </div>
-                        <div class="col-xl-12 col-lg-12">
+                    </div>
+                    <div class="col-xl-12 col-lg-12">
                             
-                            <div class="row g-4">
-                                <?php 
-                                    require '../connect.php';
-                                    $searchPac = "Uttarakhand";
-                                    $user_id = 0;
-                                    $ta_id = 0;
-                                    // get TA id
-                                    if ( $user_id ) {
-                                        if (  $user_type == '2' ) {
-                                            $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
-                                            $ta_data->execute();
-                                            $ta = $ta_data->fetch();
-                                            $ta_id = $ta['ta_reference'];
-                                        } else if (  $user_type == '3' ) {
-                                            $ta_id = $user_id;
-                                        }
+                        <div class="row g-4">
+                            <?php 
+                                require '../connect.php';
+                                $searchPac = "Maldives";
+                                $user_id = 0;
+                                $ta_id = 0;
+                                // get TA id
+                                if ( $user_id ) {
+                                    if (  $user_type == '2' ) {
+                                        $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
+                                        $ta_data->execute();
+                                        $ta = $ta_data->fetch();
+                                        $ta_id = $ta['ta_reference'];
+                                    } else if (  $user_type == '3' ) {
+                                        $ta_id = $user_id;
                                     }
+                                }
 
-                                    $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id DESC LIMIT 4 ");
-                                    $stmt->execute();
-                                    $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-                                    if($stmt->rowCount()>0){
-                                        foreach (($stmt->fetchAll()) as $key => $row) {
-                                            // $name = $row['name'].''.$row['unique_code'];
-                                            // echo $srno.' '.$name.'</br>';
+                                $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id  ");
+                                $stmt->execute();
+                                $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                if($stmt->rowCount()>0){
+                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                        // $name = $row['name'].''.$row['unique_code'];
+                                        // echo $srno.' '.$name.'</br>';
 
-                                            // get images
-                                            $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
-                                            $data->execute();
-                                            $value = $data->fetch();
-                                            // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+                                        // get images
+                                        $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
+                                        $data->execute();
+                                        $value = $data->fetch();
+                                        // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
 
-                                            $adult_price = (int)$row['total_package_price_per_adult'];
-                                            $markup_price = (int)$row['markup_total'];
-                                            $total_base_price = $adult_price + $markup_price;
+                                        $adult_price = (int)$row['total_package_price_per_adult'];
+                                        $markup_price = (int)$row['markup_total'];
+                                        $total_base_price = $adult_price + $markup_price;
 
-                                            if ( $ta_id ) {
-                                                $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
-                                                $ta_markup_data->execute();
-                                                $ta_markup = $ta_markup_data->fetch();
+                                        if ( $ta_id ) {
+                                            $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
+                                            $ta_markup_data->execute();
+                                            $ta_markup = $ta_markup_data->fetch();
 
-                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                            } else {
-                                                $total_price = $total_base_price;
-                                            }
+                                            $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                        } else {
+                                            $total_price = $total_base_price;
+                                        }
 
-                                            echo'
-                                                <div class="col-xl-3 col-lg-4 col-sm-6">
-                                                    <div class="package-card">
-                                                        <div class="package-img imgEffect4">
-                                                            <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
-                                                                <img src="../'.$value['image'].'" alt="BizzMirth">
-                                                            </a>
+                                        echo'
+                                            <div class="col-xl-3 col-lg-3 col-sm-3">
+                                                <div class="package-card">
+                                                    <div class="package-img imgEffect4">
+                                                        <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
+                                                            <img src="../'.$value['image'].'" alt="BizzMirth">
+                                                        </a>
+                                                    </div>
+                                                    <div class="package-content">
+                                                        <h4 class="area-name">
+                                                            <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
+                                                        </h4>
+                                                        <div class="location">
+                                                            <i class="ri-map-pin-line"></i>
+                                                            <div class="name">'.$row['destination'].'</div>
                                                         </div>
-                                                        <div class="package-content">
-                                                            <h4 class="area-name">
-                                                                <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
-                                                            </h4>
-                                                            <div class="location">
-                                                                <i class="ri-map-pin-line"></i>
-                                                                <div class="name">'.$row['destination'].'</div>
+                                                        <div class="packages-person">
+                                                            <div class="count">
+                                                                <i class="ri-time-line"></i>
+                                                                <p class="pera">'.$row['location'].'</p>
                                                             </div>
-                                                            <div class="packages-person">
-                                                                <div class="count">
-                                                                    <i class="ri-time-line"></i>
-                                                                    <p class="pera">'.$row['location'].'</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="price-review">
-                                                                <div class="d-flex gap-10">
-                                                                    <p class="light-pera">From</p>
-                                                                    <p class="pera"><span>&#8377</span>'.$total_price.'</p>
-                                                                </div>
+                                                        </div>
+                                                        <div class="price-review">
+                                                            <div class="d-flex gap-10">
+                                                                <p class="light-pera">From</p>
+                                                                <p class="pera"><span>&#8377</span>'.$total_price.'</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ';
-                                        }
+                                            </div>
+                                        ';
                                     }
-                                ?>
-                            </div>
-                            
+                                }
+                            ?>
                         </div>
+                            
                     </div>
                 </div>
             </section>

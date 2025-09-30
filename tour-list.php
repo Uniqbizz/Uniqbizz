@@ -52,7 +52,7 @@ if (isset($_SESSION['user_type_id_value'])) {
     <meta name="csrf-token" content="...">
     <meta name="currency" content="$">
     <!-- Title -->
-    <title>Multipurpose travel and tour booking </title>
+    <title>Bizzmirth Holidays Pvt Ltd</title>
     <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-5.3.0.min.css">
@@ -64,6 +64,8 @@ if (isset($_SESSION['user_type_id_value'])) {
     <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .form-check-input {
             width: 18px;
@@ -75,6 +77,38 @@ if (isset($_SESSION['user_type_id_value'])) {
             font-size: 16px;
             color: #999999;
             font-family: var(--Dm);
+        }
+        .list-desc {
+            font-size: 12px;
+        }
+        .parent-container-badge {
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: 6px;
+        }
+        .badge-color {
+            background-color: #0d81ceff;
+            padding: 25px 0px 10px 0px;
+            text-align: center;
+            width: 130px;
+            transform: rotate(312deg);
+            position: absolute;
+            top: -6px;
+            left: -44px;
+        }
+        .trending{
+            color: #fff;
+            font-size: 13px;
+            font-weight: bolder;
+        }
+        .btn-background-color {
+            background-color: #e03d42 !important;
+            color: #fff !important;
+        }
+        .btn-background-color:hover {
+            background-color: #fff !important;
+            border: 2px solid #e03d42 !important;
+            color: #e03d42 !important;
         }
     </style>
 </head>
@@ -90,8 +124,9 @@ if (isset($_SESSION['user_type_id_value'])) {
                     <nav aria-label="breadcrumb" class="breadcrumb-nav wow fadeInUp" data-wow-delay="0.1s">
                         <ul class="breadcrumb listing">
                             <li class="breadcrumb-item single-list"><a href="index.php" class="single">Home</a></li>
-                            <li class="breadcrumb-item single-list" aria-current="page"><a href="javascript:void(0)"
-                                    class="single active">Tour List</a></li>
+                            <li class="breadcrumb-item single-list" aria-current="page">
+                                <a href="javascript:void(0)" class="single active">Tour List</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -228,6 +263,14 @@ if (isset($_SESSION['user_type_id_value'])) {
                     </div>
                     <div class="col-xl-9">
                         <div class="showing-result d-flex justify-content-end">
+                            <!-- <div class="d-flex">
+                                <div class="pe-2" id="list_column">
+                                    <i class="fa-solid fa-table-list fa-2xl" style="color: #e03d42;"></i>
+                                </div>
+                                <div class="pe-2" id="grid_column">
+                                   <i class="fa-solid fa-table-cells fa-2xl" style="color: #e03d42;"></i>
+                                </div>
+                            </div> -->
                             <!-- <h4 class="title">Showing 6 of 10 Results</h4> -->
                             <div class="d-flex gap-10 align-items-center">
                                 <div class="expand-icon hamburger block d-xl-none" id="hamburger">
@@ -249,7 +292,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                 </div>
                             </div>
                         </div>
-                        <div class="all-tour-list" id="all-tour-list">
+                        <div class="all-tour-list " id="all-tour-list">
                             <input type="hidden" id="userId" value="<?= $user_id ?>" />
                             <input type="hidden" id="userType" value="<?= $user_type ?>" />
                             <div class="row g-4">
@@ -262,16 +305,16 @@ if (isset($_SESSION['user_type_id_value'])) {
                                 // get TA id
                                 if ($user_id) {
                                     if ($user_type == '2') {
-                                        $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '" . $user_id . "' ");
+                                        $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
                                         $ta_data->execute();
                                         $ta = $ta_data->fetch();
-                                        $ta_id = $ta['ta_reference'];
+                                        $ta_id = $ta['ta_reference_no'];
                                     } else if ($user_type == '3') {
                                         $ta_id = $user_id;
                                     }
                                 }
 
-                                $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
                                 $stmt->execute();
                                 $stmt->SetFetchMode(PDO::FETCH_ASSOC);
                                 if ($stmt->rowCount() > 0) {
@@ -287,6 +330,10 @@ if (isset($_SESSION['user_type_id_value'])) {
 
                                         $adult_price = (int)$row['net_price_adult_with_GST'];
                                         $markup_price = (int)$row['markup_total'];
+
+                                        $tourDay = (int)$row['tour_days'] - 1;
+                                        $tourNight = (int)$row['tour_days'] - 2;
+
                                         $total_base_price = $adult_price + $markup_price;
 
                                         if ($ta_id) {
@@ -321,7 +368,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                         <div class="packages-person">
                                                             <div class="count">
                                                                 <i class="ri-time-line"></i>
-                                                                <p class="pera">' . $row['location'] . '</p>
+                                                                 <p class="pera"> '.$tourNight.' Night '.$tourDay.' Days</p>
                                                             </div>
                                                             <!-- <div class="count">
                                                                 <i class="ri-user-line"></i>
@@ -346,6 +393,58 @@ if (isset($_SESSION['user_type_id_value'])) {
                                 }
 
                                 ?>
+                            </div>
+                        </div>
+                        <div class="d-none" id="all-tour-grid">
+                            <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-4 px-0 parent-container-badge">
+                                        <a href="#">
+                                            <img src="assets/images/destination/destination-1.png" alt="BizzMirth" width="250px" height="230px" class="rounded-start">
+                                        </a>
+                                        <div class="badge-color">
+                                            <p class="trending">Trending</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-5 py-3 px-0 border-end">
+                                        <h4 class="fw-bolder pb-2">Historical Hollywood Walking Tour</h4>
+                                        <p class="pb-2">
+                                            <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
+                                            <span class="text-muted">Bryce Canyon national Park, USA</span>
+                                        </p>
+                                        <div class="star-ratings d-flex pb-2">
+                                            <p>
+                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                            </p>
+                                            <p><span class="ps-3">3</span> Reviews</p>
+                                        </div>
+                                        <div class="text-start list-desc">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
+                                            iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-3 ps-0">
+                                        <div class="d-flex justify-content-evenly py-3">
+                                            <button class="rounded-2 btn border-danger-subtle border-2">
+                                                <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                            </button>
+                                            <div class="rounded-2 btn border-danger-subtle border-2">
+                                                <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">3</span> DAYS</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-evenly py-3">
+                                            <h5 class="fw-bolder">&#8377; 20,000</h5>
+                                            <h5 class="fw-bolder text-muted text-decoration-line-through">&#8377; 24,999</h5>
+                                        </div>
+                                        <div class="d-flex justify-content-center py-3">
+                                            <a class="btn btn-background-color fw-bolder" href="#" role="button">Explore</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

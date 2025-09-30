@@ -80,13 +80,13 @@
                             <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Georgia1.jpg" alt="Georgia" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Georgia2.jpg" alt="Georgia" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Uttarakhand3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Georgia3.jpg" alt="Georgia" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -95,70 +95,68 @@
                         <div class="col-xl-8 col-lg-7">
                             <!-- Details content -->
                             <div class="destination-details-content">
-                                <h4 class="title">Uttarakhand - A Land Of Spirituality, Nature And Culture</h4>
+                                <h4 class="title">Georgia: A Land Of Sacred Monuments And Majestic Landscapes</h4>
                                 <p class="pera">
-                                    Uttarakhand is a north Indian state nestled in the midst of the Himalaya Mountains. It is a land of 
-                                    mythological heritage often referred to as “Devbhomi,” meaning the abode of the gods. The state has 
-                                    a great influx of pilgrim tourists, adventure seekers, and nature lovers. 
+                                    Georgia is a nation located at the intersection of Eastern Europe and Western Asia, which 
+                                    boasts an ancient past, unique wine culture, and beautiful scenery, of the Caucasus Mountains 
+                                    and the Black Sea  
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's famous spiritual destinations are the Char Dham pilgrim temples of Kedarnath, Badrinath, 
-                                    Gangotri, and Yamunotri, along with the sacred towns of Rishikesh and Haridwar, where the sacred Ganga 
-                                    River flows. These holy places attract countless pilgrims seeking solace and spiritual tranquility.
+                                    Tbilisi, the historic capital of Georgia, dates back to the 5th century. It is located on the 
+                                    banks of the Mtkvari River, under hills and mountains. The Narikala Fortress is an old fort. 
+                                    Tourists can hike or take a cable car to go up to the fortress and enjoy the spectacular view 
+                                    of the city below. You can also visit the towering monument of Mother Georgia that represents 
+                                    the spirit of the nation. 
                                 </p>
                                 <p class="pera">
-                                    The most famous spiritual event of Uttarakhand that attracts large devotees from around the world is 
-                                    the sacred Kumbh Mela. It takes place once in 12 years, in Prayagraj. The Pilgrims gather here to 
-                                    take a holy dip in the River Ganges for spiritual cleansing of the soul and to attain salvation. 
-                                    Other popular religious festivals in Uttarakhand are Dussehra, Diwali, Shivaratri, and Holi, which are 
-                                    also spiritually enriching. 
+                                    Tbilisi sulphur baths are world-renowned. They are located in the ancient district of 
+                                    Abanotubani. These therapeutic waters have healing properties that alleviate many ailments. 
+                                    Another historical site is The Chronicles of Georgia, found near the Tbilisi Sea, an 
+                                    artificial lake built close to the monument.   
                                 </p>
                                 <p class="pera">
-                                    The states attracts tourists to the scenic hill stations of Nainital, Mussoorie and Auli.  Nanital 
-                                    is a hill station surrounded by forests and adorned with lakes. It offers activities of boating, 
-                                    birdwatching, and serene nature walks. Mussoorie, known as the Queen of Hills, offers panoramic 
-                                    mountain views and is ideal for hiking, camping, and exploring waterfalls. Whereas, Auli a hill 
-                                    station with snow-covered slopes and alpine meadows, is a dream destination for skiing enthusiasts. 
-                                    These captivating holiday hills stations are both relaxing and adventurous. 
+                                    Mtskheta is a unique place of historical wonder, boasting numerous UNESCO World Heritage 
+                                    sites that offer insight into the architectural styles and religious history. The historic 
+                                    churches and monasteries, including Jvari Monastery, Svetitskhoveli Cathedral, the Shio-Mgvime 
+                                    monastery, also known as "the cave of Shio", a medieval monastic complex in Georgia, Samtavro 
+                                    Transfiguration Orthodox Church, Nunnery of St. Nino, and Zedazeni Monastery, a Georgian 
+                                    Orthodox monastery, each of which has a unique history.  
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand is a hub for eco-tourism. It has numerous national parks and wildlife sanctuaries. 
-                                    The best wildlife sanctuaries of Uttarakhand is the Jim Corbett National Park.  It is home 
-                                    to many endangered wildlife species such as the Royal Bengal Tiger, Sambar, Spotted Deer (Chital), 
-                                    Hog Deer, and Barking Deer—reptiles such as Gharial, Mugger crocodile, and various species of 
-                                    snakes, including the King Cobra. 
+                                    Zhinvali Reservoir is a huge, breathtaking turquoise hydroelectric dam reservoir on the Aragvi 
+                                    River. Its bright colour against the landscape of green, forest hills makes it one of the 
+                                    primary photo stops for tourists. The construction of the reservoir has submerged a small 
+                                    town and some ancient historical sites, like an 11th-century church. When the water levels 
+                                    are low in winter, the dome of this sunken church, the “Zhinvali Cross,” is visible above 
+                                    the water. 
                                 </p>
                                 <p class="pera">
-                                    The National Park of the Valley of Flowers is a UNESCO World Heritage site. It has more than 
-                                    500 species of flowers that bloom in the monsoon season (June – September). The Brahma Kamal 
-                                    flower, a rare species, is the state flower of Uttarakhand. It is, used in Tibetan medicines.  
+                                    The Ananuri and Gudauri are two popular destinations that add to the stunning beauty of 
+                                    Georgia's legendary northern highlands. The medieval towers of the Ananuri Fortress are a 
+                                    UNESCO World Heritage site. It rises above the blue waters of the Aragvi River.  Gudauri 
+                                    is the world–renowned ski adventure resort. It is a paradise for skier and snowboard lovers. 
+                                    A tourist can also enjoy spectacular panoramic views of the Georgian Military Highway, the 
+                                    rugged mountains and valleys below from the Russia-Georgia Friendship Monument.    
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand's local bazaars offer an enjoyable shopping experience with their high-quality 
-                                    leather goods, handicrafts, wooden items, carpets, gems, jewelry, bakery goods, and delicious 
-                                    homemade jams and squash. Woollen clothing and traditional Garhwali paintings make perfect 
-                                    souvenirs to take home. Nanital is, especially known for beautifully handcrafted wax candles, 
-                                    while Munsiyari, Mussoorie, and Nainital are places for unique handmade accessories, gems, 
-                                    and woodcrafts. 
+                                    Kazbegi, another destination, is renowned as the jewel of the Caucasus. You can visit the 
+                                    famous Gergeti Trinity Church, high above the town, with the great Mount Kazbek looming behind. 
+                                    Take some great photos and experience the peaceful spiritual ambiance of the place.  
                                 </p>
                                 <p class="pera">
-                                    The state celebrates many festivals that are deeply rooted in tradition, with reverence for 
-                                    nature and agricultural heritage. Some of these festivals are Phool Dei, Harela, Basant Panchami, 
-                                    and Ganga Dussehra, celebrated with holy dips and grand aartis in Haridwar and Rishikesh, and 
-                                    the Jat Yatra pilgrimage that occurs once in 12 year. Other festivals celebrated are the 
-                                    Kumaoni Holi, Makar Sankranti, and the Bissu Mela fair. 
+                                    Georgia is renowned as one of the oldest wine-producing regions in the world. It has, a 
+                                    centuries-long tradition of winemaking with a history spanning more than 8,000 years. Georgian 
+                                    wines are being produced from local variety of grapes, made traditional using qvevri 
+                                    (clay vessel) for fermentation. 
                                 </p>
                                 <p class="pera">
-                                    Uttarakhand cuisine is simple and nutritious, made with local ingredient. The Garhwali dishes 
-                                    Kafuli, Chainsoo, and Phaanu (lentil stews), and Kumaoni dishes like Bhatt ki Churkani. Snacks 
-                                    include Aloo Gutke (spiced potatoes) and Bhang ki Chutney (hemp seed chutney), desserts like 
-                                    BAL Mithai (a fudge-like sweet) and Jhangora Ki Kheer (millet pudding). 
-                                </p>
-                                <p class="pera">
-                                    The inner peace of the ancient temples, the adventurous activity of river rafting at Rishikesh, 
-                                    the skiing adventures at Auli, the fragrance of blooming alpine flowers in the Himalayas, the 
-                                    traditional local festivals and vibrant local markets all leave an everlasting impression on 
-                                    the heart and soul of every tourist visiting Uttarakhand. 
+                                    The countries ancient fortresses, holy monasteries, breathtaking reservoirs and majestic 
+                                    mountains, are an unforgettable adventure through nature and history. Whether you are wandering 
+                                    through the colorful streets of Tbilisi, gazing in wonder at centuries-old churches in Mtskheta, 
+                                    or awestruck by the dramatic scenery of Kazbegi and Gudauri, travellers are, guaranteed to be, 
+                                    enchanted by the nation's rich heritage and breathtaking landscapes. Georgia is a place of 
+                                    age-old tales carved into mountains, rivers, and ruins, an unforgettable odyssey through the 
+                                    Caucasus Mountains.  
                                 </p>
                             </div>
                             <!--/ details-content -->
@@ -303,27 +301,27 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Country</th>
-                                                        <td>India</td>
+                                                        <td>Georgia</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Language</th>
-                                                        <td>Hindi. Sanskrit. Garhwali. Kumaoni. Jaunsari.</td>
+                                                        <td>Georgian. Kartvelian. English.</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Currency</th>
-                                                        <td> INR (Rupees)</td>
+                                                        <td>Georgian Lari (GEL)</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Population</th>
-                                                        <td>1.19 Crores</td>
+                                                        <td>36.7 Lakhs</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Area</th>
-                                                        <td>20,650 Square Miles</td>
+                                                        <td>59,425 Square Miles</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Time to Travel</th>
-                                                        <td>March to June and September to November</td>
+                                                        <td>May to June And September to October</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -339,7 +337,7 @@
                             <div class="row g-4">
                                 <?php 
                                     require '../connect.php';
-                                    $searchPac = "Uttarakhand";
+                                    $searchPac = "Georgia";
                                     $user_id = 0;
                                     $ta_id = 0;
                                     // get TA id

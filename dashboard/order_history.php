@@ -85,7 +85,9 @@ $prevDateYear = date('Y');  //Year in number form.
             font-size: 10px !important;
             font-weight: 500 !important;
         }
-
+        .bookingDate {
+            width: 130px !important;
+        }
         .dateRange {
             border-radius: 14px !important;
         }
@@ -542,7 +544,8 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                     b.email,
                                                                     b.date,
                                                                     b.ta_id,
-                                                                    b.status 
+                                                                    b.status,
+                                                                    b.confirm_status 
                                                                     FROM bookings b
                                                                     JOIN package p ON b.package_id = p.id
                                                                     WHERE b.ta_id IN ($ta_ids_str) $customer_fil"; // Use IN clause to match multiple IDs
@@ -690,7 +693,28 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                             </a>
                                                                         </div>
                                                                     <?php
-                                                                    } else if ($today > $endDate) { // Completed
+                                                                        } else if ($booking['confirm_status'] == 0){ // Pending
+                                                                    ?>
+                                                                        <div class="d-block">
+                                                                            <a href="#">
+                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
+                                                                                    Pending
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                    <?php
+                                                                        } else if ($booking['confirm_status'] == 1 && $today < $startDate){ // Confirmed
+                                                                    ?>
+                                                                        <div class="d-block">
+                                                                            <a href="#">
+                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
+                                                                                    Confirmed
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                    
+                                                                    <?php
+                                                                        } else if ($today > $endDate) { // Completed
                                                                     ?>
                                                                         <div class="d-block">
                                                                             <a href="#">
@@ -700,22 +724,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                             </a>
                                                                         </div>
                                                                     <?php
-                                                                    } else if ($today >= $startDate && $today <= $endDate) { // In Progress
+                                                                        } else if ($today >= $startDate && $today <= $endDate) { // Traveling
                                                                     ?>
                                                                         <div class="d-block">
                                                                             <a href="#">
                                                                                 <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
-                                                                                    In Progress
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php
-                                                                    } else { // Upcoming
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">
-                                                                                    Upcoming
+                                                                                    Traveling
                                                                                 </button>
                                                                             </a>
                                                                         </div>
@@ -732,7 +746,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                                 <i class="fa-solid fa-eye"></i> View
                                                                             </a>
                                                                             <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
-                                                                                <i class="fa-solid fa-arrow-down"></i> Download Details
+                                                                                <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                             </a>
                                                                             <?php
                                                                             if ($booking['status'] === '2') {
@@ -871,10 +885,10 @@ $prevDateYear = date('Y');  //Year in number form.
                                                     // Fetch Bookings
                                                     $sql = "
                                                                 SELECT b.id, b.order_id, b.customer_id, b.package_id, p.name AS package_name, 
-                                                                p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id 
+                                                                p.tour_days, b.name AS c_name, b.phone, b.email, b.date, b.ta_id, b.confirm_status 
                                                                 FROM bookings b
                                                                 JOIN package p ON b.package_id = p.id
-                                                                WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' $customer_fil
+                                                                WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'AND b.confirm_status=0 $customer_fil
                                                                 ";
 
                                                     // Debugging: Log SQL query and TA IDs
@@ -989,15 +1003,15 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 </td>
 
                                                                 <?php if ($today >= $startDate && $today <= $endDate) { ?>
-                                                                    <td>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
-                                                                            </a>
-                                                                        </div>
-                                                                    </td>
+                                                                <td>
+                                                                    <div class="d-block">
+                                                                        <a href="#">
+                                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
                                                                 <?php } else { ?>
-                                                                    <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
+                                                                <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
                                                                 <?php } ?>
 
                                                                 <td class="text-center">
@@ -1005,7 +1019,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1143,10 +1157,11 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         b.email,
                                                                         b.date,
                                                                         b.ta_id, 
-                                                                        b.status
+                                                                        b.status,
+                                                                        b.confirm_status
                                                                     FROM bookings b
                                                                     JOIN package p ON b.package_id = p.id
-                                                                    WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' $customer_fil"; // Use IN clause to match multiple IDs
+                                                                    WHERE b.ta_id IN ($ta_ids_str) AND b.status='1' AND b.confirm_status=1 $customer_fil"; // Use IN clause to match multiple IDs
                                                     }
 
                                                     $stmt = $conn->prepare($sql);
@@ -1270,7 +1285,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1409,7 +1424,8 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         b.email,
                                                                         b.date,
                                                                         b.ta_id,
-                                                                        b.status
+                                                                        b.status,
+                                                                        b.confirm_status
                                                                     FROM bookings b
                                                                     JOIN package p ON b.package_id = p.id
                                                                     WHERE b.ta_id IN ($ta_ids_str) AND b.status='2' $customer_fil"; // Use IN clause to match multiple IDs
@@ -1537,7 +1553,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                             <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                                         </div>
                                                                     </div>
@@ -1678,7 +1694,8 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         b.email,
                                                                         b.date,
                                                                         b.ta_id,
-                                                                        b.status
+                                                                        b.status,
+                                                                        b.confirm_status
                                                                     FROM bookings b
                                                                     JOIN package p ON b.package_id = p.id
                                                                     WHERE b.ta_id IN ($ta_ids_str) AND b.status='3' $customer_fil"; // Use IN clause to match multiple IDs
@@ -1804,7 +1821,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a>
+                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -2502,7 +2519,7 @@ $prevDateYear = date('Y');  //Year in number form.
                 <div class="card ${classVal} border border-primary-subtle rounded-4 p-2 mt-2 mb-0">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-center fs-5 fw-bold cardText ms-3">${booking.package_name}</span>
-                        <span class="text-muted text-end m-0 pera">${booking.date}</span>
+                        <span class="text-muted text-end m-0 pera bookingDate">${booking.date}</span>
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">

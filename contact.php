@@ -60,7 +60,7 @@
         <meta name="csrf-token" content="...">
         <meta name="currency" content="$">
         <!-- Title -->
-        <title>Multipurpose travel and tour booking </title>
+        <title>Bizzmirth Holidays Pvt Ltd</title>
         <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
         <!-- Bootstrap -->
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-5.3.0.min.css">

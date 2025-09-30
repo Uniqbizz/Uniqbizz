@@ -323,6 +323,51 @@ if ($result2) {
             ]);
         }
 
+    }else if ($payment_label == 'Neo Select Ultra') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('15000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
+
+        $stmt = $conn->prepare($sqlInsertCoupon);
+
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0,
+                ':bonus_check' => 0
+            ]);
+        } 
+        //Single coupon of 11,000/-
+        $couponCode = generateUniqueCoupon();
+
+        $stmt->execute([
+            ':user_id' => $row['id'],
+            ':payment_id' => $payment_id,
+            ':code' => $couponCode,
+            ':coupon_amt' => 11000,
+            ':usage_status' => 0,
+            ':confirm_status' => 0,
+            ':bonus_check' => 0
+        ]);
+
     }
 
     $sql3 = "INSERT INTO logs (title,message,message2,reference_no, register_by, from_whom, operation) 

@@ -134,7 +134,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                 // Check if current row matches the $ta_ref_id
                                                                 $selected = ($ta_ref_id == $row['ca_travelagency_id']) ? 'selected' : '';
                                                                 echo '<option value="' . $row['ca_travelagency_id'] . '" ' . $selected . '>'
-                                                                    . $row['ca_travelagency_id'] .'</option>';
+                                                                    . $row['ca_travelagency_id'] .' - '. $row['firstname'] .' '. $row['lastname'] . '</option>';
                                                             }
                                                         }
                                                         ?>
@@ -309,6 +309,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
                                                         <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option>
                                                         <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
+                                                        <option value="11000">Neo Select Ultra: <span>&#8377 </span>11,000/-</option>
                                                     </select>
                                                 </div>
                                             </div>
