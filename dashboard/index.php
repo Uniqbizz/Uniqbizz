@@ -15,6 +15,7 @@ if ($userType == 10){
     $stmt->execute([':user' => $userId]);
 
     $customerType = $stmt->fetchColumn();
+    $usedCount = 0;
 
 }
 
@@ -857,7 +858,7 @@ if ($userType == 10){
                                                 </div>
 
                                                 <!-- Lock overlay -->
-                                                <div class="cardCouponLock">
+                                                <div class="cardCouponLock" id="cardCouponLockId">
                                                     <div class="card rounded-4 w-100 h-100 couponLock">
                                                         <i class="ri-lock-line text-white fs-1 d-flex justify-content-center align-items-center h-100"></i>
                                                     </div>
@@ -5807,6 +5808,7 @@ if ($userType == 10){
         window.onload = function () {
             const originalCard = document.getElementById('coupon_card1');
             const parentRow = document.getElementById('couponRow');
+            const couponUnlockCount = <?=$usedCount?>
 
             const couponIcons = [
                 { lib: "fa", class: "fa-tag" },              // Coupon 1
@@ -5821,7 +5823,7 @@ if ($userType == 10){
                 const iconInfo = couponIcons[0];
                 icon1.className = `couponIcon fa-2xl text-white ${iconInfo.lib === 'fa' ? 'fa-solid' : ''} ${iconInfo.class}`;
             }
-
+            
             // Clone for Coupons 2–4
             for (let i = 2; i <= couponIcons.length; i++) {
                 const newCard = originalCard.cloneNode(true);
@@ -5846,6 +5848,46 @@ if ($userType == 10){
                 }
 
                 parentRow.appendChild(newCard);
+            }
+            if(couponUnlockCount == 1){
+                let lockDiv=originalCard.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv) {
+                    lockDiv.classList.add('d-none');
+                }
+            }
+            else if(couponUnlockCount == 2){
+                let Card1=document.getElementById('coupon_card1');
+                let Card2=document.getElementById('coupon_card2');
+                let lockDiv1=Card1.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv1) {
+                    lockDiv1.classList.add('d-none');
+                }
+                let lockDiv2=Card2.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv2) {
+                    lockDiv2.classList.add('d-none');
+                }
+            }
+            else if(couponUnlockCount == 3){
+                let Card1=document.getElementById('coupon_card1');
+                let Card2=document.getElementById('coupon_card2');
+                let Card3=document.getElementById('coupon_card3');
+                let Card4=document.getElementById('coupon_card4');
+                let lockDiv1=Card1.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv1) {
+                    lockDiv1.classList.add('d-none');
+                }
+                let lockDiv2=Card2.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv2) {
+                    lockDiv2.classList.add('d-none');
+                }
+                let lockDiv3=Card3.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv3) {
+                    lockDiv3.classList.add('d-none');
+                }
+                let lockDiv4=Card4.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv4) {
+                    lockDiv4.classList.add('d-none');
+                }
             }
         };
     </script>

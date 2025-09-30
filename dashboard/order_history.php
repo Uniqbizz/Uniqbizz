@@ -85,6 +85,9 @@ $prevDateYear = date('Y');  //Year in number form.
             font-size: 10px !important;
             font-weight: 500 !important;
         }
+        .bookingDate {
+            width: 130px !important;
+        }
 
         .dateRange {
             border-radius: 14px !important;
@@ -4126,7 +4129,7 @@ $prevDateYear = date('Y');  //Year in number form.
                 <div class="card ${classVal} border border-primary-subtle rounded-4 p-2 mt-2 mb-0">
                     <div class="d-flex justify-content-between mb-2">
                         <span class="text-center fs-5 fw-bold cardText ms-3">${booking.package_name}</span>
-                        <span class="text-muted text-end m-0 pera">${booking.date}</span>
+                        <span class="text-muted text-end m-0 pera bookingDate">${booking.date}</span>
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
