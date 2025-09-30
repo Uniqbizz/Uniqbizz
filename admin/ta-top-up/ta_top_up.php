@@ -361,7 +361,7 @@ $date = date('Y');
                 </div> <!-- End Page-content -->
                 <div id="viewpay" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel"
                     aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
-                    style=" border-radus: 20px !important;">
+                    style=" border-radius: 20px !important;">
                     <div class="modal-dialog modal-fullscreen"
                         style="width: 80%; margin: auto; margin-top: 30px; margin-bottom: 30px; height: 90vh;">
                         <div class="modal-content modal-radius">
