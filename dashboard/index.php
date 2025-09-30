@@ -15,6 +15,7 @@ if ($userType == 10){
     $stmt->execute([':user' => $userId]);
 
     $customerType = $stmt->fetchColumn();
+    $usedCount = 0;
 
 }
 
@@ -73,15 +74,15 @@ if ($userType == 10){
         .cardBg1 {
             background: linear-gradient(45deg, #0e7efdff, #73b4ff) !important;
         }
-
+ 
         .cardBg2 {
             background: linear-gradient(45deg, #0aa486ff, #6de2caff) !important;
         }
-
+ 
         .cardBg3 {
             background: linear-gradient(45deg, #ffa21fff, #ffcb80) !important;
         }
-
+ 
         .cardBg4 {
             background: linear-gradient(45deg, #ed2042ff, #ff869a) !important;
         }
@@ -112,6 +113,7 @@ if ($userType == 10){
             width: 240px;
             padding: 10px 5px;
         }
+
     </style>
 
 </head>
@@ -814,17 +816,28 @@ if ($userType == 10){
                                             </div>
                                         </div>
                                     </div>
+                                    <?php
+                                        if($customerType == 'Premium'){
+                                    ?>
                                     <!-- Progress Bar Start -->
                                     <div class="d-flex justify-content-center">
                                         <div class="rounded-pill bg-primary couponCount">
-                                            <h5 class="text-white text-center mb-0">Coupons Unlocked: <span>3</span> / <span>3</span></h5>
+                                            <h5 class="text-white text-center mb-0">Coupons Unlocked: <span>
+                                                <?php 
+                                                    require 'connect.php';
+                                                    $cuponsusedtmt = $conn->prepare("SELECT COUNT(*) as used_count FROM cu_coupons WHERE user_id = :id AND usage_status =1");
+                                                    $cuponsusedtmt->execute(['id' => $userId]);
+                                                    $cupon = $cuponsusedtmt->fetch(PDO::FETCH_ASSOC);
+                                                    $usedCount = (int)$cupon['used_count'] > 3 ? 3:(int)$cupon['used_count'];
+                                                ?>
+                                            </span> <?= $usedCount??0 ?>/ <span>3</span></h5>
                                         </div>
                                     </div>
                                     
                                     <div class="row d-flex justify-content-center">
                                         <div class="col-md-8 col-sm-10 col-12 py-3">
                                             <div class="progress border border-2" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                <div class="progress-bar progressColor" style="width: 75%"></div>
+                                                <div class="progress-bar progressColor" style="width: <?= ($usedCount == 1) ? '25%' : (($usedCount == 2) ? '50%' : (($usedCount == 3) ? '100%' : '0%')) ?>"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -845,7 +858,7 @@ if ($userType == 10){
                                                 </div>
 
                                                 <!-- Lock overlay -->
-                                                <div class="cardCouponLock">
+                                                <div class="cardCouponLock" id="cardCouponLockId">
                                                     <div class="card rounded-4 w-100 h-100 couponLock">
                                                         <i class="ri-lock-line text-white fs-1 d-flex justify-content-center align-items-center h-100"></i>
                                                     </div>
@@ -855,7 +868,8 @@ if ($userType == 10){
                                     </div>
                                     <!-- Coupon card end -->
 
-                                <?php } ?>
+                                <?php   }
+                                      } ?>
 
                                 <?php if ($userType == '11') { ?> <!--travel Agent => 11  -->
 
@@ -5794,6 +5808,7 @@ if ($userType == 10){
         window.onload = function () {
             const originalCard = document.getElementById('coupon_card1');
             const parentRow = document.getElementById('couponRow');
+            const couponUnlockCount = <?=$usedCount?>
 
             const couponIcons = [
                 { lib: "fa", class: "fa-tag" },              // Coupon 1
@@ -5833,6 +5848,47 @@ if ($userType == 10){
                 }
 
                 parentRow.appendChild(newCard);
+            }
+
+            if(couponUnlockCount == 1){
+                let lockDiv=originalCard.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv) {
+                    lockDiv.classList.add('d-none');
+                }
+            }
+            else if(couponUnlockCount == 2){
+                let Card1=document.getElementById('coupon_card1');
+                let Card2=document.getElementById('coupon_card2');
+                let lockDiv1=Card1.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv1) {
+                    lockDiv1.classList.add('d-none');
+                }
+                let lockDiv2=Card2.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv2) {
+                    lockDiv2.classList.add('d-none');
+                }
+            }
+            else if(couponUnlockCount == 3){
+                let Card1=document.getElementById('coupon_card1');
+                let Card2=document.getElementById('coupon_card2');
+                let Card3=document.getElementById('coupon_card3');
+                let Card4=document.getElementById('coupon_card4');
+                let lockDiv1=Card1.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv1) {
+                    lockDiv1.classList.add('d-none');
+                }
+                let lockDiv2=Card2.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv2) {
+                    lockDiv2.classList.add('d-none');
+                }
+                let lockDiv3=Card3.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv3) {
+                    lockDiv3.classList.add('d-none');
+                }
+                let lockDiv4=Card4.querySelector('#cardCouponLockId')//get div by its id that is in the parent div
+                if (lockDiv4) {
+                    lockDiv4.classList.add('d-none');
+                }
             }
         };
     </script>

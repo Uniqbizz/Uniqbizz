@@ -1643,7 +1643,9 @@ if($user_type_id_value == '11'){
             //--------------------------------------------------------------------------------------------
             //--------------------------------------------------------------------------------------------
 
-            if (user_type == '11' ) {
+
+            if (user_type == '11') {
+
                 var name = $("#b_name").val();
                 var email = $("#b_email").val();
                 var phone = $("#b_phn_no").val();
@@ -1902,7 +1904,7 @@ if($user_type_id_value == '11'){
         const divToToggle = document.getElementById('toggleDiv');
 
         $('#pay_modal').on('click', function () {
-                        
+            updateFinalPrice()            
             // Part Payment Modal Start
             const amountToBePaidElement = document.getElementById('amountToBePaid');
             var np_total = $('#get_total_package_price_np').text().trim();

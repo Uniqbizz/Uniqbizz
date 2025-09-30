@@ -143,7 +143,7 @@ $date = date('Y');
                                             id="pendingTopUp-table">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th>ID</th> <!-- Expand Button -->
+                                                    <th>#</th> <!-- Expand Button -->
                                                     <th>Name of TA</th>
                                                     <th>Total Pending TopUp</th>
                                                     <th>Action</th>
@@ -186,7 +186,7 @@ $date = date('Y');
                                                 
                                                 foreach ($referrals as $referral): ?>
                                                     <tr class="main-row" data-ta-id="<?= htmlspecialchars($referral['ta_id']) ?>">
-                                                        <td class="details-control"><?= ++$j ?></td>
+                                                        <td class="details-control">+</td>
                                                         <td>
                                                             <?php
                                                                 // Check if ta_fname and ta_lname exist before displaying them
@@ -250,7 +250,7 @@ $date = date('Y');
                                                 id="approvedTopUp-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Id</th>
+                                                        <th>#</th>
                                                         <th>Name of TA</th>
                                                         <th>Total Approved/Rejected TopUp</th>
                                                         <th>Action</th>
@@ -309,7 +309,7 @@ $date = date('Y');
                                                         ?>
 
                                                     <tr class="main-row" data-ta-id="<?= $ta_id ?>">
-                                                        <td class="details-control"><?php echo ++$i?></td>
+                                                        <td class="details-control">+</td>
                                                         <td><?= $ta_name ?></td>
                                                         <td>Approved (<?= number_format($total_approved, 2) ?>) Rejected
                                                             (<?= number_format($total_rejected, 2) ?>)</td>
@@ -361,7 +361,7 @@ $date = date('Y');
                 </div> <!-- End Page-content -->
                 <div id="viewpay" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel"
                     aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false"
-                    style=" border-radus: 20px !important;">
+                    style=" border-radius: 20px !important;">
                     <div class="modal-dialog modal-fullscreen"
                         style="width: 80%; margin: auto; margin-top: 30px; margin-bottom: 30px; height: 90vh;">
                         <div class="modal-content modal-radius">

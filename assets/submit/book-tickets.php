@@ -45,8 +45,8 @@ $gst_total = $mydata['total_price'];
 
 // Get TA Price
 $ta_markup = $mydata['ta_markup'];
-$discount_price=$mydata['discounted_price'];
-$final_price = $gst_total+$coupon_discount - $ta_markup; //without additional markup
+$discount_price=$mydata['discounted_price'] - $coupon_discount;
+$final_price = $gst_total - $ta_markup; //without additional markup
 
 $payType = 'Online Payment';
 
@@ -122,15 +122,6 @@ if ($customer->rowCount() > 0) {
   }
 }
 //-------------------------------------------------------------------------------------------------------------------------------
-
-//get coupon details and update it by SV
-// if ($coupon_code) {
-//   $coupon_sql = 'UPDATE cu_coupons SET usage_status=1 WHERE code=:code';
-//   $coupon_stmt = $conn->prepare($coupon_sql);
-//   $coupon_result = $coupon_stmt->execute([
-//     ':code' => $coupon_code
-//   ]);
-// }
 
 //generate invoice id
 function getInvoice() {
@@ -512,7 +503,6 @@ if ($coupon_code) {
 }
 
 //updating wallet balance after insert in booking_direct_bill
-
 if ($result2) {
   // Insert the new credited amount into ta_top_up_utilisation
   $stmt = $conn->prepare("INSERT INTO ta_top_up_utilisation (ta_id, ta_top_up_amt_id, amount_deposited,top_up_message) VALUES (:ta_id, :ta_top_up_amt_id, :amount_deposited,:top_up_message)");
