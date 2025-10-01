@@ -2076,9 +2076,11 @@ $Year = date('Y'); //year
                                     <div class="card rounded-4">
                                         <h2 class="fs-4 p-3">Latest Transaction</h2>
                                         <?php
-                                        $sql1 = "SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM corporate_agency UNION ALL 
-                                                        SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM ca_travelagency UNION ALL 
-                                                        SELECT ca_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM ca_franchisee 
+                                        $sql1 = "SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM corporate_agency UNION ALL 
+                                                        SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM ca_travelagency UNION ALL 
+                                                        SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
+                                                        SELECT master_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM master_franchisee UNION ALL
+                                                        SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee 
                                                         WHERE status='1' order by date desc limit 5";
                                         $stmt1 = $conn->prepare($sql1);
                                         $stmt1->execute();
@@ -2087,21 +2089,29 @@ $Year = date('Y'); //year
                                             foreach (($stmt1->fetchAll()) as $key => $row) {
                                                 if ($row['user_type'] == "16") {
                                                     $designation = "Techno Enterprise";
-                                                } else if ($row['user_type'] == "19") {
+                                                } else if ($row['user_type'] == "29") {
                                                     $designation = "Franchisee";
                                                 } else if ($row['user_type'] == "11") {
                                                     $designation = "Travel Consultant";
+                                                }else if ($row['user_type'] == "28") {
+                                                    $designation = "Master Franchisee";
+                                                }else if ($row['user_type'] == "30") {
+                                                    $designation = "Sponsor Franchisee";
                                                 }
                                                 $rd = new DateTime($row['date']);
                                                 $rdate = $rd->format('d-m-Y');
                                                 $TAmt = $row['amount'];
+                                                $pathFromDB=$row['profile_pic'];
+                                                $dir  = dirname($pathFromDB);   // profile_pic
+                                                $file = basename($pathFromDB);
+                                                $imgPath = "../uploading/" . $dir . "/" . rawurlencode($file);
                                                 $CATAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $TAmt);
                                                 echo '
                                                             <div class="card pt-3">
                                                                 <div class="row">
                                                                     <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
                                                                         <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                                            <img src="../uploading/' . $row['profile_pic'] . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                                                            <img src="' . $imgPath . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
                                                                         </div>
                                                                     </div>
                                                                     
