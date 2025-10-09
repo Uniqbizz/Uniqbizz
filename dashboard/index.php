@@ -5484,7 +5484,8 @@ if ($userType == 10){
                                     '28': ['F', 'TC'],
                                     '29': ['TC'],
                                     '30': ['F', 'TC'],
-                                    '31': ['MF','SF','F', 'TC','CU']
+                                    '31': ['MF','SF','F', 'TC','CU'],
+                                    '11': ['CU'],
                                 };
 
                 const labels = labelMap[userType] || [''];
