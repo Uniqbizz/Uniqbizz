@@ -82,5 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['monthYear'])) {
         'te_html'   => fetchData($conn, 'corporate_agency', 'corporate_agency_id'),
         'tc_html'   => fetchData($conn, 'ca_travelagency', 'ca_travelagency_id'),
         'cust_html' => fetchData($conn, 'ca_customer', 'ca_customer_id'),
+        'mf_html' => fetchData($conn, 'master_franchisee', 'master_franchisee_id'),
+        'sf_html' => fetchData($conn, 'sponsor_franchisee', 'sponsor_franchisee_id'),
+        'f_html' => fetchData($conn, 'sub_franchisee', 'sub_franchisee_id'),
     ]);
 }

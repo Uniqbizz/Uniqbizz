@@ -1585,7 +1585,7 @@ $Year = date('Y'); //year
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
                             <!-- Chart Section  all commission -->
-                            <div class="card p-3 rounded-4" id="ca_chart_box">
+                            <div class="card p-3 rounded-4">
                                 <div class="row">
                                     <!-- Type Selector -->
                                     <div class="col-md-4">
@@ -1595,6 +1595,9 @@ $Year = date('Y'); //year
                                             <option value="te">TE</option>
                                             <option value="customer">Customer</option>
                                             <option value="bm">BM</option>
+                                            <option value="sf">SF</option>
+                                            <option value="mf">MF</option>
+                                            <option value="f">F</option>
                                         </select>
                                     </div>
     
@@ -1610,7 +1613,7 @@ $Year = date('Y'); //year
                                         </button>
                                     </div>
                                     <!-- Chart Summary and Canvas -->
-                                    <div class="col-md-12 mt-4 text-center">
+                                    <div class="col-md-12 mt-4 text-center" id="payout_chart_box">
                                         <h5 class="fw-bolder" id="ca_total_count1"></h5>
                                         <h6 class="fw-bolder" id="ca_total_price1"></h6>
                                         <canvas id="myCAChart1" height="115%" weight="115%"></canvas>
@@ -1619,7 +1622,7 @@ $Year = date('Y'); //year
                             </div>
     
                             <!-- No Data Message -->
-                            <div class="card" id="ca_no_chart_box" style="display: none;">
+                            <div class="card" id="payout_no_chart_box" style="display: none;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -1633,7 +1636,7 @@ $Year = date('Y'); //year
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
                             <!-- Chart Section customer membership-->
-                            <div class="card p-3 rounded-4" id="ca_chart_box1">
+                            <div class="card p-3 rounded-4" >
                                 <div class="row">
                                     <!-- Type Selector -->
                                     <div class="col-md-4">
@@ -1642,6 +1645,10 @@ $Year = date('Y'); //year
                                             <option value="Prime">Prime</option>
                                             <option value="Premium">Premium</option>
                                             <option value="Premium Plus">Premium Plus</option>
+                                            <option value="Premium Select">Premium Select</option>
+                                            <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Ultra">Neo Select Ultra</option>
                                         </select>
                                     </div>
     
@@ -1657,7 +1664,7 @@ $Year = date('Y'); //year
                                         </button>
                                     </div>
                                     <!-- Chart Summary and Canvas -->
-                                    <div class="col-md-12 mt-4 text-center">
+                                    <div class="col-md-12 mt-4 text-center" id="ca_chart_box1">
                                         <h5 class="fw-bolder">Customer Membership</h5>
                                         <h6 class="fw-bolder mb-0" id="ca_total_count2"></h6>
                                         <h6 class="fw-bolder" id="ca_total_price2"></h6>
@@ -1683,24 +1690,51 @@ $Year = date('Y'); //year
 
                     <div class="card rounded-4">
                         <div class="row p-4 d-flex justify-content-around">
-                            <div class="col-md-3 col-sm-12 col-12 d-grid align-items-center">
-                                <button onclick="showDivCount(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
-                                    Business Mentor<span id="bmCount" class="fs-2 ms-3"></span>
-                                </button>
-                                <button onclick="showDivCount(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
-                                    Employees<span id="empCount" class="fs-2 ms-3"></span>
-                                </button>
-                                <button onclick="showDivCount(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
-                                    Techno Enterprise<span id="teCount" class="fs-2 ms-3"></span>
-                                </button>
-                                <button onclick="showDivCount(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
-                                    Travel Consultant<span id="tcCount" class="fs-2 ms-3"></span>
-                                </button>
-                                <button onclick="showDivCount(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
-                                    Customer<span id="custCount" class="fs-2 ms-3"></span>
-                                </button>
+                            <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
+                                            Business Mentor<span id="bmCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
+                                            Employees<span id="empCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
+                                            Techno Enterprise<span id="teCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
+                                            Travel Consultant<span id="tcCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                            Customer<span id="custCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                            Master Franchise<span id="mfCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(7, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                            Sponsor Franchise<span id="sfCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(8, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                            Franchise<span id="fCount" class="fs-2 ms-3"></span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8 col-sm-12 col-12">
+                            <div class="col-md-12 col-sm-12 col-12">
                                 <div class="text-end d-flex align-items-center justify-content-end pb-2">
                                     <span class="fs-6">
                                         <p class="fw-bolder text-dark">Select Month & Year</p>
@@ -1826,6 +1860,81 @@ $Year = date('Y'); //year
                                                 </tr>
                                             </thead>
                                             <tbody id="cust_monthly_list">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="card-body contentCountDiv rounded-4 border border-5 border-secondary-subtle" id="count6">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Monthly Customer Details</h4>
+                                        </div>
+                                        
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0" id="datatable6">
+                                            <thead class="bg-primary-subtle">
+                                                <tr class="bg-primary-subtle">
+                                                    <th>Sr.No</th>
+                                                    <th>Name & Id</th>
+                                                    <th>Refered By</th>
+                                                    <th>Joining Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="mf_monthly_list">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="card-body contentCountDiv rounded-4 border border-5 border-info-subtle" id="count7">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Monthly Customer Details</h4>
+                                        </div>
+                                        
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0" id="datatable7">
+                                            <thead class="bg-primary-subtle">
+                                                <tr class="bg-primary-subtle">
+                                                    <th>Sr.No</th>
+                                                    <th>Name & Id</th>
+                                                    <th>Refered By</th>
+                                                    <th>Joining Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sf_monthly_list">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="card-body contentCountDiv rounded-4 border border-5 border-info-subtle" id="count8">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Monthly Customer Details</h4>
+                                        </div>
+                                        
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0" id="datatable8">
+                                            <thead class="bg-primary-subtle">
+                                                <tr class="bg-primary-subtle">
+                                                    <th>Sr.No</th>
+                                                    <th>Name & Id</th>
+                                                    <th>Refered By</th>
+                                                    <th>Joining Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="f_monthly_list">
                                                 
                                             </tbody>
                                         </table>
@@ -2388,27 +2497,56 @@ $Year = date('Y'); //year
 
                     <div class="card rounded-4">
                         <div class="row p-4 d-flex justify-content-around">
-                            <div class="col-md-3 col-sm-4 col-12 d-grid align-items-center">
-                                <button onclick="showDiv(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
-                                    Top 5 BCH
-                                </button>
-                                <button onclick="showDiv(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
-                                    Top 5 BDM
-                                </button>
-                                <button onclick="showDiv(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
-                                    Top 5 BM
-                                </button>
-                                <button onclick="showDiv(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
-                                    Top 5 TE
-                                </button>
-                                <button onclick="showDiv(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
-                                    Top 5 TC
-                                </button>
-                                <button onclick="showDiv(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
-                                    Top 5 Customer
-                                </button>
+                            <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center mb-3">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 BCH
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 BDM
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 BM
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 TE
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 TC
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 Customer
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(7, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 MF
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(8, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 SF
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(9, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                            Top 5 Franchisee
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8 col-sm-7 col-12">
+                            <div class="col-md-12 col-sm-12 col-12">
                                 <div class="card-body contentDiv rounded-4 border border-5 border-primary-subtle" id="div1" style="display: block;">
                                     <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
                                         <div class="heading">
@@ -2951,6 +3089,97 @@ $Year = date('Y'); //year
                                                                         </td>
 
                                                                 </tr>';
+                                                        $srNo++;
+                                                    }
+                                                } else {
+                                                    echo '<tr>
+                                                                    <td colspan="5" class="align-content-center">No data found</td>
+                                                                </tr>';
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="card-body contentDiv rounded-4 border border-5 border-warning-subtle" id="div7">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Top 5 Performer MF</h4>
+                                        </div>
+                                        <div class="text-end d-flex align-items-center">
+                                            <span class="fs-6">
+                                                <p>Select Month & Year</p>
+                                                <input type="month" id="month_year_MF" value="" min="2020-01" max="">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0">
+                                            <thead class="bg-primary-subtle">
+                                                <tr class="bg-primary-subtle">
+                                                    <th>Ranks</th>
+                                                    <th>Profile Pic</th>
+                                                    <th>Name</th>
+                                                    <th>TE Count</th>
+                                                    <th>Referral</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="mf_top_performer">
+                                                <?php
+                                                $srNo = 1;
+                                                // Prepare the SQL query to get the BDM user who brought the highest number of BM
+                                                $sql1 = $conn->prepare("
+                                                            SELECT e1.business_mentor_id AS BM_user_id,
+                                                                e1.firstname AS BM_user_fname,
+                                                                e1.lastname AS BM_user_lname,
+                                                                e1.reference_no,
+                                                                e1.registrant,
+                                                                e1.profile_pic,
+                                                                e1.status,
+                                                                COUNT(e2.corporate_agency_id) AS TE_count
+                                                            FROM business_mentor e1
+                                                            LEFT JOIN corporate_agency e2 ON e1.business_mentor_id = e2.reference_no
+                                                            WHERE e1.user_type = 26 -- BDM users
+                                                            AND e2.user_type = 16 -- BM users
+                                                            AND MONTH(e2.register_date) = '" . $Month . "'
+                                                            AND YEAR(e2.register_date) = '" . $Year . "' 
+                                                            GROUP BY e1.business_mentor_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
+                                                            ORDER BY TE_count DESC
+                                                            LIMIT 5 -- Limit to top 5 BDM users who brought the most BM;;
+                                                        ");
+
+                                                // Execute the query
+                                                $sql1->execute();
+
+                                                // Set the fetch mode to associative array
+                                                $sql1->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                if ($sql1->rowCount() > 0) {
+                                                    // Loop through the results and display the BDM user details
+                                                    foreach ($sql1->fetchAll() as $bm_id) {
+                                                        echo '<tr>
+                                                                        <td>
+                                                                            <div class="profile-pic pb-1">
+                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="profile-pic pb-1">
+                                                                                <img src="../uploading/' . htmlspecialchars($bm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="align-content-center">
+                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($bm_id['BM_user_fname'] . ' ' . $bm_id['BM_user_lname']) . ' </p>
+                                                                            <p class="text-dark">' . htmlspecialchars($bm_id['BM_user_id']) . '</p> 
+                                                                        </td>
+                                                                        <td class="align-content-center">' . htmlspecialchars($bm_id['TE_count']) . '</td>
+                                                                        <td class="align-content-center">
+                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($bm_id['registrant']) . '</p>
+                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($bm_id['reference_no']) . '</p>
+                                                                        </td>   
+                                                                    </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
@@ -3987,6 +4216,12 @@ $Year = date('Y'); //year
                     pending: chartDataCache.total_te_pending || 0,
                     label: 'TE'
                 },
+                f: {
+                    count: chartDataCache.total_f || 0,
+                    paid: chartDataCache.total_f_amount || 0,
+                    pending: chartDataCache.total_f_pending || 0,
+                    label: 'F'
+                },
                 tc: {
                     count: chartDataCache.total_tc || 0,
                     paid: chartDataCache.total_tc_paid || 0,
@@ -4004,6 +4239,18 @@ $Year = date('Y'); //year
                     paid: chartDataCache.total_bm_paid || 0,
                     pending: chartDataCache.total_bm_pending || 0,
                     label: 'BM'
+                },
+                mf: {
+                    count: chartDataCache.total_mf || 0,
+                    paid: chartDataCache.total_mf_paid || 0,
+                    pending: chartDataCache.total_mf_pending || 0,
+                    label: 'MF'
+                },
+                sf: {
+                    count: chartDataCache.total_sf || 0,
+                    paid: chartDataCache.total_sf_paid || 0,
+                    pending: chartDataCache.total_sf_pending || 0,
+                    label: 'SF'
                 }
             };
 
@@ -4019,17 +4266,17 @@ $Year = date('Y'); //year
             if (type === 'all') {
                 const totalAmount = Object.values(dataMap).reduce((sum, d) => sum + d.paid, 0);
                 if (totalAmount === 0) {
-                    document.getElementById("ca_chart_box").style.display = "none";
-                    document.getElementById("ca_no_chart_box").style.display = "block";
+                    document.getElementById("payout_chart_box").style.display = "none";
+                    document.getElementById("payout_no_chart_box").style.display = "block";
                     return;
                 }
 
-                document.getElementById("ca_chart_box").style.display = "block";
-                document.getElementById("ca_no_chart_box").style.display = "none";
+                document.getElementById("payout_chart_box").style.display = "block";
+                document.getElementById("payout_no_chart_box").style.display = "none";
 
                 const labels = [];
                 const data = [];
-                const bgColors = ["#007bff", "#28a745", "#ffc107", "#dc3545"];
+                const bgColors = ["#007bff", "#28a745", "#ffc107", "#dc3545","#aaa045", "#cccd07", "#defc45"];
                 let displayText = '';
 
                 for (const key in dataMap) {
@@ -4069,16 +4316,16 @@ $Year = date('Y'); //year
                 label = selected.label;
 
                 if (total === 0 && paid === 0 && pending === 0) {
-                    document.getElementById("ca_chart_box").style.display = "none";
-                    document.getElementById("ca_no_chart_box").style.display = "block";
+                    document.getElementById("payout_chart_box").style.display = "none";
+                    document.getElementById("payout_no_chart_box").style.display = "block";
                     return;
                 }
 
-                document.getElementById("ca_chart_box").style.display = "block";
-                document.getElementById("ca_no_chart_box").style.display = "none";
+                document.getElementById("payout_chart_box").style.display = "block";
+                document.getElementById("payout_no_chart_box").style.display = "none";
 
-                document.getElementById("ca_total_count").innerText = `Total ${label}: ${total}`;
-                document.getElementById("ca_total_price").innerText = `Paid: ₹${paid.toLocaleString()}\nPending: ₹${pending.toLocaleString()}`;
+                document.getElementById("ca_total_count1").innerText = `Total ${label}: ${total}`;
+                document.getElementById("ca_total_price1").innerText = `Paid: ₹${paid.toLocaleString()}\nPending: ₹${pending.toLocaleString()}`;
 
                 if (currentChart) currentChart.destroy();
 
@@ -4925,6 +5172,7 @@ $Year = date('Y'); //year
             fetchMonthlyData(monthYear);
         });
 
+        //Monthly Users Count Table
         function handleMonthClick() {
             const monthYear = document.getElementById('month_year_count').value; // format: "2025-05"
             if (monthYear) {
@@ -4953,6 +5201,9 @@ $Year = date('Y'); //year
                     $("#teCount").text(response.te_count || 0);
                     $("#tcCount").text(response.tc_count || 0);
                     $("#custCount").text(response.cust_count || 0);
+                    $("#mfCount").text(response.mf_count || 0);
+                    $("#sfCount").text(response.sf_count || 0);
+                    $("#fCount").text(response.f_count || 0);
                 },
                 error: function (xhr, status, error) {
                     console.error("AJAX Error:", status, error);
@@ -4972,7 +5223,7 @@ $Year = date('Y'); //year
                     // console.log("Parsed Response:", response);
 
                     // Destroy existing DataTables BEFORE replacing HTML
-                    const tableIds = ['#datatable1', '#datatable2', '#datatable3', '#datatable4', '#datatable5'];
+                    const tableIds = ['#datatable1', '#datatable2', '#datatable3', '#datatable4', '#datatable5', '#datatable6', '#datatable7', '#datatable8'];
                     tableIds.forEach(function (id) {
                         if ($.fn.DataTable.isDataTable(id)) {
                             $(id).DataTable().destroy();
@@ -4985,6 +5236,9 @@ $Year = date('Y'); //year
                     $("#te_monthly_list").html(response.te_html);
                     $("#tc_monthly_list").html(response.tc_html);
                     $("#cust_monthly_list").html(response.cust_html);
+                    $("#mf_monthly_list").html(response.mf_html);
+                    $("#sf_monthly_list").html(response.sf_html);
+                    $("#f_monthly_list").html(response.f_html);
 
                     // Re-initialize DataTables after HTML update
                     tableIds.forEach(function (id) {
@@ -5001,42 +5255,6 @@ $Year = date('Y'); //year
             });
         }
 
-
-
-        // function fetchMonthlyData(monthYear) {
-        //     const xhr = new XMLHttpRequest();
-        //     xhr.open("POST", "assets/submit/fetch_monthly_data.php", true);
-        //     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        //     xhr.onreadystatechange = function () {
-        //         if (this.readyState === 4) {
-        //             console.log("AJAX Status:", this.status);
-        //             console.log("Raw Response:", this.responseText);
-
-        //             if (this.status === 200) {
-        //                 try {
-        //                     const response = JSON.parse(this.responseText);
-        //                     console.log("Parsed Response:", response);
-
-        //                     document.getElementById("bm_month_list").innerHTML = response.bm_html;
-        //                     document.getElementById("bc_month_list").innerHTML = response.bc_html;
-        //                     document.getElementById("te_monthly_list").innerHTML = response.te_html;
-        //                     document.getElementById("tc_monthly_list").innerHTML = response.tc_html;
-        //                     document.getElementById("cust_monthly_list").innerHTML = response.cust_html;
-        //                     $("#datatable1").DataTable({ destroy: true, pageLength: 5, lengthChange: false });
-        //                     $("#datatable2").DataTable({ destroy: true, pageLength: 5, lengthChange: false });
-        //                     $("#datatable3").DataTable({ destroy: true, pageLength: 5, lengthChange: false });
-        //                     $("#datatable4").DataTable({ destroy: true, pageLength: 5, lengthChange: false });
-        //                     $("#datatable5").DataTable({ destroy: true, pageLength: 5, lengthChange: false });
-        //                 } catch (e) {
-        //                     console.error("JSON Parse Error:", e.message);
-        //                 }
-        //             }
-        //         }
-        //     };
-
-        //     xhr.send("monthYear=" + encodeURIComponent(monthYear));
-        // }
     </script>
 
 </body>

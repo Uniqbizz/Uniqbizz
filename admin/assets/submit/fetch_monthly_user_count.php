@@ -23,7 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['monthYear'])) {
         'emp_count'   => getCount($conn, 'employees'),
         'te_count'   => getCount($conn, 'corporate_agency'),
         'tc_count'   => getCount($conn, 'ca_travelagency'),
-        'cust_count' => getCount($conn, 'ca_customer')
+        'cust_count' => getCount($conn, 'ca_customer'),
+        'mf_count' => getCount($conn, 'master_franchisee'),
+        'sf_count' => getCount($conn, 'sponsor_franchisee'),
+        'f_count' => getCount($conn, 'sub_franchisee')
     ]);
 }
 ?>

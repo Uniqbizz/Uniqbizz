@@ -555,7 +555,7 @@ if($payoutmessage == 'allPayout'){
                             }
                         }
                         $designation_name = "Franchisee";
-                    }else if($reference == 'TE'){
+                    }else if($reference == 'TE' || $reference == 'CA'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, corporate_agency_id
                                                  FROM corporate_agency
                                                  WHERE corporate_agency_id = :mentor_id
@@ -714,7 +714,7 @@ if($payoutmessage == 'allPayout'){
                             }
                         }
                         $designation_name = "Franchisee";
-                    }else if($reference == 'TE'){
+                    }else if($reference == 'TE' || $reference == 'CA'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, corporate_agency_id
                                                  FROM corporate_agency
                                                  WHERE corporate_agency_id = :mentor_id

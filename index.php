@@ -446,10 +446,10 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-7">
-                        <div class="section-title text-center mx-430 mx-auto position-relative">
+                        <div class="section-title text-center mx-auto position-relative">
                             <span class="highlights">Destination List</span>
                             <h4 class="title">
-                                Popular Travel Destinations Available Worldwide
+                                Popular Travel Destinations <br />Available Worldwide
                             </h4>
                         </div>
                     </div>
