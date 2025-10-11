@@ -3755,7 +3755,7 @@ $Year = date('Y'); //year
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon
+                                Design & Develop by BizzMirth Holidays Pvt Ltd
                             </div>
                         </div>
                     </div>
