@@ -367,7 +367,7 @@
                                                                 $rdate= $rd->format('d-m-Y');
 
 
-                                                                $reference_no = substr($row['reference_no'], 0, 2);
+                                                                $reference_no = substr($row['reference_no'], 0, 1) == 'F' ? substr($row['reference_no'], 0, 1):substr($row['reference_no'], 0, 2);
 			                                                    if ($reference_no == "TE" || $reference_no == "CA") {
                                                                     $sql2 = "SELECT * FROM `corporate_agency` WHERE corporate_agency_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY corporate_agency_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
@@ -381,6 +381,28 @@
                                                                     }
                                                                 }else if($reference_no == "BM"){
                                                                     $sql2 = "SELECT * FROM `business_mentor` WHERE business_mentor_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "F"){
+                                                                    $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sub_franchisee_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "MF"){
+                                                                    $sql2 = "SELECT * FROM `master_franchisee` WHERE master_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY master_franchisee_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
                                                                     $stmt2 -> execute();
                                                                     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
@@ -487,7 +509,7 @@
                                                                 $rdate= $rd->format('d-m-Y');
 
 
-                                                                $reference_no = substr($row['reference_no'], 0, 2);
+                                                                $reference_no = substr($row['reference_no'], 0, 1) == 'F' ? substr($row['reference_no'], 0, 1):substr($row['reference_no'], 0, 2);
 			                                                    if ($reference_no == "TE" || $reference_no == "CA") {
                                                                     $sql2 = "SELECT * FROM `corporate_agency` WHERE corporate_agency_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY corporate_agency_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
@@ -501,6 +523,28 @@
                                                                     }
                                                                 }else if($reference_no == "BM"){
                                                                     $sql2 = "SELECT * FROM `business_mentor` WHERE business_mentor_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "F"){
+                                                                    $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sub_franchisee_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "MF"){
+                                                                    $sql2 = "SELECT * FROM `master_franchisee` WHERE master_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY master_franchisee_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
                                                                     $stmt2 -> execute();
                                                                     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);

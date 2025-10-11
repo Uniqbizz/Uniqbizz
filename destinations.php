@@ -341,6 +341,21 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="col-lg-7 col-sm-6">
+                            <a href="destination-details/destination-details-japan.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Japan1.jpg" alt="Japan">
+                                <div class="destination-content">
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Japan</p>
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

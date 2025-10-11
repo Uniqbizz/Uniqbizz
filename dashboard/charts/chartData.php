@@ -18,7 +18,6 @@ function monthlyChartData($conn, $reference_no, $get_year, $current_year, $curre
         '10' => 'ca_customer',
         '11' => 'ca_customer',
         '15' => 'ca_travelagency',
-        '16' => 'ca_travelagency',
         '18' => 'business_consultant',
         '19' => 'business_operation_executive',
         '20' => 'training_manager',
@@ -480,30 +479,94 @@ if ($user_type == '24') {
 
     echo json_encode([$bm, $mf, $sf, $te, $f, $tc, $cu]);
 } else if ($user_type == '26') {
-    // For BM → TC only
+    // For BM->TC->CU / BM->TE->TC-CU
+    $te = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
+    $cu = array_fill(0, 12, 0);
 
-    $sql = "SELECT register_date FROM ca_travelagency 
+    //for BM -> TE only
+    $sql = "SELECT corporate_agency_id, register_date FROM corporate_agency 
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $fRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($fRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $te[$month - 1]++;
+        }
+    }
+
+    // Get TCs under those TEs
+    $fIds = array_column($fRows, 'corporate_agency_id');
+    if (!empty($fIds)) {
+        $inClause = implode(',', array_fill(0, count($fIds), '?'));
+        $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($fIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['ca_travelagency_id'];
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $tc[$month - 1]++;
+            }
+            $sql1 = "SELECT register_date FROM ca_customer 
+                WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
+            }
+        }
+    }
+    //For BM->TC->CU direct TC by BM
+    $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
             WHERE reference_no = :ref AND status = '1'";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':ref' => $user_id]);
 
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $tc_id=$row['ca_travelagency_id'];
         $year = date('Y', strtotime($row['register_date']));
         $month = date('n', strtotime($row['register_date']));
         if ($year == $get_year) {
             $tc[$month - 1]++;
         }
+        $sql1 = "SELECT register_date FROM ca_customer 
+                WHERE ta_reference_no = :ref AND status = '1'";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->execute([':ref' => $tc_id]);
+        foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $cu[$month - 1]++;
+            }
+        }
     }
 
     if ($current_year == $get_year) {
+        array_splice($te, $current_month);
         array_splice($tc, $current_month);
+        array_splice($cu, $current_month);
     }
 
-    echo json_encode([ $tc ]);
+    echo json_encode([ $te,$tc,$cu ]);
 } else if($user_type == '28'){
     $f = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
+    $cu = array_fill(0, 12, 0);
 
     //for MF -> F only
     $sql = "SELECT sub_franchisee_id, register_date FROM sub_franchisee 
@@ -526,44 +589,69 @@ if ($user_type == '24') {
     $fIds = array_column($fRows, 'sub_franchisee_id');
     if (!empty($fIds)) {
         $inClause = implode(',', array_fill(0, count($fIds), '?'));
-        $sql = "SELECT register_date FROM ca_travelagency 
+        $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
                 WHERE reference_no IN ($inClause) AND status = '1'";
         $stmt = $conn->prepare($sql);
         $stmt->execute($fIds);
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['ca_travelagency_id'];
             $year = date('Y', strtotime($row['register_date']));
             $month = date('n', strtotime($row['register_date']));
             if ($year == $get_year) {
                 $tc[$month - 1]++;
             }
+            $sql1 = "SELECT register_date FROM ca_customer 
+                WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
+            }
         }
     }
     
     // For MF → TC only
-    $tc = array_fill(0, 12, 0);
 
-    $sql = "SELECT register_date FROM ca_travelagency 
+    $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
             WHERE reference_no = :ref AND status = '1'";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':ref' => $user_id]);
 
     foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $tc_id=$row['ca_travelagency_id'];
         $year = date('Y', strtotime($row['register_date']));
         $month = date('n', strtotime($row['register_date']));
         if ($year == $get_year) {
             $tc[$month - 1]++;
+        }
+        $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->execute([':ref' => $tc_id]);
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $cu[$month - 1]++;
+            }
         }
     }
 
     if ($current_year == $get_year) {
         array_splice($f, $current_month);
         array_splice($tc, $current_month);
+        array_splice($cu, $current_month);
     }
-    echo json_encode([ $f, $tc ]);
+    echo json_encode([ $f, $tc, $cu ]);
 }else if($user_type == '30'){
     $f = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
+    $cu = array_fill(0, 12, 0);
 
     //for SF -> F only
     $sql = "SELECT sub_franchisee_id, register_date FROM sub_franchisee 
@@ -585,24 +673,37 @@ if ($user_type == '24') {
     $fIds = array_column($fRows, 'sub_franchisee_id');
     if (!empty($fIds)) {
         $inClause = implode(',', array_fill(0, count($fIds), '?'));
-        $sql = "SELECT register_date FROM ca_travelagency 
+        $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
                 WHERE reference_no IN ($inClause) AND status = '1'";
         $stmt = $conn->prepare($sql);
         $stmt->execute($fIds);
 
         foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['ca_travelagency_id'];
             $year = date('Y', strtotime($row['register_date']));
             $month = date('n', strtotime($row['register_date']));
             if ($year == $get_year) {
                 $tc[$month - 1]++;
+            }
+            $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
             }
         }
     }
     if ($current_year == $get_year) {
         array_splice($f, $current_month);
         array_splice($tc, $current_month);
+        array_splice($cu, $current_month);
     }
-    echo json_encode([ $f, $tc ]);
+    echo json_encode([ $f, $tc, $cu ]);
 }else if ($user_type == '31') {
     // For RM → MF/SF → F-> TC
     $mf = array_fill(0, 12, 0);
@@ -720,6 +821,40 @@ if ($user_type == '24') {
 
     echo json_encode([ $mf,$sf,$tc,$cu]);
 
+} else if($user_type == '29' || $user_type == '16'){ //Franchisee/Techno Enterprise
+    $tc = array_fill(0, 12, 0);
+    $cu = array_fill(0, 12, 0);
+    
+    $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
+            WHERE reference_no = :ref AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $tc_id=$row['ca_travelagency_id'];
+        $year = date('Y', strtotime($row['register_date']));
+        $month = date('n', strtotime($row['register_date']));
+        if ($year == $get_year) {
+            $tc[$month - 1]++;
+        }
+        $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->execute([':ref' => $tc_id]);
+        foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $cu[$month - 1]++;
+            }
+        }
+    }
+
+    if ($current_year == $get_year) {
+        array_splice($tc, $current_month);
+        array_splice($cu, $current_month);
+    }
+    echo json_encode([ $tc, $cu ]);
 } else {
     // fallback for other users
     $data = monthlyChartData($conn, $user_id, $get_year, $current_year, $current_month, $user_type,$user_id);
