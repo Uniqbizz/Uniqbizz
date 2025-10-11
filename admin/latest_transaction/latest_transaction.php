@@ -91,14 +91,14 @@
                                                             SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount, payment_mode, status FROM ca_travelagency UNION ALL 
                                                             SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
                                                             SELECT master_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM master_franchisee UNION ALL
-                                                            SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee
-                                                            WHERE status='1' order by date DESC ";
+                                                            SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee 
+                                                            WHERE status='1' order by date DESC";
                                                     $stmt1 = $conn -> prepare($sql1);
                                                     $stmt1 -> execute();
                                                     $stmt1 -> setFetchMode(PDO::FETCH_ASSOC);
                                                     if( $stmt1 -> rowCount()>0){
                                                         foreach( ($stmt1 -> fetchAll()) as $key => $row ){
-                                                           if ($row['user_type'] == "16") {
+                                                            if ($row['user_type'] == "16") {
                                                                 $designation = "Techno Enterprise";
                                                             } else if ($row['user_type'] == "29") {
                                                                 $designation = "Franchisee";

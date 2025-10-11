@@ -832,7 +832,7 @@
                                                             else if($userType == "26"){
                                                                 
                                                                 //Direct TE
-                                                                $stmt4 = $conn->prepare("SELECT DISTINCT corporate_agency_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status, register_by FROM corporate_agency WHERE reference_no = ? AND (status = '1' OR status = '3')");
+                                                                $stmt4 = $conn->prepare("SELECT DISTINCT corporate_agency_id as user_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status, register_by FROM corporate_agency WHERE reference_no = ? AND (status = '1' OR status = '3')");
                                                                 $stmt4->execute([$userId]);
                                                                 $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -843,7 +843,7 @@
                                                                     $dt= new DateTime($userCA['register_date']);
                                                                     $datev= $dt->format('d-m-Y'); 
                                                                     echo'<tr>
-                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['corporate_agency_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                                                                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['user_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                                                                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                                                                         <td><p>'.$userCA['amount'].'</p></td>
                                                                         <td>'.$userCA['contact_no'].'</td>
@@ -856,9 +856,9 @@
                                                                                             <i class="ri-more-fill align-middle"></i>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                            <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["user_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' .$userCA["zone"]. '", "'.$userCA['branch'].'","corporate_agency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                            <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["corporate_agency_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["corporate_agency_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                            <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["user_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","NA", "NA","corporate_agency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                                                                            <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["user_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["user_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                         </ul>
                                                                                     </div>
                                                                                 </td>';
@@ -870,7 +870,7 @@
                                                                                             <i class="ri-more-fill align-middle"></i>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["corporate_agency_id"].'","deactivate","'.$userId.'","'.$userCA['user_type'].'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
+                                                                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["user_id"].'","deactivate","'.$userId.'","'.$userCA['user_type'].'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
                                                                                         </ul>
                                                                                     </div>
                                                                                 </td>';
