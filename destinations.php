@@ -245,7 +245,7 @@
                                 </div>
                             </a>
                         </div>
-                         <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <a href="destination-details/destination-details-tamil-nadu.php" class="destination-banner h-calc">
                                 <img src="assets/images/destination/TamilNadu1.jpg" alt="Tamil Nadu">
                                 <div class="destination-content">
@@ -356,6 +356,21 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-almaty.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Almaty1.jpg" alt="Almaty">
+                                <div class="destination-content">
+                                    <div class="destination-info">
+                                        <div class="destination-name">
+                                            <p class="pera">Almaty</p>
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> 
                     </div>
                 </div>
             </div>
