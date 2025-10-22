@@ -162,9 +162,9 @@ $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $o
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
                                     <img src="<?=$value['image'] ?>" alt="BizzMirth">
                                 </a>
-                                <!-- <div class="image-badge">
-                                        <p class="pera">Featured</p>
-                                    </div> -->
+                                <div class="badge-color">
+                                    <p class="trending">Trending</p>
+                                </div>
                             </div>
                             <div class="package-content">
                                 <h4 class="area-name">
