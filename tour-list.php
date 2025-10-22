@@ -110,6 +110,92 @@ if (isset($_SESSION['user_type_id_value'])) {
             border: 2px solid #e03d42 !important;
             color: #e03d42 !important;
         }
+        .imageSize {
+            width: 260px;
+            height: 240px;
+        }
+        @media screen and (max-width: 991px) {
+            .imageSize {
+                width: 250px;
+                height: 230px;
+            }
+            .packageTitle{
+                font-size: 20px;
+                padding: 0px 10px;
+            }
+            .packageLocation {
+                padding: 0px 10px;
+            }
+            .packageRatings {
+                padding: 0px 10px;
+            }
+            .packageDesc {
+                padding: 0px 10px;
+            }
+            .pacakgePrice {
+                font-size: 17px;
+            }
+        }
+        @media screen and (max-width: 767px) {
+            .imageSize {
+                width: 100%;
+                height: 250px;
+                padding: 0px;
+                border-radius: 6px 6px 0px 0px !important;
+            }
+            .packageTitle{
+                font-size: 20px;
+                padding: 0px 25px;
+            }
+            .packageLocation {
+                padding: 0px 25px;
+            }
+            .packageRatings {
+                padding: 0px 25px;
+            }
+            .packageDesc {
+                padding: 0px 25px;
+            }
+            .pacakgePrice {
+                font-size: 17px;
+            }
+            .parent-container-badge {
+                position: relative;
+                overflow: hidden;
+                border-top-left-radius: 6px;
+                margin: 0px 12px;
+            }
+            .badge-color {
+                background-color: #0d81ceff;
+                padding: 25px 0px 10px 0px;
+                text-align: center;
+                width: 130px;
+                transform: rotate(312deg);
+                position: absolute;
+                top: -6px;
+                left: -44px;
+            }
+            .borderRemove {
+                border: none !important;
+            }
+            .packageButton {
+                display: flex !important;
+                justify-content: start !important;
+                padding: 0px 0px 15px 25px !important;
+                gap: 10px;
+            }
+            .packagePriceDiv {
+                display: flex !important;
+                justify-content: start !important;
+                padding: 0px 0px 10px 25px !important;
+                gap: 10px;
+            }
+            .packageExplore {
+                position: absolute;
+                left: 200px;
+                bottom: 30px;
+            }
+        }
     </style>
 </head>
 
@@ -263,14 +349,14 @@ if (isset($_SESSION['user_type_id_value'])) {
                     </div>
                     <div class="col-xl-9">
                         <div class="showing-result d-flex justify-content-end">
-                            <!-- <div class="d-flex">
+                            <div class="d-flex">
                                 <div class="pe-2" id="list_column">
-                                    <i class="fa-solid fa-table-list fa-2xl" style="color: #e03d42;"></i>
-                                </div>
-                                <div class="pe-2" id="grid_column">
                                    <i class="fa-solid fa-table-cells fa-2xl" style="color: #e03d42;"></i>
                                 </div>
-                            </div> -->
+                                <div class="pe-2" id="grid_column">
+                                    <i class="fa-solid fa-table-list fa-2xl" style="color: #e03d42;"></i>
+                                </div>
+                            </div>
                             <!-- <h4 class="title">Showing 6 of 10 Results</h4> -->
                             <div class="d-flex gap-10 align-items-center">
                                 <div class="expand-icon hamburger block d-xl-none" id="hamburger">
@@ -292,7 +378,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                 </div>
                             </div>
                         </div>
-                        <div class="all-tour-list " id="all-tour-list">
+                        <div class="all-tour-list" id="all-tour-list">
                             <input type="hidden" id="userId" value="<?= $user_id ?>" />
                             <input type="hidden" id="userType" value="<?= $user_type ?>" />
                             <div class="row g-4">
@@ -353,9 +439,9 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                         <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
                                                             <img src="' . $value['image'] . '" alt="BizzMirth">
                                                         </a>
-                                                        <!-- <div class="image-badge">
-                                                            <p class="pera">Featured</p>
-                                                        </div> -->
+                                                        <div class="badge-color">
+                                                            <p class="trending">Trending</p>
+                                                        </div>
                                                     </div>
                                                     <div class="package-content">
                                                         <h4 class="area-name">
@@ -395,24 +481,26 @@ if (isset($_SESSION['user_type_id_value'])) {
                                 ?>
                             </div>
                         </div>
-                        <div class="d-none" id="all-tour-grid">
+                        <div class="all-tour-grid d-none" id="all-tour-grid">
                             <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-4 px-0 parent-container-badge">
-                                        <a href="#">
-                                            <img src="assets/images/destination/destination-1.png" alt="BizzMirth" width="250px" height="230px" class="rounded-start">
-                                        </a>
-                                        <div class="badge-color">
-                                            <p class="trending">Trending</p>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
+                                        <div class="parent-container-badge">
+                                            <a href="#">
+                                                <img src="assets/images/destination/destination-1.png" alt="BizzMirth" class="rounded-start imageSize">
+                                            </a>
+                                            <div class="badge-color">
+                                                <p class="trending">Trending</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-5 py-3 px-0 border-end">
-                                        <h4 class="fw-bolder pb-2">Historical Hollywood Walking Tour</h4>
-                                        <p class="pb-2">
+                                    <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
+                                        <h4 class="fw-bolder pb-2 packageTitle">Historical Hollywood Walking Tour</h4>
+                                        <p class="pb-2 packageLocation">
                                             <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
                                             <span class="text-muted">Bryce Canyon national Park, USA</span>
                                         </p>
-                                        <div class="star-ratings d-flex pb-2">
+                                        <div class="star-ratings d-flex pb-2 packageRatings">
                                             <p>
                                                 <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
                                                 <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
@@ -422,13 +510,13 @@ if (isset($_SESSION['user_type_id_value'])) {
                                             </p>
                                             <p><span class="ps-3">3</span> Reviews</p>
                                         </div>
-                                        <div class="text-start list-desc">
+                                        <div class="text-start list-desc packageDesc">
                                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
                                             iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-3 ps-0">
-                                        <div class="d-flex justify-content-evenly py-3">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+                                        <div class="d-flex justify-content-evenly py-3 packageButton">
                                             <button class="rounded-2 btn border-danger-subtle border-2">
                                                 <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
                                             </button>
@@ -436,11 +524,11 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                 <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">3</span> DAYS</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-evenly py-3">
-                                            <h5 class="fw-bolder">&#8377; 20,000</h5>
-                                            <h5 class="fw-bolder text-muted text-decoration-line-through">&#8377; 24,999</h5>
+                                        <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
+                                            <h5 class="fw-bolder pacakgePrice">&#8377; 20,000</h5>
+                                            <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 24,999</h5>
                                         </div>
-                                        <div class="d-flex justify-content-center py-3">
+                                        <div class="d-flex justify-content-center py-3 packageExplore">
                                             <a class="btn btn-background-color fw-bolder" href="#" role="button">Explore</a>
                                         </div>
                                     </div>
@@ -669,6 +757,23 @@ if (isset($_SESSION['user_type_id_value'])) {
         //     }
         // });
     </script>
+    <script>
+        const listBtn = document.getElementById("list_column");
+        const gridBtn = document.getElementById("grid_column");
+        const listView = document.getElementById("all-tour-list");
+        const gridView = document.getElementById("all-tour-grid");
+
+        listBtn.addEventListener("click", function () {
+            listView.classList.remove("d-none");
+            gridView.classList.add("d-none");
+        });
+
+        gridBtn.addEventListener("click", function () {
+            gridView.classList.remove("d-none");
+            listView.classList.add("d-none");
+        });
+    </script>
+
 
 </body>
 
