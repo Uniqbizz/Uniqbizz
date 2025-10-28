@@ -75,7 +75,7 @@
                                                 <div class="sign-btn">
                                                     <?php 
                                                         if(isset($_SESSION['username2'])){
-                                                            echo '<a href="dashboard/" class="btn-secondary-sm">Dashboard</a>
+                                                            echo '<a href="../dashboard/" class="btn-secondary-sm">Dashboard</a>
                                                             <a href="../login.php" class="btn-secondary-sm my2logout">Logout</a>';
                                                         }else{
                                                             echo'<a href="../login.php" class="btn-secondary-sm">Log In</a>';
