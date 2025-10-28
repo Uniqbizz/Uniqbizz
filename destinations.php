@@ -262,7 +262,7 @@
                                 </div>
                             </a>
                         </div> 
-                         <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <a href="destination-details/destination-details-dubai.php" class="destination-banner h-calc">
                                 <img src="assets/images/destination/Dubai2.jpg" alt="Dubai">
                                 <div class="destination-content">
