@@ -262,7 +262,7 @@
                                 </div>
                             </a>
                         </div> 
-                         <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <a href="destination-details/destination-details-dubai.php" class="destination-banner h-calc">
                                 <img src="assets/images/destination/Dubai2.jpg" alt="Dubai">
                                 <div class="destination-content">
@@ -363,6 +363,23 @@
                                     <div class="destination-info">
                                         <div class="destination-name">
                                             <p class="pera">Almaty</p>
+                                        </div>
+                                        <div class="button-section">
+                                            <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> 
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-srilanka.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/SriLanka1.jpg" alt="Sri lanka">
+                                <div class="destination-content">
+                                  
+                                    <div class="destination-info p-4">
+                                        <div class="destination-name">
+                                            <p class="pera">Sri Lanka</p>
+                                           
                                         </div>
                                         <div class="button-section">
                                             <div class="arrow-btn"><i class="ri-arrow-right-line"></i></div>
