@@ -885,8 +885,8 @@ if ($user_type_id == '16') {
 				if ($row) {
 					$mf_name = $row['firstname'] . ' ' . $row['lastname'];
 					$mfCommiAmt = $amount * 0.05;
-					$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid)";
-					$message_sf=$name . '(' . $uid . ') was on-boarded via '. $mf_name .'('.$master_franchisee.') as a Franchisee and paid Rs.' . $amount . '/-';
+					$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) and paid Rs $amount /-";
+					$message_sf="$name ($uid) was on-boarded via $mf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
 
 					if (!empty($row['reference_no']) && ($row['reference_no']) != 'Not Applicable') {
 						$ref_manager = $row['reference_no'];
@@ -929,8 +929,8 @@ if ($user_type_id == '16') {
 				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
 				$mfCommiAmt = $amount * 0.05; //25000
 				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
-				$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid)";
-				$message_sf=$name . '(' . $uid . ') was on-boarded via '. $sf_name .'('.$master_franchisee.') as a Franchisee and paid Rs.' . $amount . '/-';
+				$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) and paid Rs $amount /-";
+				$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
 				if (!empty($sf['reference_no']) && ($sf['reference_no']) != 'Not Applicable') {
 					$ref_manager = $sf['reference_no'];
 
@@ -956,10 +956,10 @@ if ($user_type_id == '16') {
 				$refCommiAmt = $amount * 0.05; //25000
 				$ref_name = $ref ? $ref['name'] : '';
 				$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
-				$message_zm = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee.Franchisee Name - $name (ID:$uid)";
+				$message_ref = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee. Franchisee Name - $name (ID:$uid) and paid Rs $amount /-";
 				$message_mf = '';
 				$mfCommiAmt = 0;
-				$message_sf=$name . '(' . $uid . ') was on-boarded via '. $ref_name .'('.$ref_manager.') as a Franchisee and paid Rs.' . $amount . '/-';
+				$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
 			}
 			//----------------------------------------------------
 			// Insert into payout table
