@@ -1,343 +1,195 @@
 <?php
-    require '../../connect.php';
+require '../../connect.php';
 
-    $user_id = $_POST['userid'];
-    $user_type = $_POST['usertype'];
-    $min_price = floatval($_POST['minPrice']);
-    $max_price = floatval($_POST['maxPrice']);
-    $min_duration = intval($_POST['minDuration']);
-    $max_duration = intval($_POST['maxDuration']);
-    $sort = $_POST['sort'];
-    $ratings = $_POST['ratings']; // Array of selected ratings
-    $tour_type = $_POST['tourType']??[0]; // Array of selected tour_type
-    $destination = trim($_POST['destination'] ?? '');
-    $viewType = trim($_POST['viewType'] ?? '1');
-    // destination text
+// Get POST values safely
+$user_id = $_POST['userid'] ?? '';
+$user_type = $_POST['usertype'] ?? '';
+$min_price = floatval($_POST['minPrice'] ?? 0);
+$max_price = floatval($_POST['maxPrice'] ?? 9999999);
+$min_duration = intval($_POST['minDuration'] ?? 1);
+$max_duration = intval($_POST['maxDuration'] ?? 30);
+$sort = $_POST['sort'] ?? 'popular';
+$ratings = $_POST['ratings'] ?? [];
+$tour_type = $_POST['tourType'] ?? [0];
+$destination = trim($_POST['destination'] ?? '');
+$page = intval($_POST['page'] ?? 1);
+$limit = 10;
+$offset = ($page - 1) * $limit;
 
-    $ratingsStr = implode(",", $ratings);
-    $tour_typeStr = implode(",", $tour_type);
-    //pagination logic
-    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
-    $limit = 6; // number of packages per page
-    $offset = ($page - 1) * $limit;
-    //pagination logic 
+// Sanitize ratings and tour_type
+$ratings = array_map('intval', $ratings);
+$ratingsStr = implode(',', $ratings);
 
-    // Base SELECT
-    $select = "
-        SELECT 
-            p.id,
-            p.created_date,
-            p.name,
-            p.description,
-            p.destination,
-            p.location,
-            p.tour_days,
-            t.total_package_price_per_adult,
-            t.price_up_per_adult,
-            t.markup_total,
-            c_h.name AS hotel_category";
+$tour_type = array_map('intval', $tour_type);
 
-    if ($sort === 'popular') {
-        $select .= ",
-            p.tour_days,
-            COUNT(b.package_id) AS booking_count";
+// Base SELECT
+$select = "
+    SELECT 
+        p.id,
+        p.created_date,
+        p.name,
+        p.description,
+        p.destination,
+        p.location,
+        p.tour_days,
+        t.total_package_price_per_adult,
+        t.price_up_per_adult,
+        t.markup_total,
+        c_h.name AS hotel_category";
+
+if ($sort === 'popular') {
+    $select .= ",
+        COUNT(b.package_id) AS booking_count";
+}
+
+// FROM and JOINs
+$from = "
+    FROM package p
+    JOIN package_pricing t ON p.id = t.package_id
+    JOIN category c ON p.category_id = c.id AND c.status=1
+    JOIN category_hotel c_h ON p.category_hotel_id = c_h.id";
+
+if ($sort === 'popular') {
+    $from .= " LEFT JOIN bookings b ON b.package_id = p.id";
+}
+
+// WHERE conditions
+$where = "WHERE p.status = 1 AND t.total_package_price_per_adult BETWEEN :min_price AND :max_price";
+
+if ($sort === 'popular') {
+    $where .= " AND (p.tour_days - 1) BETWEEN :min_duration AND :max_duration";
+}
+
+// Ratings filter
+if (!empty($ratingsStr)) {
+    $where .= " AND c_h.id IN ($ratingsStr)";
+}
+
+// Tour type filter
+if (!empty($tour_type)) {
+    if (in_array(0, $tour_type)) {
+        $where .= " AND c.id IN (1,2)";
+    } else {
+        $where .= " AND c.id IN (" . implode(',', $tour_type) . ")";
     }
+}
 
-    // FROM and JOINs
-    $from = "
-        FROM package p
-        JOIN package_pricing t ON p.id = t.package_id
-        JOIN category c ON p.category_id = c.id and c.status=1
-        JOIN category_hotel c_h ON p.category_hotel_id = c_h.id";
+// Destination filter
+if (!empty($destination)) {
+    $where .= " AND p.destination LIKE :destination";
+}
 
-    if ($sort === 'popular') {
-        $from .= " LEFT JOIN bookings b ON b.package_id = p.id";
-    }
+// GROUP BY
+$groupBy = "
+    GROUP BY 
+        p.id, p.name, p.description, p.destination, p.location,
+        t.total_package_price_per_adult, t.price_up_per_adult, t.markup_total, c_h.name";
 
-    // WHERE filters
-    $where = "
-        WHERE p.status = '1'
-        AND t.total_package_price_per_adult BETWEEN {$min_price} AND {$max_price}";
+if ($sort === 'popular') {
+    $groupBy .= ", p.tour_days";
+}
 
-    if ($sort === 'popular') {
-        $where .= " AND (p.tour_days - 1) BETWEEN {$min_duration} AND {$max_duration}";
-    }
+// ORDER BY
+switch ($sort) {
+    case 'low':
+        $orderBy = "ORDER BY t.total_package_price_per_adult ASC";
+        break;
+    case 'high':
+        $orderBy = "ORDER BY t.total_package_price_per_adult DESC";
+        break;
+    case 'new':
+        $orderBy = "ORDER BY p.created_date DESC";
+        break;
+    case 'popular':
+    default:
+        $orderBy = "ORDER BY booking_count DESC, p.id";
+        break;
+}
 
-    // ✅ Ratings filter
-    if (!empty($ratingsStr)) {
-        $where .= " AND FIND_IN_SET(c_h.id, '{$ratingsStr}') > 0";
-    }
-    // tour type filter
-    if (!empty($tour_typeStr) && in_array($tour_typeStr,['1','2'])) {
-        $where .= " AND FIND_IN_SET(c.id, '{$tour_typeStr}') > 0";
-    }else if(!empty($tour_typeStr) && in_array($tour_typeStr,['0'])){
-        $where .= " AND FIND_IN_SET(c.id, '{1,2}') > 0";
-    }
+// Count total records for pagination
+$countQuery = "SELECT COUNT(DISTINCT p.id) AS total $from $where";
+$countStmt = $conn->prepare($countQuery);
+$countParams = [
+    ':min_price' => $min_price,
+    ':max_price' => $max_price,
+];
+if ($sort === 'popular') {
+    $countParams[':min_duration'] = $min_duration;
+    $countParams[':max_duration'] = $max_duration;
+}
+if (!empty($destination)) {
+    $countParams[':destination'] = "%$destination%";
+}
+$countStmt->execute($countParams);
+$totalRows = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+$totalPages = ceil($totalRows / $limit);
 
-    // ✅ Destination filter (optional)
-    if (!empty($destination)) {
-        $safeDestination = addslashes($destination);
-        $where .= " AND p.destination LIKE '%{$safeDestination}%'";
-    }
+// Final query with LIMIT
+$finalQuery = "$select $from $where $groupBy $orderBy LIMIT :limit OFFSET :offset";
+$stmt = $conn->prepare($finalQuery);
 
-    // GROUP BY
-    $groupBy = "
-        GROUP BY 
-            p.id, p.name, p.description, p.destination, p.location,
-            t.total_package_price_per_adult,t.price_up_per_adult, t.markup_total, c_h.name";
+// Bind parameters
+$stmt->bindValue(':min_price', $min_price);
+$stmt->bindValue(':max_price', $max_price);
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
-    if ($sort === 'popular') {
-        $groupBy .= ", p.tour_days";
-    }
+if ($sort === 'popular') {
+    $stmt->bindValue(':min_duration', $min_duration, PDO::PARAM_INT);
+    $stmt->bindValue(':max_duration', $max_duration, PDO::PARAM_INT);
+}
+if (!empty($destination)) {
+    $stmt->bindValue(':destination', "%$destination%");
+}
 
-    // ORDER BY
-    switch ($sort) {
-        case 'low':
-            $orderBy = "ORDER BY t.total_package_price_per_adult ASC";
-            break;
-        case 'high':
-            $orderBy = "ORDER BY t.total_package_price_per_adult DESC";
-            break;
-        case 'new':
-            $orderBy = "ORDER BY p.created_date ASC";
-            break;
-        case 'popular':
-        default:
-            $orderBy = "ORDER BY booking_count DESC, p.id";
-            break;
-    }
+$stmt->execute();
 
-    // ✅ Final Query
-    // withouth pagination
-    // $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $orderBy;
-    // without pagination
-    // pagination logic
-    $orderByQuery = $select . " " . $from . " " . $where . " " . $groupBy . " " . $orderBy . " LIMIT {$limit} OFFSET {$offset}";
-    // Get total count for pagination
-    $countQuery = "SELECT COUNT(DISTINCT p.id) AS total " . $from . " " . $where;
-    $countStmt = $conn->prepare($countQuery);
-    $countStmt->execute();
-    $totalRecords = $countStmt->fetchColumn();
-    $totalPages = ceil($totalRecords / $limit);
-    // pagination logic
-    //print_r($orderByQuery);
-?>
+if ($stmt->rowCount() > 0) {
+    echo '<div class="row">';
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Check if package has custom image
+        $data = $conn->prepare("SELECT image FROM package_pictures WHERE package_id = :pid LIMIT 1");
+        $data->execute([':pid' => $row['id']]);
+        $value = $data->fetch(PDO::FETCH_ASSOC);
+        $imgPath = !empty($value['image']) ? '' . htmlspecialchars($value['image']) : (!empty($row['image']) ? '../../uploading/package_img/' . htmlspecialchars($row['image']) : 'assets/images/no-image.png');
 
-<div class="all-tour-list <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
-    <div class="row g-4">
-        <?php
-            require '../../connect.php';
+        $price = number_format($row['total_package_price_per_adult']);
+        $days = (int)$row['tour_days'];
+        $destinationText = htmlspecialchars($row['destination']);
+        $name = htmlspecialchars($row['name']);
+        $description = htmlspecialchars($row['description']);
 
-            // $user_id = 0;
-            $ta_id = 0;
-            // get TA id
-            if ($user_id) {
-                if ($user_type == '10') {
-                    $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
-                    $ta_data->execute();
-                    $ta = $ta_data->fetch();
-                    $ta_id = $ta['ta_reference_no'];
-                } else if ($user_type == '11') {
-                    $ta_id = $user_id;
-                }
-            }
-
-            $stmt = $conn->prepare($orderByQuery);
-            $stmt->execute();
-            $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-            if ($stmt->rowCount() > 0) {
-                foreach (($stmt->fetchAll()) as $key => $row) {
-                    // $name = $row['name'].''.$row['unique_code'];
-                    // echo $srno.' '.$name.'</br>';
-
-                    // get images
-                    $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
-                    $data->execute();
-                    $value = $data->fetch();
-                    // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
-
-                    $adult_price = (float)$row['total_package_price_per_adult'] + (float)$row['price_up_per_adult'];
-                    // $markup_price = (float)$row['markup_total'];
-                    $total_base_price = $adult_price ;
-                    //print_r($total_base_price);
-
-                    $tourDay = (int)$row['tour_days'] - 1;
-                    $tourNight = (int)$row['tour_days'] - 2;
-
-                    if ($ta_id) {
-                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                        $ta_markup_data->execute();
-                        $ta_markup = $ta_markup_data->fetch();
-                        $total_price = $ta_markup['selling_price_adult'] ?? $total_base_price;
-                    } else {
-                        $total_price = $total_base_price;
-                    }
-        ?>
-                    <div class="col-xl-4 col-lg-4 col-sm-6">
-                        <div class="package-card">
-                            <div class="package-img imgEffect4">
-                                <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
-                                    <img src="<?=$value['image'] ?>" alt="BizzMirth">
-                                </a>
-                                <div class="badge-color">
-                                    <p class="trending">Trending</p>
-                                </div>
-                            </div>
-                            <div class="package-content">
-                                <h4 class="area-name">
-                                    <a href="#" onclick='viewPackage("<?= $row["id"] ?> ")'><?= $row['name'] ?></a>
-                                </h4>
-                                <div class="location">
-                                    <i class="ri-map-pin-line"></i>
-                                    <div class="name"><?= $row['destination'] ?></div>
-                                </div>
-                                <div class="packages-person">
-                                    <div class="count">
-                                        <i class="ri-time-line"></i>
-                                        <!-- <p class="pera"><?= $row['location'] ?></p> -->
-                                        <p class="pera"> <?= $tourNight ?> Night <?= $tourDay ?> Days </p>
-                                    </div>
-                                    <!-- <div class="count">
-                                            <i class="ri-user-line"></i>
-                                            <p class="pera">2 Person</p>
-                                        </div> -->
-                                </div>
-                                <div class="price-review">
-                                    <div class="d-flex gap-10">
-                                        <p class="light-pera">From</p>
-                                        <p class="pera"><span>&#8377</span><?= $total_price ?></p>
-                                    </div>
-                                    <!-- <div class="rating">
-                                            <i class="ri-star-s-fill"></i>
-                                            <p class="pera">4.7 (20 Reviews)</p>
-                                        </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
-        <?php
-                }
-            }
-        ?>
-    </div>
-</div>
-<div class="all-tour-grid <?=$viewType == 2?'':'d-none'?>" id="all-tour-grid">
-    <?php
-            require '../../connect.php';
-
-            // $user_id = 0;
-            $ta_id = 0;
-            // get TA id
-            if ($user_id) {
-                if ($user_type == '10') {
-                    $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
-                    $ta_data->execute();
-                    $ta = $ta_data->fetch();
-                    $ta_id = $ta['ta_reference_no'];
-                } else if ($user_type == '11') {
-                    $ta_id = $user_id;
-                }
-            }
-
-            $stmt = $conn->prepare($orderByQuery);
-            $stmt->execute();
-            $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-            if ($stmt->rowCount() > 0) {
-                foreach (($stmt->fetchAll()) as $key => $row) {
-                    // $name = $row['name'].''.$row['unique_code'];
-                    // echo $srno.' '.$name.'</br>';
-
-                    // get images
-                    $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
-                    $data->execute();
-                    $value = $data->fetch();
-                    // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
-
-                    $adult_price = (float)$row['total_package_price_per_adult'] + (float)$row['price_up_per_adult'];
-                    // $markup_price = (float)$row['markup_total'];
-                    $total_base_price = $adult_price ;
-                    //print_r($total_base_price);
-
-                    $tourDay = (int)$row['tour_days'] - 1;
-                    $tourNight = (int)$row['tour_days'] - 2;
-
-                    if ($ta_id) {
-                        $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                        $ta_markup_data->execute();
-                        $ta_markup = $ta_markup_data->fetch();
-                        $total_price = $ta_markup['selling_price_adult'] ?? $total_base_price;
-                    } else {
-                        $total_price = $total_base_price;
-                    }
-    ?>
-                <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
-                            <div class="parent-container-badge">
-                                <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
-                                    <img src="<?=$value['image']?>" alt="BizzMirth" class="rounded-start imageSize">
-                                </a>
-                                <div class="badge-color">
-                                    <p class="trending">Trending</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
-                            <h4 class="fw-bolder pb-2 packageTitle">
-                                <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'><?= $row['name'] ?></a>
-                            </h4>
-                            <p class="pb-2 packageLocation">
-                                <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                <span class="text-muted"><?=$row['destination']?></span>
-                            </p>
-                            <div class="star-ratings d-flex pb-2 packageRatings">
-                                <p>
-                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                </p>
-                                <p><span class="ps-3">3</span> Reviews</p>
-                            </div>
-                            <div class="text-start list-desc packageDesc">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
-                                iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
-                            <div class="d-flex justify-content-evenly py-3 packageButton">
-                                <button class="rounded-2 btn border-danger-subtle border-2">
-                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
-                                </button>
-                                <div class="rounded-2 btn border-danger-subtle border-2">
-                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger"><?=$tourNight.' Night '.$tourDay?></span></p>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                <h5 class="fw-bolder pacakgePrice">&#8377; <?= $total_price ?></h5>
-                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
-                            </div>
-                            <div class="d-flex justify-content-center py-3 packageExplore">
-                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick='viewPackage("<?= $row["id"] ?>")\'>Explore</a>
-                            </div>
-                        </div>
-                    </div>
+        echo "
+        <div class='col-md-4 mb-4'>
+            <div class='card tour-card shadow-sm'>
+                <img src='{$imgPath}' class='card-img-top' alt='{$name}' style='height:220px; object-fit:cover;'>
+                <div class='card-body'>
+                    <h5 class='card-title'>{$name}</h5>
+                    <p class='card-text text-muted mb-1'>{$destinationText}</p>
+                    <p class='small text-secondary mb-2'>{$days} Days Tour</p>
+                    <p class='fw-bold text-primary mb-0'>₹{$price} / person</p>
                 </div>
-                
-    <?php
-            }
-        }
-    ?>
-</div>
-<!-- pagination  logic-->
-    <div class="pagination-controls text-center mt-4 mb-4">
-        <?php if ($page > 1): ?>
-            <button class="btn btn-danger load-prev" data-page="<?= $page - 1 ?>">Load Previous</button>
-        <?php endif; ?>
-        
-        <?php if ($page < $totalPages): ?>
-            <button class="btn btn-danger load-more" data-page="<?= $page + 1 ?>">Load More</button>
-        <?php endif; ?>
-    </div>
-<!-- pagination logic -->
+            </div>
+        </div>";
+    }
+    echo '</div>';
+
+    // Pagination controls
+    echo '<div class="pagination d-flex justify-content-center mt-4">';
+    if ($page > 1) {
+        echo '<button class="btn btn-outline-primary mx-1 pagination-btn" data-page="' . ($page - 1) . '">Prev</button>';
+    }
+
+    for ($i = 1; $i <= $totalPages; $i++) {
+        $active = $i == $page ? 'btn-primary' : 'btn-outline-primary';
+        echo '<button class="btn ' . $active . ' mx-1 pagination-btn" data-page="' . $i . '">' . $i . '</button>';
+    }
+
+    if ($page < $totalPages) {
+        echo '<button class="btn btn-outline-primary mx-1 pagination-btn" data-page="' . ($page + 1) . '">Next</button>';
+    }
+    echo '</div>';
+} else {
+    echo "<p class='text-center mt-4'>No packages found.</p>";
+}
+?>

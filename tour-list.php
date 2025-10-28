@@ -751,9 +751,35 @@ if (isset($_SESSION['user_type_id_value'])) {
 
 
 
-        function fetchSortedProducts(page,sortValue, minPrice, maxPrice, minDuration, maxDuration,destination,tourType,viewType) {
-            ratings = getSelectedRatings(); // get selected ratings
-            //let tourType = getTourType(); // get selected tour type
+        // function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration,destination,tourType) {
+        //     let ratings = getSelectedRatings(); // get selected ratings
+        //     //let tourType = getTourType(); // get selected tour type
+
+        //     $.ajax({
+        //         url: "assets/submit/fetch_sorted_products.php",
+        //         type: "POST",
+        //         data: {
+        //             sort: sortValue,
+        //             userid: userid,
+        //             usertype: usertype,
+        //             minPrice: minPrice,
+        //             maxPrice: maxPrice,
+        //             minDuration: minDuration,
+        //             maxDuration: maxDuration,
+        //             ratings: ratings, // send ratings array
+        //             destination: destination,
+        //             tourType:tourType
+        //         },
+        //         success: function(response) {
+        //             $("#all-tour-list").html(response);
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("AJAX Error:", error);
+        //         }
+        //     });
+        // }
+        function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration, destination, tourType, page = 1) {
+            let ratings = getSelectedRatings();
 
             $.ajax({
                 url: "assets/submit/fetch_sorted_products.php",
@@ -767,19 +793,39 @@ if (isset($_SESSION['user_type_id_value'])) {
                     maxPrice: maxPrice,
                     minDuration: minDuration,
                     maxDuration: maxDuration,
-                    ratings: ratings, // send ratings array
+                    ratings: ratings,
                     destination: destination,
-                    tourType:tourType,
-                    viewType:viewType
+                    tourType: tourType,
+                    page: page
                 },
                 success: function(response) {
-                    $("#all-tour-container").html(response);
+                    $("#all-tour-list").html(response);
+                    $("html, body").animate({ scrollTop: $("#all-tour-list").offset().top - 100 }, "slow");
                 },
                 error: function(xhr, status, error) {
                     console.error("AJAX Error:", error);
                 }
             });
         }
+
+
+        // Handle pagination click dynamically
+        $(document).on("click", ".pagination-btn", function(e) {
+            e.preventDefault();
+
+            let page = $(this).data("page");
+
+            // Reuse all the current filters
+            let sortValue = $(".sort-options").val();
+            let priceRange = $("#amount").val();
+            let prices = extractPrices(priceRange);
+            let minDuration = $("#slider-range-duration").slider("values", 0);
+            let maxDuration = $("#slider-range-duration").slider("values", 1);
+            let destination = $(".destination-dropdown").val();
+            let tourType = getTourType();
+
+            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, destination, tourType, page);
+        });
         // Run AJAX on sort change
         $(".tour-type").on("change", function() {
             sortValue = $(".sort-options").val();
