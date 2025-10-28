@@ -307,8 +307,18 @@
                 let minDuration = $("#slider-range-duration").slider("values", 0);
                 let maxDuration = $("#slider-range-duration").slider("values", 1);
                 let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                let tourType = getTourType();
+                var listBtnVal = document.getElementById("all-tour-list");
+                var gridBtnVal = document.getElementById("all-tour-grid");
+                let viewType = 0;
+
+                if (!listBtnVal.classList.contains('d-none')) {
+                    viewType = 1; // list view
+                } else if (!gridBtnVal.classList.contains('d-none')) {
+                    viewType = 2; // grid view
+                }
     
-                fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
             }
         });
     
@@ -335,8 +345,18 @@
                 let prices = extractPrices(priceRange);
                 let sortValue = $(".sort-options").val();
                 let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                let tourType = getTourType();
+                var listBtnVal = document.getElementById("all-tour-list");
+                var gridBtnVal = document.getElementById("all-tour-grid");
+                let viewType = 0;
+
+                if (!listBtnVal.classList.contains('d-none')) {
+                    viewType = 1; // list view
+                } else if (!gridBtnVal.classList.contains('d-none')) {
+                    viewType = 2; // grid view
+                }
     
-                fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, ui.values[0], ui.values[1], selectedDescription);
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, ui.values[0], ui.values[1], selectedDescription,tourType,viewType);
             }
         });
     
