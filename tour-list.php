@@ -378,163 +378,285 @@ if (isset($_SESSION['user_type_id_value'])) {
                                 </div>
                             </div>
                         </div>
-                        <div class="all-tour-list" id="all-tour-list">
-                            <input type="hidden" id="userId" value="<?= $user_id ?>" />
-                            <input type="hidden" id="userType" value="<?= $user_type ?>" />
-                            <div class="row g-4">
-                                <?php
+                        <div class="" id="all-tour-container">
+                            <div class="all-tour-list" id="all-tour-list">
+                                <input type="hidden" id="userId" value="<?= $user_id ?>" />
+                                <input type="hidden" id="userType" value="<?= $user_type ?>" />
+                                <div class="row g-4">
+                                    <?php
 
-                                require 'connect.php';
+                                    require 'connect.php';
 
-                                // $user_id = 0;
-                                $ta_id = 0;
-                                // get TA id
-                                if ($user_id) {
-                                    if ($user_type == '2') {
-                                        $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
-                                        $ta_data->execute();
-                                        $ta = $ta_data->fetch();
-                                        $ta_id = $ta['ta_reference_no'];
-                                    } else if ($user_type == '3') {
-                                        $ta_id = $user_id;
-                                    }
-                                }
-
-                                $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
-                                $stmt->execute();
-                                $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-                                if ($stmt->rowCount() > 0) {
-                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                        // $name = $row['name'].''.$row['unique_code'];
-                                        // echo $srno.' '.$name.'</br>';
-
-                                        // get images
-                                        $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
-                                        $data->execute();
-                                        $value = $data->fetch();
-                                        // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
-
-                                        $adult_price = (int)$row['net_price_adult_with_GST'];
-                                        $markup_price = (int)$row['markup_total'];
-
-                                        $tourDay = (int)$row['tour_days'] - 1;
-                                        $tourNight = (int)$row['tour_days'] - 2;
-
-                                        $total_base_price = $adult_price + $markup_price;
-
-                                        if ($ta_id) {
-                                            $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
-                                            $ta_markup_data->execute();
-                                            $ta_markup = $ta_markup_data->fetch();
-
-                                            $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                        } else {
-                                            $total_price = $total_base_price;
+                                    // $user_id = 0;
+                                    $ta_id = 0;
+                                    // get TA id
+                                    if ($user_id) {
+                                        if ($user_type == '10') {
+                                            $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
+                                            $ta_data->execute();
+                                            $ta = $ta_data->fetch();
+                                            $ta_id = $ta['ta_reference_no'];
+                                        } else if ($user_type == '11') {
+                                            $ta_id = $user_id;
                                         }
+                                    }
 
-                                        echo '
-                                            <div class="col-xl-4 col-lg-4 col-sm-6">
-                                                <div class="package-card">
-                                                    <div class="package-img imgEffect4">
-                                                        <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
-                                                            <img src="' . $value['image'] . '" alt="BizzMirth">
-                                                        </a>
-                                                        <div class="badge-color">
-                                                            <p class="trending">Trending</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="package-content">
-                                                        <h4 class="area-name">
-                                                            <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
-                                                        </h4>
-                                                        <div class="location">
-                                                            <i class="ri-map-pin-line"></i>
-                                                            <div class="name">' . $row['destination'] . '</div>
-                                                        </div>
-                                                        <div class="packages-person">
-                                                            <div class="count">
-                                                                <i class="ri-time-line"></i>
-                                                                 <p class="pera"> '.$tourNight.' Night '.$tourDay.' Days</p>
+                                    $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                    $stmt->execute();
+                                    $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                    if ($stmt->rowCount() > 0) {
+                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                            // $name = $row['name'].''.$row['unique_code'];
+                                            // echo $srno.' '.$name.'</br>';
+
+                                            // get images
+                                            $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
+                                            $data->execute();
+                                            $value = $data->fetch();
+                                            // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+
+                                            $adult_price = (int)$row['net_price_adult_with_GST'];
+                                            $markup_price = (int)$row['markup_total'];
+
+                                            $tourDay = (int)$row['tour_days'] - 1;
+                                            $tourNight = (int)$row['tour_days'] - 2;
+
+                                            $total_base_price = $adult_price + $markup_price;
+
+                                            if ($ta_id) {
+                                                $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
+                                                $ta_markup_data->execute();
+                                                $ta_markup = $ta_markup_data->fetch();
+
+                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                            } else {
+                                                $total_price = $total_base_price;
+                                            }
+
+                                            echo '
+                                                <div class="col-xl-4 col-lg-4 col-sm-6">
+                                                    <div class="package-card">
+                                                        <div class="package-img imgEffect4">
+                                                            <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                <img src="' . $value['image'] . '" alt="BizzMirth">
+                                                            </a>
+                                                            <div class="badge-color">
+                                                                <p class="trending">Trending</p>
                                                             </div>
-                                                            <!-- <div class="count">
-                                                                <i class="ri-user-line"></i>
-                                                                <p class="pera">2 Person</p>
-                                                            </div> -->
                                                         </div>
-                                                        <div class="price-review">
-                                                            <div class="d-flex gap-10">
-                                                                <p class="light-pera">From</p>
-                                                                <p class="pera"><span>&#8377</span>' . $total_price . '</p>
+                                                        <div class="package-content">
+                                                            <h4 class="area-name">
+                                                                <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
+                                                            </h4>
+                                                            <div class="location">
+                                                                <i class="ri-map-pin-line"></i>
+                                                                <div class="name">' . $row['destination'] . '</div>
                                                             </div>
-                                                            <!-- <div class="rating">
-                                                                <i class="ri-star-s-fill"></i>
-                                                                <p class="pera">4.7 (20 Reviews)</p>
-                                                            </div> -->
+                                                            <div class="packages-person">
+                                                                <div class="count">
+                                                                    <i class="ri-time-line"></i>
+                                                                    <p class="pera"> '.$tourNight.' Night '.$tourDay.' Days</p>
+                                                                </div>
+                                                                <!-- <div class="count">
+                                                                    <i class="ri-user-line"></i>
+                                                                    <p class="pera">2 Person</p>
+                                                                </div> -->
+                                                            </div>
+                                                            <div class="price-review">
+                                                                <div class="d-flex gap-10">
+                                                                    <p class="light-pera">From</p>
+                                                                    <p class="pera"><span>&#8377</span>' . $total_price . '</p>
+                                                                </div>
+                                                                <!-- <div class="rating">
+                                                                    <i class="ri-star-s-fill"></i>
+                                                                    <p class="pera">4.7 (20 Reviews)</p>
+                                                                </div> -->
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ';
+                                            ';
+                                        }
                                     }
-                                }
 
-                                ?>
-                            </div>
-                        </div>
-                        <div class="all-tour-grid d-none" id="all-tour-grid">
-                            <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
-                                        <div class="parent-container-badge">
-                                            <a href="#">
-                                                <img src="assets/images/destination/destination-1.png" alt="BizzMirth" class="rounded-start imageSize">
-                                            </a>
-                                            <div class="badge-color">
-                                                <p class="trending">Trending</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
-                                        <h4 class="fw-bolder pb-2 packageTitle">Historical Hollywood Walking Tour</h4>
-                                        <p class="pb-2 packageLocation">
-                                            <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                            <span class="text-muted">Bryce Canyon national Park, USA</span>
-                                        </p>
-                                        <div class="star-ratings d-flex pb-2 packageRatings">
-                                            <p>
-                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                            </p>
-                                            <p><span class="ps-3">3</span> Reviews</p>
-                                        </div>
-                                        <div class="text-start list-desc packageDesc">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
-                                            iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
-                                        <div class="d-flex justify-content-evenly py-3 packageButton">
-                                            <button class="rounded-2 btn border-danger-subtle border-2">
-                                                <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
-                                            </button>
-                                            <div class="rounded-2 btn border-danger-subtle border-2">
-                                                <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">3</span> DAYS</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                            <h5 class="fw-bolder pacakgePrice">&#8377; 20,000</h5>
-                                            <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 24,999</h5>
-                                        </div>
-                                        <div class="d-flex justify-content-center py-3 packageExplore">
-                                            <a class="btn btn-background-color fw-bolder" href="#" role="button">Explore</a>
-                                        </div>
-                                    </div>
+                                    ?>
                                 </div>
                             </div>
+                            <div class="all-tour-grid d-none" id="all-tour-grid">
+                                <input type="hidden" id="userId" value="<?= $user_id ?>" />
+                                <input type="hidden" id="userType" value="<?= $user_type ?>" />
+                                <?php
+
+                                    require 'connect.php';
+
+                                    // $user_id = 0;
+                                    $ta_id = 0;
+                                    // get TA id
+                                    if ($user_id) {
+                                        if ($user_type == '10') {
+                                            $ta_data = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '" . $user_id . "' ");
+                                            $ta_data->execute();
+                                            $ta = $ta_data->fetch();
+                                            $ta_id = $ta['ta_reference_no'];
+                                        } else if ($user_type == '11') {
+                                            $ta_id = $user_id;
+                                        }
+                                    }
+
+                                    $stmt = $conn->prepare(" SELECT p.id,p.created_date, p.name,p.description, p.destination, p.location, p.tour_days, t.net_price_adult_with_GST, t.markup_total, COUNT(b.package_id) AS booking_count FROM package p JOIN package_pricing t ON p.id = t.package_id JOIN category c ON p.category_id = c.id LEFT JOIN bookings b ON b.package_id = p.id WHERE p.status = '1' GROUP BY p.id, p.description, p.destination, p.location, t.net_price_adult_with_GST, t.markup_total ORDER BY booking_count DESC, p.id  ");
+                                    $stmt->execute();
+                                    $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                    if ($stmt->rowCount() > 0) {
+                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                            // $name = $row['name'].''.$row['unique_code'];
+                                            // echo $srno.' '.$name.'</br>';
+
+                                            // get images
+                                            $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '" . $row['id'] . "' LIMIT 1");
+                                            $data->execute();
+                                            $value = $data->fetch();
+                                            // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+
+                                            $adult_price = (int)$row['net_price_adult_with_GST'];
+                                            $markup_price = (int)$row['markup_total'];
+
+                                            $tourDay = (int)$row['tour_days'] - 1;
+                                            $tourNight = (int)$row['tour_days'] - 2;
+
+                                            $total_base_price = $adult_price + $markup_price;
+
+                                            if ($ta_id) {
+                                                $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
+                                                $ta_markup_data->execute();
+                                                $ta_markup = $ta_markup_data->fetch();
+
+                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                            } else {
+                                                $total_price = $total_base_price;
+                                            }
+                                            echo'<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
+                                                            <div class="parent-container-badge">
+                                                                <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                    <img src="'.$value['image'].'" alt="BizzMirth" class="rounded-start imageSize">
+                                                                </a>
+                                                                <div class="badge-color">
+                                                                    <p class="trending">Trending</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
+                                                            <h4 class="fw-bolder pb-2 packageTitle">
+                                                                <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
+                                                            </h4>
+                                                            <p class="pb-2 packageLocation">
+                                                                <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
+                                                                <span class="text-muted">'.$row['destination'].'</span>
+                                                            </p>
+                                                            <div class="star-ratings d-flex pb-2 packageRatings">
+                                                                <p>
+                                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                                </p>
+                                                                <p><span class="ps-3">3</span> Reviews</p>
+                                                            </div>
+                                                            <div class="text-start list-desc packageDesc">
+                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
+                                                                iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+                                                            <div class="d-flex justify-content-evenly py-3 packageButton">
+                                                                <button class="rounded-2 btn border-danger-subtle border-2">
+                                                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                                                </button>
+                                                                <div class="rounded-2 btn border-danger-subtle border-2">
+                                                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">'.$tourNight.' Night '.$tourDay.'</span></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
+                                                                <h5 class="fw-bolder pacakgePrice">&#8377; ' . $total_price . '</h5>
+                                                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center py-3 packageExplore">
+                                                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick=\'viewPackage("' . $row['id'] . '")\'>Explore</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>';
+                                        }
+                                    }
+                                ?>
+                                <!-- <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
+                                            <div class="parent-container-badge">
+                                                <a href="#">
+                                                    <img src="assets/images/destination/destination-1.png" alt="BizzMirth" class="rounded-start imageSize">
+                                                </a>
+                                                <div class="badge-color">
+                                                    <p class="trending">Trending</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
+                                            <h4 class="fw-bolder pb-2 packageTitle">Historical Hollywood Walking Tour</h4>
+                                            <p class="pb-2 packageLocation">
+                                                <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
+                                                <span class="text-muted">Bryce Canyon national Park, USA</span>
+                                            </p>
+                                            <div class="star-ratings d-flex pb-2 packageRatings">
+                                                <p>
+                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                </p>
+                                                <p><span class="ps-3">3</span> Reviews</p>
+                                            </div>
+                                            <div class="text-start list-desc packageDesc">
+                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
+                                                iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+                                            <div class="d-flex justify-content-evenly py-3 packageButton">
+                                                <button class="rounded-2 btn border-danger-subtle border-2">
+                                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                                </button>
+                                                <div class="rounded-2 btn border-danger-subtle border-2">
+                                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">3</span> DAYS</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
+                                                <h5 class="fw-bolder pacakgePrice">&#8377; 20,000</h5>
+                                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 24,999</h5>
+                                            </div>
+                                            <div class="d-flex justify-content-center py-3 packageExplore">
+                                                <a class="btn btn-background-color fw-bolder" href="#" role="button">Explore</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <!-- pagination  logic-->
+                                <div class="pagination-controls text-center mt-4 mb-4">
+                                    <?php if ($page > 1): ?>
+                                        <button class="btn btn-danger load-prev" data-page="<?= $page - 1 ?>">Load Previous</button>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($page < $totalPages): ?>
+                                        <button class="btn btn-danger load-more" data-page="<?= $page + 1 ?>">Load More</button>
+                                    <?php endif; ?>
+                                </div>
+                            <!-- pagination logic -->
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -575,6 +697,29 @@ if (isset($_SESSION['user_type_id_value'])) {
         //on load show popular packs 
         var userid = $("#userId").val();
         var usertype = $("#userType").val();
+        let selectedId ; // gets the selected ID
+        let selectedText; // gets the selected text
+        let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+        var priceRange=$("#amount").val();
+        let prices =extractPrices(priceRange);
+        let maxPrice =prices.maxPrice ;
+        let minPrice =prices.minPrice ;
+        var sortValue ;
+        var ratings =getSelectedRatings();
+        let minDuration ;
+        let maxDuration ;
+        let tourType =getTourType()??0;
+        let destination =selectedDescription;
+        let listBtnVal = document.getElementById("all-tour-list");
+        let gridBtnVal = document.getElementById("all-tour-grid");
+        let viewType = 0;
+        let page = 1 ;
+
+        if (!listBtnVal.classList.contains('d-none')) {
+            viewType = 1; // list view
+        } else if (!gridBtnVal.classList.contains('d-none')) {
+            viewType = 2; // grid view
+        }
 
         //extracting the price range
         function extractPrices(priceRange) {
@@ -606,14 +751,15 @@ if (isset($_SESSION['user_type_id_value'])) {
 
 
 
-        function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration,destination,tourType) {
-            let ratings = getSelectedRatings(); // get selected ratings
+        function fetchSortedProducts(page,sortValue, minPrice, maxPrice, minDuration, maxDuration,destination,tourType,viewType) {
+            ratings = getSelectedRatings(); // get selected ratings
             //let tourType = getTourType(); // get selected tour type
 
             $.ajax({
                 url: "assets/submit/fetch_sorted_products.php",
                 type: "POST",
                 data: {
+                    page: page,
                     sort: sortValue,
                     userid: userid,
                     usertype: usertype,
@@ -623,10 +769,11 @@ if (isset($_SESSION['user_type_id_value'])) {
                     maxDuration: maxDuration,
                     ratings: ratings, // send ratings array
                     destination: destination,
-                    tourType:tourType
+                    tourType:tourType,
+                    viewType:viewType
                 },
                 success: function(response) {
-                    $("#all-tour-list").html(response);
+                    $("#all-tour-container").html(response);
                 },
                 error: function(xhr, status, error) {
                     console.error("AJAX Error:", error);
@@ -635,61 +782,95 @@ if (isset($_SESSION['user_type_id_value'])) {
         }
         // Run AJAX on sort change
         $(".tour-type").on("change", function() {
-            var sortValue = $(".sort-options").val();
-            var priceRange = $("#amount").val();
-            let prices = extractPrices(priceRange);
+            sortValue = $(".sort-options").val();
+            priceRange = $("#amount").val();
+            prices = extractPrices(priceRange);
+            minDuration = $("#slider-range-duration").slider("values", 0);
+            maxDuration = $("#slider-range-duration").slider("values", 1);
+            selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            tourType = getTourType()??0;
+            // console.log("tourType:", tourType);
+            listBtnVal = document.getElementById("all-tour-list");
+            gridBtnVal = document.getElementById("all-tour-grid");
+            viewType = 0;
 
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
-            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-            let tourType = getTourType()??0;
-            console.log("tourType:", tourType);
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
+            if (!listBtnVal.classList.contains('d-none')) {
+                viewType = 1; // list view
+            } else if (!gridBtnVal.classList.contains('d-none')) {
+                viewType = 2; // grid view
+            }
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
         });
 
         // Run AJAX on sort change
         $(".sort-options").on("change", function() {
-            var sortValue = $(this).val();
-            var priceRange = $("#amount").val();
-            let prices = extractPrices(priceRange);
+            sortValue = $(this).val();
+            priceRange = $("#amount").val();
+            prices = extractPrices(priceRange);
 
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
-            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-            let tourType = getTourType();
+            minDuration = $("#slider-range-duration").slider("values", 0);
+            maxDuration = $("#slider-range-duration").slider("values", 1);
+            selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            tourType = getTourType();
+            listBtnVal = document.getElementById("all-tour-list");
+            gridBtnVal = document.getElementById("all-tour-grid");
+            viewType = 0;
+
+            if (!listBtnVal.classList.contains('d-none')) {
+                viewType = 1; // list view
+            } else if (!gridBtnVal.classList.contains('d-none')) {
+                viewType = 2; // grid view
+            }
             
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
         });
 
 
         // Run AJAX on price change
         $("#amount").on("change", function() {
-            var priceRange = $(this).val();
-            let prices = extractPrices(priceRange);
-            var sortValue = $(".sort-options").val();
+            priceRange = $(this).val();
+            prices = extractPrices(priceRange);
+            sortValue = $(".sort-options").val();
 
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
+            minDuration = $("#slider-range-duration").slider("values", 0);
+            maxDuration = $("#slider-range-duration").slider("values", 1);
 
-            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-            let tourType = getTourType();
+            selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            tourType = getTourType();
+            listBtnVal = document.getElementById("all-tour-list");
+            gridBtnVal = document.getElementById("all-tour-grid");
+            viewType = 0;
 
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
+            if (!listBtnVal.classList.contains('d-none')) {
+                viewType = 1; // list view
+            } else if (!gridBtnVal.classList.contains('d-none')) {
+                viewType = 2; // grid view
+            }
+
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
         });
 
         // Run AJAX on rating checkbox change
         $(".ratting-section input[type='checkbox']").on("change", function() {
-            var priceRange = $("#amount").val();
-            let prices = extractPrices(priceRange);
-            var sortValue = $(".sort-options").val();
+            priceRange = $("#amount").val();
+            prices = extractPrices(priceRange);
+            sortValue = $(".sort-options").val();
 
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
+            minDuration = $("#slider-range-duration").slider("values", 0);
+            maxDuration = $("#slider-range-duration").slider("values", 1);
 
-            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-            let tourType = getTourType();
+            selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            tourType = getTourType();
+            listBtnVal = document.getElementById("all-tour-list");
+            gridBtnVal = document.getElementById("all-tour-grid");
+            viewType = 0;
 
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
+            if (!listBtnVal.classList.contains('d-none')) {
+                viewType = 1; // list view
+            } else if (!gridBtnVal.classList.contains('d-none')) {
+                viewType = 2; // grid view
+            }
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
         });
         
         $("#clearAll").on("click", function() {
@@ -699,36 +880,82 @@ if (isset($_SESSION['user_type_id_value'])) {
         $(document).ready(function() {
             //loadDestinations();
 
-            var priceRange = $("#amount").val();
-            let prices = extractPrices(priceRange);
-            var sortValue = $(".sort-options").val();
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
-            let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-            let tourType = getTourType();
+            priceRange = $("#amount").val();
+            prices = extractPrices(priceRange);
+            sortValue = $(".sort-options").val();
+            minDuration = $("#slider-range-duration").slider("values", 0);
+            maxDuration = $("#slider-range-duration").slider("values", 1);
+            selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+            tourType = getTourType();
+            listBtnVal = document.getElementById("all-tour-list");
+            gridBtnVal = document.getElementById("all-tour-grid");
+            viewType = 0;
 
-            console.log("Description:", selectedDescription);
+            if (!listBtnVal.classList.contains('d-none')) {
+                viewType = 1; // list view
+            } else if (!gridBtnVal.classList.contains('d-none')) {
+                viewType = 2; // grid view
+            }
+            console.log("min price:", prices.minPrice);
+            console.log("min price:", prices.maxPrice);
             
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType);
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
         });
         $(document).on("change", ".destination-dropdown", function() {
-            let selectedId = $(this).val(); // gets the selected ID
-            let selectedText = $(this).find("option:selected").text(); // gets the selected text
-            let selectedDescription = $(this).find("option:selected").data("description");
-            var priceRange = $("#amount").val();
-            let prices = extractPrices(priceRange);
-            var sortValue = $(".sort-options").val();
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
-            let tourType = getTourType();
+            selectedId = $(this).val(); // gets the selected ID
+            selectedText = $(this).find("option:selected").text(); // gets the selected text
+            selectedDescription = $(this).find("option:selected").data("description");
+            priceRange = $("#amount").val();
+            prices = extractPrices(priceRange);
+            sortValue = $(".sort-options").val();
+            minDuration = $("#slider-range-duration").slider("values", 0);
+            maxDuration = $("#slider-range-duration").slider("values", 1);
+            tourType = getTourType();
+            listBtnVal = document.getElementById("all-tour-list");
+            gridBtnVal = document.getElementById("all-tour-grid");
+            viewType = 0;
+
+            if (!listBtnVal.classList.contains('d-none')) {
+                viewType = 1; // list view
+            } else if (!gridBtnVal.classList.contains('d-none')) {
+                viewType = 2; // grid view
+            }
             console.log("Destination Changed:");
             console.log("ID:", selectedId);
             console.log("Text:", selectedText);
             console.log("Description:", selectedDescription);
 
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType);
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
         });
-
+        // pagination logic
+        $(document).on('click', '.load-more, .load-prev', function() {
+            
+            page = $(this).data('page');
+            
+            $.ajax({
+                url: 'assets/submit/fetch_sorted_products.php',
+                type: 'POST',
+                data: {
+                    page: page,
+                    sort: sortValue,
+                    userid: userid,
+                    usertype: usertype,
+                    minPrice: prices.minPrice,
+                    maxPrice: prices.maxPrice,
+                    minDuration: minDuration,
+                    maxDuration: maxDuration,
+                    ratings: ratings, // send ratings array
+                    destination: selectedDescription,
+                    tourType:tourType,
+                    viewType:viewType
+                },
+                success: function(data) {
+                    $('#all-tour-container').html(data);
+                    $('html, body').animate({ scrollTop: $('#all-tour-container').offset().top - 100 }, 500);
+                }
+            });
+        });
+        // end pagination logic 
         // duration slider
         // $("#slider-range-duration").slider({
         //     range: true,
@@ -755,24 +982,51 @@ if (isset($_SESSION['user_type_id_value'])) {
         //         var sortValue = $(".sort-options").val();
         //         fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
         //     }
-        // });
-    </script>
-    <script>
-        const listBtn = document.getElementById("list_column");
-        const gridBtn = document.getElementById("grid_column");
-        const listView = document.getElementById("all-tour-list");
-        const gridView = document.getElementById("all-tour-grid");
+        // });       
+        // jquery
+        $(document).ready(function () {
+            const listView = $("#all-tour-list");
+            const gridView = $("#all-tour-grid");
 
-        listBtn.addEventListener("click", function () {
-            listView.classList.remove("d-none");
-            gridView.classList.add("d-none");
-        });
+            $("#list_column").on("click", function () {
+                listView.removeClass("d-none");
+                gridView.addClass("d-none");
+                console.log("test1");
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                minDuration = $("#slider-range-duration").slider("values", 0);
+                maxDuration = $("#slider-range-duration").slider("values", 1);
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                tourType = getTourType();
+                viewType = 1;
 
-        gridBtn.addEventListener("click", function () {
-            gridView.classList.remove("d-none");
-            listView.classList.add("d-none");
-        });
+                console.log("Description:", selectedDescription);
+                
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+            });
+
+            $("#grid_column").on("click", function () {
+                gridView.removeClass("d-none");
+                listView.addClass("d-none");
+                console.log("test2");
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                minDuration = $("#slider-range-duration").slider("values", 0);
+                maxDuration = $("#slider-range-duration").slider("values", 1);
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                tourType = getTourType();
+                viewType = 2;
+
+                console.log("Description:", selectedDescription);
+                
+                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+            });
+        }); 
+
     </script>
+
 
 
 </body>
