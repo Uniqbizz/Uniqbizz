@@ -8,6 +8,8 @@ if (isset($_SESSION['user_type_id_value'])) {
     $user_type = 0;
     $user_id = 0;
 }
+// $page =  1;
+// $totalPages =10;
 ?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
@@ -113,6 +115,10 @@ if (isset($_SESSION['user_type_id_value'])) {
         .imageSize {
             width: 260px;
             height: 240px;
+        }
+        .page-btn.active {
+            background-color: #e03d42 !important;
+            color: #fff !important;
         }
         @media screen and (max-width: 991px) {
             .imageSize {
@@ -591,70 +597,9 @@ if (isset($_SESSION['user_type_id_value'])) {
                                         }
                                     }
                                 ?>
-                                <!-- <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
-                                            <div class="parent-container-badge">
-                                                <a href="#">
-                                                    <img src="assets/images/destination/destination-1.png" alt="BizzMirth" class="rounded-start imageSize">
-                                                </a>
-                                                <div class="badge-color">
-                                                    <p class="trending">Trending</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
-                                            <h4 class="fw-bolder pb-2 packageTitle">Historical Hollywood Walking Tour</h4>
-                                            <p class="pb-2 packageLocation">
-                                                <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                                <span class="text-muted">Bryce Canyon national Park, USA</span>
-                                            </p>
-                                            <div class="star-ratings d-flex pb-2 packageRatings">
-                                                <p>
-                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                </p>
-                                                <p><span class="ps-3">3</span> Reviews</p>
-                                            </div>
-                                            <div class="text-start list-desc packageDesc">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
-                                                iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
-                                            <div class="d-flex justify-content-evenly py-3 packageButton">
-                                                <button class="rounded-2 btn border-danger-subtle border-2">
-                                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
-                                                </button>
-                                                <div class="rounded-2 btn border-danger-subtle border-2">
-                                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">3</span> DAYS</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                                <h5 class="fw-bolder pacakgePrice">&#8377; 20,000</h5>
-                                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 24,999</h5>
-                                            </div>
-                                            <div class="d-flex justify-content-center py-3 packageExplore">
-                                                <a class="btn btn-background-color fw-bolder" href="#" role="button">Explore</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+                                
                             </div>
-                            <!-- pagination  logic-->
-                                <div class="pagination-controls text-center mt-4 mb-4">
-                                    <?php if ($page > 1): ?>
-                                        <button class="btn btn-danger load-prev" data-page="<?= $page - 1 ?>">Load Previous</button>
-                                    <?php endif; ?>
-                                    
-                                    <?php if ($page < $totalPages): ?>
-                                        <button class="btn btn-danger load-more" data-page="<?= $page + 1 ?>">Load More</button>
-                                    <?php endif; ?>
-                                </div>
-                            <!-- pagination logic -->
+                            
                         </div>
 
                     </div>
@@ -714,12 +659,8 @@ if (isset($_SESSION['user_type_id_value'])) {
         let gridBtnVal = document.getElementById("all-tour-grid");
         let viewType = 0;
         let page = 1 ;
-
-        if (!listBtnVal.classList.contains('d-none')) {
-            viewType = 1; // list view
-        } else if (!gridBtnVal.classList.contains('d-none')) {
-            viewType = 2; // grid view
-        }
+        const listView = $("#all-tour-list");
+        const gridView = $("#all-tour-grid");
 
         //extracting the price range
         function extractPrices(priceRange) {
@@ -748,37 +689,7 @@ if (isset($_SESSION['user_type_id_value'])) {
             }).get();
         }
 
-
-
-
-        // function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration,destination,tourType) {
-        //     let ratings = getSelectedRatings(); // get selected ratings
-        //     //let tourType = getTourType(); // get selected tour type
-
-        //     $.ajax({
-        //         url: "assets/submit/fetch_sorted_products.php",
-        //         type: "POST",
-        //         data: {
-        //             sort: sortValue,
-        //             userid: userid,
-        //             usertype: usertype,
-        //             minPrice: minPrice,
-        //             maxPrice: maxPrice,
-        //             minDuration: minDuration,
-        //             maxDuration: maxDuration,
-        //             ratings: ratings, // send ratings array
-        //             destination: destination,
-        //             tourType:tourType
-        //         },
-        //         success: function(response) {
-        //             $("#all-tour-list").html(response);
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error("AJAX Error:", error);
-        //         }
-        //     });
-        // }
-        function fetchSortedProducts(sortValue, minPrice, maxPrice, minDuration, maxDuration, destination, tourType, page = 1) {
+        function fetchSortedProducts(page,sortValue, minPrice, maxPrice, minDuration, maxDuration, destination, tourType,viewType) {
             let ratings = getSelectedRatings();
 
             $.ajax({
@@ -796,11 +707,12 @@ if (isset($_SESSION['user_type_id_value'])) {
                     ratings: ratings,
                     destination: destination,
                     tourType: tourType,
-                    page: page
+                    viewType: viewType
                 },
                 success: function(response) {
-                    $("#all-tour-list").html(response);
-                    $("html, body").animate({ scrollTop: $("#all-tour-list").offset().top - 100 }, "slow");
+                    $("#all-tour-container").html(''); // ✅ clear old content to avoid duplicate IDs
+                    $("#all-tour-container").html(response); // ✅ insert fresh HTML
+                    $("html, body").animate({ scrollTop: $("#all-tour-container").offset().top - 100 }, "slow");
                 },
                 error: function(xhr, status, error) {
                     console.error("AJAX Error:", error);
@@ -808,24 +720,6 @@ if (isset($_SESSION['user_type_id_value'])) {
             });
         }
 
-
-        // Handle pagination click dynamically
-        $(document).on("click", ".pagination-btn", function(e) {
-            e.preventDefault();
-
-            let page = $(this).data("page");
-
-            // Reuse all the current filters
-            let sortValue = $(".sort-options").val();
-            let priceRange = $("#amount").val();
-            let prices = extractPrices(priceRange);
-            let minDuration = $("#slider-range-duration").slider("values", 0);
-            let maxDuration = $("#slider-range-duration").slider("values", 1);
-            let destination = $(".destination-dropdown").val();
-            let tourType = getTourType();
-
-            fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, destination, tourType, page);
-        });
         // Run AJAX on sort change
         $(".tour-type").on("change", function() {
             sortValue = $(".sort-options").val();
@@ -922,6 +816,21 @@ if (isset($_SESSION['user_type_id_value'])) {
         $("#clearAll").on("click", function() {
             location.reload(); // Or window.location.reload();
         });
+        $("#list_column").on("click", function () {
+            listView.removeClass("d-none");
+            gridView.addClass("d-none");
+            viewType = 1;
+            console.log('test1');
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+        });
+
+        $("#grid_column").on("click", function () {
+            gridView.removeClass("d-none");
+            listView.addClass("d-none");
+            viewType = 2;
+            console.log('test2');
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+        });
 
         $(document).ready(function() {
             //loadDestinations();
@@ -935,16 +844,10 @@ if (isset($_SESSION['user_type_id_value'])) {
             tourType = getTourType();
             listBtnVal = document.getElementById("all-tour-list");
             gridBtnVal = document.getElementById("all-tour-grid");
-            viewType = 0;
-
-            if (!listBtnVal.classList.contains('d-none')) {
-                viewType = 1; // list view
-            } else if (!gridBtnVal.classList.contains('d-none')) {
-                viewType = 2; // grid view
-            }
+            viewType = 1;
             console.log("min price:", prices.minPrice);
             console.log("min price:", prices.maxPrice);
-            
+
             fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
         });
         $(document).on("change", ".destination-dropdown", function() {
@@ -974,102 +877,12 @@ if (isset($_SESSION['user_type_id_value'])) {
             fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription,tourType,viewType);
         });
         // pagination logic
-        $(document).on('click', '.load-more, .load-prev', function() {
+        $(document).on('click', '.page-btn, .next-page, .prev-page', function() {
             
             page = $(this).data('page');
             
-            $.ajax({
-                url: 'assets/submit/fetch_sorted_products.php',
-                type: 'POST',
-                data: {
-                    page: page,
-                    sort: sortValue,
-                    userid: userid,
-                    usertype: usertype,
-                    minPrice: prices.minPrice,
-                    maxPrice: prices.maxPrice,
-                    minDuration: minDuration,
-                    maxDuration: maxDuration,
-                    ratings: ratings, // send ratings array
-                    destination: selectedDescription,
-                    tourType:tourType,
-                    viewType:viewType
-                },
-                success: function(data) {
-                    $('#all-tour-container').html(data);
-                    $('html, body').animate({ scrollTop: $('#all-tour-container').offset().top - 100 }, 500);
-                }
-            });
-        });
-        // end pagination logic 
-        // duration slider
-        // $("#slider-range-duration").slider({
-        //     range: true,
-        //     min: 1,
-        //     max: 10,
-        //     values: [1, 8],
-        //     slide: function(event, ui) {
-        //         $("#duration-min").text(ui.values[0]);
-        //         $("#duration-max").text(ui.values[1]);
-        //         var sortValue = $(".sort-options").val();
-        //         var priceRange = $("#amount").val();
-        //         let prices = extractPrices(priceRange);
-        //         let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-
-
-        //         fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
-        //         //fetchSortedProducts("popular", prices.minPrice, prices.maxPrice, ui.values[0], ui.values[1]);
-        //     },
-        //     change: function(event, ui) {
-        //         var priceRange = $("#amount").val();
-        //         let prices = extractPrices(priceRange);
-        //         let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-
-        //         var sortValue = $(".sort-options").val();
-        //         fetchSortedProducts(sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration, selectedDescription);
-        //     }
-        // });       
-        // jquery
-        $(document).ready(function () {
-            const listView = $("#all-tour-list");
-            const gridView = $("#all-tour-grid");
-
-            $("#list_column").on("click", function () {
-                listView.removeClass("d-none");
-                gridView.addClass("d-none");
-                console.log("test1");
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
-                sortValue = $(".sort-options").val();
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType();
-                viewType = 1;
-
-                console.log("Description:", selectedDescription);
-                
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
-            });
-
-            $("#grid_column").on("click", function () {
-                gridView.removeClass("d-none");
-                listView.addClass("d-none");
-                console.log("test2");
-                priceRange = $("#amount").val();
-                prices = extractPrices(priceRange);
-                sortValue = $(".sort-options").val();
-                minDuration = $("#slider-range-duration").slider("values", 0);
-                maxDuration = $("#slider-range-duration").slider("values", 1);
-                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                tourType = getTourType();
-                viewType = 2;
-
-                console.log("Description:", selectedDescription);
-                
-                fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
-            });
-        }); 
+            fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
+        });      
 
     </script>
 
