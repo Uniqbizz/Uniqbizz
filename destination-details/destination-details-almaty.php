@@ -53,6 +53,12 @@
         <link rel="stylesheet" type="text/css" href="../assets/css/main-style.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="../assets/css/rtl.css"> -->
+        <style>
+            .newlyAddedImg{
+                width: 100% !important;
+                height: 100% !important;
+            }
+        </style>
     </head>
     <body>
         <?php include_once "header_blog.php" ?>
@@ -83,13 +89,13 @@
                             <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Maldives1.jpg" alt="Maldives" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Almaty1.jpg" alt="Almaty" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Maldives2.jpg" alt="Maldives" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Almaty2.jpg" alt="Almaty" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Maldives3.jpg" alt="Maldives" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Almaty3.jpg" alt="Almaty" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -98,68 +104,66 @@
                         <div class="col-xl-8 col-lg-7">
                             <!-- Details content -->
                             <div class="destination-details-content">
-                                <h4 class="title">Maldives - A Symphony Of Sun, Sea And Serinity</h4>
+                                <h4 class="title">Discover Almaty – Where Modern Life Meets Mountain Magic</h4>
                                 <p class="pera">
-                                    The Maldives is an archipelago of about 1,200 coral islands located in the Indian Ocean. It is 
-                                    divided into 26 atolls. Male is the capital of the Maldives. The main attractions in Male are the 
-                                    Ukuru Misky Mosque, the Islamic Centre, the President’s Palace, and the Maldives National Museum. 
-                                    The tropical Islands of the Maldives each have their own unique ecological charm for tourists to 
-                                    explore. 
+                                    Almaty, a former capital of Kazakhstan located at the foothill of the Trans-Ili Alatau Mountains. 
+                                    It is renowned as a cosmopolitan cultural and economic hub of Central Asia. Almaty provides a mix 
+                                    of modern dynamism, coupled with resplendent natural beauty and rich heritage. 
                                 </p>
                                 <p class="pera">
-                                    Ari Atoll is the largest atoll in the Maldives. It’s rich marine resources include sharks, turtles, 
-                                    and Manta rays. It is also a popular destination for scuba diving, snorkeling, and luxury travel. 
-                                    The pristine white sand beaches, turquoise waters, and stunning sunset views are ideal for a Honeymoon 
-                                    vacation. 
-                                </p>
-                                <p class="pera"> 
-                                    Baa Atol a UNESCO Biosphere Reserve is a home to the famous Hanafaru Bay, and a breeding ground for 
-                                    Manta Rays and Whale sharks. It has luxurious resorts and is less crowded. Its natural beauty and 
-                                    stunning biosphere make it a perfect holiday for nature lovers and eco-tourists. 
+                                    The Almaty TV tower is an iconic structure. It is the tallest freestanding tubular steel structure 
+                                    in the world, set on the slopes of Kok Tobe. It is visible to nearly every part of the city and 
+                                    beautifully lights up the night sky. 
                                 </p>
                                 <p class="pera">
-                                    Addu Atoll is an Island made up of several Islands, including Gan Island, which is the largest island. 
-                                    It has the best diving and snorkeling spots. Its rich Marine life includes the colourful coral reef 
-                                    fish, sharks, and turtles. History lovers can explore the British Loyalty Shipwreck from World War II, 
-                                    a popular diving site.    
+                                    Medeu is a well-renowned high-altitude outdoor ice skating rink in Almaty. Medeu has hosted 
+                                    numerous international competitions. It is the world's fastest ice rink, making it a major 
+                                    attraction for athletes and tourists. It is ideal for skating, ice hockey, and breathtaking 
+                                    alpine views.  
                                 </p>
                                 <p class="pera">
-                                    Vaadhoo Island is a small Island in the Maldives, located in the Raa Atoll. The Island is renowned for 
-                                    its natural bioluminescent beach, known as the “Sea of Stars”. The shoreline of this beach is, 
-                                    illuminated by a blue, luminescent light that is visible at night. This Island is a worldwide tourist 
-                                    attraction.  
+                                    Take the scenic cable car ride to Shymbulak, starting from Medeu – the world-famous high-altitude 
+                                    skating rink. It is a winter sports paradise surrounded by snow-covered peaks and pine forests.  
                                 </p>
                                 <p class="pera">
-                                    Hulhumalé Island is a man-made Island in Male, connected by a bridge offering affordable guesthouses, 
-                                    local markets, and tasty, authentic Maldivian cuisine. It is also a hotspot for water sports activities 
-                                    such as windsurfing and kiteboarding. 
+                                    The Ascension Cathedral, often referred to as the Pearl of Kazakhstan is the main symbol of Almaty. 
+                                    Located in the Panfilov Park, it is one of the tallest wooden churches in the world built entirely 
+                                    without nails. With five golden domes, vibrant colours, and intricate Russian Orthodox design, this 
+                                    is truly an architectural marvel.  
                                 </p>
                                 <p class="pera">
-                                    Thulhaagiri Island is a small Island. It is popular for scuba diving, snorkeling, and windsurfing. Its 
-                                    rich Marine waters include Turtles and Rays. The Island’s beautiful white sand beaches, crystal-clear 
-                                    waters and luxury resorts attract tourists.  
+                                    One of Kazakhstan's oldest and largest zoos in Kazakhstan is the Almaty zoo. Home to over 350 
+                                    species and 6,000 animals. Located at the foothill of the Trans-Ili Alatau Mountains. This zoo 
+                                    provides visitors with an opportunity to admire native and exotic animals that include the deer, 
+                                    wild rams, and the majestic Golden Eagle — Kazakhstan's national bird. Whether you are a family 
+                                    seeking a day out or an animal lover willing to venture, Almaty Zoo is a place that you cannot miss.   
                                 </p>
                                 <p class="pera">
-                                    Alimatha Island is located in the Vaavu atoll. Its marine life includes colourful fish and coral reefs. 
-                                    It offers night diving activities and snorkeling with nurse sharks for diving enthusiasts. The Island’s 
-                                    luxury resorts and white sandy beaches are ideal for relaxation.  
+                                    The Republic Square is a monument of Independence, located in the heart of Almaty. It is a symbol 
+                                    of the nation’s freedom and identity. It is a perfect photo stop and a must-visit spot while 
+                                    exploring the city. 
                                 </p>
                                 <p class="pera">
-                                    Thoddo Island is referred to as the “Fruit Basket” of the Maldives. With Agriculture as the main source 
-                                    of livelihood, the land produces fresh watermelons, papayas, bananas, and other tropical fruits. The 
-                                    Island also offers beautiful bikini beaches with authentic cultural experiences. The local people here 
-                                    are very friendly in nature.  
+                                    Big Almaty Lake is a stunning turquoise mountain lake situated at an elevation of approximately 
+                                    2,511 meters. it offers lush greenery in summer to snow-capped serenity of the alpine mountains 
+                                    in winter, making it perfect for hiking and nature photography.  
                                 </p>
                                 <p class="pera">
-                                    Maafushi Island is located in the south of Male. Its vibrant bars, nightlife, with a variety of 
-                                    affordable restaurants and cafes on its shore attract tourists. It is the best location for activities 
-                                    like scuba diving and snorkeling and a great place to shop for souvenirs.  
+                                    Butakovskiy Waterfall is a picturesque waterfall accessible by hiking trails from Almaty or nearby 
+                                    spots. It is best to visit the fall, during summer, when the snow melts and the serene natural 
+                                    surroundings are at its best. Its a perfect picnic spot and great for photography.
                                 </p>
                                 <p class="pera">
-                                    Fuvahmulah Island is the third-largest island in the Maldives. This volcanic island includes freshwater 
-                                    lakes, tropical woodlands, and marshy wetlands. Famous for its Pebble Beach the island's fertile soil 
-                                    produces a variety of fruits such as Mangoes, Pineapples, and Guavas. The Jamble Tree, nearly extinct, 
-                                    is grown here. It offers various activities like fishing, diving, and jungle trekking.  
+                                    The Green Bazaar (Zelyony Bazaar) is a vibrant market full of fresh produce of local snacks, spices, 
+                                    traditional Kazakh clothing, and souvenirs. A must-visit to experience authentic Kazakh life and 
+                                    flavours.  
+                                </p>
+                                <p class="pera">
+                                    Whether you're captivated by its rich cultural history, stunning natural beauty, or the warm 
+                                    hospitality of its people, Almaty offers an exciting and unforgettable experience for any traveler. 
+                                    From snow-clad peaks and alpine lakes to ancient monuments and vibrant local markets, the city is a 
+                                    harmonious mix of the old and the new. Almaty is not only a destination — it's a journey into the 
+                                    heart of Kazakhstan. 
                                 </p>
                             </div>
                             <!--/ details-content -->
@@ -296,7 +300,6 @@
                                     / Offer card
                                 </div> -->
                                 <div class="col-lg-12">
-                                    
                                     <!-- info -->
                                     <div class="destination-details-info">
                                         <h4 class="title">Basic Information</h4>
@@ -305,124 +308,151 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Country</th>
-                                                        <td>Maldives</td>
+                                                        <td>Kazakhstan</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Language</th>
-                                                        <td>Dhivehi. English. French. German. Mandarin.</td>
+                                                        <td>Kazakh. Russian. English.</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Currency</th>
-                                                        <td>Maldivian Rufiyaa</td>
+                                                        <td>Kazakhstani Tenge (KZT)</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Population</th>
-                                                        <td>5.3 Lakhs</td>
+                                                        <td>22 Lakh</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Area</th>
-                                                        <td>115 Square Miles</td>
+                                                        <td>263 Square Miles</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Time to Travel</th>
-                                                        <td>November to April</td>
+                                                        <td>April to May and September to October</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
-                                    <!-- /info  -->
                                 </div>
-                                
+                                <!-- <div class="col-lg-12">
+                                    <div class="destination-details-info">
+                                        <h4 class="title ">Newly Added Packages</h4>
+                                        <div class="row p-3 rounded-3" style="background-color: #eaebee; margin-left: 1px !important; margin-right: 1px !important;">
+                                            <div class="col-6 mb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bold ">Vietnam</h6>
+                                            </div>
+                                            <div class="col-6 mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-6 mb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bold ">Vietnam</h6>
+                                            </div>
+                                            <div class="col-6 mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-6 mb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bold ">Vietnam</h6>
+                                            </div>
+                                            <div class="col-6 mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-6 mb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bold ">Vietnam</h6>
+                                            </div>
+                                            <div class="col-6 mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-12 col-lg-12">
-                            
-                        <div class="row g-4">
-                            <?php 
-                                require '../connect.php';
-                                $searchPac = "Maldives";
-                                $user_id = 0;
-                                $ta_id = 0;
-                                // get TA id
-                                if ( $user_id ) {
-                                    if (  $user_type == '2' ) {
-                                        $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
-                                        $ta_data->execute();
-                                        $ta = $ta_data->fetch();
-                                        $ta_id = $ta['ta_reference'];
-                                    } else if (  $user_type == '3' ) {
-                                        $ta_id = $user_id;
-                                    }
-                                }
-
-                                $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id  ");
-                                $stmt->execute();
-                                $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-                                if($stmt->rowCount()>0){
-                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                        // $name = $row['name'].''.$row['unique_code'];
-                                        // echo $srno.' '.$name.'</br>';
-
-                                        // get images
-                                        $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
-                                        $data->execute();
-                                        $value = $data->fetch();
-                                        // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
-
-                                        $adult_price = (int)$row['total_package_price_per_adult'];
-                                        $markup_price = (int)$row['markup_total'];
-                                        $total_base_price = $adult_price + $markup_price;
-
-                                        if ( $ta_id ) {
-                                            $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
-                                            $ta_markup_data->execute();
-                                            $ta_markup = $ta_markup_data->fetch();
-
-                                            $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                        } else {
-                                            $total_price = $total_base_price;
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="row g-4">
+                                <?php 
+                                    require '../connect.php';
+                                    $searchPac = "Almaty";
+                                    $user_id = 0;
+                                    $ta_id = 0;
+                                    // get TA id
+                                    if ( $user_id ) {
+                                        if (  $user_type == '2' ) {
+                                            $ta_data = $conn->prepare("SELECT * FROM customer WHERE cust_id = '".$user_id."' " );
+                                            $ta_data->execute();
+                                            $ta = $ta_data->fetch();
+                                            $ta_id = $ta['ta_reference'];
+                                        } else if (  $user_type == '3' ) {
+                                            $ta_id = $user_id;
                                         }
+                                    }
 
-                                        echo'
-                                            <div class="col-xl-3 col-lg-3 col-sm-3">
-                                                <div class="package-card">
-                                                    <div class="package-img imgEffect4">
-                                                        <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
-                                                            <img src="../'.$value['image'].'" alt="BizzMirth">
-                                                        </a>
-                                                    </div>
-                                                    <div class="package-content">
-                                                        <h4 class="area-name">
-                                                            <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
-                                                        </h4>
-                                                        <div class="location">
-                                                            <i class="ri-map-pin-line"></i>
-                                                            <div class="name">'.$row['destination'].'</div>
+                                    $stmt = $conn->prepare(" SELECT p.id, p.description, p.description, p.destination, p.location, p.name, t.total_package_price_per_adult, t.total_package_price_per_child, t.markup_total FROM package p, package_pricing t, category c WHERE p.id = t.package_id AND p.category_id = c.id AND p.status = '1' AND p.name LIKE '%$searchPac%' ORDER BY p.id DESC LIMIT 4 ");
+                                    $stmt->execute();
+                                    $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                    if($stmt->rowCount()>0){
+                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                            // $name = $row['name'].''.$row['unique_code'];
+                                            // echo $srno.' '.$name.'</br>';
+
+                                            // get images
+                                            $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
+                                            $data->execute();
+                                            $value = $data->fetch();
+                                            // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+
+                                            $adult_price = (int)$row['total_package_price_per_adult'];
+                                            $markup_price = (int)$row['markup_total'];
+                                            $total_base_price = $adult_price + $markup_price;
+
+                                            if ( $ta_id ) {
+                                                $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '".$ta_id."' AND package_id = '".$row['id']."' AND status='1' LIMIT 1" );
+                                                $ta_markup_data->execute();
+                                                $ta_markup = $ta_markup_data->fetch();
+
+                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                            } else {
+                                                $total_price = $total_base_price;
+                                            }
+
+                                            echo'
+                                                <div class="col-xl-3 col-lg-4 col-sm-6">
+                                                    <div class="package-card">
+                                                        <div class="package-img imgEffect4">
+                                                            <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>
+                                                                <img src="../'.$value['image'].'" alt="BizzMirth">
+                                                            </a>
                                                         </div>
-                                                        <div class="packages-person">
-                                                            <div class="count">
-                                                                <i class="ri-time-line"></i>
-                                                                <p class="pera">'.$row['location'].'</p>
+                                                        <div class="package-content">
+                                                            <h4 class="area-name">
+                                                                <a href="#" onclick=\'viewPackage("' .$row['id']. '")\'>'.$row['name'].'</a>
+                                                            </h4>
+                                                            <div class="location">
+                                                                <i class="ri-map-pin-line"></i>
+                                                                <div class="name">'.$row['destination'].'</div>
                                                             </div>
-                                                        </div>
-                                                        <div class="price-review">
-                                                            <div class="d-flex gap-10">
-                                                                <p class="light-pera">From</p>
-                                                                <p class="pera"><span>&#8377</span>'.$total_price.'</p>
+                                                            <div class="packages-person">
+                                                                <div class="count">
+                                                                    <i class="ri-time-line"></i>
+                                                                    <p class="pera">'.$row['location'].'</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="price-review">
+                                                                <div class="d-flex gap-10">
+                                                                    <p class="light-pera">From</p>
+                                                                    <p class="pera"><span>&#8377</span>'.$total_price.'</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ';
+                                            ';
+                                        }
                                     }
-                                }
-                            ?>
-                        </div>
+                                ?>
+                            </div>
                             
+                        </div>
                     </div>
                 </div>
             </section>
