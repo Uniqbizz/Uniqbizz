@@ -275,7 +275,7 @@
     ?>
                 <div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 px-0">
                             <div class="parent-container-badge">
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'>
                                     <img src="<?=$value['image']?>" alt="BizzMirth" class="rounded-start imageSize">
@@ -285,13 +285,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
+                        <div class="col-lg-5 col-md-12 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
                             <h4 class="fw-bolder pb-2 packageTitle">
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'><?= $row['name'] ?></a>
                             </h4>
                             <p class="pb-2 packageLocation">
                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                <span class="text-muted"><?=$row['destination']?></span>
+                                <span class="text-muted list-desc"><?=$row['destination']?></span>
                             </p>
                             <div class="star-ratings d-flex pb-2 packageRatings">
                                 <p>
@@ -308,7 +308,7 @@
                                 iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 ps-0">
                             <div class="d-flex justify-content-evenly py-3 packageButton">
                                 <button class="rounded-2 btn border-danger-subtle border-2">
                                     <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
