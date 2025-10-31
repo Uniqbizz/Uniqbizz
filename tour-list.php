@@ -560,8 +560,21 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                 $adult_price = (int)$row['net_price_adult_with_GST'];
                                                 $markup_price = (int)$row['markup_total'];
 
-                                                $tourDay = (int)$row['tour_days'] - 1;
-                                                $tourNight = (int)$row['tour_days'] - 2;
+                                           //calculate nights and days from tour days number
+                                            $tourDay = (int)$row['tour_days'] - 1;
+                                            $tourNight = (int)$row['tour_days'] - 2;
+
+                                            // show inflated pricing and current price
+                                            $total_price_inflated = $adult_price + 5000;
+                                            
+                                            // tour package description limit words counts to show in list view
+                                            $description = $row['description'];
+                                            $maxLength = 500;
+                                            if (strlen($description) > $maxLength) {
+                                                $truncatedString = substr($description, 0, $maxLength) . '...';
+                                            } else {
+                                                $truncatedString = $description;
+                                            }
 
                                                 $total_base_price = $adult_price + $markup_price;
 
@@ -570,71 +583,60 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                     $ta_markup_data->execute();
                                                     $ta_markup = $ta_markup_data->fetch();
 
-                                                    $total_price = $ta_markup['selling_price'] ?? $total_base_price;
-                                                } else {
-                                                    $total_price = $total_base_price;
-                                                }
-                                                echo'<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
-                                                        <div class="row">
-                                                            <div class="col-lg-4 col-md-12 col-sm-12 col-12 px-0">
-                                                                <div class="parent-container-badge">
-                                                                    <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
-                                                                        <img src="'.$value['image'].'" alt="BizzMirth" class="rounded-start imageSize">
-                                                                    </a>
-                                                                    <div class="badge-color">
-                                                                        <p class="trending">Trending</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-5 col-md-12 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
-                                                                <h4 class="fw-bolder pb-2 packageTitle">
-                                                                    <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
-                                                                </h4>
-                                                                <p class="pb-2 packageLocation">
-                                                                    <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                                                    <span class="text-muted list-desc">'.$row['destination'].'</span>
-                                                                </p>
-                                                                <div class="star-ratings d-flex pb-2 packageRatings">
-                                                                    <p>
-                                                                        <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                                        <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                                        <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                                        <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                                        <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
-                                                                    </p>
-                                                                    <p><span class="ps-3">3</span> Reviews</p>
-                                                                </div>
-                                                                <div class="text-start list-desc packageDesc">
-                                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
-                                                                    iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3 col-md-12 col-sm-12 col-12 ps-0">
-                                                                <div class="d-flex justify-content-evenly py-3 packageButton">
-                                                                    <button class="rounded-2 btn border-danger-subtle border-2">
-                                                                        <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
-                                                                    </button>
-                                                                    <div class="rounded-2 btn border-danger-subtle border-2">
-                                                                        <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">'.$tourNight.' Night '.$tourDay.'</span></p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
-                                                                    <h5 class="fw-bolder pacakgePrice">&#8377; ' . $total_price . '</h5>
-                                                                    <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
-                                                                </div>
-                                                                <div class="d-flex justify-content-center py-3 packageExplore">
-                                                                    <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick=\'viewPackage("' . $row['id'] . '")\'>Explore</a>
+                                                $total_price = $ta_markup['selling_price'] ?? $total_base_price;
+                                            } else {
+                                                $total_price = $total_base_price;
+                                            }
+                                            echo'<div class="card rounded shadow-lg mb-5 bg-body-tertiary rounded-3 mt-5 border-0">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 px-0">
+                                                            <div class="parent-container-badge">
+                                                                <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>
+                                                                    <img src="'.$value['image'].'" alt="BizzMirth" class="rounded-start imageSize">
+                                                                </a>
+                                                                <div class="badge-color">
+                                                                    <p class="trending">Trending</p>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>';
-                                            }
+                                                        <div class="col-lg-5 col-md-5 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
+                                                            <h4 class="fw-bolder pb-2 packageTitle">
+                                                                <a href="#" onclick=\'viewPackage("' . $row['id'] . '")\'>' . $row['name'] . '</a>
+                                                            </h4>
+                                                            <p class="pb-2 packageLocation">
+                                                                <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
+                                                                <span class="text-muted">'.$row['destination'].'</span>
+                                                            </p>
+                                                            <div class="text-start list-desc packageDesc">
+                                                               '.$truncatedString.'
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 ps-0">
+                                                            <div class="d-flex justify-content-evenly py-3 packageButton">
+                                                                <button class="rounded-2 btn border-danger-subtle border-2">
+                                                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                                                </button>
+                                                                <div class="rounded-2 btn border-danger-subtle border-2">
+                                                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger">'.$tourNight.' Night '.$tourDay.'</span></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
+                                                                <h5 class="fw-bolder pacakgePrice">&#8377; ' . $total_price . '</h5>
+                                                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
+                                                            </div>
+                                                            <div class="d-flex justify-content-center py-3 packageExplore">
+                                                                <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick=\'viewPackage("' . $row['id'] . '")\'>Explore</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>';
                                         }
-                                    ?>
-                                    
-                                </div>
+                                    }
+                                ?>
                                 
                             </div>
+                            
+                        </div>
 
                         </div>
                     </div>
