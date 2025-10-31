@@ -414,6 +414,13 @@ $date = date('Y');
                                                         <label for="ta_pay_mode">Payment Mode</label>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-12 col-12 d-none" id="ta_reject_reason_div">
+                                                    <div class="form-floating mb-2">
+                                                        <input type="text" class="form-control" id="ta_reject_reason"
+                                                            readonly>
+                                                        <label for="ta_reject_reason">Rejection reason</label>
+                                                    </div>
+                                                </div>
                                                 <div class="py-3">
                                                     <div class="row d-flex justify-content-center align-itmes-center"
                                                         id="chequeOpt">
@@ -475,7 +482,8 @@ $date = date('Y');
                                             <button type="button" class="btn btn-success waves-effect waves-light"
                                                 onclick="actionMarkup(2)">Accept</button>
                                             <button type="button" class="btn btn-danger waves-effect"
-                                                data-bs-dismiss="modal" onclick="actionMarkup(3)">Reject</button>
+                                                    data-bs-dismiss="modal" 
+                                                    onclick="openRejectReasonModal()">Reject</button>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
@@ -486,6 +494,30 @@ $date = date('Y');
                 <!-- Modal -->
                 <!--  -->
                 <!-- end newCustomerModal -->
+                <!-- Rejection Reason Modal -->
+                    <div class="modal fade" id="rejectReasonModal" tabindex="-1" aria-labelledby="rejectReasonLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="rejectReasonLabel">Enter Rejection Reason</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-group">
+                                <label for="rejectionReason" class="form-label">Reason</label>
+                                <textarea id="rejectionReason" class="form-control" rows="3" placeholder="Enter reason..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" id="confirmReject" onclick="actionMarkup(3)">Confirm Reject</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- end Rejection Reason Modal -->
 
                 <footer class="footer">
                     <div class="container-fluid">
@@ -533,235 +565,255 @@ $date = date('Y');
         <!-- <script src="../../uploading/upload.js"></script> -->
         <!-- dataTable -->
         <script>
-        function showoverlay(ta_id, ta_fname, ta_lname, ta_amount, ta_pay_mode, ta_cheque_no, ta_cheque_date,
-            ta_bank_name, ta_transac_id, ta_ref_img, ta_created_date, status, ta_amt_id) {
-            console.log('mode:' + ta_pay_mode);
+            //rejection modal
+            function openRejectReasonModal() {
+                // Hide the current modal (whichever is open)
+                $('.modal.show').modal('hide');
 
-            $('#user_id_name').val(ta_id);
-            $('#reference_name').val(ta_fname + ' ' + ta_lname);
-            $('#ta_amt').val(ta_amount)
-            $('#ta_pay_mode').val(ta_pay_mode);
-            $('#created_date').val(ta_created_date);
-            $('#status').val(status);
-            $('#ta_top_amt_id').val(ta_amt_id);
-            if (ta_pay_mode == 'cash') {
-                $("#previewcheque1").attr("src", "../../uploading/" + ta_ref_img);
-                $("#previewcheque2").val(ta_ref_img);
-                $('#chequeOpt').addClass("d-none");
-                $('#onlineOpt').addClass("d-none");
-            } else if (ta_pay_mode == 'cheque') {
-                $('#chequeOpt').removeClass("d-none");
-                $('#onlineOpt').addClass("d-none");
-                $('#chequeNo').val(ta_cheque_no);
-                $('#chequeDate').val(ta_cheque_date);
-                $('#bankName').val(ta_bank_name);
-                $("#previewcheque1").attr("src", "../../uploading/" + ta_ref_img);
-                $("#previewcheque2").val(ta_ref_img);
-            } else if (ta_pay_mode == 'online') {
-                $('#chequeOpt').addClass("d-none");
-                $('#onlineOpt').removeClass("d-none");
-                $('#transactionNo').val(ta_transac_id);
-                $("#previewcheque1").attr("src", "../../uploading/" + ta_ref_img);
-                $("#previewcheque2").val(ta_ref_img);
+                // Wait a short moment before showing the new one
+                setTimeout(function() {
+                    $('#rejectReasonModal').modal('show');
+                }, 400);
             }
-            //to show/hide accept reject div
-            var status = $('#status').val();
-            console.log('status:' + status);
 
-            if (status == 1) {
-                $('#payaction_div').removeClass("d-none");
-            } else if (status != 1) {
-
-                $('#payaction_div').addClass("d-none");
-            }
-            //------------
-
-        }
-        $(document).ready(function() {
-            var table = $("#pendingTopUp-table").DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                columnDefs: [{
-                    targets: 0,
-                    orderable: false
-                }], // Prevent sorting on the expand button
-                createdRow: function(row, data, dataIndex) {
-                    if ($(row).hasClass("nested-table-row")) {
-                        return; // Ignore nested rows
-                    }
+            function showoverlay(ta_id, ta_fname, ta_lname, ta_amount, ta_pay_mode, ta_cheque_no, ta_cheque_date,
+                ta_bank_name, ta_transac_id, ta_ref_img, ta_created_date, status, ta_amt_id,reject_reason) {
+                console.log('reject_reason:' + reject_reason);
+                
+                $('#ta_reject_reason').val(reject_reason);
+                $('#user_id_name').val(ta_id);
+                $('#reference_name').val(ta_fname + ' ' + ta_lname);
+                $('#ta_amt').val(ta_amount)
+                $('#ta_pay_mode').val(ta_pay_mode);
+                $('#created_date').val(ta_created_date);
+                $('#status').val(status);
+                $('#ta_top_amt_id').val(ta_amt_id);
+                if (ta_pay_mode == 'cash') {
+                    $("#previewcheque1").attr("src", "../../uploading/" + ta_ref_img);
+                    $("#previewcheque2").val(ta_ref_img);
+                    $('#chequeOpt').addClass("d-none");
+                    $('#onlineOpt').addClass("d-none");
+                } else if (ta_pay_mode == 'cheque') {
+                    $('#chequeOpt').removeClass("d-none");
+                    $('#onlineOpt').addClass("d-none");
+                    $('#chequeNo').val(ta_cheque_no);
+                    $('#chequeDate').val(ta_cheque_date);
+                    $('#bankName').val(ta_bank_name);
+                    $("#previewcheque1").attr("src", "../../uploading/" + ta_ref_img);
+                    $("#previewcheque2").val(ta_ref_img);
+                } else if (ta_pay_mode == 'online') {
+                    $('#chequeOpt').addClass("d-none");
+                    $('#onlineOpt').removeClass("d-none");
+                    $('#transactionNo').val(ta_transac_id);
+                    $("#previewcheque1").attr("src", "../../uploading/" + ta_ref_img);
+                    $("#previewcheque2").val(ta_ref_img);
                 }
-            });
+                //to show/hide accept reject div
+                var status = $('#status').val();
+                console.log('status:' + status);
 
-            // Handle expand/collapse of nested rows
-            $("#pendingTopUp-table").on("click", ".details-control", function() {
-                var tr = $(this).closest("tr");
-                var ta_id = tr.data("ta-id");
-                var detailsRow = $("#details-" + ta_id);
-                var nestedContent = detailsRow.find(".nested-content");
-                var exportBtn = tr.find(".exportCSV"); // Correctly select button
+                if (status == 1) {
+                    $('#payaction_div').removeClass("d-none");
+                } else if (status != 1) {
 
-                if (detailsRow.is(":visible")) {
-                    detailsRow.hide();
+                    $('#payaction_div').addClass("d-none");
+                    
+                }
+                if(status == 3){
+                    $('#ta_reject_reason_div').removeClass("d-none");
+                }else{
+
+                    $('#ta_reject_reason_div').addClass("d-none");
+                }
+                //------------
+
+            }
+            $(document).ready(function() {
+                var table = $("#pendingTopUp-table").DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    columnDefs: [{
+                        targets: 0,
+                        orderable: false
+                    }], // Prevent sorting on the expand button
+                    createdRow: function(row, data, dataIndex) {
+                        if ($(row).hasClass("nested-table-row")) {
+                            return; // Ignore nested rows
+                        }
+                    }
+                });
+
+                // Handle expand/collapse of nested rows
+                $("#pendingTopUp-table").on("click", ".details-control", function() {
+                    var tr = $(this).closest("tr");
+                    var ta_id = tr.data("ta-id");
+                    var detailsRow = $("#details-" + ta_id);
+                    var nestedContent = detailsRow.find(".nested-content");
+                    var exportBtn = tr.find(".exportCSV"); // Correctly select button
+
+                    if (detailsRow.is(":visible")) {
+                        detailsRow.hide();
 
 
-                } else {
-                    if (!detailsRow.hasClass("loaded")) {
-                        $.ajax({
-                            url: "ta-top-up-details.php",
-                            method: "POST",
-                            data: {
-                                ta_id: ta_id
-                            },
-                            success: function(response) {
-                                nestedContent.html(response);
-                                detailsRow.show().addClass("loaded");
-
-                                // Initialize DataTable for the nested table inside
-                                nestedContent.find("table").DataTable({
-                                    retrieve: true,
-                                    paging: true,
-                                    searching: true,
-                                    ordering: false
-                                });
-
-                                // tr.find(".details-control").text("-");
-                                // exportBtn.removeClass('d-none');
-                            }
-                        });
                     } else {
-                        detailsRow.show();
-                        // tr.find(".details-control").text("-");
-                        // exportBtn.removeClass('d-none');
+                        if (!detailsRow.hasClass("loaded")) {
+                            $.ajax({
+                                url: "ta-top-up-details.php",
+                                method: "POST",
+                                data: {
+                                    ta_id: ta_id
+                                },
+                                success: function(response) {
+                                    nestedContent.html(response);
+                                    detailsRow.show().addClass("loaded");
 
+                                    // Initialize DataTable for the nested table inside
+                                    nestedContent.find("table").DataTable({
+                                        retrieve: true,
+                                        paging: true,
+                                        searching: true,
+                                        ordering: false
+                                    });
+
+                                    // tr.find(".details-control").text("-");
+                                    // exportBtn.removeClass('d-none');
+                                }
+                            });
+                        } else {
+                            detailsRow.show();
+                            // tr.find(".details-control").text("-");
+                            // exportBtn.removeClass('d-none');
+
+                        }
                     }
-                }
-            });
+                });
 
-            var table = $("#approvedTopUp-table").DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                createdRow: function(row, data, dataIndex) {
-                    // Ensure DataTables only processes rows in the main tbody
-                    if ($(row).closest("tbody").hasClass("nested-tbody")) {
-                        return; // Skip processing for nested rows
+                var table = $("#approvedTopUp-table").DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    createdRow: function(row, data, dataIndex) {
+                        // Ensure DataTables only processes rows in the main tbody
+                        if ($(row).closest("tbody").hasClass("nested-tbody")) {
+                            return; // Skip processing for nested rows
+                        }
                     }
-                }
-            });
+                });
 
-            // Handle expand/collapse of nested rows
-            $("#approvedTopUp-table").on("click", ".details-control", function() {
-                var tr = $(this).closest("tr");
-                var ta_id = tr.data("ta-id");
-                var detailsRow = $("#secdetails-" + ta_id);
-                var nestedContent = detailsRow.find(".nested-content1");
-                var exportBtn = tr.find(".exportCSV1"); // Fix: Ensure correct export button selection
+                // Handle expand/collapse of nested rows
+                $("#approvedTopUp-table").on("click", ".details-control", function() {
+                    var tr = $(this).closest("tr");
+                    var ta_id = tr.data("ta-id");
+                    var detailsRow = $("#secdetails-" + ta_id);
+                    var nestedContent = detailsRow.find(".nested-content1");
+                    var exportBtn = tr.find(".exportCSV1"); // Fix: Ensure correct export button selection
 
-                if (detailsRow.is(":visible")) {
-                    detailsRow.hide();
-                    // $(this).text("+");
-                    // exportBtn.addClass("d-none");
-                } else {
-                    if (!detailsRow.hasClass("loaded")) {
-                        $.ajax({
-                            url: "ta_top_up_approve_reject_details.php",
-                            method: "POST",
-                            data: {
-                                ta_id: ta_id
-                            },
-                            success: function(response) {
-                                console.log("Response received:", response);
-                                nestedContent.html(response);
-                                detailsRow.show().addClass("loaded");
-
-                                // Initialize DataTable for the nested table (if not already initialized)
-                                nestedContent.find("table").each(function() {
-                                    if (!$.fn.DataTable.isDataTable(this)) {
-                                        $(this).DataTable({
-                                            retrieve: true,
-                                            paging: true,
-                                            searching: true,
-                                            ordering: false
-                                        });
-                                    }
-                                });
-
-                                // tr.find(".details-control").text("-");
-                                // exportBtn.removeClass("d-none");
-                            }
-                        });
+                    if (detailsRow.is(":visible")) {
+                        detailsRow.hide();
+                        // $(this).text("+");
+                        // exportBtn.addClass("d-none");
                     } else {
-                        detailsRow.show();
-                        // exportBtn.removeClass("d-none");
-                        // tr.find(".details-control").text("-");
+                        if (!detailsRow.hasClass("loaded")) {
+                            $.ajax({
+                                url: "ta_top_up_approve_reject_details.php",
+                                method: "POST",
+                                data: {
+                                    ta_id: ta_id
+                                },
+                                success: function(response) {
+                                    console.log("Response received:", response);
+                                    nestedContent.html(response);
+                                    detailsRow.show().addClass("loaded");
+
+                                    // Initialize DataTable for the nested table (if not already initialized)
+                                    nestedContent.find("table").each(function() {
+                                        if (!$.fn.DataTable.isDataTable(this)) {
+                                            $(this).DataTable({
+                                                retrieve: true,
+                                                paging: true,
+                                                searching: true,
+                                                ordering: false
+                                            });
+                                        }
+                                    });
+
+                                    // tr.find(".details-control").text("-");
+                                    // exportBtn.removeClass("d-none");
+                                }
+                            });
+                        } else {
+                            detailsRow.show();
+                            // exportBtn.removeClass("d-none");
+                            // tr.find(".details-control").text("-");
+                        }
                     }
+                });
+
+            });
+            // Handle individual user CSV download //pending
+            $(document).on("click", ".exportCSV", function(e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                var ta_id = $(this).data("ta-id"); // Fetch data-ta-id correctly
+                console.log('ta_id:', ta_id);
+
+                if (ta_id) {
+                    window.location.href = "export.php?ta_id=" + ta_id;
+                } else {
+                    console.error("TA ID not found!");
+                }
+            });
+            // Handle individual user CSV download //approve/reject
+            $(document).on("click", ".exportCSV1", function(e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                var ta_id = $(this).data("ta-id"); // Fetch data-ta-id correctly
+                console.log('ta_id:', ta_id);
+
+                if (ta_id) {
+                    window.location.href = "export1.php?ta_id=" + ta_id;
+                } else {
+                    console.error("TA ID not found!");
                 }
             });
 
-        });
-        // Handle individual user CSV download //pending
-        $(document).on("click", ".exportCSV", function(e) {
-            e.preventDefault(); // Prevent default anchor behavior
-
-            var ta_id = $(this).data("ta-id"); // Fetch data-ta-id correctly
-            console.log('ta_id:', ta_id);
-
-            if (ta_id) {
-                window.location.href = "export.php?ta_id=" + ta_id;
-            } else {
-                console.error("TA ID not found!");
-            }
-        });
-        // Handle individual user CSV download //approve/reject
-        $(document).on("click", ".exportCSV1", function(e) {
-            e.preventDefault(); // Prevent default anchor behavior
-
-            var ta_id = $(this).data("ta-id"); // Fetch data-ta-id correctly
-            console.log('ta_id:', ta_id);
-
-            if (ta_id) {
-                window.location.href = "export1.php?ta_id=" + ta_id;
-            } else {
-                console.error("TA ID not found!");
-            }
-        });
-
-        // Handle bulk download for all data tables
-        $("#exportAllData").click(function() {
-            window.location.href = "export.php?all=true"; // Pass parameter to export all data(pendong)
-        });
-        $("#exportAllData1").click(function() {
-            window.location.href = "export1.php?all=true"; // Pass parameter to export all data(Approve/Reject)
-        });
-
-        function actionMarkup(status) {
-
-            var taid = $('#user_id_name').val();
-            var created_date = $('#created_date').val();
-            var ta_amt_id = $('#ta_top_amt_id').val();
-            var ta_amount = $('#ta_amt').val();
-            var dataString = 'created_date=' + created_date + '&taid=' + taid + '&status=' + status + '&ta_amount=' +
-                ta_amount + '&ta_amt_id=' + ta_amt_id;
-
-            $.ajax({
-                type: "POST",
-                url: "ta_top_up_action.php",
-                data: dataString,
-                cache: false,
-                success: function(data) {
-                    console.log('data' + data);
-                    if (data == '2') {
-                        alert("Top Up Aproved");
-                        window.location.reload();
-                    } else if (data == '3') {
-                        alert("Top Up Rejected");
-                        window.location.reload();
-                    }
-                }
+            // Handle bulk download for all data tables
+            $("#exportAllData").click(function() {
+                window.location.href = "export.php?all=true"; // Pass parameter to export all data(pendong)
+            });
+            $("#exportAllData1").click(function() {
+                window.location.href = "export1.php?all=true"; // Pass parameter to export all data(Approve/Reject)
             });
 
-        };
+            function actionMarkup(status) {
+
+                var taid = $('#user_id_name').val();
+                var created_date = $('#created_date').val();
+                var ta_amt_id = $('#ta_top_amt_id').val();
+                var ta_amount = $('#ta_amt').val();
+                var rejectionReason = $('#rejectionReason').val();
+                var dataString = 'created_date=' + created_date + '&taid=' + taid + '&status=' + status + '&ta_amount=' +
+                    ta_amount + '&ta_amt_id=' + ta_amt_id + '&rejection_reason='+rejectionReason;
+
+                $.ajax({
+                    type: "POST",
+                    url: "ta_top_up_action.php",
+                    data: dataString,
+                    cache: false,
+                    success: function(data) {
+                        console.log('data' + data);
+                        if (data == '2') {
+                            alert("Top Up Aproved");
+                            window.location.reload();
+                        } else if (data == '3') {
+                            alert("Top Up Rejected");
+                            window.location.reload();
+                        }
+                    }
+                });
+
+            };
         </script>
 </body>
 

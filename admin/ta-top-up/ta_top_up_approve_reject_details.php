@@ -62,7 +62,8 @@ if (isset($_POST['ta_id'])) {
                                    "' . htmlspecialchars($referral['transaction_id']) . '",
                                    "' . htmlspecialchars($referral['ref_img']) . '",
                                    "' . htmlspecialchars($referral['created_date']) . '",
-                                   "'.htmlspecialchars($referral['status']).'","'.$referral['id'] . '"
+                                   "'.htmlspecialchars($referral['status']).'","'.$referral['id'] . '",
+                                   "'.$referral['reject_reason'] . '"
                                )\'>
                                <i class="mdi mdi-eye font-size-16 text-primary me-1"></i>View
                             </a>
