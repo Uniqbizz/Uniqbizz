@@ -261,8 +261,21 @@
                     $total_base_price = $adult_price ;
                     //print_r($total_base_price);
 
+                    //calculate nights and days from tour days number
                     $tourDay = (int)$row['tour_days'] - 1;
                     $tourNight = (int)$row['tour_days'] - 2;
+
+                    // show inflated pricing and current price
+                    $total_price_inflated = $adult_price + 5000;
+                    
+                    // tour package description limit words counts to show in list view
+                    $description = $row['description'];
+                    $maxLength = 500;
+                    if (strlen($description) > $maxLength) {
+                        $truncatedString = substr($description, 0, $maxLength) . '...';
+                    } else {
+                        $truncatedString = $description;
+                    }
 
                     if ($ta_id) {
                         $ta_markup_data = $conn->prepare("SELECT * FROM package_markup_travelagent WHERE travelagent_id = '" . $ta_id . "' AND package_id = '" . $row['id'] . "' AND status='1' LIMIT 1");
@@ -288,12 +301,12 @@
                         <div class="col-lg-5 col-md-12 col-sm-12 col-12 py-3 px-0 border-end borderRemove">
                             <h4 class="fw-bolder pb-2 packageTitle">
                                 <a href="#" onclick='viewPackage("<?= $row["id"] ?>")'><?= $row['name'] ?></a>
-                            </h4>
+                            </h5>
                             <p class="pb-2 packageLocation">
                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
                                 <span class="text-muted list-desc"><?=$row['destination']?></span>
                             </p>
-                            <div class="star-ratings d-flex pb-2 packageRatings">
+                            <!-- <div class="star-ratings d-flex pb-2 packageRatings">
                                 <p>
                                     <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
                                     <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
@@ -302,24 +315,23 @@
                                     <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
                                 </p>
                                 <p><span class="ps-3">3</span> Reviews</p>
-                            </div>
+                            </div> -->
                             <div class="text-start list-desc packageDesc">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, eius nam! Consequatur 
-                                iste tenetur quam? Consequuntur at fugit iure voluptatem porro ipsam ad expedita, autem 
+                                <?= $truncatedString ?>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12 col-12 ps-0">
                             <div class="d-flex justify-content-evenly py-3 packageButton">
                                 <button class="rounded-2 btn border-danger-subtle border-2">
-                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 60</span></p>
+                                    <p><i class="fa-solid fa-user fa-xs" style="color: #e03d42;"></i> <span class="text-danger"> 1</span></p>
                                 </button>
                                 <div class="rounded-2 btn border-danger-subtle border-2">
-                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger"><?=$tourNight.' Night '.$tourDay?></span></p>
+                                    <p class="text-danger"><i class="fa-solid fa-clock-rotate-left fa-xs" style="color: #e03d42;"></i> <span class="text-danger"><?=$tourNight.' Nights '.$tourDay.' Days'?></span></p>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-evenly py-3 packagePriceDiv">
                                 <h5 class="fw-bolder pacakgePrice">&#8377; <?= $total_price ?></h5>
-                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; 25,000</h5>
+                                <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">&#8377; <?= $total_price_inflated ?></h5>
                             </div>
                             <div class="d-flex justify-content-center py-3 packageExplore">
                                 <a class="btn btn-background-color fw-bolder" href="#" role="button" onclick='viewPackage("<?= $row["id"] ?>")\'>Explore</a>
