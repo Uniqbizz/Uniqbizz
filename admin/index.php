@@ -3747,20 +3747,7 @@ $Year = date('Y'); //year
             </div>
             <!-- End Page-content -->
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon 2025
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include_once "footer.php" ?>
         </div>
         <!-- end main content-->
 

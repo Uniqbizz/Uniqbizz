@@ -827,6 +827,7 @@ $l2_value = $ta_value * $prime_ovr_per;
                     </div>
                 </div>
             </div>
+            <?php include_once "../footer.php" ?>
         </div>
     </div>
 

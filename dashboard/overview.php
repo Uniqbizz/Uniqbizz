@@ -8569,20 +8569,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
     <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
         <i class="mdi mdi-arrow-up"></i>
     </button>
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <?php echo $date; ?> © Uniqbizz.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Design & Develop by Mirthcon
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include_once "footer.php" ?>
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
     <script src="assets/libs/jquery/jquery.min.js"></script>

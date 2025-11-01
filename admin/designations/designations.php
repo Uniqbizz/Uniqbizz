@@ -111,6 +111,7 @@ if(!isset($_SESSION['username'])){
                             </div>
                         </div>
                     </div>   
+                    <?php include_once "../footer.php" ?>
                 </div>   
             </div>    
         </div>
