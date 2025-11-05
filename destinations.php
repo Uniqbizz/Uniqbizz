@@ -388,14 +388,14 @@
                                 </div>
                             </a>
                         </div> 
-                        <!-- <div class="col-lg-4 col-sm-6">
-                            <a href="destination-details/destination-details-srilanka.php" class="destination-banner h-calc">
-                                <img src="assets/images/destination/SriLanka1.jpg" alt="Sri lanka">
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="destination-details/destination-details-azerbaijan.php" class="destination-banner h-calc">
+                                <img src="assets/images/destination/Azerbaijan3.jpg" alt="Azerbaijan">
                                 <div class="destination-content">
                                   
                                     <div class="destination-info p-4">
                                         <div class="destination-name">
-                                            <p class="pera">Sri Lanka</p>
+                                            <p class="pera">Azerbaijan</p>
                                            
                                         </div>
                                         <div class="button-section">
@@ -404,7 +404,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>  -->
+                        </div> 
                     </div>
                 </div>
             </div>
