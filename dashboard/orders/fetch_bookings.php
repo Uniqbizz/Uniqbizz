@@ -1472,7 +1472,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                     </a>
                                                 </div>
                                             </td>
