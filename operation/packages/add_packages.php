@@ -634,6 +634,7 @@ $product_payout_data = $data7->fetchAll();
                     </div>
                 </div>
             </div>
+            <?php include_once "../footer.php" ?>
         </div>
     </div>
 
