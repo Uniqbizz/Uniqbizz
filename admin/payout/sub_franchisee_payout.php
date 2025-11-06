@@ -322,10 +322,18 @@
                                                                             <td class="text-end">'.$CommAmt.'</td>
                                                                             <td class="text-end">'.$tds.'</td>
                                                                             <td class="text-end">'.$totalAmt.'
-                                                                                <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
-                                                                                    <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                                <a href="forms/sub_franchisee/download_ca_payout.php?
+                                                                                    vkvbvjfgfikix='.urlencode($row['id']).'
+                                                                                    &userId='.urlencode($row['userId']).'
+                                                                                    &te='.urlencode($row['sub_franchisee']).'
+                                                                                    &date='.urlencode($dt).'
+                                                                                    &message='.urlencode($message1).'
+                                                                                    &message_status='.urlencode($row['status']).'
+                                                                                    &commission='.urlencode($row['comm_amt']).'">
+                                                                                    <i class="bx bx-download" style="font-size:18px; color:black; padding-left:5px;"></i>
                                                                                 </a>
                                                                             </td>';
+
                                                                             if($row['status'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{

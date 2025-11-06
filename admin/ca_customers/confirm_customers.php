@@ -239,7 +239,9 @@ if ($result) {
 						'Premium Plus' => ['tc' => 1500, 'te' => 750, 'bm' => 225],
 						'Premium Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
 						'Premium Select Lite' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
-						'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
+						'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150],
+						'Neo Select Ultra' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
+
 					];
 
 					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
@@ -300,7 +302,8 @@ if ($result) {
 						'Premium Plus' => ['tc' => 1500, 'te' => 0, 'bm' => 750],
 						'Premium Select' => ['tc' => 1000, 'te' => 0, 'bm' => 500],
 						'Premium Select Lite' => ['tc' => 1000, 'te' => 0, 'bm' => 500],
-						'Neo Select' => ['tc' => 1000, 'te' => 0, 'bm' => 500]
+						'Neo Select' => ['tc' => 1000, 'te' => 0, 'bm' => 500],
+						'Neo Select Ultra' => ['tc' => 1000, 'te' => 0, 'bm' => 500]
 					];
 					
 					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
@@ -364,7 +367,8 @@ if ($result) {
 							'Premium Plus' => ['tc' => 1500, 'f' => 750, 'mf' => 225],
 							'Premium Select' => ['tc' => 1000, 'f' => 500, 'mf' => 150],
 							'Premium Select Lite' => ['tc' => 1000, 'f' => 500, 'mf' => 150],
-							'Neo Select' => ['tc' => 1000, 'f' => 500, 'mf' => 150]
+							'Neo Select' => ['tc' => 1000, 'f' => 500, 'mf' => 150],
+							'Neo Select Ultra' => ['tc' => 1000, 'f' => 500, 'mf' => 150]
 						];
 						
 						$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
@@ -391,7 +395,8 @@ if ($result) {
 							'Premium Plus' => ['tc' => 1500, 'f' => 750, 'sf' => 225],
 							'Premium Select' => ['tc' => 1000, 'f' => 500, 'sf' => 150],
 							'Premium Select Lite' => ['tc' => 1000, 'f' => 500, 'sf' => 150],
-							'Neo Select' => ['tc' => 1000, 'f' => 500, 'sf' => 150]
+							'Neo Select' => ['tc' => 1000, 'f' => 500, 'sf' => 150],
+							'Neo Select Ultra' => ['tc' => 1000, 'f' => 500, 'sf' => 150]
 						];
 						
 						$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
@@ -442,7 +447,8 @@ if ($result) {
 						'Premium Plus' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
 						'Premium Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
 						'Premium Select Lite' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
-						'Neo Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500]
+						'Neo Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+						'Neo Select Ultra' => ['tc' => 1000, 'f' => 0, 'mf' => 500]
 					];
 					
 					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
@@ -497,7 +503,8 @@ if ($result) {
 						'Premium Plus' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
 						'Premium Select' => ['tc' => 1000, 'f' => 500, 'mf' => 150],
 						'Premium Select Lite' => ['tc' => 1000, 'f' => 500, 'mf' => 150],
-						'Neo Select' => ['tc' => 1000, 'f' => 500, 'mf' => 150]
+						'Neo Select' => ['tc' => 1000, 'f' => 500, 'mf' => 150],
+						'Neo Select Ultra' => ['tc' => 1000, 'f' => 500, 'mf' => 150]
 					];
 
 					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
