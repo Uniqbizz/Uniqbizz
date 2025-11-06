@@ -431,20 +431,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         <!-- End Page-content -->
 
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <?php echo $date; ?> © Uniqbizz.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Design & Develop by MirthCon
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php include_once "../footer.php" ?>
     </div>
     <!-- end main content-->
 

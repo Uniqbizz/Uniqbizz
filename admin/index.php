@@ -3128,26 +3128,242 @@ $Year = date('Y'); //year
                                             </thead>
                                             <tbody id="mf_top_performer">
                                                 <?php
+                                                    $srNo = 1;
+                                                    // Prepare the SQL query to get the BDM user who brought the highest number of BM
+                                                    $sql1 = $conn->prepare("
+                                                        SELECT 
+                                                            e1.master_franchisee_id AS MF_user_id,
+                                                            e1.firstname AS MF_user_fname,
+                                                            e1.lastname AS MF_user_lname,
+                                                            e1.reference_no,
+                                                            e1.registrant,
+                                                            e1.profile_pic,
+                                                            e1.status,
+                                                            COUNT(all_users.user_id) AS TE_count
+                                                        FROM master_franchisee e1
+                                                        LEFT JOIN (
+                                                            SELECT reference_no, corporate_agency_id AS user_id, register_date 
+                                                            FROM corporate_agency 
+                                                            WHERE user_type = 16
+                                                            UNION ALL
+                                                            SELECT reference_no, sub_franchisee_id AS user_id, register_date 
+                                                            FROM sub_franchisee
+                                                            WHERE user_type = 29
+                                                        ) AS all_users
+                                                        ON all_users.reference_no = e1.master_franchisee_id
+                                                        WHERE e1.user_type = 28
+                                                        AND MONTH(all_users.register_date) = :month
+                                                        AND YEAR(all_users.register_date) = :year
+                                                        GROUP BY 
+                                                            e1.master_franchisee_id, 
+                                                            e1.firstname, 
+                                                            e1.lastname, 
+                                                            e1.reference_no, 
+                                                            e1.registrant, 
+                                                            e1.profile_pic, 
+                                                            e1.status
+                                                        HAVING TE_count > 0 
+                                                        ORDER BY TE_count DESC
+                                                        LIMIT 5;
+                                                    ");
+
+                                                    $sql1->execute([
+                                                        ':month' => $Month,
+                                                        ':year'  => $Year
+                                                    ]);
+
+                                                    // Set the fetch mode to associative array
+                                                    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                    if ($sql1->rowCount() > 0) {
+                                                        // Loop through the results and display the BDM user details
+                                                        foreach ($sql1->fetchAll() as $mf_id) {
+                                                            echo '<tr>
+                                                                    <td>
+                                                                        <div class="profile-pic pb-1">
+                                                                            <img src="assets/images/topPerformer/'.$srNo.'.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="profile-pic pb-1">
+                                                                            <img src="../uploading/' . htmlspecialchars($mf_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="align-content-center"><p>' . htmlspecialchars($mf_id['MF_user_id']) . '</p> <p> ' . htmlspecialchars($mf_id['MF_user_fname'].' '.$mf_id['MF_user_lname']) . ' </p></td>
+                                                                    <td class="align-content-center">' . htmlspecialchars($mf_id['TE_count']) . '</td>
+                                                                    <td class="align-content-center">
+                                                                        <p class="mb-1">' . htmlspecialchars($mf_id['reference_no']) . '</p>
+                                                                        <p class="mb-0">' . htmlspecialchars($mf_id['registrant']) . '</p>
+                                                                    </td>
+
+                                                            </tr>';
+                                                            $srNo++;
+                                                        }
+                                                    } else {
+                                                        echo '<tr>
+                                                                <td colspan="5" class="align-content-center">No data found</td>
+                                                            </tr>';
+                                                    }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="card-body contentDiv rounded-4 border border-5 border-warning-subtle" id="div8">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Top 5 Performer SF</h4>
+                                        </div>
+                                        <div class="text-end d-flex align-items-center">
+                                            <span class="fs-6">
+                                                <p>Select Month & Year</p>
+                                                <input type="month" id="month_year_SF" value="" min="2020-01" max="">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0">
+                                            <thead class="bg-primary-subtle">
+                                                <tr class="bg-primary-subtle">
+                                                    <th>Ranks</th>
+                                                    <th>Profile Pic</th>
+                                                    <th>Name</th>
+                                                    <th>TE Count</th>
+                                                    <th>Referral</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sf_top_performer">
+                                                <?php
+                                                    $srNo = 1;
+                                                    // Prepare the SQL query to get the BDM user who brought the highest number of BM
+                                                    $sql1 = $conn->prepare("
+                                                        SELECT 
+                                                            e1.sponsor_franchisee_id AS SF_user_id,
+                                                            e1.firstname AS SF_user_fname,
+                                                            e1.lastname AS SF_user_lname,
+                                                            e1.reference_no,
+                                                            e1.registrant,
+                                                            e1.profile_pic,
+                                                            e1.status,
+                                                            COUNT(all_users.user_id) AS TE_count
+                                                        FROM sponsor_franchisee e1
+                                                        LEFT JOIN (
+                                                            SELECT reference_no, corporate_agency_id AS user_id, register_date 
+                                                            FROM corporate_agency 
+                                                            WHERE user_type = 16
+                                                            UNION ALL
+                                                            SELECT reference_no, sub_franchisee_id AS user_id, register_date 
+                                                            FROM sub_franchisee
+                                                            WHERE user_type = 29
+                                                        ) AS all_users
+                                                        ON all_users.reference_no = e1.sponsor_franchisee_id
+                                                        WHERE e1.user_type = 30
+                                                        AND MONTH(all_users.register_date) = :month
+                                                        AND YEAR(all_users.register_date) = :year
+                                                        GROUP BY 
+                                                            e1.sponsor_franchisee_id, 
+                                                            e1.firstname, 
+                                                            e1.lastname, 
+                                                            e1.reference_no, 
+                                                            e1.registrant, 
+                                                            e1.profile_pic, 
+                                                            e1.status
+                                                        HAVING TE_count > 0 
+                                                        ORDER BY TE_count DESC
+                                                        LIMIT 5;
+                                                    ");
+
+                                                    $sql1->execute([
+                                                        ':month' => $Month,
+                                                        ':year'  => $Year
+                                                    ]);
+
+                                                    // Set the fetch mode to associative array
+                                                    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+
+                                                    if ($sql1->rowCount() > 0) {
+                                                        // Loop through the results and display the BDM user details
+                                                        foreach ($sql1->fetchAll() as $sf_id) {
+                                                            echo '<tr>
+                                                                    <td>
+                                                                        <div class="profile-pic pb-1">
+                                                                            <img src="assets/images/topPerformer/'.$srNo.'.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="profile-pic pb-1">
+                                                                            <img src="../uploading/' . htmlspecialchars($sf_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="align-content-center"><p>' . htmlspecialchars($sf_id['SF_user_id']) . '</p> <p> ' . htmlspecialchars($sf_id['SF_user_fname'].' '.$sf_id['SF_user_lname']) . ' </p></td>
+                                                                    <td class="align-content-center">' . htmlspecialchars($sf_id['TE_count']) . '</td>
+                                                                    <td class="align-content-center">
+                                                                        <p class="mb-1">' . htmlspecialchars($sf_id['reference_no']) . '</p>
+                                                                        <p class="mb-0">' . htmlspecialchars($sf_id['registrant']) . '</p>
+                                                                    </td>
+
+                                                            </tr>';
+                                                            $srNo++;
+                                                        }
+                                                    } else {
+                                                        echo '<tr>
+                                                                <td colspan="5" class="align-content-center">No data found</td>
+                                                            </tr>';
+                                                    }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="card-body contentDiv rounded-4 border border-5 border-warning-subtle" id="div9">
+                                    <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
+                                        <div class="heading">
+                                            <h4>Top 5 Performer Franchisee</h4>
+                                        </div>
+                                        <div class="text-end d-flex align-items-center">
+                                            <span class="fs-6">
+                                                <p>Select Month & Year</p>
+                                                <input type="month" id="month_year_FR" value="" min="2020-01" max="">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12 table-responsive text-center">
+                                        <table class="table mb-0">
+                                            <thead class="bg-primary-subtle">
+                                                <tr class="bg-primary-subtle">
+                                                    <th>Ranks</th>
+                                                    <th>Profile Pic</th>
+                                                    <th>Name</th>
+                                                    <th>TC Count</th>
+                                                    <th>Referral</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="fr_top_performer">
+                                                <?php
                                                 $srNo = 1;
-                                                // Prepare the SQL query to get the BDM user who brought the highest number of BM
+                                                // Prepare the SQL query to get the Franchisee fr user who brought the highest number of TC
                                                 $sql1 = $conn->prepare("
-                                                            SELECT e1.business_mentor_id AS BM_user_id,
-                                                                e1.firstname AS BM_user_fname,
-                                                                e1.lastname AS BM_user_lname,
+                                                            SELECT e1.sub_franchisee_id AS FR_user_id,
+                                                                e1.firstname AS FR_user_fname,
+                                                                e1.lastname AS FR_user_lname,
                                                                 e1.reference_no,
                                                                 e1.registrant,
                                                                 e1.profile_pic,
                                                                 e1.status,
-                                                                COUNT(e2.corporate_agency_id) AS TE_count
-                                                            FROM business_mentor e1
-                                                            LEFT JOIN corporate_agency e2 ON e1.business_mentor_id = e2.reference_no
-                                                            WHERE e1.user_type = 26 -- BDM users
-                                                            AND e2.user_type = 16 -- BM users
+                                                                COUNT(e2.ca_travelagency_id) AS TC_count
+                                                            FROM sub_franchisee e1
+                                                            LEFT JOIN ca_travelagency e2 ON e1.sub_franchisee_id = e2.reference_no
+                                                            WHERE e1.user_type = 29 
+                                                            AND e2.user_type = 11
                                                             AND MONTH(e2.register_date) = '" . $Month . "'
                                                             AND YEAR(e2.register_date) = '" . $Year . "' 
-                                                            GROUP BY e1.business_mentor_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
-                                                            ORDER BY TE_count DESC
-                                                            LIMIT 5 -- Limit to top 5 BDM users who brought the most BM;;
+                                                            GROUP BY e1.sub_franchisee_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
+                                                            ORDER BY TC_count DESC
+                                                            LIMIT 5;
                                                         ");
 
                                                 // Execute the query
@@ -3158,7 +3374,7 @@ $Year = date('Y'); //year
 
                                                 if ($sql1->rowCount() > 0) {
                                                     // Loop through the results and display the BDM user details
-                                                    foreach ($sql1->fetchAll() as $bm_id) {
+                                                    foreach ($sql1->fetchAll() as $fr_id) {
                                                         echo '<tr>
                                                                         <td>
                                                                             <div class="profile-pic pb-1">
@@ -3167,17 +3383,17 @@ $Year = date('Y'); //year
                                                                         </td>
                                                                         <td>
                                                                             <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($bm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                                <img src="../uploading/' . htmlspecialchars($fr_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
                                                                             </div>
                                                                         </td>
                                                                         <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($bm_id['BM_user_fname'] . ' ' . $bm_id['BM_user_lname']) . ' </p>
-                                                                            <p class="text-dark">' . htmlspecialchars($bm_id['BM_user_id']) . '</p> 
+                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($fr_id['FR_user_fname'] . ' ' . $fr_id['FR_user_lname']) . ' </p>
+                                                                            <p class="text-dark">' . htmlspecialchars($fr_id['FR_user_id']) . '</p> 
                                                                         </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($bm_id['TE_count']) . '</td>
+                                                                        <td class="align-content-center">' . htmlspecialchars($fr_id['TC_count']) . '</td>
                                                                         <td class="align-content-center">
-                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($bm_id['registrant']) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($bm_id['reference_no']) . '</p>
+                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($fr_id['registrant']) . '</p>
+                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($fr_id['reference_no']) . '</p>
                                                                         </td>   
                                                                     </tr>';
                                                         $srNo++;
@@ -3747,20 +3963,7 @@ $Year = date('Y'); //year
             </div>
             <!-- End Page-content -->
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon 2025
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include_once "footer.php" ?>
         </div>
         <!-- end main content-->
 
@@ -4444,14 +4647,14 @@ $Year = date('Y'); //year
             document.getElementById("ca_no_chart_box1").style.display = "none";
 
             document.getElementById("ca_total_count2").innerText = `Total ${label} Paid: ₹${total.toLocaleString()}`;
-            document.getElementById("ca_total_price2").innerText = `Complementary: ₹${complementary.toLocaleString()}\nNon-Complementary: ₹${nonComplementary.toLocaleString()}`;
+            document.getElementById("ca_total_price2").innerText = `Complimentary: ₹${complementary.toLocaleString()}\nNon-Complimentary: ₹${nonComplementary.toLocaleString()}`;
 
             if (currentChart1) currentChart1.destroy();
 
             currentChart1 = new Chart(document.getElementById("myCAChart2"), {
                 type: "pie",
                 data: {
-                    labels: ["Complementary", "Non-Complementary"],
+                    labels: ["Complimentary", "Non-Complimentary"],
                     datasets: [{
                         backgroundColor: ["#3EB07E", "#ad2321"],
                         data: [complementary, nonComplementary]
@@ -5147,6 +5350,78 @@ $Year = date('Y'); //year
                 success: function(data) {
                     // console.log(data);
                     $('#cu_top_performer').html(data);
+                }
+            });
+        });
+
+        // Top performer data change based on Month and Year MF
+        $('#month_year_MF').change(function() {
+            var date = $(this).val();
+            var table_update = 'mf_top_performer';
+            var month = date.split('-')[1];
+            var year = date.split('-')[0];
+            dataString = {
+                table_update,
+                month,
+                year
+            }
+
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                url: 'assets/submit/top_performer.php',
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    $('#mf_top_performer').html(data);
+                }
+            });
+        });
+
+        // Top performer data change based on Month and Year SF
+        $('#month_year_SF').change(function() {
+            var date = $(this).val();
+            var table_update = 'sf_top_performer';
+            var month = date.split('-')[1];
+            var year = date.split('-')[0];
+            dataString = {
+                table_update,
+                month,
+                year
+            }
+
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                url: 'assets/submit/top_performer.php',
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    $('#sf_top_performer').html(data);
+                }
+            });
+        });
+
+        // Top performer data change based on Month and Year SF
+        $('#month_year_FR').change(function() {
+            var date = $(this).val();
+            var table_update = 'fr_top_performer';
+            var month = date.split('-')[1];
+            var year = date.split('-')[0];
+            dataString = {
+                table_update,
+                month,
+                year
+            }
+
+            $.ajax({
+                type: 'POST',
+                data: dataString,
+                url: 'assets/submit/top_performer.php',
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    $('#fr_top_performer').html(data);
                 }
             });
         });

@@ -514,22 +514,23 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 </div>
                                             
                                             <?php
-                                                } else if ($today > $endDate) { // Completed
-                                            ?>
-                                                <div class="d-block">
-                                                    <a href="#">
-                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
-                                                            Completed
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            <?php
-                                                } else if ($today >= $startDate && $today <= $endDate) { // Traveling
+                                                } else if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { // Traveling
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">
                                                         <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
                                                             Traveling
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            
+                                            <?php
+                                                } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
+                                            ?>
+                                                <div class="d-block">
+                                                    <a href="#">
+                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                                            Completed
                                                         </button>
                                                     </a>
                                                 </div>
@@ -1002,20 +1003,8 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </div>
                                             <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                         </td>
-
-                                        <?php if ( $booking['confirm_status'] == 0 ) { ?>
-                                            <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Pending</button></td>
-                                        <?php } else if ( $booking['confirm_status'] == 1 && $today >= $startDate && $today <= $endDate) { ?>
-                                                <td>
-                                                    <div class="d-block">
-                                                        <a href="#">
-                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                
-                                        <?php } ?>
-
+                                        <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Pending</button></td>
+                                        
                                         <td class="text-center">
                                             <div class="dropdown mt-">
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
@@ -1462,16 +1451,16 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         $today = new DateTime();
                                         $today->setTime(0, 0);
 
-                                        if ($today > $endDate && ($booking['status'] === '0' || $booking['status'] === '1')) {
+                                        if ($booking['confirm_status'] == 1 && $today > $endDate ) {
                                         ?>
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Completed</button>
                                                     </a>
                                                 </div>
                                             </td>
-                                        <?php } else if ($today >= $startDate && $today <= $endDate  && ($booking['status'] === '0' || $booking['status'] === '1')) { ?>
+                                        <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { ?>
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
@@ -1483,7 +1472,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                     </a>
                                                 </div>
                                             </td>

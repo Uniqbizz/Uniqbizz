@@ -194,7 +194,9 @@ $prevDateYear = date('Y');  //Year in number form.
                         bd.part_pay_3_status,
                         bd.status AS bd_status,
                         b.confirm_status,
-                        b.ta_id
+                        b.ta_id,
+                        max(date) as max_b_date,
+                        min(date) as min_b_date
                     FROM bookings b
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
@@ -453,10 +455,12 @@ $prevDateYear = date('Y');  //Year in number form.
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        $maxdate=$mindate='';
         $today = date('Y-m-d'); // Get today's date as a string
 
         foreach ($bookings as $booking) {
+            $maxdate=$booking['max_b_date'];
+            $mindate=$booking['min_b_date'];
             // Ensure 'date' exists in booking data
             if (!isset($booking['date']) || empty($booking['date'])) {
                 continue; // Skip if date is not set
@@ -1159,7 +1163,7 @@ $prevDateYear = date('Y');  //Year in number form.
 
                                                                     $endDate = clone $startDate; // Clone to avoid modifying original date
                                                                     $endDate->modify("+$tourDays days"); // Add tour days
-
+                                                                    echo '<script>console.log("end date:'.$endDate->format('Y-m-d').'")</script>'; 
                                                                     $today = new DateTime(); // Get the current date
                                                                     $today->setTime(0, 0); // Reset time for accurate comparison
 
@@ -1204,22 +1208,23 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         </div>
                                                                     
                                                                     <?php
-                                                                        } else if ($today > $endDate) { // Completed
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
-                                                                                    Completed
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php
-                                                                        } else if ($today >= $startDate && $today <= $endDate) { // Traveling
+                                                                        } else if ($booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { // Traveling
                                                                     ?>
                                                                         <div class="d-block">
                                                                             <a href="#">
                                                                                 <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
                                                                                     Traveling
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                    
+                                                                    <?php
+                                                                        } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
+                                                                    ?>
+                                                                        <div class="d-block">
+                                                                            <a href="#">
+                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                                                                    Completed
                                                                                 </button>
                                                                             </a>
                                                                         </div>
@@ -1772,16 +1777,14 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                     <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                                                 </td>
 
-                                                                <?php if ($today >= $startDate && $today <= $endDate) { ?>
+                                                                <?php if ($booking['confirm_status'] == 0) { ?>
                                                                 <td>
                                                                     <div class="d-block">
                                                                         <a href="#">
-                                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Pending</button>
                                                                         </a>
                                                                     </div>
                                                                 </td>
-                                                                <?php } else { ?>
-                                                                <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
                                                                 <?php } ?>
 
                                                                 <td class="text-center">
@@ -2303,20 +2306,20 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 $today = new DateTime();
                                                                 $today->setTime(0, 0);
 
-                                                                if ($today > $endDate) {
+                                                                if ($booking['confirm_status'] == 1 && $today > $endDate) {
                                                                 ?>
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Completed</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
-                                                                <?php } else if ($today >= $startDate && $today <= $endDate  && ($booking['status'] === '0' || $booking['status'] === '1')) { ?>
+                                                                <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate && $today <= $endDate)) { ?>
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
@@ -2324,7 +2327,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
@@ -3461,20 +3464,7 @@ $prevDateYear = date('Y');  //Year in number form.
                         </div>
                     </div>
                 </div>
-                <footer class="footer"> <!-- footer start -->
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by Mirthcon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer> <!-- footer end -->
+                <?php include_once "footer.php" ?>
             </div>
         </div>
         <!-- Payment Screen start -->
@@ -4228,7 +4218,7 @@ $prevDateYear = date('Y');  //Year in number form.
                     return `<span class="text-secondary-emphasis">a Refunded for Booking</span>`;
                 } else {
                     classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">a Upcoming Booking</span>`;
+                    return `<span class="text-primary-emphasis">a Confirmed Booking</span>`;
                 }
             }
 
@@ -4246,8 +4236,10 @@ $prevDateYear = date('Y');  //Year in number form.
     <script type="text/javascript">
         $(function() {
 
-            var start = moment().subtract(29, 'days');
-            var end = moment();
+            // var start = moment().subtract(29, 'days');
+            // var end = moment();
+            var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
+            var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
 
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));

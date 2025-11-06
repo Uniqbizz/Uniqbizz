@@ -9855,20 +9855,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <?php echo $date; ?> © Uniqbizz.
-                </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Design & Develop by MirthCon
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include_once "../footer.php" ?>
     <input type="hidden" name="user_id" id="user_id" value="<?php echo $id; ?>">
     <input type="hidden" name="user_type" id="user_type" value="<?php echo $user_type??''; ?>">
     <input type="hidden" name="DBtable" id="DBtable" value="<?php echo $DBtable; ?>">
