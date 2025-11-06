@@ -256,22 +256,23 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         </div>
                                     
                                     <?php
+                                        } else if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { // Traveling
+                                    ?>
+                                        <div class="d-block">
+                                            <a href="#">
+                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
+                                                    Traveling
+                                                </button>
+                                            </a>
+                                        </div>
+                                        
+                                    <?php
                                         } else if ($today > $endDate) { // Completed
                                     ?>
                                         <div class="d-block">
                                             <a href="#">
                                                 <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
                                                     Completed
-                                                </button>
-                                            </a>
-                                        </div>
-                                    <?php
-                                        } else if ($today >= $startDate && $today <= $endDate) { // Traveling
-                                    ?>
-                                        <div class="d-block">
-                                            <a href="#">
-                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
-                                                    Traveling
                                                 </button>
                                             </a>
                                         </div>
@@ -477,7 +478,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
                                 <?php if ( $booking['confirm_status'] == 0 ) { ?>
                                     <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Pending</button></td>
-                                <?php } else if ( $booking['confirm_status'] == 1 && $today >= $startDate && $today <= $endDate) { ?>
+                                <?php } else if ( $booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { ?>
                                         <td>
                                             <div class="d-block">
                                                 <a href="#">
@@ -664,7 +665,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </a>
                                         </div>
                                     </td>
-                                <?php } else if ($today >= $startDate && $today <= $endDate  && ($booking['status'] === '0' || $booking['status'] === '1')) { ?>
+                                <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { ?>
                                     <td>
                                         <div class="d-block">
                                             <a href="#">
@@ -1182,15 +1183,17 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
         $("#modalOrderId").val(currentOrderId);
     });
 
-    function sendStatus(status) {
+    function sendStatus(status,confirm_status) {
         const orderId = $("#modalOrderId").val();
+
 
         $.ajax({
             url: "confirm_status.php",
             method: "POST",
             data: {
                 order_id: orderId,
-                status: status
+                status: status,
+                confirm_status: confirm_status
             },
             dataType: "json", // Expect JSON
             success: function (response) {
@@ -1215,12 +1218,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
     // Confirm button click
     $("#confirmBtn").on("click", function () {
-        sendStatus("confirm");
+        sendStatus("1","confirm");
     });
 
     // Cancel button click
     $("#cancelBtn").on("click", function () {
-        sendStatus("cancel");
+        sendStatus("2","cancel");
     });
 
     $("#user_table1").DataTable();
