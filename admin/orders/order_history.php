@@ -836,17 +836,15 @@ $date = date('Y');
                                                         <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                                     </td>
 
-                                                    <?php if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { ?>
+                                                    <?php if ($booking['confirm_status'] == 0) { ?>
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
-                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Pending</button>
                                                             </a>
                                                         </div>
                                                     </td>
-                                                    <?php } else { ?>
-                                                    <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
-                                                    <?php } ?>
+                                                    <?php }  ?>
 
                                                     <td class="text-center">
                                                         <div class="dropdown mt-">
@@ -1021,7 +1019,7 @@ $date = date('Y');
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
-                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Completed</button>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -1037,7 +1035,7 @@ $date = date('Y');
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
-                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -2027,7 +2025,7 @@ $date = date('Y');
                     return `<span class="text-secondary-emphasis">Refund</span>`;
                 } else {
                     classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">Upcoming</span>`;
+                    return `<span class="text-primary-emphasis">Confirmed</span>`;
                 }
             }
 

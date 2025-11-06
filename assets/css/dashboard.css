@@ -198,6 +198,13 @@
     z-index: 1;
 } */
 
+/* Header Index file button hover start */
+.btn-outline-light:hover{
+    background-color: transparent;
+    border: 2px solid #e03d42 !important;
+    color: #e03d42 !important;
+}
+/* Header Index file button hover end */
 @media screen and (max-width: 991px) {
     .sliderWidth {
         width: 100% !important;
