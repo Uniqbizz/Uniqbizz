@@ -5345,176 +5345,178 @@ if ($userType == 10){
                                         
                                         <div class="col-lg-6">
                                             <div class="card-body">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                        <th scope="col">Type</th>
-                                                        <th scope="col">Pending</th>
-                                                        <th scope="col">Registered</th>
-                                                        <th scope="col">deleted</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="countTableBody">
-                                                        <?php
-                                                            if($userType=='24'){
-                                                        ?>
+                                                <div data-simplebar style="max-height: 225px" class="px-3 mx-n3">
+                                                    <table class="table">
+                                                        <thead>
                                                             <tr>
-                                                                <th scope="row">Business Mentor</th>
-                                                                <td><?=$pendingBM??0?></td>
-                                                                <td><?=$registeredBM??0?></td>
-                                                                <td><?=$deletedBM??0?></td>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Pending</th>
+                                                            <th scope="col">Registered</th>
+                                                            <th scope="col">deleted</th>
                                                             </tr>
-                                                            <tr>
-                                                                <th scope="row">Master Franchisee</th>
-                                                                <td><?=$pendingMF??0?></td>
-                                                                <td><?=$registeredMF??0?></td>
-                                                                <td><?=$deletedMF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Sponsor Franchisee</th>
-                                                                <td><?=$pendingBM??0?></td>
-                                                                <td><?=$registeredBM??0?></td>
-                                                                <td><?=$deletedBM??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Techno Enterprise</th>
-                                                                <td><?=$pendingTE??0?></td>
-                                                                <td><?=$registeredTE??0?></td>
-                                                                <td><?=$deletedTE??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        <?php
-                                                            if($userType=='25'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Techno Enterprise</th>
-                                                                <td><?=$pendingTE??0?></td>
-                                                                <td><?=$registeredTE??0?></td>
-                                                                <td><?=$deletedTE??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        <?php
-                                                            if($userType=='26'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Techno Enterprise</th>
-                                                                <td><?=$pendingTE??0?></td>
-                                                                <td><?=$registeredTE??0?></td>
-                                                                <td><?=$deletedTE??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">CU</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }if($userType=='16'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">CU</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                            if($userType=='28'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }if($userType=='29'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }if($userType=='30'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                    </tbody>
+                                                        </thead>
+                                                        <tbody id="countTableBody" >
+                                                            <?php
+                                                                if($userType=='24'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Business Mentor</th>
+                                                                    <td><?=$pendingBM??0?></td>
+                                                                    <td><?=$registeredBM??0?></td>
+                                                                    <td><?=$deletedBM??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Master Franchisee</th>
+                                                                    <td><?=$pendingMF??0?></td>
+                                                                    <td><?=$registeredMF??0?></td>
+                                                                    <td><?=$deletedMF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Sponsor Franchisee</th>
+                                                                    <td><?=$pendingBM??0?></td>
+                                                                    <td><?=$registeredBM??0?></td>
+                                                                    <td><?=$deletedBM??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Techno Enterprise</th>
+                                                                    <td><?=$pendingTE??0?></td>
+                                                                    <td><?=$registeredTE??0?></td>
+                                                                    <td><?=$deletedTE??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            <?php
+                                                                if($userType=='25'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Techno Enterprise</th>
+                                                                    <td><?=$pendingTE??0?></td>
+                                                                    <td><?=$registeredTE??0?></td>
+                                                                    <td><?=$deletedTE??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            <?php
+                                                                if($userType=='26'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Techno Enterprise</th>
+                                                                    <td><?=$pendingTE??0?></td>
+                                                                    <td><?=$registeredTE??0?></td>
+                                                                    <td><?=$deletedTE??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">CU</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }if($userType=='16'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">CU</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                                if($userType=='28'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }if($userType=='29'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }if($userType=='30'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            
+                                                        </tbody>
                                                     </table>
+                                                </div>
                                             </div>
                                         </div>
                                         <?php
