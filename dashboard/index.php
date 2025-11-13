@@ -1445,7 +1445,7 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- BDM -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg1">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Business Development Manager</p>
                                                 </div>
@@ -1489,7 +1489,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- BM -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg2">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Business Mentor</p>
                                                 </div>
@@ -1550,7 +1550,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- MF -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg3">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Master Franchisee</p>
                                                 </div>
@@ -1609,7 +1609,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- SF -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg4">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Sponsor Franchisee</p>
                                                 </div>
@@ -1670,7 +1670,7 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- TE -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg5">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg5">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Techno Enterprise</p>
                                                 </div>
@@ -1746,7 +1746,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- F -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg6">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg6">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Franchisee</p>
                                                 </div>
@@ -1830,7 +1830,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- TC -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg7">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg7">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Travel Consultant</p>
                                                 </div>
@@ -1989,7 +1989,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- CU -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg8">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg8">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Customer</p>
                                                 </div>
@@ -3656,8 +3656,8 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- Line Chart -->
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <div class="card">
-                                                <div class="card-header">
+                                            <div class="card rounded-4">
+                                                <div class="card-header rounded-top-4">
                                                     <h4 class="card-title mb-0">Line Chart</h4>
                                                 </div>
                                                 <div class="card-body">
@@ -3684,8 +3684,8 @@ if ($userType == 10){
                                         </div>
                                         <!-- Top Customers  Active / Inactive User Count -->
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <div class="card">
-                                                <div class="card-header align-items-center d-flex">
+                                            <div class="card rounded-4">
+                                                <div class="card-header align-items-center d-flex rounded-top-4">
                                                     <?php
                                                     if ($userType == "3") {
                                                         $topCustomerTableName = "Corporate Agency";
