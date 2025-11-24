@@ -190,7 +190,7 @@
                                 </h4>
                                 <div class="location">
                                     <i class="ri-map-pin-line"></i>
-                                    <div class="name"><?= $row['destination'] ?></div>
+                                    <div class="name"><?= $row['location'] ?></div>
                                 </div>
                                 <div class="packages-person">
                                     <div class="count">
@@ -304,7 +304,7 @@
                             </h5>
                             <p class="pb-2 packageLocation">
                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                <span class="text-muted list-desc"><?=$row['destination']?></span>
+                                <span class="text-muted list-desc"><?=$row['location']?></span>
                             </p>
                             <!-- <div class="star-ratings d-flex pb-2 packageRatings">
                                 <p>

@@ -514,7 +514,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 </div>
                                             
                                             <?php
-                                                } else if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { // Traveling
+                                                } else if ($booking['confirm_status'] == 1 &&($today == $startDate || $today <= $endDate)) { // Traveling
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">
@@ -1456,7 +1456,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Completed</button>
+                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
                                                     </a>
                                                 </div>
                                             </td>

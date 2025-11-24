@@ -182,6 +182,27 @@ $date = date('Y');
                     FROM bookings b
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id";
+                    
+            $sql .=" GROUP BY
+                    b.id,
+                    b.order_id,
+                    b.package_id,
+                    b.customer_id,
+                    b.name,
+                    b.status,
+                    p.name,
+                    p.tour_days,
+                    bd.final_price,
+                    bd.amount,
+                    bd.part_pay_1,
+                    bd.part_pay_2,
+                    bd.part_pay_3,
+                    bd.part_pay_1_status,
+                    bd.part_pay_2_status,
+                    bd.part_pay_3_status,
+                    bd.status,
+                    b.confirm_status,
+                    b.ta_id";
 
             $stmt = $conn->prepare($sql);
             $stmt->execute();
@@ -1815,7 +1836,7 @@ $date = date('Y');
                     let selectedDate = info.dateStr;
 
                     checkBookingsForDate(selectedDate).then(hasBookings => {
-                        if (!hasBookings) return; // Do nothing if no bookings exist
+                        // if (!hasBookings) return; // Do nothing if no bookings exist
                         loadBookingsForDate(selectedDate);
                         highlightSelectedDate(info.date);
                     });

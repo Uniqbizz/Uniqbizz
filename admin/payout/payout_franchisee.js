@@ -49,6 +49,26 @@ $('#designation').on('change', function(){
     });
 });
 
+//get payout base on designation selected
+$('#designation').on('change', function(){
+    designation = $('#designation').val();
+    $('#download_icon').css('display','block');
+    // console.log(designation);
+    $.ajax({
+        type: 'POST',
+        url:  'forms/sub_franchisee/sub_franchisee_payout_filter.php',
+        data: 'designation='+designation,
+        success:function(data){
+            // console.log(data);
+            $("#filterTable").html(data);
+            $('#payoutDetailsTable').DataTable();
+        },
+        error: function(err){
+            console.log(err);
+        },
+    });
+});
+
 //display username for filter perpose for All payout
 $('#user_id_name').on('change', function(){
     cap_id = $(this).val();
@@ -56,7 +76,7 @@ $('#user_id_name').on('change', function(){
     // console.log(cap_id);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter.php',
         data: 'cap_id='+cap_id+'&designation='+designation,
         cache: false,
         success: function(data){
@@ -88,7 +108,7 @@ $('#cap_date').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -135,7 +155,7 @@ $('#user_id_namePrevious').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -163,7 +183,7 @@ $('#user_id_namePrevious').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter_amt_user.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter_amt_user.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -209,7 +229,7 @@ $('#user_id_nameNext').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -237,7 +257,7 @@ $('#user_id_nameNext').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter_amt_user.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter_amt_user.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -285,7 +305,7 @@ $('#user_id_nameTotal').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -319,7 +339,7 @@ $('#user_id_nameTotal').on('change', function(){
     // console.log(dataString);
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_filter_amt_user.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_filter_amt_user.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -355,7 +375,7 @@ $('#month_year').on('change', function(){
     }
     $.ajax({
         type: 'POST',
-        url: 'forms/sub_franchisee/contracting_payout_month.php',
+        url: 'forms/sub_franchisee/sub_franchisee_payout_month.php',
         data: dataString,
         cache: false,
         success: function(data){
@@ -364,7 +384,7 @@ $('#month_year').on('change', function(){
 
             $.ajax({
                 type: 'POST',
-                url: 'forms/sub_franchisee/contracting_payout_month.php',
+                url: 'forms/sub_franchisee/sub_franchisee_payout_month.php',
                 data: dataString2,
                 cache: false,
                 success: function(data2){
@@ -379,34 +399,34 @@ $('#month_year').on('change', function(){
 // **** Total Payout Pop up model data filteration end****
 
 //get payment details to save in table. 
-function paymentId(id, userID,sub_franchisee, message, amt, status, identity){
+function paymentId(id, userID,sub_franchisee, message, amt, status, user_desig){
 
     var id = id;
     var userID = userID;
     var message = message;
     var amt = amt;
     var status = status;
-    var identity = identity;
+    var user_desig = user_desig;
 
     // var paymentIds = document.querySelector("#paymentIds"); 
     var paymentMessage = document.querySelector("#paymentMessage");  
     var paymentMessageDetails = document.querySelector("#paymentMessageDetails");  
-    var submitPayment = document.querySelector("#submitPayment"); 
+    // var submitPayment = document.querySelector("#submitPayment"); 
     // paymentIds.value = id +' '+ userID + ' ' + message1;
-    paymentMessageDetails.value = id +'\n'+ userID + '\n' + message + '\n' + amt + '\n' + status + '\n' + identity;
+    paymentMessageDetails.value = id +'\n'+ userID + '\n' + message + '\n' + amt + '\n' + status + '\n' + user_desig;
 
     $('#submitPayment').click(function(e){
         e.preventDefault();
         paymentMessage = $('#paymentMessage').val();
         dataString = {
-            id, paymentMessage, amt, status, identity,sub_franchisee,userID,message
+            id, paymentMessage, amt, status, user_desig,sub_franchisee,userID,message
         }
         // console.log(dataString);
 
         if(paymentMessage.length>0){
             $.ajax({
                 type: 'POST',
-                url: 'forms/sub_franchisee/contracting_payout_paid.php',
+                url: 'forms/sub_franchisee/sub_franchisee_payout_paid.php',
                 data: dataString,
                 cache: false,
                 success: function(data){

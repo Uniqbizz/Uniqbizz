@@ -8,7 +8,7 @@ $designation = $_POST['designation'];
 $cap_year = $_POST['year_split'] ?? '';
 $cap_month = $_POST['month_split'] ?? '';
 $TotalPayoutFilter = $_POST['TotalPayoutFilter'] ?? '';
-$tdsPer = 2 / 100;
+$tdsPer = 2/100;
 
 if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data from ca_cu_payout_paid
     if ($designation == 'business_mentor') {
@@ -281,17 +281,17 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
 
             // total Amt Cal for Bm 
             $CommAmtBc = $row['commision_bm'];
-            $tdsBc = $CommAmtBc * $perTDS;
+            $tdsBc = $CommAmtBc * $tdsPer;
             $totalAmtBc = $CommAmtBc - $tdsBc;
 
             // total Amt Cal for te
             $CommAmtCa = $row['commision_te'];
-            $tdsCa = $CommAmtCa * $perTDS;
+            $tdsCa = $CommAmtCa * $tdsPer;
             $totalAmtCa = $CommAmtCa - $tdsCa;
 
             // total Amt Cal for tc
             $CommAmtTc = $row['commision_tc'];
-            $tdsTc = $CommAmtTc * $perTDS;
+            $tdsTc = $CommAmtTc * $tdsPer;
             $totalAmtTc = $CommAmtTc - $tdsTc;
 
             if (!$row['business_mentor'] == "") {
@@ -301,7 +301,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                                     <td class="text-end">' . $CommAmtBc . '</td>
                                     <td class="text-end">' . $tdsBc . '</td>
                                     <td class="text-end">' . $totalAmtBc . '
-                                        <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message1 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '">
+                                        <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message1 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '">
                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                         </a>
                                     </td>';
@@ -320,7 +320,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                                     <td class="text-end">' . $CommAmtCa . '</td>
                                     <td class="text-end">' . $tdsCa . '</td>
                                     <td class="text-end">' . $totalAmtCa . '
-                                        <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
+                                        <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                         </a>
                                     </td>';
@@ -339,7 +339,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                                     <td class="text-end">' . $CommAmtTc . '</td>
                                     <td class="text-end">' . $tdsTc . '</td>
                                     <td class="text-end">' . $totalAmtTc . '
-                                        <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
+                                        <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
                                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                         </a>
                                     </td>';

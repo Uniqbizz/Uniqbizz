@@ -114,9 +114,9 @@
                                                         if ($totalPayout > 0) {
                                                             $tds = $totalPayout * 0.02; //tds
                                                             $netPayout = $totalPayout - $tds;
-                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. ' . round($netPayout) . '/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. ' . round($netPayout) . '/-  </p>';
                                                         }else{
-                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. 0/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. 0/-  </p>';
                                                         }
                                                     ?>
 
@@ -148,9 +148,9 @@
                                                         if ($totalPayout > 0) {
                                                             $tds = $totalPayout * 0.02;
                                                             $netPayout = $totalPayout - $tds;
-                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. ' . round($netPayout) . '/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. ' . round($netPayout) . '/-  </p>';
                                                         }else{
-                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. 0/- <span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                            echo '<p class="fs-5 fw-bolder mt-n2">Rs. 0/-  </p>';
                                                         }
                                                     ?>
 
@@ -180,11 +180,11 @@
                                                 
                                                 <?php
                                                     $query = "
-                                                        SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE status = :status
+                                                        SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout
                                                     ";
 
                                                     $stmt = $conn->prepare($query);
-                                                    $stmt->execute(['status' => '1']);
+                                                    $stmt->execute();
                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
                                                     $totalPayout = 0;
@@ -220,7 +220,8 @@
                                                 <!-- <label> Filter Payouts</label> -->
                                                 <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
                                                     <option value="">--Select Filter Option--</option>
-                                                    <option value="zonal_manager">Zonal Manager</option>
+                                                    <!-- <option value="zonal_manager">Zonal Manager</option> -->
+                                                    <option value="business_development_manager">Business Development Manager</option>
                                                     <option value="master_franchisee">Master Franchisee</option>
                                                     <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                     <!-- <option value="base_agency">Base Agency</option> -->
@@ -272,8 +273,6 @@
                                             </div> -->
                                             <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                             <div class="table-responsive table-desi" id="filterTable">
-                                                <!-- table roe limit -->
-                                            
                                                 <table class="table table-hover" id="payoutDetailsTable">
                                                     <thead>
                                                         <tr>
@@ -287,9 +286,9 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)) 
+                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, status_zm as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)) 
                                                                     UNION 
-                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
+                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, status_mf as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
                                                                     ORDER BY created_date DESC ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
@@ -304,6 +303,15 @@
                                                                     // replace dot at end of the line with break statement
                                                                     $message1 = $row['message'];
                                                                     $message1 =  str_replace('.','<br>',$message1);  
+
+                                                                    $user_desig = "NA";
+                                                                    //to get the prefix charater before first -
+                                                                    preg_match('/^(.*?)\s*-\s*/', $message1, $match);
+        
+                                                                    if (!empty($match[1])) {
+                                                                        $user_desig = trim($match[1]); // Output only the text before the first dash
+                                                                    } 
+                                                                    ///-------
 
                                                                     // total Amt Cal for BC 
                                                                     if($row['comm_amt'] == "null"){
@@ -333,11 +341,21 @@
                                                                                     <i class="bx bx-download" style="font-size:18px; color:black; padding-left:5px;"></i>
                                                                                 </a>
                                                                             </td>';
-
                                                                             if($row['status'] == '1'){
                                                                                 echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                             }else{
-                                                                                echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                               echo '<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" 
+                                                                                    data-bs-toggle="modal" 
+                                                                                    data-bs-target=".bs-example-modal-center" 
+                                                                                    onclick=\'paymentId('
+                                                                                    . json_encode($row['id']) . ','
+                                                                                    . json_encode($row['userId']) . ','
+                                                                                    . json_encode($row['sub_franchisee']) . ','
+                                                                                    . json_encode($message1) . ','
+                                                                                    . json_encode($row['comm_amt']) . ','
+                                                                                    . json_encode($row['status']) . ','
+                                                                                    . json_encode($user_desig) . ')\'>' 
+                                                                                    . 'Pending</span></td>';
                                                                             }
                                                                     echo'</tr>';
 
@@ -357,7 +375,20 @@
                     </div>
                 </div>
 
-                <?php include_once "../footer.php" ?>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <?php echo $date; ?> © Uniqbizz.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by Mirthcon
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
             <!-- end main content-->
    
@@ -388,7 +419,7 @@
                                                     $previousPayout = $row['previousPayout'];
                                                     $previousPayoutTDS = $previousPayout * 5/100;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p> ';
                                                 }
                                             }
                                         ?> -->
@@ -410,9 +441,9 @@
                                             if ($totalPayout > 0) {
                                                 $tds = $totalPayout * 0.02; //tds
                                                 $netPayout = $totalPayout - $tds;
-                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($netPayout). '/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($netPayout). '/- </p> ';
                                             }else{
-                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.0/- </p><span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.0/- </p> ';
                                             }
                                         ?>
                                         
@@ -433,7 +464,8 @@
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationPrevious" class="selectdesign filter-opt-1 fw-bolder">
                                             <option value="none">--Select Filter Option--</option>
-                                            <option value="zonal_manager">Zonal Manager</option>
+                                            <!-- <option value="zonal_manager">Zonal Manager</option> -->
+                                            <option value="business_development_manager">Business Development Manager</option>
                                             <option value="master_franchisee">Master Franchisee</option>
                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
@@ -499,9 +531,9 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."') 
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."') 
                                                             UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."')
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."')
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -517,6 +549,14 @@
                                                             $message1 = $row['message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
+                                                            $user_desig = "NA";
+                                                            //to get the prefix charater before first -
+                                                            preg_match('/^(.*?)\s*-\s*/', $message1, $match);
+
+                                                            if (!empty($match[1])) {
+                                                                $user_desig = trim($match[1]); // Output only the text before the first dash
+                                                            } 
+                                                            ///-------
                                                             // total Amt Cal for BC 
                                                             if($row['comm_amt'] == "null"){
                                                                 $CommAmt = "null";
@@ -534,14 +574,32 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
-                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?
+                                                                            vkvbvjfgfikix='.urlencode($row['id']).'
+                                                                            &userId='.urlencode($row['userId']).'
+                                                                            &te='.urlencode($row['sub_franchisee']).'
+                                                                            &date='.urlencode($dt).'
+                                                                            &message='.urlencode($message1).'
+                                                                            &message_status='.urlencode($row['status']).'
+                                                                            &commission='.urlencode($row['comm_amt']).'">
+                                                                            <i class="bx bx-download" style="font-size:18px; color:black; padding-left:5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                        echo '<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" 
+                                                                            data-bs-toggle="modal" 
+                                                                            data-bs-target=".bs-example-modal-center" 
+                                                                            onclick=\'paymentId('
+                                                                            . json_encode($row['id']) . ','
+                                                                            . json_encode($row['userId']) . ','
+                                                                            . json_encode($row['sub_franchisee']) . ','
+                                                                            . json_encode($message1) . ','
+                                                                            . json_encode($row['comm_amt']) . ','
+                                                                            . json_encode($row['status']) . ','
+                                                                            . json_encode($user_desig) . ')\'>' 
+                                                                            . 'Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -590,7 +648,7 @@
                                                     $nextPayoutTDS = $nextPayoutTotal * 5/100;
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalNextPayout). '/- </p>
-                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                     ';
                                                 }
                                             }
                                         ?> -->
@@ -612,10 +670,10 @@
                                                 $tds = $totalPayout * 0.02;
                                                 $netPayout = $totalPayout - $tds;
                                                 echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($netPayout). '/- </p>
-                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                     ';
                                             }else{
                                                 echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs 0/- </p>
-                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                     ';
                                             }
                                         ?>
                                         <a href="forms/sub_franchisee/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
@@ -635,7 +693,8 @@
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationNext" class="selectdesign filter-opt-1 fw-bolder">
                                             <option value="none">--Select Filter Option--</option>
-                                            <option value="zonal_manager">Zonal Manager</option>
+                                            <!-- <option value="zonal_manager">Zonal Manager</option> -->
+                                            <option value="business_development_manager">Business Development Manager</option>
                                             <option value="master_franchisee">Master Franchisee</option>
                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
@@ -701,9 +760,9 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
                                                             UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -718,6 +777,15 @@
                                                             // replace dot at end of the line with break statement
                                                             $message1 = $row['message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
+
+                                                            $user_desig = "NA";
+                                                            //to get the prefix charater before first -
+                                                            preg_match('/^(.*?)\s*-\s*/', $message1, $match);
+
+                                                            if (!empty($match[1])) {
+                                                                $user_desig = trim($match[1]); // Output only the text before the first dash
+                                                            } 
+                                                            ///-------
 
                                                             // total Amt Cal for BC 
                                                             if($row['comm_amt'] == "null"){
@@ -736,14 +804,32 @@
                                                                     <td class="text-end">'.$CommAmt.'</td>
                                                                     <td class="text-end">'.$tds.'</td>
                                                                     <td class="text-end">'.$totalAmt.'
-                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
-                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?
+                                                                            vkvbvjfgfikix='.urlencode($row['id']).'
+                                                                            &userId='.urlencode($row['userId']).'
+                                                                            &te='.urlencode($row['sub_franchisee']).'
+                                                                            &date='.urlencode($dt).'
+                                                                            &message='.urlencode($message1).'
+                                                                            &message_status='.urlencode($row['status']).'
+                                                                            &commission='.urlencode($row['comm_amt']).'">
+                                                                            <i class="bx bx-download" style="font-size:18px; color:black; padding-left:5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                        echo '<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" 
+                                                                            data-bs-toggle="modal" 
+                                                                            data-bs-target=".bs-example-modal-center" 
+                                                                            onclick=\'paymentId('
+                                                                            . json_encode($row['id']) . ','
+                                                                            . json_encode($row['userId']) . ','
+                                                                            . json_encode($row['sub_franchisee']) . ','
+                                                                            . json_encode($message1) . ','
+                                                                            . json_encode($row['comm_amt']) . ','
+                                                                            . json_encode($row['status']) . ','
+                                                                            . json_encode($user_desig) . ')\'>' 
+                                                                            . 'Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 
@@ -820,7 +906,7 @@
                                                 $tds = $totalPayout * 0.02;
                                                 $netTotalPayout = $totalPayout - $tds;
                                                 echo'<p class="fs-5 font fw-bolder mt-n2 icon" >Rs.'.$netTotalPayout.'/- </p>
-                                                    <span class="badge badge-pill badge-soft-success font-size-10 fw-bold status1" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                     ';
                                             }else{
                                                 echo'<p class="fs-5 fw-bolder mt-n2 content1" id="TotalPayoutAmountDate">Rs. 0/-</p>';
                                             }
@@ -838,7 +924,8 @@
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationTotal" class="selectdesign filter-opt-1 fw-bolder">
                                             <option value="none">--Select Filter Option--</option>
-                                            <option value="zonal_manager">Zonal Manager</option>
+                                            <!-- <option value="zonal_manager">Zonal Manager</option> -->
+                                            <option value="business_development_manager">Business Development Manager</option>
                                             <option value="master_franchisee">Master Franchisee</option>
                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
@@ -905,10 +992,11 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, message_details, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE status = '1' 
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status, 'zonal_manager' AS identity FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND status = '1')
-                                                            UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status, 'master_franchisee' AS identity FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND status = '1')
-                                                            order by created_date desc ";
+                                                    // $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND status = '1')
+                                                    //         UNION ALL
+                                                    //         (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND status = '1')
+                                                    //         order by created_date desc ";
+                                                    $sql="SELECT * FROM sub_franchisee_payout_paid  order by created_date desc";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -920,39 +1008,55 @@
                                                             $dt = $dt->format('Y-m-d');
 
                                                             // replace dot at end of the line with break statement
-                                                            $message1 = $row['message'];
+                                                            $message1 = $row['payout_message'];
                                                             $message1 =  str_replace('.','<br>',$message1);  
 
+                                                            $user_desig = "NA";
+                                                            //to get the prefix charater before first -
+                                                            preg_match('/^(.*?)\s*-\s*/', $message1, $match);
+
+                                                            if (!empty($match[1])) {
+                                                                $user_desig = trim($match[1]); // Output only the text before the first dash
+                                                            } 
+                                                            ///-------
+
                                                             // replace dot at end of the line with break statement
-                                                            $message2 = $row['message_details'];
+                                                            $message2 = $row['payout_details'];
                                                             $message2 =  str_replace('.','<br>',$message2);  
 
                                                             // total Amt Cal for BC 
-                                                            if($row['comm_amt'] == "null"){
-                                                                $CommAmt = "null";
-                                                                $tds = "null";
-                                                                $totalAmt = "null";
-                                                            }else{
-                                                                $CommAmt = $row['comm_amt'];
-                                                                $tds = $CommAmt * $tdsPer;
-                                                                $totalAmt = $CommAmt - $tds;
-                                                            }
+                                                            // if($row['comm_amt'] == "null"){
+                                                            //     $CommAmt = "null";
+                                                            //     $tds = "null";
+                                                            //     $totalAmt = "null";
+                                                            // }else{
+                                                            //     $CommAmt = $row['comm_amt'];
+                                                            //     $tds = $CommAmt * $tdsPer;
+                                                            //     $totalAmt = $CommAmt - $tds;
+                                                            // }
                                                             
                                                             echo '<tr>
                                                                     <td>'.$dt.'</td>
                                                                     <td>'.$message1.'</td>
                                                                     <td>'.$message2.'</td>
-                                                                    <td class="text-end">'.$CommAmt.'</td>
-                                                                    <td class="text-end">'.$tds.'</td>
-                                                                    <td class="text-end">'.$totalAmt.'
-                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?vkvbvjfgfikix='.$row['id'].'&userId='.$row['userId'].'&te='.$row['sub_franchisee'].'&date='.$dt.'&message='.$message1.'&message_status='.$row['status'].'&commission='.$row['comm_amt'].'">
-                                                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                                                    <td>'.$row['amount'].'</td>
+                                                                    <td>'.$row['tds'].'</td>
+                                                                    <td>'.$row['total_payable'].'
+                                                                        <a href="forms/sub_franchisee/download_ca_payout.php?
+                                                                            vkvbvjfgfikix='.urlencode($row['id']).'
+                                                                            &userId='.urlencode($row['user_id']).'
+                                                                            &te='.urlencode($row['sub_franchisee']).'
+                                                                            &date='.urlencode($dt).'
+                                                                            &message='.urlencode($message1).'
+                                                                            &message_status='.urlencode($row['status']).'
+                                                                            &commission='.urlencode($row['amount']).'">
+                                                                            <i class="bx bx-download" style="font-size:18px; color:black; padding-left:5px;"></i>
                                                                         </a>
                                                                     </td>';
                                                                     if($row['status'] == '1'){
                                                                         echo'<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
                                                                     }else{
-                                                                        echo'<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4" data-bs-toggle="modal" data-bs-target=".bs-example-modal-center" onclick=\'paymentId("' .$row['id']. '","'.$row['userId'].'","'.$row['sub_franchisee'].'","'.$message1.'","'.$row['comm_amt'].'","'.$row['status'].'","'.$row['identity'].'")\'>Pending</span></td>';
+                                                                        echo '<td><span class="badge badge-pill badge-soft-warning font-size-10 fw-bold ms-4">Pending</span></td>';
                                                                     }
                                                             echo'</tr>';
 

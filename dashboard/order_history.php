@@ -459,8 +459,8 @@ $prevDateYear = date('Y');  //Year in number form.
         $today = date('Y-m-d'); // Get today's date as a string
 
         foreach ($bookings as $booking) {
-            $maxdate=$booking['max_b_date'];
-            $mindate=$booking['min_b_date'];
+            $maxdate=$booking['max_b_date'] ?? $today;
+            $mindate= "01-01-2022";
             // Ensure 'date' exists in booking data
             if (!isset($booking['date']) || empty($booking['date'])) {
                 continue; // Skip if date is not set
@@ -1208,7 +1208,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         </div>
                                                                     
                                                                     <?php
-                                                                        } else if ($booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { // Traveling
+                                                                        } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { // Traveling
                                                                     ?>
                                                                         <div class="d-block">
                                                                             <a href="#">
@@ -2311,7 +2311,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Completed</button>
+                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
@@ -4001,7 +4001,7 @@ $prevDateYear = date('Y');  //Year in number form.
                     let selectedDate = info.dateStr;
 
                     checkBookingsForDate(selectedDate).then(hasBookings => {
-                        if (!hasBookings) return; // Do nothing if no bookings exist
+                        // if (!hasBookings) return; // Do nothing if no bookings exist
                         loadBookingsForDate(selectedDate);
                         highlightSelectedDate(info.date);
                     });

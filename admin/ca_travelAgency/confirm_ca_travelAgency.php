@@ -306,6 +306,26 @@ if ($result) {
 						$commision_bm = $bm_commi;
 
 					}
+					//bdm
+					if($ref_id == "BH"){
+						$sql11 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$Bm_id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['employee_id'];
+								$BmName = $row11['name'];
+							}
+						}
+						if($amount == "FOC"){
+							$bm_commi = '0'; 
+						}else{
+							$bm_commi = '300'; 
+						}
+						$message_bm = "Business Development Manager - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+						$commision_bm = $bm_commi;
+
+					}
 						
 					if($amount == "FOC"){
 						$te_commi = '0';
