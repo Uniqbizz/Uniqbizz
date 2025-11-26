@@ -202,7 +202,26 @@ $prevDateYear = date('Y');  //Year in number form.
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
                     WHERE 1=1";
         //hirarchy filter logic
-        $filter = "";
+        $sql .=" GROUP BY
+                    b.id,
+                    b.order_id,
+                    b.package_id,
+                    b.customer_id,
+                    b.name,
+                    b.status,
+                    p.name,
+                    p.tour_days,
+                    bd.final_price,
+                    bd.amount,
+                    bd.part_pay_1,
+                    bd.part_pay_2,
+                    bd.part_pay_3,
+                    bd.part_pay_1_status,
+                    bd.part_pay_2_status,
+                    bd.part_pay_3_status,
+                    bd.status,
+                    b.confirm_status,
+                    b.ta_id";
 
         if ($userType == '24') { // BCM
             $filter = " AND b.ta_id IN (
@@ -1095,12 +1114,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 50;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else if ($booking_bill['pay_type'] == 3) {
                                                                     # code...
@@ -1108,22 +1127,22 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 40;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                         # code...
                                                                         $perecent_fill = 70;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
 
                                                                 if ($perecent_fill == 100) {
@@ -1737,7 +1756,7 @@ $prevDateYear = date('Y');  //Year in number form.
 
                                                                 if ($booking_bill) {
                                                                     $pay_type = $booking_bill['pay_type'];
-                                                                    $final_price = $booking_bill['final_price'];
+                                                                    $final_price = $booking_bill['total_net_payable'];
 
                                                                     if ($pay_type == 2) {
                                                                         if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
@@ -2258,7 +2277,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
                                                             } else if ($booking_bill['pay_type'] == 3) {
                                                                 if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
@@ -2268,12 +2287,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
                                                             } else {
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['amount'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
 
                                                             // **Skip entry if `$perecent_fill` is not 100**
@@ -2817,12 +2836,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 50;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else if ($booking_bill['pay_type'] == 3) {
                                                                     # code...
@@ -2830,22 +2849,22 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 40;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                         # code...
                                                                         $perecent_fill = 70;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
 
                                                                 if ($perecent_fill == 100) {
@@ -3362,12 +3381,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 50;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else if ($booking_bill['pay_type'] == 3) {
                                                                     # code...
@@ -3375,22 +3394,22 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 40;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                         # code...
                                                                         $perecent_fill = 70;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
 
                                                                 if ($perecent_fill == 100) {
