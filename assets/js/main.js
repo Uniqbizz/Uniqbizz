@@ -301,16 +301,16 @@
                 $("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
     
                 // Fire AJAX when user stops dragging price slider
-                let priceRange = $("#amount").val();
-                let prices = extractPrices(priceRange);
-                let sortValue = $(".sort-options").val();
-                let minDuration = $("#slider-range-duration").slider("values", 0);
-                let maxDuration = $("#slider-range-duration").slider("values", 1);
-                let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                let tourType = getTourType();
-                var listBtnVal = document.getElementById("all-tour-list");
-                var gridBtnVal = document.getElementById("all-tour-grid");
-                let viewType = 0;
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                minDuration = $("#slider-range-duration").slider("values", 0);
+                maxDuration = $("#slider-range-duration").slider("values", 1);
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                tourType = getTourType();
+                listBtnVal = document.getElementById("all-tour-list");
+                gridBtnVal = document.getElementById("all-tour-grid");
+                viewType = 0;
 
                 if (!listBtnVal.classList.contains('d-none')) {
                     viewType = 1; // list view
@@ -341,14 +341,14 @@
                 $("#duration-max").text(ui.values[1]);
     
                 // Fire AJAX when user stops dragging duration slider
-                let priceRange = $("#amount").val();
-                let prices = extractPrices(priceRange);
-                let sortValue = $(".sort-options").val();
-                let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                let tourType = getTourType();
-                var listBtnVal = document.getElementById("all-tour-list");
-                var gridBtnVal = document.getElementById("all-tour-grid");
-                let viewType = 0;
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                tourType = getTourType();
+                listBtnVal = document.getElementById("all-tour-list");
+                gridBtnVal = document.getElementById("all-tour-grid");
+                viewType = 0;
 
                 if (!listBtnVal.classList.contains('d-none')) {
                     viewType = 1; // list view
