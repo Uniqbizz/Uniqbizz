@@ -1,7 +1,7 @@
 <?php
 require '../../connect.php';
-
-$sql = 'SELECT id, name, destination FROM `package` WHERE status = 1';
+//changed destination to location for DB query by SV on 19-11-2025 
+$sql = 'SELECT id, name, location FROM `package` WHERE status = 1';
 $stmt = $conn->prepare($sql);
 $stmt->execute(); // ✅ Execute the prepared statement
 
@@ -14,7 +14,7 @@ foreach ($results as $row) {
     $data[] = [
         "id" => $row['id'],
         "text" => $row['name'],
-        "description" => $row['destination']
+        "description" => $row['location']
     ];
 }
 

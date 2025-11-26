@@ -412,6 +412,9 @@
                                                                             $id = $row2['reference_no'];
                                                                         }
                                                                     }
+                                                                }else{
+                                                                    $name = "NA";
+                                                                    $id = "NA";
                                                                 }
 
 
