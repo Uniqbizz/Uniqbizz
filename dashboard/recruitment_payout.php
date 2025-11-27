@@ -6,18 +6,13 @@
     $date = date('F,Y'); //month and year. 'F' - month in Text form
     $nextDateMonth = date('m'); //month in number form
     $nextDateYear = date('Y'); //year
-    // echo "Next Date ".$date .' ;' ;
-    // echo "Next Month ".$nextDateMonth.' ;';
-    // echo "Next Year ".$nextDateYear.' ;';
-    // echo '<br>';
+  
 
     // get Previous date to show Previous payout amount  and pass it in sql @ line 111
     $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
     $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
     $prevDateYear = date('Y');  //Year in number form. 
-    // echo "prev Date ".$prevdate.' ;';
-    // echo "prev Month ".$prevDateMonth.' ;';
-    // echo "prev year ".$prevDateYear.' ;';
+
 
     $tdsPercentage = 2/100;
 
@@ -255,7 +250,6 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <?php
-                                                                                //$sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND  status = '1' ORDER BY `ca_ta_payout`.`id` DESC";
                                                                                 $sql = "SELECT 
                                                                                             ca.created_date,
                                                                                             ca.status,
@@ -390,9 +384,7 @@
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$prevdate" ?></span></p>
                                             <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo round($TotalpreviousPayout); ?>/- </p>
-                                            <!-- <a href="">
-                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
-                                            </a> -->
+                                            
                                         </div>
                                     </span>
                             
@@ -415,7 +407,6 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    // $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'";
                                                     $sql = "SELECT 
                                                                 ca.created_date,
                                                                 ca.status,
@@ -491,7 +482,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -534,9 +524,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
-                                </div> -->
+                                
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationNext" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -571,7 +559,6 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    // $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'";
                                                     $sql=  "SELECT 
                                                                 ca.created_date,
                                                                 ca.status,
@@ -649,7 +636,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -687,9 +673,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
-                                </div> -->
+                                
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationNext" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -697,19 +681,12 @@
                                     <div class="name-filter no-space col-lg-5 col-md-5 col-sm-12">
                                        <input type="text" name="" class="selectdesign filter-opt-2 minimal fw-bolder" id="user_id_nameNext" value="<?php echo 'Name: ' .$firstname.' '.$lastname; ?>" readonly>
                                     </div>
-                                    <!-- <form class=" col-md-4 app-search d-lg-block">
-                                        <div class="position-relative">
-                                            <span class="bx bx-search-alt"></span>
-                                            <input type="text" class="form-control search control" placeholder="Search...">
-                                        </div>
-                                    </form> -->
+                                    
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
                                             <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo $total_payable; ?>/- </p>
-                                            <!-- <a href="">
-                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
-                                            </a> -->
+                                            
                                         </div>
                                     </span>
                             
@@ -725,7 +702,6 @@
                                                 <tr>
                                                     <th class="ceterText fw-bolder font-size-16">Date</th>
                                                     <th class="ceterText fw-bolder font-size-16">Payout Message</th>
-                                                    <!-- <th class="ceterText fw-bolder font-size-16">Payout Details</th> -->
                                                     <th class="ceterText fw-bolder font-size-16">Amount</th>
                                                     <th class="ceterText fw-bolder font-size-16">TDS</th>
                                                     <th class="ceterText fw-bolder font-size-16">Total Payable</th>
@@ -734,7 +710,6 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    //$sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = '".$userId."' AND $columnStatus = '1' ";
                                                     $sql = "SELECT 
                                                                 ca.created_date,
                                                                 ca.status,
@@ -805,7 +780,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -821,7 +795,6 @@
                     <div class="modal-body">
                         <div>
                             <label class="text-muted d-block ">Payment Details</label>
-                            <!-- <input type="text" id="paymentIds" value="" class="input1 mb-4" readonly> -->
                             <textarea name="paymentMessage" id="paymentMessageDetails" class="input2 w-100" cols="65" rows="4" readonly></textarea>
                         </div>
                         <div>
@@ -847,8 +820,6 @@
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
 
         <script src="assets/js/submitdata.js"></script>
 
@@ -865,24 +836,11 @@
         <!--Swiper slider js-->
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
         <!-- custom js  -->
         <script src="payout/payout.js"></script>
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-
-        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
 
         <!-- Required datatable js -->
         <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>

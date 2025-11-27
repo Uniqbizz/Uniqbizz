@@ -4,16 +4,7 @@ require "../connect.php";
 
 $id= $_POST["id"];
 $uname= $_POST["uname"];
-// $business_package = $_POST["business_package"];
-// if($business_package == 'basic'){
-// 	$type = 'B';
-// }else if($business_package == 'advanced'){
-// 	$type = 'A';
-// }else if($business_package == 'ultra'){
-// 	$type = 'U';
-// }else if($business_package == "micro"){
-// 	$type = 'M';
-// }
+
 
 $string="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0,8);
@@ -43,12 +34,6 @@ if($sql9->rowCount()>0){
 
 	}
 }
-
-// $uid=0;
-// $franchisee_id=0;
-
-// $uid='';
-// $sql2= $conn->prepare("SELECT franchisee_id,CAST(franchisee_id as SIGNED) AS casted_column  from franchisee where user_type='4'  ORDER BY casted_column desc limit 1");
 // made changes in query to get id in order SFA230043 TC230010
 $sql2= $conn->prepare("SELECT distinct ca_customer_id,SUBSTRING(ca_customer_id,3,6) as tc_id from ca_customer where status='1' OR status='3' order by tc_id DESC limit 1");
 
@@ -64,7 +49,6 @@ if($sql2->rowCount()>0){
 
 		$subV=substr($ca_customer_id,2,4);
 		if($subV==$subY){
-			// ''.$ssd
 			$ca_customer_id++;
 			  $ca_customer_id=str_pad($ca_customer_id, 4, '0', STR_PAD_LEFT);
 			  $uid =$ca_customer_id;
@@ -73,17 +57,8 @@ if($sql2->rowCount()>0){
 			$ca_customer_id++;
 			$fid=substr($ca_customer_id,4);
 			$newValue = 'CU'.$subY.$fid;
-
-			// if($business_package == 'basic'){
-			// 	$newValue = 'SFB'.$subY.$fid;
-			// }else if($business_package == 'advanced'){
-			// 	$newValue = 'SFA'.$subY.$fid;
-			// }else if($business_package == 'ultra'){
-			// 	$newValue = 'SFU'.$subY.$fid;
-			// }
-
-			  $Nca_customer_id=str_pad($newValue, 4, '0', STR_PAD_LEFT);
-			  $uid =$Nca_customer_id;
+			$Nca_customer_id=str_pad($newValue, 4, '0', STR_PAD_LEFT);
+			$uid =$Nca_customer_id;
 		}
 	}
 
@@ -92,15 +67,6 @@ if($sql2->rowCount()>0){
 }else
 {
 	$uid = 'CU'.$subY.'0001';
-	// if($business_package == 'basic'){
-	// 	$uid = 'SFB'.$subY.'0001';
-	// }else if($business_package == 'advanced'){
-	// 	$uid = 'SFA'.$subY.'0001';
-	// }else if($business_package == 'ultra'){
-	// 	$uid = 'SFU'.$subY.'0001';
-	// }else{
-
-	// }
 }
 
 //log file
@@ -115,7 +81,6 @@ $sql1 = "UPDATE ca_customer SET status=:status,ca_customer_id=:ca_customer_id WH
 	$result=  $stmt->execute(array(
 		':status' => $status,
 		':ca_customer_id' => $uid,
-		// ':deleted_date' => $today,
 		':id' => $id		
 	));
 
@@ -141,7 +106,6 @@ $sql1 = "UPDATE ca_customer SET status=:status,ca_customer_id=:ca_customer_id WH
 			':title' => $title,
 			':message' => $message,
 			':message2' =>$message2,
-			// ':reference_no' => $sm_id,
 			':register_by' => $register_by,
 			':from_whom' => $fromWhom
 			));

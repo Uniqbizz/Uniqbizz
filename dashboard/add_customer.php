@@ -245,18 +245,7 @@ if ($userType == 10) {
                                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname">
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="nominee_name">Nominee Name <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="nominee_relation">Nominee Relation <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">
-                                                    </div>
-                                                </div> -->
+                                                
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="email">Email Address <span class="text-danger">*</span></label>
@@ -360,14 +349,7 @@ if ($userType == 10) {
                                                 </div>
                                                 <?php if ($userType == 11 || $userType == 10) { ?>
 
-                                                <!-- <div class="col-md-12 col-sm-12 d-none" id="pay">
-                                                    <p class="mt-2 mb-0"><span class="fw-bold me-3">Would you like to become a prime customer and receive a coupon worth 10,000?</span>
-                                                        <input type="radio" id="yes" name="topUp" value="yes" onclick="toggleDiv(true)">
-                                                        <label for="yes">Yes</label>
-                                                        <input type="radio" id="no" class="ms-2" name="topUp" value="no" onclick="toggleDiv(false)" checked>
-                                                        <label for="no">No</label>
-                                                    </p>
-                                                </div> -->
+                                                
                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">
                                                     <div class="input-block mb-3">
                                                         <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
@@ -548,8 +530,6 @@ if ($userType == 10) {
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
 
     <script src="assets/js/submitdata.js"></script>
 
@@ -569,38 +549,21 @@ if ($userType == 10) {
     <!--Swiper slider js-->
     <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
     <!-- App js -->
     <script src="assets/js/app.js"></script>
 
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-
-    <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
         // fetch User based on selected designation
         $('#user_id_name').on('change', function() {
             var user_id_name = $(this).val();
-            // console.log(user_id_name);
 
             var designation = 'CA_Travel_Agent';
-            // console.log(designation);
 
             $.ajax({
                 type: 'POST',
                 url: 'agents/getUsers.php',
                 data: 'user_id_name=' + user_id_name + '&designation=' + designation,
                 success: function(response) {
-                    // console.log(response);
-                    // $('#pin').html(response);
                     $('#reference_name').val(response);
                 }
             });
@@ -627,7 +590,6 @@ if ($userType == 10) {
         });
 
         $('#mystate').on('change', function() {
-            // alert();
             var stateID = $(this).val();
             if (stateID) {
                 $.ajax({
@@ -670,7 +632,6 @@ if ($userType == 10) {
         // payment mode
         $('#paymentMode').on('click', function() {
             var paymentMode = $(".payment:checked").val();
-            // console.log(paymentMode);
             if (paymentMode == "cheque") {
                 $("#chequeOpt").removeClass("d-none");
                 $("#onlineOpt").addClass("d-none");
@@ -699,7 +660,6 @@ if ($userType == 10) {
                     url: 'address/pincode.php',
                     data: 'city_id=' + cityID,
                     success: function(response) {
-                        // $('#pin').html(response);
                         $('#pin').val(response);
                     }
                 });

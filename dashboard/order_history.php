@@ -5,18 +5,11 @@ include_once 'dashboard_user_details.php';
 $date = date('F,Y'); //month and year. 'F' - month in Text form
 $nextDateMonth = date('m'); //month in number form
 $nextDateYear = date('Y'); //year
-// echo "Next Date ".$date .' ;' ;
-// echo "Next Month ".$nextDateMonth.' ;';
-// echo "Next Year ".$nextDateYear.' ;';
-// echo '<br>';
 
 // get Previous date to show Previous payout amount  and pass it in sql @ line 111
 $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
 $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
 $prevDateYear = date('Y');  //Year in number form. 
-// echo "prev Date ".$prevdate.' ;';
-// echo "prev Month ".$prevDateMonth.' ;';
-// echo "prev year ".$prevDateYear.' ;';
 ?>
 
 <!DOCTYPE html>
@@ -164,8 +157,6 @@ $prevDateYear = date('Y');  //Year in number form.
 
         // sidebar navigation menu 
         include_once 'sidebar.php';
-
-        require 'connect.php';
 
         $pending_booking_count = 0;
         $completed_booking_count = 0;
@@ -669,7 +660,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             <tbody>
 
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -1305,7 +1295,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -1685,10 +1674,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'AND b.confirm_status=0 $customer_fil
                                                                 ";
 
-                                                    // Debugging: Log SQL query and TA IDs
-                                                    // echo "<script>console.log('TA List: " . json_encode($ta_list) . "');</script>";
-                                                    // echo "<script>console.log('🔍 SQL Query: " . addslashes($sql) . "');</script>";
-                                                    // echo "<script>console.log('🆔 TA IDs: " . addslashes($ta_ids_str) . "');</script>";
                                                     $stmt = $conn->prepare($sql);
                                                     $stmt->execute();
                                                     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1845,7 +1830,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -2392,7 +2376,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -2941,7 +2924,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
 
                                                 //check which user logged in based on user type
@@ -3505,7 +3487,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                     <span class="fw-bolder" style="color: var(--pure-black);" id="avalableBalance">
                                         <?php
                                         // Only for TA login
-                                        require 'connect.php';
                                         // Check if user exists
                                         $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
                                         $stmt1->execute([$userId]);
@@ -3533,19 +3514,7 @@ $prevDateYear = date('Y');  //Year in number form.
                             </div>
                         </div>
                         <div>
-                            <!-- <p class="fs-6 fw-bolder py-3" style="color: var(--pure-black);">Pay Type</p>
-
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked>
-                                <label class="form-check-label" for="inlineRadio2">Part</label>
-                            </div>
-                            <div id="toggleDiv">
-                                <select class="form-select w-50" id="payTypeSelect" aria-label="Default select example">
-                                    <option selected value="--Select the Pay Type">--Select the Pay Type</option>
-                                    <option value="2">2 Parts</option>
-                                    <option value="3">3 Parts</option>
-                                </select>
-                            </div> -->
+                            
                             <div class="py-3" id="showamt">
                                 <p class="fw-bolder fs-5 d-flex" style="color: var(--pure-black);">Amount:
                                     <span><input class="form-control" type="text" id="amountInput" value="" aria-label="readonly input example" readonly></span>
@@ -3648,7 +3617,6 @@ $prevDateYear = date('Y');  //Year in number form.
     <script src="assets/libs/fullcalendar/index.global.min.js"></script>
 
     <!-- Date Range Picker Script Start -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- Date Range Picker Script End -->
@@ -3865,8 +3833,7 @@ $prevDateYear = date('Y');  //Year in number form.
             const divToToggle = document.getElementById('toggleDiv');
             // Fetch the total amount dynamically from the "Amount to be Paid" section
             const amountToBePaidElement = document.getElementById('amountToBePaid');
-            //let totalAmount = parseInt(amountToBePaidElement.textContent.replace('₹', '').trim()); // Get amount without '₹' symbol
-            // const totalAmount = document.getElementById('amountPaying');  // Amount to be Paid
+      
 
             var button = $(event.relatedTarget);
             var paidfill = button.data("booking-fill");
@@ -3915,8 +3882,6 @@ $prevDateYear = date('Y');  //Year in number form.
             }, 1000);
 
             $("#showPayType").text();
-
-            //console.log('pending_amt:' + pending_amt);
         });
         //initiate payment
         $('#place_order').click(function() {

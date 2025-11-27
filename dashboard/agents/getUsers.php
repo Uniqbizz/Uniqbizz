@@ -18,8 +18,6 @@ if($userType == "sales_manager"){
     if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -39,8 +37,6 @@ if($userType == "channel_business_director"){
     if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -60,8 +56,6 @@ if($userType == "travel_agent"){
     if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -80,8 +74,6 @@ if($userType = "business_trainee"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -101,8 +93,6 @@ if($userType = "branch_manager"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -122,8 +112,6 @@ if($userType = "corporate_agency"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -143,8 +131,6 @@ if($userType = "ca_travelagency"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -164,8 +150,6 @@ if($userType = "base_agency"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -185,8 +169,6 @@ if($userType = "franchisee"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -206,8 +188,6 @@ if($userType = "regional_manager"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -227,8 +207,6 @@ if($userType = "head_office"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -248,8 +226,6 @@ if($userType = "zonal_manager"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -269,8 +245,6 @@ if($userType = "ca_franchisee"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -290,9 +264,6 @@ if($userType = "business_operation_executive"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
-            
         }  
     }else{
             echo '';
@@ -311,8 +282,6 @@ if($userType = "training_manager"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -332,8 +301,6 @@ if($userType = "business_consultant"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -353,8 +320,6 @@ if($userType = "business_mentor"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['firstname'].' '. $row2['lastname'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{
@@ -374,8 +339,6 @@ if($userType = "business_development_manager"){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['name'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }  
     }else{

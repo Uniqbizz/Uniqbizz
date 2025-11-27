@@ -13,8 +13,6 @@ if(!empty($_POST["city_id"])){
      if($stmt2->rowCount()>0){
         foreach (($stmt2->fetchAll()) as $key => $row2) {
         	echo $row2['pincode'];
-        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
-        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
             
         }   
     }

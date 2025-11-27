@@ -9,18 +9,11 @@
     $date = date('F,Y'); //month and year. 'F' - month in Text form
     $nextDateMonth = date('m'); //month in number form
     $nextDateYear = date('Y'); //year
-    // echo "Next Date ".$date .' ;' ;
-    // echo "Next Month ".$nextDateMonth.' ;';
-    // echo "Next Year ".$nextDateYear.' ;';
-    // echo '<br>';
 
     // get Previous date to show Previous payout amount  and pass it in sql @ line 111
     $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
     $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
     $prevDateYear = date('Y');  //Year in number form. 
-    // echo "prev Date ".$prevdate.' ;';
-    // echo "prev Month ".$prevDateMonth.' ;';
-    // echo "prev year ".$prevDateYear.' ;';
 ?>
 
 <!doctype html>
@@ -32,12 +25,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/fav.png">
-
-        <!-- jsvectormap css -->
-        <!-- <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" /> -->
-
-        <!--Swiper slider css-->
-        <!-- <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" /> -->
 
         <!-- Layout config Js -->
         <script src="assets/js/layout.js"></script>
@@ -116,7 +103,6 @@
                                                 <select class="form-select" id="travelType" name="travelType" onchange="this.form.submit()">
                                                     <option value="">ALL</option>
                                                     <?php
-                                                        require '../connect.php';
                                                         $stmt = $conn->prepare("SELECT c.category_name FROM category c WHERE c.status = 1");
                                                         $stmt->execute();
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -154,7 +140,6 @@
                                             </thead>
                                             <tbody> 
                                                 <?php
-                                                    require '../connect.php';
                                                     $filter = $_GET['travelType'] ?? '';
                                                     $query = "SELECT p.id, p.description, name, t.markup_total, t.total_package_price_per_adult, t.total_package_price_per_child, pt.ca_direct_commission, c.category_name
                                                               FROM package p, package_pricing t, category c, package_pricing_markup pt
@@ -263,8 +248,6 @@
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
         <script src="assets/js/submitdata.js"></script>
         <!-- App js -->
         <script src="assets/js/app.js"></script>
@@ -278,7 +261,6 @@
         <script type="text/javascript">
             $(document).ready( function () {
                 $('#user_table').DataTable();
-                // $('#registeredTable').DataTable();
             });
             
             

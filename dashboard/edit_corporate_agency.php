@@ -264,7 +264,6 @@
                                                                     <label class="col-form-label" for="country_cd">Code:</label>
                                                                     <select class="form-select" id="country_cd">
                                                                         <?php
-                                                                            require 'connect.php';
                                                                             $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
                                                                             $stmt->execute();                                                  
                                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -597,8 +596,6 @@
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
         <!-- jquery -->
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
 
@@ -617,63 +614,15 @@
         <!--Swiper slider js-->
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
         <!-- file upload code js file -->
         <script src="../uploading/uploadUser.js"></script>
 
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
+        
         <script>
-            //select Designation
-            // $('#designation').on('change', function() {
-            //     var designation = $('#designation').val();
-            //     // console.log(designation);
-            //     $.ajax({
-            //         type:'POST',
-            //         url:'agents/get_user_Franchisee.php',
-            //         data: "designation="+designation,
-            //         success:function (e) {
-            //             // console.log(e);
-            //             $('#user_id_name').html(e); 
-            //         },
-            //         error: function(err){
-            //             console.log(err);
-            //         },
-            //     });
-            // });
-
-            // fetch User based on selected designation
-            // $('#user_id_name').on('change', function(){
-            //     var user_id_name = $(this).val();
-            //     // console.log(user_id_name);
-
-            //     var designation = $('#designation').val();
-            //     // console.log(designation);
-
-            //     $.ajax({
-            //         type:'POST',
-            //         url:'agents/getUsers.php',
-            //         data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-            //         success:function(response){
-            //         // console.log(response);
-            //             // $('#pin').html(response);
-            //             $('#reference_name').val(response); 
-            //         }
-            //     }); 
-               
-            // }); 
+            
 
             $(document).ready(function(){
                 var paymentMode = $(".payment:checked").val();
@@ -734,7 +683,6 @@
                         url:'address/pincode.php',
                         data:'city_id='+cityID,
                         success:function(response){
-                            // $('#pin').html(response);
                             $('#pin').val(response); 
                         }
                     }); 
@@ -746,7 +694,6 @@
 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
                 if(paymentMode == "cheque"){
                     $("#chequeOpt").removeClass("d-none");
                     $("#onlineOpt").addClass("d-none");

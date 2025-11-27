@@ -1,19 +1,5 @@
 <?php
 include_once 'dashboard_user_details.php';
-
-// $id = $_GET['vkvbvjfgfikix'] ?? '';
-// $taId = $_GET['taId'] ?? '';
-// $country_id = $_GET['ncy'] ?? '';
-// $state_id = $_GET['mst'] ?? '';
-// $city_id = $_GET['hct'] ?? '';
-// $editfor = $_GET['editfor'] ?? '';
-
-// if($editfor == 'addreff'){
-//     $stmt1 = $conn -> prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '".$id."' ");
-//     $stmt1 -> execute();
-//     $cu_name = $stmt1 -> fetch();
-//     $cuName = $cu_name['firstname'].' '.$cu_name['lastname'];
-// }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -216,8 +202,6 @@ include_once 'dashboard_user_details.php';
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
 
     <script src="assets/js/submitdata.js"></script>
 

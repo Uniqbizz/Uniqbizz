@@ -11,17 +11,10 @@
     $nominee_relation=$_POST['nominee_relation'];
     $email=$_POST['email'];
     $gender=$_POST['gender'];
-    // $complimentary=$_POST['complimentary'];
-    // $converted=$_POST['converted'];
     $country_code=$_POST['country_code'];
     $phone_no=$_POST['phone'];
-    // $gst_no=$_POST['gst_no'];
-    // $business_package=$_POST['business_package'];
-    // $amount=$_POST['amount'];
-    // $age=$_POST['age'];
     $bdate=$_POST['dob'];
     $profile_pic=$_POST['profile_pic'];
-    // $kyc=$_POST['kyc'];
     $pan_card=$_POST['pan_card'];
     $aadhar_card=$_POST['aadhar_card'];
     $voting_card=$_POST['voting_card'];
@@ -64,11 +57,6 @@
         ':lastname' => $lastname, 
         ':nominee_name' => $nominee_name,
         ':nominee_relation' => $nominee_relation,
-        // ':gst_no' => $gst_no,
-        // ':complimentary' => $complimentary,
-        // ':converted' => $converted,
-        // ':business_package' => $business_package,
-        // ':amount' => $amount,
         ':email' => $email,
         ':country_code' => $country_code, 
         ':contact_no' => $phone_no,
@@ -81,7 +69,6 @@
         ':age' => $age,  
         ':gender' => $gender,
         ':profile_pic' => $profile_pic,
-        // ':kyc' => $kyc,
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
         ':voting_card' => $voting_card,
