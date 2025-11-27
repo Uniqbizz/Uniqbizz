@@ -530,20 +530,44 @@
                 $dropdown.append(`<option></option>`); // for placeholder
     
                 response.forEach(function (item) {
+
+                    // fix non-breaking spaces, invisible unicode, trailing spaces
+                    let cleanText = item.text
+                                    .replace(/[\u00A0\u2000-\u200B]/g, " ")
+                                    .replace(/\s+/g, " ")
+                                    .trim();
+
                     $dropdown.append(
                         $("<option>", {
                             value: item.id,
-                            text: item.text,
+                            text: cleanText,
                         }).data("description", item.description)
                     );
                 });
-    
+                console.log('test');
                 $dropdown.select2({
                     placeholder: "Destination",
                     containerCssClass: "custom-select2-dropdown",
                     dropdownCssClass: "custom-select2-dropdown-container",
                     templateResult: destinationResult,
                     templateSelection: destinationSelection,
+                    
+                    //customer matcher
+                    matcher: function(params, data) {
+                        if ($.trim(params.term) === '') return data;
+
+                        // Ensure element exists
+                        if (!data.element) return null;
+
+                        // Read description from <option data-description="...">
+                        let desc = $(data.element).data("description") || "";
+
+                        if (desc.toLowerCase().includes(params.term.toLowerCase())) {
+                            return data;
+                        }
+
+                        return null;
+                    }
                 });
             },
             error: function (xhr, status, error) {
@@ -553,8 +577,11 @@
     }
     
     function destinationResult(item) {
+        
+        
+        console.log("OPTION ADDED:", item.text, [...item.text]);
         if (!item.id) return item.text;
-        var desc = $(item.element).data("description") || "";
+        var desc = $(item.element).data("description") || "";        
         return $(`
             <div class="select2-result">
                 <h4 class="airport-desc">${item.text}</h4>
