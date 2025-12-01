@@ -1,10 +1,6 @@
 <?php
     include_once 'dashboard_user_details.php';
 
-    if($_SESSION["user_type_id_value"] !='3' && $_SESSION["user_type_id_value"] !='11' && $_SESSION["user_type_id_value"] !='16'){
-        echo '<script>location.href = "../login";</script>';
-    }
-
     // get current date to show next payout amount  and pass it in sql @ line 129
     $date = date('F,Y'); //month and year. 'F' - month in Text form
     $nextDateMonth = date('m'); //month in number form
@@ -133,7 +129,7 @@
                                                         <th class="ceterText fw-bolder font-size-16">Selling Price</th>
                                                         <th class="ceterText fw-bolder font-size-16">Action</th>
                                                     <?php } ?>
-                                                    <?php  if($userType == '16'){ ?>
+                                                    <?php  if($userType == '16' || $userType == '29'){ ?>
                                                         <th class="ceterText fw-bolder font-size-16">Download Itinerary </th>
                                                     <?php } ?>
                                                 </tr>
@@ -200,14 +196,14 @@
                                                                 if ($userType =='11') {
                                                     
                                                                     echo'<td>₹ '.$ta_commission.'/PAX</td>';
-                                                                }else if($userType=='16'){
+                                                                }else if($userType=='16' || $userType == '29'){
                                                                     echo'<td>₹ '.$te_direct_comm.'/PAX</td>';
                                                                 }
                                                                 if($userType == '11'){ 
                                                                     echo'<td>₹ <input type="text" id="markup_'.$package_id.'" value="'.$markup.'" style="padding:0px 4px; width:45px;" maxlength="4">/Package</td>';
                                                                     echo'<td>₹ '.$markup_total.'</td>';
                                                                     echo'<td> <button type="button" onclick=\'addMarkup("'.$userId.'","'.$package_id.'","'.$Aproduct_price.'","'.$Cproduct_price.'","0")\' class="btn btn-secondary">Add</button></td>';
-                                                                } else if ($userType == '16') {
+                                                                } else if ($userType == '16' || $userType == '29') {
                                                                     echo'<td>';
                                                                     echo '<button type="button" class="btn btn-secondary" ><a class="dropdown-item" href="dowload_pack_details.php?id='.urldecode($row["id"]).'" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Details</a></button>';
                                                                      echo'</td>';
