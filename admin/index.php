@@ -156,12 +156,26 @@ $Year = date('Y'); //year
         .fc-daygrid-day {
             position: relative;
         }
-
-        /* image class for profile-img from admin welcome section */
-        /* .img-fluid {
-            width: 100% !important;
-            height: 120px !important;
-        } */
+        /* top performer section start */
+        .bg-indigo-subtle {
+            background: #9054f1ff !important;
+        }
+        .text-indigo-emphasis {
+            color: #0d0220ff !important;
+        }
+        .bg-orange-subtle {
+            background: #ee9f5eff !important;
+        }
+        .text-orange-emphasis {
+            color: #311803ff !important;
+        }
+        .bg-teal-subtle {
+            background: #77eecaff !important;
+        }
+        .text-teal-emphasis {
+            color: #02251bff !important;
+        }
+        /*  top performer section end */
     </style>
 </head>
 <!-- DataTables -->
@@ -972,13 +986,14 @@ $Year = date('Y'); //year
                     <!-- end row -->
                     <div class="row">
                         <!-- Customer Types -->
-                        <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 mb-2">
                             <div class="row">
                                 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
-                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Regular Customer</h5>
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2 ">
+                                            <h5 class="text-primary-emphasis fw-bolder">Regular Customer</h5>
+                                            <h6 class="text-primary-emphasis">Free</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1036,7 +1051,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Customer</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Customer</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 30,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1115,7 +1131,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Plus Customer</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Plus Customer</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 35,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1194,7 +1211,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Select</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Select</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 35,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1274,7 +1292,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Select Lite</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Select Lite</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 21,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1354,7 +1373,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Neo Select</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Neo Select</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 11,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1434,7 +1454,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Neo Select Ultra</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Neo Select Ultra</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 11,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1692,43 +1713,43 @@ $Year = date('Y'); //year
                         <div class="row p-4 d-flex justify-content-around">
                             <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center">
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
                                             Business Mentor<span id="bmCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
                                             Employees<span id="empCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
                                             Techno Enterprise<span id="teCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
                                             Travel Consultant<span id="tcCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
                                             Customer<span id="custCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
                                             Master Franchise<span id="mfCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDivCount(7, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(7, this)" type="button" class="rounded-4 bg-teal-subtle btn fw-bolder fs-5 text-teal-emphasis py-4 w-100 text-center mb-2">
                                             Sponsor Franchise<span id="sfCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDivCount(8, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(8, this)" type="button" class="rounded-4 bg-orange-subtle btn fw-bolder fs-5 text-orange-emphasis py-4 w-100 text-center mb-2">
                                             Franchise<span id="fCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
@@ -2181,7 +2202,7 @@ $Year = date('Y'); //year
                                 </div> <!-- end col -->
 
                                 <!-- Latest Transaction -->
-                                <div class="col-xl-4" id="latestTransaction">
+                                <div class="col-xl-4 ps-0" id="latestTransaction">
                                     <div class="card rounded-4">
                                         <h2 class="fs-4 p-3">Latest Transaction</h2>
                                         <?php
@@ -2218,14 +2239,14 @@ $Year = date('Y'); //year
                                                 echo '
                                                             <div class="card pt-3">
                                                                 <div class="row">
-                                                                    <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
+                                                                    <div class="col-xl-3 col-lg-1 col-md-1 col-sm-2 col-2">
                                                                         <div class="profile-pic pb-1" style="position: relative; left: 15px;">
                                                                             <img src="' . $imgPath . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
                                                                         </div>
                                                                     </div>
                                                                     
-                                                                    <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-10 d-flex justify-content-between align-items-center">
-                                                                        <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . ' <span class="fw-normal">(' . $designation . ')</span></div>
+                                                                    <div class="col-xl-9 col-lg-11 col-md-11 col-sm-10 col-10 d-flex justify-content-between align-items-center">
+                                                                        <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . '</br> <span class="fw-normal">(' . $designation . ')</span></div>
                                                                     </div>
                                                                     <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">' . $rdate . '</div>
                                                                 </div>
@@ -2499,48 +2520,48 @@ $Year = date('Y'); //year
                         <div class="row p-4 d-flex justify-content-around">
                             <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center mb-3">
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 BCH
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 BDM
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 BM
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 TE
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 TC
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 Customer
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDiv(7, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(7, this)" type="button" class="rounded-4 bg-indigo-subtle btn fw-bolder fs-5 text-indigo-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 MF
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDiv(8, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(8, this)" type="button" class="rounded-4 bg-teal-subtle btn fw-bolder fs-5 text-teal-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 SF
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDiv(9, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(9, this)" type="button" class="rounded-4 bg-orange-subtle btn fw-bolder fs-5 text-orange-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 Franchisee
                                         </button>
                                     </div>
