@@ -386,8 +386,7 @@
                                                             <option value="FOC" <?=$payment_fee=='FOC'?'selected':'' ?>>Free</option>
                                                             <option value="3000" <?=$payment_fee=='3000'?'selected':'' ?>><span>&#8377 </span>3,000/-</option>
                                                             <option value="10000" <?=$payment_fee=='10000'?'selected':'' ?>><span>&#8377 </span>10,000/-</option>
-                                                            <!-- <option value="5000"><span>&#8377 </span>5000/-</option>
-                                                            <option value="15000"><span>&#8377 </span>15,000/-</option> -->
+                                                          
                                                         </select>
                                                     </div>
                                                 </div>

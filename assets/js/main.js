@@ -521,23 +521,32 @@
     // }
     function loadDestinations() {
         $.ajax({
-            url: "assets/submit/get_destinations.php", // Make sure path is correct
+            url: "assets/submit/get_destinations.php",
             type: "GET",
             dataType: "json",
             success: function (response) {
                 let $dropdown = $(".destination-dropdown");
-                $dropdown.empty(); // Clear existing options
-                $dropdown.append(`<option></option>`); // for placeholder
-    
+                $dropdown.empty(); // Clear options
+
+                // Add empty placeholder
+                $dropdown.append(`<option></option>`);
+
+                let selectedValues = [];
+
                 response.forEach(function (item) {
-                    $dropdown.append(
-                        $("<option>", {
-                            value: item.id,
-                            text: item.text,
-                        }).data("description", item.description)
-                    );
+                    let option = $("<option>", {
+                        value: item.id,
+                        text: item.text,
+                        selected: true   // 🔥 Auto-select
+                    }).data("description", item.description);
+
+                    $dropdown.append(option);
+
+                    // Store all IDs for default selection
+                    selectedValues.push(item.id);
                 });
-    
+
+                // Initialize Select2
                 $dropdown.select2({
                     placeholder: "Destination",
                     containerCssClass: "custom-select2-dropdown",
@@ -545,12 +554,16 @@
                     templateResult: destinationResult,
                     templateSelection: destinationSelection,
                 });
+
+                // 🔥 After Select2 loads, select all items
+                $dropdown.val(selectedValues).trigger("change");
             },
             error: function (xhr, status, error) {
                 console.error("Failed to load destinations:", error);
             }
         });
     }
+
     
     function destinationResult(item) {
         if (!item.id) return item.text;

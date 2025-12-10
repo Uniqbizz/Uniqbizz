@@ -288,10 +288,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6">
-												<!-- <div class="input-block mb-3">
-														<label class="col-form-label" for="payFee">Payment Fee <span class="text-danger">*</span></label>
-														<input type="text" value="₹ 12000/-" class="form-control" id="payFee" readonly />
-													</div> -->
 												<div class="input-block mb-3">
 													<label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
 													<select class="form-select" id="payment_fee" required>

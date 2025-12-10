@@ -41,35 +41,7 @@ if ($user_type_id == '16') {
 	}
 
 	$reference_id = substr($reference_no, 0, 2);
-	// if ($reference_id == "BC") {
-
-	// 	$sql10 = $conn->prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '" . $reference_no . "'");
-	// 	$sql10->execute();
-	// 	$sql10->setFetchMode(PDO::FETCH_ASSOC);
-	// 	if ($sql10->rowCount() > 0) {
-	// 		foreach (($sql10->fetchAll()) as $key10 => $row10) {
-	// 			$Bc_id = $row10['business_consultant_id'];
-	// 			$Bc_name = $row10['firstname'] . ' ' . $row10['lastname'];
-	// 			$Bc_ref = $row10['reference_no'];
-	// 		}
-	// 	}
-
-	// 	$sql11 = $conn->prepare("SELECT * FROM channel_business_director WHERE channel_business_director_id = '" . $Bc_ref . "'");
-	// 	$sql11->execute();
-	// 	$sql11->setFetchMode(PDO::FETCH_ASSOC);
-	// 	if ($sql11->rowCount() > 0) {
-	// 		foreach (($sql11->fetchAll()) as $key11 => $row11) {
-	// 			$cbd_id = $row11['channel_business_director_id'];
-	// 			$cbd_name = $row11['firstname'] . ' ' . $row11['lastname'];
-	// 		}
-	// 	}
-
-
-
-	// 	$bcCommiAmt = $amount * 5 / 100; //25000
-	// 	$cbdCommiAmt = $bcCommiAmt * 30 / 100; //7500
-
-	// } else 
+	
 	if ($reference_id == "BM") {
 
 		$sql10 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");

@@ -10,7 +10,7 @@
     $sort = $_POST['sort'];
     $ratings = $_POST['ratings']; // Array of selected ratings
     $tour_type = $_POST['tourType']??[0]; // Array of selected tour_type
-    $destination = trim($_POST['destination'] ?? '');
+    $destination = trim($_POST['destination'] ?? 'All Locations');
     $viewType = trim($_POST['viewType'] ?? '1');
     // destination text
 
@@ -75,7 +75,7 @@
     }
 
     // ✅ Destination filter (optional)
-    if (!empty($destination)) {
+    if (!empty($destination) && $destination !='All Locations') {
         $safeDestination = addslashes($destination);
         $where .= " AND p.destination LIKE '%{$safeDestination}%'";
     }
