@@ -3,6 +3,7 @@
 require '../../connect.php';
 
     $cust_id = $_POST['cust_id'];
+    $ta_id=$_POST['ta_id'];
     $user_type = $_POST['user_type'];
 
 
@@ -17,7 +18,7 @@ require '../../connect.php';
         $stmt = $conn->prepare("SELECT firstname,lastname,email,contact_no FROM ca_travelagency where ca_travelagency_id='".$cust_id."' ");
     } else if ( $user_type == '10' ) {
         // get cutomer data
-        $stmt = $conn->prepare("SELECT firstname,lastname,email,contact_no,age,customer_type FROM ca_customer where ca_customer_id='".$cust_id."' ");
+        $stmt = $conn->prepare("SELECT firstname,lastname,email,contact_no,age,customer_type FROM ca_customer where ca_customer_id='".$cust_id."' AND ta_reference_no='".$ta_id."' ");
     }
     
     $stmt->execute();

@@ -521,30 +521,27 @@
     // }
     function loadDestinations() {
         $.ajax({
-            url: "assets/submit/get_destinations.php", // Make sure path is correct
+            url: "assets/submit/get_destinations.php",
             type: "GET",
             dataType: "json",
             success: function (response) {
                 let $dropdown = $(".destination-dropdown");
-                $dropdown.empty(); // Clear existing options
-                $dropdown.append(`<option></option>`); // for placeholder
-    
+                $dropdown.empty(); // Clear options
+
+                // Add empty placeholder
+                $dropdown.append(`<option></option>`);
+
+                let selectedValues = [];
+
                 response.forEach(function (item) {
-
-                    // fix non-breaking spaces, invisible unicode, trailing spaces
-                    let cleanText = item.text
-                                    .replace(/[\u00A0\u2000-\u200B]/g, " ")
-                                    .replace(/\s+/g, " ")
-                                    .trim();
-
                     $dropdown.append(
                         $("<option>", {
                             value: item.id,
-                            text: cleanText,
+                            text: item.text,
                         }).data("description", item.description)
                     );
                 });
-                console.log('test');
+    
                 $dropdown.select2({
                     placeholder: "Destination",
                     containerCssClass: "custom-select2-dropdown",
@@ -569,12 +566,16 @@
                         return null;
                     }
                 });
+
+                // 🔥 After Select2 loads, select all items
+                $dropdown.val(selectedValues).trigger("change");
             },
             error: function (xhr, status, error) {
                 console.error("Failed to load destinations:", error);
             }
         });
     }
+
     
     function destinationResult(item) {
         
