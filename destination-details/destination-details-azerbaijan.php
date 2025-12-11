@@ -52,9 +52,40 @@
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="../assets/css/rtl.css"> -->
         <style>
+            .colNewlyAddedImg {
+                display: flex;
+                align-items: center;
+                padding-left: 0px !important;
+            }
             .newlyAddedImg{
                 width: 100% !important;
-                height: 100% !important;
+                height: 85% !important;
+            }
+            .btn-secondary-sm-view {
+                background-color: var(--secondary-color);
+                border: 1px solid transparent;
+                padding: 4px 8px;
+                font-size: 12px;
+                font-weight: 800;
+                line-height: 1.3;
+                border-radius: 8px;
+                color: #fff;
+                display: inline-block;
+            }
+            .btn-secondary-sm-view:hover {
+                -webkit-transition: 0.3s;
+                transition: 0.3s;
+                background-color: transparent;
+                border: 1px solid var(--secondary-color);
+                color: var(--secondary-color);
+            }
+            .package-font-size {
+                font-size: 12px;
+                padding-bottom: 5px;
+            }
+            .borderEndStyle {
+                border: 1px solid red !important;
+                margin: -5px 5px 10px 0px !important;
             }
         </style>
     </head>
@@ -339,14 +370,66 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-lg-12">
+                                <div class="col-lg-12">
                                     <div class="destination-details-info">
                                         <h4 class="title ">Newly Added Packages</h4>
                                         <div class="row p-3 rounded-3" style="background-color: #eaebee; margin-left: 1px !important; margin-right: 1px !important;">
-                                            <div class="col-6 mb-2 justify-content-center align-content-center">
-                                                <h6 class="fw-bold ">Vietnam</h6>
+                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
                                             </div>
-                                            <div class="col-6 mb-2">
+                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bolder text-center">Vietnam</h6>
+                                                <p class="package-font-size">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="http://" class="btn-secondary-sm-view">View Package</a>
+                                                </div>
+                                            </div>
+                                            <hr class="borderEndStyle">
+                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bolder text-center">Vietnam</h6>
+                                                <p class="package-font-size">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="http://" class="btn-secondary-sm-view">View Package</a>
+                                                </div>
+                                            </div>
+                                            <hr class="borderEndStyle">
+                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bolder text-center">Vietnam</h6>
+                                                <p class="package-font-size">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="http://" class="btn-secondary-sm-view">View Package</a>
+                                                </div>
+                                            </div>
+                                            <hr class="borderEndStyle">
+                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bolder text-center">Vietnam</h6>
+                                                <p class="package-font-size">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="http://" class="btn-secondary-sm-view">View Package</a>
+                                                </div>
+                                            </div>
+                                            <hr class="borderEndStyle">
+                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
+                                            </div>
+                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                <h6 class="fw-bolder text-center">Vietnam</h6>
+                                                <p class="package-font-size">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="http://" class="btn-secondary-sm-view">View Package</a>
+                                                </div>
+                                            </div>
+                                            <hr class="borderEndStyle">
+                                            <!-- <div class="col-6 mb-2">
                                                 <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
                                             </div>
                                             <div class="col-6 mb-2 justify-content-center align-content-center">
@@ -363,13 +446,10 @@
                                             </div>
                                             <div class="col-6 mb-2 justify-content-center align-content-center">
                                                 <h6 class="fw-bold ">Vietnam</h6>
-                                            </div>
-                                            <div class="col-6 mb-2">
-                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                         <div class="col-xl-12 col-lg-12">
@@ -455,7 +535,6 @@
                                     }
                                 ?>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -491,6 +570,4 @@
             }
         </script>
     </body>
-
-<!-- Mirrored from travelloo.vercel.app/template/destination-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:53:06 GMT -->
 </html>
