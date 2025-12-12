@@ -52,9 +52,40 @@
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="../assets/css/rtl.css"> -->
         <style>
+            .colNewlyAddedImg {
+                display: flex;
+                align-items: center;
+                padding-left: 0px !important;
+            }
             .newlyAddedImg{
                 width: 100% !important;
-                height: 100% !important;
+                height: 85% !important;
+            }
+            .btn-secondary-sm-view {
+                background-color: var(--secondary-color);
+                border: 1px solid transparent;
+                padding: 4px 8px;
+                font-size: 12px;
+                font-weight: 800;
+                line-height: 1.3;
+                border-radius: 8px;
+                color: #fff;
+                display: inline-block;
+            }
+            .btn-secondary-sm-view:hover {
+                -webkit-transition: 0.3s;
+                transition: 0.3s;
+                background-color: transparent;
+                border: 1px solid var(--secondary-color);
+                color: var(--secondary-color);
+            }
+            .package-font-size {
+                font-size: 12px;
+                padding-bottom: 5px;
+            }
+            .borderEndStyle {
+                border: 1px solid red !important;
+                margin: -5px 5px 10px 0px !important;
             }
         </style>
     </head>
@@ -339,39 +370,56 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="col-lg-12">
+                                <!-- Newly added packages top 5 -->
+                                <div class="col-lg-12">
                                     <div class="destination-details-info">
                                         <h4 class="title ">Newly Added Packages</h4>
                                         <div class="row p-3 rounded-3" style="background-color: #eaebee; margin-left: 1px !important; margin-right: 1px !important;">
-                                            <div class="col-6 mb-2 justify-content-center align-content-center">
-                                                <h6 class="fw-bold ">Vietnam</h6>
-                                            </div>
-                                            <div class="col-6 mb-2">
-                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
-                                            </div>
-                                            <div class="col-6 mb-2 justify-content-center align-content-center">
-                                                <h6 class="fw-bold ">Vietnam</h6>
-                                            </div>
-                                            <div class="col-6 mb-2">
-                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
-                                            </div>
-                                            <div class="col-6 mb-2 justify-content-center align-content-center">
-                                                <h6 class="fw-bold ">Vietnam</h6>
-                                            </div>
-                                            <div class="col-6 mb-2">
-                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
-                                            </div>
-                                            <div class="col-6 mb-2 justify-content-center align-content-center">
-                                                <h6 class="fw-bold ">Vietnam</h6>
-                                            </div>
-                                            <div class="col-6 mb-2">
-                                                <img class="newlyAddedImg rounded-3" src="../assets/images/destination/Vietnam1.jpg" alt="">
-                                            </div>
+                                            <?php 
+                                                require '../connect.php';
+                                                $stmt = $conn->prepare(" SELECT id, description, destination, location, name FROM package WHERE  status = '1'  ORDER BY id DESC LIMIT 5 ");
+                                                $stmt->execute();
+                                                $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                                if($stmt->rowCount()>0){
+                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                        // $name = $row['name'].''.$row['unique_code'];
+                                                        // echo $srno.' '.$name.'</br>';
+                                                        // get images
+                                                        $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
+                                                        $data->execute();
+                                                        $value = $data->fetch();
+                                                        // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+                                                        // tour package description limit words counts to show in list view
+                                                        $description = $row['description'];
+                                                        $maxLength = 65; //word limit
+                                                        if (strlen($description) > $maxLength) {
+                                                            $truncatedString = substr($description, 0, $maxLength) . '...';
+                                                        } else {
+                                                            $truncatedString = $description;
+                                                        }
+                                                        echo'
+                                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                                <img class="newlyAddedImg rounded-3" src="../'.$value['image'].'" alt="BizzMirth">
+                                                            </div>
+                                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                                <h6 class="fw-bolder text-center">'.$row['location'].'</h6>
+                                                                <p class="package-font-size">'.$truncatedString.'</p>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <a href="#" class="btn-secondary-sm-view" onclick=\'viewPackage("' .$row['id']. '")\'>View Package</a>
+                                                                </div>
+                                                            </div>
+                                                            <hr class="borderEndStyle">
+                                                        ';
+                                                    }
+                                                }
+                                            ?>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
+                                <!-- Newly added packages top 5 -->
                             </div>
                         </div>
+                        <!-- Destination Related Packages View  -->
                         <div class="col-xl-12 col-lg-12">
                             <div class="row g-4">
                                 <?php 
@@ -455,8 +503,8 @@
                                     }
                                 ?>
                             </div>
-                            
                         </div>
+                        <!-- Destination Related Packages View  -->
                     </div>
                 </div>
             </section>
@@ -491,6 +539,4 @@
             }
         </script>
     </body>
-
-<!-- Mirrored from travelloo.vercel.app/template/destination-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:53:06 GMT -->
 </html>
