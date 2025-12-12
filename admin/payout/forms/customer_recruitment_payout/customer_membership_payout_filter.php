@@ -74,7 +74,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
 } else if (!$cap_id && !$cap_year && !$cap_month && $designation) { // if only designation filter
 
     $sqlId = "";
-    if ($designation == 'business_mentor') {
+    if ($designation == 'BM_BDM_MF_SF_RM') {
         $sqlId = "SELECT * FROM ca_cu_payout ORDER BY id DESC";
     } else if ($designation == 'corporate_agency') {
         $sqlId = "SELECT * FROM ca_cu_payout ORDER BY id DESC";
@@ -105,7 +105,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -158,7 +158,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
 } else if (!$cap_year && !$cap_month && $designation && $cap_id) { // if only user id and desgnation filter
 
     $sqlId = "";
-    if ($designation == 'business_mentor') {
+    if ($designation == 'BM_BDM_MF_SF_RM') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE business_mentor = '" . $cap_id . "' ORDER BY id DESC";
     } else if ($designation == 'corporate_agency') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE techno_enterprise = '" . $cap_id . "' ORDER BY id DESC";
@@ -189,7 +189,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -391,7 +391,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -443,7 +443,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
     }
 } else { // if all values are their i.e designation, date, user id
 
-    if ($designation == 'business_mentor') {
+    if ($designation == 'BM_BDM_MF_SF_RM') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE business_mentor = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' order by id DESC";
     } else if ($designation == 'corporate_agency') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE techno_enterprise = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' order by id DESC";
@@ -475,7 +475,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
