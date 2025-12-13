@@ -534,25 +534,54 @@
                 let selectedValues = [];
 
                 response.forEach(function (item) {
-                    let option = $("<option>", {
-                        value: item.id,
-                        text: item.text,
-                        selected: true   // 🔥 Auto-select
-                    }).data("description", item.description);
-
-                    $dropdown.append(option);
-
-                    // Store all IDs for default selection
-                    selectedValues.push(item.id);
+                    $dropdown.append(
+                        $("<option>", {
+                            value: item.id,
+                            text: item.text,
+                        }).data("description", item.description)
+                    );
                 });
-
-                // Initialize Select2
+    
                 $dropdown.select2({
                     placeholder: "Destination",
                     containerCssClass: "custom-select2-dropdown",
                     dropdownCssClass: "custom-select2-dropdown-container",
                     templateResult: destinationResult,
                     templateSelection: destinationSelection,
+                    
+                    //customer matcher
+                    matcher: function (params, data) {
+                        if ($.trim(params.term) === '') return data;
+                        if (!data.element) return null;
+
+                        // Normalize text:
+                        // 1. lowercase
+                        // 2. replace ANY non-alphanumeric character with space
+                        // 3. collapse multiple spaces
+                        const normalize = str =>
+                            (str || "")
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]+/g, " ") // 🔥 replace special chars with space
+                                .replace(/\s+/g, " ")
+                                .trim();
+
+                        const termWords = normalize(params.term).split(" ");
+
+                        const name = normalize(data.text);
+                        const desc = normalize($(data.element).data("description"));
+
+                        const combinedText = name + " " + desc;
+
+                        // Every word must match (order independent)
+                        const isMatch = termWords.every(word =>
+                            combinedText.includes(word)
+                        );
+
+                        return isMatch ? data : null;
+                    }
+
+
+
                 });
 
                 // 🔥 After Select2 loads, select all items
@@ -566,8 +595,11 @@
 
     
     function destinationResult(item) {
+        
+        
+        console.log("OPTION ADDED:", item.text, [...item.text]);
         if (!item.id) return item.text;
-        var desc = $(item.element).data("description") || "";
+        var desc = $(item.element).data("description") || "";        
         return $(`
             <div class="select2-result">
                 <h4 class="airport-desc">${item.text}</h4>

@@ -191,7 +191,7 @@ $tdsPer = 2 / 100;
                                             <!-- <label> Filter Payouts</label> -->
                                             <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
                                                 <option value="">--Select Filter Option--</option>
-                                                <option value='business_mentor'>Business Mentor</option>
+                                                <option value='BM_BDM_MF_SF_RM'>BM/BDM/MF/SF/RM</option>
                                                 <option value="corporate_agency">Techno Enterprise</option>
                                                 <option value="ca_travelagency">Travel Consultant</option>
                                             </select>
@@ -469,7 +469,7 @@ $tdsPer = 2 / 100;
                                     <!-- <label> Filter Payouts</label> -->
                                     <select id="designationPrevious" class="selectdesign filter-opt-1 fw-bolder">
                                         <option value="">--Select Filter Option--</option>
-                                        <option value='business_mentor'>Business Mentor</option>
+                                        <option value='BM_BDM_MF_SF_RM'>Business Mentor</option>
                                         <option value="corporate_agency">Techno Enterprise</option>
                                         <option value="ca_travelagency">Travel Consultant</option>
                                     </select>
@@ -723,7 +723,7 @@ $tdsPer = 2 / 100;
                                     <!-- <label> Filter Payouts</label> -->
                                     <select id="designationNext" class="selectdesign filter-opt-1 fw-bolder">
                                         <option value="">--Select Filter Option--</option>
-                                        <option value='business_mentor'>Business Mentor</option>
+                                        <option value='BM_BDM_MF_SF_RM'>Business Mentor</option>
                                         <option value="corporate_agency">Techno Enterprise</option>
                                         <option value="ca_travelagency">Travel Consultant</option>
                                     </select>
@@ -973,7 +973,7 @@ $tdsPer = 2 / 100;
                                     <!-- <label> Filter Payouts</label> -->
                                     <select id="designationTotal" class="selectdesign filter-opt-1 fw-bolder">
                                         <option value="">--Select Filter Option--</option>
-                                        <option value='business_mentor'>Business Mentor</option>
+                                        <option value='BM_BDM_MF_SF_RM'>Business Mentor</option>
                                         <option value="corporate_agency">Techno Enterprise</option>
                                         <option value="ca_travelagency">Travel Consultant</option>
                                     </select>

@@ -29,7 +29,7 @@
             p.created_date,
             p.name,
             p.description,
-            p.destination,
+            p.location,
             p.location,
             p.tour_days,
             t.total_package_price_per_adult,
@@ -76,14 +76,13 @@
 
     // ✅ Destination filter (optional)
     if (!empty($destination) && $destination !='All Locations') {
-        $safeDestination = addslashes($destination);
-        $where .= " AND p.destination LIKE '%{$safeDestination}%'";
+        $where .= " AND p.location LIKE '%{$destination}%'";
     }
 
     // GROUP BY
     $groupBy = "
         GROUP BY 
-            p.id, p.name, p.description, p.destination, p.location,
+            p.id, p.name, p.description, p.location, p.location,
             t.total_package_price_per_adult,t.price_up_per_adult, t.markup_total, c_h.name";
 
     if ($sort === 'popular') {

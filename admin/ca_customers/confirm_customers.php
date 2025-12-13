@@ -209,29 +209,47 @@ if ($result) {
 							$BmName = $row10['registrant'];
 						}
 					}
-					//bm details
-					$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$BmId."'");
-					$sql11->execute();
-					$sql11->setFetchMode(PDO::FETCH_ASSOC);
-					if($sql11->rowCount()>0){
-						foreach(($sql11->fetchAll()) as $key11 => $row11){
-							$BmId = $row11['business_mentor_id'];
-							$BmName = $row11['firstname']. ' ' .$row11['lastname'];
-							$BdmId = $row11['reference_no'];
-							$BdmName = $row11['registrant'];
+					//if TE ref is a BM
+					if(substr($BmId,0,2) == 'BM'){
+						//bm details
+						$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$BmId."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['business_mentor_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+						
+						//bdm deatils
+						$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BdmId."'");
+						$sql12->execute();
+						$sql12->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql12->rowCount()>0){
+							foreach(($sql12->fetchAll()) as $key12 => $row12){
+								$BdmId = $row12['employee_id'];
+								$BdmName = $row12['name'];
+							}
+						}
+					}
+					//if TE ref is BDM
+					else if(substr($BmId,0,2) == 'BH'){
+												
+						//bdm deatils
+						$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BmId."'");
+						$sql12->execute();
+						$sql12->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql12->rowCount()>0){
+							foreach(($sql12->fetchAll()) as $key12 => $row12){
+								$BmId = $row12['employee_id'];
+								$BmName = $row12['name'];
+							}
 						}
 					}
 					
-					//bdm deatils
-					$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BdmId."'");
-					$sql12->execute();
-					$sql12->setFetchMode(PDO::FETCH_ASSOC);
-					if($sql12->rowCount()>0){
-						foreach(($sql12->fetchAll()) as $key12 => $row12){
-							$BdmId = $row12['employee_id'];
-							$BdmName = $row12['name'];
-						}
-					}
 		
 					$commissionRates = [
 						'Prime' => ['tc' => 800, 'te' => 400, 'bm' => 120],
@@ -249,12 +267,15 @@ if ($result) {
 					$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0; 
 					$bdm_commi = '0';  
 					
+					$message_bdm = "NA";
+					$commision_bdm = $bdm_commi;  
+					$bm_desig=substr($BmId,0,2) == 'BH'?'BH':(substr($BmId,0,2) == 'BM'?'BM':'NA');
 					// $message_bdm = "BDM - ".$BmName." ".$BdmId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Business Mentor ".$Bm_name." ".$Bm_id.".";
 					// $commision_bdm = $bdm_commi;
 					$message_bdm = "BDM - ".$BmName." ".$BdmId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Business Mentor ".$BmName." ".$BmId.".";
 					$commision_bdm = $bdm_commi;
 		
-					$message_bm = "BM - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
+					$message_bm = $bm_desig ." - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
 					$commision_bm = $bm_commi;
 		
 					$message_te = "TE - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
@@ -405,6 +426,9 @@ if ($result) {
 
 						$franchisee_ref = "Sponser Franchisee";
 					}
+					//check if BH 
+					//check user type 31-RM and 25-BDm
+					
 					
 
 					$bdm_commi = '0';  
