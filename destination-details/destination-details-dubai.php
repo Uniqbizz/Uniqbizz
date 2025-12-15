@@ -118,13 +118,13 @@
                             <div class="swiper destinationSwiper-active" style="height: 500px !important;">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Thailand1.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Dubai1.jpg" alt="Dubai" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Thailand2.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Dubai2.jpg" alt="Dubai" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                     <div class="swiper-slide">
-                                        <img src="../assets/images/destination/Thailand3.jpg" alt="Kerala" style="height: 550px !important; object-fit: cover;">
+                                        <img src="../assets/images/destination/Dubai3.jpg" alt="Dubai" style="height: 550px !important; object-fit: cover;">
                                     </div>
                                 </div>
                             </div>
@@ -133,58 +133,70 @@
                         <div class="col-xl-8 col-lg-7">
                             <!-- Details content -->
                             <div class="destination-details-content">
-                                <h4 class="title">Thailand - A Kingdom Of Endless Wonders</h4>
+                                <h4 class="title">FROM DESERT SANDS TO GLOBAL SKYLINES – THE RISE OF DUBAI </h4>
                                 <p class="pera">
-                                    Thailand is a country located in the Mainland region of Southeast Asia. Bangkok, the capital city of 
-                                    Thailand, boasts numerous temples and palaces, attracting tourists from all around the world. 
+                                    Dubai, a leading destination for trade and tourism, is a city in the United Arab Emirates. It boasts 
+                                    of remarkable contemporary architecture with a futuristic vision. Before the discovery of Oil, 
+                                    Dubai’s economy relied mainly on Pearl diving, which was the first major source of wealth in the 
+                                    Middle East. The influence of the sea in the past has laid the foundation for Trade, resilience, 
+                                    and global connection. 
                                 </p>
                                 <p class="pera">
-                                    The most iconic Wat Pho temple, also known as the Temple of the Reclining Buddha, houses a massive 
-                                    statue of Buddha in a reclining position. It is here that the traditional Thai massage centre and 
-                                    medicines originated. Wat Traimit, the oldest temple, is renowned for the massive gold statue of 
-                                    Buddha. Another famous temple is Wat Arun, also known as the Temple of the Dawn, is located on the 
-                                    banks of the Chao Phraya River. The Grand Palace, which houses the Temple of the Emerald Buddha, 
-                                    a much-revered statue by the Royal family of Thailand and the people. Other tourist attractions 
-                                    are the Damnoen Saduak Floating Market, which offers a cultural experience with a boat ride through 
-                                    a maze of narrow canals filled with traditional vendors selling fresh produce and local goods on 
-                                    small wooden boats. A must-visit to the Khao San road, a vibrant street packed with hostels, food 
-                                    vendors, clothing stalls, bars, and restaurants. It's here you can try some fried insects, such as 
-                                    grubs or scorpions, and shop for souvenirs. 
+                                    Dubai is currently under the leadership of His Highness Sheikh Mohammed bin Rashid Al Maktoum. 
+                                    His vision has transformed Dubai into a global hub for commerce, tourism, and innovation.  
                                 </p>
                                 <p class="pera">
-                                    Pattaya, a city located near Bangkok, attracts tourists to its beach life, water sports activities, 
-                                    vibrant nightlife, amusement parks, and stunning islands. A day trip to the famous Coral Island, 
-                                    known for water sports activities that include snorkelling, scuba diving, and parasailing. The 
-                                    iconic Temple of Truth, a UNESCO World Heritage site, is a wooden structure with intricate 
-                                    carvings that attracts tourists. Pattaya is a shopper's paradise with goods like Thai silk, 
-                                    unique local handicrafts like wooden carvings and handmade jewellery, spices,  coconut products, 
-                                    various clothing and fashion items (especially beachwear), and affordable souvenirs like 
-                                    elephant-themed items. 
+                                    The Burj Khalifa, the tallest building in the world, offers a breathtaking aerial view of Dubai’s 
+                                    ever-evolving skyline.  
                                 </p>
                                 <p class="pera">
-                                    Phuket, the largest Island in Thailand, is connected to the mainland by a bridge. It is famous 
-                                    for its Beaches, nightlife, a great shopping arena, and beautiful Islands like Phi Phi Island, 
-                                    Krabi, and James Bond Island. Maya Bay, situated on Koh Phi Phi Leh surrounded by limestone 
-                                    cliffs, is a stunning beach with powdery white sand, clear waters, and coral reefs that attract 
-                                    tourists. Bamboo Island is another beautiful beach in the Phi Phi Islands, which is less crowded 
-                                    and ideal for snorkelling activities. Its waters are rich with colourful coral reefs. Pileh 
-                                    Lagoon is another gem, surrounded by lush green limestone cliffs. As the boat enters the bay, 
-                                    the natural scenery, along with the clear, azure blue water, creates a spectacular scene that 
-                                    attracts tourists. Long Beach is the most popular beach in the Phi Phi Islands, ideal for 
-                                    sunbathing, snorkelling, and even shark spotting. It is a perfect spot for relaxation and fun. 
+                                    Dubai’s International Airport is one of the busiest international hubs in the world. Its 
+                                    national airline carrier, the Emirates, provides excellent facilities, including luxury 
+                                    shopping and International travel. 
                                 </p>
                                 <p class="pera">
-                                    Krabi, a coastal province near the Phi Phi Islands, is renowned for its stunning limestone 
-                                    landscapes and cultural heritage. It highlights the Tiger Cave Temple, an impressive limestone 
-                                    cave featuring Buddha statues, accessible by climbing a flight of steps.  Another notable 
-                                    landmark is the Buddhist Wat Kaew Korawaram Temple, a beautiful white Buddha temple in Krabi. 
-                                    A visit to the Iconic Black Crab and Eagle statues is necessary for photography when visiting 
-                                    Krabi. The hot springs of Krabi are rich in minerals and bring healing benefits to the skin. 
+                                    The Iconic Burj Al Arab, shaped like a Dhow, is a 7-star luxury resort and the Palm of 
+                                    Jumeirah shaped like a palm, is visible from space. This man–made archipelago is a modern 
+                                    Engineering marvel that consists of luxury villas, five-star resorts like Atlantis, the 
+                                    Palm, upscale restaurants, and beautiful beaches. 
                                 </p>
                                 <p class="pera">
-                                    The stunning temples, lively beach activities, and the serene Islands of Phuket, Phi Phi, 
-                                    Krabi each having its own charm provide an unforgettable experience to every kind of tourist 
-                                    visiting Thailand.  
+                                    The Dubai Creek is a natural saltwater inlet. The Abra are Traditional wooden boats used 
+                                    to ferry passengers from Bur Dubai to Deira and back. A ride in an Abra is truly a 
+                                    memorable travelling experience.   
+                                </p>
+                                <p class="pera">
+                                    The vibrant, traditional, and famous markets of Deira are a reflection of Dubai’s rich 
+                                    history of Trade and Commerce. They are the Gold souks that dazzle customers with intricate 
+                                    designs of Gold Jewellery, and the Spice souk that offers an aroma of a variety of spices, 
+                                    including cardamom, saffron, cinnamon, and dried herbs.  
+                                </p>
+                                <p class="pera">
+                                    Dubai’s Desert Safari is an exciting adventure that includes camel riding, dune bashing across 
+                                    the golden dunes, traditional henna painting, and beautiful sunsets in the desert skies. The 
+                                    night is full of entertainment that features the Tanoura and belly dancing, a delicious BBQ 
+                                    dinner accompanied by unlimited soft drinks, and shisha smoking under the stars.
+                                </p>
+                                <p class="pera">
+                                    Another tourist attraction is the Global Village, a vibrant cultural hub representing more 
+                                    than 80 nations. Here, a tourist can enjoy authentic global cuisines, buy cultural souvenirs 
+                                    to take home, and enjoy thrilling performances, all in one place. 
+                                </p>
+                                <p class="pera">
+                                    Dubai Mall is the UAE's largest shopping mall. It consists of 1200 shops and Restaurants. 
+                                    The Mall's major tourist attractions, like the Dubai Aquarium and the Ice Rink, provide 
+                                    direct access to the Burj Khalifa and the spectacular Dubai Fountain. 
+                                </p>
+                                <p class="pera">
+                                    The Museum of the Future, which has a torus-shaped design adorned in Arabic calligraphy, 
+                                    is a symbol of knowledge and innovation. It offers immersive exhibits to explore themes such 
+                                    as space exploration, advanced technology, artificial intelligence, sustainability, and 
+                                    future-focused ideas. This architectural marvel is a stunning educational attraction.  
+                                </p>
+                                <p class="pera">
+                                    With the timeless desert landscape and the awe-inspiring modern skyline, Dubai offers a 
+                                    remarkable travel experience that is rich in cultural heritage a vision that creates both a 
+                                    memorable and inspiring journey. 
                                 </p>
                             </div>
                             <!--/ details-content -->
@@ -200,27 +212,27 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>Country</th>
-                                                        <td>Thailand</td>
+                                                        <td>United Arab Emirates (UAE)</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Language</th>
-                                                        <td>Central Thai (Siamese). Burmese. Malay.</td>
+                                                        <td>Arabic. English. Urdu. Hindi. Tagalog. Persian.</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Currency</th>
-                                                        <td> Thai Baht (THB)</td>
+                                                        <td>United Arab Emirates Dirham (AED)</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Population</th>
-                                                        <td>7.17 Crores</td>
+                                                        <td>31 Lakhs</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Area</th>
-                                                        <td>198,120 Square Miles</td>
+                                                        <td>1,590 Square Miles</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Time to Travel</th>
-                                                        <td>November To February</td>
+                                                        <td>November to March</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -280,7 +292,7 @@
                             <div class="row g-4">
                                 <?php 
                                     require '../connect.php';
-                                    $searchPac = "Thailand";
+                                    $searchPac = "Dubai";
                                     $user_id = 0;
                                     $ta_id = 0;
                                     // get TA id

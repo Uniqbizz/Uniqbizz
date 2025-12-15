@@ -234,7 +234,7 @@ if($user_type_id_value == '11'){
                                 $counterimage = 0;
                                 foreach (($data->fetchAll()) as $key_1 => $image) {
                                     echo '<div class="swiper-slide">
-                                            <img src="' . $image['image'] . '" alt="BizzMirth" >
+                                            <img src="' . $image['image'] . '" alt="BizzMirth" style="width: 710px !important; height: 400px !important;">
                                         </div>';
                                 }
                             }

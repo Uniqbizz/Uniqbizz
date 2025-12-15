@@ -3,7 +3,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <head>
         <script>
             const setTheme = (theme) => {
@@ -19,25 +19,25 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta name="description" content="Travello - Multipurpose travel and tour booking.These template is suitable for  travel agency , tour, travel website , tour operator , tourism , booking  trip or adventure website. ">
-        <meta name="keywords" content="travel, trip booking,tour, hotel, tour guide, tourism, blog, flight, travel agency, tourism agency, accommodation, tour website">
-        <meta name="author" content="inittheme">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Multipurpose travel and tour booking">
-        <meta property="og:site_name" content="Travello">
-        <meta property="og:url" content="https://inittheme.com">
-        <meta property="og:image" content="https://inittheme.com/images/selfie.jpg">
-        <meta property="og:description" content="Multipurpose travel and tour booking, multipurpose template">
-        <meta name="twitter:title" content="Multipurpose travel and tour booking">
-        <meta name="twitter:description" content="Multipurpose travel and tour booking, multipurpose template">
-        <meta name="twitter:image" content="https://twitter.com/inittheme/photo">
+        <meta property="og:title" content="">
+        <meta property="og:site_name" content="">
+        <meta property="og:url" content="">
+        <meta property="og:image" content="">
+        <meta property="og:description" content="">
+        <meta name="twitter:title" content="">
+        <meta name="twitter:description" content="">
+        <meta name="twitter:image" content="">
         <meta name="twitter:card" content="summary">
         <!-- Google site verification -->
         <meta name="google-site-verification" content="...">
         <meta name="facebook-domain-verification" content="...">
         <meta name="csrf-token" content="...">
-        <meta name="currency" content="$">
+        <meta name="currency" content="">
         <!-- Title -->
         <title>Bizzmirth Holidays Private Ltd</title>
         <link rel="icon" type="image/x-icon" sizes="20x20" href="../assets/images/icon/fav.png">
@@ -202,138 +202,9 @@
                                 </p>
                             </div>
                             <!--/ details-content -->
-
-                            <!-- Details content -->
-                            <!-- <div class="destination-details-content">
-                                <h4 class="title">What to Expect</h4>
-                                <p class="pera">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt
-                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris
-                                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                                    voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur.</p>
-                                <ul class="expect-list">
-                                    <li class="list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                        tempor
-                                        incididunt ut labore et dolore.</li>
-                                    <li class="list">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                        accusantium doloremque
-                                        laudantium, totam rem</li>
-                                    <li class="list">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia deserunt
-                                        mollit anim id est laborum.</li>
-                                    <li class="list">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                        blanditiis praesentium
-                                        voluptatum deleniti atque corrupti quos dolores</li>
-                                </ul>
-                            </div> -->
-                            <!-- / details content -->
-
-                            <!-- accordion -->
-                            <!-- <div class="destination-accordion">
-                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                                aria-controls="panelsStayOpen-collapseOne">
-                                                What are best quotes in travel?
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingOne">
-                                            <div class="accordion-body">
-                                                <ul class="listing">
-                                                    <li class="list">
-                                                        “Life is either a daring adventure or nothing at all.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Travel far enough, you meet yourself.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Once a year, go someplace you've never been before.”
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                                What is a good quote about tourism?
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                                            aria-labelledby="panelsStayOpen-headingTwo">
-                                            <div class="accordion-body">
-                                                <ul class="listing">
-                                                    <li class="list">
-                                                        “Life is either a daring adventure or nothing at all.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Travel far enough, you meet yourself.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Once a year, go someplace you've never been before.”
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                                How do you write a quote for a trip?
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                                            aria-labelledby="panelsStayOpen-headingThree">
-                                            <div class="accordion-body">
-                                                <ul class="listing">
-                                                    <li class="list">
-                                                        “Life is either a daring adventure or nothing at all.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Travel far enough, you meet yourself.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Once a year, go someplace you've never been before.”
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- / Accordion -->
                         </div>
                         <div class="col-xl-4 col-lg-5">
                             <div class="row g-4 position-static top-0">
-                                <!-- <div class="col-lg-12">
-                                    Offer Card
-                                    <div class="destination-offer-three">
-                                        <div class="destination-content-offer">
-                                            <span class="highlights">20% off</span>
-                                            <h4 class="title">The Best Travel Adventure</h4>
-                                            <a href="payment.html" class="btn-secondary-sm radius-30">Booking Now</a>
-                                        </div>
-                                    </div>
-                                    / Offer card
-                                </div> -->
                                 <div class="col-lg-12">
                                     <!-- info -->
                                     <div class="destination-details-info">
@@ -374,7 +245,7 @@
                                 <div class="col-lg-12">
                                     <div class="destination-details-info">
                                         <h4 class="title ">Newly Added Packages</h4>
-                                        <div class="row p-3 rounded-3" style="background-color: #eaebee; margin-left: 1px !important; margin-right: 1px !important;">
+                                        <div class="row p-3 rounded-3" style="background-color: #eaebee; margin-left: 1px !important; margin-right: 1px !important; margin-bottom: 30px !important;">
                                             <?php 
                                                 require '../connect.php';
                                                 $stmt = $conn->prepare(" SELECT id, description, destination, location, name FROM package WHERE  status = '1'  ORDER BY id DESC LIMIT 5 ");
