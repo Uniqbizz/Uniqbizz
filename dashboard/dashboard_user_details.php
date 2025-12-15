@@ -6,10 +6,6 @@
         echo '<script>location.href = "../login.php";</script>';
     }
 
-    // if($_SESSION['user_type_id_value'] == '24' || $_SESSION['user_type_id_value'] == '25' || $_SESSION['user_type_id_value'] == '26'){ 
-    //     echo '<script>location.href = "../index.php";</script>';
-    // }
-
      $userFname = $_SESSION['username2']; //first name of user 'Ryam'.
      $userLname = $_SESSION['lname']; //last name of user 'Cardoso'.
      $userType = $_SESSION['user_type_id_value']; //user type id value '3'.

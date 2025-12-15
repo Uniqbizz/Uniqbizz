@@ -354,18 +354,14 @@
                                             }
                                         ?>
                                         
-                                        <!-- <a href="payout/forms/sub_franchisee_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
-                                            <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                        </a> -->
+                                        
                                     </div>
                                     
                                     
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
-                                </div> -->
+                                
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationPrevious" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -377,9 +373,7 @@
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$prevdate" ?></span></p>
                                             <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo number_format($truncatedPrevAmount,2); ?>/- </p>
-                                            <!-- <a href="">
-                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
-                                            </a> -->
+                                            
                                         </div>
                                     </span>
                             
@@ -413,12 +407,9 @@
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
                                                     $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                    // print_r($stmt);
                                                     if( $stmt -> rowCount()>0 ){
                                                         foreach( ($stmt -> fetchALL()) as $key => $row ){
-                                                            // print_r($stmt);
-                                                            // print_r($row);
-                                                            // echo '</br>';
+                                                            
                                                             // date in proper formate
                                                             $dt = new DateTime($row['created_date']);
                                                             $dt = $dt->format('Y-m-d');
@@ -465,7 +456,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -504,18 +494,13 @@
                                             }
                                         ?>
                                         
-                                        <!-- <a href="payout/forms/sub_franchisee_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout">
-                                            <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                        </a> -->
                                     </div>
                                     
                                     
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
-                                </div> -->
+                                
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationNext" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -527,9 +512,7 @@
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
                                             <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo number_format($truncatedNextAmount,2); ?>/- </p>
-                                            <!-- <a href="">
-                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
-                                            </a> -->
+                                            
                                         </div>
                                     </span>
                             
@@ -538,7 +521,6 @@
                             <!-- monthly user details table  -->
                             <div class="row" style="padding-top: 25px;" id="user-box">
                                 <div class="col-md-12"> 
-                                    <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
                                     <div class="table-responsive table-desi" id="filterTableNext">
                                         <!-- table roe limit -->
                                         <table class="table table-hover" id="next_payout_table">
@@ -613,7 +595,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -658,9 +639,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7">
-                                <!-- <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h2 class="mb-sm-0 fw-bolder ps-4">All Payouts</h2>
-                                </div> -->
+                                
                                 <div class="row filter-options filter">
                                     <div class="designation-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-1 fw-bolder" id="designationNext" value="<?php echo 'ID: ' .$userId; ?>" readonly>
@@ -668,19 +647,11 @@
                                     <div class="name-filter no-space col-lg-5 col-md-5 col-sm-12">
                                         <input type="text" name="" class="selectdesign filter-opt-2 minimal fw-bolder" id="user_id_nameNext" value="<?php echo 'Name: ' .$firstname.' '.$lastname; ?>" readonly>
                                     </div>
-                                    <!-- <form class=" col-md-4 app-search d-lg-block">
-                                        <div class="position-relative">
-                                            <span class="bx bx-search-alt"></span>
-                                            <input type="text" class="form-control search control" placeholder="Search...">
-                                        </div>
-                                    </form> -->
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
                                             <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo  $truncatedAmount; ?>/- </p>
-                                            <!-- <a href="">
-                                                <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
-                                            </a> -->
+                                            
                                         </div>
                                     </span>
                             
@@ -689,17 +660,7 @@
                             <!-- monthly user details table  -->
                             <div class="row" style="padding-top: 25px;" id="user-box">
                                 <div class="col-md-12"> 
-                                    <!-- <div class="row">
-                                        <hr>
-                                        <div class="MonthlyDetailsHeading">
-                                            <span id="table-heading" style="padding: 0px 20px; font-weight: 600; font-size: initial;"></span>
-                                        </div>
-
-                                        <div class="MonthlyDetailsHeadingClose">
-                                            <span class="close-btn" style="float:right; padding: 0px 10px 10px 10px; font-weight: 600; font-size: initial; cursor:pointer; color:red"> X </span>
-                                        </div>
-                                    </div> -->
-                                    <!-- <input type="hidden" name="user_table_count" id="user_table_count" value="" /> -->
+                                    
                                     <div class="table-responsive table-desi" id="filteredTotalTable">
                                         <!-- table roe limit -->
                                         <table class="table table-hover" id="total_payout_table">
@@ -769,7 +730,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button> -->
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -785,7 +745,6 @@
                     <div class="modal-body">
                         <div>
                             <label class="text-muted d-block ">Payment Details</label>
-                            <!-- <input type="text" id="paymentIds" value="" class="input1 mb-4" readonly> -->
                             <textarea name="paymentMessage" id="paymentMessageDetails" class="input2 w-100" cols="65" rows="4" readonly></textarea>
                         </div>
                         <div>
@@ -812,9 +771,6 @@
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
-
         <script src="assets/js/submitdata.js"></script>
 
         <!-- !-- materialdesign icon js- -->
@@ -829,9 +785,6 @@
 
         <!--Swiper slider js-->
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
-
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>

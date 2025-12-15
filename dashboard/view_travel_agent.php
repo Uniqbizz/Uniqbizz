@@ -364,18 +364,7 @@
                                                                                             }
                                                                                         }
                                                                                     }
-                                                                                    // else if ($reference_no == "SF") {
-                                                                                    //     $sql2 = "SELECT registrant,reference_no FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '".$userCATA['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sponsor_franchisee_id ASC ";
-                                                                                    //     $stmt2 = $conn -> prepare($sql2);
-                                                                                    //     $stmt2 -> execute();
-                                                                                    //     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                                    //     if($stmt2->rowCount()>0){
-                                                                                    //         foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                                    //             $name = $row2['registrant'];
-                                                                                    //             $id = $row2['reference_no'];
-                                                                                    //         }
-                                                                                    //     }
-                                                                                    // }
+                                                                                    
 
                                                                                     echo'<tr>
                                                                                         <td>'.$userCATA['id'].'</td>
@@ -436,18 +425,7 @@
                                                                                         }
                                                                                     }
                                                                                 }
-                                                                                // else if ($reference_no == "SF") {
-                                                                                //     $sql2 = "SELECT registrant,reference_no FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '".$userCATA['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sponsor_franchisee_id ASC ";
-                                                                                //     $stmt2 = $conn -> prepare($sql2);
-                                                                                //     $stmt2 -> execute();
-                                                                                //     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                                //     if($stmt2->rowCount()>0){
-                                                                                //         foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                                //             $name = $row2['registrant'];
-                                                                                //             $id = $row2['reference_no'];
-                                                                                //         }
-                                                                                //     }
-                                                                                // }
+                                                                                
                                                                                 echo'<tr>
                                                                                     <td>'.$userCATA['id'].'</td>
                                                                                     <td>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</td>
@@ -515,19 +493,7 @@
                                                                                         }
                                                                                     }
                                                                                 }
-                                                                                // else if ($reference_no == "SF") {
-                                                                                //     $sql2 = "SELECT registrant,reference_no FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '".$userCATA['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sponsor_franchisee_id ASC ";
-                                                                                //     $stmt2 = $conn -> prepare($sql2);
-                                                                                //     $stmt2 -> execute();
-                                                                                //     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                                //     if($stmt2->rowCount()>0){
-                                                                                //         foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                                //             $name = $row2['registrant'];
-                                                                                //             $id = $row2['reference_no'];
-                                                                                //         }
-                                                                                //     }
-                                                                                // }
-
+                                                                                
                                                                                 echo'<tr>
                                                                                     <td>'.$userCATA['id'].'</td>
                                                                                     <td>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</td>
@@ -1403,18 +1369,7 @@
                                                                                             }
                                                                                         }
                                                                                     }
-                                                                                    // else if($reference_no == "SF"){
-                                                                                    //     $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '".$userCATA['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
-                                                                                    //     $stmt2 = $conn -> prepare($sql2);
-                                                                                    //     $stmt2 -> execute();
-                                                                                    //     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                                    //     if($stmt2->rowCount()>0){
-                                                                                    //         foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                                    //             $name = $row2['registrant'];
-                                                                                    //             $id = $row2['reference_no'];
-                                                                                    //         }
-                                                                                    //     }
-                                                                                    // }
+                                                                                    
 
                                                                                     echo'<tr>
                                                                                         <td>
@@ -1547,18 +1502,7 @@
                                                                                         }
                                                                                     }
                                                                                 }
-                                                                                // else if($reference_no == "SF"){
-                                                                                //     $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '".$userCATA['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
-                                                                                //     $stmt2 = $conn -> prepare($sql2);
-                                                                                //     $stmt2 -> execute();
-                                                                                //     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                                //     if($stmt2->rowCount()>0){
-                                                                                //         foreach(($stmt2->fetchAll()) as $key2 => $row2){
-                                                                                //             $name = $row2['registrant'];
-                                                                                //             $id = $row2['reference_no'];
-                                                                                //         }
-                                                                                //     }
-                                                                                // }
+                                                                                
 
                                                                                 echo'<tr>
                                                                                     <td>
@@ -2298,38 +2242,11 @@
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <!-- <script src="assets/js/pages/datatables.init.js"></script> -->
-
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
-
         <!-- !-- materialdesign icon js- -->
         <script src="assets/js/pages/remix-icons-listing.js"></script>
 
-        <!-- apexcharts -->
-        <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-<!--  -->
-        <!-- Vector map-->
-        <!-- <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script> -->
-        <!-- <script src="assets/libs/jsvectormap/maps/world-merc.js"></script> -->
-
-        <!--Swiper slider js-->
-        <!-- <script src="assets/libs/swiper/swiper-bundle.min.js"></script> -->
-
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
-
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script>// -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script>// -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
          <script>
             $(document).ready(function(){

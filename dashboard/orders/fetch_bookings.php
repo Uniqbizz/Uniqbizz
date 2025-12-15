@@ -8,9 +8,6 @@ list($start_date, $end_date) = explode(" - ", $date_range);
 $start_date_formatted = date("Y-m-d", strtotime($start_date));
 $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
-// Output the formatted dates
-// echo "Start Date: " . $start_date_formatted . "<br>";
-// echo "End Date: " . $end_date_formatted;
 ?>
 <div class="tab-content" id='tableList'>
     <div class="tab-pane fade card show active px-3 rounded-4" id="allHistory" role="tabpanel">
@@ -33,7 +30,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     <tbody>
 
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -586,7 +582,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -893,10 +888,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' AND b.confirm_status=0
                                         AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date ";
 
-                            // Debugging: Log SQL query and TA IDs
-                            // echo "<script>console.log('TA List: " . json_encode($ta_list) . "');</script>";
-                            // echo "<script>console.log('🔍 SQL Query: " . addslashes($sql) . "');</script>";
-                            // echo "<script>console.log('🆔 TA IDs: " . addslashes($ta_ids_str) . "');</script>";
+                            
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -941,7 +933,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         continue;
                                     }
 
-                                    //$data_found = true;
                                 ?>
                                     <tr>
                                         <td><?= ++$i ?></td>
@@ -1045,7 +1036,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -1324,7 +1314,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            // exit; // Stop further execution
                         } else {
 
                             // Create an array mapping travel agency IDs to their details
@@ -1517,7 +1506,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -1796,7 +1784,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            // exit; // Stop further execution
                         } else {
 
                             // Create an array mapping travel agency IDs to their details
@@ -1860,7 +1847,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     $stmt3 = $conn->prepare($sql3);
                                     $stmt3->execute();
                                     $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                    //echo $booking['id'];
                                     if (!$booking_bill) {
                                         continue; // Skip this booking if no matching record is found
                                     }
@@ -1956,7 +1942,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
                                                     <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
-                                                    <!-- <a class="dropdown-item refundAction" href="#" data-order-id=<?php //echo $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a> -->
                                                 </div>
                                             </div>
                                         </td>
@@ -1992,7 +1977,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -2271,7 +2255,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            // exit; // Stop further execution
                         } else {
 
                             // Create an array mapping travel agency IDs to their details

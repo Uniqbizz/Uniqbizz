@@ -219,38 +219,12 @@ include_once 'dashboard_user_details.php';
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <!-- <script src="assets/js/pages/datatables.init.js"></script> -->
-
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
-
     <!-- !-- materialdesign icon js- -->
     <script src="assets/js/pages/remix-icons-listing.js"></script>
 
-    <!-- apexcharts -->
-    <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-    <!--  -->
-    <!-- Vector map-->
-    <!-- <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script> -->
-    <!-- <script src="assets/libs/jsvectormap/maps/world-merc.js"></script> -->
-
-    <!--Swiper slider js-->
-    <!-- <script src="assets/libs/swiper/swiper-bundle.min.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
 
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script>// -->
-
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script>// -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
     <script>
         

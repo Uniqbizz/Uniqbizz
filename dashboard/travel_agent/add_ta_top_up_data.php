@@ -1,5 +1,4 @@
 <?php
-// session_start();
 require '../connect.php';
 // Set default timezone to India (IST = Asia/Kolkata)
 date_default_timezone_set("Asia/Kolkata");

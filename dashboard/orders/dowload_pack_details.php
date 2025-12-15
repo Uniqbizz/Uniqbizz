@@ -99,7 +99,6 @@ if ($data9->rowCount() > 0) {
                     <div class="swiper tourSwiper-active">
                         <div class="swiper-wrapper">
                             <?php
-                            require '../connect.php';
                             $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = $id limit 1");
                             $data->execute();
                             $data->setFetchMode(PDO::FETCH_ASSOC);

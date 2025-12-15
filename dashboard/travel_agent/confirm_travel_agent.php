@@ -4,24 +4,13 @@ include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
 $id= $_POST["id"];
 $uname= $_POST["uname"];
-// $reference = $_POST["ref"];
-// $business_package = $_POST["business_package"];
-// if($business_package == 'basic'){
-// 	$type = 'B';
-// }else if($business_package == 'advanced'){
-// 	$type = 'A';
-// }else if($business_package == 'ultra'){
-// 	$type = 'U';
-// }else if($business_package == "micro"){
-// 	$type = 'M';
-// }
+
 
 $string="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0,8);
 $status= '1';
 $user_type_id= '11';
 
-// $sm_id= $_POST["sm_id"];
 $register_by ='1';
 
 date_default_timezone_set('Asia/Calcutta');
@@ -76,11 +65,6 @@ if($sql12->rowCount()>0){
 		$cbd_name = $row12['firstname']. ' ' .$row12['lastname'];
 	}
 }
-// $uid=0;
-// $franchisee_id=0;
-
-// $uid='';
-// $sql2= $conn->prepare("SELECT franchisee_id,CAST(franchisee_id as SIGNED) AS casted_column  from franchisee where user_type='4'  ORDER BY casted_column desc limit 1");
 // made changes in query to get id in order SFA230043 TC230010
 $sql2= $conn->prepare("SELECT distinct ca_travelagency_id,SUBSTRING(ca_travelagency_id,3,6) as tc_id from ca_travelagency where status='1' OR status='3' order by tc_id DESC limit 1");
 
@@ -106,16 +90,8 @@ if($sql2->rowCount()>0){
 			$fid=substr($ca_travelagency_id,4);
 			$newValue = 'TA'.$subY.$fid;
 
-			// if($business_package == 'basic'){
-			// 	$newValue = 'SFB'.$subY.$fid;
-			// }else if($business_package == 'advanced'){
-			// 	$newValue = 'SFA'.$subY.$fid;
-			// }else if($business_package == 'ultra'){
-			// 	$newValue = 'SFU'.$subY.$fid;
-			// }
-
-			  $Nca_travelagency_id=str_pad($newValue, 4, '0', STR_PAD_LEFT);
-			  $uid =$Nca_travelagency_id;
+			$Nca_travelagency_id=str_pad($newValue, 4, '0', STR_PAD_LEFT);
+			$uid =$Nca_travelagency_id;
 		}
 	}
 
@@ -124,15 +100,7 @@ if($sql2->rowCount()>0){
 }else
 {
 	$uid = 'TA'.$subY.'0001';
-	// if($business_package == 'basic'){
-	// 	$uid = 'SFB'.$subY.'0001';
-	// }else if($business_package == 'advanced'){
-	// 	$uid = 'SFA'.$subY.'0001';
-	// }else if($business_package == 'ultra'){
-	// 	$uid = 'SFU'.$subY.'0001';
-	// }else{
 
-	// }
 }
 
 //log file
@@ -147,7 +115,6 @@ $stmt = $conn->prepare($sql1);
 $result=  $stmt->execute(array(
 	':status' => $status,
 	':ca_travelagency_id' => $uid,
-	// ':deleted_date' => $today,
 	':id' => $id		
 ));
 
@@ -173,7 +140,6 @@ if ($result) {
 		':title' => $title,
 		':message' => $message,
 		':message2' =>$message2,
-		// ':reference_no' => $sm_id,
 		':register_by' => $register_by,
 		':from_whom' => $fromWhom
 		));
@@ -232,7 +198,6 @@ if ($result) {
 					//sms
 					$apikey = "O1y4qz6QvEirxbrmPubk0g";
 					$apisender = "UNIQBI";
-					// 	  $msg ="Welcome to Bizzmirth holidays. Your ID is '".$uname."' and your password is '".$password."'";
 					$msg ="Welcome to the Uniqbizz. 
 
 						Visit uniqbizz.com
@@ -383,7 +348,6 @@ if ($result) {
 					$mail->Port = 587; 
 					$mail->IsHTML(true);
 					$mail->CharSet = 'UTF-8';
-					// $mail->SMTPDebug = 2; 
 					$mail->Username = "support@uniqbizz.com";
 					$mail->Password = "support@uniqbizz";
 					$mail->SetFrom("support@uniqbizz.com");
