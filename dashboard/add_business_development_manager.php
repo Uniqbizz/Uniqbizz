@@ -117,7 +117,6 @@
 												<div class="col-sm-6 " style="display: flex; justify-content: space-between; ">
 													<div class="input-block mb-3 col-sm-2">
 														<?php
-															require '../connect.php';
 															$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
 															$stmt->execute();                                            
 															$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -178,7 +177,6 @@
 														<select class="form-select" id="department">
 															<option value="1"> Channel Management </option>
 															<!-- <?php
-																require '../connect.php';
 																$sql = "SELECT * FROM `department` WHERE status ='1' ";
 																$stmt = $conn->prepare($sql);
 																$stmt -> execute();
@@ -202,7 +200,6 @@
 														<select class="form-select" id="designation">
 															<option value="2"> Business Development Manager </option>
 															<!-- <?php
-																require '../connect.php';
 																$sql = "SELECT * FROM `designation` WHERE status ='1' ";
 																$stmt = $conn->prepare($sql);
 																$stmt -> execute();
@@ -227,7 +224,6 @@
 														<select class="form-select" id="zone">
 															<option value=""> ---- Select Zone ---- </option>
 															<?php
-																require '../connect.php';
 																$sql = "SELECT * FROM `zone` WHERE status ='1' ";
 																$stmt = $conn->prepare($sql);
 																$stmt -> execute();
@@ -263,7 +259,6 @@
 														<!-- <select class="form-select" id="reporting_manager">
 															<option value="null"> ---- Select Manager ---- </option>
 																<?php 
-																	// require '../connect.php';
 																	$sql = "SELECT * FROM `employees` WHERE user_type = '24' AND status ='1' ";
 																	$stmt = $conn->prepare($sql);
 																	$stmt -> execute();
@@ -353,9 +348,6 @@
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
-
         <script src="assets/js/submitdata.js"></script>
 
         <!-- file upload code js file -->
@@ -374,22 +366,9 @@
         <!--Swiper slider js-->
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-
-        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
 
             $('#zone').on('change', function(){
@@ -404,114 +383,7 @@
 				});
 			});
 
-            //select Designation
-            // $('#designation').on('change', function() {
-            //     var designation = $('#designation').val();
-            //     // console.log(designation);
-            //     $.ajax({
-            //         type:'POST',
-            //         url:'agents/get_user_Franchisee.php',
-            //         data: "designation="+designation,
-            //         success:function (e) {
-            //             // console.log(e);
-            //             $('#user_id_name').html(e); 
-            //         },
-            //         error: function(err){
-            //             console.log(err);
-            //         },
-            //     });
-            // });
-
-            // fetch User based on selected designation
-            // $('#user_id_name').on('change', function(){
-            //     var user_id_name = $(this).val();
-            //     // console.log(user_id_name);
-
-            //     var designation = 'corporate_agency';
-            //     // console.log(designation);
-
-            //     $.ajax({
-            //         type:'POST',
-            //         url:'agents/getUsers.php',
-            //         data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-            //         success:function(response){
-            //         // console.log(response);
-            //             // $('#pin').html(response);
-            //             $('#reference_name').val(response); 
-            //         }
-            //     }); 
-               
-            // }); 
-
-            // $('#country').on('change', function(){
-            //     var countryID = $(this).val();
-            //     if(countryID){
-            //         $.ajax({
-            //             type:'POST',
-            //             url:'address/countrydata.php',
-            //             data:'country_id='+countryID,
-            //             success:function(htmll){
-            //                 $('#mystate').html(htmll); 
-            //                 $('#city').html('<option value="">Select state first</option>'); 
-            //             }
-            //         }); 
-            //     }else{
-            //         $('#mystate').html('<option value="">Select country first</option>');
-            //         $('#city').html('<option value="">Select state first</option>');
-            //         $('#pin').val('');   
-            //     }
-            // });
-                
-            // $('#mystate').on('change', function(){
-            //     // alert();
-            //     var stateID = $(this).val();
-            //     if(stateID){
-            //         $.ajax({
-            //             type:'POST',
-            //             url:'address/countrydata.php',
-            //             data:'state_id='+stateID,
-            //             success:function(html){
-            //                 $('#city').html(html);
-            //             }
-            //         }); 
-            //     }else{
-            //         $('#city').html('<option value="">Select state first</option>');
-            //         $('#pin').val('');   
-            //     }
-            // });
-
-            // $('#city').on('change', function(){
-            //     var cityID = $(this).val();
-            //     if(cityID){
-            //         $.ajax({
-            //             type:'POST',
-            //             url:'address/pincode.php',
-            //             data:'city_id='+cityID,
-            //             success:function(response){
-            //                 // $('#pin').html(response);
-            //                 $('#pin').val(response); 
-            //             }
-            //         }); 
-            //     }else{
-            //         $('#city').html('<option value="">Select state first</option>');
-            //         $('#pin').val('');
-            //     }
-            // });
-
-            // $('#paymentMode').on('click', function(){
-            //     var paymentMode = $(".payment:checked").val();
-            //     // console.log(paymentMode);
-            //     if(paymentMode == "cheque"){
-            //         $("#chequeOpt").removeClass("d-none");
-            //         $("#onlineOpt").addClass("d-none");
-            //     }else if(paymentMode == "online"){
-            //         $("#onlineOpt").removeClass("d-none");
-            //         $("#chequeOpt").addClass("d-none");
-            //     } else {
-            //         $("#chequeOpt").addClass("d-none");
-            //         $("#onlineOpt").addClass("d-none");
-            //     }
-            // });
+            
         </script>
     </body>
 </html>

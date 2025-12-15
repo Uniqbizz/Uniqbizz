@@ -3,8 +3,6 @@ include_once 'dashboard_user_details.php';
 
 $id = $_GET['id'];
 
-require 'connect.php';
-
 // Get Booking Data
 $bookings = $conn->prepare("SELECT * FROM bookings WHERE id = :id");
 $bookings->bindParam(':id', $id, PDO::PARAM_INT);
@@ -87,8 +85,6 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
     <title>Order Details</title>
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/fav.png">
-    <!-- custom css file -->
-    <!-- <link href="assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
     <!-- Bootstrap Css -->
     <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -350,7 +346,6 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                                 <th class="text-dark fw-bolder">Name</th>
                                                                 <th class="text-dark fw-bolder">Gender</th>
                                                                 <th class="text-dark fw-bolder">Age</th>
-                                                                <!-- <th class="text-dark fw-bolder">Member Count</th> -->
                                                             </tr>
                                                         </thead>
                                                         <tbody class="">
@@ -389,9 +384,6 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                                 if ($booking['coupons_code'] != "") {
                                                                     echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Coupon Applied:</p>';
                                                                     echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight: bold;"><strong>' . $booking['coupons_code'] . '</strong></p>';
-
-                                                                    //echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
-                                                                    //echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">Sub Total</p>';
                                                                 }
                                                                 if ($booking['gst_status'] == "1") {
                                                                     echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">GST</p>';

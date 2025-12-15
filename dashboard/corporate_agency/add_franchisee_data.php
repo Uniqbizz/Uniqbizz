@@ -1,5 +1,5 @@
 <?php
-    // session_start();
+    
     require '../connect.php';
     $current_year = date('Y'); 
 
@@ -79,7 +79,6 @@
         ':gst_no' => $gst_no,
         ':amount' => $amount,
         ':profile_pic' => $profile_pic,
-        // ':kyc' => $kyc,
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
         ':voting_card' => $voting_card,

@@ -15,19 +15,15 @@
     if($stmt->rowCount()>0){
         foreach (($stmt->fetchAll()) as $key => $row) {
             $fid=$row['id'];
-            // $sales_manager_name=$row['fname'];
             $firstname=$row['firstname'];
-            // $username=$row['username'];
             $lastname=$row['lastname'];
             $nominee_name=$row['nominee_name'];
             $nominee_relation=$row['nominee_relation'];
             $email=$row['email'];
             $contact_no=$row['contact_no'];
-            // $business_package=$row['business_package'];
             $amount=$row['amount'];
             $reference_no = $row['reference_no'];
             $registrant = $row['registrant'];
-            // $gst_no=$row['gst_no'];
             $date_of_birth=$row['date_of_birth'];
             $gender=$row['gender'];
             $country=$row['country'];
@@ -35,9 +31,7 @@
             $city=$row['city'];
             $address=$row['address'];
             $payment_fee=$row['amount'];
-            // $id_proof=$row['id_proof'];
             $profile_pic=$row['profile_pic'];
-            // $kyc=$row['kyc'];
             $pan_card=$row['pan_card'];
             $aadhar_card=$row['aadhar_card'];
             $voting_card=$row['voting_card'];
@@ -50,8 +44,6 @@
             $transaction_no=$row['transaction_no'];
             $pincode=$row['pincode'];
             $register_by=$row['register_by'];
-            // $complimentary=$row['complimentary'];
-            // $converted=$row['converted'];
 
             //get country
             $countries = $conn->prepare("SELECT country_name FROM countries where id='".$country."' and status='1' ");
@@ -79,31 +71,7 @@
                 $city_name = $city['city_name'];
             }
 
-            // $reference_id = substr($reference_no, 0 , 2);
-            // if($reference_id == "BT"){
-            //     // business trainee name
-            //     $business_trainees = $conn->prepare("SELECT firstname, lastname, reference_no FROM business_trainee where business_trainee_id='".$reference_no."'");
-            //     $business_trainees ->execute();
-            //     $business_trainees ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $business_trainees->rowCount()>0 ){
-            //         $business_trainee = $business_trainees->fetch();
-            //         $reference_no_fname = $business_trainee['firstname'];
-            //         $reference_no_lname = $business_trainee['lastname'];
-            //         // $business_trainees_reference_no = $business_trainee['reference_no'];
-
-            //     }
-
-            // }else{
-            //     // Travel agent name
-            //     $travel_agents = $conn->prepare("SELECT firstname, lastname FROM travel_agent where travel_agent_id='".$reference_no."'");
-            //     $travel_agents ->execute();
-            //     $travel_agents ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $travel_agents->rowCount()>0 ){
-            //         $travel_agents = $travel_agents->fetch();
-            //         $reference_no_fname = $travel_agents['firstname'];
-            //         $reference_no_lname = $travel_agents['lastname'];
-            //     }
-            // } 
+            
         }
     }
 ?>
@@ -265,7 +233,6 @@
                                                                     <label class="col-form-label" for="country_cd">Code</label>
                                                                     <select class="form-select" id="country_cd">
                                                                         <?php
-                                                                            require 'connect.php';
                                                                             $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
                                                                             $stmt->execute();                                                  
                                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -342,13 +309,11 @@
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
-                                                            <!-- <input type="text" class="form-control" id="payment_fee" placeholder="Payment Fee" value=" //$payment_fee == 'FOC' ? 'Free' : $payment_fee." readonly> -->
                                                             <select class="form-select" id="payment_fee" aria-label="Floating label select example" disabled>
                                                                 <option value="null" >--Select Payment Fee--</option> 
                                                                 <option value="FOC" <?=$payment_fee=='FOC'?'selected':'' ?>>Free</option>
                                                                 <option value="5000" <?=$payment_fee=='10000'?'selected':'' ?>><span>&#8377 </span>5000/-</option>
                                                                 <option value="10000" <?=$payment_fee=='10000'?'selected':'' ?>><span>&#8377 </span>10,000/-</option>
-                                                                <!--<option value="15000"><span>&#8377 </span>15,000/-</option> -->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -628,8 +593,6 @@
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
         <!-- jquery -->
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
 
@@ -648,24 +611,11 @@
         <!--Swiper slider js-->
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
         <!-- file upload code js file -->
         <script src="../uploading/uploadUser.js"></script>
-
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
             $(document).ready(function(){
 
@@ -695,44 +645,7 @@
                 }
 
             });
-            //select Designation
-            // $('#designation').on('change', function() {
-            //     var designation = $('#designation').val();
-            //     // console.log(designation);
-            //     $.ajax({
-            //         type:'POST',
-            //         url:'agents/get_user_Franchisee.php',
-            //         data: "designation="+designation,
-            //         success:function (e) {
-            //             // console.log(e);
-            //             $('#user_id_name').html(e); 
-            //         },
-            //         error: function(err){
-            //             console.log(err);
-            //         },
-            //     });
-            // });
-
-            // fetch User based on selected designation
-            // $('#user_id_name').on('change', function(){
-            //     var user_id_name = $(this).val();
-            //     // console.log(user_id_name);
-
-            //     var designation = $('#designation').val();
-            //     // console.log(designation);
-
-            //     $.ajax({
-            //         type:'POST',
-            //         url:'agents/getUsers.php',
-            //         data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-            //         success:function(response){
-            //         // console.log(response);
-            //             // $('#pin').html(response);
-            //             $('#reference_name').val(response); 
-            //         }
-            //     }); 
-               
-            // }); 
+            
 
             $('#country').on('change', function(){
                 var countryID = $(this).val();
@@ -779,7 +692,6 @@
                         url:'address/pincode.php',
                         data:'city_id='+cityID,
                         success:function(response){
-                            // $('#pin').html(response);
                             $('#pin').val(response); 
                         }
                     }); 
@@ -791,7 +703,6 @@
 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
                 if(paymentMode == "cheque"){
                     $("#chequeOpt").removeClass("d-none");
                     $("#onlineOpt").addClass("d-none");

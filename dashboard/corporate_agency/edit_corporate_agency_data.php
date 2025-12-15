@@ -25,7 +25,6 @@ $email=$_POST['email'];
 $gender=$_POST['gender'];
 $country_code=$_POST['country_code'];
 $phone=$_POST['phone'];
-// $age=$_POST['age'];
 $dob=$_POST['dob'];
 // get age of the user
 $birthYear = str_split($dob,4);
@@ -33,15 +32,6 @@ $birth_year = $birthYear[0];
 $age = $current_year - $birth_year;
 $gst_no=$_POST['gst_no'];
 $amount=$_POST['amount'];
-
-// if($totalAmt == "590000"){
-// 	$amount = "500000";
-// 	$amtGST = "590000";
-// }else{
-// 	$amount = "null";
-//     $amtGST = "null";
-// }
-// $kyc=$_POST['kyc'];
 $profile_pic=$_POST['profile_pic'];
 $pan_card=$_POST['pan_card'];
 $aadhar_card=$_POST['aadhar_card'];
@@ -92,7 +82,6 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':pincode' => $pincode,
             ':address' => $address,
             ':profile_pic' => $profile_pic,
-            // ':kyc' => $kyc,
             ':age' => $age,
             ':pan_card' => $pan_card,
             ':aadhar_card' => $aadhar_card,
@@ -139,7 +128,6 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
 			else{
 				echo 0	;
 			}
-			// echo 1;
 		}
 		else{
 		echo 0	;

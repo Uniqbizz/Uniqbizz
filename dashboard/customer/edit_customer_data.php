@@ -5,7 +5,6 @@ $current_year = date('Y');
 $refid = $_POST["ref_id"];
 $editfor = $_POST["editfor"];
 $identifier_id = $_POST["id"];
-// $identifier_name = 'ca_customer_id=';
 
 $message = $identifier_id . " Details has been updated from register list";
 $message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
@@ -26,20 +25,14 @@ if ($editfor == 'pending') {
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
-// $nominee_name = $_POST['nominee_name'];
-// $nominee_relation = $_POST['nominee_relation'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $country_code = $_POST['country_code'];
 $phone = $_POST['phone'];
-// $age=$_POST['age'];
 $dob = $_POST['dob'];
-// get age of the user
 $birthYear = str_split($dob, 4);
 $birth_year = $birthYear[0];
 $age = $current_year - $birth_year;
-// $gst_no=$_POST['gst_no'];
-// $kyc=$_POST['kyc'];
 $profile_pic = $_POST['profile_pic'];
 $pan_card = $_POST['pan_card'];
 $aadhar_card = $_POST['aadhar_card'];
@@ -84,12 +77,9 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 	$result =  $stmt->execute(array(
 		':firstname' => $firstname,
 		':lastname' => $lastname,
-		// ':nominee_name' => $nominee_name,
-		// ':nominee_relation' => $nominee_relation,
 		':country_code' => $country_code,
 		':contact_no' => $phone,
 		':email' => $email,
-		// ':gst_no' => $gst_no,
 		':gender' => $gender,
 		':date_of_birth' => $dob,
 		':country' => $country,
@@ -98,7 +88,6 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		':pincode' => $pincode,
 		':address' => $address,
 		':profile_pic' => $profile_pic,
-		// ':kyc' => $kyc,
 		':age' => $age,
 		':pan_card' => $pan_card,
 		':aadhar_card' => $aadhar_card,
@@ -143,7 +132,6 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 			} else {
 				echo 0;
 			}
-			// echo 1;
 		} else {
 			echo 0;
 		}
