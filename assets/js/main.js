@@ -550,21 +550,38 @@
                     templateSelection: destinationSelection,
                     
                     //customer matcher
-                    matcher: function(params, data) {
+                    matcher: function (params, data) {
                         if ($.trim(params.term) === '') return data;
-
-                        // Ensure element exists
                         if (!data.element) return null;
 
-                        // Read description from <option data-description="...">
-                        let desc = $(data.element).data("description") || "";
+                        // Normalize text:
+                        // 1. lowercase
+                        // 2. replace ANY non-alphanumeric character with space
+                        // 3. collapse multiple spaces
+                        const normalize = str =>
+                            (str || "")
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]+/g, " ") // 🔥 replace special chars with space
+                                .replace(/\s+/g, " ")
+                                .trim();
 
-                        if (desc.toLowerCase().includes(params.term.toLowerCase())) {
-                            return data;
-                        }
+                        const termWords = normalize(params.term).split(" ");
 
-                        return null;
+                        const name = normalize(data.text);
+                        const desc = normalize($(data.element).data("description"));
+
+                        const combinedText = name + " " + desc;
+
+                        // Every word must match (order independent)
+                        const isMatch = termWords.every(word =>
+                            combinedText.includes(word)
+                        );
+
+                        return isMatch ? data : null;
                     }
+
+
+
                 });
 
                 // 🔥 After Select2 loads, select all items
