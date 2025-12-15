@@ -97,11 +97,6 @@ $Year = date('Y'); //year
             position: relative;
         }
 
-        /* .chart-count {
-            margin-left: 2px;
-            margin-right: 2px;
-        } */
-
         .page_nums {
             background-color: #d9d9d9;
             color: black;
@@ -156,12 +151,26 @@ $Year = date('Y'); //year
         .fc-daygrid-day {
             position: relative;
         }
-
-        /* image class for profile-img from admin welcome section */
-        /* .img-fluid {
-            width: 100% !important;
-            height: 120px !important;
-        } */
+        /* top performer section start */
+        .bg-indigo-subtle {
+            background: #9054f1ff !important;
+        }
+        .text-indigo-emphasis {
+            color: #0d0220ff !important;
+        }
+        .bg-orange-subtle {
+            background: #ee9f5eff !important;
+        }
+        .text-orange-emphasis {
+            color: #311803ff !important;
+        }
+        .bg-teal-subtle {
+            background: #77eecaff !important;
+        }
+        .text-teal-emphasis {
+            color: #02251bff !important;
+        }
+        /*  top performer section end */
     </style>
 </head>
 <!-- DataTables -->
@@ -171,8 +180,6 @@ $Year = date('Y'); //year
     <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     
 <body data-sidebar="dark">
-
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -674,311 +681,17 @@ $Year = date('Y'); //year
                             </div>
                         </div>
                     </div>
-                    <!-- Customer Types -->
-                    <!-- <div class="row">
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="card rounded-4">
-                                <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                    <h5 class="text-primary-emphasis">Regular Customer</h5>
-                                </div>
-                                <div class="card-body p-3 pt-2">
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Count</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalRegularCustomer FROM `ca_customer` WHERE customer_type = 'Free' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalRegularCustomer = $row['totalRegularCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalRegularCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                            <p class="fw-bolder text-black">Amount</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                            <p class="text-black text-end">Free</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Complimentary</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalRegularCompCustomer FROM `ca_customer` WHERE customer_type = 'Free' AND comp_chek = '1' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalRegularCompCustomer = $row['totalRegularCompCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalRegularCompCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="card rounded-4">
-                                <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                    <h5 class="text-primary-emphasis">Prime Customer</h5>
-                                </div>
-                                <div class="card-body p-3 pt-2">
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Count</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalPrimeCustomer FROM `ca_customer` WHERE customer_type = 'Prime' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalPrimeCustomer = $row['totalPrimeCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalPrimeCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                            <p class="fw-bolder text-black">Amount</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                            <?php
-                                            $Amt = 0;
-                                            $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Prime' AND status = '1'";
-                                            $sqlTotalAmt = $conn->prepare($sqlCaAmt);
-                                            $sqlTotalAmt->execute();
-                                            $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
-                                            if (($sqlTotalAmt->rowCount() > 0)) {
-                                                foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
-                                                    $totalAmt = $value['paid_amount'];
-
-                                                    if ($totalAmt == 'null') {
-                                                        $totalAmt = 0;
-                                                    } else {
-                                                        $totalAmt;
-                                                    }
-
-                                                    $Amt = $Amt + $totalAmt;
-                                                }
-                                            }
-                                            $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
-                                            echo '<p class="text-black text-end">'.$Amt.'</p>';
-                                            ?>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Complimentary</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalPrimeCompCustomer FROM `ca_customer` WHERE customer_type = 'Prime' AND comp_chek = '1' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalPrimeCompCustomer = $row['totalPrimeCompCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalPrimeCompCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="card rounded-4">
-                                <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                    <h5 class="text-primary-emphasis">Premium Customer</h5>
-                                </div>
-                                <div class="card-body p-3 pt-2">
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Count</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumCustomer FROM `ca_customer` WHERE customer_type = 'Premium' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalPremiumCustomer = $row['totalPremiumCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalPremiumCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                            <p class="fw-bolder text-black">Amount</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                        <?php
-                                            $Amt = 0;
-                                            $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Premium' AND status = '1'";
-                                            $sqlTotalAmt = $conn->prepare($sqlCaAmt);
-                                            $sqlTotalAmt->execute();
-                                            $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
-                                            if (($sqlTotalAmt->rowCount() > 0)) {
-                                                foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
-                                                    $totalAmt = $value['paid_amount'];
-
-                                                    if ($totalAmt == 'null') {
-                                                        $totalAmt = 0;
-                                                    } else {
-                                                        $totalAmt;
-                                                    }
-
-                                                    $Amt = $Amt + $totalAmt;
-                                                }
-                                            }
-                                            $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
-                                            echo '<p class="text-black text-end">'.$Amt.'</p>';
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Complimentary</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumCompCustomer FROM `ca_customer` WHERE customer_type = 'Premium' AND comp_chek = '1' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalPremiumCompCustomer = $row['totalPremiumCompCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalPremiumCompCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                            <div class="card rounded-4">
-                                <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                    <h5 class="text-primary-emphasis">Premium Plus Customer</h5>
-                                </div>
-                                <div class="card-body p-3 pt-2">
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Count</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumPlusCustomer FROM `ca_customer` WHERE customer_type = 'Premium Plus' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalPremiumPlusCustomer = $row['totalPremiumPlusCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalPremiumPlusCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                            <p class="fw-bolder text-black">Amount</p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-6">
-                                        <?php
-                                            $Amt = 0;
-                                            $sqlCaAmt = "SELECT paid_amount FROM `ca_customer` WHERE customer_type = 'Premium Plus' AND status = '1'";
-                                            $sqlTotalAmt = $conn->prepare($sqlCaAmt);
-                                            $sqlTotalAmt->execute();
-                                            $sqlTotalAmt->setFetchMode(PDO::FETCH_ASSOC);
-                                            if (($sqlTotalAmt->rowCount() > 0)) {
-                                                foreach ($sqlTotalAmt->fetchAll() as $key => $value) {
-                                                    $totalAmt = $value['paid_amount'];
-
-                                                    if ($totalAmt == 'null') {
-                                                        $totalAmt = 0;
-                                                    } else {
-                                                        $totalAmt;
-                                                    }
-
-                                                    $Amt = $Amt + $totalAmt;
-                                                }
-                                            }
-                                            $Amt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $Amt);
-                                            echo '<p class="text-black text-end">'.$Amt.'</p>';
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-8 col-sm-8 col-8">
-                                            <p class="fw-bolder text-black">Complimentary</p>
-                                        </div>
-                                        <div class="col-md-4 col-sm-4 col-4">
-                                            <?php
-                                                $stmt = $conn->prepare("SELECT COUNT(id) as totalPremiumCompCustomer FROM `ca_customer` WHERE customer_type = 'Premium Plus' AND comp_chek = '1' AND status = '1' ");
-                                                $stmt->execute();
-                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt->rowCount() > 0) {
-                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                        $totalPremiumCompCustomer = $row['totalPremiumCompCustomer'];
-                                                        echo '<p class="text-end text-black">'.$totalPremiumCompCustomer.'</p>';
-                                                    }
-                                                } else {
-                                                    echo '<p class="text-end text-black">0</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- end row -->
+                   
                     <div class="row">
                         <!-- Customer Types -->
-                        <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 mb-2">
                             <div class="row">
                                 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
-                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Regular Customer</h5>
+                                        <div class="bg-primary-subtle rounded-top-4 p-3 pb-2 ">
+                                            <h5 class="text-primary-emphasis fw-bolder">Regular Customer</h5>
+                                            <h6 class="text-primary-emphasis">Free</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1036,7 +749,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Customer</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Customer</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 30,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1115,7 +829,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Plus Customer</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Plus Customer</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 35,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1194,7 +909,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Select</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Select</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 35,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1274,7 +990,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Premium Select Lite</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Premium Select Lite</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 21,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1354,7 +1071,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Neo Select</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Neo Select</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 11,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1434,7 +1152,8 @@ $Year = date('Y'); //year
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="card rounded-4">
                                         <div class="bg-primary-subtle rounded-top-4 p-3 pb-2">
-                                            <h5 class="text-primary-emphasis">Neo Select Ultra</h5>
+                                            <h5 class="text-primary-emphasis fw-bolder">Neo Select Ultra</h5>
+                                            <h6 class="text-primary-emphasis">Rs: 11,000</h6>
                                         </div>
                                         <div class="card-body p-3 pt-2">
                                             <div class="row">
@@ -1692,43 +1411,43 @@ $Year = date('Y'); //year
                         <div class="row p-4 d-flex justify-content-around">
                             <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center">
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
                                             Business Mentor<span id="bmCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
                                             Employees<span id="empCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
                                             Techno Enterprise<span id="teCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
                                             Travel Consultant<span id="tcCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
                                             Customer<span id="custCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDivCount(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
                                             Master Franchise<span id="mfCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDivCount(7, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(7, this)" type="button" class="rounded-4 bg-teal-subtle btn fw-bolder fs-5 text-teal-emphasis py-4 w-100 text-center mb-2">
                                             Sponsor Franchise<span id="sfCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDivCount(8, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDivCount(8, this)" type="button" class="rounded-4 bg-orange-subtle btn fw-bolder fs-5 text-orange-emphasis py-4 w-100 text-center mb-2">
                                             Franchise<span id="fCount" class="fs-2 ms-3"></span>
                                         </button>
                                     </div>
@@ -1945,224 +1664,6 @@ $Year = date('Y'); //year
                         </div>
                     </div>
 
-                    <!-- monthly count of all -->
-                    <!-- <div class="col-lg-5 col-md-12 col-sm-12"> -->
-                        <!-- <div class="row">
-                            <div class="col-12" style="padding: 30px; font-weight: 600;">
-                                <span>
-                                    Select Month & Year
-                                    <input type="month" id="month_year" value="" min="2020-01" max="">
-                                </span>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="row card" style="width: 98%; height: auto; margin-left: 5px; ">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Business Mentor</span></p>
-                                    <h3><span id="cbd_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('cbd');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px; display: none;">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Base Agency</span></p>
-                                    <h3><span id="customer_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('customer');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px; display: none;">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;"> Business Partner</span></p>
-                                    <h3><span id="partner_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('partner');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px; display: none;">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Corporate Partner</span></p>
-                                    <h3><span id="corporate_partner_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('corporate_partner');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px ; display: none;">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Business Trainee</span></p>
-                                    <h3><span id="business_trainee_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('business_trainee');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Business Consultant</span></p>
-                                    <h3><span id="consultant_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('consultant');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Techno Enterprise</span></p>
-                                    <h3><span id="corporate_agency_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('corporate_agency');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Travel Consultant</span></p>
-                                    <h3><span id="CA_travel_agent_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('ca_travelagency');">View</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row card" style="width: 98%; height: auto; margin-left: 5px">
-                            <div class="col-md-12 card-title count-col">
-                                <div class="col-md-6 col-sm-6 col-6" style="padding-left: 20px;">
-                                    <p><i class="mdi  mdi-arrow-up-thick mdi-18px"></i> <span style="font-size: 12px;">Customer</span></p>
-                                    <h3><span id="CA_customer_count"></span></h3>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-6 ">
-                                    <button class="cpn_btn box-btn" type="button" onclick="showUserBox('ca_customer');">View</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- monthly user details table  -->
-                    <!-- <div class="row" style="padding-top: 25px; display: none;" id="user-box">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <hr>
-                                <div class="MonthlyDetailsHeading">
-                                    <span id="table-heading" style="padding: 0px 20px; font-weight: 600; font-size: initial;"></span>
-                                </div>
-
-                                <div class="MonthlyDetailsHeadingClose">
-                                    <span class="close-btn" style="float:right; padding: 0px 10px 10px 10px; font-weight: 600; font-size: initial; cursor:pointer; color:red"> X </span>
-                                </div>
-                            </div>
-                            <input type="hidden" name="user_table_count" id="user_table_count" value="" />
-                            <div class="table-responsive table-desi">
-                                table roe limit
-                                <div class="col-md-4 col-sm-12">
-                                    <label>
-                                        Show
-                                        <select id="pagination_row_limit" class="selectdesign">
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                        entries
-                                    </label>
-                                </div>
-                                <table class="table table-hover" id="user_table">
-                                    <thead>
-                                        <tr>
-                                            <th class="ceterText" onclick="setRowOrder('id')">Id</th>
-                                            <th class="ceterText" onclick="setRowOrder('firstname')">Name</th>
-                                            <th class="ceterText" onclick="setRowOrder('id')">Refered By</th>
-                                            <th class="ceterText" onclick="setRowOrder('register_date')">Joining Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                                pegination start
-                                <div class="center text-center" id="pagination_row"></div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- end row -->
-
-                    <!-- <div class="row"> -->
-                        <!-- <div class="col-xl-6">
-                            <div class="card rounded-4">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="tab-inn">
-                                                <h6>Corporate Partner</h6>
-                                                <div class="table-responsive table-desi">
-                                                    <canvas id="myCPChart" class="myCPChart" height="100px" weight="100px"></canvas>
-                                                    <span class="cp_total_count" id="cp_total_count"></span>
-                                                    <span class="cp_total_price" id="cp_total_price"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> end col -->
-                        <!-- <div class="col-xl-6">
-                            <div class="card rounded-4" id="ca_chart_box">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="tab-inn">
-                                                <h6>Techno Enterprise</h6>
-                                                <div class="table-responsive table-desi">
-                                                    <canvas id="myCAChart1" class="myCAChart1" height="100px" weight="100px"></canvas>
-                                                    <span class="ca_total_count" id="ca_total_count"></span>
-                                                    <span class="ca_total_price" id="ca_total_price"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card" id="ca_no_chart_box">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="tab-inn">
-                                                <h3>No Corporat Agency Data Found</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                        <!-- </div> end col -->
-                    <!-- </div> end row -->
-
                     <!-- Full Calender -->
                     <div class="row">
                         <div class="col-12">
@@ -2181,7 +1682,7 @@ $Year = date('Y'); //year
                                 </div> <!-- end col -->
 
                                 <!-- Latest Transaction -->
-                                <div class="col-xl-4" id="latestTransaction">
+                                <div class="col-xl-4 ps-0" id="latestTransaction">
                                     <div class="card rounded-4">
                                         <h2 class="fs-4 p-3">Latest Transaction</h2>
                                         <?php
@@ -2218,14 +1719,14 @@ $Year = date('Y'); //year
                                                 echo '
                                                             <div class="card pt-3">
                                                                 <div class="row">
-                                                                    <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
+                                                                    <div class="col-xl-3 col-lg-1 col-md-1 col-sm-2 col-2">
                                                                         <div class="profile-pic pb-1" style="position: relative; left: 15px;">
                                                                             <img src="' . $imgPath . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
                                                                         </div>
                                                                     </div>
                                                                     
-                                                                    <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-10 d-flex justify-content-between align-items-center">
-                                                                        <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . ' <span class="fw-normal">(' . $designation . ')</span></div>
+                                                                    <div class="col-xl-9 col-lg-11 col-md-11 col-sm-10 col-10 d-flex justify-content-between align-items-center">
+                                                                        <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . '</br> <span class="fw-normal">(' . $designation . ')</span></div>
                                                                     </div>
                                                                     <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">' . $rdate . '</div>
                                                                 </div>
@@ -2242,217 +1743,22 @@ $Year = date('Y'); //year
                                                     ';
                                         }
                                         ?>
-
-                                        <!-- <div class="card pt-3">
-                                                <div class="row">
-                                                    <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
-                                                        <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                            <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-10 d-flex justify-content-between align-items-center">
-                                                        <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                    </div>
-                                                    <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                </div>
-                                                
-                                                <div class="para ps-3 pb-2">
-                                                    <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                </div>
-                                            </div>
-                                            <div class="card pt-3">
-                                                <div class="row">
-                                                    <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
-                                                        <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                            <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-10 d-flex justify-content-between align-items-center">
-                                                        <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                    </div>
-                                                    <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                </div>
-                                                
-                                                <div class="para ps-3 pb-2">
-                                                    <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                </div>
-                                            </div>
-                                            <div class="card pt-3">
-                                                <div class="row">
-                                                    <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
-                                                        <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                            <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-10 d-flex justify-content-between align-items-center">
-                                                        <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                    </div>
-                                                    <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                </div>
-                                                
-                                                <div class="para ps-3 pb-2">
-                                                    <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via<span class="payment-mode">Cash</span>.</p>
-                                                </div>
-                                            </div> -->
-                                        <!-- <div class="card">
-                                                <div class="row">
-                                                    <div class="col-xl-3">
-                                                        <div class="profile-pic text-center py-2">
-                                                            <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-75 rounded-circle">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-9 d-flex justify-content-around align-items-center">
-                                                        <div class="name">Anjali Mani</div>
-                                                        <div class="date">20/08/2024</div>
-                                                    </div>
-                                                </div>
-                                                <div class="designation fw-bold fs-5 px-3">Business Consultant</div>
-                                                <div class="para ps-3 pb-2">
-                                                    <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-xl-3">
-                                                        <div class="profile-pic text-center py-2">
-                                                            <img src="assets/images/users/avatar-7.jpg" alt="profile pic" class="w-75 rounded-circle">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-9 d-flex justify-content-around align-items-center">
-                                                        <div class="name">Akshay Mani</div>
-                                                        <div class="date">20/08/2024</div>
-                                                    </div>
-                                                </div>
-                                                <div class="designation fw-bold fs-5 px-3">Business Consultant</div>
-                                                <div class="para ps-3 pb-2">
-                                                    <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                </div>
-                                            </div> -->
+                                               
                                         <div class="col-md-6 col-sm-6 col-6 pb-3 ps-2">
-                                            <!-- <button class="cpn_btn box-btn float-start" type="button" onclick="showUserBox1('latest_transaction');">View More</button> -->
                                             <a href="latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-start">View More</button></a>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <!-- <div class="row bg-white" style="padding-top: 25px; display: none;" id="user-box1">
-                                    <div class="col-md-12"> 
-                                        <div>
-                                            <hr>
-                                            <div class="MonthlyDetailsHeading ps-3">
-                                                <span id="table-heading" class="fs-5 fw-bold ps-2">Latest Transaction</span>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="user_table_count" id="user_table_count" value="" />
-                                        <div class="table-responsive table-desi">
-                                            <div class="col-md-4 col-sm-12">
-                                                <label>
-                                                    Show
-                                                    <select id="pagination_row_limit" class="selectdesign">
-                                                        <option value="5">5</option>
-                                                        <option value="10">10</option>
-                                                        <option value="25">25</option>
-                                                        <option value="50">50</option>
-                                                        <option value="100">100</option>
-                                                    </select>
-                                                    entries
-                                                </label>
-                                            </div>
-                                            <div class="col-xl-11 col-lg-11 col-md-11 d-flex justify-content-center">
-                                                <div class="card" style="width: 90%;">
-                                                    <div class="card pt-3">
-                                                        <div class="row">
-                                                            <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                                                                <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                                    <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-11 d-flex justify-content-between align-items-center">
-                                                                <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                            </div>
-                                                            <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                        </div>
-                                                        
-                                                        <div class="para ps-3 pb-2">
-                                                            <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card pt-3">
-                                                        <div class="row">
-                                                            <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                                                                <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                                    <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-11 d-flex justify-content-between align-items-center">
-                                                                <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                            </div>
-                                                            <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                        </div>
-                                                        
-                                                        <div class="para ps-3 pb-2">
-                                                            <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card pt-3">
-                                                        <div class="row">
-                                                            <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                                                                <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                                    <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-11 d-flex justify-content-between align-items-center">
-                                                                <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                            </div>
-                                                            <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                        </div>
-                                                        
-                                                        <div class="para ps-3 pb-2">
-                                                            <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">Cash</span>.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card pt-3">
-                                                        <div class="row">
-                                                            <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                                                                <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                                    <img src="assets/images/users/avatar-1.jpg" alt="profile pic" class="w-100 rounded-circle">
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-11 d-flex justify-content-between align-items-center">
-                                                                <div class="name fw-bold">Adhya Ashok <span class="fw-normal">(Business Consultant)</span></div>
-                                                            </div>
-                                                            <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">30/08/2024</div>
-                                                        </div>
-                                                        
-                                                        <div class="para ps-3 pb-2">
-                                                            <p>Transfered <span class="amount">50000/-</span> to Bizzmirth Holiday Pvt.Ltd via<span class="payment-mode">Cash</span>.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="center text-center" id="pagination_row"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style='clear:both'></div> -->
-
+                      
                             <!-- Add New Event MODAL -->
                             <div class="modal fade" id="event-modal" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header py-3 px-4 border-bottom-0">
                                             <h5 class="modal-title" id="modal-title">Event</h5>
-
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-
                                         </div>
                                         <div class="modal-body p-4">
                                             <form class="needs-validation" name="event-form" id="form-event" novalidate>
@@ -2499,48 +1805,48 @@ $Year = date('Y'); //year
                         <div class="row p-4 d-flex justify-content-around">
                             <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center mb-3">
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(1, this)" type="button" class="rounded-4 bg-primary-subtle btn fw-bolder fs-5 text-primary-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 BCH
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(2, this)" type="button" class="rounded-4 bg-success-subtle btn fw-bolder fs-5 text-success-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 BDM
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(3, this)" type="button" class="rounded-4 bg-warning-subtle btn fw-bolder fs-5 text-warning-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 BM
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(4, this)" type="button" class="rounded-4 bg-danger-subtle btn fw-bolder fs-5 text-danger-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 TE
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(5, this)" type="button" class="rounded-4 bg-info-subtle btn fw-bolder fs-5 text-info-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 TC
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
                                         <button onclick="showDiv(6, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 Customer
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDiv(7, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(7, this)" type="button" class="rounded-4 bg-indigo-subtle btn fw-bolder fs-5 text-indigo-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 MF
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDiv(8, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(8, this)" type="button" class="rounded-4 bg-teal-subtle btn fw-bolder fs-5 text-teal-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 SF
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-sm-6 col-12">
-                                        <button onclick="showDiv(9, this)" type="button" class="rounded-4 bg-secondary-subtle btn fw-bolder fs-5 text-secondary-emphasis py-4 w-100 text-center mb-2">
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                                        <button onclick="showDiv(9, this)" type="button" class="rounded-4 bg-orange-subtle btn fw-bolder fs-5 text-orange-emphasis py-4 w-100 text-center mb-2">
                                             Top 5 Franchisee
                                         </button>
                                     </div>
@@ -2604,21 +1910,21 @@ $Year = date('Y'); //year
                                                     // Loop through the results and display the BCH user details
                                                     foreach ($sql1->fetchAll() as $bch_id) {
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($bch_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark">' . htmlspecialchars($bch_id['BCH_user_name']) . '</p>
-                                                                            <p class="text-dark">' . htmlspecialchars($bch_id['BCH_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($bch_id['BDM_count']) . '</td>';
+                                                                <td>
+                                                                    <div class="profile-pic pb-1">
+                                                                        <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="profile-pic pb-1">
+                                                                        <img src="../uploading/' . htmlspecialchars($bch_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="align-content-center">
+                                                                    <p class="fw-bold text-dark">' . htmlspecialchars($bch_id['BCH_user_name']) . '</p>
+                                                                    <p class="text-dark">' . htmlspecialchars($bch_id['BCH_user_id']) . '</p> 
+                                                                </td>
+                                                                <td class="align-content-center">' . htmlspecialchars($bch_id['BDM_count']) . '</td>';
 
                                                         // Display status based on the 'status' field value
                                                         if ($bch_id['status'] == '1') {
@@ -2631,8 +1937,8 @@ $Year = date('Y'); //year
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -2703,32 +2009,32 @@ $Year = date('Y'); //year
                                                         $reporting_manager_name = $reporting_manager['name'];
 
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($bdm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($bdm_id['BDM_user_name']) . ' </p>
-                                                                            <p class="text-dark">' . htmlspecialchars($bdm_id['BDM_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($bdm_id['BM_count']) . '</td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="mb-1 fw-bold text-dark">' . htmlspecialchars($reporting_manager_name) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($bdm_id['reporting_manager']) . '</p>
-                                                                        </td>
-                                                                </tr>';
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="../uploading/' . htmlspecialchars($bdm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                <p class="fw-bold text-dark"> ' . htmlspecialchars($bdm_id['BDM_user_name']) . ' </p>
+                                                                <p class="text-dark">' . htmlspecialchars($bdm_id['BDM_user_id']) . '</p> 
+                                                            </td>
+                                                            <td class="align-content-center">' . htmlspecialchars($bdm_id['BM_count']) . '</td>
+                                                            <td class="align-content-center">
+                                                                <p class="mb-1 fw-bold text-dark">' . htmlspecialchars($reporting_manager_name) . '</p>
+                                                                <p class="mb-1 text-dark">' . htmlspecialchars($bdm_id['reporting_manager']) . '</p>
+                                                            </td>
+                                                        </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -2794,32 +2100,32 @@ $Year = date('Y'); //year
                                                     // Loop through the results and display the BDM user details
                                                     foreach ($sql1->fetchAll() as $bm_id) {
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($bm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($bm_id['BM_user_fname'] . ' ' . $bm_id['BM_user_lname']) . ' </p>
-                                                                            <p class="text-dark">' . htmlspecialchars($bm_id['BM_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($bm_id['TE_count']) . '</td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($bm_id['registrant']) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($bm_id['reference_no']) . '</p>
-                                                                        </td>   
-                                                                    </tr>';
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="../uploading/' . htmlspecialchars($bm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                <p class="fw-bold text-dark"> ' . htmlspecialchars($bm_id['BM_user_fname'] . ' ' . $bm_id['BM_user_lname']) . ' </p>
+                                                                <p class="text-dark">' . htmlspecialchars($bm_id['BM_user_id']) . '</p> 
+                                                            </td>
+                                                            <td class="align-content-center">' . htmlspecialchars($bm_id['TE_count']) . '</td>
+                                                            <td class="align-content-center">
+                                                                <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($bm_id['registrant']) . '</p>
+                                                                <p class="mb-1 text-dark">' . htmlspecialchars($bm_id['reference_no']) . '</p>
+                                                            </td>   
+                                                        </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -2885,32 +2191,32 @@ $Year = date('Y'); //year
                                                     // Loop through the results and display the BDM user details
                                                     foreach ($sql1->fetchAll() as $te_id) {
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($te_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($te_id['TE_user_fname'] . ' ' . $te_id['TE_user_lname']) . ' </p>
-                                                                            <p class="text-dark">' . htmlspecialchars($te_id['TE_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($te_id['TA_count']) . '</td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($te_id['registrant']) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($te_id['reference_no']) . '</p>
-                                                                        </td>
-                                                                    </tr>';
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="../uploading/' . htmlspecialchars($te_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                <p class="fw-bold text-dark"> ' . htmlspecialchars($te_id['TE_user_fname'] . ' ' . $te_id['TE_user_lname']) . ' </p>
+                                                                <p class="text-dark">' . htmlspecialchars($te_id['TE_user_id']) . '</p> 
+                                                            </td>
+                                                            <td class="align-content-center">' . htmlspecialchars($te_id['TA_count']) . '</td>
+                                                            <td class="align-content-center">
+                                                                <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($te_id['registrant']) . '</p>
+                                                                <p class="mb-1 text-dark">' . htmlspecialchars($te_id['reference_no']) . '</p>
+                                                            </td>
+                                                        </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -2976,33 +2282,33 @@ $Year = date('Y'); //year
                                                     // Loop through the results and display the BDM user details
                                                     foreach ($sql1->fetchAll() as $ta_id) {
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($ta_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark">' . htmlspecialchars($ta_id['TA_user_fname'] . ' ' . $ta_id['TA_user_lname']) . '</p>
-                                                                            <p class="fw-bold text-dark">' . htmlspecialchars($ta_id['TA_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($ta_id['CU_count']) . '</td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($ta_id['registrant']) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($ta_id['reference_no']) . '</p>
-                                                                        </td>
-                                                                
-                                                                </tr>';
+                                                                <td>
+                                                                    <div class="profile-pic pb-1">
+                                                                        <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="profile-pic pb-1">
+                                                                        <img src="../uploading/' . htmlspecialchars($ta_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="align-content-center">
+                                                                    <p class="fw-bold text-dark">' . htmlspecialchars($ta_id['TA_user_fname'] . ' ' . $ta_id['TA_user_lname']) . '</p>
+                                                                    <p class="fw-bold text-dark">' . htmlspecialchars($ta_id['TA_user_id']) . '</p> 
+                                                                </td>
+                                                                <td class="align-content-center">' . htmlspecialchars($ta_id['CU_count']) . '</td>
+                                                                <td class="align-content-center">
+                                                                    <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($ta_id['registrant']) . '</p>
+                                                                    <p class="mb-1 text-dark">' . htmlspecialchars($ta_id['reference_no']) . '</p>
+                                                                </td>
+                                                        
+                                                        </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -3068,33 +2374,33 @@ $Year = date('Y'); //year
                                                     // Loop through the results and display the BDM user details
                                                     foreach ($sql1->fetchAll() as $cu_id) {
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($cu_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($cu_id['CU_user_fname'] . ' ' . $cu_id['CU_user_lname']) . ' </p>
-                                                                            <p class="text-dark">' . htmlspecialchars($cu_id['CU_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($cu_id['CUL_count']) . '</td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($cu_id['ta_reference_name']) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($cu_id['ta_reference_no']) . '</p>
-                                                                        </td>
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="../uploading/' . htmlspecialchars($cu_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                <p class="fw-bold text-dark"> ' . htmlspecialchars($cu_id['CU_user_fname'] . ' ' . $cu_id['CU_user_lname']) . ' </p>
+                                                                <p class="text-dark">' . htmlspecialchars($cu_id['CU_user_id']) . '</p> 
+                                                            </td>
+                                                            <td class="align-content-center">' . htmlspecialchars($cu_id['CUL_count']) . '</td>
+                                                            <td class="align-content-center">
+                                                                <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($cu_id['ta_reference_name']) . '</p>
+                                                                <p class="mb-1 text-dark">' . htmlspecialchars($cu_id['ta_reference_no']) . '</p>
+                                                            </td>
 
-                                                                </tr>';
+                                                        </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -3376,32 +2682,32 @@ $Year = date('Y'); //year
                                                     // Loop through the results and display the BDM user details
                                                     foreach ($sql1->fetchAll() as $fr_id) {
                                                         echo '<tr>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="profile-pic pb-1">
-                                                                                <img src="../uploading/' . htmlspecialchars($fr_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="fw-bold text-dark"> ' . htmlspecialchars($fr_id['FR_user_fname'] . ' ' . $fr_id['FR_user_lname']) . ' </p>
-                                                                            <p class="text-dark">' . htmlspecialchars($fr_id['FR_user_id']) . '</p> 
-                                                                        </td>
-                                                                        <td class="align-content-center">' . htmlspecialchars($fr_id['TC_count']) . '</td>
-                                                                        <td class="align-content-center">
-                                                                            <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($fr_id['registrant']) . '</p>
-                                                                            <p class="mb-1 text-dark">' . htmlspecialchars($fr_id['reference_no']) . '</p>
-                                                                        </td>   
-                                                                    </tr>';
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="profile-pic pb-1">
+                                                                    <img src="../uploading/' . htmlspecialchars($fr_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                                </div>
+                                                            </td>
+                                                            <td class="align-content-center">
+                                                                <p class="fw-bold text-dark"> ' . htmlspecialchars($fr_id['FR_user_fname'] . ' ' . $fr_id['FR_user_lname']) . ' </p>
+                                                                <p class="text-dark">' . htmlspecialchars($fr_id['FR_user_id']) . '</p> 
+                                                            </td>
+                                                            <td class="align-content-center">' . htmlspecialchars($fr_id['TC_count']) . '</td>
+                                                            <td class="align-content-center">
+                                                                <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($fr_id['registrant']) . '</p>
+                                                                <p class="mb-1 text-dark">' . htmlspecialchars($fr_id['reference_no']) . '</p>
+                                                            </td>   
+                                                        </tr>';
                                                         $srNo++;
                                                     }
                                                 } else {
                                                     echo '<tr>
-                                                                    <td colspan="5" class="align-content-center">No data found</td>
-                                                                </tr>';
+                                                        <td colspan="5" class="align-content-center">No data found</td>
+                                                    </tr>';
                                                 }
                                                 ?>
                                             </tbody>
@@ -3444,10 +2750,6 @@ $Year = date('Y'); //year
                                             <tbody>
                                                 <?php
                                                 $sql1 = "SELECT * FROM employees where (status='1' or status='0' or status='3') and employee_id != '' order by employee_id desc limit 6";
-                                                // $sql1 = "SELECT regional_manager_id as id, firstname, lastname, status FROM regional_manager UNION ALL 
-                                                //          SELECT sales_manager_id as id, firstname, lastname, status FROM sales_manager UNION ALL 
-                                                //          SELECT branch_manager_id as id, firstname, lastname, status FROM branch_manager 
-                                                //          WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
                                                 $stmt1 = $conn->prepare($sql1);
                                                 $stmt1->execute();
                                                 $stmt1->setFetchMode(PDO::FETCH_ASSOC);
@@ -3500,25 +2802,25 @@ $Year = date('Y'); //year
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // $sql1 = "SELECT * FROM customer where user_type='2' and (status='1' or status='0' or status='3') and cust_id != '' order by cust_id desc limit 5";
-                                                $sql1 = "SELECT business_mentor_id as id, firstname, lastname, status FROM business_mentor 
-                                                                 WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
-                                                $stmt1 = $conn->prepare($sql1);
-                                                $stmt1->execute();
-                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt1->rowCount() > 0) {
-                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
-                                                        echo '<tr>
-                                                                    <td>' . $row['id'] . '</td>
-                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
-                                                        if ($row['status'] == '1') {
-                                                            echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
-                                                        } else {
-                                                            echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                               
+                                                    $sql1 = "SELECT business_mentor_id as id, firstname, lastname, status FROM business_mentor 
+                                                                    WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
+                                                    $stmt1 = $conn->prepare($sql1);
+                                                    $stmt1->execute();
+                                                    $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt1->rowCount() > 0) {
+                                                        foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                            echo '<tr>
+                                                                        <td>' . $row['id'] . '</td>
+                                                                        <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
+                                                            if ($row['status'] == '1') {
+                                                                echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                            } else {
+                                                                echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                            }
+                                                            echo '</tr>';
                                                         }
-                                                        echo '</tr>';
                                                     }
-                                                }
                                                 ?>
                                             </tbody>
                                         </table>
@@ -3555,25 +2857,25 @@ $Year = date('Y'); //year
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // $sql1 = "SELECT * FROM customer where user_type='2' and (status='1' or status='0' or status='3') and cust_id != '' order by cust_id desc limit 5";
-                                                $sql1 = "SELECT master_franchisee_id as id, firstname, lastname, status FROM master_franchisee 
-                                                                 WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
-                                                $stmt1 = $conn->prepare($sql1);
-                                                $stmt1->execute();
-                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt1->rowCount() > 0) {
-                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
-                                                        echo '<tr>
-                                                                    <td>' . $row['id'] . '</td>
-                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
-                                                        if ($row['status'] == '1') {
-                                                            echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
-                                                        } else {
-                                                            echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                
+                                                    $sql1 = "SELECT master_franchisee_id as id, firstname, lastname, status FROM master_franchisee 
+                                                                    WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
+                                                    $stmt1 = $conn->prepare($sql1);
+                                                    $stmt1->execute();
+                                                    $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt1->rowCount() > 0) {
+                                                        foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                            echo '<tr>
+                                                                        <td>' . $row['id'] . '</td>
+                                                                        <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
+                                                            if ($row['status'] == '1') {
+                                                                echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                            } else {
+                                                                echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                            }
+                                                            echo '</tr>';
                                                         }
-                                                        echo '</tr>';
                                                     }
-                                                }
                                                 ?>
                                             </tbody>
                                         </table>
@@ -3610,25 +2912,25 @@ $Year = date('Y'); //year
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                // $sql1 = "SELECT * FROM customer where user_type='2' and (status='1' or status='0' or status='3') and cust_id != '' order by cust_id desc limit 5";
-                                                $sql1 = "SELECT sponsor_franchisee_id as id, firstname, lastname, status FROM sponsor_franchisee 
-                                                                 WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
-                                                $stmt1 = $conn->prepare($sql1);
-                                                $stmt1->execute();
-                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                                                if ($stmt1->rowCount() > 0) {
-                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
-                                                        echo '<tr>
-                                                                    <td>' . $row['id'] . '</td>
-                                                                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
-                                                        if ($row['status'] == '1') {
-                                                            echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
-                                                        } else {
-                                                            echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                
+                                                    $sql1 = "SELECT sponsor_franchisee_id as id, firstname, lastname, status FROM sponsor_franchisee 
+                                                                    WHERE (status='1' or status='0' or status='3') and id != '' order by id desc limit 6";
+                                                    $stmt1 = $conn->prepare($sql1);
+                                                    $stmt1->execute();
+                                                    $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    if ($stmt1->rowCount() > 0) {
+                                                        foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                            echo '<tr>
+                                                                        <td>' . $row['id'] . '</td>
+                                                                        <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>';
+                                                            if ($row['status'] == '1') {
+                                                                echo '<td><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                            } else {
+                                                                echo '<td><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                            }
+                                                            echo '</tr>';
                                                         }
-                                                        echo '</tr>';
                                                     }
-                                                }
                                                 ?>
                                             </tbody>
                                         </table>

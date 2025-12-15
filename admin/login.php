@@ -47,7 +47,7 @@
                             </div>
                             <div class="card-body pt-0"> 
                                 <div class="auth-logo">
-                                    <a href="index.html" class="auth-logo-light">
+                                    <a href="javascript:void(0)" class="auth-logo-light">
                                         <div class="avatar-md profile-user-wid mb-4">
                                             <span class="avatar-title rounded-circle bg-light">
                                                 <img src="assets/images/fav.png" alt="" class="rounded-circle" height="34">
@@ -55,7 +55,7 @@
                                         </div>
                                     </a>
 
-                                    <a href="index.html" class="auth-logo-dark">
+                                    <a href="javascript:void(0)" class="auth-logo-dark">
                                         <div class="avatar-md profile-user-wid mb-4">
                                             <span class="avatar-title rounded-circle bg-light">
                                                 <img src="assets/images/fav.png" alt="" class="rounded-circle" height="34">
