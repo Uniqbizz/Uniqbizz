@@ -111,43 +111,6 @@ if($user_type == 'te'){
                 $city = $cities->fetch();
                 $city_name = $city['city_name'];
             }
-
-            // business_consultant name #2
-            // $business_consultants = $conn->prepare("SELECT firstname, lastname FROM business_consultant where business_consultant_id='".$reference_no."'");
-            // $business_consultants ->execute();
-            // $business_consultants ->setFetchMode(PDO::FETCH_ASSOC);
-            // if(  $business_consultants->rowCount()>0 ){
-            //     $business_consultants = $business_consultants->fetch();
-            //     $reference_no_fname = $business_consultants['firstname'];
-            //     $reference_no_lname = $business_consultants['lastname'];
-            // }
-
-            // $reference_id = substr($reference_no, 0 , 2); #1
-            // if($reference_id == "BT"){
-            //     // business trainee name
-            //     $business_trainees = $conn->prepare("SELECT firstname, lastname, reference_no FROM business_trainee where business_trainee_id='".$reference_no."'");
-            //     $business_trainees ->execute();
-            //     $business_trainees ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $business_trainees->rowCount()>0 ){
-            //         $business_trainee = $business_trainees->fetch();
-            //         $reference_no_fname = $business_trainee['firstname'];
-            //         $reference_no_lname = $business_trainee['lastname'];
-            //         // $business_trainees_reference_no = $business_trainee['reference_no'];
-
-            //     }
-
-            // }else{
-            //     // Travel agent name
-            //     $travel_agents = $conn->prepare("SELECT firstname, lastname FROM travel_agent where travel_agent_id='".$reference_no."'");
-            //     $travel_agents ->execute();
-            //     $travel_agents ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $travel_agents->rowCount()>0 ){
-            //         $travel_agents = $travel_agents->fetch();
-            //         $reference_no_fname = $travel_agents['firstname'];
-            //         $reference_no_lname = $travel_agents['lastname'];
-            //     }
-            // } 
-
             //#3
             $reference_id = substr($reference_no, 0, 2);
             if ($reference_id == "BM") {

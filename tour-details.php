@@ -497,59 +497,7 @@ if($user_type_id_value == '11'){
                                     </div>
 
 
-                                    <!-- / Tour Plan accordion-->
-
-                                    <!-- Tour Privacy Policy -->
-                                    <!-- <div class="tour-details-content">
-                                        <h4 class="title">Policy</h4>
-                                        <p class="pera">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor
-                                            incididunt
-                                            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                            exercitation ullamco
-                                            laboris
-                                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                            reprehenderit in voluptate velit
-                                            esse
-                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                                            non proident, sunt in
-                                            culpa
-                                            qui officia deserunt mollit anim id est laborum."</p>
-                                        <p class="pera">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                            accusantium
-                                            doloremque
-                                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis
-                                            et quasi architecto
-                                            beatae
-                                            vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                                            aspernatur aut odit aut
-                                            fugit,
-                                            sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
-                                            nesciunt. Neque porro
-                                            quisquam est,
-                                            qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
-                                            non numquam eius modi
-                                            tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut
-                                            enim ad minima veniam,
-                                            quis
-                                            nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-                                            ex ea commodi
-                                            consequatur?
-                                            Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-                                            nihil molestiae
-                                            consequatur,
-                                            vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                                        <ol class="policy-point">
-                                            <li class="list">Neque porro quisquam est, qui dolorem ipsum quia dolor sit
-                                                amet, consectetur,
-                                                adipisci velit.</li>
-                                            <li class="list">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                                                odit aut fugit.</li>
-                                            <li class="list">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                                sed do eiusmod.</li>
-                                        </ol>
-                                    </div> -->
-                                    <!-- / Tour Privacy Policy -->
+                                    
                                 </div>
                                 <div class="col-xl-4 col-lg-5" id="sidebar-sticky">
                                     <!-- added on 30 Jan 2025 by N-->
@@ -649,13 +597,18 @@ if($user_type_id_value == '11'){
                                                                 </div>
 
                                                                 <!-- TA -->
-                                                                <div class="input-box col-sm-12 customersID">
+                                                                <!-- <div class="input-box col-sm-12 customersID">
                                                                     <input type="text" class="border-0 fs-6 bg-transparent"
                                                                         list="customer_suggestion" id="cust_id"
                                                                         placeholder="Select Customer ID" />
                                                                     <datalist id="customer_suggestion" class="selectdesign">
-                                                                        <?php echo '<option> No Customer to Show </option>'; ?>
+                                                                        <?php // echo '<option> No Customer to Show </option>'; ?>
                                                                     </datalist>
+                                                                </div> -->
+                                                                <div class="input-box fs-6 col-sm-12 customersID">
+                                                                    <select id="cust_id" class="border-0 fs-6 bg-transparent" style="width:100%;">
+                                                                        <option value="">Select Customer ID</option>
+                                                                    </select>
                                                                 </div>
                                                                 <!--  TA End -->
                                                             <?php } else { ?>
@@ -1222,7 +1175,7 @@ if($user_type_id_value == '11'){
             total_infants = 0;
         let count_members = 0,
             no_adult, no_child;
-        let cust_type, user_cust_id, user_type;
+        let cust_type, user_cust_id, user_type,ta_id;
         let ta_markup_price;
 
         // DOM elements
@@ -1316,6 +1269,8 @@ if($user_type_id_value == '11'){
             // Customer setup
             cust_type = $("input[name='cust_type']:checked").val();
             user_cust_id = <?php echo json_encode($user_cust_id, JSON_HEX_TAG); ?>;
+           
+
             getCustomersID(user_cust_id, cust_type);
 
             $("input[name='cust_type']").on('click', function() {
@@ -1328,35 +1283,38 @@ if($user_type_id_value == '11'){
             user_type = <?php echo $user_type; ?>;
         });
 
-
+        //for seachable dropdown of customer ids
+        $('#cust_id').select2({
+            placeholder: "Select Customer ID",
+            allowClear: true
+        });
 
         // get reference customer for thet perticular travel agent
         function getCustomersID(user_cust_id, cust_type) {
             $.ajax({
                 type: "POST",
                 url: 'assets/submit/customers_id.php',
-                data: 'user_cust_id=' + user_cust_id + '&status=' + cust_type,
-                success: function(e) {
-                    $("#customer_suggestion").html(e);
-                },
-                error: function(err) {
-                    console.log(err);
+                data: { user_cust_id: user_cust_id, status: cust_type },
+                success: function(response) {
+                    $("#cust_id").html(response).trigger("change");
                 }
             });
         }
 
+
         // get Customer ID - when Travel agent selects Customer Id from dropdown get details of selected Customer and place them in book tour table.
         var cust_id = 0;
         var showButton = document.getElementById("book_tour");
-        $("#cust_id").keyup(function() {
+        $("#cust_id").change(function() {
             var customerData;
             cust_id = $("#cust_id").val();
-             console.log('customerId:'+cust_id);
-            if (cust_id) {
+            console.log('customerId:'+cust_id);
+            ta_id = <?php echo json_encode($ta_id, JSON_HEX_TAG); ?>;
+            if (cust_id && cust_id !="--Select Customer ID--") {
                 $.ajax({
                     type: "POST",
                     url: 'assets/submit/get_customer_details.php',
-                    data: 'cust_id=' + cust_id + '&user_type=10',
+                    data: 'cust_id=' + cust_id + '&user_type=10&ta_id='+ta_id,
                     success: function(res) {
                         if (res == "fail") {
                             console.log("No Customer Data Found");
@@ -1383,9 +1341,19 @@ if($user_type_id_value == '11'){
                         console.log(err);
                     }
                 });
+                // let input = this;
+                // let list = document.getElementById("customer_suggestion").options;
+                // let val = input.value;
+                // // Check if selected value exists in suggestions
+                // for (let i = 0; i < list.length; i++) {
+                //     if (val === list[i].value) {
+                //         input.readOnly = true; // disable editing
+                //         break;
+                //     }
+                // }
             } else {
                 $("#cust_id").val('');
-                $("#b_name").val('');
+                $("#b_name").val('').attr("placeholder", "Name");
                 $("#b_email").val('');
                 $("#b_phn_no").val('');
                 $("#dob").val('');

@@ -512,6 +512,19 @@ if($payoutmessage == 'allPayout'){
                             }
                         }
                         $designation_name = "Business Mentor";
+                    }else if($reference == 'BH'){
+                        $sql0=$conn->prepare("SELECT user_type,name,employee_id FROM employees WHERE employee_id=:employee_id");
+                        $sql0->bindParam(':employee_id',$row['business_mentor'],PDO::PARAM_STR);
+                        $sql0->execute();
+
+                        if ($sql0->rowCount() > 0) {
+                            foreach ($sql0->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['business_mentor_id'] . ')';
+                                $designation_name = $row1['user_type'] == '31'?"Relationship Manager":($row1['user_type'] == '25'?"Business Development Manager":"NA");
+                            }
+                        }
+                        
+                        
                     }else{
                         $name ="NA";
                         $designation_name = "NA";
@@ -674,6 +687,19 @@ if($payoutmessage == 'allPayout'){
                             }
                         }
                         $designation_name = "Business Mentor";
+                    }else if($reference == 'BH'){
+                        $sql0=$conn->prepare("SELECT user_type,name,employee_id FROM employees WHERE employee_id=:employee_id");
+                        $sql0->bindParam(':employee_id',$row['business_mentor'],PDO::PARAM_STR);
+                        $sql0->execute();
+
+                        if ($sql0->rowCount() > 0) {
+                            foreach ($sql0->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                $name = $row1['name'] . ' (' . $row1['employee_id'] . ')';
+                                $designation_name = $row1['user_type'] == '31'?"Relationship Manager":($row1['user_type'] == '25'?"Business Development Manager":"NA");
+                            }
+                        }
+                        
+                        
                     }else{
                         $name ="NA";
                         $designation_name = "NA";

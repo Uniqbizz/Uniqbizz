@@ -27,11 +27,7 @@
                     </li>
                     <?php 
                         if($userType == "3"){ ?>
-                            <!-- <li class="nav-item <?php if ($first_part=="view_business_trainee.php") {echo "actives"; } else  {echo "noactive";}?>">
-                                <a class="nav-link menu-link" href="view_business_trainee.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                    <i class="ri-contacts-line"></i> <span data-key="t-business-trainee">Business Trainee</span>
-                                </a>
-                            </li> -->
+                            
                             <li class="nav-item <?php if ($first_part=="view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
                                 <a class="nav-link menu-link" href="view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                     <i class="ri-contacts-line"></i> <span data-key="t-corporate-agency">Corporate Agency</span>
@@ -50,10 +46,7 @@
                     <?php
                         }else if($userType == "16" || $userType == "29"){
                     ?>
-                        <!--<li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">-->
-                        <!--    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
-                        <!--        <i class="ri-contacts-line"></i> <span data-key="t-home">Home Page</span>-->
-                        <!--    </a>-->
+                        
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_travel_agent.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
@@ -65,34 +58,16 @@
                                 <i class="ri-contacts-line"></i> <span data-key="t-customer">Customer</span>
                             </a>
                         </li>
-                         <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-customer">Packages</span>
-                            </a>
-                        </li>
-                        <li class="nav-item <?php if ($first_part=="tour_history.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="tour_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour History</span>
-                            </a>
-                        </li>
+                        
                     <?php  
                         }else if($userType == "11"){
                     ?>
-                        <!--<li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">-->
-                        <!--    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
-                        <!--        <i class="ri-contacts-line"></i> <span data-key="t-home">Home Page</span>-->
-                        <!--    </a>-->
-                        <!--</li>-->
+                        
                         <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-markup">Markup</span>
                             </a>
                         </li>
-                        <!--<li class="nav-item <?php if ($first_part=="tour_history.php") {echo "actives"; } else  {echo "noactive";}?>">-->
-                        <!--    <a class="nav-link menu-link" href="tour_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
-                        <!--        <i class="ri-contacts-line"></i> <span data-key="t-markup">Tour History</span>-->
-                        <!--    </a>-->
-                        <!--</li>-->
                         <li class="nav-item <?php if ($first_part=="view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-customer">Customer</span>
@@ -208,14 +183,9 @@
                     ?>
                         <li class="nav-item <?php if ($first_part=="order_history.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Order History</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Tour History</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Markup</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item <?php if ($first_part=="terms-condition-consultant.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="terms-condition-consultant.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-order-history">Terms Condition</span>
@@ -262,11 +232,6 @@
                                 </ul>
                             </div>
                         </li>
-                        <!-- <li class="nav-item <?php if ($first_part=="view_cbd.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="view_cbd.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Channel Business Director</span>
-                            </a>
-                        </li> -->
                         
                     <?php             
                         }
@@ -289,11 +254,6 @@
                                 <i class="ri-contacts-line"></i> <span data-key="t-order-history">Sales Manager / Executive</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item <?php if ($first_part=="view_cbd.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="view_cbd.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Channel Business Director</span>
-                            </a>
-                        </li> -->
                         
                     <?php             
                         }
@@ -334,11 +294,6 @@
                     <?php             
                         if($userType == "25"){ 
                     ?>
-                        <!-- <li class="nav-item <?php if ($first_part=="view_business_development_manager.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="view_business_development_manager.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Development Manager</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item <?php if ($first_part=="view_business_mentor.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_business_mentor.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-order-history">BM/SF/MF</span>
@@ -365,11 +320,6 @@
                     <?php             
                         if($userType == "31"){ 
                     ?>
-                        <!-- <li class="nav-item <?php if ($first_part=="view_business_development_manager.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="view_business_development_manager.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Development Manager</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item <?php if ($first_part=="view_business_mentor.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_business_mentor.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-order-history">SF/MF</span>
@@ -398,16 +348,6 @@
                         if($userType == "26" || $userType == "28" || $userType =="30"){ 
                             
                     ?>
-                        <!-- <li class="nav-item <?php if ($first_part=="view_business_development_manager.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="view_business_development_manager.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Development Manager</span>
-                            </a>
-                        </li> -->
-                        <!-- <li class="nav-item <?php if ($first_part=="view_business_mentor.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="view_business_mentor.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Business Mentor</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item <?php if ($first_part=="view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-order-history"><?=($userType == "28"|| $userType =="30")? 'Franchisee':'Techno Enterprise'?></span>
@@ -426,46 +366,9 @@
                     <?php             
                         }
                     ?>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
-                            <i class="mdi mdi-share-variant-outline"></i> <span data-key="t-multi-level">Multi Level</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="sidebarMultilevel">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-level-1.1"> Level 1.1 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAccount" data-key="t-level-1.2"> Level 1.2
-                                    </a>
-                                    <div class="collapse menu-dropdown" id="sidebarAccount">
-                                        <ul class="nav nav-sm flex-column">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link" data-key="t-level-2.1"> Level 2.1 </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#sidebarCrm" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCrm" data-key="t-level-2.2"> Level 2.2
-                                                </a>
-                                                <div class="collapse menu-dropdown" id="sidebarCrm">
-                                                    <ul class="nav nav-sm flex-column">
-                                                        <li class="nav-item">
-                                                            <a href="#" class="nav-link" data-key="t-level-3.1"> Level 3.1 </a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a href="#" class="nav-link" data-key="t-level-3.2"> Level 3.2 </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li> -->
                     <li class="nav-item <?php if ($first_part=="order_history.php") {echo "actives"; } else  {echo "noactive";}?>">
                         <a class="nav-link menu-link" href="order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="ri-contacts-line"></i> <span data-key="t-customer">Order History</span>
+                            <i class="ri-contacts-line"></i> <span data-key="t-customer">Tour History</span>
                         </a>
                     </li>
 

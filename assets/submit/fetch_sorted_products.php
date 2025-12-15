@@ -10,7 +10,7 @@
     $sort = $_POST['sort'];
     $ratings = $_POST['ratings']; // Array of selected ratings
     $tour_type = $_POST['tourType']??[0]; // Array of selected tour_type
-    $destination = trim($_POST['destination'] ?? '');
+    $destination = trim($_POST['destination'] ?? 'All Locations');
     $viewType = trim($_POST['viewType'] ?? '1');
     // destination text
 
@@ -29,7 +29,7 @@
             p.created_date,
             p.name,
             p.description,
-            p.destination,
+            p.location,
             p.location,
             p.tour_days,
             t.total_package_price_per_adult,
@@ -75,15 +75,14 @@
     }
 
     // ✅ Destination filter (optional)
-    if (!empty($destination)) {
-        $safeDestination = addslashes($destination);
-        $where .= " AND p.destination LIKE '%{$safeDestination}%'";
+    if (!empty($destination) && $destination !='All Locations') {
+        $where .= " AND p.location LIKE '%{$destination}%'";
     }
 
     // GROUP BY
     $groupBy = "
         GROUP BY 
-            p.id, p.name, p.description, p.destination, p.location,
+            p.id, p.name, p.description, p.location, p.location,
             t.total_package_price_per_adult,t.price_up_per_adult, t.markup_total, c_h.name";
 
     if ($sort === 'popular') {

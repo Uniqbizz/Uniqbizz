@@ -423,8 +423,6 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-
-
                 <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->

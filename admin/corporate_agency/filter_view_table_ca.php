@@ -155,7 +155,7 @@ if ($stmt->rowCount() > 0) {
 
         echo '<tr>
             <td>
-                <span class="badge bg-secondary">' . strtoupper($row['user_type']) . '</span>&nbsp;
+                <span class="badge bg-secondary">' . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . '</span>&nbsp;
                 ' . $row['corporate_agency_id'] . '
             </td>
             <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>

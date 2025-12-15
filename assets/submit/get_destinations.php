@@ -8,7 +8,11 @@ $stmt->execute(); // ✅ Execute the prepared statement
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Convert data to Select2 format
-$data = [];
+$data[] = [
+        "id" => 0,
+        "text" => 'All Locations',
+        "description" => 'All Locations'
+    ];
 
 foreach ($results as $row) {
     $data[] = [

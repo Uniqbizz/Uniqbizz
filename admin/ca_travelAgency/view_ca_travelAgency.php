@@ -99,12 +99,6 @@
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 class="mb-sm-0 font-size-18">Travel Consultant</h4>
-
-                                    <!-- <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Customers</li>
-                                        </ol> -->
                                     </div>
 
                                 </div>
@@ -124,11 +118,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-6">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newTravelAgencyModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addTravelAgencymodal"><i class="mdi mdi-plus me-1"></i> New Travel Consultant</button>
-                                                </div>
-                                            </div> -->
                                         </div>
 
                                         <div class="table-responsive">
@@ -224,47 +213,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-8">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCustomerModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCustomers-modal"><i class="mdi mdi-plus me-1"></i> New Customers</button>
-                                                </div>
-                                            </div> -->
                                             <!-- end col-->
 
                                             <!-- Search Filter -->
                                              <div class="row filter-row p-2">
-                                                <!--<div class="col-sm-6 col-md-6"> 
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label"><span>State</span></label>
-                                                        <select class="form-control" id="filter_state" aria-label="Floating label select example"> 
-                                                            <option value="0">--- Select ---</option>
-                                                            <?php
-                                                                // require '../connect.php';
-                                                                // $sql = "SELECT * FROM `states` WHERE status ='1' ";
-                                                                // $stmt = $conn->prepare($sql);
-                                                                // $stmt -> execute();
-                                                                // $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                // if($stmt-> rowCount()>0 ){
-                                                                //     foreach( ($stmt -> fetchAll()) as $key => $row ){
-                                                                //         echo'
-                                                                //             <option value="'.$row['id'].'">'.$row['state_name'].'</option>
-                                                                //         ';
-                                                                //     }
-                                                                // }else{
-                                                                //     echo '<option value="">Department not available</option>'; 
-                                                                // }
-                                                            ?>
-                                                        </select>
-                                                        
-                                                    </div>
-                                                </div> -->
-
                                                 
-                                                <!-- <div class="col-sm-4 col-md-2">
-                                                    <div class="d-grid ">
-                                                        <a href="#" id="filterBranch" class="btn btn-success w-100 "> Search </a>  
-                                                    </div>  
-                                                </div> -->
                                                 <!-- designation -->
                                                 <div class="col-sm-2 col-md-2"> 
                                                     <div class="input-block mb-3">
@@ -704,29 +657,6 @@
             </div>
         </div>
         <!-- end confirmItemModal -->
-
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
-                <div class="modal-content">
-                    <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="avatar-sm mb-4 mx-auto">
-                            <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
-                                <i class="fas fa-user-edit text-primary"></i>
-                            </div>
-                        </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Edit this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Edit Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-editItemModal" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- end editItemModal -->
 
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>
