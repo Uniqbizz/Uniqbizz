@@ -128,7 +128,7 @@ if ($result) {
 				$reference_id = (substr($reference_no, 0, 1) == 'F') 
 								? substr($reference_no, 0, 1) 
 								: substr($reference_no, 0, 2);
-				if ($reference_id == "TE") {
+				if ($reference_id == "TE" || $reference_id == "CA") {
 
 					//get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
 					$sql10 = $conn->prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$reference_no."'");
@@ -173,8 +173,6 @@ if ($result) {
 							foreach(($sql11->fetchAll()) as $key11 => $row11){
 								$BmId = $row11['employee_id'];
 								$BmName = $row11['name'];
-								// $BdmId = $row11['reference_no'];//not needed
-								// $BdmName = $row11['registrant'];//not needed
 							}
 						}
 						$bm_commi = '0'; 
@@ -187,11 +185,6 @@ if ($result) {
 					}else{
 						$te_commi = '1000';
 					}
-					// $te_commi = '1000';  
-					// $bm_commi = '300';  
-					
-					// $message_bm = "BM - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
-					// $commision_bm = $bm_commi;
 
 					$message_te = "TE - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on recruting Travel Consultant. Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-";
 					$commision_te = $te_commi;
@@ -315,6 +308,7 @@ if ($result) {
 							foreach(($sql11->fetchAll()) as $key11 => $row11){
 								$BmId = $row11['employee_id'];
 								$BmName = $row11['name'];
+								$emp_user_type=$row['user_type'];
 							}
 						}
 						if($amount == "FOC"){
@@ -322,7 +316,7 @@ if ($result) {
 						}else{
 							$bm_commi = '300'; 
 						}
-						$message_bm = "Business Development Manager - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+						$message_bm = $emp_user_type == 25?"Business Development Manager":($emp_user_type == 31?"Relationship Manager":"NA") ."- ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
 						$commision_bm = $bm_commi;
 
 					}
