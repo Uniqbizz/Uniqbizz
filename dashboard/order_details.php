@@ -269,7 +269,7 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                                 ?>
                                                             </div>
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-0">
-                                                                <!-- <div class="row"> -->
+                                                                <div>
                                                                     <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-6"> -->
                                                                         <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Order ID: <span class="fw-normal"><?php echo $booking['order_id']; ?></span></p>
                                                                         <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Package: <span class="fw-normal"><?php echo $package['name']; ?></span></p>
