@@ -207,7 +207,6 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 p-3 d-flex justify-content-between pt-5">
-                                                        <!-- <img src="assets/images/uniqbizz_logo.png" alt="uniqbizz logo" height="20px;" class="mt-4"> -->
                                                         <img src="assets/images/bizz_logo.png" alt="uniqbizz logo" height="50px" width="100px">
                                                         <div>
                                                             <p class="fw-bold pt-3 mb-0">Invoice No: <span class="fw-normal"> <?php echo $booking['invoice_no'] ?></span></p>
@@ -241,21 +240,12 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-0" style="padding-left: 35px">
-                                                        <!-- <h5 style="color: #000; font-size: bolder">Invoice No. <strong> <?php echo $booking['invoice_no'] ?></strong></h5> -->
                                                         <p class="fw-bolder mb-0">Booking No: <span class="fw-normal"><?php echo $booking['order_id'] ?></span></p>
                                                         <p class="fw-bolder mb-0">Payment: <span style="color:<?= $pay_status_color ?>"><?php echo $pay_status; ?></span></p>
                                                         <p class="fw-bolder"> Transaction ID:
                                                             <span class="fs-6 fw-normal"><?php echo $total_direct['paymentid'] ?></span>
                                                         </p>
                                                     </div>
-                                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-end pt-3" style="padding-right: 42px">
-                                                        <h5 style="color: #000; font-size: bolder">₹ <strong> <?php echo number_format((float)$total_direct['total_price'], 2, '.', '') ?></strong></h5>
-                                                        <?php
-                                                        // if ($booking['gst_status'] == "1") {
-                                                        //     echo '<p class="textColor" style="text-align: right; padding:5px 0px; color:#473e3e; ">GSTIN - ' . $total_direct['gst_number'] . '</p>';
-                                                        // }
-                                                        ?>
-                                                    </div> -->
                                                     <div class="col-lg-11 col-md-11 col-sm-11 col-11 rounded-5 border border-dark" style="margin: auto;">
                                                         <div class="row">
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-3 pb-1">
@@ -269,13 +259,12 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                                 ?>
                                                             </div>
                                                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-0">
-                                                                
-                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Order ID: <span class="fw-normal"><?php echo $booking['order_id']; ?></span></p>
-                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Package: <span class="fw-normal"><?php echo $package['name']; ?></span></p>
-                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Destination: <span class="fw-normal"></span></p>
-                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Departure Date: <span class="fw-normal"><?php echo $tour_on; ?></span></p>
-                                                                <p class="ms-3 text-dark fs-6 fw-bolder">Member Count: <span class="fw-normal"><?php echo "Adults-".$booking['adults']  .", Child-".$booking['children'] .", Infants-".$booking['infants']; ?></span></p>
-                                                                    
+                                                                <div>
+                                                                    <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Order ID: <span class="fw-normal"><?php echo $booking['order_id']; ?></span></p>
+                                                                    <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Package: <span class="fw-normal"><?php echo $package['name']; ?></span></p>
+                                                                    <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Destination: <span class="fw-normal"></span></p>
+                                                                    <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Departure Date: <span class="fw-normal"><?php echo $tour_on; ?></span></p>
+                                                                    <p class="ms-3 text-dark fs-6 fw-bolder">Member Count: <span class="fw-normal"><?php echo "Adults-".$booking['adults']  .", Child-".$booking['children'] .", Infants-".$booking['infants']; ?></span></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -327,12 +316,12 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                                 <!-- only if coupon is applied -->
                                                                 <?php
                                                                     if($booking['coupons_code'] != ""){
-
+ 
                                                                 ?>
                                                                 <p class="fw-bold pt-0 mb-0 text-end">Coupon Applied: <span class="fw-normal" style="coupon-position"><?= $total_direct['coupon_discount']?></span></p>
                                                                 <p class="fw-bold pt-0 mt-n1 ms-n4 mb-0 text-start">(<span><?php echo $booking['coupons_code'] ?></span>)</p>
                                                                 <?php
-                                                                    } 
+                                                                    }
                                                                     //if GST is applicable
                                                                     if ($booking['gst_status'] == "1") {
                                                                 ?>
@@ -398,7 +387,6 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                         </div>
                                                     </div>
                                                 </div> -->
-                                                <!-- </div> -->
                                             </div>
                                             <footer>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-3">
