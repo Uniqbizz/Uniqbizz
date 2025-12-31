@@ -127,6 +127,7 @@ if($user_type_id_value == '11'){
 }else {
     $ta_markup_price_val = 0;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -820,7 +821,7 @@ if($user_type_id_value == '11'){
                                                 </div>
                                                 <?php  } ?>
                                                 <div class="form-container date-travel-card position-sticky top-0" id="form2">
-                                                    <form>
+                                                    <!-- <form>
                                                         <h5 class="fw-bolder my-2">Enquiry / Quotation Form</h5>
                                                         <div class="row">
                                                             <label class="q_label" for="q_name">Name <span class="text-danger">*</span></label>
@@ -873,6 +874,115 @@ if($user_type_id_value == '11'){
                                                             <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12">
                                                                 <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" placeholder="Approx Budget" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12 d-flex justify-content-around">
+                                                                <div class="form-check form-check-inline fs-6 me-0">
+                                                                    <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox1" value="breakfast">
+                                                                    <label class="form-check-label" for="inlineCheckbox1">Breakfast</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline fs-6 me-0">
+                                                                    <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox2" value="lunch">
+                                                                    <label class="form-check-label" for="inlineCheckbox2">Lunch</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline fs-6 me-0">
+                                                                    <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox3" value="dinner">
+                                                                    <label class="form-check-label" for="inlineCheckbox3">Dinner</label>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_comment">Additional Remarks(If Any)</label>
+                                                            <div class="form-floating px-0">
+                                                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                                               <label for="floatingTextarea2">Comments</label> 
+                                                            </div>
+                                                            <input type="hidden" value="<?= $userId ?>" id="q_user_id">
+                                                            <div class="mt-3 px-0">
+                                                                <button type="button" class="send-btn w-100 d-flex justify-content-center" id="submit_quotations" class="text-white">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form> -->
+                                                    <form>
+                                                        <h5 class="fw-bolder my-2">Enquiry / Quotation Form</h5>
+                                                        <div class="row">
+                                                            <label class="q_label" for="q_name">Name <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12">
+                                                                <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_name" id="q_name" placeholder="Full Name" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_phn_no">Mobile <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12 ">
+                                                                <input type="tel" class="form-control border-0 fs-6 bg-transparent w-100" name="q_phn_no" id="q_phn_no" placeholder="Phone Number" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_email">Email <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12">
+                                                                <input type="email" class="form-control border-0 fs-6 bg-transparent w-100" name="q_email" id="q_email" placeholder="Email" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_duration">Trip Duration <span class="text-danger">*</span></label>
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <!-- <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value=""> -->
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_min" id="q_duration_min" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_max" id="q_duration_max" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_date">Travel Date <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12">
+                                                                <input type="date" class="form-control border-0 fs-6 bg-transparent w-100" name="q_date" id="q_date" value="">
+                                                            </div>
+
+                                                            <div class="form-group col-sm-12 px-0">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-4 col-6">
+                                                                        <label class="q_label ps-3" for="q_no_adult">Adults<span class="text-danger">*</span></label>
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_adult" id="q_no_adult" value="1" placeholder="Adults" min="1">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize"> (12+ Yrs) </span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-4 col-6">
+                                                                        <label class="q_label ps-3" for="q_no_child">Children </label>
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_child" id="q_no_child" value="0" placeholder="Children" min="0">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize"> (3-11 Yrs) </span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-4 col-6">
+                                                                        <label class="q_label ps-3"
+                                                                            for="q_no_infants">Infants </label>
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_infants" id="q_no_infants" min="0" value="0">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize"> (Under 2 Yrs)</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_min" id="q_budget_min" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_max" id="q_budget_max" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12 d-flex justify-content-around">
@@ -1200,7 +1310,7 @@ if($user_type_id_value == '11'){
             added_adult_price = parseFloat(price_data['price_up_per_adult']);
             adult_price = parseFloat(price_data['total_package_price_per_adult']);
             child_price = parseFloat(price_data['total_package_price_per_child']);
-            ta_markup_price = parseFloat(<?php echo $ta_markup_price; ?>);
+            ta_markup_price = parseFloat(<?php echo $ta_markup_price_val; ?>);
             $('input[name="cust_type"]').on('change', function() {
                 const selectedValue = $(this).val();
                 handleCustomerType(selectedValue);
@@ -1268,7 +1378,11 @@ if($user_type_id_value == '11'){
 
             // Customer setup
             cust_type = $("input[name='cust_type']:checked").val();
-            user_cust_id = <?php echo json_encode($user_cust_id, JSON_HEX_TAG); ?>;
+            user_cust_id = <?php
+                                $data = json_encode($user_cust_id ?? 0, JSON_HEX_TAG);
+                                echo ($data === false) ? 0 : $data;
+                           ?>
+
            
 
             getCustomersID(user_cust_id, cust_type);
@@ -1280,7 +1394,12 @@ if($user_type_id_value == '11'){
             });
 
             // Travel Agent data setup
-            user_type = <?php echo $user_type; ?>;
+            user_type = <?php
+                            $data = json_encode($user_type ?? 0, JSON_HEX_TAG);
+                            echo ($data === false) ? 0 : $data;
+                        ?>
+            
+
         });
 
         //for seachable dropdown of customer ids
@@ -1309,7 +1428,11 @@ if($user_type_id_value == '11'){
             var customerData;
             cust_id = $("#cust_id").val();
             console.log('customerId:'+cust_id);
-            ta_id = <?php echo json_encode($ta_id, JSON_HEX_TAG); ?>;
+            ta_id = <?php
+                        $data = json_encode($ta_id ?? 0, JSON_HEX_TAG);
+                        echo ($data === false) ? 0 : $data;
+                    ?>
+            
             if (cust_id && cust_id !="--Select Customer ID--") {
                 $.ajax({
                     type: "POST",
@@ -2592,41 +2715,99 @@ if($user_type_id_value == '11'){
     </script>
     <!-- Book tour form -->
     <script>
-        // Get buttons and form containers
-        const button1 = document.getElementById('button1');
-        const button2 = document.getElementById('button2');
-        const form1 = document.getElementById('form1');
-        const form2 = document.getElementById('form2');
+        // // Get buttons and form containers
+        // const button1 = document.getElementById('button1');
+        // const button2 = document.getElementById('button2');
+        // const form1 = document.getElementById('form1');
+        // const form2 = document.getElementById('form2');
 
-        // Ensure form1 is always visible initially
-        form1.style.display = 'block';
-        form2.style.display = 'none';
+        // // Ensure form1 is always visible initially
+        // if (form1) {
+        //     form1.style.display = 'block';
+        //     button1.addEventListener('click', () => toggleForm('form1', 'form2'));
+        // }
+        // form2.style.display = 'none';
 
-        // Toggle forms when the buttons are clicked
-        button1.addEventListener('click', () => toggleForm('form1', 'form2'));
-        button2.addEventListener('click', () => toggleForm('form2', 'form1'));
+        // // Toggle forms when the buttons are clicked
+        // button2.addEventListener('click', () => toggleForm('form2', 'form1'));
 
-        function toggleForm(formToShow, formToHide) {
-            // Show the selected form and hide the other one
-            const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
-            const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
+        // function toggleForm(formToShow, formToHide) {
+        //     // Show the selected form and hide the other one
+        //     if (form1) {
+        //         const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
+        //         const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
 
-            if (!form1Visible && !form2Visible) {
-                document.getElementById(formToShow).style.display = 'block';
-                document.getElementById(formToHide).style.display = 'none';
+        //         if (!form1Visible && !form2Visible) {
+        //             document.getElementById(formToShow).style.display = 'block';
+        //             document.getElementById(formToHide).style.display = 'none';
+        //         }
+        //     }else{
+                
+        //         const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
+        //         if (!form1Visible && !form2Visible) {
+        //             document.getElementById(formToShow).style.display = 'block';
+        //             document.getElementById(formToHide).style.display = 'none';
+        //         }
+        //     }
+
+        //     //const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
+
+        //     // if (!form1Visible && !form2Visible) {
+        //     //     document.getElementById(formToShow).style.display = 'block';
+        //     //     document.getElementById(formToHide).style.display = 'none';
+        //     // }
+        // }
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const button1 = document.getElementById('button1');
+            const button2 = document.getElementById('button2');
+            const form1 = document.getElementById('form1');
+            const form2 = document.getElementById('form2');
+
+            // CASE 1: form1 exists → show form1 by default
+            if (form1) {
+                form1.style.display = 'block';
+                if (form2) form2.style.display = 'none';
+
+                if (button1 && form2) {
+                    button1.addEventListener('click', () => toggleForm(form1, form2));
+                }
+
+                if (button2 && form2) {
+                    button2.addEventListener('click', () => toggleForm(form2, form1));
+                }
             }
-        }
+            // CASE 2: form1 does NOT exist → show form2 & button2
+            else {
+                if (form2) form2.style.display = 'block';
+                if (button2) button2.style.display = 'inline-block';
+            }
+
+            function toggleForm(showForm, hideForm) {
+                if (!showForm || !hideForm) return;
+
+                showForm.style.display = 'block';
+                hideForm.style.display = 'none';
+            }
+
+        });
+
+
         //quotation submit action with validation
         $('#submit_quotations').click(function() {
             var enName = $('#q_name').val().trim();
             var enPhone = $('#q_phn_no').val().trim();
             var enEmail = $('#q_email').val().trim();
-            var enDuration = $('#q_duration').val().trim();
+            var enDurationMin = $('#q_duration_min').val().trim();
+            var enDurationMax = $('#q_duration_max').val().trim();
+            var enDuration = enDurationMin+"-"+enDurationMax;
             var enTDate = $('#q_date').val().trim();
             var enNadults = $('#q_no_adult').val().trim();
             var enNChild = $('#q_no_child').val().trim();
             var enNInfants = $('#q_no_infants').val().trim();
-            var enBudget = $('#q_budget').val().trim();
+            var enBudgetMin = $('#q_budget_min').val().trim();
+            var enBudgetMax = $('#q_budget_max').val().trim();
+            var enBudget = enBudgetMin+"-"+enBudgetMax;
             var enDestination = $('#pack_name').text();
             var enUserId = $('#q_user_id').val();
             let selectedMeals = [];
@@ -2651,23 +2832,23 @@ if($user_type_id_value == '11'){
                 alert("Please enter your email");
             } else if (!emailRegex.test(enEmail)) {
                 alert("Invalid email");
-            } else if (enDuration == '') {
-                alert("Please enter duratuion days");
-            } else if (enDuration == 0) {
-                alert("Duratuion days cannot be 0");
+            } else if (enDurationMin == 0) {
+                alert("Minimum duration days cannot be 0");
+            } else if (enDurationMax == 0) {
+                alert("maximum duration days cannot be 0");
+            }else if (Number(enDurationMin) > Number(enDurationMax)) {
+                alert("Maximum duration should be greater then Minimum duration");
             } else if (enTDate == '') {
                 alert("Please select Travel date");
             } else if (enNadults == 0) {
                 alert("Number of adults cannot be 0");
-            } else if (enBudget == '') {
-                alert("Please enter your budget");
-            } else if (enBudget == 0) {
-                alert("Budget cannot be 0");
-            } else if (enDuration == '') {
-                alert("Please enter your travel duration days");
-            } else if (enDuration == 0) {
-                alert("Travel duration days cannot be 0");
-            } else if (selectedMeals.length === 0) {
+            } else if (enBudgetMin == 0) {
+                alert("Minimum budget cannot be 0");
+            } else if (enBudgetMax == 0) {
+                alert("Maximum budget cannot be 0");
+            } else if (Number(enBudgetMin) > Number(enBudgetMax)) {
+                alert("Maximum budget should be greater then Minimum budget");
+            }else if (selectedMeals.length === 0) {
                 alert("Select at least one required meal");
             } else {
                 var formdata = {
@@ -2695,8 +2876,10 @@ if($user_type_id_value == '11'){
                     success: function(res) {
                         if (res == 1) {
                             alert("Quotation will be sent to your email!");
+                            location.reload();
                         } else {
                             alert("Server Error: " + res);
+                            location.reload();
                         }
                     }
                 });
