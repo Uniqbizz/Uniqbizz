@@ -36,7 +36,9 @@
 
                 $sdate = new DateTime($row['date']);
                 $date = $sdate->format('d-M-Y');
-                $pax = $row['pax'];
+                $pax_adult = $row['pax_adult'];
+                $pax_child = $row['pax_child']??0;
+                $pax_infant = $row['pax_infant']??0;
                 $package_suggetion = $row['package_suggetion'];
 
                 if($row['status']=="1"){
@@ -171,19 +173,31 @@
                                                                 <label for="day_num">No of Days:</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-sm-6">
+                                                        <div class="col-md-12 col-sm-12">
                                                             <div class="form-floating mb-3">
                                                                 <input type="text" class="form-control" id="destination" name="Destination" placeholder="Destination" value="<?php  echo $destination; ?> " readonly>
                                                                 <label for="destination">Destination:</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3 col-sm-6">
+                                                        <div class="col-md-2 col-sm-2">
                                                             <div class="form-floating mb-3">
-                                                                <input type="text" class="form-control" id="pax_num" name="pax_no" placeholder="No of Pax" value="<?php  echo $pax; ?> " readonly>
-                                                                <label for="pax_num">No of Pax:</label>
+                                                                <input type="text" class="form-control" id="pax_num" name="pax_no" placeholder="No of Pax" value="<?php  echo $pax_adult; ?> " readonly>
+                                                                <label for="pax_num">No of Pax Adults:</label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3 col-sm-6">
+                                                        <div class="col-md-2 col-sm-2">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" class="form-control" id="pax_num" name="pax_no" placeholder="No of Pax" value="<?php  echo $pax_child; ?> " readonly>
+                                                                <label for="pax_num">No of Pax child:</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" class="form-control" id="pax_num" name="pax_no" placeholder="No of Pax" value="<?php  echo $pax_infant; ?> " readonly>
+                                                                <label for="pax_num">No of Pax Infants:</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6">
                                                             <div class="form-floating mb-3">
                                                                 <input type="text" class="form-control" id="person_budget" name="budget" placeholder="Approx Budget per head" value="₹ <?php  echo $budget; ?> " readonly>
                                                                 <label for="person_budget">Approx Budget per head:</label>
