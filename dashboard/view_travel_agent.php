@@ -1961,7 +1961,7 @@
                                                                         }
 
                                                                         // Additional check: Master Franchisee can have direct CA
-                                                                        if($userType == "28"){
+                                                                        if($userType == "28" || $userType =="29"){
                                                                             $stmtDirectCA = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND (status = '1' OR status = '3')");
                                                                             $stmtDirectCA->execute([$userId]);
                                                                             $directCAs = $stmtDirectCA->fetchAll(PDO::FETCH_ASSOC);
