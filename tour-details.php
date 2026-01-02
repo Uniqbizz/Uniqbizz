@@ -837,8 +837,22 @@ if($user_type_id_value == '11'){
                                                                 <input type="email" class="form-control border-0 fs-6 bg-transparent w-100" name="q_email" id="q_email" placeholder="Email" value="">
                                                             </div>
                                                             <label class="q_label" for="q_duration">Trip Duration <span class="text-danger">*</span></label>
-                                                            <div class="input-box col-sm-12">
-                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value="">
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <!-- <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value=""> -->
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_date">Travel Date <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12">
@@ -872,8 +886,130 @@ if($user_type_id_value == '11'){
                                                                 </div>
                                                             </div>
                                                             <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12 d-flex justify-content-around">
+                                                                <div class="form-check form-check-inline fs-6 me-0">
+                                                                    <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox1" value="breakfast">
+                                                                    <label class="form-check-label" for="inlineCheckbox1">Breakfast</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline fs-6 me-0">
+                                                                    <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox2" value="lunch">
+                                                                    <label class="form-check-label" for="inlineCheckbox2">Lunch</label>
+                                                                </div>
+                                                                <div class="form-check form-check-inline fs-6 me-0">
+                                                                    <input class="form-check-input meal-checkbox" type="checkbox" id="inlineCheckbox3" value="dinner">
+                                                                    <label class="form-check-label" for="inlineCheckbox3">Dinner</label>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_comment">Additional Remarks(If Any)</label>
+                                                            <div class="form-floating px-0">
+                                                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                                               <label for="floatingTextarea2">Comments</label> 
+                                                            </div>
+                                                            <input type="hidden" value="<?= $userId ?>" id="q_user_id">
+                                                            <div class="mt-3 px-0">
+                                                                <button type="button" class="send-btn w-100 d-flex justify-content-center" id="submit_quotations" class="text-white">
+                                                                    Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form> -->
+                                                    <form>
+                                                        <h5 class="fw-bolder my-2">Enquiry / Quotation Form</h5>
+                                                        <div class="row">
+                                                            <label class="q_label" for="q_name">Name <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12">
-                                                                <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" placeholder="Approx Budget" value="">
+                                                                <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_name" id="q_name" placeholder="Full Name" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_phn_no">Mobile <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12 ">
+                                                                <input type="tel" class="form-control border-0 fs-6 bg-transparent w-100" name="q_phn_no" id="q_phn_no" placeholder="Phone Number" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_email">Email <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12">
+                                                                <input type="email" class="form-control border-0 fs-6 bg-transparent w-100" name="q_email" id="q_email" placeholder="Email" value="">
+                                                            </div>
+                                                            <label class="q_label" for="q_duration">Trip Duration <span class="text-danger">*</span></label>
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <!-- <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value=""> -->
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_min" id="q_duration_min" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_max" id="q_duration_max" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_date">Travel Date <span class="text-danger">*</span></label>
+                                                            <div class="input-box col-sm-12">
+                                                                <input type="date" class="form-control border-0 fs-6 bg-transparent w-100" name="q_date" id="q_date" value="">
+                                                            </div>
+
+                                                            <div class="form-group col-sm-12 px-0">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-4 col-6">
+                                                                        <label class="q_label ps-3" for="q_no_adult">Adults<span class="text-danger">*</span></label>
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_adult" id="q_no_adult" value="1" placeholder="Adults" min="1">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize"> (12+ Yrs) </span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-4 col-6">
+                                                                        <label class="q_label ps-3" for="q_no_child">Children </label>
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_child" id="q_no_child" value="0" placeholder="Children" min="0">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize"> (3-11 Yrs) </span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-4 col-6">
+                                                                        <label class="q_label ps-3"
+                                                                            for="q_no_infants">Infants </label>
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_no_infants" id="q_no_infants" min="0" value="0">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize"> (Under 2 Yrs)</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_min" id="q_budget_min" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_max" id="q_budget_max" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12 d-flex justify-content-around">
