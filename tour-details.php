@@ -837,8 +837,22 @@ if($user_type_id_value == '11'){
                                                                 <input type="email" class="form-control border-0 fs-6 bg-transparent w-100" name="q_email" id="q_email" placeholder="Email" value="">
                                                             </div>
                                                             <label class="q_label" for="q_duration">Trip Duration <span class="text-danger">*</span></label>
-                                                            <div class="input-box col-sm-12">
-                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value="">
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <!-- <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value=""> -->
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_date">Travel Date <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12">
@@ -872,8 +886,21 @@ if($user_type_id_value == '11'){
                                                                 </div>
                                                             </div>
                                                             <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
-                                                            <div class="input-box col-sm-12">
-                                                                <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" placeholder="Approx Budget" value="">
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12 d-flex justify-content-around">
