@@ -256,7 +256,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         </div>
                                     
                                     <?php
-                                        } else if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { // Traveling
+                                        } else if ($booking['confirm_status'] == 1 &&($today == $startDate || $today <= $endDate)) { // Traveling
                                     ?>
                                         <div class="d-block">
                                             <a href="#">
@@ -267,7 +267,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         </div>
                                         
                                     <?php
-                                        } else if ($today > $endDate) { // Completed
+                                        } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
                                     ?>
                                         <div class="d-block">
                                             <a href="#">
@@ -656,7 +656,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </a>
                                         </div>
                                     </td>
-                                <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { ?>
+                                <?php } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { ?>
                                     <td>
                                         <div class="d-block">
                                             <a href="#">
