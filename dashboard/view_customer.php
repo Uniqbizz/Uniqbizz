@@ -2146,7 +2146,7 @@
                                                                                 <td>'.$datev.'</td>';
                                                                                 
                                                                                 if($row['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Pending</span></td>';
+                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-success">Active</span></td>';
                                                                                 }
@@ -2210,7 +2210,7 @@
                                                                                 <td>'.$datev.'</td>';
                                                                                 
                                                                                 if($row['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Pending</span></td>';
+                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-success">Active</span></td>';
                                                                                 }
@@ -2522,8 +2522,8 @@
                 window.location.href='add_customer.php?vkvbvjfgfikix='+id+'&taId='+taID+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
             };
             
-            function deletefunc(id,fid,refid,action,userId,userType){
-                var dataString = 'id='+id+'&fid='+fid+'&refid='+refid+'&action='+action;+'&userId='+userId+'&userType='+userType
+            function deletefunc(id,refid,action,userId,userType){
+                var dataString = 'id='+id+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType
 
                 $.ajax({
                     type: "POST",

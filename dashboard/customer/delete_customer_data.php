@@ -19,12 +19,12 @@ if($action == 'pending'){
 	$status= '0';
 	$operation = "deleted";
 }else if($action == 'registered') {
-	$ca_cu_id = $_POST["fid"]; //set ca_customer_id
+	$ca_cu_id = $_POST["refid"]; //set ca_customer_id
     $identifier_name = 'ca_customer_id=';
 	$status= '3';
 	$operation = "deactivated";
 } else if($action == 'deactivate') {
-	$ca_cu_id = $_POST["fid"]; //set ca_customer_id
+	$ca_cu_id = $_POST["refid"]; //set ca_customer_id
     $identifier_name = 'ca_customer_id=';
 	$status= '1';					// activate user
 	$today = null;
@@ -57,8 +57,8 @@ $result=  $stmt->execute(array(
 	':deleted_date' => $today	
 ));
 
-if(isset($_POST["fid"])){
-	$ca_customer_id = $_POST["fid"];
+if(isset($_POST["refid"])){
+	$ca_customer_id = $_POST["refid"];
 
 	$sql2 = "UPDATE login SET status=:status WHERE user_id=:ca_customer_id and user_type_id=:user_type";
 	$stmt2 = $conn->prepare($sql2);
