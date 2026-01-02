@@ -1449,7 +1449,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                     </a>
                                                 </div>
                                             </td>
-                                        <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate || $today <= $endDate)) { ?>
+                                        <?php } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { ?>
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
