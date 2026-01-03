@@ -58,10 +58,16 @@ $tc_ids = $_POST['selectedIds'] ?? [];
 $tc_ids = is_array($tc_ids) ? array_filter($tc_ids) : array_filter(explode(',', $tc_ids));
 
 $tc_assign_status = !empty($tc_ids) ? 1 : 2;
-$tenure=$_POST['tenure'];
-$roi=$_POST['roi'];
-$tax=$_POST['tax'];
-$repayAmount=$_POST['repayAmount'];
+
+function postNumber($key) {
+    return (isset($_POST[$key]) && is_numeric($_POST[$key])) ? (float)$_POST[$key] : 0;
+}
+
+$tenure      = postNumber('tenure');
+$roi         = postNumber('roi');
+$tax         = postNumber('tax');
+$repayAmount = postNumber('repayAmount');
+
 $user_type_id = '29';
 
 $title = "Franchisee";
