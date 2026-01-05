@@ -197,10 +197,18 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                 <div class="card">
                                     <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-between pb-3 pt-3 mb-4" style="border-bottom: 1px solid #DDDDDD">
                                         <h5 class="fw-bold fs-3">Order Details</h5>
-                                        <button id="generatePDF" class="bg-success text-white rounded-3 border-0 p-2" href="">
+                                        <!-- <button id="generatePDF" class="bg-success text-white rounded-3 border-0 p-2" href="#">
+                                            <i class="mdi mdi-download font-size-16 text-white me-1"></i>
+                                            Download Invoice
+                                        </button> -->
+                                        <button 
+                                            id="generatePDF"
+                                            type="button"
+                                            class="bg-success text-white rounded-3 border-0 p-2">
                                             <i class="mdi mdi-download font-size-16 text-white me-1"></i>
                                             Download Invoice
                                         </button>
+
                                     </div>
                                     <div class="row d-flex justify-content-center" id="htmlContent">
                                         <div class="row px-2 pb-2 mb-3 rounded-5 border border-dark" style="width:700px;">
@@ -335,58 +343,7 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-lg-11 col-md-11 col-sm-11 col-11 bg-white mt-4 mb-4 rounded-5 border border-dark" style="margin: auto;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-2">
-                                                            <h5 class="text-center text-dark border-bottom border-dark fw-bold pb-2">Amount</h5>
-                                                        </div>
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex pt-3">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-dark ps-3"> -->
-                                                                <?php
-                                                                // echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Price:</p>';
-                                                                // if ($booking['coupons_code'] != "") {
-                                                                //     echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Coupon Applied:</p>';
-                                                                //     echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight: bold;"><strong>' . $booking['coupons_code'] . '</strong></p>';
-                                                                // }
-                                                                // if ($booking['gst_status'] == "1") {
-                                                                //     echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">GST</p>';
-                                                                // }
-                                                                // echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
-                                                                // echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600 ">TOTAL</p>';
-                                                                ?>
-                                                            <!-- </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-6"> -->
-                                                                <?php
-                                                                // if ($booking['gst_status'] == "0") {
-                                                                //     // direct bill
-                                                                //     echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . $total_direct['final_price'] . '</p>';
-                                                                //     if ($booking['coupons_code'] != "") {
-
-                                                                //         echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . $total_direct['coupon_discount'] . '</p>';
-                                                                //         echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                //         echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $total_direct['total_net_payable'] . '</strong></p>';
-                                                                //     } else {
-                                                                //         echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                //         echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $total_direct['total_price'] . '</strong></p>';
-                                                                //     }
-                                                                // } else if ($booking['gst_status'] == "1") {
-                                                                //     // GST Bill
-                                                                //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['total_price'], 2, '.', '') . '</p>';
-                                                                //     if ($booking['coupons_code'] != "") {
-
-                                                                //         echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . number_format((float)$total_gst['coupon_discount'], 2, '.', '') . '</p>';
-                                                                //         echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                //         echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['net_payable'], 2, '.', '') . '</p>';
-                                                                //     }
-                                                                //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>+ ₹ ' . number_format((float)$total_gst['total_gst'], 2, '.', '') . '</strong></p>';
-                                                                //     echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                //     echo '<p class="textColor" style="font-size:14px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . number_format((float)$total_gst['total_net_payable'], 2, '.', '') . '</strong></p>';
-                                                                // }
-                                                                ?>
-                                                            <!-- </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
+                                                
                                             </div>
                                             <footer>
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-3">
@@ -597,17 +554,41 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
         <!-- App js -->
         <script src="assets/js/app.js"></script>
         <script>
-            $("#generatePDF").click(function() {
-                // $(document).ready(function() {
-                var divToPrint = document.getElementById('htmlContent');
-                newWin = window.open("");
-                newWin.document.write('<html><head><link rel="stylesheet" href="assets/css/bootstrap.min.css"><link rel="stylesheet" href="../assets/css/icons.min.css"><link rel="stylesheet" href="../assets/css/app.min.css"></head><body onload="window.print()">' + divToPrint.outerHTML + '</body></html>');
-                newWin.print();
-                newWin.close();
+            $("#generatePDF").on("click", function (e) {
+                e.preventDefault(); // prevent form submit if inside form
 
-                // reoad back to history page
-                window.history.back();
+                var divToPrint = document.getElementById("htmlContent");
+
+                var newWin = window.open("", "", "width=900,height=650");
+
+                newWin.document.open();
+                newWin.document.write(`
+                    <html>
+                    <head>
+                        <title>Invoice</title>
+                        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+                        <link rel="stylesheet" href="../assets/css/icons.min.css">
+                        <link rel="stylesheet" href="../assets/css/app.min.css">
+                    </head>
+                    <body>
+                        ${divToPrint.outerHTML}
+                    </body>
+                    </html>
+                `);
+                newWin.document.close();
+
+                newWin.onload = function () {
+                    newWin.focus();
+                    newWin.print();
+
+                    // Close print window AFTER print dialog opens
+                    setTimeout(function () {
+                        newWin.close();
+                        window.history.back(); // go back safely
+                    }, 500);
+                };
             });
+
         </script>
     </body>
 </html>
