@@ -57,6 +57,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
+    <style>
+        .carousel-section {
+            width: 350px !important;
+            height: 400px !important;
+            border: 2px solid white;
+            border-radius: 15px !important;
+            position: absolute;
+            top: 120px;
+            right: 250px;
+        }
+        .carousel-section2 {
+            width: 150px !important;
+            height: 400px !important;
+            border: 2px solid white;
+            border-radius: 15px !important;
+            position: absolute;
+            top: 120px;
+            right: 80px;
+        }
+        .carousalBackgroundTitle {
+            position: absolute;
+            top: 130px !important;
+        }
+        .carousalBackgroundTitle .pera {
+            font-size: 60px !important;
+            color: white;
+            font-weight: bolder; 
+            padding-left: 50px !important;
+            width: 550px !important;
+        }
+        .peraDescription {
+            font-size: 14px !important;
+            color: white;
+            padding-left: 50px !important;
+            width: 550px !important;
+        }
+        #mainCarousel,
+        #previewCarousel {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
     <main>
@@ -65,134 +108,115 @@
             <?php include_once "headerIndex.php" ?>
             <!-- Video -->
             <div class="hero-bg-video">
-                <!-- <video class="hero-slider-video video-cover" 
-                    poster="assets/images/hero/hero-three-banner.png" loop autoplay muted>
-                    <source src="assets/images/videos/travel1.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video> -->
-                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-
-                    
-
-                        <div class="carousel-item active">
-                            <img src="assets/images/slider/Dubai_1.png" class="d-block sliderWidth" alt="...">
-                            <div class="carousel-caption captionPosition">
-                                <div class="container">
-                                    <div class="row align-items-center justify-content-center g-4">
-                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 d-flex justify-content-center">
-                                            <div class="hero-caption-three position-relative z-3">
-                                                <p class="text-white offerText fontFamily wow fadeInUp" data-wow-delay="0.0s">* Special Offer Valid Till 30th September *</p>
-                                                <h4 class="title wow fadeInUp mb-0 fontFamily" data-wow-delay="0.1s">
-                                                    Dubai
-                                                </h4>
-                                                <hr class="border border-white border-2 opacity-75 my-2">
-                                                <p class="pera wow fadeInUp mb-0 fontFamily" data-wow-delay="0.2s">
-                                                    Experience the magic of Dhow Cruise, Dubai City Tour, Desert Safari, Dubai Frame & Abu Dhabi Grand Mosque
-                                                </p>
-                                                <h5 class="fontFamily text-white wow fadeInUp mt-2" data-wow-delay="0.3s">Booking Start From <span class="fs-2 fw-bolder">&#8377; 20905/</span>person</h5>
-                                                <div class="wow fadeInUp mt-4" data-wow-delay="0.4s">
-                                                    <a href="#" class="btn rounded-2 fontFamily fs-6 fw-bolder capitalText packageBtn" onclick = viewPackage(218);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                <img src="assets/images/slider/carousel-background2.png" alt="" width="100%">
+                <div class="carousalBackgroundTitle">
+                    <p class="pera">Explore The World with Us</p>
+                    <p class="peraDescription">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, nihil nam! Ratione molestias unde illum, aliquid neque in quisquam, accusantium impedit accusamus, exercitationem non a.</p>
+                    <div class="d-inline-block ps-5 mt-4">
+                        <a href="tour-list.php">
+                            <div class="btn-primary-icon-sm rounded-2">
+                                <p class="text-white">View Packages</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="carousel-section">
+                    <div id="mainCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="assets/images/slider/Dubai_1.png" class="d-block sliderWidth" alt="...">
+                                <div class="carousel-caption captionPosition">
+                                    <div class="container">
+                                        <div class="row align-items-center justify-content-center g-4">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
+                                                <div class="hero-caption-three position-relative z-3">
+                                                    <h5 class="wow fadeInUp mb-0 fontFamily text-white text-start fw-bolder" data-wow-delay="0.1s">
+                                                        Dubai
+                                                    </h5>
+                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"><span class="fw-bolder">&#8377; 20905/</span>person</h5>
+                                                    <div class="wow fadeInUp mt-2 text-start" data-wow-delay="0.4s">
+                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(218);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="assets/images/slider/Rajasthan-pic.png" class="d-block sliderWidth" alt="...">
-                            <div class="carousel-caption captionPosition">
-                                <div class="container">
-                                    <div class="row align-items-center justify-content-center g-4">
-                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 d-flex justify-content-center">
-                                            <div class="hero-caption-three position-relative z-3">
-                                                <p class="text-white offerText fontFamily wow fadeInUp" data-wow-delay="0.0s">* Special Offer Valid Till 30th September *</p>
-                                                <h4 class="title wow fadeInUp mb-0 fontFamily" data-wow-delay="0.1s">
-                                                    Rajasthan Royal Tour
-                                                </h4>
-                                                <hr class="border border-white border-2 opacity-75 my-2">
-                                                <p class="pera wow fadeInUp mb-0 fontFamily" data-wow-delay="0.2s">
-                                                    Experience the royal charm of Jaipur, Ajmer & Udaipur – Palaces, Forts, Lakes & Heritage
-                                                </p>
-                                                <h5 class="fontFamily text-white wow fadeInUp mt-2" data-wow-delay="0.3s">Booking Start From <span class="fs-2 fw-bolder">&#8377; 12190/</span>person</h5>
-                                                <div class="wow fadeInUp mt-4" data-wow-delay="0.4s">
-                                                    <a href="#" class="btn rounded-2 fontFamily fs-6 fw-bolder capitalText packageBtn" onclick = viewPackage(238);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Rajasthan-pic.png" class="d-block sliderWidth" alt="...">
+                                <div class="carousel-caption captionPosition">
+                                    <div class="container">
+                                        <div class="row align-items-center justify-content-center g-4">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
+                                                <div class="hero-caption-three position-relative z-3">
+                                                    <h5 class="wow fadeInUp mb-0 fontFamily text-white text-start fw-bolder" data-wow-delay="0.1s">
+                                                        Rajasthan Royal Tour
+                                                    </h5>
+                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"><span class="fw-bolder">&#8377; 12190/</span>person</h5>
+                                                    <div class="wow fadeInUp mt-2 text-start" data-wow-delay="0.4s">
+                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(238);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="assets/images/slider/Delhi_1.png" class="d-block sliderWidth" alt="...">
-                            <div class="carousel-caption captionPosition">
-                                <div class="container">
-                                    <div class="row align-items-center justify-content-center g-4">
-                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 d-flex justify-content-center">
-                                            <div class="hero-caption-three position-relative z-3">
-                                                <p class="text-white offerText fontFamily wow fadeInUp" data-wow-delay="0.0s">* Special Offer Valid Till 30th September *</p>
-                                                <h4 class="title wow fadeInUp mb-0 fontFamily" data-wow-delay="0.1s">
-                                                    Golden Triangle (Delhi–Agra–Jaipur)
-                                                </h4>
-                                                <hr class="border border-white border-2 opacity-75 my-2">
-                                                <p class="pera wow fadeInUp mb-0 fontFamily" data-wow-delay="0.2s">
-                                                    Discover the timeless marvels of India — Taj Mahal at sunrise, Fatehpur Sikri, Amber Fort, Hawa Mahal & light shows in Delhi
-                                                </p>
-                                                <h5 class="fontFamily text-white wow fadeInUp mt-2" data-wow-delay="0.3s">Booking Start From <span class="fs-2 fw-bolder">&#8377; 14,000/</span>person</h5>
-                                                <div class="wow fadeInUp mt-4" data-wow-delay="0.4s">
-                                                    <a href="#" class="btn rounded-2 fontFamily fs-6 fw-bolder capitalText packageBtn" onclick = viewPackage(199);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Delhi_1.png" class="d-block sliderWidth" alt="...">
+                                <div class="carousel-caption captionPosition">
+                                    <div class="container">
+                                        <div class="row align-items-center justify-content-center g-4">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
+                                                <div class="hero-caption-three position-relative z-3">
+                                                    <h5 class="wow fadeInUp mb-0 fontFamily text-white text-start fw-bolder" data-wow-delay="0.1s">
+                                                        Golden Triangle (Delhi–Agra–Jaipur)
+                                                    </h5>
+                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"> <span class="fw-bolder">&#8377; 14,000/</span>person</h5>
+                                                    <div class="wow fadeInUp mt-2 text-start" data-wow-delay="0.4s">
+                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(199);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="assets/images/slider/Munnar.png" class="d-block sliderWidth" alt="...">
-                            <div class="carousel-caption captionPosition">
-                                <div class="container">
-                                    <div class="row align-items-center justify-content-center g-4">
-                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 d-flex justify-content-center">
-                                            <div class="hero-caption-three position-relative z-3">
-                                                <p class="text-white offerText fontFamily wow fadeInUp" data-wow-delay="0.0s">* Monsoon Special Valid Till 25th September *</p>
-                                                <h4 class="title wow fadeInUp mb-0 fontFamily" data-wow-delay="0.1s">
-                                                    Kerala Backwaters & Hills
-                                                </h4>
-                                                <hr class="border border-white border-2 opacity-75 my-2">
-                                                <p class="pera wow fadeInUp mb-0 fontFamily" data-wow-delay="0.2s">
-                                                    Experience Munnar’s waterfalls & tea gardens, Periyar’s wildlife, Houseboat cruise through Alleppey backwaters & scenic Cochin sightseeing
-                                                </p>
-                                                <h5 class="fontFamily text-white wow fadeInUp mt-2" data-wow-delay="0.3s">Booking Start From <span class="fs-2 fw-bolder">&#8377; 12345/</span>person</h5>
-                                                <div class="wow fadeInUp mt-4" data-wow-delay="0.4s">
-                                                    <a href="#" class="btn rounded-2 fontFamily fs-6 fw-bolder capitalText packageBtn" onclick = viewPackage(209);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Munnar.png" class="d-block sliderWidth" alt="...">
+                                <div class="carousel-caption captionPosition">
+                                    <div class="container">
+                                        <div class="row align-items-center justify-content-center g-4">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
+                                                <div class="hero-caption-three position-relative z-3">
+                                                    <h5 class="wow fadeInUp mb-0 fontFamily text-white text-start fw-bolder" data-wow-delay="0.1s">
+                                                        Kerala Backwaters & Hills
+                                                    </h5>
+                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"><span class="fw-bolder">&#8377; 12345/</span>person</h5>
+                                                    <div class="wow fadeInUp mt-2 text-start" data-wow-delay="0.4s">
+                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(209);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="assets/images/slider/Shimla.png" class="d-block sliderWidth" alt="...">
-                            <div class="carousel-caption captionPosition">
-                                <div class="container">
-                                    <div class="row align-items-center justify-content-center g-4">
-                                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 d-flex justify-content-center">
-                                            <div class="hero-caption-three position-relative z-3">
-                                                <p class="text-white offerText fontFamily wow fadeInUp" data-wow-delay="0.0s">* Monsoon Special Valid Till 25th September *</p>
-                                                <h4 class="title wow fadeInUp mb-0 fontFamily" data-wow-delay="0.1s">
-                                                    Shimla–Manali Escape
-                                                </h4>
-                                                <hr class="border border-white border-2 opacity-75 my-2">
-                                                <p class="pera wow fadeInUp mb-0 fontFamily" data-wow-delay="0.2s">
-                                                    Experience snow-clad mountains, Solang Valley adventures & Kufri sightseeing
-                                                </p>
-                                                <h5 class="fontFamily text-white wow fadeInUp mt-2" data-wow-delay="0.3s">Booking Start From <span class="fs-2 fw-bolder">&#8377; 16,649/</span>person</h5>
-                                                <div class="wow fadeInUp mt-4" data-wow-delay="0.4s">
-                                                    <a href="#" class="btn rounded-2 fontFamily fs-6 fw-bolder capitalText packageBtn" onclick = viewPackage(202);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Shimla.png" class="d-block sliderWidth" alt="...">
+                                <div class="carousel-caption captionPosition">
+                                    <div class="container">
+                                        <div class="row align-items-center justify-content-center g-4">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
+                                                <div class="hero-caption-three position-relative z-3">
+                                                    <h5 class="wow fadeInUp mb-0 fontFamily text-white text-start fw-bolder" data-wow-delay="0.1s">
+                                                        Shimla–Manali Escape
+                                                    </h5>
+                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"><span class="fw-bolder">&#8377; 16,649/</span>person</h5>
+                                                    <div class="wow fadeInUp mt-2 text-start" data-wow-delay="0.4s">
+                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(202);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,15 +225,36 @@
                             </div>
                         </div>
                     </div>
-                    <button class="carousel-control-prev prevIcon" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                        <span aria-hidden="true"><i class="fa-solid fa-arrow-left fa-lg arrow-left"></i></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next nextIcon" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                        <span aria-hidden="true"><i class="fa-solid fa-arrow-right fa-lg arrow-right"></i></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
+                <div class="carousel-section2">
+                    <div id="previewCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="assets/images/slider/Rajasthan-pic.png" class="d-block sliderWidth" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Delhi_1.png" class="d-block sliderWidth" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Munnar.png" class="d-block sliderWidth" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Shimla.png" class="d-block sliderWidth" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="assets/images/slider/Dubai_1.png" class="d-block sliderWidth" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev prevIcon" type="button" id="prevBtn">
+                    <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-2xl angle-left"></i></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next nextIcon" type="button" id="nextBtn">
+                    <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-2xl angle-right"></i></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
             <!-- <div class="container">
                 <div class="row align-items-center justify-content-center g-4">
@@ -2027,6 +2072,68 @@
             window.location.href='tour-details.php?pacId='+id;  
         }
     </script>
+    <!-- Carousel section start -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const mainCarouselEl = document.querySelector('#mainCarousel');
+            const previewCarouselEl = document.querySelector('#previewCarousel');
+
+            const AUTO_PLAY_INTERVAL = 4000;
+
+            const mainCarousel = new bootstrap.Carousel(mainCarouselEl, {
+                interval: AUTO_PLAY_INTERVAL,
+                wrap: true,
+                ride: false
+            });
+
+            const previewCarousel = new bootstrap.Carousel(previewCarouselEl, {
+                interval: false,
+                wrap: true,
+                ride: false
+            });
+
+            // Start autoplay ONLY on main carousel
+            mainCarousel.cycle();
+
+            // ==========================
+            // SYNC PREVIEW WITH MAIN
+            // ==========================
+            mainCarouselEl.addEventListener('slide.bs.carousel', function (e) {
+                previewCarousel.to(e.to);
+            });
+
+            // ==========================
+            // PREV / NEXT BUTTONS
+            // ==========================
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                mainCarousel.next();
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                mainCarousel.prev();
+            });
+
+            // ==========================
+            // PAUSE ON HOVER (ONLY CAROUSELS)
+            // ==========================
+            const pauseOnHover = (el) => {
+                el.addEventListener('mouseenter', () => {
+                    mainCarousel.pause();
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    mainCarousel.cycle();
+                });
+            };
+
+            pauseOnHover(mainCarouselEl);
+            pauseOnHover(previewCarouselEl);
+
+        });
+    </script>
+
+    <!-- Carousel section end -->
 </body>
 
 <!-- Mirrored from Bizzmirth Holidayso.vercel.app/template/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:52:47 GMT -->
