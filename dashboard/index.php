@@ -5724,86 +5724,91 @@ if ($userType == 10){
             // monthYear = monthControl.value;
         });
 
+        let monthlyChart;
+
         async function getMonthlyUserData(get_year) {
             const option = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json;charset=utf-8' },
                 body: JSON.stringify({
-                    year: get_year,
-                    current_year: getCurrentYear,
-                    current_month: getCurrentMonth,
-                    user_id: userId,
-                    user_type: userType
+                year: get_year,
+                current_year: getCurrentYear,
+                current_month: getCurrentMonth,
+                user_id: userId,
+                user_type: userType
                 })
             };
-
+ 
             try {
                 const response = await fetch('charts/chartData.php', option);
                 const data = await response.json();
-
-                if (!Array.isArray(data) || data.length === 0) {
-                    console.error("Invalid data", data);
-                    return;
+ 
+                if (!Array.isArray(data)) {
+                console.error("Invalid data", data);
+                return;
                 }
-
-                const xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-                // Labels and Colors
-                const labelMap ={
-                                    '24': ['BDM', 'BM','MF','SF','TE','F', 'TC','CU'],
-                                    '25': ['BM','MF','SF','TE','F', 'TC','CU'],
+ 
+                const xValues = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ 
+                const labelMap = {
+                                    '24': ['BDM','BM','MF','SF','TE','F','TC','CU'],
+                                    '25': ['BM','MF','SF','TE','F','TC','CU'],
                                     '26': ['TE','TC','CU'],
-                                    '28': ['F', 'TC','CU'],
+                                    '28': ['F','TC','CU'],
                                     '29': ['TC','CU'],
                                     '16': ['TC','CU'],
-                                    '30': ['F', 'TC','CU'],
-                                    '31': ['MF','SF','F', 'TC','CU'],
-                                    '11': ['CU'],
-                                };
-
-                const labels = labelMap[userType] || [''];
+                                    '30': ['F','TC','CU'],
+                                    '31': ['MF','SF','F','TC','CU'],
+                                    '11': ['CU']
+                                 };
+ 
+                const labels = labelMap[userType] || [];
                 const colors = [
-                                '#f39c12', // orange
-                                '#27ae60', // green
-                                '#2980b9', // blue
-                                '#8e44ad', // purple
-                                '#e74c3c', // red
-                                '#1abc9c', // turquoise
-                                '#f1c40f', // yellow
-                                '#0ff12d'  // neon green
-                            ];
-
-                const datasets = data.map((arr, i) => ({
-                    label: labels[i] || `Series ${i + 1}`,
-                    data: arr,
-                    borderColor: colors[i % colors.length],       // border color from array
-                    backgroundColor: colors[i % colors.length] + '77', // semi-transparent background
-                    fill: true,
-                    tension: 0.4
-                }));
-
-                new Chart(document.getElementById("myChart"), {
+                                '#f39c12','#27ae60','#2980b9','#8e44ad',
+                                '#e74c3c','#1abc9c','#f1c40f','#0ff12d'
+                               ];
+ 
+                const MONTHS = 12;
+ 
+                const datasets = data.map((arr, i) => {
+                    const hasData = Array.isArray(arr) && arr.length > 0;
+ 
+                    return {
+                        label: labels[i] || `Series ${i + 1}`,
+                        data: hasData ? arr : Array(MONTHS).fill(null),
+                        borderColor: colors[i % colors.length],
+                        backgroundColor: colors[i % colors.length] + '77',
+                        fill: hasData,
+                        tension: 0.4,
+                        pointRadius: hasData ? 3 : 0,
+                        spanGaps: false
+                    };
+                });
+ 
+                if (monthlyChart) {
+                    monthlyChart.destroy();
+                }
+ 
+                monthlyChart = new Chart(document.getElementById("myChart"), {
                     type: 'line',
                     data: {
-                        labels: xValues.slice(0, data[0].length),
-                        datasets: datasets
+                        labels: xValues,   // ✅ ALWAYS 12 months
+                        datasets
                     },
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { display: true },
-                            title: { display: false }
+                            legend: { display: true }
                         },
                         scales: {
                             y: {
-                                beginAtZero: true,
-                                stacked: false
+                                min: 0,
+                                max: 100
                             }
                         }
                     }
                 });
-
+ 
             } catch (error) {
                 console.error("Fetch chart error:", error);
             }
