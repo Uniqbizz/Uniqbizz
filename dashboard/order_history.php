@@ -4180,30 +4180,48 @@ $prevDateYear = date('Y');  //Year in number form.
                 today.setHours(0, 0, 0, 0);
                 startDate.setHours(0, 0, 0, 0);
                 endDate.setHours(0, 0, 0, 0);
-                if(confirmBooking =='1'){
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class=" text-success-emphasis">a Comfirmed Booking</span>`;
-                }
-                else if(confirmBooking =='0'){
-                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
-                    return `<span class=" text-warning-emphasis">a Pending Booking</span>`;
-                }
-                else if (today > endDate && confirmBooking =='1') {
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class=" text-success-emphasis">Completed</span>`;
-                } else if (today >= startDate && today <= endDate && confirmBooking =='1') {
-                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
-                    return `<span class="text-info-emphasis">a In-Transit Booking</span>`;
-                } else if (booking.status == '2') {
+                // Cancelled
+                if (booking.status == '2') {
                     classVal = 'text-danger-emphasis bg-danger-subtle border border-danger-subtle';
-                    return `<span class="text-danger-emphasis">a Canceled Booking</span>`;
-                } else if (booking.status == '3') {
-                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
-                    return `<span class="text-secondary-emphasis">a Refunded for Booking</span>`;
-                } else {
-                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">a Confirmed Booking</span>`;
+                    return `<span class="text-danger-emphasis">Canceled Booking</span>`;
                 }
+
+                // Refunded
+                else if (booking.status == '3') {
+                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
+                    return `<span class="text-secondary-emphasis">Refunded Booking</span>`;
+                }
+
+                // Pending (not confirmed)
+                else if (confirmBooking == '0') {
+                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
+                    return `<span class="text-warning-emphasis">Pending Booking</span>`;
+                }
+
+                // Completed
+                else if (confirmBooking == '1' && today > endDate) {
+                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                    return `<span class="text-success-emphasis">Completed</span>`;
+                }
+
+                // In-Transit
+                else if (confirmBooking == '1' && today >= startDate && today <= endDate) {
+                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
+                    return `<span class="text-info-emphasis">In-Transit Booking</span>`;
+                }
+
+                // Confirmed (default confirmed)
+                else if (confirmBooking == '1') {
+                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                    return `<span class="text-success-emphasis">Confirmed Booking</span>`;
+                }
+
+                // Fallback
+                else {
+                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
+                    return `<span class="text-primary-emphasis">Booking</span>`;
+                }
+
             }
 
             // ✅ IST Date Conversion Function
