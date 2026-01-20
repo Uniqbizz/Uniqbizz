@@ -196,8 +196,32 @@ if($user_type == 'te'){
             $assign_roi=$row['roi']??null;
             $assign_tax=$row['tax']??null;
             $assign_repay_amount=$row['repay_amount']??null;
+            $comm_per=$row['current_commission_per']??null;
+            $ins_per=$row['current_incentive_per']??null;
+            $f_status=$row['status'];
             // $complimentary=$row['complimentary'];
             // $converted=$row['converted'];
+
+            if($f_status == '1'){
+                // franchisee upgrade
+                $f_upgrade = $conn->prepare("
+                    SELECT upgrade_amt, new_commission_per, new_incentive_per 
+                    FROM sub_franchisee_upgrade 
+                    WHERE sub_franchisee_id = :id AND upgrade_status = '1' 
+                    ORDER BY id DESC 
+                    LIMIT 1
+                ");
+                $f_upgrade->execute([':id' => $id]);
+                $f_upgrade->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($f_upgrade->rowCount() > 0) {
+                    $upgrade_f = $f_upgrade->fetch();
+
+                    $amount   = $upgrade_f['upgrade_amt'];
+                    $comm_per = $upgrade_f['new_commission_per'];
+                    $ins_per  = $upgrade_f['new_incentive_per'];
+                }
+            }
 
             //get country
             $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
@@ -385,6 +409,7 @@ if ($editfor == 'pending') {
                                                         <option value="">--Select Business Package/Amount--</option>
                                                         <option value="200000">2,00,000/-</option>
                                                         <option value="300000">3,00,000/-</option>
+                                                        <option value="400000">4,00,000/-</option>
                                                         <option value="500000">5,00,000/-</option>
                                                     </select>
                                                 </div>
@@ -401,6 +426,27 @@ if ($editfor == 'pending') {
                                                     <input type="text" class="form-control" id="gst_no" placeholder="GST NO" value="<?php echo $gst_no; ?>">
                                                 </div>
                                             </div>
+                                            <!-- commission and incentive fields only for franchisee. Note: Old regime fRanchisee will have blank data for the same -->
+                                            <?php
+                                                if ($user_type == 'sf') {
+                                                
+                                            ?>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="commPer">commission(%)</label>
+                                                    <input type="text" class="form-control" id="commPer" placeholder="commission(%)" value="<?php echo $comm_per; ?>" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="insPer">Incentive(%)</label>
+                                                    <input type="text" class="form-control" id="insPer" placeholder="Incentive(%)" value="<?php echo $ins_per; ?>" readonly>
+                                                </div>
+                                            </div>
+                                            <?php
+                                                }
+                                            ?>
+                                            
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <div class="mb-3">
