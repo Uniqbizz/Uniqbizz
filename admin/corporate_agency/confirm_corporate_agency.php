@@ -716,9 +716,9 @@ if ($user_type_id == '16') {
 		if ($sql11->rowCount() > 0) {
 			foreach (($sql11->fetchAll()) as $key11 => $row11) {
 				$Sf_id = $row11['sponsor_franchisee_id'];
-				$Sf_name = $row11['firstname'] .' '. $row1['lastname'] ;
-				$bdm_id = $row10['reference_no'];
-				$bdm_name = $row10['registrant'];
+				$Sf_name = $row11['firstname'] .' '. $row11['lastname'] ;
+				// $bdm_id = $row10['reference_no'];
+				// $bdm_name = $row10['registrant'];
 			}
 		}
 	}
@@ -936,12 +936,12 @@ if ($user_type_id == '16') {
 			//----------------------------------------------------
 			// Insert into payout table
 			$sql = "INSERT INTO `sub_franchisee_payout` (
-						`zonal_manager`, `message_zm`, `commision_zm`, `status_zm`,
-						`master_franchisee`, `message_mf`, `commision_mf`, `status_mf`,
+						`zonal_manager`, `message_zm`, `commission_zm`, `status_zm`,
+						`master_franchisee`, `message_mf`, `commission_mf`, `status_mf`,
 						`sub_franchisee`, `message_sf`, `sf_amt_paid`, `status_sf`, `status`
 					) VALUES (
-						:zonal_manager, :message_zm, :commision_zm, '2',
-						:master_franchisee, :message_mf, :commision_mf, '2',
+						:zonal_manager, :message_zm, :commission_zm, '2',
+						:master_franchisee, :message_mf, :commission_mf, '2',
 						:sub_franchisee, :message_sf, :sf_amt_paid, '2', '2'
 					)";
 
@@ -949,10 +949,10 @@ if ($user_type_id == '16') {
 			$inserted = $stmt->execute([
 				':zonal_manager'     => $ref_manager,
 				':message_zm'        => $message_ref,
-				':commision_zm'      => $refCommiAmt,
+				':commission_zm'      => $refCommiAmt,
 				':master_franchisee' => $master_franchisee,
 				':message_mf'        => $message_mf,
-				':commision_mf'      => $mfCommiAmt,
+				':commission_mf'      => $mfCommiAmt,
 				':sub_franchisee'    => $uid,
 				':message_sf'        => $message_sf,
 				':sf_amt_paid'       => $amount

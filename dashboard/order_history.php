@@ -192,27 +192,7 @@ $prevDateYear = date('Y');  //Year in number form.
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
                     WHERE 1=1";
-        //hirarchy filter logic
-        $sql .=" GROUP BY
-                    b.id,
-                    b.order_id,
-                    b.package_id,
-                    b.customer_id,
-                    b.name,
-                    b.status,
-                    p.name,
-                    p.tour_days,
-                    bd.final_price,
-                    bd.amount,
-                    bd.part_pay_1,
-                    bd.part_pay_2,
-                    bd.part_pay_3,
-                    bd.part_pay_1_status,
-                    bd.part_pay_2_status,
-                    bd.part_pay_3_status,
-                    bd.status,
-                    b.confirm_status,
-                    b.ta_id";
+        
 
         if ($userType == '24') { // BCM
             $filter = " AND b.ta_id IN (
@@ -461,16 +441,36 @@ $prevDateYear = date('Y');  //Year in number form.
         }
 
         $sql .= $filter;
-
+        //hirarchy filter logic
+        $sql .=" GROUP BY
+                    b.id,
+                    b.order_id,
+                    b.package_id,
+                    b.customer_id,
+                    b.name,
+                    b.status,
+                    p.name,
+                    p.tour_days,
+                    bd.final_price,
+                    bd.amount,
+                    bd.part_pay_1,
+                    bd.part_pay_2,
+                    bd.part_pay_3,
+                    bd.part_pay_1_status,
+                    bd.part_pay_2_status,
+                    bd.part_pay_3_status,
+                    bd.status,
+                    b.confirm_status,
+                    b.ta_id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $maxdate=$mindate='';
         $today = date('Y-m-d'); // Get today's date as a string
 
+        $mindate= "01-01-2022";
+        $maxdate=$today;
         foreach ($bookings as $booking) {
             $maxdate=$booking['max_b_date'] ?? $today;
-            $mindate= "01-01-2022";
             // Ensure 'date' exists in booking data
             if (!isset($booking['date']) || empty($booking['date'])) {
                 continue; // Skip if date is not set
@@ -4180,30 +4180,48 @@ $prevDateYear = date('Y');  //Year in number form.
                 today.setHours(0, 0, 0, 0);
                 startDate.setHours(0, 0, 0, 0);
                 endDate.setHours(0, 0, 0, 0);
-                if(confirmBooking =='1'){
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class=" text-success-emphasis">a Comfirmed Booking</span>`;
-                }
-                else if(confirmBooking =='0'){
-                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
-                    return `<span class=" text-warning-emphasis">a Pending Booking</span>`;
-                }
-                else if (today > endDate && confirmBooking =='1') {
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class=" text-success-emphasis">Completed</span>`;
-                } else if (today >= startDate && today <= endDate && confirmBooking =='1') {
-                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
-                    return `<span class="text-info-emphasis">a In-Transit Booking</span>`;
-                } else if (booking.status == '2') {
+                // Cancelled
+                if (booking.status == '2') {
                     classVal = 'text-danger-emphasis bg-danger-subtle border border-danger-subtle';
-                    return `<span class="text-danger-emphasis">a Canceled Booking</span>`;
-                } else if (booking.status == '3') {
-                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
-                    return `<span class="text-secondary-emphasis">a Refunded for Booking</span>`;
-                } else {
-                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">a Confirmed Booking</span>`;
+                    return `<span class="text-danger-emphasis">Canceled Booking</span>`;
                 }
+
+                // Refunded
+                else if (booking.status == '3') {
+                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
+                    return `<span class="text-secondary-emphasis">Refunded Booking</span>`;
+                }
+
+                // Pending (not confirmed)
+                else if (confirmBooking == '0') {
+                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
+                    return `<span class="text-warning-emphasis">Pending Booking</span>`;
+                }
+
+                // Completed
+                else if (confirmBooking == '1' && today > endDate) {
+                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                    return `<span class="text-success-emphasis">Completed</span>`;
+                }
+
+                // In-Transit
+                else if (confirmBooking == '1' && today >= startDate && today <= endDate) {
+                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
+                    return `<span class="text-info-emphasis">In-Transit Booking</span>`;
+                }
+
+                // Confirmed (default confirmed)
+                else if (confirmBooking == '1') {
+                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                    return `<span class="text-success-emphasis">Confirmed Booking</span>`;
+                }
+
+                // Fallback
+                else {
+                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
+                    return `<span class="text-primary-emphasis">Booking</span>`;
+                }
+
             }
 
             // ✅ IST Date Conversion Function

@@ -143,13 +143,17 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
+                                                            SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,'NA' AS upgrade_status_val 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('0', '2') 
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
+                                                            SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
                                                             FROM sub_franchisee 
-                                                            WHERE status IN ('0', '2') 
+                                                            WHERE status IN ('0', '2')
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, sub_franchisee_id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
+                                                            FROM sub_franchisee 
+                                                            WHERE status=1 AND upgrade_status = 1 
                                                             ORDER BY added_on ASC
                                                         ";
 
@@ -184,10 +188,23 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
+                                                                                <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","pending","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                     <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","'.$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </td>';
+                                                                }else if($row['upgrade_status_val'] == 1){
+                                                                    echo '<td><span class="badge text-bg-info">Upgrade Requested</span></td>
+                                                                        <td>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                                </a>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","approve")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-check-circle font-size-16 text-success me-1"></i> approve</a></li>
+                                                                                    <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","reject")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Reject</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -198,7 +215,7 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
+                                                                                <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","deleted","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
@@ -314,11 +331,11 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,'NA' as upgrade_pack 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('1') 
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('1') 
                                                             ORDER BY register_date ASC
@@ -354,6 +371,11 @@
                                                                                         TC Allotted
                                                                                       </small>';
                                                                             } 
+                                                                            if($row["upgrade_pack"] == 2){
+                                                                                echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
+                                                                                        Upgraded
+                                                                                      </small>';
+                                                                            }
                                                                 echo'   </td>
                                                                         <td>
                                                                             <p class="mb-1">' . $row['reference_no'] . '</p>
@@ -362,9 +384,26 @@
                                                                         <td>
                                                                             <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                                                                             <p class="mb-0">' . $row['email'] . '</p>
-                                                                        </td>
-                                                                        <td>' . $row['amount'] . '</td>
-                                                                        <td>' . $rdate . '</td>';
+                                                                        </td>';
+                                                                if($row["upgrade_pack"] == 2){
+                                                                   $sql2 = "SELECT upgrade_amt 
+                                                                            FROM sub_franchisee_upgrade 
+                                                                            WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                                                                    $stmt = $conn->prepare($sql2);
+
+                                                                    $stmt->bindParam(':id', $row['user_id'], PDO::PARAM_STR);  // $id must have the value before execute
+
+                                                                    $stmt->execute();
+
+                                                                    $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                                    if ($franchisee_upgrade) {
+                                                                echo'    <td>' . $franchisee_upgrade['upgrade_amt'] . '</td>';
+                                                                    } 
+                                                                }else{
+                                                                echo'    <td>' . $row['amount'] . '</td>';    
+                                                                }
+                                                                echo'    <td>' . $rdate . '</td>';
 
 
                                                                 if ($row['status'] == '1') {
@@ -374,8 +413,11 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
+                                                                                <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
+                                                                                    if($row['user_type'] == 'sf'){
+                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> Upgrade Franchisee</a></li>';
+                                                                                    }
                                                                                     if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
                                                                                         echo '<li>
                                                                                                 <a href="#" 
@@ -415,7 +457,7 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
+                                                                                <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
@@ -532,7 +574,7 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
+                                                                                <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                                                                                 </ul>
                                                                             </div>
@@ -771,6 +813,27 @@
                 </div>
             </div>
         </div>
+        <!-- Upgrade reject reason -->
+        <div class="modal fade" id="rejectModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Upgrade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Rejection Reason (max 1000 characters)</label>
+                    <textarea id="rejectReason" class="form-control" rows="6" maxlength="1000"
+                            placeholder="Enter detailed reason..."></textarea>
+                    <small id="charCount">0 / 1000</small>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="confirmReject">Reject</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+                </div>
+            </div>
+        </div>
 
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>
@@ -864,8 +927,63 @@
                         }
                     }
                 });
-                
             };
+            //only for frnachisee users
+            var rejectId = null;
+
+            function approvalfunc(id, action){
+
+                if(action == "reject"){
+                    rejectId = id;
+                    $("#rejectReason").val("");
+                    $("#charCount").text("0 / 1000");
+                    $("#rejectModal").modal("show");
+                    return;
+                }
+
+                sendApproval(id, action, "");
+            }
+
+            function sendApproval(id, action, reason){
+
+                $.ajax({
+                    type: "POST",
+                    url: "approve_reject_franchisee_upgrade.php",
+                    data: {
+                        id: id,
+                        action: action,
+                        reason: reason
+                    },
+                    success:function(data){
+                        if(data == 1){
+                            alert("Upgrade Approved");
+                            location.reload();
+                        }else if(data == 2){
+                            alert("Upgrade Rejected");
+                            location.reload();
+                        }else{
+                            alert("Request Failed !!");
+                        }
+                    }
+                });
+            }
+            //rejection modal
+            $("#rejectReason").on("input", function(){
+                $("#charCount").text(this.value.length + " / 1000");
+            });
+
+            $("#confirmReject").click(function(){
+
+                var reason = $("#rejectReason").val().trim();
+
+                if(reason == ""){
+                    alert("Rejection reason is required!");
+                    return;
+                }
+
+                sendApproval(rejectId, "reject", reason);
+                $("#rejectModal").modal("hide");
+            });
 
             function confirmfunc(id,email,usertype){ 
 
@@ -894,6 +1012,11 @@
             function overviewPage(id,ref,cut,st,ct,message){
                 var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
+            }
+            //franchisee upgrade
+            function upgradePage(id,ref){
+                // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
+                window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
             }
 
             // Hide date label and show input type date 
