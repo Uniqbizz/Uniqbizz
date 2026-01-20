@@ -192,27 +192,7 @@ $prevDateYear = date('Y');  //Year in number form.
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
                     WHERE 1=1";
-        //hirarchy filter logic
-        $sql .=" GROUP BY
-                    b.id,
-                    b.order_id,
-                    b.package_id,
-                    b.customer_id,
-                    b.name,
-                    b.status,
-                    p.name,
-                    p.tour_days,
-                    bd.final_price,
-                    bd.amount,
-                    bd.part_pay_1,
-                    bd.part_pay_2,
-                    bd.part_pay_3,
-                    bd.part_pay_1_status,
-                    bd.part_pay_2_status,
-                    bd.part_pay_3_status,
-                    bd.status,
-                    b.confirm_status,
-                    b.ta_id";
+        
 
         if ($userType == '24') { // BCM
             $filter = " AND b.ta_id IN (
@@ -461,16 +441,36 @@ $prevDateYear = date('Y');  //Year in number form.
         }
 
         $sql .= $filter;
-
+        //hirarchy filter logic
+        $sql .=" GROUP BY
+                    b.id,
+                    b.order_id,
+                    b.package_id,
+                    b.customer_id,
+                    b.name,
+                    b.status,
+                    p.name,
+                    p.tour_days,
+                    bd.final_price,
+                    bd.amount,
+                    bd.part_pay_1,
+                    bd.part_pay_2,
+                    bd.part_pay_3,
+                    bd.part_pay_1_status,
+                    bd.part_pay_2_status,
+                    bd.part_pay_3_status,
+                    bd.status,
+                    b.confirm_status,
+                    b.ta_id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $maxdate=$mindate='';
         $today = date('Y-m-d'); // Get today's date as a string
 
+        $mindate= "01-01-2022";
+        $maxdate=$today;
         foreach ($bookings as $booking) {
             $maxdate=$booking['max_b_date'] ?? $today;
-            $mindate= "01-01-2022";
             // Ensure 'date' exists in booking data
             if (!isset($booking['date']) || empty($booking['date'])) {
                 continue; // Skip if date is not set
