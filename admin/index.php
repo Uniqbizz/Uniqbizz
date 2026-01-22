@@ -3284,9 +3284,6 @@ $Year = date('Y'); //year
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
 
-    <!-- apexcharts -->
-    <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-
     <!-- Chart JS -->
     <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
     <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
