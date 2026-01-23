@@ -178,17 +178,15 @@ try {
         case '29': // F
             $sql0 = "
                 -- F: TC under F directly
-                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
+                SELECT ca_travelagency_id FROM ca_travelagency ca
+                WHERE status = 1 AND reference_no = :userId
             ";
             break;
 
         case '16': // TE
             $sql0 = "
-                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                WHERE ca.status = 1 AND co.corporate_agency_id = :userId
+                SELECT ca_travelagency_id FROM ca_travelagency ca
+                WHERE status = 1 AND reference_no = :userId
             ";
             break;
 
