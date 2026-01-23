@@ -177,7 +177,7 @@
         <div class="header-bottom header-sticky">
             <!-- <div class="row">
                 <div class="col-lg-12 d-flex justify-content-evenly"> -->
-                    <div class="row mx-2">
+                    <div class="row mx-2 pt-2">
                         <div class="col-xl-1 col-lg-1 heroCard">
                             <!-- Logo-->
                             <div class="logo">

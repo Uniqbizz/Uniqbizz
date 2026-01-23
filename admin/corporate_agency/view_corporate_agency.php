@@ -1019,6 +1019,11 @@
                 window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
             }
 
+            function upgradePage(id,ref){
+                // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
+                window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
+            }
+
             // Hide date label and show input type date 
             var cap_date = document.getElementById("cap_date");
             var cap_text = document.getElementById("cap_text");
