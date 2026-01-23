@@ -106,7 +106,8 @@
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="customer_recruitment_payout.php" class="nav-link menu-link">
-                                                <span data-key="t-contracting-payout">CU Membership Payout</span>
+                                                <!-- <span data-key="t-contracting-payout">CU Membership Payout</span> -->
+                                                <span data-key="t-contracting-payout">Holiday Account Payout</span>
                                             </a>
                                         </li>
                                     <?php 
@@ -115,7 +116,7 @@
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="customer_referance_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="customer_referance_payout.php" class="nav-link menu-link">
-                                                <span data-key="t-contracting-payout">Reference Payout</span>
+                                                <span data-key="t-contracting-payout">CU Reference Payout</span>
                                             </a>
                                         </li>
                                     <?php
@@ -123,7 +124,7 @@
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="sub_franchisee_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="sub_franchisee_payout.php" class="nav-link menu-link">
-                                                <span data-key="t-contracting-payout">Franchisee Payout</span>
+                                                <span data-key="t-contracting-payout">Franchisee Contracting Payout</span>
                                             </a>
                                         </li>
                                     <?php
