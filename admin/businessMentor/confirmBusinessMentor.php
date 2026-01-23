@@ -234,7 +234,7 @@ if ($user_type_id == '26') { //Business Mentor
 												Bizzmirth Holidays<br>
 												304-306 3rd floor Dempo Tower Patto Plaza Panjim Goa 403001<br>
 												Contact No: 8010892265<br>
-												Email ID: support@bizzmirth.com<br>
+												Email ID: support@uniqbizz.com<br>
 												URL: uniqbizz.com
 											</p>
 											
@@ -266,13 +266,13 @@ if ($user_type_id == '26') { //Business Mentor
 												</p>
 												<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
 													Congratulations on your decision! </p>
-
+	
 													<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; ">
 													A journey of a thousand miles must begin with a single step. Id like to welcome you to Bizzmirth Holidays. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Bizzmirth Holidays.
 													<br><br>
-
+	
 													Each of is will play a role to ensure your successful integration into the company. Your agenda will involve planning your orientation with company and setting some intial work goals so that you feel immediately productive in your new role. And to earn money which is optional, your earnings will depend directly in the amount of questions prior to your start date, please call me anytime, or send email if that is more convenient. We look forward to having you come onboard. The secret of success is constancy to purpose.
-
+	
 													</p>
 													<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
 													Best Regards,<br>
@@ -309,22 +309,22 @@ if ($user_type_id == '26') { //Business Mentor
 					$mail->IsSMTP();
 					$mail->SMTPAuth = true;
 					$mail->SMTPSecure = 'tls';
-					$mail->Host = 'smtp.gmail.com';   // Gmail SMTP
+					$mail->Host = "mail.uniqbizz.com";
 					$mail->Port = 587;
 					$mail->IsHTML(true);
 					$mail->CharSet = 'UTF-8';
 					// $mail->SMTPDebug = 2; 
-					$mail->Username   = 'bizzmirth@gmail.com'; // replace with your Gmail
-					$mail->Password   = 'bisy tqzy bbht qouy';   // use Gmail App Password (not normal password)
-					$mail->setFrom('bizzmirth@gmail.com', 'Bizzmirth Holidays Pvt Ltd');
+					$mail->Username = "support@uniqbizz.com";
+					$mail->Password = "support@uniqbizz";
+					$mail->SetFrom("support@uniqbizz.com");
 					$mail->Subject = $subject;
 					$mail->Body = $message3;
-					$mail->AddAddress($to, 'Admin');
-					// $mail->SMTPOptions = array('ssl' => array(
-					// 	'verify_peer' => false,
-					// 	'verify_peer_name' => false,
-					// 	'allow_self_signed' => false
-					// ));
+					$mail->AddAddress($to);
+					$mail->SMTPOptions = array('ssl' => array(
+						'verify_peer' => false,
+						'verify_peer_name' => false,
+						'allow_self_signed' => false
+					));
 					if (!$mail->Send()) {
 						echo $mail->ErrorInfo;
 					} else {
@@ -527,7 +527,7 @@ if ($user_type_id == '26') { //Business Mentor
 											Bizzmirth Holidays<br>
 											304-306 3rd floor Dempo Tower Patto Plaza Panjim Goa 403001<br>
 											Contact No: 8010892265<br>
-											Email ID: support@bizzmirth.com<br>
+											Email ID: support@uniqbizz.com<br>
 											URL: uniqbizz.com
 										</p>
 										
@@ -602,22 +602,22 @@ if ($user_type_id == '26') { //Business Mentor
 				$mail->IsSMTP();
 				$mail->SMTPAuth = true;
 				$mail->SMTPSecure = 'tls';
-				$mail->Host = 'smtp.gmail.com';   // Gmail SMTP
+				$mail->Host = "mail.uniqbizz.com";
 				$mail->Port = 587;
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
-				$mail->Username   = 'bizzmirth@gmail.com'; // replace with your Gmail
-        		$mail->Password   = 'bisy tqzy bbht qouy';   // use Gmail App Password (not normal password)
-				$mail->setFrom('bizzmirth@gmail.com', 'Bizzmirth Holidays Pvt Ltd');
+				$mail->Username = "support@uniqbizz.com";
+				$mail->Password = "support@uniqbizz";
+				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
 				$mail->Body = $message3;
-				$mail->AddAddress($to, 'Admin');
-				// $mail->SMTPOptions = array('ssl' => array(
-				// 	'verify_peer' => false,
-				// 	'verify_peer_name' => false,
-				// 	'allow_self_signed' => false
-				// ));
+				$mail->AddAddress($to);
+				$mail->SMTPOptions = array('ssl' => array(
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => false
+				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
 				} else {
@@ -817,7 +817,7 @@ if ($user_type_id == '26') { //Business Mentor
 											Bizzmirth Holidays<br>
 											304-306 3rd floor Dempo Tower Patto Plaza Panjim Goa 403001<br>
 											Contact No: 8010892265<br>
-											Email ID: support@bizzmirth.com<br>
+											Email ID: support@uniqbizz.com<br>
 											URL: uniqbizz.com
 										</p>
 										
@@ -892,23 +892,22 @@ if ($user_type_id == '26') { //Business Mentor
 				$mail->IsSMTP();
 				$mail->SMTPAuth = true;
 				$mail->SMTPSecure = 'tls';
-				$mail->Host = 'smtp.gmail.com';   // Gmail SMTP
+				$mail->Host = "mail.uniqbizz.com";
 				$mail->Port = 587;
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
-				$mail->Username   = 'bizzmirth@gmail.com'; // replace with your Gmail
-        		$mail->Password   = 'bisy tqzy bbht qouy';   // use Gmail App Password (not normal password)
-				$mail->setFrom('bizzmirth@gmail.com', 'Bizzmirth Holidays Pvt Ltd');
+				$mail->Username = "support@uniqbizz.com";
+				$mail->Password = "support@uniqbizz";
+				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
 				$mail->Body = $message3;
-				$mail->AddAddress($to, 'Admin');
-				// $mail->SMTPOptions = array('ssl' => array(
-				// 	'verify_peer' => false,
-				// 	'verify_peer_name' => false,
-				// 	'allow_self_signed' => false
-				// ));
-				
+				$mail->AddAddress($to);
+				$mail->SMTPOptions = array('ssl' => array(
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => false
+				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
 				} else {
