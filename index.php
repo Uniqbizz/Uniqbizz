@@ -64,7 +64,7 @@
             border: 2px solid white;
             border-radius: 15px !important;
             position: absolute;
-            top: 120px;
+            top: 150px;
             right: 250px;
         }
         .carousel-section2 {
@@ -73,7 +73,7 @@
             border: 2px solid white;
             border-radius: 15px !important;
             position: absolute;
-            top: 120px;
+            top: 150px;
             right: 80px;
         }
         .carousalBackgroundTitle {
@@ -98,7 +98,372 @@
             pointer-events: auto;
             cursor: pointer;
         }
-
+        @media screen and (max-width: 1184px) {
+            .carousel-section {
+                width: 300px !important;
+                height: 350px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 230px;
+            }
+            .carousel-section2 {
+                width: 130px !important;
+                height: 350px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 80px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 346px;
+                object-fit: cover;/* or 'contain' based on design preference */
+                object-position: center;
+                border-radius: 15px;
+            }
+            .prevIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 320px;
+                right: 525px !important;
+                opacity: 1;
+            }
+            .nextIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 320px;
+                right: 35px !important;
+                opacity: 1;
+            }
+        }
+        @media screen and (max-width: 1100px) {
+            .carousel-section {
+                width: 260px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 180px;
+            }
+            .carousel-section2 {
+                width: 115px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 50px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 296px;
+                object-fit: cover;/* or 'contain' based on design preference */
+                object-position: center;
+                border-radius: 15px;
+            }
+            .prevIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 290px;
+                right: 435px !important;
+                opacity: 1;
+            }
+            .nextIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 290px;
+                right: 5px !important;
+                opacity: 1;
+            }
+        }
+        @media screen and (max-width: 992px) {
+            .carousel-section {
+                width: 260px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 180px;
+            }
+            .carousel-section2 {
+                width: 115px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 50px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 296px !important;
+                object-fit: cover;/* or 'contain' based on design preference */
+                object-position: center;
+                border-radius: 15px;
+            }
+            .prevIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 290px;
+                right: 435px !important;
+                opacity: 1;
+            }
+            .nextIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 290px;
+                right: 5px !important;
+                opacity: 1;
+            }
+            .carousalBackgroundTitle .pera {
+                font-size: 45px !important;
+                color: white;
+                font-weight: bolder; 
+                padding-left: 50px !important;
+                width: 450px !important;
+            }
+            .peraDescription {
+                font-size: 14px !important;
+                color: white;
+                padding-left: 50px !important;
+                width: 450px !important;
+            }
+        }
+        @media screen and (max-width: 910px) {
+            .carousel-section {
+                width: 260px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 160px;
+            }
+            .carousel-section2 {
+                width: 115px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 35px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 296px !important;
+                object-fit: cover;/* or 'contain' based on design preference */
+                object-position: center;
+                border-radius: 15px;
+            }
+            .prevIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 285px;
+                right: 410px !important;
+                opacity: 1;
+            }
+            .nextIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 285px;
+                right: -5px !important;
+                opacity: 1;
+            }
+            .carousalBackgroundTitle .pera {
+                font-size: 40px !important;
+                color: white;
+                font-weight: bolder; 
+                padding-left: 50px !important;
+                width: 400px !important;
+            }
+            .peraDescription {
+                font-size: 14px !important;
+                color: white;
+                padding-left: 50px !important;
+                width: 395px !important;
+            }
+            .captionPosition {
+                position: absolute;
+                bottom: 0px !important;
+            }
+        }
+        /* @media screen and (max-width: 840px) {
+            .carousel-section {
+                width: 260px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 160px;
+            }
+            .carousel-section2 {
+                width: 115px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 150px;
+                right: 35px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 296px !important; */
+                /* object-fit: cover;or 'contain' based on design preference */
+                /* object-position: center;
+                border-radius: 15px;
+            }
+            .prevIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 285px;
+                right: 410px !important;
+                opacity: 1;
+            }
+            .nextIcon {
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                top: 285px;
+                right: -5px !important;
+                opacity: 1;
+            }
+            .carousalBackgroundTitle .pera {
+                font-size: 40px !important;
+                color: white;
+                font-weight: bolder; 
+                padding-left: 50px !important;
+                width: 400px !important;
+            }
+            .peraDescription {
+                font-size: 14px !important;
+                color: white;
+                padding-left: 50px !important;
+                width: 395px !important;
+            }
+            .captionPosition {
+                position: absolute;
+                bottom: 0px !important;
+            }
+        } */
+        @media screen and (max-width: 840px) {
+            .carousel-section {
+                width: 260px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 380px;
+                left: 80px;
+            }
+            .carousel-section2 {
+                width: 130px !important;
+                height: 300px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 380px;
+                left: 370px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 296px !important;
+                object-fit: cover;/* or 'contain' based on design preference */
+                object-position: center;
+                border-radius: 15px;
+            }
+            .prevIcon {
+                display: none;
+            }
+            .nextIcon {
+                display: none;
+            }
+            .heroHeight {
+                height: 750px !important;
+                padding-top: 0px !important;
+            }
+            .carousalBackgroundTitle .pera {
+                font-size: 40px !important;
+                color: white;
+                font-weight: bolder; 
+                padding-right: 50px !important;
+                padding-left: 50px !important;
+                width: 100% !important;
+            }
+            .peraDescription {
+                font-size: 14px !important;
+                color: white;
+                padding-right: 50px !important;
+                padding-left: 50px !important;
+                width: 100% !important;
+            }
+        }
+        @media screen and (max-width: 575px) {
+            .heroHeight {
+                height: 750px !important;
+                padding-top: 0px !important;
+            }
+            .carousalBackgroundTitle .pera {
+                font-size: 40px !important;
+                color: white;
+                font-weight: bolder; 
+                padding-right: 50px !important;
+                padding-left: 50px !important;
+                width: 100% !important;
+            }
+            .peraDescription {
+                font-size: 14px !important;
+                color: white;
+                padding-left: 50px !important;
+                padding-right: 50px !important;
+                width: 100% !important;
+            }
+            .carousel-section {
+                width: 220px !important;
+                height: 280px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 430px;
+                left: 50px;
+            }
+            .carousel-section2 {
+                width: 115px !important;
+                height: 280px !important;
+                border: 2px solid white;
+                border-radius: 15px !important;
+                position: absolute;
+                top: 430px;
+                left: 285px;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 276px !important;
+                object-fit: cover;/* or 'contain' based on design preference */
+                object-position: center;
+                border-radius: 15px;
+            }
+            .packageBtn {
+                background-color: #e03d42;
+                color: #fff;
+                font-size: 11px !important;
+                font-weight: bolder !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -108,10 +473,10 @@
             <?php include_once "headerIndex.php" ?>
             <!-- Video -->
             <div class="hero-bg-video">
-                <img src="assets/images/slider/carousel-background2.png" alt="" width="100%">
+                <img src="assets/images/slider/carousel-background2.png" alt="" width="100%" height="100%">
                 <div class="carousalBackgroundTitle">
                     <p class="pera">Explore The World with Us</p>
-                    <p class="peraDescription">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, nihil nam! Ratione molestias unde illum, aliquid neque in quisquam, accusantium impedit accusamus, exercitationem non a.</p>
+                    <p class="peraDescription">Crafting memorable travel experiences with curated holiday packages, seamless bookings, and trusted support. Explore the world your way—smart planning, great value, unforgettable journeys.</p>
                     <div class="d-inline-block ps-5 mt-4">
                         <a href="tour-list.php">
                             <div class="btn-primary-icon-sm rounded-2">
@@ -122,7 +487,7 @@
                 </div>
                 <div class="carousel-section">
                     <div id="mainCarousel" class="carousel slide">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" style="border-radius: 15px !important;">
                             <div class="carousel-item active">
                                 <img src="assets/images/slider/Dubai_1.png" class="d-block sliderWidth" alt="...">
                                 <div class="carousel-caption captionPosition">
@@ -228,7 +593,7 @@
                 </div>
                 <div class="carousel-section2">
                     <div id="previewCarousel" class="carousel slide">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" style="border-radius: 15px !important;">
                             <div class="carousel-item active">
                                 <img src="assets/images/slider/Rajasthan-pic.png" class="d-block sliderWidth" alt="...">
                             </div>
@@ -247,12 +612,12 @@
                         </div>
                     </div>
                 </div>
-                <button class="carousel-control-prev prevIcon" type="button" id="prevBtn">
-                    <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-2xl angle-left"></i></span>
+                <button class="prevIcon" type="button" id="prevBtn">
+                    <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-2xl" style="color: #ffffff;"></i></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next nextIcon" type="button" id="nextBtn">
-                    <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-2xl angle-right"></i></span>
+                <button class="nextIcon" type="button" id="nextBtn">
+                    <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-2xl" style="color: #ffffff;"></i></span>
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
@@ -487,7 +852,7 @@
         <!--/ End-of Plan-->
 
         <!-- Destination area S t a r t -->
-        <section class="destination-area destination-bg-before mt-4">
+        <section class="destination-area destination-bg-before">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-7 col-lg-7">

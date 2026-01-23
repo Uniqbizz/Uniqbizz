@@ -14,46 +14,30 @@
 .carousel {
     position: relative;;
 }
+/* .hero-bg-video {
+    position: relative !important;
+    top: -70px !important;
+} */
 .prevIcon {
-    width: 40px !important;
-    height: 40px !important;
-    /* border: 2px solid white; */
-    /* background-color: white; */
+    border: none;
+    background-color: transparent;
     position: absolute;
-    top: 310px;
-    left: 705px !important;
+    top: 330px;
+    right: 600px !important;
     opacity: 1;
-    border-radius: 50%;
 }
-.prevIcon:hover {
-    /* border: 2px solid #e03d42; */
-}
-.angle-left {
-    color: white !important;
-    padding-top: 12px;
-}
-.angle-left:hover {
+.fa-angle-left:hover {
     color: #e03d42 !important;
 }
 .nextIcon {
-    width: 40px !important;
-    height: 40px !important;
-    /* border: 2px solid white; */
-    /* background-color: white; */
+    border: none;
+    background-color: transparent;
     position: absolute;
-    top: 310px;
+    top: 330px;
     right: 35px !important;
     opacity: 1;
-    border-radius: 50%;
 }
-.nextIcon:hover {
-    /* border: 2px solid #e03d42; */
-}
-.angle-right {
-    color: white !important;
-    padding-top: 12px;
-}
-.angle-right:hover {
+.fa-angle-right:hover {
     color: #e03d42 !important;
 }
 
@@ -210,10 +194,6 @@
 }
 /* Header Index file button hover end */
 @media screen and (max-width: 991px) {
-    .sliderWidth {
-        width: 100% !important;
-        height: 610px !important;
-    }
     .heroHeight {
         height: 585px !important;
         padding-top: 0px !important;
@@ -234,7 +214,7 @@
     
 
 }
-@media screen and (max-width: 767px) {
+/* @media screen and (max-width: 767px) 
     .sliderWidth {
         width: 100% !important;
         height: 610px !important;
@@ -248,7 +228,7 @@
         bottom: 450px !important;
     }
     .heroHeight {
-        height: 585px !important;
+        height: 500px !important;
         padding-top: 0px !important;
     }
     .prevIcon {
@@ -264,7 +244,7 @@
         height: 610px !important;
     }
     .heroHeight {
-        height: 585px !important;
+        height: 500px !important;
         padding-top: 0px !important;
     }
     .prevIcon {
@@ -287,4 +267,4 @@
     .col-lg-3 .destination-banner {
         height: 300px !important;
     }
-}
+} */
