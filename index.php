@@ -333,6 +333,26 @@
                 height: 276px !important;
             }
         }
+        @media screen and (max-width: 400px) {
+            .heroHeight {
+                height: 780px !important;
+                padding-top: 0px !important;
+            }
+            .carousel-section {
+                width: 245px !important;
+                height: 280px !important;
+                position: absolute;
+                top: 450px;
+                left: 50px;
+            }
+            .carousel-section2 {
+                display: none !important;
+            }
+            .sliderWidth {
+                width: 100%;
+                height: 276px !important;
+            }
+        }
     </style>
 </head>
 <body>
