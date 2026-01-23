@@ -145,8 +145,6 @@
             .carousel-section {
                 width: 260px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 150px;
                 right: 180px;
@@ -154,8 +152,6 @@
             .carousel-section2 {
                 width: 115px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 150px;
                 right: 50px;
@@ -163,33 +159,22 @@
             .sliderWidth {
                 width: 100%;
                 height: 296px;
-                object-fit: cover;/* or 'contain' based on design preference */
-                object-position: center;
-                border-radius: 15px;
             }
             .prevIcon {
-                border: none;
-                background-color: transparent;
                 position: absolute;
                 top: 290px;
                 right: 435px !important;
-                opacity: 1;
             }
             .nextIcon {
-                border: none;
-                background-color: transparent;
                 position: absolute;
                 top: 290px;
                 right: 5px !important;
-                opacity: 1;
             }
         }
         @media screen and (max-width: 992px) {
             .carousel-section {
                 width: 260px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 150px;
                 right: 180px;
@@ -197,8 +182,6 @@
             .carousel-section2 {
                 width: 115px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 150px;
                 right: 50px;
@@ -206,36 +189,24 @@
             .sliderWidth {
                 width: 100%;
                 height: 296px !important;
-                object-fit: cover;/* or 'contain' based on design preference */
-                object-position: center;
-                border-radius: 15px;
             }
             .prevIcon {
-                border: none;
-                background-color: transparent;
                 position: absolute;
                 top: 290px;
                 right: 435px !important;
-                opacity: 1;
             }
             .nextIcon {
-                border: none;
-                background-color: transparent;
-                position: absolute;
                 top: 290px;
                 right: 5px !important;
                 opacity: 1;
             }
             .carousalBackgroundTitle .pera {
                 font-size: 45px !important;
-                color: white;
-                font-weight: bolder; 
                 padding-left: 50px !important;
                 width: 450px !important;
             }
             .peraDescription {
                 font-size: 14px !important;
-                color: white;
                 padding-left: 50px !important;
                 width: 450px !important;
             }
@@ -244,8 +215,6 @@
             .carousel-section {
                 width: 260px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 150px;
                 right: 160px;
@@ -253,8 +222,6 @@
             .carousel-section2 {
                 width: 115px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 150px;
                 right: 35px;
@@ -262,36 +229,24 @@
             .sliderWidth {
                 width: 100%;
                 height: 296px !important;
-                object-fit: cover;/* or 'contain' based on design preference */
-                object-position: center;
-                border-radius: 15px;
             }
             .prevIcon {
-                border: none;
-                background-color: transparent;
                 position: absolute;
                 top: 285px;
                 right: 410px !important;
-                opacity: 1;
             }
             .nextIcon {
-                border: none;
-                background-color: transparent;
                 position: absolute;
                 top: 285px;
                 right: -5px !important;
-                opacity: 1;
             }
             .carousalBackgroundTitle .pera {
                 font-size: 40px !important;
-                color: white;
-                font-weight: bolder; 
                 padding-left: 50px !important;
                 width: 400px !important;
             }
             .peraDescription {
                 font-size: 14px !important;
-                color: white;
                 padding-left: 50px !important;
                 width: 395px !important;
             }
@@ -300,72 +255,10 @@
                 bottom: 0px !important;
             }
         }
-        /* @media screen and (max-width: 840px) {
-            .carousel-section {
-                width: 260px !important;
-                height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
-                position: absolute;
-                top: 150px;
-                right: 160px;
-            }
-            .carousel-section2 {
-                width: 115px !important;
-                height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
-                position: absolute;
-                top: 150px;
-                right: 35px;
-            }
-            .sliderWidth {
-                width: 100%;
-                height: 296px !important; */
-                /* object-fit: cover;or 'contain' based on design preference */
-                /* object-position: center;
-                border-radius: 15px;
-            }
-            .prevIcon {
-                border: none;
-                background-color: transparent;
-                position: absolute;
-                top: 285px;
-                right: 410px !important;
-                opacity: 1;
-            }
-            .nextIcon {
-                border: none;
-                background-color: transparent;
-                position: absolute;
-                top: 285px;
-                right: -5px !important;
-                opacity: 1;
-            }
-            .carousalBackgroundTitle .pera {
-                font-size: 40px !important;
-                color: white;
-                font-weight: bolder; 
-                padding-left: 50px !important;
-                width: 400px !important;
-            }
-            .peraDescription {
-                font-size: 14px !important;
-                color: white;
-                padding-left: 50px !important;
-                width: 395px !important;
-            }
-            .captionPosition {
-                position: absolute;
-                bottom: 0px !important;
-            }
-        } */
         @media screen and (max-width: 840px) {
             .carousel-section {
                 width: 260px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 380px;
                 left: 80px;
@@ -373,8 +266,6 @@
             .carousel-section2 {
                 width: 130px !important;
                 height: 300px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 380px;
                 left: 370px;
@@ -382,9 +273,6 @@
             .sliderWidth {
                 width: 100%;
                 height: 296px !important;
-                object-fit: cover;/* or 'contain' based on design preference */
-                object-position: center;
-                border-radius: 15px;
             }
             .prevIcon {
                 display: none;
@@ -398,15 +286,12 @@
             }
             .carousalBackgroundTitle .pera {
                 font-size: 40px !important;
-                color: white;
-                font-weight: bolder; 
                 padding-right: 50px !important;
                 padding-left: 50px !important;
                 width: 100% !important;
             }
             .peraDescription {
                 font-size: 14px !important;
-                color: white;
                 padding-right: 50px !important;
                 padding-left: 50px !important;
                 width: 100% !important;
@@ -419,15 +304,12 @@
             }
             .carousalBackgroundTitle .pera {
                 font-size: 40px !important;
-                color: white;
-                font-weight: bolder; 
                 padding-right: 50px !important;
                 padding-left: 50px !important;
                 width: 100% !important;
             }
             .peraDescription {
                 font-size: 14px !important;
-                color: white;
                 padding-left: 50px !important;
                 padding-right: 50px !important;
                 width: 100% !important;
@@ -435,8 +317,6 @@
             .carousel-section {
                 width: 220px !important;
                 height: 280px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 430px;
                 left: 50px;
@@ -444,8 +324,6 @@
             .carousel-section2 {
                 width: 115px !important;
                 height: 280px !important;
-                border: 2px solid white;
-                border-radius: 15px !important;
                 position: absolute;
                 top: 430px;
                 left: 285px;
@@ -453,15 +331,6 @@
             .sliderWidth {
                 width: 100%;
                 height: 276px !important;
-                object-fit: cover;/* or 'contain' based on design preference */
-                object-position: center;
-                border-radius: 15px;
-            }
-            .packageBtn {
-                background-color: #e03d42;
-                color: #fff;
-                font-size: 11px !important;
-                font-weight: bolder !important;
             }
         }
     </style>
