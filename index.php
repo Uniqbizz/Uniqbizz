@@ -120,7 +120,7 @@
             .sliderWidth {
                 width: 100%;
                 height: 346px;
-                object-fit: cover;/* or 'contain' based on design preference */
+                object-fit: cover; /* or 'contain' based on design preference */
                 object-position: center;
                 border-radius: 15px;
             }
