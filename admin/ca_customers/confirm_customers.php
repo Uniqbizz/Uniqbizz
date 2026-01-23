@@ -2725,10 +2725,10 @@ if ($result) {
 									<table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
 									<tr>
 									<p style="font-size:14px;line-height:20px;font-family:Arial,sans-serif; color: white;">
-										Bizzmirth Holidays<br>
-										304-306 3rd floor Dempo Tower Patto Plaza Panjim Goa 403001<br>
-										Contact No: 8010892265<br>
-										Email ID: support@bizzmirth.com<br>
+										Uniqbizz<br>
+										306 Ambrosia Corporate Park EDC Patto Plaza Panjim Goa 403001<br>
+										Contact No: 0832 2438500 / 8080785714<br>
+										Email ID: support@uniqbizz.com<br>
 										URL: uniqbizz.com
 									</p>
 									
@@ -2762,7 +2762,7 @@ if ($result) {
 											Congratulations on your decision! </p>
 
 											<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; ">
-											A journey of a thousand miles must begin with a single step. Id like to welcome you to Bizzmirth Holidays. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Bizzmirth Holidays.
+											A journey of a thousand miles must begin with a single step. Id like to welcome you to Uniqbizz. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Uniqbizz.
 											<br><br>
 
 											Each of is will play a role to ensure your successful integration into the company. Your agenda will involve planning your orientation with company and setting some intial work goals so that you feel immediately productive in your new role. And to earn money which is optional, your earnings will depend directly in the amount of questions prior to your start date, please call me anytime, or send email if that is more convenient. We look forward to having you come onboard. The secret of success is constancy to purpose.
@@ -2770,7 +2770,7 @@ if ($result) {
 											</p>
 											<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
 											Best Regards,<br>
-											Bizzmirth Holidays</p>
+											Uniqbizz</p>
 										</td>
 									</tr>
 									</table>
@@ -2785,7 +2785,7 @@ if ($result) {
 								<tr>
 								<td style="padding:0;width:50%;" align="left">
 									<p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
-									Bizzmirth Holidays.<br/>
+									Uniqbizz.<br/>
 									</p>
 								</td>
 								
@@ -2803,22 +2803,22 @@ if ($result) {
 			$mail->IsSMTP();
 			$mail->SMTPAuth = true;
 			$mail->SMTPSecure = 'tls';
-			$mail->Host = 'smtp.gmail.com';   // Gmail SMTP
+			$mail->Host = "mail.uniqbizz.com";
 			$mail->Port = 587;
 			$mail->IsHTML(true);
 			$mail->CharSet = 'UTF-8';
 			// $mail->SMTPDebug = 2; 
-			$mail->Username   = 'bizzmirth@gmail.com'; // replace with your Gmail
-			$mail->Password   = 'bisy tqzy bbht qouy';   // use Gmail App Password (not normal password)
-			$mail->setFrom('bizzmirth@gmail.com', 'Bizzmirth Holidays Pvt Ltd');
+			$mail->Username = "support@uniqbizz.com";
+			$mail->Password = "support@uniqbizz";
+			$mail->SetFrom("support@uniqbizz.com");
 			$mail->Subject = $subject;
 			$mail->Body = $message3;
-			$mail->AddAddress($to, 'Admin');
-			// $mail->SMTPOptions = array('ssl' => array(
-			// 	'verify_peer' => false,
-			// 	'verify_peer_name' => false,
-			// 	'allow_self_signed' => false
-			// ));
+			$mail->AddAddress($to);
+			$mail->SMTPOptions = array('ssl' => array(
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+				'allow_self_signed' => false
+			));
 			if (!$mail->Send()) {
 				echo $mail->ErrorInfo;
 			} else {
