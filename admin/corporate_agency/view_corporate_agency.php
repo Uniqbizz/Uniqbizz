@@ -499,7 +499,7 @@
                                             
                                         </div>
                                         
-                                        <div class="table-responsive" id="registered_ca">
+                                        <div class="table-responsive" id="deleted_ca">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
