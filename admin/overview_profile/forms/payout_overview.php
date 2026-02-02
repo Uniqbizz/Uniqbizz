@@ -78,7 +78,7 @@ elseif ($DBtable == 'mastert_franchisee') {
                  ORDER BY date DESC";
 } 
 elseif ($DBtable == 'corporate_agency') {
-    $sqlUnion = "SELECT 'TC Payout' AS title, corporate_agency, message_ca AS message, commision_ca AS amount, created_date AS date, status_ca AS status
+    $sqlUnion = "SELECT 'TC Payout' AS title, techno_enterprise, message_ca AS message, commision_ca AS amount, created_date AS date, status_ca AS status
                  FROM ca_ta_payout WHERE corporate_agency = '$id' $dateFilter
                  UNION 
                  SELECT 'CU Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
@@ -91,7 +91,7 @@ elseif ($DBtable == 'corporate_agency') {
 elseif ($DBtable == 'sub_franchisee') {
     $sqlUnion = "SELECT 'TC Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
                  FROM ca_ta_payout WHERE techno_enterprise = '$id' $dateFilter
-                 UNION
+                 UNION 
                  SELECT 'CU Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
                  FROM ca_cu_payout WHERE techno_enterprise = '$id' $dateFilter
                  UNION
@@ -119,8 +119,8 @@ elseif ($DBtable == 'ca_travelagency') {
 }
 
 $stmt = $conn->prepare($sqlUnion);
-$stmt->execute();
 // print_r($stmt);
+$stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
 $tableHtml = '';
