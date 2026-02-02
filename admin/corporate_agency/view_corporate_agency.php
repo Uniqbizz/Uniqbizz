@@ -416,7 +416,7 @@
                                                                                 <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
                                                                                     if($row['user_type'] == 'sf'){
-                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> Upgrade Franchisee</a></li>';
+                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>';
                                                                                     }
                                                                                     if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
                                                                                         echo '<li>
@@ -499,7 +499,7 @@
                                             
                                         </div>
                                         
-                                        <div class="table-responsive" id="registered_ca">
+                                        <div class="table-responsive" id="deleted_ca">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
@@ -1076,12 +1076,12 @@
                                 // $('#filterTable').DataTable();
                                 // Register the date format before using DataTables
                                 $.fn.dataTable.moment('DD-MM-YYYY');
-                                $("#filterTable").DataTable({
+                                $("#registeredCustomerList-table").DataTable({
                                     order: [[5, 'asc']]
                                 });
 
                                 // var TotalCount = $('#filterTable tr').length; // count total table rows
-                                let amts = document.querySelectorAll("#filterTable td:nth-child(5)"); // get amount from 5th col for adding amt one col hidden
+                                let amts = document.querySelectorAll("#registeredCustomerList-table td:nth-child(5)"); // get amount from 5th col for adding amt one col hidden
                                 let countAmtCol = amts.length;// count total table rows
                                 let TotalAmt = 0;
                                 // let TotalCount = 0;
