@@ -9628,16 +9628,16 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                             <!-- upgarde History Start -->
                             <div class="tab-pane fade card px-3 rounded-4" id="s_p" role="tabpanel">
                                 <div class="row">
-                                    <div class="d-flex justify-content-end">
-                                        <div class="pt-3 pb-2 col-md-7">
-                                            <h5>upgarde History</h5>
+                                    <div class="d-flex justify-content-start">
+                                        <div class="pt-3 pb-2 col-md-6">
+                                            <h5>Upgarde History</h5>
                                         </div>
                                         <?php
-                                            $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt FROM sub_franchisee_upgrade
+                                            $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM sub_franchisee_upgrade
                                                                 WHERE sub_franchisee_id='".$id."' and upgrade_status=1
-                                                                ORDER BY upgrade_request_date DESC ";
+                                                                ORDER BY upgrade_approval_date DESC limit 1";
                                             $stmt101 = $conn->prepare($sql101);
-                                            //print_r($stmt101);
+                                            // print_r($stmt101);
                                             $stmt101->execute();
                                             $stmt101->setFetchMode(PDO::FETCH_ASSOC);
                                             if ($stmt101->rowCount() > 0) {
@@ -9648,9 +9648,9 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 $tamount = $initial_inv;
                                             }
                                         ?>
-                                        <div class="pt-3 pb-2 col-md-5">
+                                        <div class="pt-3 pb-2 col-md-6">
                                             <div class="row justify-content-end">
-                                                <div class="col-md-4 d-flex align-items-center justify-content-end gap-2">
+                                                <div class="col-md-6 d-flex gap-2">
                                                     <span class="fw-semibold">Total Investment:</span>
                                                     <span class="badge bg-success fs-6 px-3 py-2">
                                                         <?= htmlspecialchars($tamount, ENT_QUOTES, 'UTF-8') ?>
@@ -9670,19 +9670,19 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 <th class="ceterText fw-semibold fs-6">Investment Date</th>
                                                 <th class="ceterText fw-semibold fs-6">Invested Amount</th>
                                                 <th class="ceterText fw-semibold fs-6">Commission Percentage</th>
-                                                <th class="ceterText fw-semibold fs-6">incentive Percentage</th>
-                                                <th class="ceterText fw-semibold fs-6">payment mode</th>
-                                                <th class="ceterText fw-semibold fs-6">note</th>
-                                                <th class="ceterText fw-semibold fs-6">Approved By</th>
+                                                <th class="ceterText fw-semibold fs-6">Incentive Percentage</th>
+                                                <th class="ceterText fw-semibold fs-6">Payment mode</th>
+                                                <th class="ceterText fw-semibold fs-6">Note</th>
                                                 <th class="ceterText fw-semibold fs-6">Approved date</th>
                                                 <th class="ceterText fw-semibold fs-6">Remark</th>
                                                 <th class="ceterText fw-semibold fs-6">Status</th>
+                                                <th class="ceterText fw-semibold fs-6">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="upgardeHistory">
                                             <?php
                                             
-                                            $sqlUnion = "SELECT new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
+                                            $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
                                                                 payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
                                                                 approved_by,note,upgrade_status 
                                                                 FROM sub_franchisee_upgrade
@@ -9709,6 +9709,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     $pay_mode = $row['payment_mode'];
                                                     $aproved_by = $row['approved_by'];
                                                     $note = $row['note'];
+                                                    $row_id=$row['id'];
                                                     $rejection_reason = trim($row['rejection_reason'] ?? '');
 
                                                     if ($rejection_reason === '') {
@@ -9722,7 +9723,6 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                 <td>' . $inc . '</td>
                                                                 <td>' . $pay_mode . '</td>
                                                                 <td style="width: 350px;">' . $note . '</td>
-                                                                <td>' . $aproved_by . '</td>
                                                                 <td>' . $adate . '</td>
                                                                 <td>' . $rejection_reason . '</td>
                                                                 <td>';
@@ -9735,7 +9735,18 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     if ($status == 2) {
                                                         echo '<span class="badge badge-pill badge-soft-danger font-size-10 fw-bold ms-4">Rejected</span>';
                                                     }
-                                                    echo '</td>
+                                                    echo '  </td>
+                                                            <td>
+                                                                <div class="dropdown">
+                                                                    <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
+                                                                        <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
                                                             </tr>
                                                             ';
                                                 }
@@ -10101,46 +10112,14 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
         }
     </script>
     <script>
-        // $(function() {
-        //     $('input[name="daterange"]').daterangepicker({
-        //         opens: 'left'
-        //     }, function(start, end, label) {
-        //         // Callback function when the user selects a new date range
-
-        //         // Log the selected date range to the console
-        //         console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-
-        //         // Extract the selected start and end dates as strings in 'YYYY-MM-DD' format
-        //         var startDate = start.format('YYYY-MM-DD');
-        //         var endDate = end.format('YYYY-MM-DD');
-        //         var id = $('#user_id').val();
-        //         var DBtable = $('#DBtable').val(); //user designation
-        //         var user_type = $('#user_type').val(); //user type
-        //         // Make the AJAX request with the selected date range
-        //         $.ajax({
-        //             url: 'forms/payout_overview.php', // Replace with your actual endpoint URL
-        //             type: 'POST', // or 'POST' depending on your API
-        //             data: {
-        //                 id: id,
-        //                 DBtable: DBtable,
-        //                 user_type: user_type,
-        //                 start_date: startDate, // Send the start date
-        //                 end_date: endDate // Send the end date
-        //             },
-        //             success: function(response) {
-        //                 // Handle the response from the server (success callback)
-        //                 console.log('Success:', response);
-        //                 // Optionally update the UI based on the server response
-        //                 $('#payoutDetailsTable').html(response);
-        //                 $("#payoutDetailsTable2").DataTable();
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 // Handle any errors that occur during the AJAX request
-        //                 console.log('Error:', error);
-        //             }
-        //         });
-        //     });
-        // });
+        //franchisee upgrade
+        function upgradePage(id,ref){
+            window.location.href='../corporate_agency/upgrade_franchisee.php?id='+id+'&ref='+ref;
+        }
+        //franchisee upgrade History Details
+        function upgradeHistoryPage(id,ref){
+            window.location.href='upgrade_franchisee_history.php?id='+id+'&sub_f_id='+ref;
+        }
        $(function () {
             function loadData(start, end) {
                 var id = $('#user_id').val();
