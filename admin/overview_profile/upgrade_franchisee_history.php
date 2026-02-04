@@ -17,7 +17,8 @@
 
     // Format the result as a human-readable date
     $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
-    $id=$_REQUEST['id'];
+    $row_id=$_REQUEST['id'];
+    $id=$_REQUEST['sub_f_id'];
     $subId='';
     $frname='';
     $amount='';
@@ -42,19 +43,73 @@
         $prev_ins = $franchisee['current_incentive_per'];
         $prev_upgrade=$franchisee['upgrade_status'];
         if($prev_upgrade == 2){
-            $sql2 = "SELECT upgrade_amt 
+            // check how many entries are there
+            $sql2_1 = "
+                SELECT COUNT(id) AS id_count
+                FROM sub_franchisee_upgrade
+                WHERE sub_franchisee_id = :id 
+                AND upgrade_status = 1
+            ";
+
+            $stmt2_1 = $conn->prepare($sql2_1);
+            $stmt2_1->bindValue(':id', (string)$id, PDO::PARAM_STR);
+            $stmt2_1->execute();
+
+            $result = $stmt2_1->fetch(PDO::FETCH_ASSOC);
+            $idCount = (int) ($result['id_count'] ?? 0);
+
+            // if id_count is 1
+            if ($idCount === 1) {
+                $amount = $franchisee['amount'];
+            }
+            // if id_count is more than 1
+            elseif ($idCount > 1) {
+                // multiple upgrade entries
+                $sql2_2 = "SELECT * 
                 FROM sub_franchisee_upgrade 
-                WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+                WHERE sub_franchisee_id = :id AND id < :row_id 
+                ORDER BY id DESC LIMIT 1";
+
+                $stmt2_2 = $conn->prepare($sql2_2);
+
+                $stmt2_2->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+                $stmt2_2->bindParam(':row_id', $row_id, PDO::PARAM_STR);  // $id must have the value before execute
+
+                $stmt2_2->execute();
+                $franchisee_upgrade_prev = $stmt2_2->fetch(PDO::FETCH_ASSOC);
+                $amount = $franchisee_upgrade_prev['upgrade_amt'];
+            }
+            // if id_count is 0 (optional but good to handle)
+            // else {
+            //     // no upgrade entries
+            // }
+
+            $sql2 = "SELECT * 
+                FROM sub_franchisee_upgrade 
+                WHERE sub_franchisee_id = :id and id= :row_id";
 
             $stmt = $conn->prepare($sql2);
 
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+            $stmt->bindParam(':row_id', $row_id, PDO::PARAM_STR);  // $id must have the value before execute
 
             $stmt->execute();
 
             $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($franchisee_upgrade) {
-                $amount = $franchisee_upgrade['upgrade_amt'];
+                $new_amount = $franchisee_upgrade['new_investment_amt'];
+                $total_amount = $franchisee_upgrade['upgrade_amt'];
+                $commision = $franchisee_upgrade['new_commission_per'];
+                $incentive = $franchisee_upgrade['new_incentive_per'];
+                $payment_mode = $franchisee_upgrade['payment_mode'];
+                $cheque_no = $franchisee_upgrade['cheque_no'];
+                $cheque_date = $franchisee_upgrade['cheque_date'];
+                $bank_name = $franchisee_upgrade['bank_name'];
+                $transaction_no = $franchisee_upgrade['transaction_no'];
+                $payment_proof = $franchisee_upgrade['payment_proof'];
+                $note = $franchisee_upgrade['note'];
+                $rejection_reason = $franchisee_upgrade['rejection_reason'];
+                $upgrade_status_val = $franchisee_upgrade['upgrade_status'];
             }
         }
     }
@@ -67,7 +122,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Upgarde Franchisee | Admin Dashboard </title>
+        <title>Upgarde Franchisee History | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -127,7 +182,10 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="upgradeForm">
-                                            <h3>Upgrade Franchisee</h3>
+                                            <div class=" d-flex justify-content-between">
+                                                <h3>Upgrade Franchisee History</h3>
+                                                <span class="badge badge-pill<?= $upgrade_status_val == 1 ? ' badge-soft-success':($upgrade_status_val == 2?' badge-soft-danger':'') ?>  font-size-10 fw-bold ms-4" style="height: fit-content;"><?= $upgrade_status_val == 1 ? 'Approved' : ($upgrade_status_val == 2 ? 'Rejected':'') ?></span>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -150,8 +208,8 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="new_select_amount">New Amount Select<span class="text-danger">*</span></label>
-                                                        <select id="new_select_amount" class="form-select"> 
-                                                            <option value="">--Select New Amount--</option> 
+                                                        <select id="new_select_amount" class="form-select" disabled> 
+                                                            <option value="<?php echo $new_amount; ?>"><?php echo $new_amount; ?></option> 
                                                             <option value="100000">1,00,000/-</option> 
                                                             <option value="200000">2,00,000/-</option> 
                                                             <option value="300000">3,00,000/-</option> 
@@ -163,33 +221,46 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="update_amount">Update Amount<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="update_amount" placeholder="Enter Updated Amount" readonly>
+                                                        <input type="text" class="form-control" id="update_amount" placeholder="Enter Updated Amount" value="<?= $total_amount ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="commission">New Commission<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="commission" placeholder="Enter New Commission" readonly>
+                                                        <input type="text" class="form-control" id="commission" placeholder="Enter New Commission" value="<?= $commision ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="incentive">New Incentive<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="incentive" placeholder="Enter New Incentive" readonly>
+                                                        <input type="text" class="form-control" id="incentive" placeholder="Enter New Incentive" value="<?= $incentive ?>" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea"></textarea>
+                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea"><?= $note ?></textarea>
                                                     </div>
                                                 </div>
+                                                <?php
+                                                    if ($upgrade_status_val == 2) {
+                                                ?>
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="flex_amount">Rejection Reason<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea"><?= $rejection_reason ?></textarea>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                    }
+                                                ?>
+                                                
                                                 <div class="col-md-6 col-sm-6">
                                                     <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
                                                     <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
-                                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
-                                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
-                                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
+                                                        <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash" <?= $payment_mode == 'cash' ?'checked':'' ?> disabled>Cash</label>
+                                                        <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment"  class="form-check-input payment me-3" name="payment" value="cheque" <?= $payment_mode == 'cheque' ?'checked':'' ?> disabled>Cheque</label>
+                                                        <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment"  class="form-check-input payment me-3" name="payment" value="online" <?= $payment_mode == 'online' ?'checked':'' ?> disabled>UPI/NEFT</label>
                                                     </div>
                                                 </div>
                                                 <div class="pb-3">
@@ -198,19 +269,19 @@
                                                             <div class="col-md-4 py-1">
                                                                 <div class="input-block">
                                                                     <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                                    <input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number" value="<?= $cheque_no ?>" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 py-1">
                                                                 <div class="input-block">
-                                                                    <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="chequeDate" placeholder="YYYY-MM-DD">
+                                                                    <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger" >*</span></label>
+                                                                    <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque" value="<?= $cheque_date ?>" readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 py-1">
                                                                 <div class="input-block">
                                                                     <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                                    <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name" value="<?= $bank_name ?>" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -220,7 +291,7 @@
                                                             <div class="col-md-8">
                                                                 <div class="input-block">
                                                                     <label class="col-form-label" for="transactionNo">Transaction No<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                                    <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No." value="<?= $transaction_no ?>" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -231,20 +302,27 @@
 												<h4 class="my-2">Attachments</h4>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label"><b>Payment Proof</b></label><br/>
-                                                        <input class="form-control" type="file" name="file6" id="upload_file6">
+                                                        <label class="col-form-label"><b>Payment Proof</b>
+                                                            <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                                <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+                                                            </a>
+                                                        </label><br />
+                                                        <!-- <input class="form-control" type="file" name="file6" id="upload_file6" disabled> -->
                                                     </div>
-                                                    <input type="hidden" id="img_path6" value="">
-                                                    <div id="preview6" style="display: none;">
+                                                    <input type="hidden" id="img_path6" value="<?php echo '../../uploading/'.$payment_proof; ?>">
+                                                    <div id="preview6" style="margin-bottom: 50px;">
                                                         <div id="image_preview6">
-                                                            <img alt="Preview" class="imgSize" id="img_pre6">
+                                                            <?php
+                                                            if ($payment_proof == '') {
+                                                                echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
+                                                            } else {
+                                                                echo '<img src="../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">'; ?>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-evenly mb-4">
-                                                <button type="submit" class="btn btn-primary px-5 py-2" id="upgradeFranchisee">Submit</button>
-                                                <button type="reset" class="btn btn-primary px-5 py-2" id="clear">Clear All</button>
                                                 <button type="button" class="btn btn-primary px-5 py-2" id="cancel" onclick="window.history.go(-1);">Cancel</button>
                                             </div>
                                             
@@ -342,124 +420,137 @@
             });
 
 
-            $('#paymentMode').on('click', function(){
+            // $('#paymentMode').on('change', function(){
+            //     var paymentMode = $(".payment:checked").val();
+            //     console.log(paymentMode);
+            //     if(paymentMode == "cheque"){
+            //         $("#chequeOpt").removeClass("d-none");
+            //         $("#onlineOpt").addClass("d-none");
+            //         $("#transactionNo").val("");
+            //     }else if(paymentMode == "online"){
+            //         $("#onlineOpt").removeClass("d-none");
+            //         $("#chequeOpt").addClass("d-none");
+            //         $("#chequeNo").val("");
+            //         $("#chequeDate").val("");
+            //         $("#bankName").val("");
+            //     } else {
+            //         $("#chequeOpt").addClass("d-none");
+            //         $("#onlineOpt").addClass("d-none");
+            //         $("#chequeNo").val("");
+            //         $("#chequeDate").val("");
+            //         $("#bankName").val("");
+            //         $("#transactionNo").val("");
+            //     }
+            // });
+            $(document).ready(function() {
                 var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
-                if(paymentMode == "cheque"){
+                if (paymentMode == "cheque") {
                     $("#chequeOpt").removeClass("d-none");
                     $("#onlineOpt").addClass("d-none");
-                    $("#transactionNo").val("");
-                }else if(paymentMode == "online"){
+                } else if (paymentMode == "online") {
                     $("#onlineOpt").removeClass("d-none");
                     $("#chequeOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
                 } else {
                     $("#chequeOpt").addClass("d-none");
                     $("#onlineOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                    $("#transactionNo").val("");
                 }
             });
         </script>
         <script>
-            $("#upgradeForm").on("submit", function(e){
-                e.preventDefault();
-                let paymentMode     = $(".payment:checked").val() || "";
-                let upgradeSlection = $("#new_select_amount").val();
-                let paymentProof    = $(":hidden#img_path6").val().trim();
+            // $("#upgradeForm").on("submit", function(e){
+            //     e.preventDefault();
+            //     let paymentMode     = $(".payment:checked").val() || "";
+            //     let upgradeSlection = $("#new_select_amount").val();
+            //     let paymentProof    = $(":hidden#img_path6").val().trim();
 
-                /* 1. Upgrade */
-                if (upgradeSlection == '') {
-                    alert('Please select Upgrade amount');
-                    return false;   // STOP here
-                }
+            //     /* 1. Upgrade */
+            //     if (upgradeSlection == '') {
+            //         alert('Please select Upgrade amount');
+            //         return false;   // STOP here
+            //     }
 
-                /* 2. Mode */
-                if (paymentMode == '') {
-                    alert('Please select payment mode');
-                    return false;   // STOP here
-                }
+            //     /* 2. Mode */
+            //     if (paymentMode == '') {
+            //         alert('Please select payment mode');
+            //         return false;   // STOP here
+            //     }
 
-                /* 3. Cheque validations */
-                if (paymentMode == "cheque") {
-                    if (
-                        $("#chequeNo").val().trim() == "" ||
-                        $("#chequeDate").val().trim() == "" ||
-                        $("#bankName").val().trim() == ""
-                    ) {
-                        alert("Please enter all Cheque details");
-                        return false;   // STOP here
-                    }
-                }
+            //     /* 3. Cheque validations */
+            //     if (paymentMode == "cheque") {
+            //         if (
+            //             $("#chequeNo").val().trim() == "" ||
+            //             $("#chequeDate").val().trim() == "" ||
+            //             $("#bankName").val().trim() == ""
+            //         ) {
+            //             alert("Please enter all Cheque details");
+            //             return false;   // STOP here
+            //         }
+            //     }
 
-                /* 4. Online validations */
-                if (paymentMode == "online") {
-                    if ($("#transactionNo").val().trim() == "") {
-                        alert("Please enter Transaction Number");
-                        return false;   // STOP here
-                    }
-                }
+            //     /* 4. Online validations */
+            //     if (paymentMode == "online") {
+            //         if ($("#transactionNo").val().trim() == "") {
+            //             alert("Please enter Transaction Number");
+            //             return false;   // STOP here
+            //         }
+            //     }
 
-                /* 5. Proof (mandatory for all) */
-                if (paymentProof == '') {
-                    alert("Please Upload Payment Proof");
-                    return false;   // STOP here
-                }
+            //     /* 5. Proof (mandatory for all) */
+            //     if (paymentProof == '') {
+            //         alert("Please Upload Payment Proof");
+            //         return false;   // STOP here
+            //     }
 
-                let formData = new FormData();
+            //     let formData = new FormData();
 
-                formData.append("id", $("#franchiseeID").val());
-                formData.append("prev_amount", $("#prev_amount").val());
-                formData.append("new_amount", $("#new_select_amount").val());
-                formData.append("update_amount", $("#update_amount").val());
-                formData.append("commission", $("#commission").val());
-                formData.append("incentive", $("#incentive").val());
-                formData.append("note", $("#floatingTextarea").val());
+            //     formData.append("id", $("#franchiseeID").val());
+            //     formData.append("prev_amount", $("#prev_amount").val());
+            //     formData.append("new_amount", $("#new_select_amount").val());
+            //     formData.append("update_amount", $("#update_amount").val());
+            //     formData.append("commission", $("#commission").val());
+            //     formData.append("incentive", $("#incentive").val());
+            //     formData.append("note", $("#floatingTextarea").val());
 
                 
-                formData.append("payment_mode", paymentMode);
+            //     formData.append("payment_mode", paymentMode);
 
-                formData.append("cheque_no", $("#chequeNo").val());
-                formData.append("cheque_date", $("#chequeDate").val());
-                formData.append("bank_name", $("#bankName").val());
-                formData.append("transaction_no", $("#transactionNo").val());
+            //     formData.append("cheque_no", $("#chequeNo").val());
+            //     formData.append("cheque_date", $("#chequeDate").val());
+            //     formData.append("bank_name", $("#bankName").val());
+            //     formData.append("transaction_no", $("#transactionNo").val());
 
-                formData.append("payment_proof", $(":hidden#img_path6").val().trim());
-                formData.append("prev_commission", <?= $prev_comm ?>);
-                formData.append("prev_incentive", <?= $prev_ins ?>);
+            //     formData.append("payment_proof", $(":hidden#img_path6").val().trim());
+            //     formData.append("prev_commission", <?= $prev_comm ?>);
+            //     formData.append("prev_incentive", <?= $prev_ins ?>);
                 
-                console.log(formData);
+            //     console.log(formData);
                 
-                $.ajax({
-                    url: "upgrade_franchisee_action.php",   // create this file
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function(){
-                        $("#loading-overlay").show();
-                    },
-                    success: function(res){
-                        $("#loading-overlay").hide();
+            //     $.ajax({
+            //         url: "upgrade_franchisee_action.php",   // create this file
+            //         type: "POST",
+            //         data: formData,
+            //         contentType: false,
+            //         processData: false,
+            //         beforeSend: function(){
+            //             $("#loading-overlay").show();
+            //         },
+            //         success: function(res){
+            //             $("#loading-overlay").hide();
 
-                        if(res == 1){
-                            alert("Franchisee Upgrade Requested Successfully!");
-                            window.location.href = "view_corporate_agency.php";
-                        }else{
-                            alert("Franchisee Upgrade Request Failed!");
-                        }
-                    },
-                    error: function(){
-                        $("#loading-overlay").hide();
-                        alert("Server Error!");
-                    }
-                });
-            });
-            </script>
+            //             if(res == 1){
+            //                 alert("Franchisee Upgrade Requested Successfully!");
+            //                 window.location.href = "view_corporate_agency.php";
+            //             }else{
+            //                 alert("Franchisee Upgrade Request Failed!");
+            //             }
+            //         },
+            //         error: function(){
+            //             $("#loading-overlay").hide();
+            //             alert("Server Error!");
+            //         }
+            //     });
+            // });
+        </script>
 
         
     </body>
