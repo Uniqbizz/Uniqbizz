@@ -38,7 +38,7 @@ $('#designation').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_name').html(data);

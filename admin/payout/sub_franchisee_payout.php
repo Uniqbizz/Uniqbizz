@@ -100,7 +100,7 @@
                                                     <p class="font-size-14">Previous Payout<span class="fw-bold font-size-10 ms-5"><?php echo "$prevdate" ?></span></p>
                                                     <?php
                                                         $query = "
-                                                            SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month                                                            
+                                                            SELECT SUM(commission_zm+commission_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month                                                            
                                                         ";
 
                                                         $stmt = $conn->prepare($query);
@@ -133,7 +133,7 @@
                                                     <p class="font-size-14">Next Payout<span class="fw-bold font-size-10 ms-5 date-layout "><?php echo "$date" ?></span></p>
                                                     <?php
                                                         $query = "
-                                                            SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                                            SELECT SUM(commission_zm+commission_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                                         ";
 
                                                         $stmt = $conn->prepare($query);
@@ -180,7 +180,7 @@
                                                 
                                                 <?php
                                                     $query = "
-                                                        SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout
+                                                        SELECT SUM(commission_zm+commission_mf) as payout FROM sub_franchisee_payout
                                                     ";
 
                                                     $stmt = $conn->prepare($query);
@@ -286,9 +286,9 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php
-                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, status_zm as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)) 
+                                                            $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, status_zm as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL)) 
                                                                     UNION 
-                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, status_mf as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
+                                                                    (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, status_mf as status, sub_franchisee, created_date FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL))
                                                                     ORDER BY created_date DESC ";
                                                             $stmt = $conn -> prepare($sql);
                                                             $stmt -> execute();
@@ -411,7 +411,7 @@
                                     <p class="font-size-18 pt-3">Previous Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$prevdate" ?></span></p>
                                     <div class="d-flex">
                                         <!-- <?php 
-                                            $previousPayout = $conn -> prepare("SELECT SUM(commision_zm+commision_mf) as previousPayout FROM sub_franchisee_payout WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
+                                            $previousPayout = $conn -> prepare("SELECT SUM(commission_zm+commission_mf) as previousPayout FROM sub_franchisee_payout WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
                                             $previousPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($previousPayout -> rowCount()>0){
@@ -426,7 +426,7 @@
 
                                         <?php
                                             $query = "
-                                                SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                                SELECT SUM(commission_zm+commission_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                             ";
 
                                             $stmt = $conn->prepare($query);
@@ -531,9 +531,9 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."') 
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."') 
                                                             UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."')
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."')
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -639,7 +639,7 @@
                                     <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
                                     <div class="d-flex">
                                         <!-- <?php 
-                                            $nextPayout = $conn -> prepare("SELECT SUM(commision_zm+commision_mf) as nextPayout FROM sub_franchisee_payout WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
+                                            $nextPayout = $conn -> prepare("SELECT SUM(commission_zm+commission_mf) as nextPayout FROM sub_franchisee_payout WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
                                             $nextPayout -> setFetchMode(PDO::FETCH_ASSOC);
                                             if($nextPayout -> rowCount()>0){
@@ -654,7 +654,7 @@
                                         ?> -->
                                         <?php
                                             $query = "
-                                                SELECT SUM(commision_zm+commision_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
+                                                SELECT SUM(commission_zm+commission_mf) as payout FROM sub_franchisee_payout WHERE YEAR(created_date) = :year AND MONTH(created_date) = :month
                                             ";
 
                                             $stmt = $conn->prepare($query);
@@ -760,9 +760,9 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'
                                                     //         order by created_date desc ";
 
-                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
+                                                    $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE (zonal_manager <> 'NA' AND zonal_manager <> 'Not Applicable' AND zonal_manager IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
                                                             UNION ALL
-                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
+                                                            (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE (master_franchisee <> 'NA' AND master_franchisee <> 'Not Applicable' AND master_franchisee IS NOT NULL) AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."')
                                                             order by created_date desc ";
                                                     $stmt = $conn -> prepare($sql);
                                                     $stmt -> execute();
@@ -879,14 +879,14 @@
                                                         CASE 
                                                             WHEN zonal_manager IS NOT NULL 
                                                                 AND zonal_manager NOT IN ('NA','Not Applicable') 
-                                                            THEN commision_zm 
+                                                            THEN commission_zm 
                                                             ELSE 0 
                                                         END
                                                         +
                                                         CASE 
                                                             WHEN master_franchisee IS NOT NULL 
                                                                 AND master_franchisee NOT IN ('NA','Not Applicable') 
-                                                            THEN commision_mf 
+                                                            THEN commission_mf 
                                                             ELSE 0 
                                                         END
                                                     ) AS payout
@@ -992,9 +992,9 @@
                                                     //         SELECT id, business_mentor as userId, message, business_package, business_package_amount, message_details, comm_amt, comm_amtTDS, comm_amtTotal, sub_franchisee, created_date, status, 'caPayout' as identity FROM `ca_payout` WHERE status = '1' 
                                                     //         order by created_date desc ";
 
-                                                    // $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commision_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND status = '1')
+                                                    // $sql = "(SELECT id, zonal_manager AS userId, message_zm AS message, commission_zm as comm_amt, sub_franchisee, created_date, status_zm as status FROM sub_franchisee_payout WHERE zonal_manager <> 'NA' AND status = '1')
                                                     //         UNION ALL
-                                                    //         (SELECT id, master_franchisee AS userId, message_mf AS message, commision_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND status = '1')
+                                                    //         (SELECT id, master_franchisee AS userId, message_mf AS message, commission_mf AS comm_amt, sub_franchisee, created_date, status_mf as status FROM sub_franchisee_payout WHERE master_franchisee <> 'NA' AND status = '1')
                                                     //         order by created_date desc ";
                                                     $sql="SELECT * FROM sub_franchisee_payout_paid  order by created_date desc";
                                                     $stmt = $conn -> prepare($sql);

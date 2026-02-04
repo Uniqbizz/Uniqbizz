@@ -1069,31 +1069,37 @@
                     url: 'filter_view_table_ca.php',
                     data: dataString, 
                     cache: false,
-                        success:function(data){
-                            // console.log(data);
-                            if(data){
-                                $('#registered_ca').html(data);
-                                // $('#filterTable').DataTable();
-                                // Register the date format before using DataTables
-                                $.fn.dataTable.moment('DD-MM-YYYY');
-                                $("#registeredCustomerList-table").DataTable({
-                                    order: [[5, 'asc']]
-                                });
+                        success: function (data) {
 
-                                // var TotalCount = $('#filterTable tr').length; // count total table rows
-                                let amts = document.querySelectorAll("#registeredCustomerList-table td:nth-child(5)"); // get amount from 5th col for adding amt one col hidden
-                                let countAmtCol = amts.length;// count total table rows
-                                let TotalAmt = 0;
-                                // let TotalCount = 0;
-                                for (let i = 0; i < amts.length; i++) {
-                                    TotalAmt += parseFloat(amts[i].textContent);
-                                }
-                                $('#caAmt').val(TotalAmt); //assign value to amt input field
-                                $('#caCount').val(countAmtCol); //assign value to count input field -1 header col
-                            }else{
+                            console.log('AJAX response:', data); // remove after debug
 
+                            if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
+                                $('#registeredCustomerList-table').DataTable().clear().destroy();
                             }
-                    }
+
+                            $('#registeredCustomerList-table tbody').html(data);
+
+                            $.fn.dataTable.moment('DD-MM-YYYY');
+
+                            // $("#registeredCustomerList-table").DataTable({
+                            //     order: [[5, 'asc']]
+                            // });
+
+                            let table = $('#registeredCustomerList-table').DataTable();
+
+                            let TotalAmt = 0;
+                            let rowCount = table.rows().count();
+
+                            table.rows().every(function () {
+                                let amount = parseFloat(this.data()[4]) || 0; // 5th column
+                                TotalAmt += amount;
+                            });
+
+                            $('#caAmt').val(TotalAmt);
+                            $('#caCount').val(rowCount);
+                        }
+
+
                 });
 
             });
