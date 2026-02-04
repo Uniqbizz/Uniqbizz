@@ -1076,19 +1076,22 @@
 
                             $.fn.dataTable.moment('DD-MM-YYYY');
 
-                            $("#registeredCustomerList-table").DataTable({
-                                order: [[5, 'asc']]
-                            });
+                            // $("#registeredCustomerList-table").DataTable({
+                            //     order: [[5, 'asc']]
+                            // });
 
-                            let amts = document.querySelectorAll("#registeredCustomerList-table td:nth-child(5)");
+                            let table = $('#registeredCustomerList-table').DataTable();
+
                             let TotalAmt = 0;
+                            let rowCount = table.rows().count();
 
-                            amts.forEach(td => {
-                                TotalAmt += parseFloat(td.textContent || 0);
+                            table.rows().every(function () {
+                                let amount = parseFloat(this.data()[4]) || 0; // 5th column
+                                TotalAmt += amount;
                             });
 
                             $('#caAmt').val(TotalAmt);
-                            $('#caCount').val(amts.length);
+                            $('#caCount').val(rowCount);
                         }
 
 
