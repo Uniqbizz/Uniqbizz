@@ -14,37 +14,51 @@ if ($TotalPayoutFilter) {
 
     if ($designation == 'Prime') {
         if ($cap_id) {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Prime' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Prime' order by created_date DESC";
         } else {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Prime' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Prime' order by created_date DESC";
         }
     } 
     if ($designation == 'Premium') {
         if ($cap_id) {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium' order by created_date DESC";
         } else {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium' order by created_date DESC";
         }
     } 
     if ($designation == 'Premium Plus') {
         if ($cap_id) {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium Plus' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium Plus' order by created_date DESC";
         } else {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium Plus' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium Plus' order by created_date DESC";
         }
     } 
     if ($designation == 'Premium Select') {
         if ($cap_id) {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium Select' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium Select' order by created_date DESC";
         } else {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium Select' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium Select' order by created_date DESC";
         }
     } 
     if ($designation == 'Premium Select Lite') {
         if ($cap_id) {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium Select Lite' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium Select Lite' order by created_date DESC";
         } else {
-            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium Select Lite' order by created_date DESC";
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium Select Lite' order by created_date DESC";
+        }
+    } 
+    if ($designation == 'Neo Select') {
+        if ($cap_id) {
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Neo Select' order by created_date DESC";
+        } else {
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Neo Select' order by created_date DESC";
+        }
+    } 
+    if ($designation == 'Neo Select Lite') {
+        if ($cap_id) {
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Neo Select Lite' order by created_date DESC";
+        } else {
+            $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Neo Select Lite' order by created_date DESC";
         }
     } 
 
@@ -123,42 +137,56 @@ if ($TotalPayoutFilter) {
     if (!empty($designation)) {
         if ($designation == 'Prime') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Prime' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Prime' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Prime' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Prime' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium Plus') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium Plus' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium Plus' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium Plus' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium Plus' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium Select') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium Select' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium Select' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium Select' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium Select' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium Select Lite') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND customer_type='Premium Select Lite' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Premium Select Lite' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND customer_type='Premium Select Lite' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Premium Select Lite' order by created_date DESC";
+            }
+        } 
+        if ($designation == 'Neo Select') {
+            if ($cap_id) {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Neo Select' order by created_date DESC";
+            } else {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Neo Select' order by created_date DESC";
+            }
+        } 
+        if ($designation == 'Neo Select Lite') {
+            if ($cap_id) {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND customer_type='Neo Select Lite' order by created_date DESC";
+            } else {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_type='Neo Select Lite' order by created_date DESC";
             }
         } 
     } else {
         // 🔁 DESIGNATION NOT SET — FETCH EVERYTHING ACROSS ALL PAYOUT TABLES
-        $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' order by created_date DESC";
+        $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout order by created_date DESC";
     }
     echo '<div class="table-responsive table-desi" id="filterTable">
             <table class="table table-hover" id="payoutDetailsTable">
@@ -176,6 +204,7 @@ if ($TotalPayoutFilter) {
 
     $stmt = $conn->prepare($sqlId);
     $stmt->execute();
+    // print_r($stmt);
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     if ($stmt->rowCount() > 0) {
         foreach (($stmt->fetchALL()) as $key => $row) {
@@ -230,43 +259,58 @@ if ($TotalPayoutFilter) {
     if (!empty($designation)) {
         if ($designation == 'Prime') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Prime' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Prime' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Prime' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Prime' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium Plus') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Plus' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Plus' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Plus' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Plus' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium Select') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select' order by created_date DESC";
             }
         } 
         if ($designation == 'Premium Select Lite') {
             if ($cap_id) {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select Lite' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select Lite' order by created_date DESC";
             } else {
-                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select Lite' order by created_date DESC";
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select Lite' order by created_date DESC";
+            }
+        } 
+        if ($designation == 'Neo Select') {
+            if ($cap_id) {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Neo Select' order by created_date DESC";
+            } else {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Neo Select' order by created_date DESC";
+            }
+        } 
+        if ($designation == 'Neo Select Lite') {
+            if ($cap_id) {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Neo Select Lite' order by created_date DESC";
+            } else {
+                $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Neo Select Lite' order by created_date DESC";
             }
         } 
     } else {
         // fallback when designation is not selected
-        $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND status = '1' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' order by created_date DESC";
+        $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND  YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' order by created_date DESC";
     }
+
 
     echo '<div class="table-responsive table-desi" id="filterTable">
             <table class="table table-hover" id="payoutDetailsTable">
@@ -309,19 +353,19 @@ if ($TotalPayoutFilter) {
             }
 
             echo '<tr>
-                                <td>' . $dt . '</td>
-                                <td>' . $message1 . '</td>
-                                <td class="text-end">' . $CommAmt . '</td>
-                                <td class="text-end">' . $tds . '</td>
-                                <td class="text-end">' . $totalAmt ;
-                                if ($row['status'] =='3') {
-                                    # code...
-                                    echo '
-                                        <a href="forms/customer_reference/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&userId=' . $row['userId'] . '&date=' . $dt . '&message=' . $message1 . '&message_status=' . $row['status'] . '&commission=' . $CommAmt . '">
-                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
-                                        </a>
-                                    </td>';
-                                }
+                    <td>' . $dt . '</td>
+                    <td>' . $message1 . '</td>
+                    <td class="text-end">' . $CommAmt . '</td>
+                    <td class="text-end">' . $tds . '</td>
+                    <td class="text-end">' . $totalAmt ;
+                    if ($row['status'] =='3') {
+                        # code...
+                        echo '
+                            <a href="forms/customer_reference/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&userId=' . $row['userId'] . '&date=' . $dt . '&message=' . $message1 . '&message_status=' . $row['status'] . '&commission=' . $CommAmt . '">
+                                <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                            </a>
+                        </td>';
+                    }
             if ($row['status'] == '1') {
                 echo '<td><span class="badge badge-pill badge-soft-success font-size-10 fw-bold ms-4">Paid</span></td>';
             }else if($row['status'] == '3'){
@@ -352,6 +396,12 @@ if ($TotalPayoutFilter) {
     } 
     if ($designation == 'Premium Select Lite') {
         $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Premium Select Lite' order by created_date DESC";
+    } 
+    if ($designation == 'Neo Select') {
+        $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Neo Select' order by created_date DESC";
+    } 
+    if ($designation == 'Neo Select Lite') {
+        $sqlId = "SELECT id, customer_id as userId, referral_message as message1,booking_message as message2, referral_amount as comm_amt1,booking_points as comm_amt2, created_date, status FROM customer_reference_payout WHERE customer_id = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' AND customer_type='Neo Select Lite' order by created_date DESC";
     } 
 
     echo '<div class="table-responsive table-desi" id="filterTable">
