@@ -123,6 +123,7 @@ if ($result) {
 		));
 
 		if($result3){
+			// status 1 For complimentary and Status 2 for Non complimentary 
 			if ($comp_check == 2) {
 				// get ref of bm to populate payout table 
 				$reference_id = (substr($reference_no, 0, 1) == 'F') 

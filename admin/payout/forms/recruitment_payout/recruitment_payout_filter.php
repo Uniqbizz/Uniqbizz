@@ -12,12 +12,12 @@ $perTDS = 2/100;
 $tdsPer = 2/100;
 
     if($TotalPayoutFilter){
-        if($designation == 'business_consultant'){
-            $sqlId = "SELECT * FROM ca_ta_payout_paid WHERE business_consultant = '".$cap_id."' order by id DESC";
+        if($designation == 'business_mentor'){
+            $sqlId = "SELECT * FROM ca_ta_payout_paid WHERE business_mentor = '".$cap_id."' order by id DESC";
         }else if($designation == 'corporate_agency'){
-            $sqlId = "SELECT * FROM ca_ta_payout_paid WHERE corporate_agency = '".$cap_id."' order by id DESC";
+            $sqlId = "SELECT * FROM ca_ta_payout_paid WHERE techno_enterprise <> '' AND techno_enterprise = '".$cap_id."' order by id DESC";
         }else if($designation == 'ca_travelagency'){
-            $sqlId = "SELECT * FROM ca_ta_payout_paid WHERE ca_travelagency = '".$cap_id."' order by id DESC";
+            $sqlId = "SELECT * FROM ca_ta_payout_paid WHERE travel_consultant = '".$cap_id."' order by id DESC";
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -78,7 +78,7 @@ $tdsPer = 2/100;
         if ($designation == 'business_mentor') {
             $sqlId = "SELECT * FROM ca_ta_payout ORDER BY id DESC";
         } else if ($designation == 'corporate_agency') {
-            $sqlId = "SELECT * FROM ca_ta_payout ORDER BY id DESC";
+            $sqlId = "SELECT * FROM ca_ta_payout WHERE techno_enterprise <> '' ORDER BY id DESC";
         } 
 
         $stmt = $conn->prepare($sqlId);
@@ -149,7 +149,7 @@ $tdsPer = 2/100;
         if($designation == 'business_mentor'){
             $sqlId = "SELECT * FROM ca_ta_payout WHERE business_mentor = '".$cap_id."' order by id DESC";
         }else if($designation == 'corporate_agency'){
-            $sqlId = "SELECT * FROM ca_ta_payout WHERE techno_enterprise = '".$cap_id."' order by id DESC";
+            $sqlId = "SELECT * FROM ca_ta_payout WHERE techno_enterprise <> '' AND techno_enterprise = '".$cap_id."' order by id DESC";
         }else if($designation == 'ca_travelagency'){
             $sqlId = "SELECT * FROM ca_ta_payout WHERE ca_travelagency = '".$cap_id."' order by id DESC";
         }

@@ -218,6 +218,8 @@
                                                     <option value="Premium Plus">Premium Plus</option>
                                                     <option value="Premium Select">Premium Select</option>
                                                     <option value="Premium Select Lite">Premium Select Lite</option>
+                                                    <option value="Neo Select">Neo Select</option>
+                                                    <option value="Neo Select Lite">Neo Select Lite</option>
                                                     <!-- <option value="base_agency">Base Agency</option> -->
                                                 </select>
                                             </div>
@@ -440,6 +442,8 @@
                                             <option value="Premium Plus">Premium Plus</option>
                                             <option value="Premium Select">Premium Select</option>
                                             <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Lite">Neo Select Lite</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -648,6 +652,8 @@
                                             <option value="Premium Plus">Premium Plus</option>
                                             <option value="Premium Select">Premium Select</option>
                                             <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Lite">Neo Select Lite</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -841,6 +847,8 @@
                                             <option value="Premium Plus">Premium Plus</option>
                                             <option value="Premium Select">Premium Select</option>
                                             <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Lite">Neo Select Lite</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>

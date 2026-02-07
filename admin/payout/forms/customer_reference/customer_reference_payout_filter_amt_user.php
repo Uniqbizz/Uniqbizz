@@ -29,6 +29,12 @@
         if($designation == 'Premium Select Lite'){
             $sqlId = "SELECT * FROM ca_customer WHERE ca_customer_id = '".$cap_id."' AND customer_type='Premium Select Lite' ";
         }
+        if($designation == 'Neo Select'){
+            $sqlId = "SELECT * FROM ca_customer WHERE ca_customer_id = '".$cap_id."' AND customer_type='Neo Select' ";
+        }
+        if($designation == 'Neo Select Lite'){
+            $sqlId = "SELECT * FROM ca_customer WHERE ca_customer_id = '".$cap_id."' AND customer_type='Neo Select Lite' ";
+        }
 
         $stmt = $conn -> prepare($sqlId);
         $stmt -> execute();
@@ -36,7 +42,7 @@
         if($stmt->rowCount()>0){
             foreach(($stmt-> fetchALL()) as $key => $row){
 
-                if($designation == 'Prime' || $designation == 'Premium' || $designation == 'Premium Plus' || $designation == 'Premium Select' || $designation == 'Premium Select Lite'){
+                if($designation == 'Prime' || $designation == 'Premium' || $designation == 'Premium Plus' || $designation == 'Premium Select' || $designation == 'Premium Select Lite' || $designation == 'Neo Select' || $designation == 'Neo Select Lite'){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
                 }
                 
@@ -54,6 +60,12 @@
                 }
                 if($designation == 'Premium Select Lite'){
                     $sqlIdAmt = "SELECT SUM(referral_amount) as payout FROM customer_reference_payout WHERE customer_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND customer_type='Premium Select Lite' ";
+                }
+                if($designation == 'Neo Select'){
+                    $sqlIdAmt = "SELECT SUM(referral_amount) as payout FROM customer_reference_payout WHERE customer_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND customer_type='Neo Select' ";
+                }
+                if($designation == 'Neo Select Lite'){
+                    $sqlIdAmt = "SELECT SUM(referral_amount) as payout FROM customer_reference_payout WHERE customer_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND customer_type='Neo Select Lite' ";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);
@@ -100,6 +112,12 @@
         if($designation == 'Premium Select Lite'){
             $sqlId = "SELECT * FROM ca_customer WHERE ca_customer_id = '".$cap_id."' AND customer_type='Premium Select Lite' ";
         }
+        if($designation == 'Neo Select'){
+            $sqlId = "SELECT * FROM ca_customer WHERE ca_customer_id = '".$cap_id."' AND customer_type='Neo Select' ";
+        }
+        if($designation == 'Neo Select Lite'){
+            $sqlId = "SELECT * FROM ca_customer WHERE ca_customer_id = '".$cap_id."' AND customer_type='Neo Select Lite' ";
+        }
 
         $stmt = $conn -> prepare($sqlId);
         $stmt -> execute();
@@ -125,6 +143,12 @@
                 }
                 if($designation == 'Premium Select Lite'){
                     $sqlIdAmt = "SELECT SUM(referral_amount) as payout FROM customer_reference_payout WHERE customer_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' AND customer_type='Premium Select Lite";
+                }
+                if($designation == 'Neo Select'){
+                    $sqlIdAmt = "SELECT SUM(referral_amount) as payout FROM customer_reference_payout WHERE customer_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' AND customer_type='Neo Select";
+                }
+                if($designation == 'Neo Select Lite'){
+                    $sqlIdAmt = "SELECT SUM(referral_amount) as payout FROM customer_reference_payout WHERE customer_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' AND status = '1' AND customer_type='Neo Select Lite";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);

@@ -50,6 +50,10 @@ require '../connect.php';
         $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Premium Select' ORDER BY ca_customer_id");
     }else if($table == "Premium Select Lite"){
         $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Premium Select Lite' ORDER BY ca_customer_id");
+    }else if($table == "Neo Select"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Neo Select' ORDER BY ca_customer_id");
+    }else if($table == "Neo Select Lite"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Neo Select Lite' ORDER BY ca_customer_id");
     }else if ($table == 'BM_BDM_MF_SF_RM') {
         $user = $conn->prepare("SELECT id,name FROM (
                                     SELECT business_mentor_id AS id,CONCAT(firstname,' ',lastname) AS name FROM business_mentor WHERE status=1
@@ -104,7 +108,7 @@ require '../connect.php';
             echo '<option value="">--Select Franchisee ID & Name--</option>';
         }else if ( $table == "sponsor_franchisee" ) {
             echo '<option value="">--Select Sponsor Franchisee ID & Name--</option>';
-        }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" ) {
+        }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" || $table == "Neo Select Lite" || $table == "Neo Select") {
             echo '<option value="">--Select Customer ID & Name--</option>';
         }else if ($table == "BM_BDM_MF_SF_RM") {
             echo '<option value="">--Select User ID & Name--</option>';
@@ -145,7 +149,7 @@ require '../connect.php';
                 echo '<option value="'.$value['sub_franchisee_id'].'">'.$value['sub_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ( $table == "sponsor_franchisee" ) {
                 echo '<option value="'.$value['sponsor_franchisee_id'].'">'.$value['sponsor_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
-            }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" ) {
+            }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" || $table == "Neo Select Lite" || $table == "Neo Select" ) {
                 echo '<option value="'.$value['ca_customer_id'].'">'.$value['ca_customer_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ($table == "BM_BDM_MF_SF_RM") {
                 echo '<option value="'.$value['id'].'">'.$value['id'].' - '.$value['name'].'</option>';
