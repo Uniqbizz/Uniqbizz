@@ -215,10 +215,11 @@
                                                 <!-- <label> Filter Payouts</label> -->
                                                 <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
                                                     <option value="">--Select Filter Option--</option>
-                                                    <option value="business_channel_manager">Business Channel Manager</option>
-                                                    <option value="business_development_manager">Business Development Manager</option>
+                                                    <option value="master_franchisee">Master Franchisee</option>
+                                                    <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                     <option value="business_mentor">Business Mentor</option>
                                                     <option value="corporate_agency">Techno Enterprise</option>
+                                                    <option value="sub_franchisee">Franchisee</option>
                                                     <option value="ca_travelagency">Travel Consultant</option>
                                                     <option value="ca_customer">Customer</option>
                                                     <!-- <option value="base_agency">Base Agency</option> -->
@@ -598,10 +599,11 @@
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationPrevious" class="selectdesign filter-opt-1 fw-bolder">
                                             <option value="">--Select Filter Option--</option>
-                                            <option value="business_channel_manager">Business Channel Manager</option>
-                                            <option value="business_development_manager">Business Development Manager</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <option value="business_mentor">Business Mentor</option>
                                             <option value="corporate_agency">Techno Enterprise</option>
+                                            <option value="sub_franchisee">Franchisee</option>
                                             <option value="ca_travelagency">Travel Consultant</option>
                                             <option value="ca_customer">Customer</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
@@ -961,10 +963,11 @@
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationNext" class="selectdesign filter-opt-1 fw-bolder">
                                             <option value="">--Select Filter Option--</option>
-                                            <option value="business_channel_manager">Business Channel Manager</option>
-                                            <option value="business_development_manager">Business Development Manager</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <option value="business_mentor">Business Mentor</option>
                                             <option value="corporate_agency">Techno Enterprise</option>
+                                            <option value="sub_franchisee">Franchisee</option>
                                             <option value="ca_travelagency">Travel Consultant</option>
                                             <option value="ca_customer">Customer</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
@@ -1331,10 +1334,11 @@
                                         <!-- <label> Filter Payouts</label> -->
                                         <select id="designationTotal" class="selectdesign filter-opt-1 fw-bolder">
                                             <option value="">--Select Filter Option--</option>
-                                            <option value="business_channel_manager">Business Channel Manager</option>
-                                            <option value="business_development_manager">Business Development Manager</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <option value="business_mentor">Business Mentor</option>
                                             <option value="corporate_agency">Techno Enterprise</option>
+                                            <option value="sub_franchisee">Franchisee</option>
                                             <option value="ca_travelagency">Travel Consultant</option>
                                             <option value="ca_customer">Customer</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->

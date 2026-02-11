@@ -13,18 +13,20 @@ $tdsPercentage=2/100;
 
     if($TotalPayoutFilter){
         
-        if($designation == 'business_channel_manager'){
-            $sqlId = "SELECT * FROM product_payout WHERE bch_id = '".$cap_id."'  order by id DESC";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."'  order by id DESC";
+        if($designation == 'master_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'MF%'  ORDER BY id DESC";
+        }else if($designation == 'sposor_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."' AND bm_id LIKE 'SF%'  ORDER BY id DESC";
         }else if($designation == 'business_mentor'){
-            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."'  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'BM%' ORDER BY id DESC";
         }else if($designation == 'corporate_agency'){
-            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."'  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND LEFT(te_id, 2) IN ('TE', 'CA') ORDER BY id DESC";
+        }else if($designation == 'sub_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND te_id LIKE 'F%' ORDER BY id DESC";
         }else if($designation == 'ca_travelagency'){
-            $sqlId = "SELECT * FROM product_payout WHERE ta_id = '".$cap_id."'  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE ta_id = '".$cap_id."'  ORDER BY id DESC";
         }else if($designation == 'ca_customer'){
-            $sqlId = "SELECT * FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."')  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE '".$cap_id."' IN (cu1_id, cu2_id, cu3_id) ORDER BY id DESC";
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -55,28 +57,14 @@ $tdsPercentage=2/100;
                         $id = $row['id'];
 
                         // replace dot at end of the line with break statement
-                        if($designation == 'business_channel_manager'){
-                            $userId = $row['bch_id'];
-                            $message1 = $row['bch_mess'];
-                            $comm_amt = $row['bch_amt'];
-                            $status = $row['bch_status'];
-                            $status_col = "bch_status";
-                            $identifier = "AllPayoutFilterBch";
-                        }else if($designation == 'business_development_manager'){
-                            $userId = $row['bdm_id'];
-                            $message1 = $row['bdm_mess'];
-                            $comm_amt = $row['bdm_amt'];
-                            $status = $row['bdm_status'];
-                            $status_col = "bdm_status";
-                            $identifier = "AllPayoutFilterBdm";
-                        }else if($designation == 'business_mentor'){
+                        if($designation == 'business_mentor' || $designation == 'master_franchisee' || $designation == 'sponsor_franchisee' ){
                             $userId = $row['bm_id'];
                             $message1 = $row['bm_mess'];
                             $comm_amt = $row['bm_amt'];
                             $status = $row['bm_status'];
                             $status_col = "bm_status";
                             $identifier = "AllPayoutFilterBm";
-                        }else if($designation == 'corporate_agency'){
+                        }else if($designation == 'corporate_agency' || $designation == 'sub_franchisee'){
                             $userId = $row['te_id'];
                             $message1 = $row['te_mess'];
                             $comm_amt = $row['te_amt'];
@@ -157,18 +145,20 @@ $tdsPercentage=2/100;
         </div>';
     }else if(!$cap_year && !$cap_month){
 
-        if($designation == 'business_channel_manager'){
-            $sqlId = "SELECT * FROM product_payout WHERE bch_id = '".$cap_id."'  order by id DESC";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."'  order by id DESC";
+        if($designation == 'master_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'MF%'  ORDER BY id DESC";
+        }else if($designation == 'sposor_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."' AND bm_id LIKE 'SF%'  ORDER BY id DESC";
         }else if($designation == 'business_mentor'){
-            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."'  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'BM%' ORDER BY id DESC";
         }else if($designation == 'corporate_agency'){
-            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."'  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND LEFT(te_id, 2) IN ('TE', 'CA') ORDER BY id DESC";
+        }else if($designation == 'sub_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND te_id LIKE 'F%' ORDER BY id DESC";
         }else if($designation == 'ca_travelagency'){
-            $sqlId = "SELECT * FROM product_payout WHERE ta_id = '".$cap_id."'  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE ta_id = '".$cap_id."'  ORDER BY id DESC";
         }else if($designation == 'ca_customer'){
-            $sqlId = "SELECT * FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."')  order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE '".$cap_id."' IN (cu1_id, cu2_id, cu3_id) ORDER BY id DESC";
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -199,28 +189,14 @@ $tdsPercentage=2/100;
                         $id = $row['id'];
 
                         // replace dot at end of the line with break statement
-                        if($designation == 'business_channel_manager'){
-                            $userId = $row['bch_id'];
-                            $message1 = $row['bch_mess'];
-                            $comm_amt = $row['bch_amt'];
-                            $status = $row['bch_status'];
-                            $status_col = "bch_status";
-                            $identifier = "AllPayoutFilterBch";
-                        }else if($designation == 'business_development_manager'){
-                            $userId = $row['bdm_id'];
-                            $message1 = $row['bdm_mess'];
-                            $comm_amt = $row['bdm_amt'];
-                            $status = $row['bdm_status'];
-                            $status_col = "bdm_status";
-                            $identifier = "AllPayoutFilterBdm";
-                        }else if($designation == 'business_mentor'){
+                        if($designation == 'business_mentor' || $designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
                             $userId = $row['bm_id'];
                             $message1 = $row['bm_mess'];
                             $comm_amt = $row['bm_amt'];
                             $status = $row['bm_status'];
                             $status_col = "bm_status";
                             $identifier = "AllPayoutFilterBm";
-                        }else if($designation == 'corporate_agency'){
+                        }else if($designation == 'corporate_agency' || $designation == 'sub_franchisee'){
                             $userId = $row['te_id'];
                             $message1 = $row['te_mess'];
                             $comm_amt = $row['te_amt'];
@@ -302,18 +278,20 @@ $tdsPercentage=2/100;
 
     }else{    
 
-        if($designation == 'business_channel_manager'){
-            $sqlId = "SELECT * FROM product_payout WHERE bch_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+        if($designation == 'master_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'MF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
+        }else if($designation == 'sponsor_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."' AND bm_id LIKE 'SF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
         }else if($designation == 'business_mentor'){
-            $sqlId = "SELECT * FROM product_payout WHERE bm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE bdm_id = '".$cap_id."' AND bm_id LIKE 'BM%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
         }else if($designation == 'corporate_agency'){
-            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND LEFT(te_id, 2) IN ('TE', 'CA') AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
+        }else if($designation == 'sub_franchisee'){
+            $sqlId = "SELECT * FROM product_payout WHERE te_id = '".$cap_id."' AND te_id LIKE 'F%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
         }else if($designation == 'ca_travelagency'){
-            $sqlId = "SELECT * FROM product_payout WHERE ta_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE ta_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
         }else if($designation == 'ca_customer'){
-            $sqlId = "SELECT * FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."') AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+            $sqlId = "SELECT * FROM product_payout WHERE '".$cap_id."' IN (cu1_id, cu2_id, cu3_id) AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
         }
 
         echo'<div class="table-responsive table-desi" id="filterTable">
@@ -344,28 +322,14 @@ $tdsPercentage=2/100;
                         $id = $row['id'];
 
                         // replace dot at end of the line with break statement
-                        if($designation == 'business_channel_manager'){
-                            $userId = $row['bch_id'];
-                            $message1 = $row['bch_mess'];
-                            $comm_amt = $row['bch_amt'];
-                            $status = $row['bch_status'];
-                            $status_col = "bch_status";
-                            $identifier = "AllPayoutFilterBch";
-                        }else if($designation == 'business_development_manager'){
-                            $userId = $row['bdm_id'];
-                            $message1 = $row['bdm_mess'];
-                            $comm_amt = $row['bdm_amt'];
-                            $status = $row['bdm_status'];
-                            $status_col = "bdm_status";
-                            $identifier = "AllPayoutFilterBdm";
-                        }else if($designation == 'business_mentor'){
+                        if($designation == 'business_mentor' || $designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
                             $userId = $row['bm_id'];
                             $message1 = $row['bm_mess'];
                             $comm_amt = $row['bm_amt'];
                             $status = $row['bm_status'];
                             $status_col = "bm_status";
                             $identifier = "AllPayoutFilterBm";
-                        }else if($designation == 'corporate_agency'){
+                        }else if($designation == 'corporate_agency' || $designation == 'sub_franchisee'){
                             $userId = $row['te_id'];
                             $message1 = $row['te_mess'];
                             $comm_amt = $row['te_amt'];
