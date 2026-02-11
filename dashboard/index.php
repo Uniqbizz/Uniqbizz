@@ -5,6 +5,7 @@ include_once 'dashboard_user_details.php';
 $date = date('F,Y'); //month and year. 'F' - month in Text form
 $DateMonth = date('m'); //month in number form
 $DateYear = date('Y'); //year
+$usedCount=0 ;
 if ($userType == 10){
     $sqlcust = 'SELECT customer_type FROM ca_customer WHERE ca_customer_id = :user';
     $stmt = $conn->prepare($sqlcust);
@@ -13,6 +14,24 @@ if ($userType == 10){
     $customerType = $stmt->fetchColumn();
     $usedCount = 0;
 
+}
+if ($userType == '29') {
+    $sqlf = 'SELECT upgrade_status, amount 
+             FROM sub_franchisee 
+             WHERE sub_franchisee_id = :user';
+
+    $stmt = $conn->prepare($sqlf);
+    $stmt->execute([':user' => $userId]);
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $fran_upgrade_status = $result['upgrade_status'];
+        $fran_amount         = $result['amount'];
+    } else {
+        $fran_upgrade_status = null;
+        $fran_amount = 0;
+    }
 }
 
 ?>
@@ -110,6 +129,128 @@ if ($userType == 10){
             padding: 10px 5px;
         }
 
+        /* for upgrade card */
+        /* Main Card Styling */
+        .upgrade-card {
+            background: linear-gradient(135deg, #e6f9f0, #ffffff);
+            box-shadow: 0 10px 30px rgba(0, 150, 80, 0.15);
+            border: 1px solid rgba(0, 200, 120, 0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .upgrade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 150, 80, 0.25);
+        }
+
+        /* Highlight Text */
+        .highlight-upgrade {
+            color: #00a86b;
+        }
+
+        /* Button */
+        .upgrade-btn {
+            background: linear-gradient(45deg, #00c97b, #00a86b);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 200, 120, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 200, 120, 0.6);
+        }
+
+        /* Popper Icon */
+        .upgrade-icon {
+            width: 75px;
+            height: 75px;
+        }
+
+        /* Floating animation */
+        .floating-img {
+            max-height: 180px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        /* Card Background */
+        .pre-upgrade-card {
+            background: linear-gradient(135deg, #fff8e6, #ffffff);
+            border: 1px solid rgba(255, 170, 0, 0.25);
+            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .pre-upgrade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 170, 0, 0.25);
+        }
+
+        /* Icon */
+        .pre-icon {
+            width: 75px;
+            height: 75px;
+        }
+
+        /* Benefits list */
+        .upgrade-benefits {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .upgrade-benefits li {
+            margin-bottom: 6px;
+            font-weight: 500;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .upgrade-benefits li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #f4a000;
+            font-weight: bold;
+        }
+
+        /* Upgrade Button */
+        .upgrade-now-btn {
+            background: linear-gradient(45deg, #ffb000, #ff8c00);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-now-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        /* Subtle pulse animation */
+        .pulse-img {
+            max-height: 180px;
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* for upgrade card */
     </style>
 
 </head>
@@ -1076,6 +1217,104 @@ if ($userType == 10){
                                 <?php if ($userType == '16' || $userType == '29') { ?> <!--Corporate Agency => 16 -->
 
                                     <!-- New Card Template Start -->
+                                     <?php
+                                        if($fran_upgrade_status == 2){
+                                     ?>
+                                     <!-- upgrade card -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="upgrade-card card border-0 rounded-4 p-4">
+                                                <div class="row align-items-center">
+                                                    
+                                                    <!-- Left Content -->
+                                                    <div class="col-lg-8 col-md-7 col-12">
+                                                        <div class="d-flex align-items-start">
+                                                            <img src="assets/images/customer/popperImg.png" 
+                                                                alt="Popper" 
+                                                                class="me-3 upgrade-icon">
+
+                                                            <div>
+                                                                <h2 class="fw-bold mb-2">
+                                                                    Congratulations! 
+                                                                    <span class="highlight-upgrade">You've Upgraded 🎉</span>
+                                                                </h2>
+                                                                <p class="text-muted fs-5 mb-3">
+                                                                    Your new incentive and commission percentage is now active.
+                                                                </p>
+
+                                                                <a href="view_upgrade_history.php" class="btn upgrade-btn px-4 py-2">
+                                                                    View Details
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Right Image -->
+                                                    <div class="col-lg-4 col-md-5 col-12 text-center mt-4 mt-md-0">
+                                                        <img src="assets/images/user-illustarator-2.png"
+                                                            class="img-fluid floating-img"
+                                                            alt="Illustration">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <?php
+                                        } else if($fran_amount != '500000'){
+                                     ?>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="pre-upgrade-card card border-0 rounded-4 p-4">
+                                                <div class="row align-items-center">
+
+                                                    <!-- Left Content -->
+                                                    <div class="col-lg-8 col-md-7 col-12">
+                                                        <div class="d-flex align-items-start">
+                                                            <img src="assets/images/customer/upgrade-icon.png"
+                                                                alt="Upgrade"
+                                                                class="me-3 pre-icon">
+
+                                                            <div>
+                                                                <h2 class="fw-bold mb-2">
+                                                                    Unlock Higher Earnings 🚀
+                                                                </h2>
+
+                                                                <p class="text-muted fs-5 mb-3">
+                                                                    Upgrade! to increase your incentive
+                                                                    and commission percentage instantly.
+                                                                </p>
+
+                                                                <ul class="upgrade-benefits mb-3">
+                                                                    <li>Higher Commission Percentage</li>
+                                                                    <li>Priority Payout Processing</li>
+                                                                    <li>Access to Premium Benefits</li>
+                                                                </ul>
+
+                                                                <a class="btn upgrade-now-btn px-4 py-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                    Contact Admin for UPGRADE
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Right Image -->
+                                                    <div class="col-lg-4 col-md-5 col-12 text-center mt-4 mt-md-0">
+                                                        <img src="assets/images/upgrade-illustration.png"
+                                                            class="img-fluid pulse-img"
+                                                            alt="Upgrade Illustration">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <?php
+                                        }
+                                     ?>
+                                     
                                     <div class="row">
 
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -5623,27 +5862,47 @@ if ($userType == 10){
     <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         <i class="ri-phone-fill"></i>
     </button>
-    <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+
         <div class="modal-dialog modal-sm me-4">
-            <div class="card rounded-4 border-1 mx-2">
-                <div class="d-flex justify-content-end pt-2 pe-3">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content rounded-4 border-1">
+
+                <div class="modal-header border-0">
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
-                <div class="d-flex justify-content-center py-3">
-                    <img src="assets/images/img-bot.png" alt="image-bot">
-                </div>
-                <div>
-                    <h5 class="text-center text-black fw-bold" id="staticBackdropLabel">Hi, how can we help?</h5>
-                    <p class="text-center text-muted px-1">contact us if you have any assistance, we will contact you as soon as possible</p>
-                    <div class="d-grid gap-2 col-10 mx-auto pb-4">
-                        <a class="btn btn-primary rounded-3 text-center" href="tel:8010892265" role="button">
-                            <i class="ri-phone-fill"></i> &nbsp;&nbsp;<span data-key="t-contact-us">8010892265</span>
+
+                <div class="modal-body text-center">
+
+                    <img src="assets/images/img-bot.png"
+                        alt="image-bot"
+                        class="mb-3">
+
+                    <h5 class="fw-bold" id="staticBackdropLabel">
+                        Hi, how can we help?
+                    </h5>
+
+                    <p class="text-muted px-1">
+                        Contact us if you need assistance.
+                        We will respond as soon as possible.
+                    </p>
+
+                    <div class="d-grid col-10 mx-auto">
+                        <a class="btn btn-primary rounded-3"
+                        href="tel:8010892265"
+                        id="callBtn">
+                            <i class="ri-phone-fill"></i>
+                            8010892265
                         </a>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
     <!-- contact card pop up end-->
 
     <!-- JAVASCRIPT -->
@@ -6083,6 +6342,10 @@ if ($userType == 10){
             }
         }
     </script>
+    <?php 
+        if ($userType == 10) {
+
+    ?>
     <!-- Coupon section for customer start -->
     <script>
         window.onload = function () {
@@ -6172,7 +6435,61 @@ if ($userType == 10){
             }
         };
     </script>
+    <?php 
+        }
+    ?>
     <!-- Coupon section for customer end -->
+    <!-- dialer logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const callBtn = document.getElementById("callBtn");
+
+            if (callBtn) {
+                callBtn.addEventListener("click", function(e) {
+
+                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (!isMobile) {
+                        e.preventDefault();
+
+                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                        location.reload();
+
+                        // Optional clipboard copy (safe fallback)
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText("8010892265");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        var modal = document.getElementById('staticBackdrop');
+
+        // Store the element that opened the modal
+        let lastFocusedElement;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-bs-toggle="modal"]')) {
+                lastFocusedElement = e.target;
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            } else {
+                document.body.focus();
+            }
+        });
+    </script>
+
+
+    <!-- dialer logic -->
 </body>
 
 </html>
