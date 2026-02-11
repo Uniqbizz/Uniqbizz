@@ -44,8 +44,8 @@ if ($ta_id == '') {
     $message2 = $message;
 }
 
-$fromWhom = "15";
-$register_by = "15"; 
+$fromWhom = "1";
+$register_by = "1"; 
 $operation = "Delete";
 
 // Update main table (corporate_agency or sub_franchisee)

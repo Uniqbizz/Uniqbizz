@@ -26,7 +26,7 @@ $pan_card      = $_POST['pancard'];
 $aadhar_card   = $_POST['addar'];
 $bank_details  = $_POST['bank_details'];
 $note          = $_POST['note'];
-$register_by   = '15'; // bt
+$register_by   = '1'; // Admin
 $status        = '2';
 $user_type     = '27'; // Assuming user_type 26 = Zonal Manager
 
@@ -39,7 +39,7 @@ $title         = "Zonal Manager";
 $message       = "Zonal Manager has been added";
 $message2      = "Zonal Manager has been added by Admin";
 $operation     = "Add";
-$fromWhom      = "15";
+$fromWhom      = "1";
 
 // Insert query (only required fields)
 $sql = "INSERT INTO zonal_manager (

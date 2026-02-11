@@ -2092,6 +2092,8 @@ $("#addBusinessMentor").on("click", function (e) {
 
     if (register_as == "sponsor_franchisee"){
         payment_fee = $("#payment_fee2").val().trim();
+    }else if(register_as == "master_franchisee"){
+        payment_fee = $("#payment_fee2").val().trim();
     }else{
         payment_fee = $("#payment_fee").val().trim();
     }
@@ -2345,7 +2347,9 @@ $("#editBuisnessMentor").on("click", function (e) {
         transactionNo = "",
         payment_proof = "";
 
-     if (register_as == "sf"){
+    if (register_as == "sf"){
+        payment_fee = $("#payment_fee2").val().trim();
+    }else if(register_as == "mf"){
         payment_fee = $("#payment_fee2").val().trim();
     }else{
         payment_fee = $("#payment_fee").val().trim();
@@ -3476,6 +3480,7 @@ $("#add_ca_travelagency").on("click", function (e) {
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
+    var comp_check = $('#is_complementary').is(':checked') ? 1 : 2;//1 complementary 2 non complementary
     var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' : $("#user_id_name").val();
     var reference_name = $("#reference_name").val() == 'NA' ? 'Not Applicable' : $("#reference_name").val();
 
@@ -3576,12 +3581,15 @@ $("#add_ca_travelagency").on("click", function (e) {
         alert("Please select payment mode");
     }else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
-    } else if (paymentMode == "cheque" && (!chequeNo || !chequeDate || !bankName)) {
-        let missing = [];
-        if (!chequeNo) missing.push("Cheque No");
-        if (!chequeDate) missing.push("Cheque Date");
-        if (!bankName) missing.push("Bank Name");
-        alert("Please enter: " + missing.join(", "));
+    } else if (paymentMode === "cheque") {
+        let missingFields = [];
+        if (!chequeNo) missingFields.push("Cheque No");
+        if (!chequeDate) missingFields.push("Cheque Date");
+        if (!bankName) missingFields.push("Bank Name");
+
+        if (missingFields.length > 0) {
+            alert("Please enter: " + missingFields.join(", "));
+        }
     } else if (profile_pic === "") {
         alert("Please Upload profile Picture");
     } else if (aadhar_card === "") {
@@ -3651,7 +3659,9 @@ $("#add_ca_travelagency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&comp_check="+
+            comp_check;
         // console.log(dataString);
 
         $("#add_ca_travelagency").attr("disabled", "disabled");
@@ -3685,7 +3695,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
     // var designation = $("#designation").val();
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
-
+    var comp_check = $('#is_complementary').is(':checked') ? 1 : 2;//1 complementary 2 non complementary
     var editfor = $("#editfor").val().trim();
     var ref_id = $("#ref_id").val().trim();
     var id = $("#id").val().trim();
@@ -3801,12 +3811,15 @@ $("#edit_ca_travelagency").on("click", function (e) {
         alert("Please select payment mode");
     } else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
-    } else if (paymentMode === "cheque" && (!chequeNo || !chequeDate || !bankName)) {
-        let missing = [];
-        if (!chequeNo) missing.push("Cheque No");
-        if (!chequeDate) missing.push("Cheque Date");
-        if (!bankName) missing.push("Bank Name");
-        alert("Please enter: " + missing.join(", "));
+    } else if (paymentMode === "cheque") {
+        let missingFields = [];
+        if (!chequeNo) missingFields.push("Cheque No");
+        if (!chequeDate) missingFields.push("Cheque Date");
+        if (!bankName) missingFields.push("Bank Name");
+
+        if (missingFields.length > 0) {
+            alert("Please enter: " + missingFields.join(", "));
+        }
     } else if (profile_pic === "") {
         alert("Please Upload profile Picture");
     } else if (aadhar_card === "") {
@@ -3878,7 +3891,9 @@ $("#edit_ca_travelagency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&comp_check="+
+            comp_check;
         // console.log(dataString);
 
         $("#edit_ca_travelagency").attr("disabled", "disabled");
@@ -3914,6 +3929,8 @@ $("#addCustomer").on("click", function (e) {
     // var designation = $("#designation").val().trim();
     var user_id_name = $("#user_id_name").val().trim();
     var reference_name = $("#reference_name").val().trim();
+    var cust_id_name = ($("#cust_ref_id").val() || "").trim();
+    var cust_name   = ($("#cust_ref_name").val() || "").trim();
 
     var isComplementary = $('#is_complementary').is(':checked') ? 1 : 2;
     var firstname = $("#firstname").val().trim();
@@ -4062,6 +4079,10 @@ $("#addCustomer").on("click", function (e) {
             user_id_name +
             "&reference_name=" +
             reference_name +
+            "&cust_id_name=" +
+            cust_id_name +
+            "&cust_name=" +
+            cust_name +
             "&firstname=" +
             firstname +
             "&lastname=" +
@@ -4120,7 +4141,7 @@ $("#addCustomer").on("click", function (e) {
             payment_label +
             '&isComplementary=' +
             isComplementary;
-        // console.log(dataString);
+        console.log(dataString);
 
         $("#addCustomer").attr("disabled", "disabled");
         // console.log(dataString);
@@ -4156,6 +4177,8 @@ $("#editCustomer").on("click", function (e) {
     var editfor = $("#editfor").val().trim();
     var ref_id = $("#ref_id").val().trim();
     var id = $("#id").val().trim();
+    var cust_id_name = ($("#cust_ref_id").val() || "").trim();
+    var cust_name   = ($("#cust_reference_name").val() || "").trim();
 
     var isComplementary = $('#is_complementary').is(':checked') ? 1 : 2;
     var firstname = $("#firstname").val().trim();
@@ -4298,6 +4321,10 @@ $("#editCustomer").on("click", function (e) {
             ref_id +
             "&id=" +
             id +
+            "&cust_id_name=" +
+            cust_id_name +
+            "&cust_name=" +
+            cust_name +
             "&firstname=" +
             firstname +
             "&lastname=" +

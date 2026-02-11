@@ -14,10 +14,10 @@ $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*(
 $password = substr(str_shuffle($string), 0, 8);
 
 $status = '1';
-$register_by = '15';
+$register_by = '1';
 
 $subY = substr($todayYear, 2, 4);
-if ($usertype == '24' || $usertype == '25') {
+if ($usertype == '24' || $usertype == '25' || $usertype == '31') {
 	$sql9 = $conn->prepare("SELECT * from employees where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
@@ -74,7 +74,7 @@ if ($usertype == '24' || $usertype == '25') {
 	$title = "Employee";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "15";
+	$fromWhom = "1";
 
 	$sql1 = "UPDATE employees SET status=:status,employee_id=:employee_id, register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);
@@ -350,7 +350,7 @@ if ($usertype == '24' || $usertype == '25') {
 	$title = "Zonal Manger";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "15";
+	$fromWhom = "1";
 
 	$sql1 = "UPDATE zonal_manager SET status=:status,zonal_manager_id=:zonal_manager_id, register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);

@@ -28,7 +28,6 @@ $email = $_POST['email'];
 $gender = $_POST['gender'];
 $country_code = $_POST['country_code'];
 $phone = $_POST['phone'];
-// $age=$_POST['age'];
 $dob = $_POST['dob'];
 // get age of the user
 $birthYear = str_split($dob, 4);
@@ -36,15 +35,6 @@ $birth_year = $birthYear[0];
 $age = $current_year - $birth_year;
 $gst_no = $_POST['gst_no'];
 $amount = $_POST['amount'];
-
-// if($totalAmt == "590000"){
-// 	$amount = "500000";
-// 	$amtGST = "590000";
-// }else{
-// 	$amount = "null";
-//     $amtGST = "null";
-// }
-// $kyc=$_POST['kyc'];
 $profile_pic = $_POST['profile_pic'];
 $pan_card = $_POST['pan_card'];
 $aadhar_card = $_POST['aadhar_card'];
@@ -68,16 +58,22 @@ $tc_ids = $_POST['selectedIds'] ?? [];
 $tc_ids = is_array($tc_ids) ? array_filter($tc_ids) : array_filter(explode(',', $tc_ids));
 
 $tc_assign_status = !empty($tc_ids) ? 1 : 2;
-$tenure=$_POST['tenure'];
-$roi=$_POST['roi'];
-$tax=$_POST['tax'];
-$repayAmount=$_POST['repayAmount'];
+
+function postNumber($key) {
+    return (isset($_POST[$key]) && is_numeric($_POST[$key])) ? (float)$_POST[$key] : 0;
+}
+
+$tenure      = postNumber('tenure');
+$roi         = postNumber('roi');
+$tax         = postNumber('tax');
+$repayAmount = postNumber('repayAmount');
+
 $user_type_id = '29';
 
 $title = "Franchisee";
 
-$fromWhom = "15";
-$register_by = "15";
+$fromWhom = "1";
+$register_by = "1";
 $operation = "Update";
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {

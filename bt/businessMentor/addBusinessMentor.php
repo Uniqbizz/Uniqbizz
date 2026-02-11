@@ -288,10 +288,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6">
-												<!-- <div class="input-block mb-3">
-														<label class="col-form-label" for="payFee">Payment Fee <span class="text-danger">*</span></label>
-														<input type="text" value="₹ 12000/-" class="form-control" id="payFee" readonly />
-													</div> -->
 												<div class="input-block mb-3">
 													<label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
 													<select class="form-select" id="payment_fee" required>
@@ -301,6 +297,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 														<option value="12000">₹ 12000/-</option>
 													</select>
 													<select class="form-select d-none" id="payment_fee2">
+														<option value="FOC">Free</option>
+													    <option value="100000">₹ 1,00,000/-</option>
+													    <option value="200000">₹ 2,00,000/-</option>
+													    <option value="300000">₹ 3,00,000/-</option>
 														<option value="500000" selected>₹ 5,00,000/-</option>
 													</select>
 												</div>
@@ -513,13 +513,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 				$('#payment_fee2').addClass('d-none');
 				$('#payment_fee').removeClass('d-none');
 			}else if(register_type == 'master_franchisee'){
-				$('#designation2').removeClass('d-none');
-				$('#designation2').prop('disabled',false);
-				$('#designation1').addClass('d-none');
-				$('#payment_fee').val('FOC');
-				$('#payment_fee').prop('disabled',true);
-				$('#payment_fee2').addClass('d-none');
-				$('#payment_fee').removeClass('d-none');
+				$('#designation1').prop('disabled',true);
+				$('#designation2').prop('disabled',true);
+				$('#payment_fee').addClass('d-none');
+				$('#payment_fee2').removeClass('d-none');
 			}else if(register_type == 'sponsor_franchisee'){
 				$('#designation1').prop('disabled',true);
 				$('#designation2').prop('disabled',true);
@@ -527,6 +524,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 				$('#payment_fee2').removeClass('d-none');
 			}
 		});
+		
 		//select Designation
 		$('#designation1').on('change', function() {
 			var designation = $('#designation1').val();
@@ -653,15 +651,26 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			});
 		});
 
-		$('#payment_fee').on('click', function() {
-			var paymentFee = $(this).val();
+		// $('#payment_fee').on('click', function() {
+		// 	var paymentFee = $(this).val();
 
-			if(paymentFee == "FOC" ){
-				$("#paymentModeBlock").addClass("d-none");
-			}else{
-				$("#paymentModeBlock").removeClass("d-none");
-			}
-		});
+		// 	if(paymentFee == "FOC" ){
+		// 		$("#paymentModeBlock").addClass("d-none");
+		// 	}else{
+		// 		$("#paymentModeBlock").removeClass("d-none");
+		// 	}
+		// });
+
+		// $('#payment_fee2').on('click', function() {
+		// 	var paymentFee = $(this).val();
+
+		// 	if(paymentFee == "FOC" ){
+		// 		$("#paymentModeBlock").addClass("d-none");
+		// 	}else{
+		// 		$("#paymentModeBlock").removeClass("d-none");
+		// 	}
+		// });
+		
 		//to hide show payment sections
 		$('#payment_fee').on('change', function(){
 			var paytype=$('#payment_fee').val();
@@ -673,6 +682,18 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 				$('#payProof').addClass("d-none"); 
 			}
 		});
+
+		$('#payment_fee2').on('change', function(){
+			var paytype=$(this).val();
+			if (paytype !='FOC') {
+				$('#paymentModeBlock').removeClass("d-none"); 
+				$('#payProof').removeClass("d-none"); 
+			}else {
+				$('#paymentModeBlock').addClass("d-none"); 
+				$('#payProof').addClass("d-none"); 
+			}
+		});
+
 		$('#registered').on('change', function(){
 			var registeredAs = $('#registered').val();
 			if(registeredAs == 'sponsor_franchisee'){
@@ -685,7 +706,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					$('#payProof').addClass("d-none"); 
 				}
 			}else if(registeredAs == 'master_franchisee'){
-				var paytype=$('#payment_fee').val();
+				var paytype=$('#payment_fee2').val();
 				if (paytype !='FOC') {
 					$('#paymentModeBlock').removeClass("d-none"); 
 					$('#payProof').removeClass("d-none"); 

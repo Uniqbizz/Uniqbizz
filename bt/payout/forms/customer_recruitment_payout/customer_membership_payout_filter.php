@@ -8,7 +8,7 @@ $designation = $_POST['designation'];
 $cap_year = $_POST['year_split'] ?? '';
 $cap_month = $_POST['month_split'] ?? '';
 $TotalPayoutFilter = $_POST['TotalPayoutFilter'] ?? '';
-$tdsPer = 2 / 100;
+$tdsPer = 2/100;
 
 if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data from ca_cu_payout_paid
     if ($designation == 'business_mentor') {
@@ -74,7 +74,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
 } else if (!$cap_id && !$cap_year && !$cap_month && $designation) { // if only designation filter
 
     $sqlId = "";
-    if ($designation == 'business_mentor') {
+    if ($designation == 'BM_BDM_MF_SF_RM') {
         $sqlId = "SELECT * FROM ca_cu_payout ORDER BY id DESC";
     } else if ($designation == 'corporate_agency') {
         $sqlId = "SELECT * FROM ca_cu_payout ORDER BY id DESC";
@@ -105,7 +105,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -129,6 +129,13 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
             }
     
             if ($id) {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                             <td class="d-none">' . $row['id'] . '</td>
                             <td>' . $dt . '</td>
@@ -136,7 +143,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                             <td class="text-end">' . $amount . '</td>
                             <td class="text-end">' . $tds . '</td>
                             <td class="text-end">' . $total . '
-                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '">
+                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '&user_desig='.$user_desig.'">
                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                 </a>
                             </td>';
@@ -158,7 +165,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
 } else if (!$cap_year && !$cap_month && $designation && $cap_id) { // if only user id and desgnation filter
 
     $sqlId = "";
-    if ($designation == 'business_mentor') {
+    if ($designation == 'BM_BDM_MF_SF_RM') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE business_mentor = '" . $cap_id . "' ORDER BY id DESC";
     } else if ($designation == 'corporate_agency') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE techno_enterprise = '" . $cap_id . "' ORDER BY id DESC";
@@ -189,7 +196,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -213,6 +220,13 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
             }
             
             if ($id) {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                             <td class="d-none">' . $row['id'] . '</td>
                             <td>' . $dt . '</td>
@@ -220,7 +234,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                             <td class="text-end">' . $amount . '</td>
                             <td class="text-end">' . $tds . '</td>
                             <td class="text-end">' . $total . '
-                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '">
+                                 <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '&user_desig='.$user_desig.'">
                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                 </a>
                             </td>';
@@ -281,28 +295,35 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
 
             // total Amt Cal for Bm 
             $CommAmtBc = $row['commision_bm'];
-            $tdsBc = $CommAmtBc * $perTDS;
+            $tdsBc = $CommAmtBc * $tdsPer;
             $totalAmtBc = $CommAmtBc - $tdsBc;
 
             // total Amt Cal for te
             $CommAmtCa = $row['commision_te'];
-            $tdsCa = $CommAmtCa * $perTDS;
+            $tdsCa = $CommAmtCa * $tdsPer;
             $totalAmtCa = $CommAmtCa - $tdsCa;
 
             // total Amt Cal for tc
             $CommAmtTc = $row['commision_tc'];
-            $tdsTc = $CommAmtTc * $perTDS;
+            $tdsTc = $CommAmtTc * $tdsPer;
             $totalAmtTc = $CommAmtTc - $tdsTc;
 
             if (!$row['business_mentor'] == "") {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message1, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                                     <td>' . $dt . '</td>
                                     <td>' . $message1 . '</td>
                                     <td class="text-end">' . $CommAmtBc . '</td>
                                     <td class="text-end">' . $tdsBc . '</td>
                                     <td class="text-end">' . $totalAmtBc . '
-                                        <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message1 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '">
-                                                    <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                        <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message1 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '&user_desig='.$user_desig.'">
+                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                         </a>
                                     </td>';
                 if ($row['status_bm'] == '1') {
@@ -314,14 +335,21 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
             }
 
             if (!$row['techno_enterprise'] == "") {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message2, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                                     <td>' . $dt . '</td>
                                     <td>' . $message2 . '</td>
                                     <td class="text-end">' . $CommAmtCa . '</td>
                                     <td class="text-end">' . $tdsCa . '</td>
                                     <td class="text-end">' . $totalAmtCa . '
-                                        <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
-                                                    <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                        <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '&user_desig='.$user_desig.'">
+                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                         </a>
                                     </td>';
                 if ($row['status_te'] == '1') {
@@ -333,14 +361,21 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
             }
             
             if (!$row['travel_consultant'] == "") {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message3, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                                     <td>' . $dt . '</td>
                                     <td>' . $message3 . '</td>
                                     <td class="text-end">' . $CommAmtTc . '</td>
                                     <td class="text-end">' . $tdsTc . '</td>
                                     <td class="text-end">' . $totalAmtTc . '
-                                        <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bc=' . $row['business_mentor'] . '&ca=' . $row['techno_enterprise'] . '&ta_ca=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
-                                                    <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
+                                        <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '&user_desig='.$user_desig.'">
+                                            <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                         </a>
                                     </td>';
                 if ($row['status_te'] == '1') {
@@ -391,7 +426,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -415,6 +450,13 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
             }
 
             if ($id) {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                             <td class="d-none">' . $row['id'] . '</td>
                             <td>' . $dt . '</td>
@@ -422,7 +464,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                             <td class="text-end">' . $amount . '</td>
                             <td class="text-end">' . $tds . '</td>
                             <td class="text-end">' . $total . '
-                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '">
+                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message . '&message_status=' .$status . '&commission=' . $amount . '&user_desig='.$user_desig.'">
                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                 </a>
                             </td>';
@@ -443,7 +485,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
     }
 } else { // if all values are their i.e designation, date, user id
 
-    if ($designation == 'business_mentor') {
+    if ($designation == 'BM_BDM_MF_SF_RM') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE business_mentor = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' order by id DESC";
     } else if ($designation == 'corporate_agency') {
         $sqlId = "SELECT * FROM ca_cu_payout WHERE techno_enterprise = '" . $cap_id . "' AND YEAR(created_date) = '" . $cap_year . "' AND MONTH(created_date) = '" . $cap_month . "' order by id DESC";
@@ -475,7 +517,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
         foreach ($stmt->fetchAll() as $row) {
             $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            if ($designation == 'business_mentor') {
+            if ($designation == 'BM_BDM_MF_SF_RM') {
                 $id = $row['business_mentor'];
                 $message = str_replace('.', '<br>', $row['message_bm']);
                 $amount = $row['commision_bm'] ?: 0;
@@ -499,6 +541,13 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
             }
 
             if ($id) {
+                //to get the prefix charater before first -
+                preg_match('/^(.*?)\s*-\s*/', $message, $match);
+
+                if (!empty($match[1])) {
+                        $user_desig=trim($match[1]); // Output only the text before the first dash
+                } 
+                ///-------
                 echo '<tr>
                             <td class="d-none">' . $row['id'] . '</td>
                             <td>' . $dt . '</td>
@@ -506,7 +555,7 @@ if ($TotalPayoutFilter) { // data filter for Total payout pop up card fetch data
                             <td class="text-end">' . $amount . '</td>
                             <td class="text-end">' . $tds . '</td>
                             <td class="text-end">' . $total . '
-                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '">
+                                <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message . '&message_status=' . $status . '&commission=' . $amount . '&user_desig='.$user_desig.'">
                                     <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                 </a>
                             </td>';

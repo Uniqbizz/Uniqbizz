@@ -38,7 +38,7 @@
     // $reference_id = substr($user_id_name, 0 , 2);
     // $user_type=$reference_id == 'BH'? 25 : 16;
 
-    $register_by="15";
+    $register_by="1";
 	$status="2";
 
     // get age of the user
@@ -50,7 +50,7 @@
     $title="Techno Enterprise";
     $message="Added new Techno Enterprise by admin";
     $message2="Added new Techno Enterprise by admin";
-    $fromWhom="15";
+    $fromWhom="1";
     $operation="Add";
 
     $sql= "INSERT INTO `corporate_agency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, gst_no, amount,  pan_card, aadhar_card, voting_card, bank_passbook, payment_proof, user_type, registrant, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, reference_no, register_by, status) VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :note, :profile_pic, :gst_no, :amount, :pan_card,:aadhar_card,:voting_card,:bank_passbook, :payment_proof, :user_type,:registrant, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :reference_no, :register_by, :status)";

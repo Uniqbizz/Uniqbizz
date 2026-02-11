@@ -18,7 +18,8 @@ if ($editfor == 'pending') {
 	$message = $identifier_id . " Details has been updated from " . $editfor . " list";
 	$message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
 }
-
+$cust_id_name = $_POST['cust_id_name'];
+$cust_name = $_POST['cust_name'];
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
@@ -59,8 +60,8 @@ $amount=$payment_fee;
 
 $title = "Customer";
 
-$fromWhom = "15";
-$register_by = "15";
+$fromWhom = "1";
+$register_by = "1";
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
 
@@ -70,7 +71,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 					pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,passbook=:passbook, 
 					payment_proof=:payment_proof, payment_mode=:payment_mode, cheque_no=:cheque_no, cheque_date=:cheque_date, 
 					bank_name=:bank_name, transaction_no=:transaction_no,paid_amount=:paid_amount,
-					customer_type=:customer_type,comp_chek=:comp_chek 
+					customer_type=:customer_type,comp_chek=:comp_chek,registrant=:registrant,reference_no=:reference_no 
 					WHERE $identifier_name:identifier_id" ;
 	$stmt = $conn->prepare($sql1);
 	$result =  $stmt->execute(array(
@@ -102,6 +103,8 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		':paid_amount' => $payment_fee,
     	':customer_type' => $payment_label,
     	':comp_chek' => $comp_chek,
+		':registrant'=> $cust_name,
+		':reference_no'=> $cust_id_name,
 		':identifier_id' => $identifier_id
 	));
 

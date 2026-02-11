@@ -41,8 +41,8 @@ if($ta_id ==''){
 	$message2="Deleted Customer(".$ta_id.") from ".$action. " list";
 }
 
-$fromWhom="15";
-$register_by="15"; 
+$fromWhom="1";
+$register_by="1"; 
 $operation="Delete";
 
 $sql1 = "UPDATE ca_customer SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";

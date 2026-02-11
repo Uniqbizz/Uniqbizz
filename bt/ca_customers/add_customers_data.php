@@ -4,6 +4,8 @@ $current_year = date('Y');
 
 $user_id_name = $_POST['user_id_name'];
 $registrant = $_POST['reference_name'];
+$cust_id_name = $_POST['cust_id_name'];
+$cust_name = $_POST['cust_name'];
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
@@ -35,7 +37,7 @@ $note = $_POST['note'];
 $status = "2";
 
 $user_type = "10";
-$register_by = "15";
+$register_by = "1";
 
 // get age of the user
 $birthYear = str_split($bdate, 4);
@@ -46,7 +48,7 @@ $age = $current_year - $birth_year;
 $title = "Customer";
 $message = "Added new Customer by admin";
 $message2 = "Added new Customer by admin";
-$fromWhom = "15";
+$fromWhom = "1";
 //3 part division
 function divideAmount($totalAmount, $fixedAmount = 3000)
 {
@@ -90,11 +92,11 @@ function generateUniqueCoupon()
 
 $sql = "INSERT INTO `ca_customer` (firstname, lastname, email, country_code, contact_no , 
         date_of_birth, age, gender, country, state, city, pincode, address, note, profile_pic, pan_card, aadhar_card, 
-        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, 
+        voting_card, passbook,payment_proof, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no,
         ta_reference_no, ta_reference_name,paid_amount,customer_type,comp_chek, register_by, status) 
         VALUES (:firstname ,:lastname, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, 
         :state, :city, :pincode,:address, :note, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook, 
-        :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :ta_reference_no,  
+        :payment_proof, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :registrant, :reference_no, :ta_reference_no,  
         :ta_reference_name,:paid_amount,:customer_type, :comp_chek, :register_by, :status)";
 $stmt3 = $conn->prepare($sql);
 
@@ -125,6 +127,8 @@ $result2 = $stmt3->execute(array(
     ':bank_name' => $bankName,
     ':transaction_no' => $transactionNo,
     ':user_type' => $user_type,
+    ':reference_no' => $cust_id_name,
+    ':registrant' => $cust_name,
     ':ta_reference_no' => $user_id_name,
     ':ta_reference_name' => $registrant,
     ':paid_amount' => $payment_fee,
@@ -318,6 +322,51 @@ if ($result2) {
                 ':bonus_check' => 0
             ]);
         }
+
+    }else if ($payment_label == 'Neo Select Ultra') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('15000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
+
+        $stmt = $conn->prepare($sqlInsertCoupon);
+
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0,
+                ':bonus_check' => 0
+            ]);
+        } 
+        //Single coupon of 11,000/-
+        $couponCode = generateUniqueCoupon();
+
+        $stmt->execute([
+            ':user_id' => $row['id'],
+            ':payment_id' => $payment_id,
+            ':code' => $couponCode,
+            ':coupon_amt' => 11000,
+            ':usage_status' => 0,
+            ':confirm_status' => 0,
+            ':bonus_check' => 0
+        ]);
 
     }
 

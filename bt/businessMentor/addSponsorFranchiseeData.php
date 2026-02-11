@@ -36,7 +36,7 @@ $transaction_no = $_POST['transactionNo'];
 $note = $_POST['note'];
 
 $user_type = "30";
-$register_by = "15";
+$register_by = "1";
 $status = '2';
 
 // get age of the user
@@ -48,7 +48,7 @@ $age = $current_year - $birth_year;
 $title = "Sponsor Franchisee";
 $message = "Added new Sponsor Franchisee by admin";
 $message2 = "Added new Sponsor Franchisee by admin";
-$fromWhom = "15";
+$fromWhom = "1";
 $operation = "Add";
 
 $sql = "INSERT INTO `sponsor_franchisee` ( firstname,lastname,nominee_name,nominee_relation,paid_amount,email,country_code,contact_no , 

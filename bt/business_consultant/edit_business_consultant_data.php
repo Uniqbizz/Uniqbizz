@@ -49,8 +49,8 @@ $user_type_id = '3';
 
 $title="Business Consultant";
 
-$fromWhom="15";
-$register_by="15";
+$fromWhom="1";
+$register_by="1";
  
 if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' ||$dob !='' ||$address !='' ||$profile_pic !=''){
 	
