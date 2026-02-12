@@ -18,7 +18,23 @@ $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$bc."' AND status = 1");
+//get the prefix of bc and ca
+$bc_id=substr($bc,0,2);
+$ca_id=substr($ca,0,1) == 'F'? substr($ca,0,1):substr($ca,0,2);
+
+//assign bc table name and table id
+if ($bc_id == 'MF') {
+    $bc_table='master_franchisee';
+    $bc_table_id='master_franchisee_id';
+}elseif ($bc_id == 'SF') {
+    $bc_table='sponsor_franchisee';
+    $bc_table_id='sponsor_franchisee_id';
+}elseif ($bc_id == 'BM') {
+    $bc_table='business_mentor';
+    $bc_table_id='business_mentor_id';
+}
+
+$bcNames = $conn -> prepare("SELECT * FROM $bc_table WHERE $bc_table_id = '".$bc."' AND status = 1");
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
@@ -28,7 +44,16 @@ if($bcNames -> rowCount()>0){
     }
 }  
 
-$caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca."' AND status = 1");
+//assign ca table name and table id
+if ($ca_id == 'TE' || $ca_id == 'CA') {
+    $ca_table='corporate_agency';
+    $ca_table_id='corporate_agency_id';
+}elseif ($ca_id == 'F') {
+    $ca_table='sub_franchisee';
+    $ca_table_id='sub_franchisee_id';
+}
+
+$caNames = $conn -> prepare("SELECT * FROM $ca_table WHERE $ca_table_id = '".$ca."' AND status = 1");
 $caNames -> execute();
 $caNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($caNames -> rowCount()>0){

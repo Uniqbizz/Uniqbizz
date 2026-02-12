@@ -870,7 +870,7 @@ if ($result) {
 			];
 			
 			//premium/prime/premium plus not in use
-			// === Referred is Prime → only L1 gets Rs:500
+			// === Referred is Prime → only L1 gets Rs.500
 			if ($referred_type === 'Prime') {
 				if (!empty($level1['id']) && !in_array($level1['customer_type'], ['Premium', 'Premium Plus', 'Premium Select', 'Neo Select', 'Neo Select Ultra'])) {
 					// Check for duplicate
@@ -880,7 +880,7 @@ if ($result) {
 						':refered_customer_id' => $referred_customer_id
 					]);
 					if (!$checkStmt->fetchColumn()) {
-						$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+						$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 						$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 													VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 						$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -962,7 +962,7 @@ if ($result) {
 					//$commissionGiven = true;
 				} elseif ($level1['id'] && in_array($level1['customer_type'], ['Premium', 'Premium Plus', 'Premium Select', 'Neo Select', 'Neo Select Ultra'])) {
 					//for redeemable amount
-					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:250 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.250 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 												VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 					$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -1104,7 +1104,7 @@ if ($result) {
 						':refered_customer_id' => $referred_customer_id
 					]);
 					if (!$checkStmt->fetchColumn()) {
-						$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:1500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+						$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.1500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 						$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 										VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 						$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -1192,7 +1192,7 @@ if ($result) {
 						':refered_customer_id' => $referred_customer_id
 					]);
 					if (!$checkStmt->fetchColumn()) {
-						$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:1500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+						$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.1500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 						$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 										VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 						$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -1276,7 +1276,7 @@ if ($result) {
 				//l1 premium plus
 				if ($l1_type == 'Premium Plus') {
 					//for redeemable amount
-					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:750 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.750 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 												VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 					$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -1411,7 +1411,7 @@ if ($result) {
 				if ($l2_type === 'Premium Plus') {
 					//level2
 					//for redeemable amount
-					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs:250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
 					$stmtCustRef2 = $conn->prepare($sqlCustRef);
@@ -1548,7 +1548,7 @@ if ($result) {
 				if ($l3_type === 'Premium Plus') {
 					//level 3
 					//for redeemable amount
-					$referral_message = "{$level3['name']} (ID: {$level3['id']}) has earned Rs:125 as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
+					$referral_message = "{$level3['name']} (ID: {$level3['id']}) has earned Rs.125 as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
 					$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -1685,7 +1685,7 @@ if ($result) {
 				//l1 Premium Select/Premium Select Lite
                 if ($l1_type == 'Premium Select Lite' || $l1_type == 'Premium Select' ) {
                     //for redeemable amount
-                    $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+                    $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
                     $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status)
                                                 VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
                     $stmtCustRef = $conn->prepare($sqlCustRef);
@@ -1820,7 +1820,7 @@ if ($result) {
 				if ($l2_type == 'Premium Select Lite' || $l2_type == 'Premium Select') {
 					//level2
 					//for redeemable amount
-					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs:250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
 					$stmtCustRef2 = $conn->prepare($sqlCustRef);
@@ -1957,7 +1957,7 @@ if ($result) {
 				if ($l3_type == 'Premium Select Lite' || $l3_type == 'Premium Select') {
 					//level 3
 					//for redeemable amount
-					$referral_message = "{$level3['name']} (ID: {$level3['id']}) has earned Rs:125 as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
+					$referral_message = "{$level3['name']} (ID: {$level3['id']}) has earned Rs.125 as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
 					$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -2094,7 +2094,7 @@ if ($result) {
 				//l1 Neo Select
 				if ($l1_type == 'Neo Select' ) {
 					//for redeemable amount
-					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 												VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 					$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -2229,7 +2229,7 @@ if ($result) {
 				if ($l2_type == 'Neo Select') {
 					//level2
 					//for redeemable amount
-					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs:250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
 					$stmtCustRef2 = $conn->prepare($sqlCustRef);
@@ -2365,7 +2365,7 @@ if ($result) {
 				//l1 Neo Select ultra
 				if ($l1_type == 'Neo Select Ultra' ) {
 					//for redeemable amount
-					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs:500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+					$referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned Rs.500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 												VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
 					$stmtCustRef = $conn->prepare($sqlCustRef);
@@ -2500,7 +2500,7 @@ if ($result) {
 				if ($l2_type == 'Neo Select Ultra') {
 					//level2
 					//for redeemable amount
-					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs:250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+					$referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned Rs.250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
 					$sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
 									VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
 					$stmtCustRef2 = $conn->prepare($sqlCustRef);

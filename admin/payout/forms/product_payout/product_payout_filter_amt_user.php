@@ -15,14 +15,16 @@
 
     if($identify == "prev&next"){
         // get Full name of selected user start 
-        if($designation == 'business_channel_manager'){
-            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."'  AND user_type = '24' AND status = '1'";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."' AND user_type = '25' AND status = '1'";
+        if($designation == 'master_franchisee'){
+            $sqlId = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$cap_id."' AND status = '1'";
+        }else if($designation == 'sponsor_franchisee'){
+            $sqlId = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'business_mentor'){
             $sqlId = "SELECT * FROM business_mentor WHERE business_mentor_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'corporate_agency'){
             $sqlId = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$cap_id."' AND status = '1'";
+        }else if($designation == 'sub_franchisee'){
+            $sqlId = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'ca_travelagency'){
             $sqlId = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'ca_customer'){
@@ -34,24 +36,24 @@
         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
         if($stmt->rowCount()>0){
             foreach(($stmt-> fetchALL()) as $key => $row){
-                if($designation == 'business_channel_manager' || $designation == 'business_development_manager'){
-                    $fullName = $row['name'];
-                }else{
-                    $fullName = $row['firstname']. ' ' .$row['lastname'];
-                }
+                
+                $fullName = $row['firstname']. ' ' .$row['lastname'];
+                
                 // get amount of selected user form ca_payout table start 
-                if($designation == 'business_channel_manager'){
-                    $sqlIdAmt = "SELECT SUM(bch_amt) as prevPayoutAmt FROM product_payout WHERE bch_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
-                }else if($designation == 'business_development_manager'){
-                    $sqlIdAmt = "SELECT SUM(bdm_amt) as prevPayoutAmt FROM product_payout WHERE bdm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                if($designation == 'master_franchisee'){
+                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'MF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
+                }else if($designation == 'sponsor_franchisee'){
+                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'SF%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
                 }else if($designation == 'business_mentor'){
-                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'BM%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
                 }else if($designation == 'corporate_agency'){
-                    $sqlIdAmt = "SELECT SUM(te_amt) as prevPayoutAmt FROM product_payout WHERE te_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(te_amt) as prevPayoutAmt FROM product_payout WHERE te_id = '".$cap_id."' AND LEFT(te_id, 2) IN ('TE', 'CA') AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
+                }else if($designation == 'sub_franchisee'){
+                    $sqlIdAmt = "SELECT SUM(te_amt) as prevPayoutAmt FROM product_payout WHERE te_id = '".$cap_id."' AND te_id LIKE 'F%' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
                 }else if($designation == 'ca_travelagency'){
-                    $sqlIdAmt = "SELECT SUM(ta_amt + ta_markup) as prevPayoutAmt FROM product_payout WHERE ta_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(ta_amt + ta_markup) as prevPayoutAmt FROM product_payout WHERE ta_id = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
                 }else if($designation == 'ca_customer'){
-                    $sqlIdAmt = "SELECT  SUM(CASE WHEN cu1_id = '".$cap_id."' THEN cu1_amt ELSE 0 END) + SUM(CASE WHEN cu2_id = '".$cap_id."' THEN cu2_amt ELSE 0 END) + SUM(CASE WHEN cu3_id = '".$cap_id."' THEN cu3_amt ELSE 0 END) as prevPayoutAmt FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."') AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' order by id DESC";
+                    $sqlIdAmt = "SELECT  SUM(CASE WHEN cu1_id = '".$cap_id."' THEN cu1_amt ELSE 0 END) + SUM(CASE WHEN cu2_id = '".$cap_id."' THEN cu2_amt ELSE 0 END) + SUM(CASE WHEN cu3_id = '".$cap_id."' THEN cu3_amt ELSE 0 END) as prevPayoutAmt FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."') AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ORDER BY id DESC";
                 }
                 $stmt2 = $conn -> prepare($sqlIdAmt);
                 $stmt2 -> execute();
@@ -77,14 +79,16 @@
         // get Full name of selected user end 
     }else{
 
-        if($designation == 'business_channel_manager'){
-            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."'  AND user_type = '24' AND status = '1'";
-        }else if($designation == 'business_development_manager'){
-            $sqlId = "SELECT * FROM employees WHERE employee_id = '".$cap_id."' AND user_type = '25' AND status = '1'";
+        if($designation == 'master_franchisee'){
+            $sqlId = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$cap_id."' AND status = '1'";
+        }else if($designation == 'sponsor_franchisee'){
+            $sqlId = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'business_mentor'){
             $sqlId = "SELECT * FROM business_mentor WHERE business_mentor_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'corporate_agency'){
             $sqlId = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$cap_id."' AND status = '1'";
+        }else if($designation == 'sub_franchisee'){
+            $sqlId = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'ca_travelagency'){
             $sqlId = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$cap_id."' AND status = '1'";
         }else if($designation == 'ca_customer'){
@@ -96,24 +100,24 @@
         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
         if($stmt->rowCount()>0){
             foreach(($stmt-> fetchALL()) as $key => $row){
-                if($designation == 'business_channel_manager' || $designation == 'business_development_manager'){
-                    $fullName = $row['name'];
-                }else{
-                    $fullName = $row['firstname']. ' ' .$row['lastname'];
-                }
+                
+                $fullName = $row['firstname']. ' ' .$row['lastname'];
+                
                 // get amount of selected user form ca_payout table start 
-                if($designation == 'business_channel_manager'){
-                    $sqlIdAmt = "SELECT SUM(bch_amt) as prevPayoutAmt FROM product_payout WHERE bch_id = '".$cap_id."'  order by id DESC";
-                }else if($designation == 'business_development_manager'){
-                    $sqlIdAmt = "SELECT SUM(bdm_amt) as prevPayoutAmt FROM product_payout WHERE bdm_id = '".$cap_id."'  order by id DESC";
+                if($designation == 'master_franchisee'){
+                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'MF%'  ORDER BY id DESC";
+                }else if($designation == 'sponsor_franchisee'){
+                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'SF%'  ORDER BY id DESC";
                 }else if($designation == 'business_mentor'){
-                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."'  order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(bm_amt) as prevPayoutAmt FROM product_payout WHERE bm_id = '".$cap_id."' AND bm_id LIKE 'BM%'  ORDER BY id DESC";
                 }else if($designation == 'corporate_agency'){
-                    $sqlIdAmt = "SELECT SUM(te_amt) as prevPayoutAmt FROM product_payout WHERE te_id = '".$cap_id."'  order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(te_amt) as prevPayoutAmt FROM product_payout WHERE te_id = '".$cap_id."' AND LEFT(te_id,0,2) IN ('TE','CA')  ORDER BY id DESC";
+                }else if($designation == 'sub_franchisee'){
+                    $sqlIdAmt = "SELECT SUM(te_amt) as prevPayoutAmt FROM product_payout WHERE te_id = '".$cap_id."' AND te_id LIKE 'F%'  ORDER BY id DESC";
                 }else if($designation == 'ca_travelagency'){
-                    $sqlIdAmt = "SELECT SUM(ta_amt + ta_markup) as prevPayoutAmt FROM product_payout WHERE ta_id = '".$cap_id."'  order by id DESC";
+                    $sqlIdAmt = "SELECT SUM(ta_amt + ta_markup) as prevPayoutAmt FROM product_payout WHERE ta_id = '".$cap_id."'  ORDER BY id DESC";
                 }else if($designation == 'ca_customer'){
-                    $sqlIdAmt = "SELECT  SUM(CASE WHEN cu1_id = '".$cap_id."' THEN cu1_amt ELSE 0 END) + SUM(CASE WHEN cu2_id = '".$cap_id."' THEN cu2_amt ELSE 0 END) + SUM(CASE WHEN cu3_id = '".$cap_id."' THEN cu3_amt ELSE 0 END) as prevPayoutAmt FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."')  order by id DESC";
+                    $sqlIdAmt = "SELECT  SUM(CASE WHEN cu1_id = '".$cap_id."' THEN cu1_amt ELSE 0 END) + SUM(CASE WHEN cu2_id = '".$cap_id."' THEN cu2_amt ELSE 0 END) + SUM(CASE WHEN cu3_id = '".$cap_id."' THEN cu3_amt ELSE 0 END) as prevPayoutAmt FROM product_payout WHERE (cu1_id = '".$cap_id."' OR cu2_id = '".$cap_id."' OR cu3_id = '".$cap_id."')  ORDER BY id DESC";
                 }
                 $stmt2 = $conn -> prepare($sqlIdAmt);
                 $stmt2 -> execute();
