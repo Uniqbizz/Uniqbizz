@@ -23,8 +23,11 @@ function divideAmount($totalAmount, $fixedAmount = 3000)
     $parts = [];
 
     // How many full ₹3000 parts fit?
-    if ($totalAmount == 10000) {
-        $fixedAmount = 2500;
+    if($totalAmount == 10000){
+		$fixedAmount = 2500;
+	}
+    if ($totalAmount == 25000) {
+        $fixedAmount = 5000;
     }
     $fullParts = floor($totalAmount / $fixedAmount);
     $remaining = $totalAmount % $fixedAmount;
@@ -164,23 +167,22 @@ if ($result1) {
             }
 
             // Step 4: Set confirmation status
-            $register_Date = date('Y-m-d H:i:s');//coupon generation date
-            // Calculate expiry date 10 years after register date
-			$expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
-
-			$update_coupon = "UPDATE cu_coupons 
-				SET user_id = :user_id, 
-					confirm_status = :confirm_status, 
-					expiry_date = :expiry_date 
-				WHERE user_id = :id";
-
-			$update_stmt = $conn->prepare($update_coupon);
-			$update_stmt->execute([
-				':user_id' => $uid,
-				':confirm_status' => 1,
-				':expiry_date' => $expiry_date,
-				':id' => $id
-			]);
+            $update_coupon = "UPDATE cu_coupons
+                                        SET confirm_status = :confirm_status
+                                        WHERE user_id = :id";
+            $update_stmt = $conn->prepare($update_coupon);
+            $update_stmt->execute([
+                ':confirm_status' => 1,
+                ':id' => $identifier_id
+            ]);
+            // Step 5: Set expiry  date
+            $update_coupon = "UPDATE cu_coupons
+                              SET expiry_date = DATE_ADD(created_date, INTERVAL 10 YEAR)
+                              WHERE  user_id = :id ";
+            $update_stmt = $conn->prepare($update_coupon);
+            $update_stmt->execute([
+                ':id' => $identifier_id
+            ]);
         }
     } else if ($payment_label == 'Premium') {
 
@@ -266,21 +268,21 @@ if ($result1) {
             // Step 4: Set confirmation status
             $register_Date = date('Y-m-d H:i:s');//coupon generation date
             // Calculate expiry date 10 years after register date
-            $expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
- 
-            $update_coupon = "UPDATE cu_coupons
-                SET user_id = :user_id,
-                    confirm_status = :confirm_status,
-                    expiry_date = :expiry_date
-                WHERE user_id = :id";
- 
-            $update_stmt = $conn->prepare($update_coupon);
-            $update_stmt->execute([
-                ':user_id' => $uid,
-                ':confirm_status' => 1,
-                ':expiry_date' => $expiry_date,
-                ':id' => $id
-            ]);
+			$expiry_date = date('Y-m-d H:i:s', strtotime('+10 years', strtotime($register_Date)));
+
+			$update_coupon = "UPDATE cu_coupons 
+				SET user_id = :user_id, 
+					confirm_status = :confirm_status, 
+					expiry_date = :expiry_date 
+				WHERE user_id = :id";
+
+			$update_stmt = $conn->prepare($update_coupon);
+			$update_stmt->execute([
+				':user_id' => $uid,
+				':confirm_status' => 1,
+				':expiry_date' => $expiry_date,
+				':id' => $id
+			]);
         }
     } else if ($payment_label == 'Premium Plus') {
 
@@ -381,7 +383,109 @@ if ($result1) {
                 ':id' => $identifier_id
             ]);
         }
-    } else if ($payment_mode == 'Free') {
+    }
+    else if ($payment_label == 'Premium Select') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('30000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "INSERT INTO cu_coupons (user_id, payment_id, code, coupon_amt, usage_status, confirm_status) 
+                            VALUES (:user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status)";
+
+        $stmt = $conn->prepare($sqlInsertCoupon); // Prepare the statement once
+
+        // Loop through all coupon parts dynamically
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0
+            ]);
+        }
+    }
+    else if ($payment_label == 'Premium Select Lite') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('25000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
+
+        $stmt = $conn->prepare($sqlInsertCoupon);
+
+        $counter = 0; // To track the number of inserted coupons
+
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+            $counter++;
+
+            // Set bonus_check = 1 only for the 5th entry
+            $bonusCheck = ($counter === 5) ? 1 : 0;
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0,
+                ':bonus_check' => $bonusCheck
+            ]);
+        }
+
+    }else if ($payment_label == 'Neo Select') {
+        //get the inserted customer
+        $sql2 = "SELECT id FROM `ca_customer` ORDER BY id DESC LIMIT 1";
+        $stmt1 = $conn->prepare($sql2);
+        $stmt1->execute();
+        $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $cp_parts = divideAmount('15000');
+        $payment_id = generatePaymentID();
+        // Define the SQL query once
+        $sqlInsertCoupon = "
+            INSERT INTO cu_coupons (
+                user_id, payment_id, code, coupon_amt, usage_status, confirm_status, bonus_check
+            ) VALUES (
+                :user_id, :payment_id, :code, :coupon_amt, :usage_status, :confirm_status, :bonus_check
+            )
+        ";
+
+        $stmt = $conn->prepare($sqlInsertCoupon);
+
+        foreach ($cp_parts as $coupon_amt) {
+            $couponCode = generateUniqueCoupon();
+
+            $stmt->execute([
+                ':user_id' => $row['id'],
+                ':payment_id' => $payment_id,
+                ':code' => $couponCode,
+                ':coupon_amt' => $coupon_amt,
+                ':usage_status' => 0,
+                ':confirm_status' => 0,
+                ':bonus_check' => 0
+            ]);
+        }
+
+    }
+     else if ($payment_mode == 'Free') {
         // Delete all existing coupons if payment mode is Free
         // $deleteSQL = "DELETE FROM cu_coupons WHERE user_id = :identifier_id";
         // $deleteStmt = $conn->prepare($deleteSQL);
@@ -428,8 +532,10 @@ if ($result1) {
         $ta_te_name = 'N/A';
     }
 
-    //identify TC ref TE/BM
-    $reference_id = substr($ta_te_id, 0, 2);
+    //identify TC ref TE/BM/MF/F
+    $reference_id = (substr($ta_te_id, 0, 1) == 'F') 
+                    ? substr($ta_te_id, 0, 1) 
+                    : substr($ta_te_id, 0, 2);
     if ($complemetory == 2) {
         if ($reference_id == "TE" || $reference_id == "CA") {
 
@@ -470,9 +576,12 @@ if ($result1) {
             }
 
             $commissionRates = [
-                'Prime' => ['tc' => 800, 'te' => 400, 'bm' => 120],
-                'Premium' => ['tc' => 1500, 'te' => 750, 'bm' => 225],
-                'Premium Plus' => ['tc' => 1500, 'te' => 750, 'bm' => 225]
+                'Prime' => ['tc' => 800, 'f' => 0, 'mf' => 400],
+                'Premium' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Plus' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Premium Select Lite' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
             ];
 
             $tc_commi = $commissionRates[$payment_label]['tc'] ?? 0;
@@ -528,9 +637,12 @@ if ($result1) {
                 }
             }
             $commissionRates = [
-                'Prime' => ['tc' => 800, 'te' => 0, 'bm' => 400],
-                'Premium' => ['tc' => 1500, 'te' => 0, 'bm' => 750],
-                'Premium Plus' => ['tc' => 1500, 'te' => 0, 'bm' => 750]
+                'Prime' => ['tc' => 800, 'f' => 0, 'mf' => 400],
+                'Premium' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Plus' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Premium Select Lite' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
             ];
 
             $tc_commi = $commissionRates[$payment_label]['tc'] ?? 0;
@@ -553,6 +665,104 @@ if ($result1) {
             $commision_tc = $tc_commi;
 
             $message_ca_cu = "Customer - "  . $name . " " . $uid . " has onboarded with reference of Travel Consultant " . $tc_name . " " . $tc_id . ". Onboarding Fee - Rs." . $amount . "/-";
+            $ca_cu_amt_paid = $amount;
+        }else if($reference_id == "F"){			
+            //get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
+            $sql10 = $conn->prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ta_te_id."'");
+            $sql10->execute();
+            $sql10->setFetchMode(PDO::FETCH_ASSOC);
+            if($sql10->rowCount()>0){
+                foreach(($sql10->fetchAll()) as $key10 => $row10){
+                    $te_id = $row10['sub_franchisee_id'];
+                    $te_name = $row10['firstname']. ' ' .$row10['lastname'];
+                    $Bm_Id = $row10['reference_no'];
+                    $BmName = $row10['registrant'];
+                }
+            }
+            //bm details
+            $sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_Id."'");
+            $sql11->execute();
+            $sql11->setFetchMode(PDO::FETCH_ASSOC);
+            if($sql11->rowCount()>0){
+                foreach(($sql11->fetchAll()) as $key11 => $row11){
+                    $BmId = $row11['master_franchisee_id'];
+                    $BmName = $row11['firstname']. ' ' .$row11['lastname'];
+                    $BdmId = $row11['reference_no'];
+                    $BdmName = $row11['registrant'];
+                }
+            }
+
+            $commissionRates = [
+                'Prime' => ['tc' => 800, 'f' => 0, 'mf' => 400],
+                'Premium' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Plus' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Premium Select Lite' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
+            ];
+
+            $tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
+            $te_commi = $commissionRates[$customer_type]['f'] ?? 0;
+            $bm_commi = $commissionRates[$customer_type]['mf'] ?? 0; 
+            $bdm_commi = '0';  
+            
+            $message_bdm = "NA";
+            $commision_bdm = $bdm_commi;
+
+            $message_bm = "Master Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+            $commision_bm = $bm_commi;
+
+            $message_te = "Franchiee - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
+            $commision_te = $te_commi;
+
+            $message_tc = "TC - ".$tc_name." ".$tc_id." earned Rs.".$tc_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-";
+            $commision_tc = $tc_commi;
+
+            $message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
+            $ca_cu_amt_paid = $amount;
+        }else if($reference_id == "MF"){
+            $te_id = '';
+            $te_name = '';
+            
+            //bm details
+            $sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$ta_te_id."' AND status=1");
+            $sql11->execute();
+            $sql11->setFetchMode(PDO::FETCH_ASSOC);
+            if($sql11->rowCount()>0){
+                foreach(($sql11->fetchAll()) as $key11 => $row11){
+                    $BmId = $row11['master_franchisee_id'];
+                    $BmName = $row11['firstname']. ' ' .$row11['lastname'];
+                    $BdmId = $row11['reference_no'];
+                    $BdmName = $row11['registrant'];
+                }
+            }
+            
+            $commissionRates = [
+                'Prime' => ['tc' => 800, 'f' => 0, 'mf' => 400],
+                'Premium' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Plus' => ['tc' => 1500, 'f' => 0, 'mf' => 750],
+                'Premium Select' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Premium Select Lite' => ['tc' => 1000, 'f' => 0, 'mf' => 500],
+                'Neo Select' => ['tc' => 1000, 'te' => 500, 'bm' => 150]
+            ];
+            
+            $tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
+            $te_commi = $commissionRates[$customer_type]['te'] ?? 0;
+            $bm_commi = $commissionRates[$customer_type]['bm'] ?? 0;  
+            $bdm_commi = '0'; //made zero on 25-06-25
+            
+            $commision_bdm = $bdm_commi;
+
+            $message_bm = "Master Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . With Reference of Travel Consultant - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-.";
+            $commision_bm = $bm_commi;
+
+            $message_te = "Direct Travel Consultant Recrutment Through Master Franchisee";
+            $commision_te = $te_commi;
+
+            $message_tc = "TC - ".$tc_name." ".$tc_id." earned Rs.".$tc_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-";
+            $commision_tc = $tc_commi;
+
+            $message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
             $ca_cu_amt_paid = $amount;
         }
 
@@ -643,7 +853,7 @@ if ($result1) {
 
     // === Referred is Prime → only L1 gets ₹500
     if ($referred_type === 'Prime') {
-        if ($level1['id'] && $level1['customer_type'] != 'Premium Plus') {
+        if ($level1['id'] && !in_array($level1['customer_type'], ['Premium', 'Premium Plus', 'Premium Select', 'Neo Select'])) {
             // Check for duplicate
             $checkStmt = $conn->prepare("SELECT COUNT(*) FROM customer_reference_payout WHERE customer_id = :customer_id AND refered_customer_id = :refered_customer_id AND referral_level = 'Level1'");
             $checkStmt->execute([
@@ -727,9 +937,10 @@ if ($result1) {
                     'credit_amount' => $credit_amount,
                     'balance' => $current_wallet_balance
                 ]);
+
             }
             //$commissionGiven = true;
-        } elseif ($level1['id'] && $level1['customer_type'] == 'Premium Plus') {
+        } elseif ($level1['id'] && in_array($level1['customer_type'], ['Premium', 'Premium Plus', 'Premium Select', 'Neo Select'])) {
             //for redeemable amount
             $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned ₹250 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
@@ -862,7 +1073,7 @@ if ($result1) {
                 'balance' => $current_booking_balance
             ]);
         }
-    } elseif (in_array($referred_type, ['Premium', 'Premium Plus'])) {
+    } elseif (in_array($referred_type, ['Premium', 'Premium Plus','Premium Select','Premium Select','Neo Select'])) {
         $l1_type = $level1['customer_type'];
         $l2_type = $level2['customer_type'];
         $l3_type = $level3['customer_type'];
@@ -875,7 +1086,7 @@ if ($result1) {
             if (!$checkStmt->fetchColumn()) {
                 $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned ₹1500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
                 $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-										VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
+                                VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
                 $stmtCustRef = $conn->prepare($sqlCustRef);
                 $stmtCustRef->execute([
                     ':customer_id' => $level1['id'],
@@ -890,14 +1101,14 @@ if ($result1) {
                 $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 1";
                 $stmt_select = $conn->prepare($select_sql);
                 $stmt_select->execute();
-
+                
                 $ids = [];
                 while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
                     $ids[] = $row['id'];
                 }
                 //wallet enrty 
-                $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-									VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+                $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                            VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
                 $wallet_stmt = $conn->prepare($wallet_sql);
 
                 $data1 = [
@@ -907,13 +1118,13 @@ if ($result1) {
                     'redeemable_amt' => 1500
                 ];
                 $wallet_stmt->execute($data1);
-
+                
                 //balance update for wallet
                 //customer_reference_wallet get the id of last entry
                 $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 1";
                 $stmt_wallet_select = $conn->prepare($select_wallet_sql);
                 $stmt_wallet_select->execute();
-
+                
                 $wallet_ids = [];
                 while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
                     $wallet_ids[] = $row['id'];
@@ -927,20 +1138,20 @@ if ($result1) {
 
                 // Get last wallet balance
                 $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
-													WHERE customer_id = :customer_id 
-													ORDER BY id DESC LIMIT 1";
+                                            WHERE customer_id = :customer_id 
+                                            ORDER BY id DESC LIMIT 1";
                 $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
                 $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
                 $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
 
-                $current_wallet_balance = ($previous_wallet_balance !== false)
-                    ? $previous_wallet_balance + $credit_amount
+                $current_wallet_balance = ($previous_wallet_balance !== false) 
+                    ? $previous_wallet_balance + $credit_amount 
                     : $credit_amount;
 
                 // Insert into wallet utilization
                 $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-							(transaction_id, customer_id, credit_amount, balance) 
-							VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                    (transaction_id, customer_id, credit_amount, balance) 
+                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
                 $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
                 $wallet_insert_stmt->execute([
@@ -949,6 +1160,8 @@ if ($result1) {
                     'credit_amount' => $credit_amount,
                     'balance' => $current_wallet_balance
                 ]);
+                
+
             }
             //$commissionGiven = true;
         }
@@ -961,7 +1174,7 @@ if ($result1) {
             if (!$checkStmt->fetchColumn()) {
                 $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned ₹1500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
                 $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-                                    VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
+                                VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
                 $stmtCustRef = $conn->prepare($sqlCustRef);
                 $stmtCustRef->execute([
                     ':customer_id' => $level1['id'],
@@ -976,14 +1189,14 @@ if ($result1) {
                 $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 1";
                 $stmt_select = $conn->prepare($select_sql);
                 $stmt_select->execute();
-
+                
                 $ids = [];
                 while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
                     $ids[] = $row['id'];
                 }
                 //wallet enrty 
-                $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-                                VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+                $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                            VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
                 $wallet_stmt = $conn->prepare($wallet_sql);
 
                 $data1 = [
@@ -993,13 +1206,13 @@ if ($result1) {
                     'redeemable_amt' => 1500
                 ];
                 $wallet_stmt->execute($data1);
-
+                
                 //balance update for wallet
                 //customer_reference_wallet get the id of last entry
                 $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 1";
                 $stmt_wallet_select = $conn->prepare($select_wallet_sql);
                 $stmt_wallet_select->execute();
-
+                
                 $wallet_ids = [];
                 while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
                     $wallet_ids[] = $row['id'];
@@ -1013,20 +1226,20 @@ if ($result1) {
 
                 // Get last wallet balance
                 $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
-                                                WHERE customer_id = :customer_id 
-                                                ORDER BY id DESC LIMIT 1";
+                                            WHERE customer_id = :customer_id 
+                                            ORDER BY id DESC LIMIT 1";
                 $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
                 $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
                 $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
 
-                $current_wallet_balance = ($previous_wallet_balance !== false)
-                    ? $previous_wallet_balance + $credit_amount
+                $current_wallet_balance = ($previous_wallet_balance !== false) 
+                    ? $previous_wallet_balance + $credit_amount 
                     : $credit_amount;
 
                 // Insert into wallet utilization
                 $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-                        (transaction_id, customer_id, credit_amount, balance) 
-                        VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                    (transaction_id, customer_id, credit_amount, balance) 
+                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
                 $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
                 $wallet_insert_stmt->execute([
@@ -1035,6 +1248,8 @@ if ($result1) {
                     'credit_amount' => $credit_amount,
                     'balance' => $current_wallet_balance
                 ]);
+                
+
             }
             //$commissionGiven = true;
         }
@@ -1042,7 +1257,7 @@ if ($result1) {
             //for redeemable amount
             $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned ₹750 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-                                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
+                                        VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
             $stmtCustRef = $conn->prepare($sqlCustRef);
             $stmtCustRef->execute([
                 ':customer_id' => $level1['id'],
@@ -1057,7 +1272,7 @@ if ($result1) {
             //for booking points
             $booking_message = "{$level1['name']} (ID: {$level1['id']}) has gained 750 booking points for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
-                                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+                                        VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
             $stmtCustRef = $conn->prepare($sqlCustRef);
             $stmtCustRef->execute([
                 ':customer_id' => $level1['id'],
@@ -1072,14 +1287,14 @@ if ($result1) {
             $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
             $stmt_select = $conn->prepare($select_sql);
             $stmt_select->execute();
-
+            
             $ids = [];
             while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
                 $ids[] = $row['id'];
             }
             //wallet enrty 
-            $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-                            VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
             $wallet_stmt = $conn->prepare($wallet_sql);
 
             $data1 = [
@@ -1090,8 +1305,8 @@ if ($result1) {
             ];
             $wallet_stmt->execute($data1);
             //booking entry in wallet
-            $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
-                            VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
             $wallet_stmt = $conn->prepare($wallet_sql);
 
             $data2 = [
@@ -1106,7 +1321,7 @@ if ($result1) {
             $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
             $stmt_wallet_select = $conn->prepare($select_wallet_sql);
             $stmt_wallet_select->execute();
-
+            
             $wallet_ids = [];
             while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
                 $wallet_ids[] = $row['id'];
@@ -1120,20 +1335,20 @@ if ($result1) {
 
             // Get last wallet balance
             $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
-                                            WHERE customer_id = :customer_id 
-                                            ORDER BY id DESC LIMIT 1";
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
             $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
             $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
             $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
 
-            $current_wallet_balance = ($previous_wallet_balance !== false)
-                ? $previous_wallet_balance + $credit_amount
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
                 : $credit_amount;
 
             // Insert into wallet utilization
             $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-                    (transaction_id, customer_id, credit_amount, balance) 
-                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
             $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
             $wallet_insert_stmt->execute([
@@ -1148,20 +1363,20 @@ if ($result1) {
 
             // Get last booking balance
             $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
-                                            WHERE customer_id = :customer_id 
-                                            ORDER BY id DESC LIMIT 1";
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
             $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
             $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
             $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
 
-            $current_booking_balance = ($previous_booking_balance !== false)
-                ? $previous_booking_balance + $credit_amount
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
                 : $credit_amount;
 
             // Insert into booking points utilization
             $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
-                    (transaction_id, customer_id, credit_amount, balance) 
-                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
             $booking_insert_stmt = $conn->prepare($booking_insert_sql);
 
             $booking_insert_stmt->execute([
@@ -1177,7 +1392,7 @@ if ($result1) {
             //for redeemable amount
             $referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned ₹250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-                                VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
             $stmtCustRef2 = $conn->prepare($sqlCustRef);
             $stmtCustRef2->execute([
                 ':customer_id' => $level2['id'],
@@ -1192,7 +1407,7 @@ if ($result1) {
             //for booking points
             $booking_message = "{$level2['name']} (ID: {$level2['id']}) has gained 250 booking points as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
-                                VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
             $stmtCustRef2 = $conn->prepare($sqlCustRef);
             $stmtCustRef2->execute([
                 ':customer_id' => $level2['id'],
@@ -1207,14 +1422,14 @@ if ($result1) {
             $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
             $stmt_select = $conn->prepare($select_sql);
             $stmt_select->execute();
-
+            
             $ids = [];
             while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
                 $ids[] = $row['id'];
             }
             //wallet enrty 
-            $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-                            VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
             $wallet_stmt = $conn->prepare($wallet_sql);
 
             $data1 = [
@@ -1225,8 +1440,8 @@ if ($result1) {
             ];
             $wallet_stmt->execute($data1);
             //booking entry in wallet
-            $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
-                            VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
             $wallet_stmt = $conn->prepare($wallet_sql);
 
             $data2 = [
@@ -1241,7 +1456,7 @@ if ($result1) {
             $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
             $stmt_wallet_select = $conn->prepare($select_wallet_sql);
             $stmt_wallet_select->execute();
-
+            
             $wallet_ids = [];
             while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
                 $wallet_ids[] = $row['id'];
@@ -1255,20 +1470,20 @@ if ($result1) {
 
             // Get last wallet balance
             $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
-                                            WHERE customer_id = :customer_id 
-                                            ORDER BY id DESC LIMIT 1";
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
             $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
             $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
             $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
 
-            $current_wallet_balance = ($previous_wallet_balance !== false)
-                ? $previous_wallet_balance + $credit_amount
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
                 : $credit_amount;
 
             // Insert into wallet utilization
             $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-                    (transaction_id, customer_id, credit_amount, balance) 
-                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
             $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
             $wallet_insert_stmt->execute([
@@ -1283,20 +1498,20 @@ if ($result1) {
 
             // Get last booking balance
             $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
-                                            WHERE customer_id = :customer_id 
-                                            ORDER BY id DESC LIMIT 1";
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
             $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
             $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
             $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
 
-            $current_booking_balance = ($previous_booking_balance !== false)
-                ? $previous_booking_balance + $credit_amount
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
                 : $credit_amount;
 
             // Insert into booking points utilization
             $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
-                    (transaction_id, customer_id, credit_amount, balance) 
-                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
             $booking_insert_stmt = $conn->prepare($booking_insert_sql);
 
             $booking_insert_stmt->execute([
@@ -1314,7 +1529,7 @@ if ($result1) {
             //for redeemable amount
             $referral_message = "{$level3['name']} (ID: {$level3['id']}) has earned ₹125 as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
-                                VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
             $stmtCustRef = $conn->prepare($sqlCustRef);
             $stmtCustRef->execute([
                 ':customer_id' => $level3['id'],
@@ -1325,11 +1540,11 @@ if ($result1) {
                 ':referral_amount' => 125,
                 ':referral_message' => $referral_message
             ]);
-
+            
             //for booking points
             $booking_message = "{$level3['name']} (ID: {$level3['id']}) has gained 125 booking points as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
             $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
-                                VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
             $stmtCustRef = $conn->prepare($sqlCustRef);
             $stmtCustRef->execute([
                 ':customer_id' => $level3['id'],
@@ -1344,14 +1559,14 @@ if ($result1) {
             $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
             $stmt_select = $conn->prepare($select_sql);
             $stmt_select->execute();
-
+            
             $ids = [];
             while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
                 $ids[] = $row['id'];
             }
             //wallet enrty 
-            $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
-                            VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
             $wallet_stmt = $conn->prepare($wallet_sql);
 
             $data1 = [
@@ -1362,8 +1577,8 @@ if ($result1) {
             ];
             $wallet_stmt->execute($data1);
             //booking entry in wallet
-            $wallet_sql = 'INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
-                            VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
             $wallet_stmt = $conn->prepare($wallet_sql);
 
             $data2 = [
@@ -1378,7 +1593,7 @@ if ($result1) {
             $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
             $stmt_wallet_select = $conn->prepare($select_wallet_sql);
             $stmt_wallet_select->execute();
-
+            
             $wallet_ids = [];
             while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
                 $wallet_ids[] = $row['id'];
@@ -1392,20 +1607,20 @@ if ($result1) {
 
             // Get last wallet balance
             $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
-                                            WHERE customer_id = :customer_id 
-                                            ORDER BY id DESC LIMIT 1";
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
             $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
             $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
             $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
 
-            $current_wallet_balance = ($previous_wallet_balance !== false)
-                ? $previous_wallet_balance + $credit_amount
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
                 : $credit_amount;
 
             // Insert into wallet utilization
             $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
-                    (transaction_id, customer_id, credit_amount, balance) 
-                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
             $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
 
             $wallet_insert_stmt->execute([
@@ -1420,20 +1635,20 @@ if ($result1) {
 
             // Get last booking balance
             $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
-                                            WHERE customer_id = :customer_id 
-                                            ORDER BY id DESC LIMIT 1";
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
             $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
             $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
             $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
 
-            $current_booking_balance = ($previous_booking_balance !== false)
-                ? $previous_booking_balance + $credit_amount
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
                 : $credit_amount;
 
             // Insert into booking points utilization
             $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
-                    (transaction_id, customer_id, credit_amount, balance) 
-                    VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
             $booking_insert_stmt = $conn->prepare($booking_insert_sql);
 
             $booking_insert_stmt->execute([
@@ -1443,6 +1658,686 @@ if ($result1) {
                 'balance' => $current_booking_balance
             ]);
 
+
+            //$commissionGiven = true;
+        }
+        //l1 Premium Select/Premium Select Lite
+        if ($l1_type == 'Premium Select Lite' || $l1_type == 'Premium Select' ) {
+            //for redeemable amount
+            $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned ₹750 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
+                                        VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
+            $stmtCustRef = $conn->prepare($sqlCustRef);
+            $stmtCustRef->execute([
+                ':customer_id' => $level1['id'],
+                ':customer_type' => $level1['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level1',
+                ':referral_amount' => 750,
+                ':referral_message' => $referral_message
+            ]);
+
+            //for booking points
+            $booking_message = "{$level1['name']} (ID: {$level1['id']}) has gained 750 booking points for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
+                                        VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+            $stmtCustRef = $conn->prepare($sqlCustRef);
+            $stmtCustRef->execute([
+                ':customer_id' => $level1['id'],
+                ':customer_type' => $level1['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level1',
+                ':booking_points' => 750,
+                ':booking_message' => $booking_message
+            ]);
+            //customer_reference_payout get the id of last 2 entries
+            $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
+            $stmt_select = $conn->prepare($select_sql);
+            $stmt_select->execute();
+            
+            $ids = [];
+            while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
+                $ids[] = $row['id'];
+            }
+            //wallet enrty 
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data1 = [
+                'transaction_id' => $ids[1],
+                'customer_id' => $level1['id'],
+                'customer_type' => $level1['customer_type'],
+                'redeemable_amt' => 750
+            ];
+            $wallet_stmt->execute($data1);
+            //booking entry in wallet
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data2 = [
+                'transaction_id' => $ids[0],
+                'customer_id' => $level1['id'],
+                'customer_type' => $level1['customer_type'],
+                'booking_points' => 750
+            ];
+            $wallet_stmt->execute($data2);
+            //balance update for wallet and booking points
+            //customer_reference_wallet get the id of last 2 entries
+            $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
+            $stmt_wallet_select = $conn->prepare($select_wallet_sql);
+            $stmt_wallet_select->execute();
+            
+            $wallet_ids = [];
+            while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
+                $wallet_ids[] = $row['id'];
+            }
+            //balance enrty 
+            $customer_id = $level1['id'];
+            $customer_type = $level1['customer_type'];
+            $credit_amount = 750; // Amount to credit
+
+            // -------- 1. Wallet Balance Entry --------
+
+            // Get last wallet balance
+            $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
+            $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
+
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into wallet utilization
+            $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
+
+            $wallet_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[1],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_wallet_balance
+            ]);
+
+
+            // -------- 2. Booking Points Entry --------
+
+            // Get last booking balance
+            $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
+            $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
+
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into booking points utilization
+            $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $booking_insert_stmt = $conn->prepare($booking_insert_sql);
+
+            $booking_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[0],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_booking_balance
+            ]);
+        }
+        //l2 Premium Select/Premium Select Lite
+        if ($l2_type == 'Premium Select Lite' || $l2_type == 'Premium Select') {
+            //level2
+            //for redeemable amount
+            $referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned ₹250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+            $stmtCustRef2 = $conn->prepare($sqlCustRef);
+            $stmtCustRef2->execute([
+                ':customer_id' => $level2['id'],
+                ':customer_type' => $level2['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level2',
+                ':referral_amount' => 250,
+                ':referral_message' => $referral_message
+            ]);
+
+            //for booking points
+            $booking_message = "{$level2['name']} (ID: {$level2['id']}) has gained 250 booking points as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+            $stmtCustRef2 = $conn->prepare($sqlCustRef);
+            $stmtCustRef2->execute([
+                ':customer_id' => $level2['id'],
+                ':customer_type' => $level2['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level2',
+                ':booking_points' => 250,
+                ':booking_message' => $booking_message
+            ]);
+            //customer_reference_payout get the id of last 2 entries
+            $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
+            $stmt_select = $conn->prepare($select_sql);
+            $stmt_select->execute();
+            
+            $ids = [];
+            while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
+                $ids[] = $row['id'];
+            }
+            //wallet enrty 
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data1 = [
+                'transaction_id' => $ids[1],
+                'customer_id' => $level2['id'],
+                'customer_type' => $level2['customer_type'],
+                'redeemable_amt' => 250
+            ];
+            $wallet_stmt->execute($data1);
+            //booking entry in wallet
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data2 = [
+                'transaction_id' => $ids[0],
+                'customer_id' => $level2['id'],
+                'customer_type' => $level2['customer_type'],
+                'booking_points' => 250
+            ];
+            $wallet_stmt->execute($data2);
+            //balance update for wallet and booking points
+            //customer_reference_wallet get the id of last 2 entries
+            $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
+            $stmt_wallet_select = $conn->prepare($select_wallet_sql);
+            $stmt_wallet_select->execute();
+            
+            $wallet_ids = [];
+            while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
+                $wallet_ids[] = $row['id'];
+            }
+            //balance enrty 
+            $customer_id = $level2['id'];
+            $customer_type = $level2['customer_type'];
+            $credit_amount = 250; // Amount to credit
+
+            // -------- 1. Wallet Balance Entry --------
+
+            // Get last wallet balance
+            $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
+            $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
+
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into wallet utilization
+            $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
+
+            $wallet_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[1],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_wallet_balance
+            ]);
+
+
+            // -------- 2. Booking Points Entry --------
+
+            // Get last booking balance
+            $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
+            $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
+
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into booking points utilization
+            $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $booking_insert_stmt = $conn->prepare($booking_insert_sql);
+
+            $booking_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[0],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_booking_balance
+            ]);
+
+            //$commissionGiven = true;
+        }
+        //L3 Premium Select/Premium Select Lite
+        if ($l3_type == 'Premium Select Lite' || $l3_type == 'Premium Select') {
+            //level 3
+            //for redeemable amount
+            $referral_message = "{$level3['name']} (ID: {$level3['id']}) has earned ₹125 as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+            $stmtCustRef = $conn->prepare($sqlCustRef);
+            $stmtCustRef->execute([
+                ':customer_id' => $level3['id'],
+                ':customer_type' => $level3['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level3',
+                ':referral_amount' => 125,
+                ':referral_message' => $referral_message
+            ]);
+            
+            //for booking points
+            $booking_message = "{$level3['name']} (ID: {$level3['id']}) has gained 125 booking points as a Level 3 referrer for referring {$referred_name} (ID: {$referred_customer_id}), through {$level2['name']} (ID: {$level2['id']}) as Level 2 of {$level1['name']} (ID: {$level1['id']}).";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+            $stmtCustRef = $conn->prepare($sqlCustRef);
+            $stmtCustRef->execute([
+                ':customer_id' => $level3['id'],
+                ':customer_type' => $level3['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level3',
+                ':booking_points' => 125,
+                ':booking_message' => $booking_message
+            ]);
+            //customer_reference_payout get the id of last 2 entries
+            $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
+            $stmt_select = $conn->prepare($select_sql);
+            $stmt_select->execute();
+            
+            $ids = [];
+            while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
+                $ids[] = $row['id'];
+            }
+            //wallet enrty 
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data1 = [
+                'transaction_id' => $ids[1],
+                'customer_id' => $level3['id'],
+                'customer_type' => $level3['customer_type'],
+                'redeemable_amt' => 125
+            ];
+            $wallet_stmt->execute($data1);
+            //booking entry in wallet
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data2 = [
+                'transaction_id' => $ids[0],
+                'customer_id' => $level3['id'],
+                'customer_type' => $level3['customer_type'],
+                'booking_points' => 125
+            ];
+            $wallet_stmt->execute($data2);
+            //balance update for wallet and booking points
+            //customer_reference_wallet get the id of last 2 entries
+            $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
+            $stmt_wallet_select = $conn->prepare($select_wallet_sql);
+            $stmt_wallet_select->execute();
+            
+            $wallet_ids = [];
+            while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
+                $wallet_ids[] = $row['id'];
+            }
+            //balance enrty 
+            $customer_id = $level3['id'];
+            $customer_type = $level3['customer_type'];
+            $credit_amount = 125; // Amount to credit
+
+            // -------- 1. Wallet Balance Entry --------
+
+            // Get last wallet balance
+            $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
+            $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
+
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into wallet utilization
+            $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
+
+            $wallet_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[1],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_wallet_balance
+            ]);
+
+
+            // -------- 2. Booking Points Entry --------
+
+            // Get last booking balance
+            $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
+            $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
+
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into booking points utilization
+            $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $booking_insert_stmt = $conn->prepare($booking_insert_sql);
+
+            $booking_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[0],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_booking_balance
+            ]);
+
+
+            //$commissionGiven = true;
+        }
+        //l1 Neo Select
+        if ($l1_type == 'Neo Select' ) {
+            //for redeemable amount
+            $referral_message = "{$level1['name']} (ID: {$level1['id']}) has earned ₹500 for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
+                                        VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 2)";
+            $stmtCustRef = $conn->prepare($sqlCustRef);
+            $stmtCustRef->execute([
+                ':customer_id' => $level1['id'],
+                ':customer_type' => $level1['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level1',
+                ':referral_amount' => 500,
+                ':referral_message' => $referral_message
+            ]);
+
+            //for booking points
+            $booking_message = "{$level1['name']} (ID: {$level1['id']}) has gained 500 booking points for referring {$referred_name} (ID: {$referred_customer_id}) as a Level 1 referrer.";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
+                                        VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+            $stmtCustRef = $conn->prepare($sqlCustRef);
+            $stmtCustRef->execute([
+                ':customer_id' => $level1['id'],
+                ':customer_type' => $level1['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level1',
+                ':booking_points' => 500,
+                ':booking_message' => $booking_message
+            ]);
+            //customer_reference_payout get the id of last 2 entries
+            $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
+            $stmt_select = $conn->prepare($select_sql);
+            $stmt_select->execute();
+            
+            $ids = [];
+            while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
+                $ids[] = $row['id'];
+            }
+            //wallet enrty 
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data1 = [
+                'transaction_id' => $ids[1],
+                'customer_id' => $level1['id'],
+                'customer_type' => $level1['customer_type'],
+                'redeemable_amt' => 500
+            ];
+            $wallet_stmt->execute($data1);
+            //booking entry in wallet
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data2 = [
+                'transaction_id' => $ids[0],
+                'customer_id' => $level1['id'],
+                'customer_type' => $level1['customer_type'],
+                'booking_points' => 500
+            ];
+            $wallet_stmt->execute($data2);
+            //balance update for wallet and booking points
+            //customer_reference_wallet get the id of last 2 entries
+            $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
+            $stmt_wallet_select = $conn->prepare($select_wallet_sql);
+            $stmt_wallet_select->execute();
+            
+            $wallet_ids = [];
+            while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
+                $wallet_ids[] = $row['id'];
+            }
+            //balance enrty 
+            $customer_id = $level1['id'];
+            $customer_type = $level1['customer_type'];
+            $credit_amount = 500; // Amount to credit
+
+            // -------- 1. Wallet Balance Entry --------
+
+            // Get last wallet balance
+            $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
+            $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
+
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into wallet utilization
+            $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
+
+            $wallet_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[1],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_wallet_balance
+            ]);
+
+
+            // -------- 2. Booking Points Entry --------
+
+            // Get last booking balance
+            $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
+            $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
+
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into booking points utilization
+            $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $booking_insert_stmt = $conn->prepare($booking_insert_sql);
+
+            $booking_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[0],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_booking_balance
+            ]);
+        }
+        //l2 Neo Select
+        if ($l2_type == 'Neo Select') {
+            //level2
+            //for redeemable amount
+            $referral_message = "{$level2['name']} (ID: {$level2['id']}) has earned ₹250 as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, referral_amount, referral_message, status) 
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :referral_amount, :referral_message, 0)";
+            $stmtCustRef2 = $conn->prepare($sqlCustRef);
+            $stmtCustRef2->execute([
+                ':customer_id' => $level2['id'],
+                ':customer_type' => $level2['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level2',
+                ':referral_amount' => 250,
+                ':referral_message' => $referral_message
+            ]);
+
+            //for booking points
+            $booking_message = "{$level2['name']} (ID: {$level2['id']}) has gained 250 booking points as a Level 2 referrer for referring {$referred_name} (ID: {$referred_customer_id}) through {$level1['name']} (ID: {$level1['id']}).";
+            $sqlCustRef = "INSERT INTO customer_reference_payout (customer_id, customer_type, refered_customer_id, refered_customer_type, referral_level, booking_points, booking_message, status) 
+                            VALUES (:customer_id, :customer_type, :refered_customer_id, :refered_customer_type, :referral_level, :booking_points, :booking_message, 3)";
+            $stmtCustRef2 = $conn->prepare($sqlCustRef);
+            $stmtCustRef2->execute([
+                ':customer_id' => $level2['id'],
+                ':customer_type' => $level2['customer_type'],
+                ':refered_customer_id' => $referred_customer_id,
+                ':refered_customer_type' => $referred_type,
+                ':referral_level' => 'Level2',
+                ':booking_points' => 250,
+                ':booking_message' => $booking_message
+            ]);
+            //customer_reference_payout get the id of last 2 entries
+            $select_sql = "SELECT id FROM customer_reference_payout ORDER BY id DESC LIMIT 2";
+            $stmt_select = $conn->prepare($select_sql);
+            $stmt_select->execute();
+            
+            $ids = [];
+            while ($row = $stmt_select->fetch(PDO::FETCH_ASSOC)) {
+                $ids[] = $row['id'];
+            }
+            //wallet enrty 
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, redeemable_amt) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :redeemable_amt)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data1 = [
+                'transaction_id' => $ids[1],
+                'customer_id' => $level2['id'],
+                'customer_type' => $level2['customer_type'],
+                'redeemable_amt' => 250
+            ];
+            $wallet_stmt->execute($data1);
+            //booking entry in wallet
+            $wallet_sql='INSERT INTO `customer_reference_wallet` (transaction_id, customer_id, customer_type, booking_points) 
+                        VALUES (:transaction_id, :customer_id, :customer_type, :booking_points)';
+            $wallet_stmt = $conn->prepare($wallet_sql);
+
+            $data2 = [
+                'transaction_id' => $ids[0],
+                'customer_id' => $level2['id'],
+                'customer_type' => $level2['customer_type'],
+                'booking_points' => 250
+            ];
+            $wallet_stmt->execute($data2);
+            //balance update for wallet and booking points
+            //customer_reference_wallet get the id of last 2 entries
+            $select_wallet_sql = "SELECT id FROM customer_reference_wallet ORDER BY id DESC LIMIT 2";
+            $stmt_wallet_select = $conn->prepare($select_wallet_sql);
+            $stmt_wallet_select->execute();
+            
+            $wallet_ids = [];
+            while ($row = $stmt_wallet_select->fetch(PDO::FETCH_ASSOC)) {
+                $wallet_ids[] = $row['id'];
+            }
+            //balance enrty 
+            $customer_id = $level2['id'];
+            $customer_type = $level2['customer_type'];
+            $credit_amount = 250; // Amount to credit
+
+            // -------- 1. Wallet Balance Entry --------
+
+            // Get last wallet balance
+            $wallet_balance_check_sql = "SELECT balance FROM customer_reference_wallet_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $wallet_balance_check_stmt = $conn->prepare($wallet_balance_check_sql);
+            $wallet_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_wallet_balance = $wallet_balance_check_stmt->fetchColumn();
+
+            $current_wallet_balance = ($previous_wallet_balance !== false) 
+                ? $previous_wallet_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into wallet utilization
+            $wallet_insert_sql = "INSERT INTO customer_reference_wallet_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $wallet_insert_stmt = $conn->prepare($wallet_insert_sql);
+
+            $wallet_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[1],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_wallet_balance
+            ]);
+
+
+            // -------- 2. Booking Points Entry --------
+
+            // Get last booking balance
+            $booking_balance_check_sql = "SELECT balance FROM customer_reference_booking_points_utilization 
+                                        WHERE customer_id = :customer_id 
+                                        ORDER BY id DESC LIMIT 1";
+            $booking_balance_check_stmt = $conn->prepare($booking_balance_check_sql);
+            $booking_balance_check_stmt->execute(['customer_id' => $customer_id]);
+            $previous_booking_balance = $booking_balance_check_stmt->fetchColumn();
+
+            $current_booking_balance = ($previous_booking_balance !== false) 
+                ? $previous_booking_balance + $credit_amount 
+                : $credit_amount;
+
+            // Insert into booking points utilization
+            $booking_insert_sql = "INSERT INTO customer_reference_booking_points_utilization 
+                (transaction_id, customer_id, credit_amount, balance) 
+                VALUES (:transaction_id, :customer_id, :credit_amount, :balance)";
+            $booking_insert_stmt = $conn->prepare($booking_insert_sql);
+
+            $booking_insert_stmt->execute([
+                'transaction_id' => $wallet_ids[0],
+                'customer_id' => $customer_id,
+                'credit_amount' => $credit_amount,
+                'balance' => $current_booking_balance
+            ]);
 
             //$commissionGiven = true;
         }

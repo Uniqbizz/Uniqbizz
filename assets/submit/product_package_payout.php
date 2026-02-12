@@ -120,32 +120,66 @@
                 $cuName2[] = $ca_name;
             }
         }
-
-        // corporate_agency / Techno Enterprise
-        $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
-        $sql5 -> execute();
-        $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
-        if( $sql5 -> rowCount()>0 ){
-            foreach( ($sql5 -> fetchAll()) as $key => $row ){
-                $bm_ref = $row['reference_no'];
-                $bm_name = $row['registrant'];
-                $cuIds2[] = $bm_ref; 
-                $cuName2[] = $bm_name;
-            }
+        
+        // sub string and identify user TE/CA/F/MF 
+        $ca_ref_id =  substr($ca_ref, 0,1) == 'F'? substr($ca_ref,0,1)
+                      : substr($ca_ref,0,2);
+        // corporate_agency / Techno Enterprise / Franchisee / Master Franchisee
+        if ($ca_ref_id == 'F') {
+            $sql5 = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca_ref."' AND status= '1' ");
+        }elseif ($ca_ref_id == 'TE' || $ca_ref_id == 'CA') {
+            $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
+        }elseif ($ca_ref_id == 'MF') {
+            $sql5 = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$ca_ref."' AND status= '1' ");
+        }elseif ($ca_ref_id == 'BM') {
+            $sql5 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$ca_ref."' AND status= '1' ");
         }
-
-        // Business Mentor
-        $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
-        $sql6 -> execute();
-        $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
-        if( $sql6 -> rowCount()>0 ){
-            foreach( ($sql6 -> fetchAll()) as $key => $row ){
-                $bdm_ref = $row['reference_no'];
-                $bdm_name = $row['registrant'];
-                $cuIds2[] = $bdm_ref; 
-                $cuName2[] = $bdm_name;
+        if ($ca_ref_id == 'F' || $ca_ref_id == 'TE' || $ca_ref_id == 'CA' || $ca_ref_id == 'MF' || $ca_ref_id == 'BM') {
+            $sql5 -> execute();
+            $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
+            if( $sql5 -> rowCount()>0 ){
+                foreach( ($sql5 -> fetchAll()) as $key => $row ){
+                    $bm_ref = $row['reference_no'];
+                    $bm_name = $row['registrant'];
+                    $cuIds2[] = $bm_ref; 
+                    $cuName2[] = $bm_name;
+                }
             }
+        }else{
+            $bm_ref = 'NA';
+            $bm_name = 'NA';
+            $cuIds2[] = $bm_ref; 
+            $cuName2[] = $bm_name;
         }
+        
+        
+        // sub string and identify user MF/SF/BM
+        $bm_ref_id=substr($bm_ref,0,2);
+        // Business Mentor / Master Franchisee / Sponsor Franchisee
+        if($bm_ref_id == 'MF'){
+            $sql6 = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$bm_ref."' AND status= '1' ");
+        }elseif ($bm_ref_id == 'SF') {
+            $sql6 = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$bm_ref."' AND status= '1' ");
+        }elseif ($bm_ref_id == 'BM') {
+            $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
+        }
+        if ($bm_ref_id == 'MF' || $bm_ref_id == 'SF'|| $bm_ref_id == 'BM') {
+            $sql6 -> execute();
+            $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
+            if( $sql6 -> rowCount()>0 ){
+                foreach( ($sql6 -> fetchAll()) as $key => $row ){
+                    $bdm_ref = $row['reference_no'];
+                    $bdm_name = $row['registrant'];
+                    $cuIds2[] = $bdm_ref; 
+                    $cuName2[] = $bdm_name;
+                }
+            }
+        }else{
+            $bdm_ref=$bdm_name='NA';
+            $cuIds2[] = $bdm_ref; 
+            $cuName2[] = $bdm_name; 
+        }
+        
 
         // Business Development manager
         $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");

@@ -10,6 +10,7 @@ $dateCA = $_GET['date'];
 $message = $_GET['message'];
 $message_status = $_GET['message_status'];
 $commission = $_GET['commission'];
+$user_desig = $_GET['user_desig'];
 
 //TDS calculation on commission Amount 
 $tds = 2;
@@ -26,17 +27,37 @@ if($user_id == "BM"){
     if($sql1->rowCount()>0){
         foreach (($sql1->fetchAll()) as $key => $row1) {
             $bm_name = $row1['firstname']. ' ' .$row1['lastname'];
-            $designation = 'Business Mentor';
+            $bmdesignation = 'Business Mentor';
         }
     } 
-}else if($user_id == "BH"){
+}else if($user_id == "BH"){ //BDM, RM
     $sql1= $conn->prepare("SELECT name FROM `employees` where employee_id='".$BM_id."'");
     $sql1->execute();
     $sql1->setFetchMode(PDO::FETCH_ASSOC);
     if($sql1->rowCount()>0){
         foreach (($sql1->fetchAll()) as $key => $row1) {
             $bm_name = $row1['name'];
-            $designation = 'Business Development Manager';
+            $bmdesignation = 'Business Development Manager';
+        }
+    } 
+}else if($user_id == "SF"){ 
+    $sql1= $conn->prepare("SELECT name FROM `sponsor_franchisee` where sponsor_franchisee_id='".$BM_id."'");
+    $sql1->execute();
+    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+    if($sql1->rowCount()>0){
+        foreach (($sql1->fetchAll()) as $key => $row1) {
+            $bm_name = $row1['firstname']. ' ' .$row1['lastname'];
+            $bmdesignation = 'Sponsor Franchisee';
+        }
+    } 
+}else if($user_id == "MF"){
+    $sql1= $conn->prepare("SELECT name FROM `master_franchisee` wheremaster_franchisee_id='".$BM_id."'");
+    $sql1->execute();
+    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+    if($sql1->rowCount()>0){
+        foreach (($sql1->fetchAll()) as $key => $row1) {
+            $bm_name = $row1['firstname']. ' ' .$row1['lastname'];
+            $bmdesignation = 'Master Franchisee';
         }
     } 
 }
@@ -48,10 +69,22 @@ if($TE_id){
     if($sql2->rowCount()>0){
         foreach (($sql2->fetchAll()) as $key => $row3) {
             $te_name = $row3['firstname']. ' ' .$row3['lastname'];
-            $designation = 'Techno Enterprise';
+            $tedesignation = 'Techno Enterprise';
         }
     } 
-}else{
+}
+if($TC_id){
+    $sql2= $conn->prepare("SELECT firstname,lastname FROM `ca_travelagency` where ca_travelagency_id='".$TC_id."'");
+    $sql2->execute();
+    $sql2->setFetchMode(PDO::FETCH_ASSOC);
+    if($sql2->rowCount()>0){
+        foreach (($sql2->fetchAll()) as $key => $row3) {
+            $tc_name = $row3['firstname']. ' ' .$row3['lastname'];
+            $tcdesignation = 'Travel Consultant';
+        }
+    } 
+}
+else{
     $TE_id = "No TE";
     $te_name = "No TE";
 }
@@ -109,7 +142,7 @@ if($baNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../recruitment_payout.php" class="go-back"> Go Back</a>
+                <a href="../../customer_membership_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -140,20 +173,20 @@ if($baNames -> rowCount()>0){
                                 <tbody>
                                     <tr class="row">
                                         <td class="col-md-7 col-sm-7 left pt-3">
-                                            <h6 style="padding:2px 10px; font-weight: 700;">Name : <?php echo $bm_name; ?></h6>
-                                            <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?php echo $BM_id; ?></h6>
+                                            <h6 style="padding:2px 10px; font-weight: 700;">Name : <?= $user_desig=='BM' || $user_desig=='BDM' || $user_desig=='MF' || $user_desig=='SF'?$bm_name:($user_desig=='TE'?$te_name:($user_desig == 'TC'? $tc_name :'NA'))?></h6>
+                                            <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?= $user_desig=='BM' || $user_desig=='BDM' || $user_desig=='MF' || $user_desig=='SF'?$BM_id:($user_desig=='TE'?$TE_id:($user_desig =='TC'? $TC_id :'NA'))?></h6>
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
                                             <!-- <h6 style="padding:2px 0; font-weight: 700;">Pay For : Corporate Agency </h6> -->
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : <?php echo $designation; ?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : <?= $user_desig=='BM' || $user_desig=='BDM' || $user_desig=='MF' || $user_desig=='SF'?$bmdesignation:($user_desig=='TE'?$tedesignation:($user_desig == 'TC'?$tcdesignation :'NA'))?></h6>
                                             <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 2 ? 'Pending' : 'Paid' ; ?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" style="" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Techno Enterprise Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Customer Membership Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

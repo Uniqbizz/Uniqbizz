@@ -380,7 +380,7 @@ if($payoutmessage == 'allPayout'){
         if ($designation == 'business_mentor') {
             $query .= " AND business_mentor IS NOT NULL";
         } elseif ($designation == 'corporate_agency') {
-            $query .= " AND (techno_enterprise IS NOT NULL AND techno_enterprise !='')";
+            $query .= " AND (techno_enterprise IS NOT NULL AND techno_enterprise <>'')";
         } elseif ($designation == 'ca_travelagency') {
             $query .= " AND travel_consultant IS NOT NULL";
         }
@@ -460,95 +460,120 @@ if($payoutmessage == 'allPayout'){
     </thead><tbody>";
  
     if ($results) {
-        $i = 1;
-        foreach ($results as $row) {
-            $amount = 0;
-            $message = '';
-            $status = '';
- 
-            if ($designation == 'business_mentor') {
-                $reference =substr($row['business_mentor'],0,2);
-                $name='';
-                    if($reference == 'SF'){
-                        $sql1 = $conn->prepare(" SELECT firstname, lastname, sponsor_franchisee_id
-                                                 FROM sponsor_franchisee
-                                                 WHERE sponsor_franchisee_id = :mentor_id
-                                              ");
-                        $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
-                        $sql1->execute();
-                       
-                        if ($sql1->rowCount() > 0) {
-                            foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
-                                $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['sponsor_franchisee_id'] . ')';
+        if ($designation == 'BM_BDM_MF_SF_RM') {
+            $i = 1;
+            foreach ($results as $row) {
+                $amount = 0;
+                $message = '';
+                $status = '';
+    
+                    $reference =substr($row['business_mentor'],0,2);
+                    $name='';
+                        if($reference == 'SF'){
+                            $sql1 = $conn->prepare(" SELECT firstname, lastname, sponsor_franchisee_id
+                                                    FROM sponsor_franchisee
+                                                    WHERE sponsor_franchisee_id = :mentor_id
+                                                ");
+                            $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
+                            $sql1->execute();
+                        
+                            if ($sql1->rowCount() > 0) {
+                                foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                    $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['sponsor_franchisee_id'] . ')';
+                                }
                             }
-                        }
- 
-                        $designation_name = "Sponsor Franchisee";
-                    }else if($reference == 'MF'){
-                        $sql1 = $conn->prepare(" SELECT firstname, lastname, master_franchisee_id
-                                                 FROM master_franchisee
-                                                 WHERE master_franchisee_id = :mentor_id
-                                              ");
-                        $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
-                        $sql1->execute();
-                       
-                        if ($sql1->rowCount() > 0) {
-                            foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
-                                $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['master_franchisee_id'] . ')';
+    
+                            $designation_name = "Sponsor Franchisee";
+                        }else if($reference == 'MF'){
+                            $sql1 = $conn->prepare(" SELECT firstname, lastname, master_franchisee_id
+                                                    FROM master_franchisee
+                                                    WHERE master_franchisee_id = :mentor_id
+                                                ");
+                            $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
+                            $sql1->execute();
+                        
+                            if ($sql1->rowCount() > 0) {
+                                foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                    $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['master_franchisee_id'] . ')';
+                                }
                             }
-                        }
-                        $designation_name = "Master Franchisee";
-                    }else if($reference == 'BM'){
-                        $sql1 = $conn->prepare(" SELECT firstname, lastname, business_mentor_id
-                                                 FROM business_mentor
-                                                 WHERE business_mentor_id = :mentor_id
-                                              ");
-                        $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
-                        $sql1->execute();
-                       
-                        if ($sql1->rowCount() > 0) {
-                            foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
-                                $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['business_mentor_id'] . ')';
+                            $designation_name = "Master Franchisee";
+                        }else if($reference == 'BM'){
+                            $sql1 = $conn->prepare(" SELECT firstname, lastname, business_mentor_id
+                                                    FROM business_mentor
+                                                    WHERE business_mentor_id = :mentor_id
+                                                ");
+                            $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
+                            $sql1->execute();
+                        
+                            if ($sql1->rowCount() > 0) {
+                                foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                    $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['business_mentor_id'] . ')';
+                                }
                             }
+                            $designation_name = "Business Mentor";
+                        }else if($reference == 'BH'){
+                            $sql0=$conn->prepare("SELECT user_type,name,employee_id FROM employees WHERE employee_id=:employee_id");
+                            $sql0->bindParam(':employee_id',$row['business_mentor'],PDO::PARAM_STR);
+                            $sql0->execute();
+
+                            if ($sql0->rowCount() > 0) {
+                                foreach ($sql0->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                    $name = $row1['name'] . ' (' . $row1['employee_id'] . ')';
+                                    $designation_name = $row1['user_type'] == '31'?"Relationship Manager":($row1['user_type'] == '25'?"Business Development Manager":"NA");
+                                }
+                            }
+                            
+                            
+                        }else{
+                            $name ="NA";
+                            $designation_name = "NA";
                         }
-                        $designation_name = "Business Mentor";
-                    }else{
-                        $name ="NA";
-                        $designation_name = "NA";
-                    }
-                $message = $row['message_bm'];
-                $amount = (float)$row['commision_bm'];
-                $status = $row['status_bm']== '1'?'Paid':'Pending';
-                $designation_name = "Business Mentor";
-               
-                $tds = $amount * $tdsPer;
-                $net = $amount - $tds;
- 
-                $output .= "<tr>
-                    <td>{$i}</td>
-                    <td>$designation_name</td>
-                    <td>$name</td>
-                    <td>" . date('d-m-Y', strtotime($row['created_date'])) . "</td>
-                    <td>{$message}</td>
-                    <td>Rs." . number_format($amount, 2) . "</td>
-                    <td>Rs." . number_format($tds, 2) . "</td>
-                    <td>Rs." . number_format($net, 2) . "</td>
-                    <td>{$status}</td>
-                </tr>";
-                $i++;
+                    $message = $row['message_bm'];
+                    $amount = (float)$row['commision_bm'];
+                    $status = $row['status_bm']== '1'?'Paid':'Pending';
+                    // $designation_name = "Business Mentor";
+                
+                    $tds = $amount * $tdsPer;
+                    $net = $amount - $tds;
+    
+                    $output .= "<tr>
+                        <td>{$i}</td>
+                        <td>$designation_name</td>
+                        <td>$name</td>
+                        <td>" . date('d-m-Y', strtotime($row['created_date'])) . "</td>
+                        <td>{$message}</td>
+                        <td>Rs." . number_format($amount, 2) . "</td>
+                        <td>Rs." . number_format($tds, 2) . "</td>
+                        <td>Rs." . number_format($net, 2) . "</td>
+                        <td>{$status}</td>
+                    </tr>";
+                    $i++;
             }
-            else if ($designation == 'corporate_agency') {
+            $output .= "</tbody></table>";
+ 
+            header("Content-Type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment; filename=All_Payout_List.xls");
+            echo $output;
+            exit;
+        }
+        else if ($designation == 'corporate_agency') {
+            $i = 1;
+            foreach ($results as $row) {
+                $amount = 0;
+                $message = '';
+                $status = '';
                 if (!empty($row['techno_enterprise'])) {
                     $reference =substr($row['techno_enterprise'],0,1) == 'F'?substr($row['techno_enterprise'],0,1):substr($row['techno_enterprise'],0,2);
                     $name='';
                     if($reference == 'F'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, sub_franchisee_id
-                                                 FROM sub_franchisee
-                                                 WHERE sub_franchisee_id = :mentor_id
-                                              ");
+                                                FROM sub_franchisee
+                                                WHERE sub_franchisee_id = :mentor_id
+                                            ");
                         $sql1->bindParam(':mentor_id', $row['techno_enterprise'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                    
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['sub_franchisee_id'] . ')';
@@ -557,12 +582,12 @@ if($payoutmessage == 'allPayout'){
                         $designation_name = "Franchisee";
                     }else if($reference == 'TE' || $reference == 'CA'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, corporate_agency_id
-                                                 FROM corporate_agency
-                                                 WHERE corporate_agency_id = :mentor_id
-                                              ");
+                                                FROM corporate_agency
+                                                WHERE corporate_agency_id = :mentor_id
+                                            ");
                         $sql1->bindParam(':mentor_id', $row['techno_enterprise'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                    
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['corporate_agency_id'] . ')';
@@ -579,7 +604,7 @@ if($payoutmessage == 'allPayout'){
                 }
                 $tds = $amount * $tdsPer;
                 $net = $amount - $tds;
- 
+
                 $output .= "<tr>
                     <td>{$i}</td>
                     <td>$designation_name</td>
@@ -593,7 +618,19 @@ if($payoutmessage == 'allPayout'){
                 </tr>";
                 $i++;
             }
-            else if ($designation == 'ca_travelagency') {
+            $output .= "</tbody></table>";
+ 
+            header("Content-Type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment; filename=All_Payout_List.xls");
+            echo $output;
+            exit;
+        }
+        else if ($designation == 'ca_travelagency') {
+            $i = 1;
+            foreach ($results as $row) {
+                $amount = 0;
+                $message = '';
+                $status = '';
                 $name='';
                 $sql1 = $conn->prepare(" SELECT firstname, lastname, ca_travelagency_id
                                                  FROM ca_travelagency
@@ -627,33 +664,45 @@ if($payoutmessage == 'allPayout'){
                     <td>{$status}</td>
                 </tr>";
                 $i++;
-            } else {
+            } 
+            $output .= "</tbody></table>";
+ 
+            header("Content-Type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment; filename=All_Payout_List.xls");
+            echo $output;
+            exit;
+        }else{
+            $i = 1;
+            foreach ($results as $row) {
+                $amount = 0;
+                $message = '';
+                $status = '';
                 if ($row['commision_bm'] !=0 ) {
                     $reference =substr($row['business_mentor'],0,2);
                     $name='';
                     if($reference == 'SF'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, sponsor_franchisee_id
-                                                 FROM sponsor_franchisee
-                                                 WHERE sponsor_franchisee_id = :mentor_id
-                                              ");
+                                                    FROM sponsor_franchisee
+                                                    WHERE sponsor_franchisee_id = :mentor_id
+                                                ");
                         $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                        
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['sponsor_franchisee_id'] . ')';
                             }
                         }
- 
+
                         $designation_name = "Sponsor Franchisee";
                     }else if($reference == 'MF'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, master_franchisee_id
-                                                 FROM master_franchisee
-                                                 WHERE master_franchisee_id = :mentor_id
-                                              ");
+                                                    FROM master_franchisee
+                                                    WHERE master_franchisee_id = :mentor_id
+                                                ");
                         $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                        
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['master_franchisee_id'] . ')';
@@ -662,18 +711,31 @@ if($payoutmessage == 'allPayout'){
                         $designation_name = "Master Franchisee";
                     }else if($reference == 'BM'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, business_mentor_id
-                                                 FROM business_mentor
-                                                 WHERE business_mentor_id = :mentor_id
-                                              ");
+                                                    FROM business_mentor
+                                                    WHERE business_mentor_id = :mentor_id
+                                                ");
                         $sql1->bindParam(':mentor_id', $row['business_mentor'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                        
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['business_mentor_id'] . ')';
                             }
                         }
                         $designation_name = "Business Mentor";
+                    }else if($reference == 'BH'){
+                        $sql0=$conn->prepare("SELECT user_type,name,employee_id FROM employees WHERE employee_id=:employee_id");
+                        $sql0->bindParam(':employee_id',$row['business_mentor'],PDO::PARAM_STR);
+                        $sql0->execute();
+
+                        if ($sql0->rowCount() > 0) {
+                            foreach ($sql0->fetchAll(PDO::FETCH_ASSOC) as $row1) {
+                                $name = $row1['name'] . ' (' . $row1['employee_id'] . ')';
+                                $designation_name = $row1['user_type'] == '31'?"Relationship Manager":($row1['user_type'] == '25'?"Business Development Manager":"NA");
+                            }
+                        }
+                        
+                        
                     }else{
                         $name ="NA";
                         $designation_name = "NA";
@@ -683,7 +745,7 @@ if($payoutmessage == 'allPayout'){
                     $status = $row['status_bm']== '1'?'Paid':'Pending';
                     $tds = $amount * $tdsPer;
                     $net = $amount - $tds;
- 
+
                     $output .= "<tr>
                         <td>{$i}</td>
                         <td>$designation_name</td>
@@ -702,12 +764,12 @@ if($payoutmessage == 'allPayout'){
                     $name='';
                     if($reference == 'F'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, sub_franchisee_id
-                                                 FROM sub_franchisee
-                                                 WHERE sub_franchisee_id = :mentor_id
-                                              ");
+                                                    FROM sub_franchisee
+                                                    WHERE sub_franchisee_id = :mentor_id
+                                                ");
                         $sql1->bindParam(':mentor_id', $row['techno_enterprise'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                        
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['sub_franchisee_id'] . ')';
@@ -716,12 +778,12 @@ if($payoutmessage == 'allPayout'){
                         $designation_name = "Franchisee";
                     }else if($reference == 'TE' || $reference == 'CA'){
                         $sql1 = $conn->prepare(" SELECT firstname, lastname, corporate_agency_id
-                                                 FROM corporate_agency
-                                                 WHERE corporate_agency_id = :mentor_id
-                                              ");
+                                                    FROM corporate_agency
+                                                    WHERE corporate_agency_id = :mentor_id
+                                                ");
                         $sql1->bindParam(':mentor_id', $row['techno_enterprise'], PDO::PARAM_STR);
                         $sql1->execute();
-                       
+                        
                         if ($sql1->rowCount() > 0) {
                             foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                                 $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['corporate_agency_id'] . ')';
@@ -737,7 +799,7 @@ if($payoutmessage == 'allPayout'){
                     $status = $row['status_te']== '1'?'Paid':'Pending';
                     $tds = $amount * $tdsPer;
                     $net = $amount - $tds;
- 
+
                     $output .= "<tr>
                         <td>{$i}</td>
                         <td>$designation_name</td>
@@ -755,12 +817,12 @@ if($payoutmessage == 'allPayout'){
                     $designation_name = "Travel Consultant";
                     $name='';
                     $sql1 = $conn->prepare(" SELECT firstname, lastname, ca_travelagency_id
-                                                 FROM ca_travelagency
-                                                 WHERE ca_travelagency_id = :mentor_id
-                                              ");
+                                                    FROM ca_travelagency
+                                                    WHERE ca_travelagency_id = :mentor_id
+                                                ");
                     $sql1->bindParam(':mentor_id', $row['travel_consultant'], PDO::PARAM_STR);
                     $sql1->execute();
-                   
+                    
                     if ($sql1->rowCount() > 0) {
                         foreach ($sql1->fetchAll(PDO::FETCH_ASSOC) as $row1) {
                             $name = $row1['firstname'] . ' ' . $row1['lastname'] . ' (' . $row1['ca_travelagency_id'] . ')';
@@ -771,7 +833,7 @@ if($payoutmessage == 'allPayout'){
                     $status = $row['status_tc']== '1'?'Paid':'Pending';
                     $tds = $amount * $tdsPer;
                     $net = $amount - $tds;
- 
+
                     $output .= "<tr>
                         <td>{$i}</td>
                         <td>$designation_name</td>
@@ -786,18 +848,18 @@ if($payoutmessage == 'allPayout'){
                     $i++;
                 }
             }
+            $output .= "</tbody></table>";
+ 
+            header("Content-Type: application/vnd.ms-excel");
+            header("Content-Disposition: attachment; filename=All_Payout_List.xls");
+            echo $output;
+            exit;
         }
+        
     } else {
         echo "<script>alert('No data found');</script>";
         exit;
     }
- 
-    $output .= "</tbody></table>";
- 
-    header("Content-Type: application/vnd.ms-excel");
-    header("Content-Disposition: attachment; filename=All_Payout_List.xls");
-    echo $output;
- 
 }
 
     

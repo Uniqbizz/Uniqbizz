@@ -669,34 +669,64 @@ if ($result2) {
     //         }
     //     }
 
-    //     // corporate_agency / Techno Enterprise
-    //     $ca_ref_str=substr($ca_ref,0,1)=='F'?
-    //                 substr($ca_ref,0,1):
-    //                 substr($ca_ref,0,2);
-    //     if($ca_ref_str == 'TE' || $ca_ref_str == 'CA'){
-    //       $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
-    //       $sql5 -> execute();
-    //       $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
-    //       if( $sql5 -> rowCount()>0 ){
-    //           foreach( ($sql5 -> fetchAll()) as $key => $row ){
-    //               $bm_ref = $row['reference_no'];
-    //               $bm_name = $row['registrant'];
-    //               $cuIds2[] = $bm_ref; 
-    //               $cuName2[] = $bm_name;
-    //           }
-    //       }
-    //       // Business Mentor
-    //       $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
-    //       $sql6 -> execute();
-    //       $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
-    //       if( $sql6 -> rowCount()>0 ){
-    //           foreach( ($sql6 -> fetchAll()) as $key => $row ){
-    //               $bdm_ref = $row['reference_no'];
-    //               $bdm_name = $row['registrant'];
-    //               $cuIds2[] = $bdm_ref; 
-    //               $cuName2[] = $bdm_name;
-    //           }
-    //       }
+    //  // sub string and identify user TE/CA/F/MF 
+        // $ca_ref_id =  substr($ca_ref, 0,1) == 'F'? substr($ca_ref,0,1)
+        //               : substr($ca_ref,0,2);
+        // // corporate_agency / Techno Enterprise / Franchisee / Master Franchisee
+        // if ($ca_ref_id == 'F') {
+        //     $sql5 = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca_ref."' AND status= '1' ");
+        // }elseif ($ca_ref_id == 'TE' || $ca_ref_id == 'CA') {
+        //     $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
+        // }elseif ($ca_ref_id == 'MF') {
+        //     $sql5 = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$ca_ref."' AND status= '1' ");
+        // }elseif ($ca_ref_id == 'BM') {
+        //     $sql5 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$ca_ref."' AND status= '1' ");
+        // }
+        // if ($ca_ref_id == 'F' || $ca_ref_id == 'TE' || $ca_ref_id == 'CA' || $ca_ref_id == 'MF' || $ca_ref_id == 'BM') {
+        //     $sql5 -> execute();
+        //     $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
+        //     if( $sql5 -> rowCount()>0 ){
+        //         foreach( ($sql5 -> fetchAll()) as $key => $row ){
+        //             $bm_ref = $row['reference_no'];
+        //             $bm_name = $row['registrant'];
+        //             $cuIds2[] = $bm_ref; 
+        //             $cuName2[] = $bm_name;
+        //         }
+        //     }
+        // }else{
+        //     $bm_ref = 'NA';
+        //     $bm_name = 'NA';
+        //     $cuIds2[] = $bm_ref; 
+        //     $cuName2[] = $bm_name;
+        // }
+        
+        
+        // // sub string and identify user MF/SF/BM
+        // $bm_ref_id=substr($bm_ref,0,2);
+        // // Business Mentor / Master Franchisee / Sponsor Franchisee
+        // if($bm_ref_id == 'MF'){
+        //     $sql6 = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$bm_ref."' AND status= '1' ");
+        // }elseif ($bm_ref_id == 'SF') {
+        //     $sql6 = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$bm_ref."' AND status= '1' ");
+        // }elseif ($bm_ref_id == 'BM') {
+        //     $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
+        // }
+        // if ($bm_ref_id == 'MF' || $bm_ref_id == 'SF'|| $bm_ref_id == 'BM') {
+        //     $sql6 -> execute();
+        //     $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
+        //     if( $sql6 -> rowCount()>0 ){
+        //         foreach( ($sql6 -> fetchAll()) as $key => $row ){
+        //             $bdm_ref = $row['reference_no'];
+        //             $bdm_name = $row['registrant'];
+        //             $cuIds2[] = $bdm_ref; 
+        //             $cuName2[] = $bdm_name;
+        //         }
+        //     }
+        // }else{
+        //     $bdm_ref=$bdm_name='NA';
+        //     $cuIds2[] = $bdm_ref; 
+        //     $cuName2[] = $bdm_name; 
+        // }
     //       // Business Development manager
     //       $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
     //       $sql7 -> execute();
@@ -722,109 +752,6 @@ if ($result2) {
     //             $cuName2[] = $bcm_name;
     //           }
     //       }
-    //     }
-    //     //franchisee
-    //     else if($ca_ref_str == 'F'){
-    //       $sql5 = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca_ref."' AND status= '1' ");
-    //       $sql5 -> execute();
-    //       $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
-    //       if( $sql5 -> rowCount()>0 ){
-    //           foreach( ($sql5 -> fetchAll()) as $key => $row ){
-    //               $bm_ref = $row['reference_no'];
-    //               $bm_name = $row['registrant'];
-    //               $cuIds2[] = $bm_ref; 
-    //               $cuName2[] = $bm_name;
-    //           }
-    //       }
-    //         //NA in case of MF/SF
-    //         //no upper ref of MF /SF
-    //         $bdm_ref='NA';
-    //         $bdm_name='NA';
-    //         $cuIds2[] = $bdm_ref; 
-    //         $cuName2[] = $bdm_name;
-    //         $bcm_ref='NA';
-    //         $bcm_name='NA';
-    //         $cuIds2[] = $bcm_ref; 
-    //         $cuName2[] = $bcm_name;
-    //     }
-
-    //     // Business Mentor BM->TC
-    //     else if($ca_ref_str == 'BM'){
-    //       $ca_ref = 'NA';
-    //       $ca_name = 'NA';
-    //       $cuIds2[] = $ca_ref; 
-    //       $cuName2[] = $ca_name;
-          
-    //       // Business Mentor
-    //       $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$ca_ta_ref."' AND status= '1' ");
-    //       $sql6 -> execute();
-    //       $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
-    //       if( $sql6 -> rowCount()>0 ){
-    //           foreach( ($sql6 -> fetchAll()) as $key => $row ){
-    //               $bm_ref = $row['business_mentor_id'];
-    //               $bm_name = $row['fisrtname'].' '.$row['lastname'];
-    //               $cuIds2[] = $bm_ref; 
-    //               $cuName2[] = $bm_name;
-    //               $bdm_ref = $row['reference_no'];
-    //               $bdm_name = $row['registrant'];
-    //               $cuIds2[] = $bdm_ref; 
-    //               $cuName2[] = $bdm_name;
-    //           }
-    //       }
-    //       // Business Development manager
-    //       $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
-    //       $sql7 -> execute();
-    //       $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
-    //       if( $sql7 -> rowCount()>0 ){
-    //           foreach( ($sql7 -> fetchAll()) as $key => $row ){
-    //               $bcm_ref = $row['reporting_manager']??'NA';
-    //               $bcm_name ='';
-    //               if($bcm_ref == 'NA'){
-    //                 $bcm_name ='NA';
-    //               }else{
-    //                 $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
-    //                 $sqlBchName -> execute();
-    //                 $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
-    //                 if( $sqlBchName -> rowCount()>0 ){
-    //                     foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
-    //                         $bcm_name = $row['name'];
-    //                     }
-    //                 }
-    //               }
-
-    //               $cuIds2[] = $bcm_ref; 
-    //               $cuName2[] = $bcm_name;
-    //           }
-    //       }
-    //     }
-    //     // Master Franchisee MF->TC
-    //     else if($ca_ref_str == 'MF'){
-    //       $ca_ref = 'NA';
-    //       $ca_name = 'NA';
-    //       $cuIds2[] = $ca_ref; 
-    //       $cuName2[] = $ca_name;
-    //       // Master Franchisee
-    //       $sql6 = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$ca_ta_ref."' AND status= '1' ");
-    //       $sql6 -> execute();
-    //       $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
-    //       if( $sql6 -> rowCount()>0 ){
-    //           foreach( ($sql6 -> fetchAll()) as $key => $row ){
-    //               $bm_ref = $row['master_franchisee_id'];
-    //               $bm_name = $row['fisrtname'].' '.$row['lastname'];
-    //               $cuIds2[] = $bm_ref; 
-    //               $cuName2[] = $bm_name;
-    //           }
-    //       }
-    //       //NA in case of MF
-    //       $bdm_ref = 'NA';
-    //       $bdm_name = 'NA';
-    //       $cuIds2[] = $bdm_ref; 
-    //       $cuName2[] = $bdm_name;
-    //       $bcm_ref='NA';
-    //       $bcm_name='NA';
-    //       $cuIds2[] = $bcm_ref; 
-    //       $cuName2[] = $bcm_name;
-          
     //     }
     //     return array($cuIds2,$cuName2);
     // }
@@ -902,7 +829,61 @@ if ($result2) {
     //   if($te_str == 'TE' || $te_str == 'CA'){
     //     $telable='Techno Enterprise ';
     //   }else if($te_str == 'F'){
-    //     $telable='Farnchisee ';
+    //      // -------------------------------------------
+            // Get Sub-Franchisee commission details
+            // -------------------------------------------
+
+            // Query to fetch current commission and upgrade status
+            $sqlf1 = "
+                SELECT current_commission_per, upgrade_status
+                FROM sub_franchisee
+                WHERE sub_franchisee_id = ?
+                  AND status = 1
+                LIMIT 1
+            ";
+
+            $stmtf1 = $conn->prepare($sqlf1);
+            $stmtf1->execute([$cuIds2[1]]);
+            $rowf1 = $stmtf1->fetch(PDO::FETCH_ASSOC);
+
+            // Proceed only if sub-franchisee exists
+            if ($rowf1) {
+
+                // Default commission (without upgrade)
+                $commissionPer = $rowf1['current_commission_per'];
+
+                // -------------------------------------------
+                // Check if franchisee is upgraded
+                // upgrade_status = 2 → upgraded
+                // -------------------------------------------
+                if ($rowf1['upgrade_status'] == 2) {
+
+                    // Fetch latest approved upgrade commission
+                    $sqlf2 = "
+                        SELECT new_commission_per
+                        FROM sub_franchisee_upgrade
+                        WHERE sub_franchisee_id = ?
+                          AND upgrade_status = 1
+                        ORDER BY upgrade_approval_date DESC
+                        LIMIT 1
+                    ";
+
+                    $stmtf2 = $conn->prepare($sqlf2);
+                    $stmtf2->execute([$cuIds2[1]]);
+                    $rowf2 = $stmtf2->fetch(PDO::FETCH_ASSOC);
+
+                    // If upgraded commission exists, override default
+                    if ($rowf2) {
+                        $commissionPer = $rowf2['new_commission_per'];
+                    }
+                }
+
+                // -------------------------------------------
+                // Calculate F commission amount
+                // -------------------------------------------
+                $te_commi = $ta_commi * ($commissionPer / 100); //commission calc on the directZ commmission paid to TC 
+            }
+    //      $telable='Farnchisee ';
     //   }
     //   $te_message = $telable. $cuIds2[1].' ('.$cuName2[1].') Has Earned Rs.'.$te_commi.' X '.$total_passenger.' =  '.$total_passenger*$te_commi.'/-';
     //   $te_amt = $total_passenger*$te_commi;

@@ -35,10 +35,11 @@ $('[data-bs-dismiss="modal"]').on('click', function(){
 //get username based on designation changed for All payout
 $('#designation').on('change', function(){
     designation = $('#designation').val();
+    $('#download_icon').css('display','block');
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_name').html(data);
@@ -53,6 +54,7 @@ $('#designation').on('change', function(){
 $('#user_id_name').on('change', function(){
     cap_id = $(this).val();
     $('#cap_date').val('');
+    $('#download_icon').css('display','block');
     // console.log(cap_id);
     $.ajax({
         type: 'POST',
@@ -111,7 +113,7 @@ $('#designationPrevious').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_namePrevious').html(data);
@@ -185,7 +187,7 @@ $('#designationNext').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_nameNext').html(data);
@@ -259,7 +261,7 @@ $('#designationTotal').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_nameTotal').html(data);
@@ -434,7 +436,7 @@ function totalPayoutExel(){
         //         console.log(data);
         //     }
         // });
-        window.location.href='forms/customer_reference/download_exel_cu?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
+        window.location.href='forms/customer_reference/download_exel_cu.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
     }else{
         alert("Select date first");
         window.location.reload();
@@ -452,7 +454,7 @@ function allPayoutExel(){
     const payoutYear = myArray[0]; // store splited year in new variable
     const payoutMonth = myArray[1]; // store splited month in new variable
     // console.log(designation + user_id + date + payoutmessage);
-    window.location.href='forms/customer_reference/download_exel_cu?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
+    window.location.href='forms/customer_reference/download_exel_cu.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
 }
 
 // **** customer_reference_payout Javascript End ****

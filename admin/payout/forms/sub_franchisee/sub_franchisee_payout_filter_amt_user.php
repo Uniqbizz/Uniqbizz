@@ -32,10 +32,10 @@
 
                 if($designation == 'zonal_manager' || $designation == 'business_development_manager'){
                     $fullName = $row['name'];
-                    $sqlIdAmt = "SELECT SUM(commision_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                    $sqlIdAmt = "SELECT SUM(commission_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
                 }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
-                    $sqlIdAmt = "SELECT SUM(commision_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
+                    $sqlIdAmt = "SELECT SUM(commission_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."' ";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);
@@ -83,10 +83,10 @@
                 
                 if($designation == 'zonal_manager' || $designation == "business_development_manager"){
                     $fullName = $row['name'];
-                    $sqlIdAmt = "SELECT SUM(commision_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
+                    $sqlIdAmt = "SELECT SUM(commission_zm) as payout FROM sub_franchisee_payout WHERE zonal_manager = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
                 }else if($designation == 'master_franchisee' || $designation == 'sponsor_franchisee'){
                     $fullName = $row['firstname']. ' ' .$row['lastname'];
-                    $sqlIdAmt = "SELECT SUM(commision_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
+                    $sqlIdAmt = "SELECT SUM(commission_mf) as payout FROM `sub_franchisee_payout` WHERE master_franchisee = '".$cap_id."' AND YEAR(created_date) = '".$cap_year."' AND MONTH(created_date) = '".$cap_month."'";
                 }
 
                 $stmt = $conn->prepare($sqlIdAmt);

@@ -42,6 +42,14 @@ $tablename = $_POST["tablename"];
     $tname='employees';
 }else if($tablename == 26){
     $tname='business_mentor';
+}else if($tablename == 27){
+    $tname='zonal_manager';
+}else if($tablename == 28){
+    $tname='master_franchisee';
+}else if($tablename == 29){
+    $tname='sub_franchisee';
+}else if($tablename == 30){
+    $tname='sponsor_franchisee';
 }else{
     
 }

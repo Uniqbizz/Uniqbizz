@@ -38,6 +38,33 @@ require '../connect.php';
         $user = $conn->prepare("SELECT * FROM zonal_manager WHERE status = '1' ORDER BY zonal_manager_id");
     }else if($table == "sub_franchisee"){
         $user = $conn->prepare("SELECT * FROM sub_franchisee WHERE status = '1' ORDER BY sub_franchisee_id");
+    }else if($table == "sponsor_franchisee"){
+        $user = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE status = '1' ORDER BY sponsor_franchisee_id");
+    }else if($table == "Prime"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Prime' ORDER BY ca_customer_id");
+    }else if($table == "Premium"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Premium' ORDER BY ca_customer_id");
+    }else if($table == "Premium Plus"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Premium Plus' ORDER BY ca_customer_id");
+    }else if($table == "Premium Select"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Premium Select' ORDER BY ca_customer_id");
+    }else if($table == "Premium Select Lite"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Premium Select Lite' ORDER BY ca_customer_id");
+    }else if($table == "Neo Select"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Neo Select' ORDER BY ca_customer_id");
+    }else if($table == "Neo Select Lite"){
+        $user = $conn->prepare("SELECT * FROM ca_customer WHERE status = '1' AND customer_type='Neo Select Lite' ORDER BY ca_customer_id");
+    }else if ($table == 'BM_BDM_MF_SF_RM') {
+        $user = $conn->prepare("SELECT id,name FROM (
+                                    SELECT business_mentor_id AS id,CONCAT(firstname,' ',lastname) AS name FROM business_mentor WHERE status=1
+                                    UNION
+                                    SELECT master_franchisee_id AS id,CONCAT(firstname,' ',lastname) AS name FROM master_franchisee WHERE status=1
+                                    UNION
+                                    SELECT sponsor_franchisee_id AS id,CONCAT(firstname,' ',lastname) AS name FROM sponsor_franchisee WHERE status=1
+                                    UNION
+                                    SELECT employee_id,name AS name FROM employees WHERE status=1
+                                )as all_users
+                                ORDER BY id");
     }
 
     $user->execute();
@@ -79,6 +106,12 @@ require '../connect.php';
             echo '<option value="">--Select Zonal Manager ID & Name--</option>';
         }else if ( $table == "sub_franchisee" ) {
             echo '<option value="">--Select Franchisee ID & Name--</option>';
+        }else if ( $table == "sponsor_franchisee" ) {
+            echo '<option value="">--Select Sponsor Franchisee ID & Name--</option>';
+        }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" || $table == "Neo Select Lite" || $table == "Neo Select") {
+            echo '<option value="">--Select Customer ID & Name--</option>';
+        }else if ($table == "BM_BDM_MF_SF_RM") {
+            echo '<option value="">--Select User ID & Name--</option>';
         }
         
         foreach ($user_data as $key => $value) {
@@ -114,6 +147,12 @@ require '../connect.php';
                 echo '<option value="'.$value['zonal_manager_id'].'">'.$value['zonal_manager_id'].' - '.$value['name'].'</option>';
             }else if ( $table == "sub_franchisee" ) {
                 echo '<option value="'.$value['sub_franchisee_id'].'">'.$value['sub_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "sponsor_franchisee" ) {
+                echo '<option value="'.$value['sponsor_franchisee_id'].'">'.$value['sponsor_franchisee_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "Prime" || $table == "Premium" || $table == "Premium Plus" || $table == "Premium Select" || $table == "Premium Select Lite" || $table == "Neo Select Lite" || $table == "Neo Select" ) {
+                echo '<option value="'.$value['ca_customer_id'].'">'.$value['ca_customer_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ($table == "BM_BDM_MF_SF_RM") {
+                echo '<option value="'.$value['id'].'">'.$value['id'].' - '.$value['name'].'</option>';
             }
         }
         

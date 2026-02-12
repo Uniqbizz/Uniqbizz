@@ -38,10 +38,30 @@ $('#designation').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_name').html(data);
+        },
+        error: function(err){
+            console.log(err);
+        },
+    });
+});
+
+//get payout base on designation selected
+$('#designation').on('change', function(){
+    designation = $('#designation').val();
+    $('#download_icon').css('display','block');
+    // console.log(designation);
+    $.ajax({
+        type: 'POST',
+        url:  'forms/contracting_payout/contracting_payout_filter.php',
+        data: 'designation='+designation,
+        success:function(data){
+            // console.log(data);
+            $("#filterTable").html(data);
+            $('#payoutDetailsTable').DataTable();
         },
         error: function(err){
             console.log(err);
