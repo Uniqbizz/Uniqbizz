@@ -38,7 +38,7 @@
     // $reference_id = substr($user_id_name, 0 , 2);
     // $user_type=$reference_id == 'BH'? 25 : 16;
 
-    $register_by="1";
+    $register_by="15";
 	$status="2";
 
     // get age of the user
@@ -50,7 +50,7 @@
     $title="Franchisee";
     $message="Added new Franchisee by admin";
     $message2="Added new Franchisee by admin";
-    $fromWhom="1";
+    $fromWhom="15";
     $operation="Add";
 
     //commission and incentive 

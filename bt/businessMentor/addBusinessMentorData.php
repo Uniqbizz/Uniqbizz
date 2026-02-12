@@ -39,7 +39,7 @@
 	$note = $_POST['note'];
 
     $user_type="26";
-    $register_by="1";
+    $register_by="15";
 	$status= '2';
 
     // get age of the user
@@ -51,7 +51,7 @@
     $title="Business Mentor";
     $message="Added new Business Mentor by admin";
     $message2="Added new Business Mentor by admin";
-    $fromWhom="1";
+    $fromWhom="15";
 	$operation="Add";
 
     $sql= "INSERT INTO `business_mentor` ( 

@@ -42,8 +42,8 @@ if ($ta_id == '') {
 	$message2 = $message;
 }
 
-$fromWhom = "1";
-$register_by = "1";
+$fromWhom = "15";
+$register_by = "15";
 
 // Choose table based on user type
 if ($usertype == 'bm') {

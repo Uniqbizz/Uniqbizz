@@ -37,8 +37,8 @@ $note = $_POST['note'];
 
 $user_type_id = '26';
 $title = "Business Mentor";
-$fromWhom = "1";
-$register_by = "1";
+$fromWhom = "15";
+$register_by = "15";
 $operation = 'Update';
 
 // Calculate Age

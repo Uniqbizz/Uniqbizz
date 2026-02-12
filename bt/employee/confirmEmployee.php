@@ -14,7 +14,7 @@ $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*(
 $password = substr(str_shuffle($string), 0, 8);
 
 $status = '1';
-$register_by = '1';
+$register_by = '15';
 
 $subY = substr($todayYear, 2, 4);
 if ($usertype == '24' || $usertype == '25' || $usertype == '31') {
@@ -74,7 +74,7 @@ if ($usertype == '24' || $usertype == '25' || $usertype == '31') {
 	$title = "Employee";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 
 	$sql1 = "UPDATE employees SET status=:status,employee_id=:employee_id, register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);
@@ -350,7 +350,7 @@ if ($usertype == '24' || $usertype == '25' || $usertype == '31') {
 	$title = "Zonal Manger";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 
 	$sql1 = "UPDATE zonal_manager SET status=:status,zonal_manager_id=:zonal_manager_id, register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);

@@ -89,8 +89,8 @@ try {
         ':message' => $tc_message,
         ':message2' => $tc_message2,
         ':reference_no' => 'NA',
-        ':register_by' => 1,
-        ':from_whom' => 1,
+        ':register_by' => 15,
+        ':from_whom' => 15,
         ':operation' => 'TC Allotment'
     ]);
 

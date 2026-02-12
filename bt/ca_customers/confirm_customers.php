@@ -16,7 +16,7 @@ $status = '1';
 $user_type_id = '10';
 
 // $sm_id= $_POST["sm_id"];
-$register_by = '1';
+$register_by = '15';
 
 date_default_timezone_set('Asia/Calcutta');
 $todayYear = date('Y');
@@ -79,7 +79,7 @@ if ($sql2->rowCount() > 0) {
 $title = "Customer";
 $message = $uid . " has been approved";
 $message2 = $uid . " has been approved";
-$fromWhom = "1";
+$fromWhom = "15";
 $operation = "Confirm";
 
 $sql1 = "UPDATE ca_customer SET status=:status,ca_customer_id=:ca_customer_id,register_date=:register_date WHERE id=:id";

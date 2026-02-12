@@ -39,7 +39,7 @@ if ($editfor == 'pending') {
     $message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
 }
 
-$register_by = '1'; // admin
+$register_by = '15'; // admin
 
 // Get age (if needed elsewhere)
 $birth_year = substr($birth_date, 0, 4);
@@ -50,7 +50,7 @@ $title      = "Zonal Manager";
 $message    = "Zonal Manager has been Added";
 $message2   = "Zonal Manager has been Added By Admin";
 $operation  = "Add";
-$fromWhom   = "1";
+$fromWhom   = "15";
 
 // UPDATE SQL
 $sql = "UPDATE zonal_manager SET

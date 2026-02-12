@@ -15,7 +15,7 @@ $password = substr(str_shuffle($string), 0, 8);
 $status = '1';
 $user_type_id = $utype == 'te' ? '16' : ($utype == 'sf' ? '29' : '');
 
-$register_by = '1';
+$register_by = '15';
 
 date_default_timezone_set('Asia/Calcutta');
 $todayYear = date('Y');
@@ -136,7 +136,7 @@ if ($user_type_id == '16') {
 	$title = "Techno Enterprise";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 	$operation = "Confirm";
 
 	$sql1 = "UPDATE corporate_agency SET status=:status,corporate_agency_id=:corporate_agency_id, register_date=:register_date WHERE id=:id";
@@ -797,7 +797,7 @@ if ($user_type_id == '16') {
 	$title = "Franchisee";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 	$operation = "Confirm";
 
 	$sql1 = "UPDATE sub_franchisee SET status=:status,sub_franchisee_id=:sub_franchisee_id, register_date=:register_date WHERE id=:id";

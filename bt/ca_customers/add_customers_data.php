@@ -37,7 +37,7 @@ $note = $_POST['note'];
 $status = "2";
 
 $user_type = "10";
-$register_by = "1";
+$register_by = "15";
 
 // get age of the user
 $birthYear = str_split($bdate, 4);
@@ -48,7 +48,7 @@ $age = $current_year - $birth_year;
 $title = "Customer";
 $message = "Added new Customer by admin";
 $message2 = "Added new Customer by admin";
-$fromWhom = "1";
+$fromWhom = "15";
 //3 part division
 function divideAmount($totalAmount, $fixedAmount = 3000)
 {

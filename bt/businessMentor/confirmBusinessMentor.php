@@ -16,7 +16,7 @@ $status = '1';
 $user_type_id = $usertype == 'bm' ? '26' : 
 				($usertype == 'mf' ? '28' : 	
 				($usertype == 'sf' ? '30' : ''));
-$register_by = '1';
+$register_by = '15';
 
 $subY = substr($todayYear, 2, 4);
 if ($user_type_id == '26') { //Business Mentor
@@ -80,7 +80,7 @@ if ($user_type_id == '26') { //Business Mentor
 	$title = "Confirm Business Mentor";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 	$operation = "Confirm";
 
 	$sql1 = "UPDATE business_mentor SET status=:status,business_mentor_id=:business_mentor_id,register_date=:register_date WHERE id=:id";
@@ -412,7 +412,7 @@ if ($user_type_id == '26') { //Business Mentor
 	$title = "Confirm Master Franchisee";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 	$operation = "Confirm";
 
 	$sql1 = "UPDATE master_franchisee SET status=:status, master_franchisee_id=:master_franchisee_id, register_date=:register_date WHERE id=:id";
@@ -702,7 +702,7 @@ if ($user_type_id == '26') { //Business Mentor
 	$title = "Confirm Sponsor Franchisee";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
-	$fromWhom = "1";
+	$fromWhom = "15";
 	$operation = "Confirm";
 
 	$sql1 = "UPDATE sponsor_franchisee SET status=:status, sponsor_franchisee_id=:sponsor_franchisee_id, register_date=:register_date WHERE id=:id";

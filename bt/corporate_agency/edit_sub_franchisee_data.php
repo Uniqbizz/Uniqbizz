@@ -72,8 +72,8 @@ $user_type_id = '29';
 
 $title = "Franchisee";
 
-$fromWhom = "1";
-$register_by = "1";
+$fromWhom = "15";
+$register_by = "15";
 $operation = "Update";
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {

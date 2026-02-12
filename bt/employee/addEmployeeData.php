@@ -33,7 +33,7 @@
     $id_proof = $_POST['id_proof'];
     $bank_details = $_POST['bank_details'];
 	$note=$_POST['note'];
-    $register_by = '1'; //admin
+    $register_by = '15'; //admin
 	$status = '2';
     // if($reporting_manager == ''){
     //     $reporting_manager = 'null';
@@ -60,7 +60,7 @@
     $message= "Employee has been Added";
     $message2= "Employee has been Added By Admin";
 	$operation = "Add";
-    $fromWhom="1";
+    $fromWhom="15";
 
     $sql = "INSERT INTO employees (name, date_of_birth, country_code, contact, email, address, gender, date_of_joining, department, designation, zone, branch, reporting_manager, note, profile_pic, id_proof, bank_details, register_by, user_type, status) VALUES (:name, :date_of_birth, :country_code, :contact, :email, :address, :gender, :date_of_joining, :department, :designation, :zone, :branch, :reporting_manager, :note,:profile_pic, :id_proof, :bank_details, :register_by, :user_type, :status)"; 
     $stmt = $conn->prepare($sql);

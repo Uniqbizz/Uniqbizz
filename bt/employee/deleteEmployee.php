@@ -71,8 +71,8 @@ if ($user_type == 27) {
 }
 $message2 = $message;
 
-$fromWhom    = "1";
-$register_by = "1";
+$fromWhom    = "15";
+$register_by = "15";
 
 // Update main table (employees or zonal_manager)
 $sql1 = "UPDATE `$table_name` SET status = :status, deleted_date = :deleted_date WHERE id = :id";
