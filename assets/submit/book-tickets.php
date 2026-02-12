@@ -881,7 +881,7 @@ if ($result2) {
                 // -------------------------------------------
                 // Calculate F commission amount
                 // -------------------------------------------
-                $te_commi = $ta_commi * ($commissionPer / 100); //commission calc on the direct commmission paid to TC 
+                $te_commi = $ta_commi * ($commissionPer / 100); //commission calc on the directZ commmission paid to TC 
             }
     //      $telable='Farnchisee ';
     //   }
