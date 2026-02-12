@@ -20,19 +20,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
         ca_travelagency.firstname AS ta_firstname,
         ca_travelagency.lastname AS ta_lastname,
         ca_travelagency.profile_pic AS ta_pic,
-        COALESCE(corporate_agency.amount, business_mentor.paid_amount, ca_travelagency.amount) AS amount,
-        COALESCE(corporate_agency.payment_mode, business_mentor.payment_mode, ca_travelagency.payment_mode) AS payment_mode
+        ca_customer.firstname AS cu_firstname,
+        ca_customer.lastname AS cu_lastname,
+        ca_customer.profile_pic AS cu_pic,
+        sub_franchisee.firstname AS f_firstname,
+        sub_franchisee.lastname AS f_lastname,
+        sub_franchisee.profile_pic AS f_pic,
+        master_franchisee.firstname AS mf_firstname,
+        master_franchisee.lastname AS mf_lastname,
+        master_franchisee.profile_pic AS mf_pic,
+        sponsor_franchisee.firstname AS sf_firstname,
+        sponsor_franchisee.lastname AS sf_lastname,
+        sponsor_franchisee.profile_pic AS sf_pic,
+        COALESCE(corporate_agency.amount, business_mentor.paid_amount, ca_travelagency.amount,sub_franchisee.amount,master_franchisee.paid_amount,sponsor_franchisee.paid_amount,ca_customer.paid_amount) AS amount,
+        COALESCE(corporate_agency.payment_mode, business_mentor.payment_mode, ca_travelagency.payment_mode,sub_franchisee.payment_mode,master_franchisee.payment_mode,sponsor_franchisee.payment_mode,ca_customer.payment_mode) AS payment_mode
     FROM login
     LEFT JOIN corporate_agency ON corporate_agency_id = login.user_id AND corporate_agency.status = 1
     LEFT JOIN business_mentor ON business_mentor_id = login.user_id AND business_mentor.status = 1
     LEFT JOIN ca_travelagency ON ca_travelagency_id = login.user_id AND ca_travelagency.status = 1
     LEFT JOIN employees ON employees.employee_id = login.user_id AND employees.status = 1
     LEFT JOIN ca_customer ON ca_customer_id = login.user_id AND ca_customer.status = 1
+    LEFT JOIN sub_franchisee ON sub_franchisee_id = login.user_id AND sub_franchisee.status = 1
+    LEFT JOIN master_franchisee ON master_franchisee_id = login.user_id AND master_franchisee.status = 1
+    LEFT JOIN sponsor_franchisee ON sponsor_franchisee_id = login.user_id AND sponsor_franchisee.status = 1
     WHERE DATE(login.register_date) = ?
       AND (
             corporate_agency.amount IS NOT NULL 
          OR business_mentor.paid_amount IS NOT NULL 
          OR ca_travelagency.amount IS NOT NULL
+         OR ca_customer.paid_amount IS NOT NULL
+         OR sub_franchisee.amount IS NOT NULL
+         OR master_franchisee.paid_amount IS NOT NULL
+         OR sponsor_franchisee.paid_amount IS NOT NULL
       )
     ORDER BY login.register_date DESC
     LIMIT 5";
@@ -57,29 +76,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
             } elseif (!empty($row['ta_firstname'])) {
                 $fullName = $row['ta_firstname'] . ' ' . $row['ta_lastname'];
                 $profilePic = $row['ta_pic'];
+            }elseif (!empty($row['f_firstname'])) {
+                $fullName = $row['f_firstname'] . ' ' . $row['f_lastname'];
+                $profilePic = $row['f_pic'];
+            }elseif (!empty($row['mf_firstname'])) {
+                $fullName = $row['mf_firstname'] . ' ' . $row['mf_lastname'];
+                $profilePic = $row['mf_pic'];
+            }elseif (!empty($row['sf_firstname'])) {
+                $fullName = $row['sf_firstname'] . ' ' . $row['sf_lastname'];
+                $profilePic = $row['sf_pic'];
+            }elseif (!empty($row['cu_firstname'])) {
+                $fullName = $row['cu_firstname'] . ' ' . $row['cu_lastname'];
+                $profilePic = $row['cu_pic'];
             } else {
                 $fullName = "Unknown";
                 $profilePic = "default.png";
             }
-
-            // Determine user type name
-            // $designation = match($row['user_type_id']) {
-            //     16 => "Techno Enterprise",
-            //     10 => "Customer",
-            //     11 => "Travel Consultant",
-            //     24 => "Business Channel Manager",
-            //     25 => "Business Development Manager",
-            //     26 => "Business Mentor",
-            //     default => "Unknown"
-            // };
-            
+        
             $userTypes = [
                 16 => "Techno Enterprise",
                 10 => "Customer",
                 11 => "Travel Consultant",
                 24 => "Business Channel Manager",
                 25 => "Business Development Manager",
-                26 => "Business Mentor"
+                26 => "Business Mentor",
+                29 => "Franchisee",
+                28 => "Master Franchisee",
+                30 => "Sponsor Franchisee"
             ];
             
             $user_type_id = $row['user_type_id'];

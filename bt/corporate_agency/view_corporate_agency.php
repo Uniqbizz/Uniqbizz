@@ -103,12 +103,6 @@
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
-
-                                    <!-- <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Customers</li>
-                                        </ol> -->
                                     </div>
 
                                 </div>
@@ -129,11 +123,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-6">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCorporateAgencyModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCorporateAgencymodal"><i class="mdi mdi-plus me-1"></i> New Techno Enterprise</button>
-                                                </div>
-                                            </div> -->
                                         </div>
 
                                         <div class="table-responsive">
@@ -154,13 +143,17 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
+                                                            SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,'NA' AS upgrade_status_val 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('0', '2') 
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city 
+                                                            SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
                                                             FROM sub_franchisee 
-                                                            WHERE status IN ('0', '2') 
+                                                            WHERE status IN ('0', '2')
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, sub_franchisee_id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
+                                                            FROM sub_franchisee 
+                                                            WHERE status=1 AND upgrade_status = 1 
                                                             ORDER BY added_on ASC
                                                         ";
 
@@ -195,10 +188,9 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
+                                                                                <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","pending","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","'.$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                    
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -209,8 +201,8 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["id"] . '","deleted","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -243,8 +235,16 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row filter-options" id="filterCA">
-                                                    <div class="designation-filter no-space col-md-3 col-sm-12">
-                                                        <select id="business_pack" class="selectdesign filter-opt-1 fw-bolder">
+                                                    <div class="designation-filter no-space col-md-2 col-sm-12">
+                                                        <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
+                                                            <option value="" selected disabled>--Select Designation--</option>
+                                                            <option value="All">All</option>
+                                                            <option value="TE">Techno Enterprise</option>
+                                                            <option value="F">Franchisee</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="designation-filter no-space col-md-2 col-sm-12">
+                                                        <select id="business_pack" class="selectdesign filter-opt-2 fw-bolder">
                                                             <option value="">--Select Business Packages--</option>
                                                             <!-- <option value="all">All</option> -->
                                                             <option value="200000">Standard</option>
@@ -278,6 +278,7 @@
                                                             <input type="text" class="form-control search control text-center" id="caAmt" placeholder="Amount" readonly>
                                                         </div>
                                                     </div>
+                                                    
                                                     <!-- <div class="col-lg-1" id="download_icon" style="display: none;">
                                                         <i class="bx bx-download" onclick="allPayoutExel()" style="font-size: 20px; color: black; margin-left: 40%; cursor: pointer;"></i>
                                                     </div> -->
@@ -286,6 +287,9 @@
                                                         <i id="download_exel" onclick="allPayoutExel()" style="color: #263238; background: #b6b6b64d; border-radius: 4px; font-size:25px; padding:0; display: none; cursor:pointer;" class="material-icons">play_for_work</i>
                                                     </div> -->
                                                 </div> 
+                                                <div class="col-sm-2 col-md-2 d-flex justify-content-left align-items-start d-none" id="download_icon">
+                                                    <button type="button" onclick="regTcDownload()" class="btn bg-primary text-white mb-3">Download</button>
+                                                </div>
                                             </div>
                                             <!-- <div class="col-sm-8">
                                                 <div class="text-sm-end">
@@ -313,11 +317,11 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,'NA' as upgrade_pack 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('1') 
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('1') 
                                                             ORDER BY register_date ASC
@@ -353,6 +357,11 @@
                                                                                         TC Allotted
                                                                                       </small>';
                                                                             } 
+                                                                            if($row["upgrade_pack"] == 2){
+                                                                                echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
+                                                                                        Upgraded
+                                                                                      </small>';
+                                                                            }
                                                                 echo'   </td>
                                                                         <td>
                                                                             <p class="mb-1">' . $row['reference_no'] . '</p>
@@ -361,9 +370,26 @@
                                                                         <td>
                                                                             <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                                                                             <p class="mb-0">' . $row['email'] . '</p>
-                                                                        </td>
-                                                                        <td>' . $row['amount'] . '</td>
-                                                                        <td>' . $rdate . '</td>';
+                                                                        </td>';
+                                                                if($row["upgrade_pack"] == 2){
+                                                                   $sql2 = "SELECT upgrade_amt 
+                                                                            FROM sub_franchisee_upgrade 
+                                                                            WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                                                                    $stmt = $conn->prepare($sql2);
+
+                                                                    $stmt->bindParam(':id', $row['user_id'], PDO::PARAM_STR);  // $id must have the value before execute
+
+                                                                    $stmt->execute();
+
+                                                                    $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                                                                    if ($franchisee_upgrade) {
+                                                                echo'    <td>' . $franchisee_upgrade['upgrade_amt'] . '</td>';
+                                                                    } 
+                                                                }else{
+                                                                echo'    <td>' . $row['amount'] . '</td>';    
+                                                                }
+                                                                echo'    <td>' . $rdate . '</td>';
 
 
                                                                 if ($row['status'] == '1') {
@@ -373,37 +399,9 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
-                                                                                    if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
-                                                                                        echo '<li>
-                                                                                                <a href="#" 
-                                                                                                class="dropdown-item" 
-                                                                                                data-bs-toggle="modal" 
-                                                                                                data-bs-target="#tcAllotmentModal" 
-                                                                                                data-bs-assign="' . htmlspecialchars($row["tc_assign_status"]) . '"
-                                                                                                data-bs-tcnum="' . htmlspecialchars($row["no_tc_alloted"]??0) . '"
-                                                                                                data-bs-teid="' . htmlspecialchars($row["user_id"]) . '"
-                                                                                                >
-                                                                                                    <i class="mdi mdi-account-group font-size-16 text-info me-1"></i> Allocate TC
-                                                                                                </a>
-                                                                                            </li>';
-                                                                                    }else if($row['user_type'] == 'te' && $row["tc_assign_status"] == 1){
-                                                                                       echo '<li>
-                                                                                                <a href="#" 
-                                                                                                class="dropdown-item" 
-                                                                                                data-bs-toggle="modal" 
-                                                                                                data-bs-target="#allottedTCModal" 
-                                                                                                data-bs-assign="' . htmlspecialchars($row["tc_assign_status"]) . '"
-                                                                                                data-bs-tcnum="' . htmlspecialchars($row["no_tc_alloted"]??0) . '"
-                                                                                                data-bs-teid="' . htmlspecialchars($row["user_id"]) . '"
-                                                                                                >
-                                                                                                    <i class="mdi mdi-account-group font-size-16 text-info me-1"></i> Show Allocated TC
-                                                                                                </a>
-                                                                                            </li>'; 
-                                                                                    }
-                                                                    echo'           <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","registered","' . $row["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                    
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -414,8 +412,8 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -456,7 +454,7 @@
                                             
                                         </div>
                                         
-                                        <div class="table-responsive" id="registered_ca">
+                                        <div class="table-responsive" id="deleted_ca">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
@@ -531,8 +529,8 @@
                                                                                 <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
-                                                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","deactivate","'.strtolower($row['user_type']).'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -770,29 +768,27 @@
                 </div>
             </div>
         </div>
-        <!-- end  Allotted TC Details Modal -->
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
+        <!-- Upgrade reject reason -->
+        <div class="modal fade" id="rejectModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="avatar-sm mb-4 mx-auto">
-                            <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
-                                <i class="fas fa-user-edit text-primary"></i>
-                            </div>
-                        </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Edit this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Edit Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-editItemModal" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Upgrade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Rejection Reason (max 1000 characters)</label>
+                    <textarea id="rejectReason" class="form-control" rows="6" maxlength="1000"
+                            placeholder="Enter detailed reason..."></textarea>
+                    <small id="charCount">0 / 1000</small>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="confirmReject">Reject</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
                 </div>
             </div>
-        </div> -->
-        <!-- end editItemModal -->
+        </div>
 
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>
@@ -886,8 +882,63 @@
                         }
                     }
                 });
-                
             };
+            //only for frnachisee users
+            var rejectId = null;
+
+            function approvalfunc(id, action){
+
+                if(action == "reject"){
+                    rejectId = id;
+                    $("#rejectReason").val("");
+                    $("#charCount").text("0 / 1000");
+                    $("#rejectModal").modal("show");
+                    return;
+                }
+
+                sendApproval(id, action, "");
+            }
+
+            function sendApproval(id, action, reason){
+
+                $.ajax({
+                    type: "POST",
+                    url: "approve_reject_franchisee_upgrade.php",
+                    data: {
+                        id: id,
+                        action: action,
+                        reason: reason
+                    },
+                    success:function(data){
+                        if(data == 1){
+                            alert("Upgrade Approved");
+                            location.reload();
+                        }else if(data == 2){
+                            alert("Upgrade Rejected");
+                            location.reload();
+                        }else{
+                            alert("Request Failed !!");
+                        }
+                    }
+                });
+            }
+            //rejection modal
+            $("#rejectReason").on("input", function(){
+                $("#charCount").text(this.value.length + " / 1000");
+            });
+
+            $("#confirmReject").click(function(){
+
+                var reason = $("#rejectReason").val().trim();
+
+                if(reason == ""){
+                    alert("Rejection reason is required!");
+                    return;
+                }
+
+                sendApproval(rejectId, "reject", reason);
+                $("#rejectModal").modal("hide");
+            });
 
             function confirmfunc(id,email,usertype){ 
 
@@ -917,6 +968,11 @@
                 var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
+            //franchisee upgrade
+            function upgradePage(id,ref){
+                // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
+                window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
+            }
 
             // Hide date label and show input type date 
             var cap_date = document.getElementById("cap_date");
@@ -936,6 +992,8 @@
 
             $('#filterCA').on('change',function(e){
                 e.preventDefault(e);
+                $('#download_icon').removeClass('d-none')
+                var designation = $('#designation').val()   || "";
                 var package = $('#business_pack').val();
                 // var converted = $('#converted').prop('checked') ? 1 : "" ;
                 // var complimentary = $('#complimentary').prop('checked') ? 1 : "" ;
@@ -953,7 +1011,7 @@
                 //     window.location.reload();
                 // }
 
-                var dataString =  'package='+package+'&StartFrom='+StartFrom+'&EndFrom='+EndFrom;
+                var dataString =  'package='+package+'&StartFrom='+StartFrom+'&EndFrom='+EndFrom+'&designation='+designation;
                 // var dataString =  'package='+package+'&converted='+converted+'&complimentary='+complimentary+'&StartFrom='+StartFrom+'&EndFrom='+EndFrom;
                 // console.log(dataString);
                 $.ajax({
@@ -961,31 +1019,37 @@
                     url: 'filter_view_table_ca.php',
                     data: dataString, 
                     cache: false,
-                        success:function(data){
-                            // console.log(data);
-                            if(data){
-                                $('#registered_ca').html(data);
-                                // $('#filterTable').DataTable();
-                                // Register the date format before using DataTables
-                                $.fn.dataTable.moment('DD-MM-YYYY');
-                                $("#filterTable").DataTable({
-                                    order: [[5, 'asc']]
-                                });
+                        success: function (data) {
 
-                                // var TotalCount = $('#filterTable tr').length; // count total table rows
-                                let amts = document.querySelectorAll("#filterTable td:nth-child(5)"); // get amount from 5th col for adding amt one col hidden
-                                let countAmtCol = amts.length;// count total table rows
-                                let TotalAmt = 0;
-                                // let TotalCount = 0;
-                                for (let i = 0; i < amts.length; i++) {
-                                    TotalAmt += parseFloat(amts[i].textContent);
-                                }
-                                $('#caAmt').val(TotalAmt); //assign value to amt input field
-                                $('#caCount').val(countAmtCol); //assign value to count input field -1 header col
-                            }else{
+                            console.log('AJAX response:', data); // remove after debug
 
+                            if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
+                                $('#registeredCustomerList-table').DataTable().clear().destroy();
                             }
-                    }
+
+                            $('#registeredCustomerList-table tbody').html(data);
+
+                            $.fn.dataTable.moment('DD-MM-YYYY');
+
+                            // $("#registeredCustomerList-table").DataTable({
+                            //     order: [[5, 'asc']]
+                            // });
+
+                            let table = $('#registeredCustomerList-table').DataTable();
+
+                            let TotalAmt = 0;
+                            let rowCount = table.rows().count();
+
+                            table.rows().every(function () {
+                                let amount = parseFloat(this.data()[4]) || 0; // 5th column
+                                TotalAmt += amount;
+                            });
+
+                            $('#caAmt').val(TotalAmt);
+                            $('#caCount').val(rowCount);
+                        }
+
+
                 });
 
             });
@@ -1161,6 +1225,22 @@
             });
 
             //end 
+            //download excel
+            function regTcDownload() {
+                var packageVal  = $('#business_pack').val() || "";
+                var designation = $('#designation').val()   || "";
+                var startFrom   = $('#cap_date').val()      || "";
+                var endFrom     = $('#month_year_1').val()  || "";
+
+                var params = new URLSearchParams({
+                    package: packageVal,
+                    StartFrom: startFrom,
+                    EndFrom: endFrom,
+                    designation: designation
+                });
+
+                window.location.href = "download_list.php?" + params.toString();
+            }
         </script>
 
     </body>

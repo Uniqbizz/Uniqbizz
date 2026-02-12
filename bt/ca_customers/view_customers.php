@@ -97,14 +97,6 @@
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 class="mb-sm-0 font-size-18">Customers</h4>
-
-                                    <!-- <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Customers</li>
-                                        </ol> -->
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -122,11 +114,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-6">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCustomerModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCustomers-modal"><i class="mdi mdi-plus me-1"></i> New Customers</button>
-                                                </div>
-                                            </div> -->
                                         </div>
 
                                         <div class="table-responsive">
@@ -185,8 +172,7 @@
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-left-1">
                                                                                     <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                    
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -198,7 +184,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-left-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -227,12 +213,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-8">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCustomerModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCustomers-modal"><i class="mdi mdi-plus me-1"></i> New Customers</button>
-                                                </div>
-                                            </div> -->
-                                            <!-- end col-->
 
                                             <!-- Search Filter -->
                                             <div class="col-md-12">
@@ -287,16 +267,16 @@
                                                         <th>Customer Id/Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
-                                                        <th>Type/Complemetory</th>
-                                                        <th>Address</th>
+                                                        <th>Type/complimentary</th>
                                                         <th>Joining Date</th>
+                                                        <th>Address</th>
                                                         <th>status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                        $sql = "SELECT * FROM `ca_customer` WHERE status = '1' OR status = '3' ORDER BY ca_customer_id ASC ";
+                                                        $sql = "SELECT * FROM `ca_customer` WHERE status = '1' ORDER BY ca_customer_id ASC ";
                                                         $stmt = $conn -> prepare($sql);
                                                         $stmt -> execute();
                                                         $stmt -> setFetchMode(PDO::FETCH_ASSOC);
@@ -308,6 +288,8 @@
                                                                 $rd= new DateTime($row['register_date']);
                                                                 $rdate= $rd->format('d-m-Y');
                                                                 $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
+                                                                $fullname = $row['firstname'].' '.$row['lastname'];
+                                                                $TAfullname = $row['firstname'].' '.$row['lastname'];
 
                                                                 echo'<tr>
                                                                     <td><p class="mb-1">'.$row['ca_customer_id'].'</p>
@@ -329,8 +311,8 @@
                                                                         <p class="mb-0">'.$row['email'].'</p>
                                                                     </td>
                                                                     <td><p class="mb-0">'.$row['customer_type'].'</p><p class="mb-0">'.$comp_chek.'</p></td>
-                                                                    <td>'.$row['address'].'</td>
-                                                                    <td>'.$rdate.'</td>';
+                                                                    <td>'.$rdate.'</td>
+                                                                    <td>'.$row['address'].'</td>';
                                                                     if($row['status']== '1'){
                                                                         echo'<td><span class="badge text-bg-success">Active</span></td>
                                                                         <td>
@@ -339,9 +321,9 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
+                                                                                    <li><a href="#" onclick=\'addCustRef("'.$row["ca_customer_id"]. '","' .$fullname. '","'.$row['ta_reference_no'].'","1")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-plus font-size-16 text-info me-1"></i>Add Ref</a></li>
                                                                                     <li><a href="#" onclick=\'overviewPage("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_customer")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                    <li><a href="#" onclick=\'editfuncCust("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_customer_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                    
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -353,7 +335,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_customer_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'overviewPage("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_customer")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -450,7 +432,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_customer_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("'.$row["ca_customer_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_customer")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -572,29 +554,6 @@
         </div>
         <!-- end confirmItemModal -->
 
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
-                <div class="modal-content">
-                    <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="avatar-sm mb-4 mx-auto">
-                            <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
-                                <i class="fas fa-user-edit text-primary"></i>
-                            </div>
-                        </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Edit this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Edit Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-editItemModal" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- end editItemModal -->
-
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -645,6 +604,16 @@
             function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
                 window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
             };
+
+            function addCustRef(id,fullname,taRef,status){ 
+                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
+            };
+
+            // function addCustRef(id, fullname, status) {
+            //     // Encode fullname to safely pass in URL
+            //     const encodedFullname = encodeURIComponent(fullname);
+            //     window.location.href = 'add_customers.php?id=' + id + '&fullname=' + encodedFullname + '&status=' + status;
+            // }
 
             function deletefunc(id,fid,action){ 
                 var dataString = 'id='+id+'&refid='+fid+'&action='+action;

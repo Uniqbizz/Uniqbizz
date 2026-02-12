@@ -976,7 +976,7 @@ if($usertype == 27){
 
         let registeAs=$('#registered').val()
 
-        if (registeAs == "24" || registeAs=="25") {
+        if (registeAs == "24" || registeAs=="25" || registeAs=="31") {
             // Detach ZM block and cache it
             if (!cachedZmBlock && $('#zm_block').length) {
                 cachedZmBlock = $('#zm_block').detach();

@@ -58,8 +58,8 @@ $user_type_id = '11';
 
 $title="Travel Consultant";
 
-$fromWhom="1";
-$register_by="1";
+$fromWhom="15";
+$register_by="15";
 $operation="Edit";
  
 if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' ||$dob !='' ||$address !='' ||$profile_pic !=''){

@@ -43,35 +43,11 @@
         $user_type = '25'; //BDM
     }
 
-    $register_by = '15'; //bt
+    $register_by = '15'; //admin
     $fromWhom = '15'; 
     $operation = 'Update';
     $reference_no = '15';
     // $status = '1';
-
-    // $sql = "INSERT INTO employees (name, date_of_birth, country_code, contact, email, address, gender, date_of_joining, department, designation, zone, branch, reporting_manager, profile_pic, id_proof, bank_details, register_by, user_type, status) VALUES (:name, :date_of_birth, :country_code, :contact, :email, :address, :gender, :date_of_joining, :department, :designation, :zone, :branch, :reporting_manager, :profile_pic, :id_proof, :bank_details, :register_by, :user_type, :status)"; 
-    // $stmt = $conn->prepare($sql);
-    // $result = $stmt->execute(array(
-    //     ':name' => $name,
-    //     ':date_of_birth' => $birth_date,
-    //     ':country_code' => $country_cd,
-    //     ':contact' => $contact,
-    //     ':email' => $email,
-    //     ':address' => $address,
-    //     ':gender' => $gender,
-    //     ':date_of_joining' => $joining_date,
-    //     ':department' => $department,
-    //     ':designation' => $designation,
-    //     ':zone' => $zone,
-    //     ':branch' => $branch,
-    //     ':reporting_manager' => $reporting_manager,
-    //     ':profile_pic' => $profile_pic,
-    //     ':id_proof' => $id_proof,
-    //     ':bank_details' => $bank_details,
-    //     ':register_by' => $register_by,
-    //     ':user_type' => $user_type,
-    //     ':status' => $status
-    // ));
 
     $sql = "UPDATE employees SET name = :name, date_of_birth = :date_of_birth, country_code = :country_code, contact = :contact, email = :email, address = :address, gender =:gender, date_of_joining = :date_of_joining, department = :department, designation = :designation, zone = :zone, branch = :branch, reporting_manager = :reporting_manager, note = :note, profile_pic = :profile_pic, id_proof = :id_proof, bank_details = :bank_details, user_type = :user_type WHERE $identifier_name:identifier_id";
     $stmt = $conn->prepare($sql);

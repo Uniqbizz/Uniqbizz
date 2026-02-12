@@ -191,7 +191,7 @@ $tdsPer = 2 / 100;
                                             <!-- <label> Filter Payouts</label> -->
                                             <select id="designation" class="selectdesign filter-opt-1 fw-bolder">
                                                 <option value="">--Select Filter Option--</option>
-                                                <option value='business_mentor'>Business Mentor</option>
+                                                <option value='BM_BDM_MF_SF_RM'>BM/BDM/MF/SF/RM</option>
                                                 <option value="corporate_agency">Techno Enterprise</option>
                                                 <option value="ca_travelagency">Travel Consultant</option>
                                             </select>
@@ -302,9 +302,17 @@ $tdsPer = 2 / 100;
                                                             $CommAmtTc = $row['commision_tc'] ? $row['commision_tc'] : 0;
                                                             $tdsTc = $CommAmtTc * $tdsPer;
                                                             $totalAmtTc = $CommAmtTc - $tdsTc;
-
+                                                            $user_desig='';
+                                                            
                                                             //BM
                                                             if (!$row['business_mentor'] == "") {
+                                                                //to get the prefix charater before first -
+                                                                preg_match('/^(.*?)\s*-\s*/', $message2, $match);
+    
+                                                                if (!empty($match[1])) {
+                                                                     $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                                } 
+                                                                ///-------
                                                                 echo '<tr>
                                                                                 <td class="d-none">' . $row['id'] . '</td>
                                                                                 <td>' . $dt . '</td>
@@ -312,7 +320,7 @@ $tdsPer = 2 / 100;
                                                                                 <td class="text-end">' . $CommAmtBm . '</td>
                                                                                 <td class="text-end">' . $tdsBm . '</td>
                                                                                 <td class="text-end">' . $totalAmtBm . '
-                                                                                    <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '">
+                                                                                    <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '&user_desig='.$user_desig.'">
                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                     </a>
                                                                                 </td>';
@@ -326,6 +334,13 @@ $tdsPer = 2 / 100;
 
                                                             //TE
                                                             if (!$row['techno_enterprise'] == "") {
+                                                                //to get the prefix charater before first -
+                                                                preg_match('/^(.*?)\s*-\s*/', $message3, $match);
+    
+                                                                if (!empty($match[1])) {
+                                                                     $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                                } 
+                                                                ///-------
                                                                 echo '<tr>
                                                                                 <td class="d-none">' . $row['id'] . '</td>
                                                                                 <td>' . $dt . '</td>
@@ -333,7 +348,7 @@ $tdsPer = 2 / 100;
                                                                                 <td class="text-end">' . $CommAmtTe . '</td>
                                                                                 <td class="text-end">' . $tdsTe . '</td>
                                                                                 <td class="text-end">' . $totalAmtTe . '
-                                                                                    <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
+                                                                                    <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '&user_desig='.$user_desig.'">
                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                     </a>
                                                                                 </td>';
@@ -347,6 +362,13 @@ $tdsPer = 2 / 100;
 
                                                             //TC
                                                             if (!$row['travel_consultant'] == "") {
+                                                                //to get the prefix charater before first -
+                                                                preg_match('/^(.*?)\s*-\s*/', $message4, $match);
+    
+                                                                if (!empty($match[1])) {
+                                                                     $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                                } 
+                                                                ///-------
                                                                 echo '<tr>
                                                                                 <td class="d-none">' . $row['id'] . '</td>
                                                                                 <td>' . $dt . '</td>
@@ -354,7 +376,7 @@ $tdsPer = 2 / 100;
                                                                                 <td class="text-end">' . $CommAmtTc . '</td>
                                                                                 <td class="text-end">' . $tdsTc . '</td>
                                                                                 <td class="text-end">' . $totalAmtTc . '
-                                                                                    <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message4 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '">
+                                                                                    <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message4 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '&user_desig='.$user_desig.'">
                                                                                         <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                                     </a>
                                                                                 </td>';
@@ -381,7 +403,20 @@ $tdsPer = 2 / 100;
                 </div>
             </div>
 
-            <?php include_once "../footer.php" ?>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <?php echo $date; ?> © Uniqbizz.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Mirthcon
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
         <!-- end main content-->
 
@@ -434,7 +469,7 @@ $tdsPer = 2 / 100;
                                     <!-- <label> Filter Payouts</label> -->
                                     <select id="designationPrevious" class="selectdesign filter-opt-1 fw-bolder">
                                         <option value="">--Select Filter Option--</option>
-                                        <option value='business_mentor'>Business Mentor</option>
+                                        <option value='BM_BDM_MF_SF_RM'>Business Mentor</option>
                                         <option value="corporate_agency">Techno Enterprise</option>
                                         <option value="ca_travelagency">Travel Consultant</option>
                                     </select>
@@ -537,9 +572,16 @@ $tdsPer = 2 / 100;
                                                     $CommAmtTc = $row['commision_tc'] ? $row['commision_tc'] : 0;
                                                     $tdsTc = $CommAmtTc * $tdsPer;
                                                     $totalAmtTc = $CommAmtTc - $tdsTc;
-
+                                                    $user_desig='NA';
                                                     //BM
                                                     if (!$row['business_mentor'] == "") {
+                                                        //to get the prefix charater before first -
+                                                        preg_match('/^(.*?)\s*-\s*/', $message2, $match);
+
+                                                        if (!empty($match[1])) {
+                                                             $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                        } 
+                                                        ///-------
                                                         echo '<tr>
                                                                         <td class="d-none">' . $row['id'] . '</td>
                                                                         <td>' . $dt . '</td>
@@ -547,7 +589,7 @@ $tdsPer = 2 / 100;
                                                                         <td class="text-center">' . $CommAmtBm . '</td>
                                                                         <td class="text-center">' . $tdsBm . '</td>
                                                                         <td class="text-center">' . $totalAmtBm . '
-                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '">
+                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '&user_desig='.$user_desig.'">
                                                                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                             </a>
                                                                         </td>';
@@ -561,6 +603,13 @@ $tdsPer = 2 / 100;
 
                                                     //TE
                                                     if (!$row['techno_enterprise'] == "") {
+                                                        //to get the prefix charater before first -
+                                                        preg_match('/^(.*?)\s*-\s*/', $message3, $match);
+
+                                                        if (!empty($match[1])) {
+                                                             $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                        } 
+                                                        ///-------
                                                         echo '<tr>
                                                                         <td class="d-none">' . $row['id'] . '</td>
                                                                         <td>' . $dt . '</td>
@@ -568,7 +617,7 @@ $tdsPer = 2 / 100;
                                                                         <td class="text-center">' . $CommAmtTe . '</td>
                                                                         <td class="text-center">' . $tdsTe . '</td>
                                                                         <td class="text-center">' . $totalAmtTe . '
-                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] .  '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
+                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] .  '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '&user_desig='.$user_desig.'">
                                                                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                             </a>
                                                                         </td>';
@@ -582,6 +631,13 @@ $tdsPer = 2 / 100;
 
                                                     //TC
                                                     if (!$row['travel_consultant'] == "") {
+                                                        //to get the prefix charater before first -
+                                                        preg_match('/^(.*?)\s*-\s*/', $message4, $match);
+
+                                                        if (!empty($match[1])) {
+                                                             $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                        } 
+                                                        ///-------
                                                         echo '<tr>
                                                                         <td class="d-none">' . $row['id'] . '</td>
                                                                         <td>' . $dt . '</td>
@@ -589,7 +645,7 @@ $tdsPer = 2 / 100;
                                                                         <td class="text-center">' . $CommAmtTc . '</td>
                                                                         <td class="text-center">' . $tdsTc . '</td>
                                                                         <td class="text-center">' . $totalAmtTc . '
-                                                                            <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message4 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '">
+                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message4 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '&user_desig='.$user_desig.'">
                                                                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                             </a>
                                                                         </td>';
@@ -667,7 +723,7 @@ $tdsPer = 2 / 100;
                                     <!-- <label> Filter Payouts</label> -->
                                     <select id="designationNext" class="selectdesign filter-opt-1 fw-bolder">
                                         <option value="">--Select Filter Option--</option>
-                                        <option value='business_mentor'>Business Mentor</option>
+                                        <option value='BM_BDM_MF_SF_RM'>Business Mentor</option>
                                         <option value="corporate_agency">Techno Enterprise</option>
                                         <option value="ca_travelagency">Travel Consultant</option>
                                     </select>
@@ -769,9 +825,16 @@ $tdsPer = 2 / 100;
                                                     $CommAmtTc = $row['commision_tc'] ? $row['commision_tc'] : 0;
                                                     $tdsTc = $CommAmtTc * $tdsPer;
                                                     $totalAmtTc = $CommAmtTc - $tdsTc;
-
+                                                    $user_desig='NA';
                                                     //BM
                                                     if (!$row['business_mentor'] == "") {
+                                                        //to get the prefix charater before first -
+                                                        preg_match('/^(.*?)\s*-\s*/', $message2, $match);
+
+                                                        if (!empty($match[1])) {
+                                                             $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                        } 
+                                                        ///-------
                                                         echo '<tr>
                                                                         <td class="d-none">' . $row['id'] . '</td>
                                                                         <td>' . $dt . '</td>
@@ -779,7 +842,7 @@ $tdsPer = 2 / 100;
                                                                         <td class="text-center">' . $CommAmtBm . '</td>
                                                                         <td class="text-center">' . $tdsBm . '</td>
                                                                         <td class="text-center">' . $totalAmtBm . '
-                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '">
+                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] . '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message2 . '&message_status=' . $row['status_bm'] . '&commission=' . $row['commision_bm'] . '&user_desig='.$user_desig.'">
                                                                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                             </a>
                                                                         </td>';
@@ -793,6 +856,13 @@ $tdsPer = 2 / 100;
 
                                                     //TE
                                                     if (!$row['techno_enterprise'] == "") {
+                                                        //to get the prefix charater before first -
+                                                        preg_match('/^(.*?)\s*-\s*/', $message3, $match);
+
+                                                        if (!empty($match[1])) {
+                                                             $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                        } 
+                                                        ///-------
                                                         echo '<tr>
                                                                         <td class="d-none">' . $row['id'] . '</td>
                                                                         <td>' . $dt . '</td>
@@ -800,7 +870,7 @@ $tdsPer = 2 / 100;
                                                                         <td class="text-center">' . $CommAmtTe . '</td>
                                                                         <td class="text-center">' . $tdsTe . '</td>
                                                                         <td class="text-center">' . $totalAmtTe . '
-                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] .  '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '">
+                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] .  '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message3 . '&message_status=' . $row['status_te'] . '&commission=' . $row['commision_te'] . '&user_desig='.$user_desig.'">
                                                                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                             </a>
                                                                         </td>';
@@ -814,6 +884,13 @@ $tdsPer = 2 / 100;
 
                                                     //TC
                                                     if (!$row['travel_consultant'] == "") {
+                                                        //to get the prefix charater before first -
+                                                        preg_match('/^(.*?)\s*-\s*/', $message4, $match);
+
+                                                        if (!empty($match[1])) {
+                                                             $user_desig=trim($match[1]); // Output only the text before the first dash
+                                                        } 
+                                                        ///-------
                                                         echo '<tr>
                                                                         <td class="d-none">' . $row['id'] . '</td>
                                                                         <td>' . $dt . '</td>
@@ -821,7 +898,7 @@ $tdsPer = 2 / 100;
                                                                         <td class="text-center">' . $CommAmtTc . '</td>
                                                                         <td class="text-center">' . $tdsTc . '</td>
                                                                         <td class="text-center">' . $totalAmtTc . '
-                                                                            <a href="forms/customer_recruitment_payout/download_ca_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] .  '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message4 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '">
+                                                                            <a href="forms/customer_recruitment_payout/download_cu_payout.php?vkvbvjfgfikix=' . $row['id'] . '&bm=' . $row['business_mentor'] . '&te=' . $row['techno_enterprise'] . '&tc=' . $row['travel_consultant'] .  '&cu=' . $row['customer'] . '&date=' . $dt . '&message=' . $message4 . '&message_status=' . $row['status_tc'] . '&commission=' . $row['commision_tc'] . '&user_desig='.$user_desig.'">
                                                                                 <i class="bx bx-download" style="font-size: 18px; color: black; padding-left: 5px;"></i>
                                                                             </a>
                                                                         </td>';
@@ -896,7 +973,7 @@ $tdsPer = 2 / 100;
                                     <!-- <label> Filter Payouts</label> -->
                                     <select id="designationTotal" class="selectdesign filter-opt-1 fw-bolder">
                                         <option value="">--Select Filter Option--</option>
-                                        <option value='business_mentor'>Business Mentor</option>
+                                        <option value='BM_BDM_MF_SF_RM'>Business Mentor</option>
                                         <option value="corporate_agency">Techno Enterprise</option>
                                         <option value="ca_travelagency">Travel Consultant</option>
                                     </select>

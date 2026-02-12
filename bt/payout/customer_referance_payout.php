@@ -218,6 +218,8 @@
                                                     <option value="Premium Plus">Premium Plus</option>
                                                     <option value="Premium Select">Premium Select</option>
                                                     <option value="Premium Select Lite">Premium Select Lite</option>
+                                                    <option value="Neo Select">Neo Select</option>
+                                                    <option value="Neo Select Lite">Neo Select Lite</option>
                                                     <!-- <option value="base_agency">Base Agency</option> -->
                                                 </select>
                                             </div>
@@ -347,7 +349,20 @@
                     </div>
                 </div>
 
-                <?php include_once "../footer.php" ?>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <?php echo $date; ?> © Uniqbizz.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by Mirthcon
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
             <!-- end main content-->
    
@@ -427,6 +442,8 @@
                                             <option value="Premium Plus">Premium Plus</option>
                                             <option value="Premium Select">Premium Select</option>
                                             <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Lite">Neo Select Lite</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -635,6 +652,8 @@
                                             <option value="Premium Plus">Premium Plus</option>
                                             <option value="Premium Select">Premium Select</option>
                                             <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Lite">Neo Select Lite</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>
@@ -828,6 +847,8 @@
                                             <option value="Premium Plus">Premium Plus</option>
                                             <option value="Premium Select">Premium Select</option>
                                             <option value="Premium Select Lite">Premium Select Lite</option>
+                                            <option value="Neo Select">Neo Select</option>
+                                            <option value="Neo Select Lite">Neo Select Lite</option>
                                             <!-- <option value="base_agency">Base Agency</option> -->
                                         </select>
                                     </div>

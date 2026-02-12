@@ -49,6 +49,26 @@ $('#designation').on('change', function(){
     });
 });
 
+//get payout base on designation selected
+$('#designation').on('change', function(){
+    designation = $('#designation').val();
+    $('#download_icon').css('display','block');
+    // console.log(designation);
+    $.ajax({
+        type: 'POST',
+        url:  'forms/contracting_payout/contracting_payout_filter.php',
+        data: 'designation='+designation,
+        success:function(data){
+            // console.log(data);
+            $("#filterTable").html(data);
+            $('#payoutDetailsTable').DataTable();
+        },
+        error: function(err){
+            console.log(err);
+        },
+    });
+});
+
 //display username for filter perpose for All payout
 $('#user_id_name').on('change', function(){
     cap_id = $(this).val();

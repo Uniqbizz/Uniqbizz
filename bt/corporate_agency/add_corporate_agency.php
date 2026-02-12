@@ -102,13 +102,14 @@
                                                         <select id="designation1" class="form-select" disabled>
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
-                                                            <option value="business_consultant">Business Consultant</option>
+                                                            <!--<option value="business_consultant">Business Consultant</option>-->
                                                             <option value="business_mentor">Business Mentor</option>
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="">--Select Designation--</option>
-                                                            <option value="zonal_manager">Zonal Manager</option>
+                                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
+                                                            <option value="business_development_manager">Business Development Manager </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -123,7 +124,7 @@
                                                 <div class="col-md-3 col-sm-6 col-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="reference_name"> Referance Name <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
+                                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="" readonly>
                                                     </div>    
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -173,9 +174,10 @@
                                                         </select>
                                                         <select id="business_package_amount2" class="form-select d-none"> 
                                                             <option value="">--Select Business Package/Amount--</option> 
-                                                            <option value="100000">1,00,000/-</option> 
+                                                            <!-- <option value="100000">1,00,000/-</option>  -->
                                                             <option value="200000">2,00,000/-</option> 
                                                             <option value="300000">3,00,000/-</option> 
+                                                            <option value="400000">4,00,000/-</option> 
                                                             <option value="500000">5,00,000/-</option> 
                                                         </select>
                                                     </div>
@@ -422,8 +424,6 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-
-
                 <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
@@ -495,8 +495,8 @@
                     $('#business_package_amount2').removeClass('d-none');
                     $('#business_package_amount1').addClass('d-none');
                     
-                    var business_package_amount = $('#business_package_amount2').val();
-                    $('#flex_amount').val(business_package_amount);
+                    // var business_package_amount = $('#business_package_amount2').val();
+                    // $('#flex_amount').val(business_package_amount);
                 }
             });
 
@@ -623,6 +623,7 @@
                 var business_package_amount = $(this).val();
                 $('#flex_amount').val(business_package_amount);
             });
+            
 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
