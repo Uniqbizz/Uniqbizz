@@ -127,6 +127,7 @@ if($user_type_id_value == '11'){
 }else {
     $ta_markup_price_val = 0;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -234,7 +235,7 @@ if($user_type_id_value == '11'){
                                 $counterimage = 0;
                                 foreach (($data->fetchAll()) as $key_1 => $image) {
                                     echo '<div class="swiper-slide">
-                                            <img src="' . $image['image'] . '" alt="BizzMirth" >
+                                            <img src="' . $image['image'] . '" alt="BizzMirth" style="width: 710px !important; height: 400px !important;">
                                         </div>';
                                 }
                             }
@@ -497,59 +498,7 @@ if($user_type_id_value == '11'){
                                     </div>
 
 
-                                    <!-- / Tour Plan accordion-->
-
-                                    <!-- Tour Privacy Policy -->
-                                    <!-- <div class="tour-details-content">
-                                        <h4 class="title">Policy</h4>
-                                        <p class="pera">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor
-                                            incididunt
-                                            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                            exercitation ullamco
-                                            laboris
-                                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                            reprehenderit in voluptate velit
-                                            esse
-                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                                            non proident, sunt in
-                                            culpa
-                                            qui officia deserunt mollit anim id est laborum."</p>
-                                        <p class="pera">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                            accusantium
-                                            doloremque
-                                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis
-                                            et quasi architecto
-                                            beatae
-                                            vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                                            aspernatur aut odit aut
-                                            fugit,
-                                            sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
-                                            nesciunt. Neque porro
-                                            quisquam est,
-                                            qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
-                                            non numquam eius modi
-                                            tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut
-                                            enim ad minima veniam,
-                                            quis
-                                            nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-                                            ex ea commodi
-                                            consequatur?
-                                            Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam
-                                            nihil molestiae
-                                            consequatur,
-                                            vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-                                        <ol class="policy-point">
-                                            <li class="list">Neque porro quisquam est, qui dolorem ipsum quia dolor sit
-                                                amet, consectetur,
-                                                adipisci velit.</li>
-                                            <li class="list">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                                                odit aut fugit.</li>
-                                            <li class="list">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                                sed do eiusmod.</li>
-                                        </ol>
-                                    </div> -->
-                                    <!-- / Tour Privacy Policy -->
+                                    
                                 </div>
                                 <div class="col-xl-4 col-lg-5" id="sidebar-sticky">
                                     <!-- added on 30 Jan 2025 by N-->
@@ -649,13 +598,18 @@ if($user_type_id_value == '11'){
                                                                 </div>
 
                                                                 <!-- TA -->
-                                                                <div class="input-box col-sm-12 customersID">
+                                                                <!-- <div class="input-box col-sm-12 customersID">
                                                                     <input type="text" class="border-0 fs-6 bg-transparent"
                                                                         list="customer_suggestion" id="cust_id"
                                                                         placeholder="Select Customer ID" />
                                                                     <datalist id="customer_suggestion" class="selectdesign">
-                                                                        <?php echo '<option> No Customer to Show </option>'; ?>
+                                                                        <?php // echo '<option> No Customer to Show </option>'; ?>
                                                                     </datalist>
+                                                                </div> -->
+                                                                <div class="input-box fs-6 col-sm-12 customersID">
+                                                                    <select id="cust_id" class="border-0 fs-6 bg-transparent" style="width:100%;">
+                                                                        <option value="">Select Customer ID</option>
+                                                                    </select>
                                                                 </div>
                                                                 <!--  TA End -->
                                                             <?php } else { ?>
@@ -867,6 +821,7 @@ if($user_type_id_value == '11'){
                                                 </div>
                                                 <?php  } ?>
                                                 <div class="form-container date-travel-card position-sticky top-0" id="form2">
+                                                    
                                                     <form>
                                                         <h5 class="fw-bolder my-2">Enquiry / Quotation Form</h5>
                                                         <div class="row">
@@ -883,8 +838,22 @@ if($user_type_id_value == '11'){
                                                                 <input type="email" class="form-control border-0 fs-6 bg-transparent w-100" name="q_email" id="q_email" placeholder="Email" value="">
                                                             </div>
                                                             <label class="q_label" for="q_duration">Trip Duration <span class="text-danger">*</span></label>
-                                                            <div class="input-box col-sm-12">
-                                                                <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value="">
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <!-- <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration" id="q_duration" placeholder="Trip Duration" value=""> -->
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_min" id="q_duration_min" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_duration_max" id="q_duration_max" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_date">Travel Date <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12">
@@ -918,8 +887,21 @@ if($user_type_id_value == '11'){
                                                                 </div>
                                                             </div>
                                                             <label class="q_label" for="q_budget">Approx. Budget (&#8377;) <span class="text-danger">*</span></label>
-                                                            <div class="input-box col-sm-12">
-                                                                <input type="text" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget" id="q_budget" placeholder="Approx Budget" value="">
+                                                            <div class="form-group col-sm-12 px-0 pb-2">
+                                                                <div class="row">
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_min" id="q_budget_min" value="0" placeholder="Min">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Min )</span>
+                                                                    </div>
+                                                                    <div class="form-group col-sm-6 col-6">
+                                                                        <div class="input-box p-2 mb-1">
+                                                                            <input type="number" class="form-control border-0 fs-6 bg-transparent w-100" name="q_budget_max" id="q_budget_max" value="0" placeholder="Max">
+                                                                        </div>
+                                                                        <span class="label_txt ps-3 fontSize">( Max )</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <label class="q_label" for="q_meals">Meals Required <span class="text-danger">*</span></label>
                                                             <div class="input-box col-sm-12 d-flex justify-content-around">
@@ -1222,7 +1204,7 @@ if($user_type_id_value == '11'){
             total_infants = 0;
         let count_members = 0,
             no_adult, no_child;
-        let cust_type, user_cust_id, user_type;
+        let cust_type, user_cust_id, user_type,ta_id;
         let ta_markup_price;
 
         // DOM elements
@@ -1247,7 +1229,7 @@ if($user_type_id_value == '11'){
             added_adult_price = parseFloat(price_data['price_up_per_adult']);
             adult_price = parseFloat(price_data['total_package_price_per_adult']);
             child_price = parseFloat(price_data['total_package_price_per_child']);
-            ta_markup_price = parseFloat(<?php echo $ta_markup_price; ?>);
+            ta_markup_price = parseFloat(<?php echo $ta_markup_price_val; ?>);
             $('input[name="cust_type"]').on('change', function() {
                 const selectedValue = $(this).val();
                 handleCustomerType(selectedValue);
@@ -1315,7 +1297,13 @@ if($user_type_id_value == '11'){
 
             // Customer setup
             cust_type = $("input[name='cust_type']:checked").val();
-            user_cust_id = <?php echo json_encode($user_cust_id, JSON_HEX_TAG); ?>;
+            user_cust_id = <?php
+                                $data = json_encode($user_cust_id ?? 0, JSON_HEX_TAG);
+                                echo ($data === false) ? 0 : $data;
+                           ?>
+
+           
+
             getCustomersID(user_cust_id, cust_type);
 
             $("input[name='cust_type']").on('click', function() {
@@ -1325,38 +1313,50 @@ if($user_type_id_value == '11'){
             });
 
             // Travel Agent data setup
-            user_type = <?php echo $user_type; ?>;
+            user_type = <?php
+                            $data = json_encode($user_type ?? 0, JSON_HEX_TAG);
+                            echo ($data === false) ? 0 : $data;
+                        ?>
+            
+
         });
 
-
+        //for seachable dropdown of customer ids
+        $('#cust_id').select2({
+            placeholder: "Select Customer ID",
+            allowClear: true
+        });
 
         // get reference customer for thet perticular travel agent
         function getCustomersID(user_cust_id, cust_type) {
             $.ajax({
                 type: "POST",
                 url: 'assets/submit/customers_id.php',
-                data: 'user_cust_id=' + user_cust_id + '&status=' + cust_type,
-                success: function(e) {
-                    $("#customer_suggestion").html(e);
-                },
-                error: function(err) {
-                    console.log(err);
+                data: { user_cust_id: user_cust_id, status: cust_type },
+                success: function(response) {
+                    $("#cust_id").html(response).trigger("change");
                 }
             });
         }
 
+
         // get Customer ID - when Travel agent selects Customer Id from dropdown get details of selected Customer and place them in book tour table.
         var cust_id = 0;
         var showButton = document.getElementById("book_tour");
-        $("#cust_id").keyup(function() {
+        $("#cust_id").change(function() {
             var customerData;
             cust_id = $("#cust_id").val();
-             console.log('customerId:'+cust_id);
-            if (cust_id) {
+            console.log('customerId:'+cust_id);
+            ta_id = <?php
+                        $data = json_encode($ta_id ?? 0, JSON_HEX_TAG);
+                        echo ($data === false) ? 0 : $data;
+                    ?>
+            
+            if (cust_id && cust_id !="--Select Customer ID--") {
                 $.ajax({
                     type: "POST",
                     url: 'assets/submit/get_customer_details.php',
-                    data: 'cust_id=' + cust_id + '&user_type=10',
+                    data: 'cust_id=' + cust_id + '&user_type=10&ta_id='+ta_id,
                     success: function(res) {
                         if (res == "fail") {
                             console.log("No Customer Data Found");
@@ -1383,9 +1383,19 @@ if($user_type_id_value == '11'){
                         console.log(err);
                     }
                 });
+                // let input = this;
+                // let list = document.getElementById("customer_suggestion").options;
+                // let val = input.value;
+                // // Check if selected value exists in suggestions
+                // for (let i = 0; i < list.length; i++) {
+                //     if (val === list[i].value) {
+                //         input.readOnly = true; // disable editing
+                //         break;
+                //     }
+                // }
             } else {
                 $("#cust_id").val('');
-                $("#b_name").val('');
+                $("#b_name").val('').attr("placeholder", "Name");
                 $("#b_email").val('');
                 $("#b_phn_no").val('');
                 $("#dob").val('');
@@ -2624,41 +2634,99 @@ if($user_type_id_value == '11'){
     </script>
     <!-- Book tour form -->
     <script>
-        // Get buttons and form containers
-        const button1 = document.getElementById('button1');
-        const button2 = document.getElementById('button2');
-        const form1 = document.getElementById('form1');
-        const form2 = document.getElementById('form2');
+        // // Get buttons and form containers
+        // const button1 = document.getElementById('button1');
+        // const button2 = document.getElementById('button2');
+        // const form1 = document.getElementById('form1');
+        // const form2 = document.getElementById('form2');
 
-        // Ensure form1 is always visible initially
-        form1.style.display = 'block';
-        form2.style.display = 'none';
+        // // Ensure form1 is always visible initially
+        // if (form1) {
+        //     form1.style.display = 'block';
+        //     button1.addEventListener('click', () => toggleForm('form1', 'form2'));
+        // }
+        // form2.style.display = 'none';
 
-        // Toggle forms when the buttons are clicked
-        button1.addEventListener('click', () => toggleForm('form1', 'form2'));
-        button2.addEventListener('click', () => toggleForm('form2', 'form1'));
+        // // Toggle forms when the buttons are clicked
+        // button2.addEventListener('click', () => toggleForm('form2', 'form1'));
 
-        function toggleForm(formToShow, formToHide) {
-            // Show the selected form and hide the other one
-            const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
-            const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
+        // function toggleForm(formToShow, formToHide) {
+        //     // Show the selected form and hide the other one
+        //     if (form1) {
+        //         const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
+        //         const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
 
-            if (!form1Visible && !form2Visible) {
-                document.getElementById(formToShow).style.display = 'block';
-                document.getElementById(formToHide).style.display = 'none';
+        //         if (!form1Visible && !form2Visible) {
+        //             document.getElementById(formToShow).style.display = 'block';
+        //             document.getElementById(formToHide).style.display = 'none';
+        //         }
+        //     }else{
+                
+        //         const form2Visible = formToShow === 'form2' && form2.style.display === 'block';
+        //         if (!form1Visible && !form2Visible) {
+        //             document.getElementById(formToShow).style.display = 'block';
+        //             document.getElementById(formToHide).style.display = 'none';
+        //         }
+        //     }
+
+        //     //const form1Visible = formToShow === 'form1' && form1.style.display === 'block';
+
+        //     // if (!form1Visible && !form2Visible) {
+        //     //     document.getElementById(formToShow).style.display = 'block';
+        //     //     document.getElementById(formToHide).style.display = 'none';
+        //     // }
+        // }
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const button1 = document.getElementById('button1');
+            const button2 = document.getElementById('button2');
+            const form1 = document.getElementById('form1');
+            const form2 = document.getElementById('form2');
+
+            // CASE 1: form1 exists → show form1 by default
+            if (form1) {
+                form1.style.display = 'block';
+                if (form2) form2.style.display = 'none';
+
+                if (button1 && form2) {
+                    button1.addEventListener('click', () => toggleForm(form1, form2));
+                }
+
+                if (button2 && form2) {
+                    button2.addEventListener('click', () => toggleForm(form2, form1));
+                }
             }
-        }
+            // CASE 2: form1 does NOT exist → show form2 & button2
+            else {
+                if (form2) form2.style.display = 'block';
+                if (button2) button2.style.display = 'inline-block';
+            }
+
+            function toggleForm(showForm, hideForm) {
+                if (!showForm || !hideForm) return;
+
+                showForm.style.display = 'block';
+                hideForm.style.display = 'none';
+            }
+
+        });
+
+
         //quotation submit action with validation
         $('#submit_quotations').click(function() {
             var enName = $('#q_name').val().trim();
             var enPhone = $('#q_phn_no').val().trim();
             var enEmail = $('#q_email').val().trim();
-            var enDuration = $('#q_duration').val().trim();
+            var enDurationMin = $('#q_duration_min').val().trim();
+            var enDurationMax = $('#q_duration_max').val().trim();
+            var enDuration = enDurationMin+"-"+enDurationMax;
             var enTDate = $('#q_date').val().trim();
             var enNadults = $('#q_no_adult').val().trim();
             var enNChild = $('#q_no_child').val().trim();
             var enNInfants = $('#q_no_infants').val().trim();
-            var enBudget = $('#q_budget').val().trim();
+            var enBudgetMin = $('#q_budget_min').val().trim();
+            var enBudgetMax = $('#q_budget_max').val().trim();
+            var enBudget = enBudgetMin+"-"+enBudgetMax;
             var enDestination = $('#pack_name').text();
             var enUserId = $('#q_user_id').val();
             let selectedMeals = [];
@@ -2683,23 +2751,23 @@ if($user_type_id_value == '11'){
                 alert("Please enter your email");
             } else if (!emailRegex.test(enEmail)) {
                 alert("Invalid email");
-            } else if (enDuration == '') {
-                alert("Please enter duratuion days");
-            } else if (enDuration == 0) {
-                alert("Duratuion days cannot be 0");
+            } else if (enDurationMin == 0) {
+                alert("Minimum duration days cannot be 0");
+            } else if (enDurationMax == 0) {
+                alert("maximum duration days cannot be 0");
+            }else if (Number(enDurationMin) > Number(enDurationMax)) {
+                alert("Maximum duration should be greater then Minimum duration");
             } else if (enTDate == '') {
                 alert("Please select Travel date");
             } else if (enNadults == 0) {
                 alert("Number of adults cannot be 0");
-            } else if (enBudget == '') {
-                alert("Please enter your budget");
-            } else if (enBudget == 0) {
-                alert("Budget cannot be 0");
-            } else if (enDuration == '') {
-                alert("Please enter your travel duration days");
-            } else if (enDuration == 0) {
-                alert("Travel duration days cannot be 0");
-            } else if (selectedMeals.length === 0) {
+            } else if (enBudgetMin == 0) {
+                alert("Minimum budget cannot be 0");
+            } else if (enBudgetMax == 0) {
+                alert("Maximum budget cannot be 0");
+            } else if (Number(enBudgetMin) > Number(enBudgetMax)) {
+                alert("Maximum budget should be greater then Minimum budget");
+            }else if (selectedMeals.length === 0) {
                 alert("Select at least one required meal");
             } else {
                 var formdata = {
@@ -2727,8 +2795,10 @@ if($user_type_id_value == '11'){
                     success: function(res) {
                         if (res == 1) {
                             alert("Quotation will be sent to your email!");
+                            location.reload();
                         } else {
                             alert("Server Error: " + res);
+                            location.reload();
                         }
                     }
                 });

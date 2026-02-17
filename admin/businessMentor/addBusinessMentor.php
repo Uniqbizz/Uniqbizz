@@ -288,10 +288,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6">
-												<!-- <div class="input-block mb-3">
-														<label class="col-form-label" for="payFee">Payment Fee <span class="text-danger">*</span></label>
-														<input type="text" value="₹ 12000/-" class="form-control" id="payFee" readonly />
-													</div> -->
 												<div class="input-block mb-3">
 													<label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
 													<select class="form-select" id="payment_fee" required>
@@ -453,20 +449,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			<!-- End Page-content -->
 
 
-			<footer class="footer">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-sm-6">
-							<?php echo $date; ?> © Uniqbizz.
-						</div>
-						<div class="col-sm-6">
-							<div class="text-sm-end d-none d-sm-block">
-								Design & Develop by MirthCon
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
+			<?php include_once "../footer.php" ?>
 		</div>
 		<!-- end main content-->
 

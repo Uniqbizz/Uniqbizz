@@ -19,7 +19,7 @@ $user_type_id = $usertype == 'bm' ? '26' :
 $register_by = '15';
 
 $subY = substr($todayYear, 2, 4);
-if ($user_type_id == '26') {
+if ($user_type_id == '26') { //Business Mentor
 	$sql9 = $conn->prepare("SELECT * from business_mentor where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
@@ -342,7 +342,7 @@ if ($user_type_id == '26') {
 	} else { //login
 		echo 0;
 	}
-} else if ($user_type_id == '28') {
+} else if ($user_type_id == '28') { //Master Franchisee
 	$sql9 = $conn->prepare("SELECT * from master_franchisee where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
@@ -632,7 +632,7 @@ if ($user_type_id == '26') {
 	} else { //login
 		echo 0;
 	}
-} else if ($user_type_id == '30') {
+} else if ($user_type_id == '30') { //Sponsor Franchisee
 	$sql9 = $conn->prepare("SELECT * from sponsor_franchisee where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);

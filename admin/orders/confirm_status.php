@@ -4,14 +4,16 @@ header('Content-Type: application/json');
 date_default_timezone_set('Asia/Kolkata');
 $order_id = $_POST['order_id'] ?? null;
 $status = $_POST['status'] ?? null;
+$confirm_status = $_POST['confirm_status'] ?? null;
 $date=date('Y-m-d H:i:s');
-if ($order_id && in_array($status, ['confirm', 'cancel'])) {
-    $confirm_status = $status === 'confirm' ? 1 : 0;
+if ($order_id && in_array($confirm_status, ['confirm', 'cancel'])) {
+    $confirm_status_val = $confirm_status === 'confirm' ? 1 : ($confirm_status ==='cancel'?2: 0);
 
-    $sql = "UPDATE bookings SET confirm_status = :status,confirm_date = :confirm_date WHERE order_id = :order_id";
+    $sql = "UPDATE bookings SET confirm_status = :confirm_status,status = :status,confirm_date = :confirm_date WHERE order_id = :order_id";
     $stmt = $conn->prepare($sql);
     $stmt->execute([
-        ':status' => $confirm_status,
+        ':confirm_status' => $confirm_status_val,
+        ':status' => $status,
         ':confirm_date' =>$date,
         ':order_id' => $order_id
     ]);
@@ -39,7 +41,7 @@ if ($order_id && in_array($status, ['confirm', 'cancel'])) {
 
         echo json_encode([
             'success' => true,
-            'message' => "Order ID $order_id status updated to $status."
+            'message' => "Order ID $order_id status updated to $confirm_status."
         ]);
     } else {
         echo json_encode([

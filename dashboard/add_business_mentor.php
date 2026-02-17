@@ -233,7 +233,6 @@ include_once 'dashboard_user_details.php';
                                                 <div class="col-lg-2 col-md-2 col-sm-4 col-4">
                                                     <div class="input-block mb-3">
                                                         <?php
-                                                        require '../connect.php';
                                                         $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
                                                         $stmt->execute();
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -314,7 +313,6 @@ include_once 'dashboard_user_details.php';
                                                         <select class="form-select" id="zone">
                                                             <option value=""> ---- Select Zone ---- </option>
                                                             <?php
-                                                            require '../connect.php';
                                                             $sql = "SELECT * FROM `zone` WHERE status ='1' ";
                                                             $stmt = $conn->prepare($sql);
                                                             $stmt->execute();
@@ -493,20 +491,7 @@ include_once 'dashboard_user_details.php';
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include_once "footer.php" ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->
 
@@ -522,8 +507,6 @@ include_once 'dashboard_user_details.php';
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
 
     <script src="assets/js/submitdata.js"></script>
 
@@ -543,22 +526,9 @@ include_once 'dashboard_user_details.php';
     <!--Swiper slider js-->
     <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
     <!-- App js -->
     <script src="assets/js/app.js"></script>
 
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-
-    <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
         $('#registered').on('change',function(){
 			var register_type = $(this).val();
@@ -597,16 +567,11 @@ include_once 'dashboard_user_details.php';
             var user_id_name = $(this).val();
             var designation = $('#designation').val();
             console.log(user_id_name);
-
-            // var designation = 'franchisee';
-            // console.log(designation);
-
             $.ajax({
                 type: 'POST',
                 url: 'agents/getUsers.php',
                 data: 'user_id_name=' + user_id_name + '&designation=' + designation,
                 success: function(response) {
-                    // console.log(response);
                     $('#pin').html(response);
                     $('#reference_name').val(response);
                 }
@@ -634,7 +599,6 @@ include_once 'dashboard_user_details.php';
         });
 
         $('#mystate').on('change', function() {
-            // alert();
             var stateID = $(this).val();
             if (stateID) {
                 $.ajax({
@@ -659,7 +623,6 @@ include_once 'dashboard_user_details.php';
                     url: 'address/pincode.php',
                     data: 'city_id=' + cityID,
                     success: function(response) {
-                        // $('#pin').html(response);
                         $('#pin').val(response);
                     }
                 });
@@ -704,7 +667,6 @@ include_once 'dashboard_user_details.php';
         //payment details
         $('#paymentMode').on('click', function() {
             var paymentMode = $(".payment:checked").val();
-            // console.log(paymentMode);
             if (paymentMode == "cheque") {
                 $("#chequeOpt").removeClass("d-none");
                 $("#onlineOpt").addClass("d-none");

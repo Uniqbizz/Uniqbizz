@@ -5,10 +5,7 @@ include_once 'dashboard_user_details.php';
 $date = date('F,Y'); //month and year. 'F' - month in Text form
 $DateMonth = date('m'); //month in number form
 $DateYear = date('Y'); //year
-// echo "Next Date ".$date .' ;' ;
-// echo "Next Month ".$nextDateMonth.' ;';
-// echo "Next Year ".$nextDateYear.' ;';
-// echo '<br>';
+$usedCount=0 ;
 if ($userType == 10){
     $sqlcust = 'SELECT customer_type FROM ca_customer WHERE ca_customer_id = :user';
     $stmt = $conn->prepare($sqlcust);
@@ -17,6 +14,24 @@ if ($userType == 10){
     $customerType = $stmt->fetchColumn();
     $usedCount = 0;
 
+}
+if ($userType == '29') {
+    $sqlf = 'SELECT upgrade_status, amount 
+             FROM sub_franchisee 
+             WHERE sub_franchisee_id = :user';
+
+    $stmt = $conn->prepare($sqlf);
+    $stmt->execute([':user' => $userId]);
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $fran_upgrade_status = $result['upgrade_status'];
+        $fran_amount         = $result['amount'];
+    } else {
+        $fran_upgrade_status = null;
+        $fran_amount = 0;
+    }
 }
 
 ?>
@@ -114,6 +129,128 @@ if ($userType == 10){
             padding: 10px 5px;
         }
 
+        /* for upgrade card */
+        /* Main Card Styling */
+        .upgrade-card {
+            background: linear-gradient(135deg, #e6f9f0, #ffffff);
+            box-shadow: 0 10px 30px rgba(0, 150, 80, 0.15);
+            border: 1px solid rgba(0, 200, 120, 0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .upgrade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 150, 80, 0.25);
+        }
+
+        /* Highlight Text */
+        .highlight-upgrade {
+            color: #00a86b;
+        }
+
+        /* Button */
+        .upgrade-btn {
+            background: linear-gradient(45deg, #00c97b, #00a86b);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 200, 120, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 200, 120, 0.6);
+        }
+
+        /* Popper Icon */
+        .upgrade-icon {
+            width: 75px;
+            height: 75px;
+        }
+
+        /* Floating animation */
+        .floating-img {
+            max-height: 180px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        /* Card Background */
+        .pre-upgrade-card {
+            background: linear-gradient(135deg, #fff8e6, #ffffff);
+            border: 1px solid rgba(255, 170, 0, 0.25);
+            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .pre-upgrade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 170, 0, 0.25);
+        }
+
+        /* Icon */
+        .pre-icon {
+            width: 75px;
+            height: 75px;
+        }
+
+        /* Benefits list */
+        .upgrade-benefits {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .upgrade-benefits li {
+            margin-bottom: 6px;
+            font-weight: 500;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .upgrade-benefits li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            color: #f4a000;
+            font-weight: bold;
+        }
+
+        /* Upgrade Button */
+        .upgrade-now-btn {
+            background: linear-gradient(45deg, #ffb000, #ff8c00);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-now-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.6);
+        }
+
+        /* Subtle pulse animation */
+        .pulse-img {
+            max-height: 180px;
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* for upgrade card */
     </style>
 
 </head>
@@ -1080,6 +1217,104 @@ if ($userType == 10){
                                 <?php if ($userType == '16' || $userType == '29') { ?> <!--Corporate Agency => 16 -->
 
                                     <!-- New Card Template Start -->
+                                     <?php
+                                        if($fran_upgrade_status == 2){
+                                     ?>
+                                     <!-- upgrade card -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="upgrade-card card border-0 rounded-4 p-4">
+                                                <div class="row align-items-center">
+                                                    
+                                                    <!-- Left Content -->
+                                                    <div class="col-lg-8 col-md-7 col-12">
+                                                        <div class="d-flex align-items-start">
+                                                            <img src="assets/images/customer/popperImg.png" 
+                                                                alt="Popper" 
+                                                                class="me-3 upgrade-icon">
+
+                                                            <div>
+                                                                <h2 class="fw-bold mb-2">
+                                                                    Congratulations! 
+                                                                    <span class="highlight-upgrade">You've Upgraded 🎉</span>
+                                                                </h2>
+                                                                <p class="text-muted fs-5 mb-3">
+                                                                    Your new incentive and commission percentage is now active.
+                                                                </p>
+
+                                                                <a href="view_upgrade_history.php" class="btn upgrade-btn px-4 py-2">
+                                                                    View Details
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Right Image -->
+                                                    <div class="col-lg-4 col-md-5 col-12 text-center mt-4 mt-md-0">
+                                                        <img src="assets/images/user-illustarator-2.png"
+                                                            class="img-fluid floating-img"
+                                                            alt="Illustration">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <?php
+                                        } else if($fran_amount != '500000'){
+                                     ?>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="pre-upgrade-card card border-0 rounded-4 p-4">
+                                                <div class="row align-items-center">
+
+                                                    <!-- Left Content -->
+                                                    <div class="col-lg-8 col-md-7 col-12">
+                                                        <div class="d-flex align-items-start">
+                                                            <img src="assets/images/customer/upgrade-icon.png"
+                                                                alt="Upgrade"
+                                                                class="me-3 pre-icon">
+
+                                                            <div>
+                                                                <h2 class="fw-bold mb-2">
+                                                                    Unlock Higher Earnings 🚀
+                                                                </h2>
+
+                                                                <p class="text-muted fs-5 mb-3">
+                                                                    Upgrade! to increase your incentive
+                                                                    and commission percentage instantly.
+                                                                </p>
+
+                                                                <ul class="upgrade-benefits mb-3">
+                                                                    <li>Higher Commission Percentage</li>
+                                                                    <li>Priority Payout Processing</li>
+                                                                    <li>Access to Premium Benefits</li>
+                                                                </ul>
+
+                                                                <a class="btn upgrade-now-btn px-4 py-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                    Contact Admin for UPGRADE
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Right Image -->
+                                                    <div class="col-lg-4 col-md-5 col-12 text-center mt-4 mt-md-0">
+                                                        <img src="assets/images/upgrade-illustration.png"
+                                                            class="img-fluid pulse-img"
+                                                            alt="Upgrade Illustration">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <?php
+                                        }
+                                     ?>
+                                     
                                     <div class="row">
 
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -1445,7 +1680,7 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- BDM -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg1">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Business Development Manager</p>
                                                 </div>
@@ -1489,7 +1724,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- BM -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg2">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Business Mentor</p>
                                                 </div>
@@ -1550,7 +1785,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- MF -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg3">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Master Franchisee</p>
                                                 </div>
@@ -1609,7 +1844,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- SF -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg4">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Sponsor Franchisee</p>
                                                 </div>
@@ -1670,7 +1905,7 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- TE -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg5">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg5">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Techno Enterprise</p>
                                                 </div>
@@ -1746,7 +1981,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- F -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg6">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg6">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Franchisee</p>
                                                 </div>
@@ -1830,7 +2065,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- TC -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg7">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg7">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Travel Consultant</p>
                                                 </div>
@@ -1989,7 +2224,7 @@ if ($userType == 10){
                                         </div>
                                         <!-- CU -->
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
-                                            <div class="card rounded-3 pt-3 pb-2 px-4 cardBg8">
+                                            <div class="card rounded-4 pt-3 pb-2 px-4 cardBg8">
                                                 <div>
                                                     <p class="text-white fw-bold fs-11">Customer</p>
                                                 </div>
@@ -3656,8 +3891,8 @@ if ($userType == 10){
                                     <div class="row">
                                         <!-- Line Chart -->
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <div class="card">
-                                                <div class="card-header">
+                                            <div class="card rounded-4">
+                                                <div class="card-header rounded-top-4">
                                                     <h4 class="card-title mb-0">Line Chart</h4>
                                                 </div>
                                                 <div class="card-body">
@@ -3684,8 +3919,8 @@ if ($userType == 10){
                                         </div>
                                         <!-- Top Customers  Active / Inactive User Count -->
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                            <div class="card">
-                                                <div class="card-header align-items-center d-flex">
+                                            <div class="card rounded-4">
+                                                <div class="card-header align-items-center d-flex rounded-top-4">
                                                     <?php
                                                     if ($userType == "3") {
                                                         $topCustomerTableName = "Corporate Agency";
@@ -4869,9 +5104,7 @@ if ($userType == 10){
                                     <div class="card-header rounded-bottom rounded-4">
                                         <div class="d-flex align-items-center">
                                             <h6 class="card-title mb-0 flex-grow-1">Popular Candidates</h6>
-                                            <!-- <div class="flex-shrink-0">
-                                                    <a href="apps-job-candidate-lists.html" class="link-primary">View All <i class="ri-arrow-right-line"></i></a>
-                                                </div> -->
+                                            
                                         </div>
                                     </div>
                                     <div class="row g-0">
@@ -5345,176 +5578,178 @@ if ($userType == 10){
                                         
                                         <div class="col-lg-6">
                                             <div class="card-body">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                        <th scope="col">Type</th>
-                                                        <th scope="col">Pending</th>
-                                                        <th scope="col">Registered</th>
-                                                        <th scope="col">deleted</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="countTableBody">
-                                                        <?php
-                                                            if($userType=='24'){
-                                                        ?>
+                                                <div data-simplebar style="max-height: 225px" class="px-3 mx-n3">
+                                                    <table class="table">
+                                                        <thead>
                                                             <tr>
-                                                                <th scope="row">Business Mentor</th>
-                                                                <td><?=$pendingBM??0?></td>
-                                                                <td><?=$registeredBM??0?></td>
-                                                                <td><?=$deletedBM??0?></td>
+                                                            <th scope="col">Type</th>
+                                                            <th scope="col">Pending</th>
+                                                            <th scope="col">Registered</th>
+                                                            <th scope="col">deleted</th>
                                                             </tr>
-                                                            <tr>
-                                                                <th scope="row">Master Franchisee</th>
-                                                                <td><?=$pendingMF??0?></td>
-                                                                <td><?=$registeredMF??0?></td>
-                                                                <td><?=$deletedMF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Sponsor Franchisee</th>
-                                                                <td><?=$pendingBM??0?></td>
-                                                                <td><?=$registeredBM??0?></td>
-                                                                <td><?=$deletedBM??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Techno Enterprise</th>
-                                                                <td><?=$pendingTE??0?></td>
-                                                                <td><?=$registeredTE??0?></td>
-                                                                <td><?=$deletedTE??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        <?php
-                                                            if($userType=='25'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Techno Enterprise</th>
-                                                                <td><?=$pendingTE??0?></td>
-                                                                <td><?=$registeredTE??0?></td>
-                                                                <td><?=$deletedTE??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        <?php
-                                                            if($userType=='26'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Techno Enterprise</th>
-                                                                <td><?=$pendingTE??0?></td>
-                                                                <td><?=$registeredTE??0?></td>
-                                                                <td><?=$deletedTE??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">CU</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }if($userType=='16'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">CU</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                            if($userType=='28'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }if($userType=='29'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }if($userType=='30'){
-                                                        ?>
-                                                            <tr>
-                                                                <th scope="row">Franchisee</th>
-                                                                <td><?=$pendingF??0?></td>
-                                                                <td><?=$registeredF??0?></td>
-                                                                <td><?=$deletedF??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Travel Consultant</th>
-                                                                <td><?=$pendingTC??0?></td>
-                                                                <td><?=$registeredTC??0?></td>
-                                                                <td><?=$deletedTC??0?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th scope="row">Customer</th>
-                                                                <td><?=$pendingCU??0?></td>
-                                                                <td><?=$registeredCU??0?></td>
-                                                                <td><?=$deletedCU??0?></td>
-                                                            </tr>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        
-                                                    </tbody>
+                                                        </thead>
+                                                        <tbody id="countTableBody" >
+                                                            <?php
+                                                                if($userType=='24'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Business Mentor</th>
+                                                                    <td><?=$pendingBM??0?></td>
+                                                                    <td><?=$registeredBM??0?></td>
+                                                                    <td><?=$deletedBM??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Master Franchisee</th>
+                                                                    <td><?=$pendingMF??0?></td>
+                                                                    <td><?=$registeredMF??0?></td>
+                                                                    <td><?=$deletedMF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Sponsor Franchisee</th>
+                                                                    <td><?=$pendingBM??0?></td>
+                                                                    <td><?=$registeredBM??0?></td>
+                                                                    <td><?=$deletedBM??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Techno Enterprise</th>
+                                                                    <td><?=$pendingTE??0?></td>
+                                                                    <td><?=$registeredTE??0?></td>
+                                                                    <td><?=$deletedTE??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            <?php
+                                                                if($userType=='25'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Techno Enterprise</th>
+                                                                    <td><?=$pendingTE??0?></td>
+                                                                    <td><?=$registeredTE??0?></td>
+                                                                    <td><?=$deletedTE??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            <?php
+                                                                if($userType=='26'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Techno Enterprise</th>
+                                                                    <td><?=$pendingTE??0?></td>
+                                                                    <td><?=$registeredTE??0?></td>
+                                                                    <td><?=$deletedTE??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">CU</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }if($userType=='16'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">CU</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                                if($userType=='28'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }if($userType=='29'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }if($userType=='30'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">Franchisee</th>
+                                                                    <td><?=$pendingF??0?></td>
+                                                                    <td><?=$registeredF??0?></td>
+                                                                    <td><?=$deletedF??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Travel Consultant</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Customer</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            
+                                                        </tbody>
                                                     </table>
+                                                </div>
                                             </div>
                                         </div>
                                         <?php
@@ -5528,12 +5763,7 @@ if ($userType == 10){
 
                                                 <h5 id="candidate-name" class="mt-2">----</h5>
                                                 <p id="candidate-position" class="text-muted">----</p>
-                                                <!-- <div>
-                                                        <button type="button" class="btn btn-success custom-toggle w-100" data-bs-toggle="button" aria-pressed="false">
-                                                            <span class="icon-on"><i class=" ri-code-view align-bottom me-1"></i> View</span>
-                                                            <span class="icon-off"><i class=" ri-code-view align-bottom me-1"></i> Views</span>
-                                                        </button>
-                                                    </div> -->
+                                                
                                             </div>
                                         </div>
                                         <?php
@@ -5543,26 +5773,81 @@ if ($userType == 10){
                                         
                                     </div>
                                 </div>
+                                <!-- recents 5 bookings -->
+                                <!-- booking id,customer name,package name,amount,booking date,travel date -->
+                                <?php if($userType == "11"){ ?>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-header border-bottom-dashed">
+                                                    <div class="row g-4 align-items-center">
+                                                        <div class="col-sm">
+                                                            <div>
+                                                                <h5 class="card-title mb-0">Recent Bookings</h5>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>   
+                                                </div>    
+                                                <div class="card-body">
+                                                    <table id="example-dataTable" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-ordering="false">Booking ID</th>
+                                                                <th data-ordering="false">Customer Name</th>
+                                                                <th data-ordering="false">Package Name</th>
+                                                                <th data-ordering="false">Amount</th>
+                                                                <th data-ordering="false">Booking Date</th>
+                                                                <th data-ordering="false">Travel Date</th>
+                                                                
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+
+                                                                if($userType == "11"){
+                                                                    $sql = "SELECT order_id,bookings.name,package.name as package_name,booking_direct_bill.total_net_payable as amount,bookings.created_date as booking_date,bookings.date as travel_date 
+                                                                            FROM `bookings`
+                                                                            INNER JOIN booking_direct_bill on booking_direct_bill.bookings_id=bookings.id
+                                                                            INNER JOIN package on package.id = package_id 
+                                                                            WHERE ta_id = '".$userId."' LIMIT 5";
+                                                                    $stmt = $conn -> prepare($sql);
+                                                                    $stmt -> execute();
+                                                                    $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt -> rowCount()>0){
+                                                                        foreach(($stmt -> fetchAll()) as $key => $row){
+                                                                            $bd= new DateTime($row['booking_date']);
+                                                                            $bdate= $bd->format('d-m-Y');
+                                                                            $dt= new DateTime($row['travel_date']);
+                                                                            $datev= $dt->format('d-m-Y'); 
+                                                                            echo'<tr>
+                                                                                <td>'.$row['order_id'].'</td>
+                                                                                <td>'.$row['name'].'</td>
+                                                                                <td>'.$row['package_name'].'</td>
+                                                                                <td>'.$row['amount'].'</td>
+                                                                                <td>'.$bdate.'</td>
+                                                                                <td>'.$datev.'</td>';
+                                                                            echo'</tr>';
+                                                                        }
+                                                                    }
+                                                                }
+                                                                
+                                                            ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <!-- end recent 5 booking -->
                             </div>
                         </div>
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+             <?php include_once "footer.php" ?>
 
         </div><!-- end main content-->
 
@@ -5577,27 +5862,47 @@ if ($userType == 10){
     <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         <i class="ri-phone-fill"></i>
     </button>
-    <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+
         <div class="modal-dialog modal-sm me-4">
-            <div class="card rounded-4 border-1 mx-2">
-                <div class="d-flex justify-content-end pt-2 pe-3">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content rounded-4 border-1">
+
+                <div class="modal-header border-0">
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
-                <div class="d-flex justify-content-center py-3">
-                    <img src="assets/images/img-bot.png" alt="image-bot">
-                </div>
-                <div>
-                    <h5 class="text-center text-black fw-bold" id="staticBackdropLabel">Hi, how can we help?</h5>
-                    <p class="text-center text-muted px-1">contact us if you have any assistance, we will contact you as soon as possible</p>
-                    <div class="d-grid gap-2 col-10 mx-auto pb-4">
-                        <a class="btn btn-primary rounded-3 text-center" href="tel:8010892265" role="button">
-                            <i class="ri-phone-fill"></i> &nbsp;&nbsp;<span data-key="t-contact-us">8010892265</span>
+
+                <div class="modal-body text-center">
+
+                    <img src="assets/images/img-bot.png"
+                        alt="image-bot"
+                        class="mb-3">
+
+                    <h5 class="fw-bold" id="staticBackdropLabel">
+                        Hi, how can we help?
+                    </h5>
+
+                    <p class="text-muted px-1">
+                        Contact us if you need assistance.
+                        We will respond as soon as possible.
+                    </p>
+
+                    <div class="d-grid col-10 mx-auto">
+                        <a class="btn btn-primary rounded-3"
+                        href="tel:8010892265"
+                        id="callBtn">
+                            <i class="ri-phone-fill"></i>
+                            8010892265
                         </a>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
     <!-- contact card pop up end-->
 
     <!-- JAVASCRIPT -->
@@ -5606,14 +5911,9 @@ if ($userType == 10){
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
 
     <!-- !-- materialdesign remix icon js- -->
     <script src="assets/js/pages/remix-icons-listing.js"></script>
-
-    <!-- apexcharts -->
-    <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
 
     <!-- Vector map-->
     <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
@@ -5622,16 +5922,8 @@ if ($userType == 10){
     <!--Swiper slider js-->
     <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
     <!-- App js -->
     <script src="assets/js/app.js"></script>
-
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
 
     <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
@@ -5639,70 +5931,10 @@ if ($userType == 10){
     <!-- Dashboard init  popular candidates section js file-->
     <script src="assets/js/pages/dashboard-job.init.js"></script>
 
-    <!-- cdn Link 
-        <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script> -->
-    <!-- offline file path for confetti js -->
     <script src="assets/js/js-confetti.js"></script>
 
     <script>
         var userType= document.getElementById("user_type").value;
-        console.log('userType:'+userType);
-        
-        // if(userType != '2' && userType != '10'){
-        //     var count = $('#activeID').attr("data-target");
-        //     console.log(count);
-        //     var listItems = document.getElementById("progressbar").getElementsByTagName("li");
-        //     var pgbar1 = document.getElementById("pgbar1");
-        //     var pgbar2 = document.getElementById("pgbar2");
-        //     var pgbar3 = document.getElementById("pgbar3");
-        //     var pgbar4 = document.getElementById("pgbar4");
-        //     var pgbar5 = document.getElementById("pgbar5");
-        //     var pgbar6 = document.getElementById("pgbar6");
-        //     var pgbar7 = document.getElementById("pgbar7");
-        //     var pgbar8 = document.getElementById("pgbar8");
-        //     var pgbar9 = document.getElementById("pgbar9");
-        //     var pgbar10 = document.getElementById("pgbar10");
-    
-        //     for (var i = 0; i < count; i++) {
-        //         listItems[i].className = "active";
-        //     }
-        //     // const div = document.querySelector('#confetti');
-        //     if (count == 0) {
-        //         // messageh5.className = "d-none";
-        //     } else if (count == 1) {
-        //         pgbar1.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 2) {
-        //         pgbar2.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 3) {
-        //         pgbar3.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 4) {
-        //         pgbar4.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 5) {
-        //         pgbar5.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 6) {
-        //         pgbar6.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 7) {
-        //         pgbar7.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 8) {
-        //         pgbar8.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 9) {
-        //         pgbar9.className = "block text-center fw-bold fs-4";
-        //     } else if (count == 10) {
-        //         pgbar10.className = "block text-center fw-bold fs-4";
-        //         const jsConfetti = new JSConfetti();
-        //         jsConfetti.addConfetti();
-        //     } else if (count > 10) {
-        //         alert("You have reached your maximum limit" + count);
-        //         // messageh5.className = "d-none";
-        //     }
-    
-        //     $(".navbar-nav .nav-item .nav-link").on("click", function() {
-        //         $(".nav").find(".actives").removeClass("actives");
-        //         $(this).parent().addClass("actives");
-        //     });
-        // }
-    </script>
-    <script>
         function highlightSelected(id) {
             // Remove highlight from all list items
             document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
@@ -5742,12 +5974,8 @@ if ($userType == 10){
             for (let index = 2024; index <= getCurrentYear; index++) {
                 if (index == getCurrentYear) {
                     $("#years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                    // $("#consultant_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                    // $("#partner_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                 } else {
                     $("#years").append('<option value="' + index + '">' + index + '</option>');
-                    // $("#consultant_years").append('<option value="' + index + '">' + index + '</option>');
-                    // $("#partner_years").append('<option value="' + index + '">' + index + '</option>');
                 }
             }
             // get chart data
@@ -5755,86 +5983,91 @@ if ($userType == 10){
             // monthYear = monthControl.value;
         });
 
+        let monthlyChart;
+
         async function getMonthlyUserData(get_year) {
             const option = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json;charset=utf-8' },
                 body: JSON.stringify({
-                    year: get_year,
-                    current_year: getCurrentYear,
-                    current_month: getCurrentMonth,
-                    user_id: userId,
-                    user_type: userType
+                year: get_year,
+                current_year: getCurrentYear,
+                current_month: getCurrentMonth,
+                user_id: userId,
+                user_type: userType
                 })
             };
-
+ 
             try {
                 const response = await fetch('charts/chartData.php', option);
                 const data = await response.json();
-
-                if (!Array.isArray(data) || data.length === 0) {
-                    console.error("Invalid data", data);
-                    return;
+ 
+                if (!Array.isArray(data)) {
+                console.error("Invalid data", data);
+                return;
                 }
-
-                const xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-                // Labels and Colors
-                const labelMap ={
-                                    '24': ['BDM', 'BM','MF','SF','TE','F', 'TC','CU'],
-                                    '25': ['BM','MF','SF','TE','F', 'TC','CU'],
+ 
+                const xValues = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ 
+                const labelMap = {
+                                    '24': ['BDM','BM','MF','SF','TE','F','TC','CU'],
+                                    '25': ['BM','MF','SF','TE','F','TC','CU'],
                                     '26': ['TE','TC','CU'],
-                                    '28': ['F', 'TC','CU'],
+                                    '28': ['F','TC','CU'],
                                     '29': ['TC','CU'],
                                     '16': ['TC','CU'],
-                                    '30': ['F', 'TC','CU'],
-                                    '31': ['MF','SF','F', 'TC','CU'],
-                                    '11': ['CU'],
-                                };
-
-                const labels = labelMap[userType] || [''];
+                                    '30': ['F','TC','CU'],
+                                    '31': ['MF','SF','F','TC','CU'],
+                                    '11': ['CU']
+                                 };
+ 
+                const labels = labelMap[userType] || [];
                 const colors = [
-                                '#f39c12', // orange
-                                '#27ae60', // green
-                                '#2980b9', // blue
-                                '#8e44ad', // purple
-                                '#e74c3c', // red
-                                '#1abc9c', // turquoise
-                                '#f1c40f', // yellow
-                                '#0ff12d'  // neon green
-                            ];
-
-                const datasets = data.map((arr, i) => ({
-                    label: labels[i] || `Series ${i + 1}`,
-                    data: arr,
-                    borderColor: colors[i % colors.length],       // border color from array
-                    backgroundColor: colors[i % colors.length] + '77', // semi-transparent background
-                    fill: true,
-                    tension: 0.4
-                }));
-
-                new Chart(document.getElementById("myChart"), {
+                                '#f39c12','#27ae60','#2980b9','#8e44ad',
+                                '#e74c3c','#1abc9c','#f1c40f','#0ff12d'
+                               ];
+ 
+                const MONTHS = 12;
+ 
+                const datasets = data.map((arr, i) => {
+                    const hasData = Array.isArray(arr) && arr.length > 0;
+ 
+                    return {
+                        label: labels[i] || `Series ${i + 1}`,
+                        data: hasData ? arr : Array(MONTHS).fill(null),
+                        borderColor: colors[i % colors.length],
+                        backgroundColor: colors[i % colors.length] + '77',
+                        fill: hasData,
+                        tension: 0.4,
+                        pointRadius: hasData ? 3 : 0,
+                        spanGaps: false
+                    };
+                });
+ 
+                if (monthlyChart) {
+                    monthlyChart.destroy();
+                }
+ 
+                monthlyChart = new Chart(document.getElementById("myChart"), {
                     type: 'line',
                     data: {
-                        labels: xValues.slice(0, data[0].length),
-                        datasets: datasets
+                        labels: xValues,   // ✅ ALWAYS 12 months
+                        datasets
                     },
                     options: {
                         responsive: true,
                         plugins: {
-                            legend: { display: true },
-                            title: { display: false }
+                            legend: { display: true }
                         },
                         scales: {
                             y: {
-                                beginAtZero: true,
-                                stacked: false
+                                min: 0,
+                                max: 100
                             }
                         }
                     }
                 });
-
+ 
             } catch (error) {
                 console.error("Fetch chart error:", error);
             }
@@ -6109,6 +6342,10 @@ if ($userType == 10){
             }
         }
     </script>
+    <?php 
+        if ($userType == 10) {
+
+    ?>
     <!-- Coupon section for customer start -->
     <script>
         window.onload = function () {
@@ -6198,7 +6435,61 @@ if ($userType == 10){
             }
         };
     </script>
+    <?php 
+        }
+    ?>
     <!-- Coupon section for customer end -->
+    <!-- dialer logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const callBtn = document.getElementById("callBtn");
+
+            if (callBtn) {
+                callBtn.addEventListener("click", function(e) {
+
+                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (!isMobile) {
+                        e.preventDefault();
+
+                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                        location.reload();
+
+                        // Optional clipboard copy (safe fallback)
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText("8010892265");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        var modal = document.getElementById('staticBackdrop');
+
+        // Store the element that opened the modal
+        let lastFocusedElement;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-bs-toggle="modal"]')) {
+                lastFocusedElement = e.target;
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            } else {
+                document.body.focus();
+            }
+        });
+    </script>
+
+
+    <!-- dialer logic -->
 </body>
 
 </html>

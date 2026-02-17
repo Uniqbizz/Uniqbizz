@@ -123,12 +123,13 @@ if ($result) {
 		));
 
 		if($result3){
+			// status 1 For complimentary and Status 2 for Non complimentary 
 			if ($comp_check == 2) {
 				// get ref of bm to populate payout table 
 				$reference_id = (substr($reference_no, 0, 1) == 'F') 
 								? substr($reference_no, 0, 1) 
 								: substr($reference_no, 0, 2);
-				if ($reference_id == "TE") {
+				if ($reference_id == "TE" || $reference_id == "CA") {
 
 					//get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
 					$sql10 = $conn->prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$reference_no."'");
@@ -173,8 +174,6 @@ if ($result) {
 							foreach(($sql11->fetchAll()) as $key11 => $row11){
 								$BmId = $row11['employee_id'];
 								$BmName = $row11['name'];
-								// $BdmId = $row11['reference_no'];//not needed
-								// $BdmName = $row11['registrant'];//not needed
 							}
 						}
 						$bm_commi = '0'; 
@@ -187,11 +186,6 @@ if ($result) {
 					}else{
 						$te_commi = '1000';
 					}
-					// $te_commi = '1000';  
-					// $bm_commi = '300';  
-					
-					// $message_bm = "BM - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
-					// $commision_bm = $bm_commi;
 
 					$message_te = "TE - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on recruting Travel Consultant. Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-";
 					$commision_te = $te_commi;
@@ -303,6 +297,27 @@ if ($result) {
 							$bm_commi = '300'; 
 						}
 						$message_bm = "Sponser Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+						$commision_bm = $bm_commi;
+
+					}
+					//bdm
+					if($ref_id == "BH"){
+						$sql11 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$Bm_id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['employee_id'];
+								$BmName = $row11['name'];
+								$emp_user_type=$row['user_type'];
+							}
+						}
+						if($amount == "FOC"){
+							$bm_commi = '0'; 
+						}else{
+							$bm_commi = '300'; 
+						}
+						$message_bm = $emp_user_type == 25?"Business Development Manager":($emp_user_type == 31?"Relationship Manager":"NA") ."- ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
 						$commision_bm = $bm_commi;
 
 					}

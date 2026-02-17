@@ -10,7 +10,7 @@
     $sort = $_POST['sort'];
     $ratings = $_POST['ratings']; // Array of selected ratings
     $tour_type = $_POST['tourType']??[0]; // Array of selected tour_type
-    $destination = trim($_POST['destination'] ?? '');
+    $destination = trim($_POST['destination'] ?? 'All Locations');
     $viewType = trim($_POST['viewType'] ?? '1');
     // destination text
 
@@ -29,7 +29,7 @@
             p.created_date,
             p.name,
             p.description,
-            p.destination,
+            p.location,
             p.location,
             p.tour_days,
             t.total_package_price_per_adult,
@@ -75,15 +75,14 @@
     }
 
     // ✅ Destination filter (optional)
-    if (!empty($destination)) {
-        $safeDestination = addslashes($destination);
-        $where .= " AND p.destination LIKE '%{$safeDestination}%'";
+    if (!empty($destination) && $destination !='All Locations') {
+        $where .= " AND p.location LIKE '%{$destination}%'";
     }
 
     // GROUP BY
     $groupBy = "
         GROUP BY 
-            p.id, p.name, p.description, p.destination, p.location,
+            p.id, p.name, p.description, p.location, p.location,
             t.total_package_price_per_adult,t.price_up_per_adult, t.markup_total, c_h.name";
 
     if ($sort === 'popular') {
@@ -190,7 +189,7 @@
                                 </h4>
                                 <div class="location">
                                     <i class="ri-map-pin-line"></i>
-                                    <div class="name"><?= $row['destination'] ?></div>
+                                    <div class="name"><?= $row['location'] ?></div>
                                 </div>
                                 <div class="packages-person">
                                     <div class="count">
@@ -304,7 +303,7 @@
                             </h5>
                             <p class="pb-2 packageLocation">
                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                <span class="text-muted list-desc"><?=$row['destination']?></span>
+                                <span class="text-muted list-desc"><?=$row['location']?></span>
                             </p>
                             <!-- <div class="star-ratings d-flex pb-2 packageRatings">
                                 <p>

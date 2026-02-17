@@ -490,7 +490,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                                 </h4>
                                                                 <div class="location">
                                                                     <i class="ri-map-pin-line"></i>
-                                                                    <div class="name">' . $row['destination'] . '</div>
+                                                                    <div class="name">' . $row['location'] . '</div>
                                                                 </div>
                                                                 <div class="packages-person">
                                                                     <div class="count">
@@ -605,7 +605,7 @@ if (isset($_SESSION['user_type_id_value'])) {
                                                             </h4>
                                                             <p class="pb-2 packageLocation">
                                                                 <i class="fa-solid fa-location-dot fa-sm" style="color: #e03d42;"></i>
-                                                                <span class="text-muted">'.$row['destination'].'</span>
+                                                                <span class="text-muted">'.$row['location'].'</span>
                                                             </p>
                                                             <div class="text-start list-desc packageDesc">
                                                                '.$truncatedString.'
@@ -916,7 +916,22 @@ if (isset($_SESSION['user_type_id_value'])) {
             $(document).on('click', '.page-btn, .next-page, .prev-page', function() {
                 
                 page = $(this).data('page');
-                
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                minDuration = $("#slider-range-duration").slider("values", 0);
+                maxDuration = $("#slider-range-duration").slider("values", 1);
+                tourType = getTourType();
+                listBtnVal = document.getElementById("all-tour-list");
+                gridBtnVal = document.getElementById("all-tour-grid");
+                viewType = 0;
+
+                if (!listBtnVal.classList.contains('d-none')) {
+                    viewType = 1; // list view
+                } else if (!gridBtnVal.classList.contains('d-none')) {
+                    viewType = 2; // grid view
+                }
                 fetchSortedProducts(page,sortValue, prices.minPrice, prices.maxPrice, minDuration, maxDuration,selectedDescription,tourType,viewType);
             });      
 

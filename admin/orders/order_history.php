@@ -176,18 +176,43 @@ $date = date('Y');
                         bd.part_pay_2_status,
                         bd.part_pay_3_status,
                         bd.status AS bd_status,
-                        b.confirm_status
+                        b.confirm_status,
+                        max(date) as max_b_date,
+                        min(date) as min_b_date
                     FROM bookings b
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id";
+                    
+            $sql .=" GROUP BY
+                    b.id,
+                    b.order_id,
+                    b.package_id,
+                    b.customer_id,
+                    b.name,
+                    b.status,
+                    p.name,
+                    p.tour_days,
+                    bd.final_price,
+                    bd.amount,
+                    bd.part_pay_1,
+                    bd.part_pay_2,
+                    bd.part_pay_3,
+                    bd.part_pay_1_status,
+                    bd.part_pay_2_status,
+                    bd.part_pay_3_status,
+                    bd.status,
+                    b.confirm_status,
+                    b.ta_id";
 
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
             $today = date('Y-m-d'); // Get today's date as a string
 
+            $mindate= "01-01-2022";
+            $maxdate=$today;
             foreach ($bookings as $booking) {
+                $maxdate=$booking['max_b_date'] ?? $today;
                 // Ensure 'date' exists in booking data
                 if (!isset($booking['date']) || empty($booking['date'])) {
                     continue; // Skip if date is not set
@@ -478,12 +503,12 @@ $date = date('Y');
                                                                 # code...
                                                                 $perecent_fill = 50;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                 # code...
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else if ($booking_bill['pay_type'] == 3) {
                                                             # code...
@@ -491,22 +516,22 @@ $date = date('Y');
                                                                 # code...
                                                                 $perecent_fill = 40;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                 # code...
                                                                 $perecent_fill = 70;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                 # code...
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else {
                                                             $perecent_fill = 100;
                                                             $booking_paid_amt = $booking_bill['amount'];
-                                                            $booking_full_amt = $booking_bill['final_price'];
+                                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                                         }
 
                                                         if ($perecent_fill == 100) {
@@ -607,22 +632,23 @@ $date = date('Y');
                                                             </div>
                                                         
                                                         <?php
+                                                            } else if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { // Traveling
+                                                        ?>
+                                                            <div class="d-block">
+                                                                <a href="#">
+                                                                    <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
+                                                                        Traveling
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                            
+                                                        <?php
                                                             } else if ($today > $endDate) { // Completed
                                                         ?>
                                                             <div class="d-block">
                                                                 <a href="#">
                                                                     <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
                                                                         Completed
-                                                                    </button>
-                                                                </a>
-                                                            </div>
-                                                        <?php
-                                                            } else if ($today >= $startDate && $today <= $endDate) { // Traveling
-                                                        ?>
-                                                            <div class="d-block">
-                                                                <a href="#">
-                                                                    <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
-                                                                        Traveling
                                                                     </button>
                                                                 </a>
                                                             </div>
@@ -791,7 +817,7 @@ $date = date('Y');
 
                                                         if ($booking_bill) {
                                                             $pay_type = $booking_bill['pay_type'];
-                                                            $final_price = $booking_bill['final_price'];
+                                                            $final_price = $booking_bill['total_net_payable'];
 
                                                             if ($pay_type == 2) {
                                                                 if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
@@ -831,17 +857,15 @@ $date = date('Y');
                                                         <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                                     </td>
 
-                                                    <?php if ($today >= $startDate && $today <= $endDate) { ?>
+                                                    <?php if ($booking['confirm_status'] == 0) { ?>
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
-                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Pending</button>
                                                             </a>
                                                         </div>
                                                     </td>
-                                                    <?php } else { ?>
-                                                    <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
-                                                    <?php } ?>
+                                                    <?php }  ?>
 
                                                     <td class="text-center">
                                                         <div class="dropdown mt-">
@@ -963,7 +987,7 @@ $date = date('Y');
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else if ($booking_bill['pay_type'] == 3) {
                                                             if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
@@ -973,12 +997,12 @@ $date = date('Y');
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else {
                                                             $perecent_fill = 100;
                                                             $booking_paid_amt = $booking_bill['amount'];
-                                                            $booking_full_amt = $booking_bill['final_price'];
+                                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                                         }
 
                                                         // **Skip entry if `$perecent_fill` is not 100**
@@ -1011,16 +1035,16 @@ $date = date('Y');
                                                         $today = new DateTime();
                                                         $today->setTime(0, 0);
 
-                                                        if ($today > $endDate) {
+                                                        if ($booking['confirm_status'] == 1 && $today > $endDate) {
                                                     ?>
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
-                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Completed</button>
                                                             </a>
                                                         </div>
                                                     </td>
-                                                    <?php } else if ($today >= $startDate && $today <= $endDate  && ($booking['status'] === '0' || $booking['status'] === '1')) { ?>
+                                                    <?php } else if ($booking['confirm_status'] == 1 &&($today >= $startDate || $today <= $endDate)) { ?>
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
@@ -1032,7 +1056,7 @@ $date = date('Y');
                                                     <td>
                                                         <div class="d-block">
                                                             <a href="#">
-                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -1170,12 +1194,12 @@ $date = date('Y');
                                                                 # code...
                                                                 $perecent_fill = 50;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                 # code...
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else if ($booking_bill['pay_type'] == 3) {
                                                             # code...
@@ -1183,22 +1207,22 @@ $date = date('Y');
                                                                 # code...
                                                                 $perecent_fill = 40;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                 # code...
                                                                 $perecent_fill = 70;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                 # code...
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else {
                                                             $perecent_fill = 100;
                                                             $booking_paid_amt = $booking_bill['amount'];
-                                                            $booking_full_amt = $booking_bill['final_price'];
+                                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                                         }
 
                                                         if ($perecent_fill == 100) {
@@ -1380,12 +1404,12 @@ $date = date('Y');
                                                                 # code...
                                                                 $perecent_fill = 50;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                 # code...
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else if ($booking_bill['pay_type'] == 3) {
                                                             # code...
@@ -1393,22 +1417,22 @@ $date = date('Y');
                                                                 # code...
                                                                 $perecent_fill = 40;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                 # code...
                                                                 $perecent_fill = 70;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                 # code...
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
                                                         } else {
                                                             $perecent_fill = 100;
                                                             $booking_paid_amt = $booking_bill['amount'];
-                                                            $booking_full_amt = $booking_bill['final_price'];
+                                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                                         }
 
                                                         if ($perecent_fill == 100) {
@@ -1497,20 +1521,7 @@ $date = date('Y');
                         </div>
                     </div>
                 </div>
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
         </div>
         <!-- Refund Modal -->
@@ -1591,6 +1602,7 @@ $date = date('Y');
     <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 
+    
     <!-- Responsive examples -->
     <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
@@ -1825,7 +1837,7 @@ $date = date('Y');
                     let selectedDate = info.dateStr;
 
                     checkBookingsForDate(selectedDate).then(hasBookings => {
-                        if (!hasBookings) return; // Do nothing if no bookings exist
+                        // if (!hasBookings) return; // Do nothing if no bookings exist
                         loadBookingsForDate(selectedDate);
                         highlightSelectedDate(info.date);
                     });
@@ -2035,7 +2047,7 @@ $date = date('Y');
                     return `<span class="text-secondary-emphasis">Refund</span>`;
                 } else {
                     classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">Upcoming</span>`;
+                    return `<span class="text-primary-emphasis">Confirmed</span>`;
                 }
             }
 
@@ -2053,8 +2065,10 @@ $date = date('Y');
     <script type="text/javascript">
         $(function() {
 
-            var start = moment().subtract(29, 'days');
-            var end = moment();
+            // var start = moment().subtract(29, 'days');
+            // var end = moment();
+            var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
+            var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
 
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));

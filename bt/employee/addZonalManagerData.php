@@ -26,7 +26,7 @@ $pan_card      = $_POST['pancard'];
 $aadhar_card   = $_POST['addar'];
 $bank_details  = $_POST['bank_details'];
 $note          = $_POST['note'];
-$register_by   = '15'; // bt
+$register_by   = '15'; // Admin
 $status        = '2';
 $user_type     = '27'; // Assuming user_type 26 = Zonal Manager
 

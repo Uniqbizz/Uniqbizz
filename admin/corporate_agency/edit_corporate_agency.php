@@ -111,43 +111,6 @@ if($user_type == 'te'){
                 $city = $cities->fetch();
                 $city_name = $city['city_name'];
             }
-
-            // business_consultant name #2
-            // $business_consultants = $conn->prepare("SELECT firstname, lastname FROM business_consultant where business_consultant_id='".$reference_no."'");
-            // $business_consultants ->execute();
-            // $business_consultants ->setFetchMode(PDO::FETCH_ASSOC);
-            // if(  $business_consultants->rowCount()>0 ){
-            //     $business_consultants = $business_consultants->fetch();
-            //     $reference_no_fname = $business_consultants['firstname'];
-            //     $reference_no_lname = $business_consultants['lastname'];
-            // }
-
-            // $reference_id = substr($reference_no, 0 , 2); #1
-            // if($reference_id == "BT"){
-            //     // business trainee name
-            //     $business_trainees = $conn->prepare("SELECT firstname, lastname, reference_no FROM business_trainee where business_trainee_id='".$reference_no."'");
-            //     $business_trainees ->execute();
-            //     $business_trainees ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $business_trainees->rowCount()>0 ){
-            //         $business_trainee = $business_trainees->fetch();
-            //         $reference_no_fname = $business_trainee['firstname'];
-            //         $reference_no_lname = $business_trainee['lastname'];
-            //         // $business_trainees_reference_no = $business_trainee['reference_no'];
-
-            //     }
-
-            // }else{
-            //     // Travel agent name
-            //     $travel_agents = $conn->prepare("SELECT firstname, lastname FROM travel_agent where travel_agent_id='".$reference_no."'");
-            //     $travel_agents ->execute();
-            //     $travel_agents ->setFetchMode(PDO::FETCH_ASSOC);
-            //     if(  $travel_agents->rowCount()>0 ){
-            //         $travel_agents = $travel_agents->fetch();
-            //         $reference_no_fname = $travel_agents['firstname'];
-            //         $reference_no_lname = $travel_agents['lastname'];
-            //     }
-            // } 
-
             //#3
             $reference_id = substr($reference_no, 0, 2);
             if ($reference_id == "BM") {
@@ -233,8 +196,32 @@ if($user_type == 'te'){
             $assign_roi=$row['roi']??null;
             $assign_tax=$row['tax']??null;
             $assign_repay_amount=$row['repay_amount']??null;
+            $comm_per=$row['current_commission_per']??null;
+            $ins_per=$row['current_incentive_per']??null;
+            $f_status=$row['status'];
             // $complimentary=$row['complimentary'];
             // $converted=$row['converted'];
+
+            if($f_status == '1'){
+                // franchisee upgrade
+                $f_upgrade = $conn->prepare("
+                    SELECT upgrade_amt, new_commission_per, new_incentive_per 
+                    FROM sub_franchisee_upgrade 
+                    WHERE sub_franchisee_id = :id AND upgrade_status = '1' 
+                    ORDER BY id DESC 
+                    LIMIT 1
+                ");
+                $f_upgrade->execute([':id' => $id]);
+                $f_upgrade->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($f_upgrade->rowCount() > 0) {
+                    $upgrade_f = $f_upgrade->fetch();
+
+                    $amount   = $upgrade_f['upgrade_amt'];
+                    $comm_per = $upgrade_f['new_commission_per'];
+                    $ins_per  = $upgrade_f['new_incentive_per'];
+                }
+            }
 
             //get country
             $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
@@ -422,6 +409,7 @@ if ($editfor == 'pending') {
                                                         <option value="">--Select Business Package/Amount--</option>
                                                         <option value="200000">2,00,000/-</option>
                                                         <option value="300000">3,00,000/-</option>
+                                                        <option value="400000">4,00,000/-</option>
                                                         <option value="500000">5,00,000/-</option>
                                                     </select>
                                                 </div>
@@ -438,6 +426,27 @@ if ($editfor == 'pending') {
                                                     <input type="text" class="form-control" id="gst_no" placeholder="GST NO" value="<?php echo $gst_no; ?>">
                                                 </div>
                                             </div>
+                                            <!-- commission and incentive fields only for franchisee. Note: Old regime fRanchisee will have blank data for the same -->
+                                            <?php
+                                                if ($user_type == 'sf') {
+                                                
+                                            ?>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="commPer">commission(%)</label>
+                                                    <input type="text" class="form-control" id="commPer" placeholder="commission(%)" value="<?php echo $comm_per; ?>" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="insPer">Incentive(%)</label>
+                                                    <input type="text" class="form-control" id="insPer" placeholder="Incentive(%)" value="<?php echo $ins_per; ?>" readonly>
+                                                </div>
+                                            </div>
+                                            <?php
+                                                }
+                                            ?>
+                                            
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <div class="mb-3">
@@ -851,20 +860,7 @@ if ($editfor == 'pending') {
             <!-- End Page-content -->
 
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by MirthCon
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include_once "../footer.php" ?>
         </div>
         <!-- end main content-->
 

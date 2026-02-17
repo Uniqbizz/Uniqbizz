@@ -13,7 +13,7 @@
     if($customer->rowCount()>0){
         echo '<option>--Select Customer ID--</option>';
         foreach (($customer->fetchAll()) as $key => $row) {
-            echo '<option value="'.$row['ca_customer_id'].'">';
+            echo '<option value="'.$row['ca_customer_id'].'">'.$row['ca_customer_id'].'</option>';
         }
     }else {
         echo '<option> No Customer to Show </option>';

@@ -2014,30 +2014,10 @@
                                                                                     <td>'.$datev.'</td>';
                                                                                     if($userCACU['status'] == '1'){
                                                                                         echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                        // <td>
-                                                                                        //     <div class="dropdown d-inline-block">
-                                                                                        //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                        //             <i class="ri-more-fill align-middle"></i>
-                                                                                        //         </button>
-                                                                                        //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                        //             <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCACU["ca_customer_id"]. '","' .$userCACU["reference_no"]. '","' .$userCACU["country"]. '","' .$userCACU["state"]. '","' .$userCACU["city"]. '","ca_customer")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                        //             <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userCACU["ca_customer_id"]. '","' .$userCACU["country"]. '","' .$userCACU["state"]. '","' .$userCACU["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                        //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","'.$userCACU["ca_customer_id"].'","registered")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                        //         </ul>
-                                                                                        //     </div>
-                                                                                        // </td>';
+                                                                                        
                                                                                     }else{
                                                                                         echo'<td><span class="badge bg-danger">Deactivate</span></td>';
-                                                                                        // <td>
-                                                                                        //     <div class="dropdown d-inline-block">
-                                                                                        //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                        //             <i class="ri-more-fill align-middle"></i>
-                                                                                        //         </button>
-                                                                                        //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                        //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","'.$userCACU["ca_customer_id"].'","deactivate")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                        //         </ul>
-                                                                                        //     </div>
-                                                                                        // </td>';
+                                                                                        
                                                                                     }
                                                                                 echo'</tr>';
                                                                             }
@@ -2083,30 +2063,10 @@
                                                                                 <td>'.$datev.'</td>';
                                                                                 if($userCACU['status'] == '1'){
                                                                                     echo'<td><span class="badge bg-success">Active</span></td>';
-                                                                                    // <td>
-                                                                                    //     <div class="dropdown d-inline-block">
-                                                                                    //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    //             <i class="ri-more-fill align-middle"></i>
-                                                                                    //         </button>
-                                                                                    //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                    //             <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCACU["ca_customer_id"]. '","' .$userCACU["reference_no"]. '","' .$userCACU["country"]. '","' .$userCACU["state"]. '","' .$userCACU["city"]. '","ca_customer")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                                                                    //             <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userCACU["ca_customer_id"]. '","' .$userCACU["country"]. '","' .$userCACU["state"]. '","' .$userCACU["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                                                    //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","'.$userCACU["ca_customer_id"].'","registered")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                    //         </ul>
-                                                                                    //     </div>
-                                                                                    // </td>';
+                                                                                    
                                                                                 }else{
                                                                                     echo'<td><span class="badge bg-danger">Deactivate</span></td>';
-                                                                                    // <td>
-                                                                                    //     <div class="dropdown d-inline-block">
-                                                                                    //         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                    //             <i class="ri-more-fill align-middle"></i>
-                                                                                    //         </button>
-                                                                                    //         <ul class="dropdown-menu dropdown-menu-end">
-                                                                                    //             <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCACU["id"].'","'.$userCACU["ca_customer_id"].'","deactivate")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
-                                                                                    //         </ul>
-                                                                                    //     </div>
-                                                                                    // </td>';
+                                                                                    
                                                                                 }
                                                                             echo'</tr>';
                                                                         }
@@ -2186,7 +2146,7 @@
                                                                                 <td>'.$datev.'</td>';
                                                                                 
                                                                                 if($row['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Pending</span></td>';
+                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-success">Active</span></td>';
                                                                                 }
@@ -2250,7 +2210,7 @@
                                                                                 <td>'.$datev.'</td>';
                                                                                 
                                                                                 if($row['status'] == '3')
-                                                                                    echo'<td><span class="badge bg-danger">Pending</span></td>';
+                                                                                    echo'<td><span class="badge bg-danger">Deleted</span></td>';
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-success">Active</span></td>';
                                                                                 }
@@ -2515,20 +2475,7 @@
 
                 </div><!-- End Page-content -->
 
-                <footer class="footer"> <!-- footer start -->
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by Mirthcon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer> <!-- footer end -->
+                <?php include_once "footer.php" ?>
                 
             </div><!-- end main content-->
         
@@ -2555,38 +2502,11 @@
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <!-- <script src="assets/js/pages/datatables.init.js"></script> -->
-
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
-
         <!-- !-- materialdesign icon js- -->
         <script src="assets/js/pages/remix-icons-listing.js"></script>
 
-        <!-- apexcharts -->
-        <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-<!--  -->
-        <!-- Vector map-->
-        <!-- <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script> -->
-        <!-- <script src="assets/libs/jsvectormap/maps/world-merc.js"></script> -->
-
-        <!--Swiper slider js-->
-        <!-- <script src="assets/libs/swiper/swiper-bundle.min.js"></script> -->
-
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
-
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script>// -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script>// -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
          <script>
             $(document).ready(function(){
@@ -2602,8 +2522,8 @@
                 window.location.href='add_customer.php?vkvbvjfgfikix='+id+'&taId='+taID+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
             };
             
-            function deletefunc(id,fid,refid,action,userId,userType){
-                var dataString = 'id='+id+'&fid='+fid+'&refid='+refid+'&action='+action;+'&userId='+userId+'&userType='+userType
+            function deletefunc(id,refid,action,userId,userType){
+                var dataString = 'id='+id+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType
 
                 $.ajax({
                     type: "POST",

@@ -301,16 +301,16 @@
                 $("#amount").val("₹" + ui.values[0] + " - ₹" + ui.values[1]);
     
                 // Fire AJAX when user stops dragging price slider
-                let priceRange = $("#amount").val();
-                let prices = extractPrices(priceRange);
-                let sortValue = $(".sort-options").val();
-                let minDuration = $("#slider-range-duration").slider("values", 0);
-                let maxDuration = $("#slider-range-duration").slider("values", 1);
-                let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                let tourType = getTourType();
-                var listBtnVal = document.getElementById("all-tour-list");
-                var gridBtnVal = document.getElementById("all-tour-grid");
-                let viewType = 0;
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                minDuration = $("#slider-range-duration").slider("values", 0);
+                maxDuration = $("#slider-range-duration").slider("values", 1);
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                tourType = getTourType();
+                listBtnVal = document.getElementById("all-tour-list");
+                gridBtnVal = document.getElementById("all-tour-grid");
+                viewType = 0;
 
                 if (!listBtnVal.classList.contains('d-none')) {
                     viewType = 1; // list view
@@ -341,14 +341,14 @@
                 $("#duration-max").text(ui.values[1]);
     
                 // Fire AJAX when user stops dragging duration slider
-                let priceRange = $("#amount").val();
-                let prices = extractPrices(priceRange);
-                let sortValue = $(".sort-options").val();
-                let selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
-                let tourType = getTourType();
-                var listBtnVal = document.getElementById("all-tour-list");
-                var gridBtnVal = document.getElementById("all-tour-grid");
-                let viewType = 0;
+                priceRange = $("#amount").val();
+                prices = extractPrices(priceRange);
+                sortValue = $(".sort-options").val();
+                selectedDescription = $(".destination-dropdown").find("option:selected").data("description") ?? null;
+                tourType = getTourType();
+                listBtnVal = document.getElementById("all-tour-list");
+                gridBtnVal = document.getElementById("all-tour-grid");
+                viewType = 0;
 
                 if (!listBtnVal.classList.contains('d-none')) {
                     viewType = 1; // list view
@@ -521,14 +521,18 @@
     // }
     function loadDestinations() {
         $.ajax({
-            url: "assets/submit/get_destinations.php", // Make sure path is correct
+            url: "assets/submit/get_destinations.php",
             type: "GET",
             dataType: "json",
             success: function (response) {
                 let $dropdown = $(".destination-dropdown");
-                $dropdown.empty(); // Clear existing options
-                $dropdown.append(`<option></option>`); // for placeholder
-    
+                $dropdown.empty(); // Clear options
+
+                // Add empty placeholder
+                $dropdown.append(`<option></option>`);
+
+                let selectedValues = [];
+
                 response.forEach(function (item) {
                     $dropdown.append(
                         $("<option>", {
@@ -544,17 +548,58 @@
                     dropdownCssClass: "custom-select2-dropdown-container",
                     templateResult: destinationResult,
                     templateSelection: destinationSelection,
+                    
+                    //customer matcher
+                    matcher: function (params, data) {
+                        if ($.trim(params.term) === '') return data;
+                        if (!data.element) return null;
+
+                        // Normalize text:
+                        // 1. lowercase
+                        // 2. replace ANY non-alphanumeric character with space
+                        // 3. collapse multiple spaces
+                        const normalize = str =>
+                            (str || "")
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]+/g, " ") // 🔥 replace special chars with space
+                                .replace(/\s+/g, " ")
+                                .trim();
+
+                        const termWords = normalize(params.term).split(" ");
+
+                        const name = normalize(data.text);
+                        const desc = normalize($(data.element).data("description"));
+
+                        const combinedText = name + " " + desc;
+
+                        // Every word must match (order independent)
+                        const isMatch = termWords.every(word =>
+                            combinedText.includes(word)
+                        );
+
+                        return isMatch ? data : null;
+                    }
+
+
+
                 });
+
+                // 🔥 After Select2 loads, select all items
+                $dropdown.val(selectedValues).trigger("change");
             },
             error: function (xhr, status, error) {
                 console.error("Failed to load destinations:", error);
             }
         });
     }
+
     
     function destinationResult(item) {
+        
+        
+        console.log("OPTION ADDED:", item.text, [...item.text]);
         if (!item.id) return item.text;
-        var desc = $(item.element).data("description") || "";
+        var desc = $(item.element).data("description") || "";        
         return $(`
             <div class="select2-result">
                 <h4 class="airport-desc">${item.text}</h4>

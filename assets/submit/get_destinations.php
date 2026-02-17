@@ -1,20 +1,24 @@
 <?php
 require '../../connect.php';
-
-$sql = 'SELECT id, name, destination FROM `package` WHERE status = 1';
+//changed destination to location for DB query by SV on 19-11-2025 
+$sql = 'SELECT id, name, location FROM `package` WHERE status = 1';
 $stmt = $conn->prepare($sql);
 $stmt->execute(); // ✅ Execute the prepared statement
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Convert data to Select2 format
-$data = [];
+$data[] = [
+        "id" => 0,
+        "text" => 'All Locations',
+        "description" => 'All Locations'
+    ];
 
 foreach ($results as $row) {
     $data[] = [
         "id" => $row['id'],
         "text" => $row['name'],
-        "description" => $row['destination']
+        "description" => $row['location']
     ];
 }
 

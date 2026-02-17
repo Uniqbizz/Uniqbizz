@@ -33,7 +33,7 @@
     $id_proof = $_POST['id_proof'];
     $bank_details = $_POST['bank_details'];
 	$note=$_POST['note'];
-    $register_by = '15'; //bt
+    $register_by = '15'; //admin
 	$status = '2';
     // if($reporting_manager == ''){
     //     $reporting_manager = 'null';
@@ -43,6 +43,10 @@
         $user_type = '24'; //BCM
     }else if($designation == '2'){
         $user_type = '25'; //BDM
+    }else if($designation == '3'){
+        $user_type = '31'; //Relationship  manager
+    }else{
+        $user_type = '00'; //adding employee without error if usertype not define
     }
 
     // get age of the user

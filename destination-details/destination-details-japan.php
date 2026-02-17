@@ -3,9 +3,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="zxx" dir="lrt">
-
-<!-- Mirrored from travelloo.vercel.app/template/destination-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:53:06 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <head>
         <script>
             const setTheme = (theme) => {
@@ -21,25 +19,25 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta name="description" content="Travello - Multipurpose travel and tour booking.These template is suitable for  travel agency , tour, travel website , tour operator , tourism , booking  trip or adventure website. ">
-        <meta name="keywords" content="travel, trip booking,tour, hotel, tour guide, tourism, blog, flight, travel agency, tourism agency, accommodation, tour website">
-        <meta name="author" content="inittheme">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Multipurpose travel and tour booking">
-        <meta property="og:site_name" content="Travello">
-        <meta property="og:url" content="https://inittheme.com">
-        <meta property="og:image" content="https://inittheme.com/images/selfie.jpg">
-        <meta property="og:description" content="Multipurpose travel and tour booking, multipurpose template">
-        <meta name="twitter:title" content="Multipurpose travel and tour booking">
-        <meta name="twitter:description" content="Multipurpose travel and tour booking, multipurpose template">
-        <meta name="twitter:image" content="https://twitter.com/inittheme/photo">
+        <meta property="og:title" content="">
+        <meta property="og:site_name" content="">
+        <meta property="og:url" content="">
+        <meta property="og:image" content="">
+        <meta property="og:description" content="">
+        <meta name="twitter:title" content="">
+        <meta name="twitter:description" content="">
+        <meta name="twitter:image" content="">
         <meta name="twitter:card" content="summary">
         <!-- Google site verification -->
         <meta name="google-site-verification" content="...">
         <meta name="facebook-domain-verification" content="...">
         <meta name="csrf-token" content="...">
-        <meta name="currency" content="$">
+        <meta name="currency" content="">
         <!-- Title -->
         <title>Bizzmirth Holidays Private Ltd</title>
         <link rel="icon" type="image/x-icon" sizes="20x20" href="../assets/images/icon/fav.png">
@@ -53,6 +51,43 @@
         <link rel="stylesheet" type="text/css" href="../assets/css/main-style.css">
         <!-- RTL CSS::When Need RTL Uncomments File -->
         <!-- <link rel="stylesheet" type="text/css" href="../assets/css/rtl.css"> -->
+        <style>
+            .colNewlyAddedImg {
+                display: flex;
+                align-items: center;
+                padding-left: 0px !important;
+            }
+            .newlyAddedImg{
+                width: 100% !important;
+                height: 85% !important;
+            }
+            .btn-secondary-sm-view {
+                background-color: var(--secondary-color);
+                border: 1px solid transparent;
+                padding: 4px 8px;
+                font-size: 12px;
+                font-weight: 800;
+                line-height: 1.3;
+                border-radius: 8px;
+                color: #fff;
+                display: inline-block;
+            }
+            .btn-secondary-sm-view:hover {
+                -webkit-transition: 0.3s;
+                transition: 0.3s;
+                background-color: transparent;
+                border: 1px solid var(--secondary-color);
+                color: var(--secondary-color);
+            }
+            .package-font-size {
+                font-size: 12px;
+                padding-bottom: 5px;
+            }
+            .borderEndStyle {
+                border: 1px solid red !important;
+                margin: -5px 5px 10px 0px !important;
+            }
+        </style>
     </head>
     <body>
         <?php include_once "header_blog.php" ?>
@@ -100,200 +135,64 @@
                             <div class="destination-details-content">
                                 <h4 class="title">Experience Japan - Where Every Sunrise Tells A Story</h4>
                                 <p class="pera">
-                                    DJapan is an East Asian nation located in the Pacific Ocean. It is made up of an archipelago, whose 
-                                    four largest Island include Honshu, Hokkaido, Kyushu, and Shikoku.  Tokyo is its capital city and 
-                                    the most populous city in the world. Tokyo is famous for having a wide variety of tourist 
-                                    attractions. The Imperial Palace East Gardens is a beautiful and historic location within the 
-                                    Tokyo Imperial Palace grounds. Chidorigafuchi Moat is Japan's most visited spot for cherry blossoms. 
-                                    Yasukuni Shrine pays homage to Japan's war heroes and is of great historical significance. 
-                                    Marunouchi is a thriving commercial area, famous for its high-rise skyscrapers and traditional 
-                                    landmarks that easily combine modernity and heritage.  
+                                    Japan is an East Asian country in the Pacific Ocean. It is composed of four main islands, namely, 
+                                    Honshu, Hokkaido, Kyushu, and Shikoku. Tokyo, the capital of Japan, is the most populous city in the 
+                                    world. It is renowned for a diverse range of tourist attractions. The Imperial Palace East Garden is 
+                                    beautiful and historic and is located within the grounds of the Imperial Palace in Tokyo. 
+                                    Chidorigafuchi Moat is one of the most popular cherry blossom destinations in Japan. Yasukuni Shrine 
+                                    is a landmark site that honours Japan's war heroes. Marunouchi is a well-known business area, famous 
+                                    for its towering buildings and historic sites, creating a blend of contemporary design and 
+                                    traditional charm.  
                                 </p>
                                 <p class="pera">
-                                    Hiroshim another popular tourist destination is a place where the atomic bomb was, dropped in 1945. 
-                                    We have two memorial sites to visit, the iconic Atomic Bomb Dome and the Peace memorial. Hiroshima 
-                                    Castle is a symbol of the city's rich samurai heritage.  The historical gardens of "Shukkei-en" 
-                                    which means, “shrunken scenery gardens” is located in Hiroshima. At midday, a tourist can savour 
-                                    a delicious Okonomiyaki lunch — Hiroshima’s signature savoury pancake layered with noodles and 
-                                    vegetables. 
+                                    Hiroshima is another major tourist attraction in Japan. It's the city where the atomic bomb was 
+                                    detonated in 1945. You can find two significant memorials here, namely the Atomic Bomb Dome and the 
+                                    Peace Memorial.  
                                 </p>
                                 <p class="pera">
-                                    A short ferry ride from Hiroshima will take you to Miyajima, a small shrine island renowned for 
-                                    the iconic Itsukushima Shrine, a "floating" tori gate, which is a UNESCO world heritage site. 
-                                    Tenshinkaku is a charming, traditional Japanese house turned café, located on a hill in Miyajima. 
-                                    You can enjoy the scenic view that includes the iconic Toyokuni Shrine, the elegant Five-Story 
-                                    Pagoda, and the tranquil waters of the Seto Inland Sea Kyoto, a former capital of Japan, is a city 
-                                    situated on the Honshu Island.  It's renowned for its many traditional Buddhist temples along with 
-                                    gardens, imperial palaces, Shinto shrines, and traditional wooden houses. It's also well known for 
-                                    its formal customs, including kaiseki dining, which is made up of various dishes, and geisha female 
-                                    entertainers.   
+                                    Hiroshima Castle is a symbol of the city's rich samurai heritage. The historical gardens of 
+                                    "Shukkei-en", which means "shrunken scenery gardens", are located in Hiroshima. At midday, a tourist 
+                                    can savour a delicious okonomiyaki lunch — Hiroshima’s signature savoury pancake layered with noodles 
+                                    and vegetables.   
                                 </p>
                                 <p class="pera">
-                                    Nara is home to eight UNESCO Heritage site namely Todai-ji Temple, Kohfuku-ji Temple, Kasuga-Taisha 
-                                    Shrine, Kasugayama Primeval Forest, Gango-ji Temple, Yakushi-ji Temple, Toshodai-ji Temple, and 
-                                    the Nara Palace Site, which is worth a visit. 
+                                    Kyoto, a former capital of Japan, is a city situated on the island of Honshu. It's renowned for its 
+                                    many traditional Buddhist temples along with gardens, imperial palaces, Shinto shrines, and 
+                                    traditional wooden houses. It's also well known for its formal customs, including kaiseki dining, 
+                                    which consists of various dishes, and geisha female entertainers. 
                                 </p>
                                 <p class="pera">
-                                    Osaka is a large commercial port of the Japanese. Osaka castle is an iconic landmark. It offers a 
-                                    glimpse into Japan’s feudal history. Universal Studios in Japan is a fun-packed theme park for all 
-                                    ages that attracts large crowds. Shitenno-ji is Japan’s oldest official Buddhist temple. Umeda Sky 
-                                    Building is a futuristic structure that is famous for its Floating Garden Observatory where visitors 
-                                    have to take the lift to the top and enjoy panoramic views of Osaka’s skyline—especially stunning 
-                                    at sunset or night. Osaka Aquarium Kaiyukan is one of the world’s largest aquariums, featuring sea 
-                                    creatures from across the Pacific Ocean. Sumiyoshi Taisha Shrine a Shinto shrine known for its 
-                                    unique architectural style and arched bridge.  There are also a wide variety of hidden food stalls 
-                                    and alleys and a tourist, must-tries the kushikatsu (deep-fried skewers) and negiyaki 
-                                    (green onion pancakes).   
+                                    Nara is home to eight UNESCO Heritage sites, namely Todai-ji Temple, Kohfuku-ji Temple, 
+                                    Kasuga-Taisha Shrine, Kasugayama Primaeval Forest, Gango-ji Temple, Yakushi-ji Temple, Toshodai-ji 
+                                    Temple, and the Nara Palace Site, all of which are worth a visit.  
+                                </p>
+                                <p class="pera">
+                                    Osaka is a major commercial port in Japan. Osaka Castle is an iconic landmark. It offers a glimpse 
+                                    into Japan’s feudal history. Universal Studios in Japan is a fun-packed theme park for all ages that 
+                                    attracts large crowds. Shitenno-ji is Japan’s oldest official Buddhist temple. 
+                                </p>
+                                <p class="pera">
+                                    The Umeda Sky Building is renowned for its Floating Garden Observatory, where visitors can take a 
+                                    lift to the summit and enjoy the panoramic view of Osaka’s skyline, which is particularly 
+                                    breathtaking at dusk or at night. The Osaka Aquarium Kaiyukan is one of the world's largest 
+                                    aquariums, showcasing a diverse array of marine life from all over the Pacific.   
+                                </p>
+                                <p class="pera">
+                                    Sumiyoshi Taisha Shrine is a Shinto shrine recognised for its distinctive architectural style and 
+                                    arched bridge. There are also a wide variety of hidden food stalls and alleys, and tourists must try 
+                                    the kushikatsu (deep-fried skewers) and negiyaki (green onion pancakes).    
                                 </p>
                                 <p class="pera">
                                     Whether you are exploring the cultural heart of Kyoto, climbing Mount Fuji, soaking in an onsen 
-                                    (hot spring), or enjoying sushi in Tokyo. Japan offers a blend of tradition and modernity, a 
-                                    high-tech experience of the world-renowned bullet train, all highlight Japan’s cultural legacy of 
-                                    ancient temples, and nightlife, filled with traditional food handed down from generations. 
-                                </p>
-                                <p class="pera">
-                                    Japan is a captivating blend of ancient tradition and cutting-edge modernity, offering travellers a 
-                                    truly unique experience. From serene temples and historic castles to cherry blossoms and neon-lit 
-                                    cities, the country seamlessly combines the past and the future, featuring high-speed trains and 
-                                    futuristic technology. Whether you're exploring the cultural heart of Kyoto, climbing Mount Fuji, 
-                                    soaking in an onsen (hot spring), or enjoying world-class sushi in Tokyo, Japan delights with its 
-                                    hospitality, cleanliness, and attention to detail, making it a must-visit destination for all types 
-                                    of travellers.   
+                                    (hot spring), or enjoying sushi in Tokyo. Japan offers a blend of tradition and modernity, featuring 
+                                    a high-tech experience with the world-renowned bullet train, all highlighting Japan’s cultural legacy 
+                                    of ancient temples and nightlife, filled with traditional food handed down through generations.    
                                 </p>
                             </div>
                             <!--/ details-content -->
-
-                            <!-- Details content -->
-                            <!-- <div class="destination-details-content">
-                                <h4 class="title">What to Expect</h4>
-                                <p class="pera">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt
-                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris
-                                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                                    voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur.</p>
-                                <ul class="expect-list">
-                                    <li class="list">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                        tempor
-                                        incididunt ut labore et dolore.</li>
-                                    <li class="list">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                        accusantium doloremque
-                                        laudantium, totam rem</li>
-                                    <li class="list">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                        officia deserunt
-                                        mollit anim id est laborum.</li>
-                                    <li class="list">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                        blanditiis praesentium
-                                        voluptatum deleniti atque corrupti quos dolores</li>
-                                </ul>
-                            </div> -->
-                            <!-- / details content -->
-
-                            <!-- accordion -->
-                            <!-- <div class="destination-accordion">
-                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                                aria-controls="panelsStayOpen-collapseOne">
-                                                What are best quotes in travel?
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                            aria-labelledby="panelsStayOpen-headingOne">
-                                            <div class="accordion-body">
-                                                <ul class="listing">
-                                                    <li class="list">
-                                                        “Life is either a daring adventure or nothing at all.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Travel far enough, you meet yourself.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Once a year, go someplace you've never been before.”
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                                What is a good quote about tourism?
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                                            aria-labelledby="panelsStayOpen-headingTwo">
-                                            <div class="accordion-body">
-                                                <ul class="listing">
-                                                    <li class="list">
-                                                        “Life is either a daring adventure or nothing at all.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Travel far enough, you meet yourself.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Once a year, go someplace you've never been before.”
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree"
-                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                                How do you write a quote for a trip?
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                                            aria-labelledby="panelsStayOpen-headingThree">
-                                            <div class="accordion-body">
-                                                <ul class="listing">
-                                                    <li class="list">
-                                                        “Life is either a daring adventure or nothing at all.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Travel far enough, you meet yourself.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Wherever you go becomes a part of you somehow.” ...
-                                                    </li>
-                                                    <li class="list">
-                                                        “Once a year, go someplace you've never been before.”
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- / Accordion -->
                         </div>
                         <div class="col-xl-4 col-lg-5">
                             <div class="row g-4 position-static top-0">
-                                <!-- <div class="col-lg-12">
-                                    Offer Card
-                                    <div class="destination-offer-three">
-                                        <div class="destination-content-offer">
-                                            <span class="highlights">20% off</span>
-                                            <h4 class="title">The Best Travel Adventure</h4>
-                                            <a href="payment.html" class="btn-secondary-sm radius-30">Booking Now</a>
-                                        </div>
-                                    </div>
-                                    / Offer card
-                                </div> -->
                                 <div class="col-lg-12">
                                     <!-- info -->
                                     <div class="destination-details-info">
@@ -328,14 +227,58 @@
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
-                                    
                                 </div>
+                                <!-- Newly added packages top 5 -->
+                                <div class="col-lg-12">
+                                    <div class="destination-details-info">
+                                        <h4 class="title ">Newly Added Packages</h4>
+                                        <div class="row p-3 rounded-3" style="background-color: #eaebee; margin-left: 1px !important; margin-right: 1px !important; margin-bottom: 30px !important;">
+                                            <?php 
+                                                require '../connect.php';
+                                                $stmt = $conn->prepare(" SELECT id, description, destination, location, name FROM package WHERE  status = '1'  ORDER BY id DESC LIMIT 5 ");
+                                                $stmt->execute();
+                                                $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                                if($stmt->rowCount()>0){
+                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                        // $name = $row['name'].''.$row['unique_code'];
+                                                        // echo $srno.' '.$name.'</br>';
+                                                        // get images
+                                                        $data = $conn->prepare("SELECT * FROM package_pictures WHERE package_id = '".$row['id']."' LIMIT 1" );
+                                                        $data->execute();
+                                                        $value = $data->fetch();
+                                                        // echo $value['image'].'-id-'.$value['id'].'-package_id-'.$value['package_id'];
+                                                        // tour package description limit words counts to show in list view
+                                                        $description = $row['description'];
+                                                        $maxLength = 65; //word limit
+                                                        if (strlen($description) > $maxLength) {
+                                                            $truncatedString = substr($description, 0, $maxLength) . '...';
+                                                        } else {
+                                                            $truncatedString = $description;
+                                                        }
+                                                        echo'
+                                                            <div class="col-5 colNewlyAddedImg mb-2">
+                                                                <img class="newlyAddedImg rounded-3" src="../'.$value['image'].'" alt="BizzMirth">
+                                                            </div>
+                                                            <div class="col-7 mb-2 pb-2 justify-content-center align-content-center">
+                                                                <h6 class="fw-bolder text-center">'.$row['location'].'</h6>
+                                                                <p class="package-font-size">'.$truncatedString.'</p>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <a href="#" class="btn-secondary-sm-view" onclick=\'viewPackage("' .$row['id']. '")\'>View Package</a>
+                                                                </div>
+                                                            </div>
+                                                            <hr class="borderEndStyle">
+                                                        ';
+                                                    }
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Newly added packages top 5 -->
                             </div>
                         </div>
                         <div class="col-xl-12 col-lg-12">
-                            
                             <div class="row g-4">
                                 <?php 
                                     require '../connect.php';
@@ -454,6 +397,4 @@
             }
         </script>
     </body>
-
-<!-- Mirrored from travelloo.vercel.app/template/destination-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:53:06 GMT -->
 </html>

@@ -372,5 +372,225 @@
         }
     
     
+    }else if($table_name == 'mf_top_performer'){
+       
+        $srNo = 1;
+        $sql1 = $conn->prepare("
+            SELECT 
+            e1.master_franchisee_id AS MF_user_id,
+            e1.firstname AS MF_user_fname,
+            e1.lastname AS MF_user_lname,
+            e1.reference_no,
+            e1.registrant,
+            e1.profile_pic,
+            e1.status,
+            COUNT(all_users.user_id) AS TE_count
+        FROM master_franchisee e1
+        LEFT JOIN (
+            SELECT reference_no, corporate_agency_id AS user_id, register_date 
+            FROM corporate_agency 
+            WHERE user_type = 16
+            UNION ALL
+            SELECT reference_no, sub_franchisee_id AS user_id, register_date 
+            FROM sub_franchisee
+            WHERE user_type = 29
+        ) AS all_users
+        ON all_users.reference_no = e1.master_franchisee_id
+        WHERE e1.user_type = 28
+        AND MONTH(all_users.register_date) = :month
+        AND YEAR(all_users.register_date) = :year
+        GROUP BY 
+            e1.master_franchisee_id, 
+            e1.firstname, 
+            e1.lastname, 
+            e1.reference_no, 
+            e1.registrant, 
+            e1.profile_pic, 
+            e1.status
+        HAVING TE_count > 0  
+        ORDER BY TE_count DESC
+        LIMIT 5;
+        ");
+
+        $sql1->execute([
+            ':month' => $Month,
+            ':year'  => $Year
+        ]);
+
+        // Set the fetch mode to associative array
+        $sql1->setFetchMode(PDO::FETCH_ASSOC);
+
+        if ($sql1->rowCount() > 0) {
+            // Loop through the results and display the BDM user details
+            foreach ($sql1->fetchAll() as $mf_id) {
+                echo '<tr>
+                        <td>
+                            <div class="profile-pic pb-1">
+                                <img src="assets/images/topPerformer/'.$srNo.'.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="profile-pic pb-1">
+                                <img src="../uploading/' . htmlspecialchars($mf_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                            </div>
+                        </td>
+                        <td class="align-content-center"><p>' . htmlspecialchars($mf_id['MF_user_id']) . '</p> <p> ' . htmlspecialchars($mf_id['MF_user_fname'].' '.$mf_id['MF_user_lname']) . ' </p></td>
+                        <td class="align-content-center">' . htmlspecialchars($mf_id['TE_count']) . '</td>
+                        <td class="align-content-center">
+                            <p class="mb-1">' . htmlspecialchars($mf_id['reference_no']) . '</p>
+                            <p class="mb-0">' . htmlspecialchars($mf_id['registrant']) . '</p>
+                        </td>
+
+                </tr>';
+                $srNo++;
+            }
+        } else {
+            echo '<tr>
+                    <td colspan="5" class="align-content-center">No data found</td>
+                </tr>';
+        }
+    
+    
+    }else if($table_name == 'sf_top_performer'){
+       
+        $srNo = 1;
+        // Prepare the SQL query to get the BDM user who brought the highest number of BM
+        $sql1 = $conn->prepare("
+            SELECT 
+                e1.sponsor_franchisee_id AS SF_user_id,
+                e1.firstname AS SF_user_fname,
+                e1.lastname AS SF_user_lname,
+                e1.reference_no,
+                e1.registrant,
+                e1.profile_pic,
+                e1.status,
+                COUNT(all_users.user_id) AS TE_count
+            FROM sponsor_franchisee e1
+            LEFT JOIN (
+                SELECT reference_no, corporate_agency_id AS user_id, register_date 
+                FROM corporate_agency 
+                WHERE user_type = 16
+                UNION ALL
+                SELECT reference_no, sub_franchisee_id AS user_id, register_date 
+                FROM sub_franchisee
+                WHERE user_type = 29
+            ) AS all_users
+            ON all_users.reference_no = e1.sponsor_franchisee_id
+            WHERE e1.user_type = 30
+            AND MONTH(all_users.register_date) = :month
+            AND YEAR(all_users.register_date) = :year
+            GROUP BY 
+                e1.sponsor_franchisee_id, 
+                e1.firstname, 
+                e1.lastname, 
+                e1.reference_no, 
+                e1.registrant, 
+                e1.profile_pic, 
+                e1.status
+            HAVING TE_count > 0 
+            ORDER BY TE_count DESC
+            LIMIT 5;
+        ");
+
+        $sql1->execute([
+            ':month' => $Month,
+            ':year'  => $Year
+        ]);
+
+        // Set the fetch mode to associative array
+        $sql1->setFetchMode(PDO::FETCH_ASSOC);
+
+        if ($sql1->rowCount() > 0) {
+            // Loop through the results and display the BDM user details
+            foreach ($sql1->fetchAll() as $sf_id) {
+                echo '<tr>
+                        <td>
+                            <div class="profile-pic pb-1">
+                                <img src="assets/images/topPerformer/'.$srNo.'.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="profile-pic pb-1">
+                                <img src="../uploading/' . htmlspecialchars($sf_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                            </div>
+                        </td>
+                        <td class="align-content-center"><p>' . htmlspecialchars($sf_id['SF_user_id']) . '</p> <p> ' . htmlspecialchars($sf_id['SF_user_fname'].' '.$sf_id['SF_user_lname']) . ' </p></td>
+                        <td class="align-content-center">' . htmlspecialchars($sf_id['TE_count']) . '</td>
+                        <td class="align-content-center">
+                            <p class="mb-1">' . htmlspecialchars($sf_id['reference_no']) . '</p>
+                            <p class="mb-0">' . htmlspecialchars($sf_id['registrant']) . '</p>
+                        </td>
+
+                </tr>';
+                $srNo++;
+            }
+        } else {
+            echo '<tr>
+                    <td colspan="5" class="align-content-center">No data found</td>
+                </tr>';
+        }
+                                                
+    }else if($table_name == 'fr_top_performer'){
+       
+        $srNo = 1;
+        // Prepare the SQL query to get the Franchisee fr user who brought the highest number of TC
+        $sql1 = $conn->prepare("
+                    SELECT e1.sub_franchisee_id AS FR_user_id,
+                        e1.firstname AS FR_user_fname,
+                        e1.lastname AS FR_user_lname,
+                        e1.reference_no,
+                        e1.registrant,
+                        e1.profile_pic,
+                        e1.status,
+                        COUNT(e2.ca_travelagency_id) AS TC_count
+                    FROM sub_franchisee e1
+                    LEFT JOIN ca_travelagency e2 ON e1.sub_franchisee_id = e2.reference_no
+                    WHERE e1.user_type = 29 
+                    AND e2.user_type = 11
+                    AND MONTH(e2.register_date) = '" . $Month . "'
+                    AND YEAR(e2.register_date) = '" . $Year . "' 
+                    GROUP BY e1.sub_franchisee_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
+                    ORDER BY TC_count DESC
+                    LIMIT 5;
+                ");
+
+        // Execute the query
+        $sql1->execute();
+
+        // Set the fetch mode to associative array
+        $sql1->setFetchMode(PDO::FETCH_ASSOC);
+
+        if ($sql1->rowCount() > 0) {
+            // Loop through the results and display the BDM user details
+            foreach ($sql1->fetchAll() as $fr_id) {
+                echo '<tr>
+                                <td>
+                                    <div class="profile-pic pb-1">
+                                        <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="profile-pic pb-1">
+                                        <img src="../uploading/' . htmlspecialchars($fr_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                    </div>
+                                </td>
+                                <td class="align-content-center">
+                                    <p class="fw-bold text-dark"> ' . htmlspecialchars($fr_id['FR_user_fname'] . ' ' . $fr_id['FR_user_lname']) . ' </p>
+                                    <p class="text-dark">' . htmlspecialchars($fr_id['FR_user_id']) . '</p> 
+                                </td>
+                                <td class="align-content-center">' . htmlspecialchars($fr_id['TC_count']) . '</td>
+                                <td class="align-content-center">
+                                    <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($fr_id['registrant']) . '</p>
+                                    <p class="mb-1 text-dark">' . htmlspecialchars($fr_id['reference_no']) . '</p>
+                                </td>   
+                            </tr>';
+                $srNo++;
+            }
+        } else {
+            echo '<tr>
+                            <td colspan="5" class="align-content-center">No data found</td>
+                        </tr>';
+        }
+                                                
     }
 ?>

@@ -51,8 +51,6 @@ if ($stmt->rowCount() > 0) {
             // Common for userType 10, 11, and others
             $fname = $value['firstname'];
             $lname = $value['lastname'];
-            // $n_name = $value['nominee_name'];
-            // $n_relation = $value['nominee_relation'];
             $phone_no = $value['contact_no'];
             $bank_passbook = ($userType == '10' || $userType == '11') ? $value['passbook'] : $value['bank_passbook'];
             $pan_card = $value['pan_card'] ?? '';
@@ -176,23 +174,6 @@ if ($stmt->rowCount() > 0) {
 
             <div class="page-content">
                 <div class="container-fluid ">
-
-                    <!-- <div class="position-relative mx-n4 mt-n4">
-                            <div class="profile-wid-bg profile-setting-img">
-                                <img src="assets/images/profile-bg.jpg" class="profile-wid-img" alt="">
-                                <div class="overlay-content">
-                                    <div class="text-end p-3">
-                                        <div class="p-0 ms-auto rounded-circle profile-photo-edit">
-                                            <input id="profile-foreground-img-file-input" type="file" class="profile-foreground-img-file-input">
-                                            <label for="profile-foreground-img-file-input" class="profile-photo-edit btn btn-light">
-                                                <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
                     <form>
                         <div class="row">
                             <div class="col-xxl-3 ">
@@ -225,51 +206,7 @@ if ($stmt->rowCount() > 0) {
                                 <!-- Upload-Document -->
 
                                 <!-- End-Upload-Document -->
-                                <!-- <div class="card" style="display: none">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center mb-4">
-                                            <div class="flex-grow-1">
-                                                <h5 class="card-title mb-0">Portfolio</h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i class="ri-add-fill align-bottom me-1"></i> Add</a>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 d-flex">
-                                            <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                                <span class="avatar-title fs-16 bg-body text-body shadow">
-                                                    <i class="ri-github-fill"></i>
-                                                </span>
-                                            </div>
-                                            <input type="email" class="form-control" id="gitUsername" placeholder="Username" value="@daveadame">
-                                        </div>
-                                        <div class="mb-3 d-flex">
-                                            <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                                <span class="avatar-title rounded-circle fs-16 bg-primary shadow">
-                                                    <i class="ri-global-fill"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control" id="websiteInput" placeholder="www.example.com" value="www.velzon.com">
-                                        </div>
-                                        <div class="mb-3 d-flex">
-                                            <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                                <span class="avatar-title rounded-circle fs-16 bg-success shadow">
-                                                    <i class="ri-dribbble-fill"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control" id="dribbleName" placeholder="Username" value="@dave_adame">
-                                        </div>
-                                        <div class="d-flex">
-                                            <div class="avatar-xs d-block flex-shrink-0 me-3">
-                                                <span class="avatar-title rounded-circle fs-16 bg-danger shadow">
-                                                    <i class="ri-pinterest-fill"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control" id="pinterestName" placeholder="Username" value="Advance Dave">
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <!--end card-->
+                                
                             </div>
                             <!--end col-->
                             <div class="col-xxl-9">
@@ -293,16 +230,7 @@ if ($stmt->rowCount() > 0) {
                                             <?php
                                                 }
                                             ?>
-                                            <!-- <li class="nav-item">
-                                                <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                                    <i class="far fa-envelope"></i> Experience
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
-                                                    <i class="far fa-envelope"></i> Privacy Policy
-                                                </a>
-                                            </li> -->
+                                           
                                         </ul>
                                     </div>
                                     <div class="card-body p-4">
@@ -338,20 +266,7 @@ if ($stmt->rowCount() > 0) {
                                                         </div>
                                                     </div>
                                                     <!--end col-->
-                                                    <!-- <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name" value="<?php echo $n_name == '' ? 'No Nominee Selected' : $value['nominee_name']; ?> ">
-                                                            <label for="nominee_name">Nominee Name</label>
-                                                        </div>
-                                                    </div> -->
-                                                    <!--end col-->
-                                                    <!-- <div class="col-lg-6">
-                                                        <div class="mb-4 form-floating">
-                                                            <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value="<?php echo $n_relation == '' ? 'No Nominee Selected' : $value['nominee_relation']; ?> ">
-                                                            <label for="nominee_relation">Nominee Relation</label>
-                                                        </div>
-                                                    </div> -->
-                                                    <!--end col-->
+                                                   
                                                     <div class="col-lg-6">
                                                         <div class="mb-4 form-floating">
                                                             <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" value="<?php echo $phone_no ?> ">
@@ -381,11 +296,7 @@ if ($stmt->rowCount() > 0) {
                                                     <!--end col-->
                                                     <div class="col-lg-6 mb-4 <?= $userType == '25' || $userType == '24' ? 'd-none' : '' ?>">
                                                         <div class="form-floating">
-                                                            <!-- <?php
-                                                                    // $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
-                                                                    // $stmt->execute();                                         
-                                                                    // $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                                    ?> -->
+                                                            
                                                             <select class="form-select" id="country" aria-label="Floating label select example">
                                                                 <option value="<?= $country ?>" selected><?php echo $countryname; ?></option>
                                                             </select>
@@ -425,12 +336,7 @@ if ($stmt->rowCount() > 0) {
                                                         </div>
                                                     </div>
                                                     <!--end col-->
-                                                    <!-- <div class="col-lg-12">
-                                                        <div class="hstack gap-2 justify-content-end">
-                                                           <button id="edit_profile" type="submit" class="btn btn-primary" >Save Changes</button>
-                                                        </div>
-                                                    </div> -->
-                                                    <!--end col-->
+                                                    
                                                 </div>
                                                 <!--end row-->
 
@@ -454,16 +360,7 @@ if ($stmt->rowCount() > 0) {
                                                         <div class="pt-1 pb-2">
                                                             <h5>No Coupons Available </h5>
                                                         </div>
-                                                        <!-- <div class="pt-3 pb-2 col-md-5">
-                                                            <div class="row">
-                                                                Generate Coupons Button 
-                                                                <div class="col-12 d-flex align-items-end justify-content-end">
-                                                                    <button type="button" class="bg-success text-white border-0 rounded-3 fw-bold px-3 py-2" id="generate_coupons">
-                                                                        Generate Coupons
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
+                                                        
                                                         <?php }?>
                                                     </div>
                                                 </div>
@@ -476,89 +373,7 @@ if ($stmt->rowCount() > 0) {
                                                     //print_r($coupons);
                                                     if(count($coupons) == 0){   
                                                 ?>
-                                                <!-- <div class="row">
-                                                    <div class="col-md-6 col-sm-6" id="couponFee">
-                                                        <div class="input-block mb-3">
-                                                            <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="payment_fee" aria-label="Floating label select example">
-                                                                <option value="null" selected disabled>--Select Payment Fee--</option>
-                                                                <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
-                                                                <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
-                                                                <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6">
-                                                        <div class="input-block mb-3">
-                                                            <label for="comp_chek" class="col-form-label">Complementary Type<span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="comp_chek" aria-label="Floating label select example">
-                                                                <option value="null" selected disabled>--Select Complementary Tpe--</option>
-                                                                <option value="2">Non Complementary</option>
-                                                                <option value="1">Complementary</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div class="col-md-12 col-sm-12 d-none" id="paymentMode1">
-                                                    <div class="input-block mb-3">
-                                                        <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-                                                        <div class="form-control radioBtn d-flex justify-content-around">
-                                                            <label class="mb-0" for="cashPayment"><input type="radio" id="cashPayment" class="form-check-input payment1 me-3" name="payment" value="cash">Cash</label>
-                                                            <label class="mb-0" for="chequePayment"><input type="radio" id="chequePayment" class="form-check-input payment1 me-3" name="payment" value="cheque">Cheque</label>
-                                                            <label class="mb-0" for="onlinePayment"><input type="radio" id="onlinePayment" class="form-check-input payment1 me-3" name="payment" value="online">UPI/NEFT</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="pb-3 d-none" id="payOpt">
-                                                    <div class="col-md-12 col-sm-12 d-none" id="chequeOpt1">
-                                                        <div class="row d-flex justify-content-center">
-                                                            <div class="col-md-4">
-                                                                <div class="input-block">
-                                                                    <label class="col-form-label" for="chequeNo1">Cheque No<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="chequeNo1" placeholder="Enter Cheque Number">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="input-block">
-                                                                    <label class="col-form-label" for="chequeDate1">Cheque Date<span class="text-danger">*</span></label>
-                                                                    <input type="date" class="form-control" id="chequeDate1" placeholder="Enter Date On Cheque">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="input-block">
-                                                                    <label class="col-form-label" for="bankName1">Bank Name<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="bankName1" placeholder="Enter your Bank Name">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12 d-none" id="onlineOpt1">
-                                                        <div class="row d-flex justify-content-center">
-                                                            <div class="col-md-8">
-                                                                <div class="input-block">
-                                                                    <label class="col-form-label" for="transactionNo1">Transaction No<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="transactionNo1" placeholder="Enter your Transaction No.">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 col-sm-6 d-none" id="payProof">
-                                                        <div class="mb-3">
-                                                            <label class="col-form-label" for="file6">Payment Proof</label><br />
-                                                            <input class="form-control" type="file" name="file6" id="upload_file61">
-                                                        </div>
-                                                        <input type="hidden" id="img_path61" value="">
-                                                        <div id="preview61" style="display: none;">
-                                                            <div id="image_preview61">
-                                                                <img alt="Preview" id="img_pre61">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div> -->
+                                                
                                                 <?php
                                                     }
                                                 ?>
@@ -579,7 +394,6 @@ if ($stmt->rowCount() > 0) {
                                                             <?php
                                                                 $createdDate = new DateTime($coupon['created_date']);
                                                                 $expiryDate = new DateTime($coupon['expiry_date']);
-                                                                // $expiryDate = (clone $createdDate)->modify('+5 years');
                                                                 $now = new DateTime();
                                                             ?>
                                                             <tr>
@@ -611,29 +425,7 @@ if ($stmt->rowCount() > 0) {
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
-                                                            <!-- Example rows, replace with PHP/JS data dynamically -->
-                                                            <!-- <tr>
-                                                                <td>WELCOME10</td>
-                                                                <td>Premium</td>
-                                                                <td>01-06-2025</td>
-                                                                <td>30-06-2025</td>
-                                                                <td><span class="badge bg-success">Unused</span></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>SUMMER20</td>
-                                                                <td>Premium</td>
-                                                                <td>15-05-2025</td>
-                                                                <td>17-06-2025</td>
-                                                                <td><span class="badge bg-danger">Used</span> on 15-06-2025</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>SUMMER21</td>
-                                                                <td>Premium</td>
-                                                                <td>15-05-2025</td>
-                                                                <td>15-06-2025</td>
-                                                                <td><span class="badge bg-secondary">Expired</span> on 15-06-2025</td>
-                                                            </tr> -->
-                                                            <!-- Add more rows dynamically -->
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -831,20 +623,7 @@ if ($stmt->rowCount() > 0) {
                 <!-- container-fluid -->
             </div><!-- End Page-content -->
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include_once "footer.php" ?>
         </div>
         <!-- end main content-->
 
@@ -856,16 +635,6 @@ if ($stmt->rowCount() > 0) {
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
-
-    <!--preloader-->
-    <!-- <div id="preloader">
-            <div id="status">
-                <div class="spinner-border text-primary avatar-sm" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        </div> -->
-
     <!-- Theme Settings -->
 
     <!-- JAVASCRIPT -->
@@ -874,38 +643,12 @@ if ($stmt->rowCount() > 0) {
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>-->
-    <!-- <script src="assets/js/plugins.js"></script>  -->
-
-    <!-- !-- materialdesign icon js- -->
-    <!-- <script src="assets/js/pages/remix-icons-listing.js"></script> -->
-
-    <!-- apexcharts -->
-    <!-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> -->
-
-    <!-- Vector map-->
-    <!-- <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-    <script src="assets/libs/jsvectormap/maps/world-merc.js"></script> -->
-
-    <!--Swiper slider js-->
-    <!-- <script src="assets/libs/swiper/swiper-bundle.min.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
 
     <!-- App js -->
     <script src="assets/js/app.js"></script>
     <!-- file upload code js file -->
     <script src="../uploading/upload.js"></script>
 
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
     <script>
       
        $('#edit_profile').on('click', function (event) {

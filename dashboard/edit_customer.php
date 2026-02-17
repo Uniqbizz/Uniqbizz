@@ -15,30 +15,23 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
 if ($stmt->rowCount() > 0) {
     foreach (($stmt->fetchAll()) as $key => $row) {
         $fid = $row['id'];
-        // $sales_manager_name=$row['fname'];
         $firstname = $row['firstname'];
-        // $username=$row['username'];
         $lastname = $row['lastname'];
         $nominee_name = $row['nominee_name'];
         $nominee_relation = $row['nominee_relation'];
         $email = $row['email'];
         $contact_no = $row['contact_no'];
-        // $business_package=$row['business_package'];
-        // $amount=$row['amount'];
         $reference_no = $row['reference_no'];
         $registrant = $row['registrant'];
         $ta_reference_no = $row['ta_reference_no'];
         $ta_reference_name = $row['ta_reference_name'];
-        // $gst_no=$row['gst_no'];
         $date_of_birth = $row['date_of_birth'];
         $gender = $row['gender'];
         $country = $row['country'];
         $state = $row['state'];
         $city = $row['city'];
         $address = $row['address'];
-        // $id_proof=$row['id_proof'];
         $profile_pic = $row['profile_pic'];
-        // $kyc=$row['kyc'];
         $pan_card = $row['pan_card'];
         $aadhar_card = $row['aadhar_card'];
         $voting_card = $row['voting_card'];
@@ -52,8 +45,6 @@ if ($stmt->rowCount() > 0) {
         $pincode = $row['pincode'];
         $register_by = $row['register_by'];
         $customer_type = $row['customer_type'];
-        // $complimentary=$row['complimentary'];
-        // $converted=$row['converted'];
 
         //get country
         $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
@@ -81,31 +72,6 @@ if ($stmt->rowCount() > 0) {
             $city_name = $city['city_name'];
         }
 
-        // $reference_id = substr($reference_no, 0 , 2);
-        // if($reference_id == "BT"){
-        //     // business trainee name
-        //     $business_trainees = $conn->prepare("SELECT firstname, lastname, reference_no FROM business_trainee where business_trainee_id='".$reference_no."'");
-        //     $business_trainees ->execute();
-        //     $business_trainees ->setFetchMode(PDO::FETCH_ASSOC);
-        //     if(  $business_trainees->rowCount()>0 ){
-        //         $business_trainee = $business_trainees->fetch();
-        //         $reference_no_fname = $business_trainee['firstname'];
-        //         $reference_no_lname = $business_trainee['lastname'];
-        //         // $business_trainees_reference_no = $business_trainee['reference_no'];
-
-        //     }
-
-        // }else{
-        //     // Travel agent name
-        //     $travel_agents = $conn->prepare("SELECT firstname, lastname FROM travel_agent where travel_agent_id='".$reference_no."'");
-        //     $travel_agents ->execute();
-        //     $travel_agents ->setFetchMode(PDO::FETCH_ASSOC);
-        //     if(  $travel_agents->rowCount()>0 ){
-        //         $travel_agents = $travel_agents->fetch();
-        //         $reference_no_fname = $travel_agents['firstname'];
-        //         $reference_no_lname = $travel_agents['lastname'];
-        //     }
-        // } 
     }
 }
 ?>
@@ -244,18 +210,7 @@ if ($stmt->rowCount() > 0) {
                                                         <input type="text" class="form-control" id="lastname" placeholder="Enter your Lastname" value="<?php echo $lastname ?>">
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee Name" value="<?php echo $nominee_name; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value="<?php echo $nominee_relation; ?>">
-                                                    </div>
-                                                </div> -->
+                                                
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="email">Email Address<span class="text-danger">*</span></label>
@@ -289,7 +244,6 @@ if ($stmt->rowCount() > 0) {
                                                         <label class="col-form-label" for="country_cd">Code</label>
                                                         <select class="form-select" id="country_cd" aria-label="Floating label select example">
                                                             <?php
-                                                            require 'connect.php';
                                                             $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
                                                             $stmt->execute();
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -360,35 +314,21 @@ if ($stmt->rowCount() > 0) {
                                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address" value="<?php echo $address; ?>">
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-md-12 col-sm-12 col-12 d-none" id="pay">
-                                                    <p class="mt-2 mb-0"><span class="fw-bold me-3">Would you like to become a prime customer and receive a coupon worth 10,000?</span>
-                                                        <div> 
-                                                        <input type="radio" id="yes" name="topUp" value="yes" onclick="toggleDiv(true)"
-                                                            
-                                                            >
-                                                        <label for="yes">Yes</label>
-
-                                                        <input type="radio" id="no" class="ms-2" name="topUp" value="no" onclick="toggleDiv(false)"
-                                                            
-                                                            >
-                                                        <label for="no">No</label>
-                                                        </div> 
-                                                    </p>
-                                                </div> -->
-                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="payment_fee" aria-label="Floating label select example" disabled>
-                                                        <option value="null">--Select Payment Fee--</option>
-                                                        <option value="FOC" <?= $customer_type == "Free" ? 'selected':''; ?>>Free</option>
-                                                        <option value="10000" <?= $customer_type == "Prime" ? 'selected' : ''; ?>>Prime: <span>&#8377 </span>10,000/-</option>
-                                                        <option value="30000" <?= $customer_type == "Premium" ? 'selected' : ''; ?>>Premium: <span>&#8377 </span>30,000/-</option>
-                                                        <option value="35000" <?= $customer_type == "Premium Plus" ? 'selected' : ''; ?>>Premium Plus: <span>&#8377 </span>35,000/-</option>
-                                                        <option value="35000" <?= $customer_type == "Premium Select" ? 'selected' : ''; ?>>Premium Select: <span>&#8377 </span>35,000/-</option>
-                                                        <option value="21000" <?= $customer_type == "Premium Select Lite" ? 'selected' : ''; ?>>Premium Select Lite: <span>&#8377 </span>21,000/-</option>
-                                                    </select>
+                                                
+                                                <div class="col-md-6 col-sm-6 col-12" id="couponFee">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="payment_fee" aria-label="Floating label select example" disabled>
+                                                            <option value="null">--Select Payment Fee--</option>
+                                                            <option value="FOC" <?= $customer_type == "Free" ? 'selected':''; ?>>Free</option>
+                                                            <option value="10000" <?= $customer_type == "Prime" ? 'selected' : ''; ?>>Prime: <span>&#8377 </span>10,000/-</option>
+                                                            <option value="30000" <?= $customer_type == "Premium" ? 'selected' : ''; ?>>Premium: <span>&#8377 </span>30,000/-</option>
+                                                            <option value="35000" <?= $customer_type == "Premium Plus" ? 'selected' : ''; ?>>Premium Plus: <span>&#8377 </span>35,000/-</option>
+                                                            <option value="35000" <?= $customer_type == "Premium Select" ? 'selected' : ''; ?>>Premium Select: <span>&#8377 </span>35,000/-</option>
+                                                            <option value="21000" <?= $customer_type == "Premium Select Lite" ? 'selected' : ''; ?>>Premium Select Lite: <span>&#8377 </span>21,000/-</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
                                                 <div class="col-md-6 col-sm-6 <?=$payment_mode != "Free"?"":"d-none"?>" id="paymentMode">
                                                     <div class="input-block mb-3">
                                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
@@ -651,20 +591,7 @@ if ($stmt->rowCount() > 0) {
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <?php echo $date; ?> © Uniqbizz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Mirthcon
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <?php include_once "footer.php" ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->
 
@@ -679,8 +606,6 @@ if ($stmt->rowCount() > 0) {
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
     <script src="assets/libs/feather-icons/feather.min.js"></script>
-    <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-    <!-- <script src="assets/js/plugins.js"></script> -->
     <!-- jquery -->
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
 
@@ -702,60 +627,10 @@ if ($stmt->rowCount() > 0) {
     <!--Swiper slider js-->
     <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
     <!-- App js -->
     <script src="assets/js/app.js"></script>
 
-    <!-- Chart JS -->
-    <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-    <!-- chartjs init -->
-    <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-    <!-- Dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-    <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
-        //select Designation
-        // $('#designation').on('change', function() {
-        //     var designation = $('#designation').val();
-        //     // console.log(designation);
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'agents/get_user_Franchisee.php',
-        //         data: "designation="+designation,
-        //         success:function (e) {
-        //             // console.log(e);
-        //             $('#user_id_name').html(e); 
-        //         },
-        //         error: function(err){
-        //             console.log(err);
-        //         },
-        //     });
-        // });
-
-        // fetch User based on selected designation
-        // $('#user_id_name').on('change', function(){
-        //     var user_id_name = $(this).val();
-        //     // console.log(user_id_name);
-
-        //     var designation = $('#designation').val();
-        //     // console.log(designation);
-
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'agents/getUsers.php',
-        //         data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-        //         success:function(response){
-        //         // console.log(response);
-        //             // $('#pin').html(response);
-        //             $('#reference_name').val(response); 
-        //         }
-        //     }); 
-
-        // }); 
 
         $(document).ready(function() {
             var paymentMode = $(".payment:checked").val();
@@ -793,7 +668,6 @@ if ($stmt->rowCount() > 0) {
         });
 
         $('#mystate').on('change', function() {
-            // alert();
             var stateID = $(this).val();
             if (stateID) {
                 $.ajax({
@@ -828,7 +702,6 @@ if ($stmt->rowCount() > 0) {
                     url: 'address/pincode.php',
                     data: 'city_id=' + cityID,
                     success: function(response) {
-                        // $('#pin').html(response);
                         $('#pin').val(response);
                     }
                 });
@@ -853,7 +726,6 @@ if ($stmt->rowCount() > 0) {
         // payment mode
         $('#paymentMode').on('click', function() {
             var paymentMode = $(".payment:checked").val();
-            // console.log(paymentMode);
             if (paymentMode == "cheque") {
                 $("#chequeOpt").removeClass("d-none");
                 $("#onlineOpt").addClass("d-none");

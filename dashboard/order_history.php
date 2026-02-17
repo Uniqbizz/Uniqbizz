@@ -5,18 +5,11 @@ include_once 'dashboard_user_details.php';
 $date = date('F,Y'); //month and year. 'F' - month in Text form
 $nextDateMonth = date('m'); //month in number form
 $nextDateYear = date('Y'); //year
-// echo "Next Date ".$date .' ;' ;
-// echo "Next Month ".$nextDateMonth.' ;';
-// echo "Next Year ".$nextDateYear.' ;';
-// echo '<br>';
 
 // get Previous date to show Previous payout amount  and pass it in sql @ line 111
 $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
 $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
 $prevDateYear = date('Y');  //Year in number form. 
-// echo "prev Date ".$prevdate.' ;';
-// echo "prev Month ".$prevDateMonth.' ;';
-// echo "prev year ".$prevDateYear.' ;';
 ?>
 
 <!DOCTYPE html>
@@ -165,8 +158,6 @@ $prevDateYear = date('Y');  //Year in number form.
         // sidebar navigation menu 
         include_once 'sidebar.php';
 
-        require 'connect.php';
-
         $pending_booking_count = 0;
         $completed_booking_count = 0;
         $pending_payment_amt = 0;
@@ -194,13 +185,14 @@ $prevDateYear = date('Y');  //Year in number form.
                         bd.part_pay_3_status,
                         bd.status AS bd_status,
                         b.confirm_status,
-                        b.ta_id
+                        b.ta_id,
+                        max(date) as max_b_date,
+                        min(date) as min_b_date
                     FROM bookings b
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
                     WHERE 1=1";
-        //hirarchy filter logic
-        $filter = "";
+        
 
         if ($userType == '24') { // BCM
             $filter = " AND b.ta_id IN (
@@ -449,14 +441,36 @@ $prevDateYear = date('Y');  //Year in number form.
         }
 
         $sql .= $filter;
-
+        //hirarchy filter logic
+        $sql .=" GROUP BY
+                    b.id,
+                    b.order_id,
+                    b.package_id,
+                    b.customer_id,
+                    b.name,
+                    b.status,
+                    p.name,
+                    p.tour_days,
+                    bd.final_price,
+                    bd.amount,
+                    bd.part_pay_1,
+                    bd.part_pay_2,
+                    bd.part_pay_3,
+                    bd.part_pay_1_status,
+                    bd.part_pay_2_status,
+                    bd.part_pay_3_status,
+                    bd.status,
+                    b.confirm_status,
+                    b.ta_id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         $today = date('Y-m-d'); // Get today's date as a string
 
+        $mindate= "01-01-2022";
+        $maxdate=$today;
         foreach ($bookings as $booking) {
+            $maxdate=$booking['max_b_date'] ?? $today;
             // Ensure 'date' exists in booking data
             if (!isset($booking['date']) || empty($booking['date'])) {
                 continue; // Skip if date is not set
@@ -646,7 +660,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             <tbody>
 
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -1091,12 +1104,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 50;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else if ($booking_bill['pay_type'] == 3) {
                                                                     # code...
@@ -1104,22 +1117,22 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 40;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                         # code...
                                                                         $perecent_fill = 70;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
 
                                                                 if ($perecent_fill == 100) {
@@ -1159,7 +1172,7 @@ $prevDateYear = date('Y');  //Year in number form.
 
                                                                     $endDate = clone $startDate; // Clone to avoid modifying original date
                                                                     $endDate->modify("+$tourDays days"); // Add tour days
-
+                                                                    echo '<script>console.log("end date:'.$endDate->format('Y-m-d').'")</script>'; 
                                                                     $today = new DateTime(); // Get the current date
                                                                     $today->setTime(0, 0); // Reset time for accurate comparison
 
@@ -1204,22 +1217,23 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         </div>
                                                                     
                                                                     <?php
-                                                                        } else if ($today > $endDate) { // Completed
-                                                                    ?>
-                                                                        <div class="d-block">
-                                                                            <a href="#">
-                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
-                                                                                    Completed
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    <?php
-                                                                        } else if ($today >= $startDate && $today <= $endDate) { // Traveling
+                                                                        } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { // Traveling
                                                                     ?>
                                                                         <div class="d-block">
                                                                             <a href="#">
                                                                                 <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
                                                                                     Traveling
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                    
+                                                                    <?php
+                                                                        } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
+                                                                    ?>
+                                                                        <div class="d-block">
+                                                                            <a href="#">
+                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                                                                    Completed
                                                                                 </button>
                                                                             </a>
                                                                         </div>
@@ -1281,7 +1295,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -1661,10 +1674,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3'AND b.confirm_status=0 $customer_fil
                                                                 ";
 
-                                                    // Debugging: Log SQL query and TA IDs
-                                                    // echo "<script>console.log('TA List: " . json_encode($ta_list) . "');</script>";
-                                                    // echo "<script>console.log('🔍 SQL Query: " . addslashes($sql) . "');</script>";
-                                                    // echo "<script>console.log('🆔 TA IDs: " . addslashes($ta_ids_str) . "');</script>";
                                                     $stmt = $conn->prepare($sql);
                                                     $stmt->execute();
                                                     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1732,7 +1741,7 @@ $prevDateYear = date('Y');  //Year in number form.
 
                                                                 if ($booking_bill) {
                                                                     $pay_type = $booking_bill['pay_type'];
-                                                                    $final_price = $booking_bill['final_price'];
+                                                                    $final_price = $booking_bill['total_net_payable'];
 
                                                                     if ($pay_type == 2) {
                                                                         if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
@@ -1772,16 +1781,14 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                     <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                                                 </td>
 
-                                                                <?php if ($today >= $startDate && $today <= $endDate) { ?>
+                                                                <?php if ($booking['confirm_status'] == 0) { ?>
                                                                 <td>
                                                                     <div class="d-block">
                                                                         <a href="#">
-                                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Pending</button>
                                                                         </a>
                                                                     </div>
                                                                 </td>
-                                                                <?php } else { ?>
-                                                                <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button></td>
                                                                 <?php } ?>
 
                                                                 <td class="text-center">
@@ -1823,7 +1830,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -2255,7 +2261,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
                                                             } else if ($booking_bill['pay_type'] == 3) {
                                                                 if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
@@ -2265,12 +2271,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
                                                             } else {
                                                                 $perecent_fill = 100;
                                                                 $booking_paid_amt = $booking_bill['amount'];
-                                                                $booking_full_amt = $booking_bill['final_price'];
+                                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                                             }
 
                                                             // **Skip entry if `$perecent_fill` is not 100**
@@ -2303,20 +2309,20 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                 $today = new DateTime();
                                                                 $today->setTime(0, 0);
 
-                                                                if ($today > $endDate) {
+                                                                if ($booking['confirm_status'] == 1 && $today > $endDate) {
                                                                 ?>
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                                                <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
-                                                                <?php } else if ($today >= $startDate && $today <= $endDate  && ($booking['status'] === '0' || $booking['status'] === '1')) { ?>
+                                                                <?php } else if ($booking['confirm_status'] == 1 && ($today >= $startDate && $today <= $endDate)) { ?>
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">In Progress</button>
+                                                                                <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
@@ -2324,7 +2330,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                     <td>
                                                                         <div class="d-block">
                                                                             <a href="#">
-                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                                                <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                                             </a>
                                                                         </div>
                                                                     </td>
@@ -2370,7 +2376,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
                                                 //check which user logged in based on user type
                                                 if ($userType == '24') {
@@ -2814,12 +2819,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 50;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else if ($booking_bill['pay_type'] == 3) {
                                                                     # code...
@@ -2827,22 +2832,22 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 40;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                         # code...
                                                                         $perecent_fill = 70;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
 
                                                                 if ($perecent_fill == 100) {
@@ -2919,7 +2924,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                require 'connect.php';
                                                 $customer_fil = '';
 
                                                 //check which user logged in based on user type
@@ -3359,12 +3363,12 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 50;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else if ($booking_bill['pay_type'] == 3) {
                                                                     # code...
@@ -3372,22 +3376,22 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         # code...
                                                                         $perecent_fill = 40;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                                         # code...
                                                                         $perecent_fill = 70;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                                         # code...
                                                                         $perecent_fill = 100;
                                                                         $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                        $booking_full_amt = $booking_bill['final_price'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                                                     }
                                                                 } else {
                                                                     $perecent_fill = 100;
                                                                     $booking_paid_amt = $booking_bill['amount'];
-                                                                    $booking_full_amt = $booking_bill['final_price'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
                                                                 }
 
                                                                 if ($perecent_fill == 100) {
@@ -3461,20 +3465,7 @@ $prevDateYear = date('Y');  //Year in number form.
                         </div>
                     </div>
                 </div>
-                <footer class="footer"> <!-- footer start -->
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by Mirthcon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer> <!-- footer end -->
+                <?php include_once "footer.php" ?>
             </div>
         </div>
         <!-- Payment Screen start -->
@@ -3496,7 +3487,6 @@ $prevDateYear = date('Y');  //Year in number form.
                                     <span class="fw-bolder" style="color: var(--pure-black);" id="avalableBalance">
                                         <?php
                                         // Only for TA login
-                                        require 'connect.php';
                                         // Check if user exists
                                         $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
                                         $stmt1->execute([$userId]);
@@ -3524,19 +3514,7 @@ $prevDateYear = date('Y');  //Year in number form.
                             </div>
                         </div>
                         <div>
-                            <!-- <p class="fs-6 fw-bolder py-3" style="color: var(--pure-black);">Pay Type</p>
-
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked>
-                                <label class="form-check-label" for="inlineRadio2">Part</label>
-                            </div>
-                            <div id="toggleDiv">
-                                <select class="form-select w-50" id="payTypeSelect" aria-label="Default select example">
-                                    <option selected value="--Select the Pay Type">--Select the Pay Type</option>
-                                    <option value="2">2 Parts</option>
-                                    <option value="3">3 Parts</option>
-                                </select>
-                            </div> -->
+                            
                             <div class="py-3" id="showamt">
                                 <p class="fw-bolder fs-5 d-flex" style="color: var(--pure-black);">Amount:
                                     <span><input class="form-control" type="text" id="amountInput" value="" aria-label="readonly input example" readonly></span>
@@ -3639,7 +3617,6 @@ $prevDateYear = date('Y');  //Year in number form.
     <script src="assets/libs/fullcalendar/index.global.min.js"></script>
 
     <!-- Date Range Picker Script Start -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- Date Range Picker Script End -->
@@ -3856,8 +3833,7 @@ $prevDateYear = date('Y');  //Year in number form.
             const divToToggle = document.getElementById('toggleDiv');
             // Fetch the total amount dynamically from the "Amount to be Paid" section
             const amountToBePaidElement = document.getElementById('amountToBePaid');
-            //let totalAmount = parseInt(amountToBePaidElement.textContent.replace('₹', '').trim()); // Get amount without '₹' symbol
-            // const totalAmount = document.getElementById('amountPaying');  // Amount to be Paid
+      
 
             var button = $(event.relatedTarget);
             var paidfill = button.data("booking-fill");
@@ -3906,8 +3882,6 @@ $prevDateYear = date('Y');  //Year in number form.
             }, 1000);
 
             $("#showPayType").text();
-
-            //console.log('pending_amt:' + pending_amt);
         });
         //initiate payment
         $('#place_order').click(function() {
@@ -4011,7 +3985,7 @@ $prevDateYear = date('Y');  //Year in number form.
                     let selectedDate = info.dateStr;
 
                     checkBookingsForDate(selectedDate).then(hasBookings => {
-                        if (!hasBookings) return; // Do nothing if no bookings exist
+                        // if (!hasBookings) return; // Do nothing if no bookings exist
                         loadBookingsForDate(selectedDate);
                         highlightSelectedDate(info.date);
                     });
@@ -4206,30 +4180,48 @@ $prevDateYear = date('Y');  //Year in number form.
                 today.setHours(0, 0, 0, 0);
                 startDate.setHours(0, 0, 0, 0);
                 endDate.setHours(0, 0, 0, 0);
-                if(confirmBooking =='1'){
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class=" text-success-emphasis">a Comfirmed Booking</span>`;
-                }
-                else if(confirmBooking =='0'){
-                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
-                    return `<span class=" text-warning-emphasis">a Pending Booking</span>`;
-                }
-                else if (today > endDate && confirmBooking =='1') {
-                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
-                    return `<span class=" text-success-emphasis">Completed</span>`;
-                } else if (today >= startDate && today <= endDate && confirmBooking =='1') {
-                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
-                    return `<span class="text-info-emphasis">a In-Transit Booking</span>`;
-                } else if (booking.status == '2') {
+                // Cancelled
+                if (booking.status == '2') {
                     classVal = 'text-danger-emphasis bg-danger-subtle border border-danger-subtle';
-                    return `<span class="text-danger-emphasis">a Canceled Booking</span>`;
-                } else if (booking.status == '3') {
-                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
-                    return `<span class="text-secondary-emphasis">a Refunded for Booking</span>`;
-                } else {
-                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
-                    return `<span class="text-primary-emphasis">a Upcoming Booking</span>`;
+                    return `<span class="text-danger-emphasis">Canceled Booking</span>`;
                 }
+
+                // Refunded
+                else if (booking.status == '3') {
+                    classVal = 'text-secondary-emphasis bg-secondary-subtle border border-secondary-subtle';
+                    return `<span class="text-secondary-emphasis">Refunded Booking</span>`;
+                }
+
+                // Pending (not confirmed)
+                else if (confirmBooking == '0') {
+                    classVal = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
+                    return `<span class="text-warning-emphasis">Pending Booking</span>`;
+                }
+
+                // Completed
+                else if (confirmBooking == '1' && today > endDate) {
+                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                    return `<span class="text-success-emphasis">Completed</span>`;
+                }
+
+                // In-Transit
+                else if (confirmBooking == '1' && today >= startDate && today <= endDate) {
+                    classVal = 'text-info-emphasis bg-info-subtle border border-info-subtle';
+                    return `<span class="text-info-emphasis">In-Transit Booking</span>`;
+                }
+
+                // Confirmed (default confirmed)
+                else if (confirmBooking == '1') {
+                    classVal = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                    return `<span class="text-success-emphasis">Confirmed Booking</span>`;
+                }
+
+                // Fallback
+                else {
+                    classVal = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
+                    return `<span class="text-primary-emphasis">Booking</span>`;
+                }
+
             }
 
             // ✅ IST Date Conversion Function
@@ -4246,8 +4238,10 @@ $prevDateYear = date('Y');  //Year in number form.
     <script type="text/javascript">
         $(function() {
 
-            var start = moment().subtract(29, 'days');
-            var end = moment();
+            // var start = moment().subtract(29, 'days');
+            // var end = moment();
+            var start = moment("<?= $mindate ?>", "YYYY-MM-DD");
+            var end = moment("<?= $maxdate ?>", "YYYY-MM-DD");
 
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));

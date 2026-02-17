@@ -8,9 +8,6 @@ list($start_date, $end_date) = explode(" - ", $date_range);
 $start_date_formatted = date("Y-m-d", strtotime($start_date));
 $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
-// Output the formatted dates
-// echo "Start Date: " . $start_date_formatted . "<br>";
-// echo "End Date: " . $end_date_formatted;
 ?>
 <div class="tab-content" id='tableList'>
     <div class="tab-pane fade card show active px-3 rounded-4" id="allHistory" role="tabpanel">
@@ -33,7 +30,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     <tbody>
 
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -401,12 +397,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 # code...
                                                 $perecent_fill = 50;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                 # code...
                                                 $perecent_fill = 100;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             }
                                         } else if ($booking_bill['pay_type'] == 3) {
                                             # code...
@@ -414,22 +410,22 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 # code...
                                                 $perecent_fill = 40;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                 # code...
                                                 $perecent_fill = 70;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                 # code...
                                                 $perecent_fill = 100;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             }
                                         } else {
                                             $perecent_fill = 100;
                                             $booking_paid_amt = $booking_bill['amount'];
-                                            $booking_full_amt = $booking_bill['final_price'];
+                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                         }
 
                                         if ($perecent_fill == 100) {
@@ -514,22 +510,23 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 </div>
                                             
                                             <?php
-                                                } else if ($today > $endDate) { // Completed
-                                            ?>
-                                                <div class="d-block">
-                                                    <a href="#">
-                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
-                                                            Completed
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            <?php
-                                                } else if ($today >= $startDate && $today <= $endDate) { // Traveling
+                                                } else if ($booking['confirm_status'] == 1 &&($today == $startDate || $today <= $endDate)) { // Traveling
                                             ?>
                                                 <div class="d-block">
                                                     <a href="#">
                                                         <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">
                                                             Traveling
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            
+                                            <?php
+                                                } else if ($booking['confirm_status'] == 1 && $today > $endDate) { // Completed
+                                            ?>
+                                                <div class="d-block">
+                                                    <a href="#">
+                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                                            Completed
                                                         </button>
                                                     </a>
                                                 </div>
@@ -585,7 +582,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -892,10 +888,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         WHERE b.ta_id IN ($ta_ids_str) AND b.status != '2' AND b.status != '3' AND b.confirm_status=0
                                         AND b.date BETWEEN '$start_date_formatted' AND '$end_date_formatted' $customer_fil ORDER BY b.date ";
 
-                            // Debugging: Log SQL query and TA IDs
-                            // echo "<script>console.log('TA List: " . json_encode($ta_list) . "');</script>";
-                            // echo "<script>console.log('🔍 SQL Query: " . addslashes($sql) . "');</script>";
-                            // echo "<script>console.log('🆔 TA IDs: " . addslashes($ta_ids_str) . "');</script>";
+                            
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -940,7 +933,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         continue;
                                     }
 
-                                    //$data_found = true;
                                 ?>
                                     <tr>
                                         <td><?= ++$i ?></td>
@@ -963,7 +955,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
 
                                         if ($booking_bill) {
                                             $pay_type = $booking_bill['pay_type'];
-                                            $final_price = $booking_bill['final_price'];
+                                            $final_price = $booking_bill['total_net_payable'];
 
                                             if ($pay_type == 2) {
                                                 if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
@@ -1002,20 +994,8 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             </div>
                                             <div class="my-2 text-center">Paid Rs.<?= $booking_paid_amt . ' of Rs.' . $booking_full_amt ?></div>
                                         </td>
-
-                                        <?php if ( $booking['confirm_status'] == 0 ) { ?>
-                                            <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Pending</button></td>
-                                        <?php } else if ( $booking['confirm_status'] == 1 && $today >= $startDate && $today <= $endDate) { ?>
-                                                <td>
-                                                    <div class="d-block">
-                                                        <a href="#">
-                                                            <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                
-                                        <?php } ?>
-
+                                        <td><button class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Pending</button></td>
+                                        
                                         <td class="text-center">
                                             <div class="dropdown mt-">
                                                 <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
@@ -1056,7 +1036,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -1335,7 +1314,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            // exit; // Stop further execution
                         } else {
 
                             // Create an array mapping travel agency IDs to their details
@@ -1414,7 +1392,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                             $perecent_fill = 100;
                                             $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                            $booking_full_amt = $booking_bill['final_price'];
+                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                         }
                                     } else if ($booking_bill['pay_type'] == 3) {
                                         if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
@@ -1424,12 +1402,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                             $perecent_fill = 100;
                                             $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                            $booking_full_amt = $booking_bill['final_price'];
+                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                         }
                                     } else {
                                         $perecent_fill = 100;
                                         $booking_paid_amt = $booking_bill['amount'];
-                                        $booking_full_amt = $booking_bill['final_price'];
+                                        $booking_full_amt = $booking_bill['total_net_payable'];
                                     }
 
                                     // **Skip entry if `$perecent_fill` is not 100**
@@ -1462,16 +1440,16 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                         $today = new DateTime();
                                         $today->setTime(0, 0);
 
-                                        if ($today > $endDate && ($booking['status'] === '0' || $booking['status'] === '1')) {
+                                        if ($booking['confirm_status'] == 1 && $today > $endDate ) {
                                         ?>
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 fw-bolder">Traveling</button>
+                                                        <button type="button" class="btn text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">Completed</button>
                                                     </a>
                                                 </div>
                                             </td>
-                                        <?php } else if ($today >= $startDate && $today <= $endDate  && ($booking['status'] === '0' || $booking['status'] === '1')) { ?>
+                                        <?php } else if ($booking['confirm_status'] == 1 && ($today == $startDate || $today <= $endDate)) { ?>
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
@@ -1483,7 +1461,7 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                             <td>
                                                 <div class="d-block">
                                                     <a href="#">
-                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Upcoming</button>
+                                                        <button type="button" class="btn text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder">Confirmed</button>
                                                     </a>
                                                 </div>
                                             </td>
@@ -1528,7 +1506,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -1807,7 +1784,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            // exit; // Stop further execution
                         } else {
 
                             // Create an array mapping travel agency IDs to their details
@@ -1871,7 +1847,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                     $stmt3 = $conn->prepare($sql3);
                                     $stmt3->execute();
                                     $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                    //echo $booking['id'];
                                     if (!$booking_bill) {
                                         continue; // Skip this booking if no matching record is found
                                     }
@@ -1897,12 +1872,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 # code...
                                                 $perecent_fill = 50;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                 # code...
                                                 $perecent_fill = 100;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             }
                                         } else if ($booking_bill['pay_type'] == 3) {
                                             # code...
@@ -1910,22 +1885,22 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 # code...
                                                 $perecent_fill = 40;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                 # code...
                                                 $perecent_fill = 70;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                 # code...
                                                 $perecent_fill = 100;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             }
                                         } else {
                                             $perecent_fill = 100;
                                             $booking_paid_amt = $booking_bill['amount'];
-                                            $booking_full_amt = $booking_bill['final_price'];
+                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                         }
 
                                         if ($perecent_fill == 100) {
@@ -1967,7 +1942,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
                                                     <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
-                                                    <!-- <a class="dropdown-item refundAction" href="#" data-order-id=<?php //echo $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a> -->
                                                 </div>
                                             </div>
                                         </td>
@@ -2003,7 +1977,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                     </thead>
                     <tbody>
                         <?php
-                        require '../connect.php';
                         $customer_fil = '';
                         //check which user logged in based on user type
                         if ($userType == '24') {
@@ -2282,7 +2255,6 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                             <td></td>
                                                             <td></td>
                                                         </tr>';
-                            // exit; // Stop further execution
                         } else {
 
                             // Create an array mapping travel agency IDs to their details
@@ -2367,12 +2339,12 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 # code...
                                                 $perecent_fill = 50;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
                                                 # code...
                                                 $perecent_fill = 100;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             }
                                         } else if ($booking_bill['pay_type'] == 3) {
                                             # code...
@@ -2380,22 +2352,22 @@ $end_date_formatted = date("Y-m-d", strtotime($end_date));
                                                 # code...
                                                 $perecent_fill = 40;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
                                                 # code...
                                                 $perecent_fill = 70;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
                                                 # code...
                                                 $perecent_fill = 100;
                                                 $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                $booking_full_amt = $booking_bill['final_price'];
+                                                $booking_full_amt = $booking_bill['total_net_payable'];
                                             }
                                         } else {
                                             $perecent_fill = 100;
                                             $booking_paid_amt = $booking_bill['amount'];
-                                            $booking_full_amt = $booking_bill['final_price'];
+                                            $booking_full_amt = $booking_bill['total_net_payable'];
                                         }
 
                                         if ($perecent_fill == 100) {

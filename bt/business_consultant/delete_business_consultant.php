@@ -41,8 +41,8 @@ if($ta_id ==''){
 	$message2="Deleted Business Consultant(".$ta_id.") from ".$action. " list";
 }
 
-$fromWhom="15";
-$register_by="15"; 
+$fromWhom="1";
+$register_by="1"; 
 
 
 $sql1 = "UPDATE business_consultant SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";

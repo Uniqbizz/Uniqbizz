@@ -3,6 +3,7 @@ bt/connect.php
 admin_old_05-06-25
 admin_old_9-06-25
 .well-known
+*.zip
 .htaccess
 bt_old_9-06-25
 dashboard_new

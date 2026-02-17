@@ -386,8 +386,7 @@
                                                             <option value="FOC" <?=$payment_fee=='FOC'?'selected':'' ?>>Free</option>
                                                             <option value="3000" <?=$payment_fee=='3000'?'selected':'' ?>><span>&#8377 </span>3,000/-</option>
                                                             <option value="10000" <?=$payment_fee=='10000'?'selected':'' ?>><span>&#8377 </span>10,000/-</option>
-                                                            <!-- <option value="5000"><span>&#8377 </span>5000/-</option>
-                                                            <option value="15000"><span>&#8377 </span>15,000/-</option> -->
+                                                          
                                                         </select>
                                                     </div>
                                                 </div>
@@ -648,20 +647,7 @@
                 <!-- End Page-content -->
 
 
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
 

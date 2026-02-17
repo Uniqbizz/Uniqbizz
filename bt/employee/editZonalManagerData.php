@@ -39,7 +39,7 @@ if ($editfor == 'pending') {
     $message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
 }
 
-$register_by = '15'; // bt
+$register_by = '15'; // admin
 
 // Get age (if needed elsewhere)
 $birth_year = substr($birth_date, 0, 4);

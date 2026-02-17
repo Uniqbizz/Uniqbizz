@@ -15,7 +15,9 @@ $adults = trim($_POST['enNadults']);
 $children = trim($_POST['enNChild']);
 $infants = trim($_POST['enNInfants']);
 
-$pax=$adults+$children+$infants;
+$pax_adult=$adults;
+$pax_child=$children;
+$pax_infant=$infants;
 $package_suggetion=$_POST['enRemarks'];
 
 $budget = trim($_POST['enBudget']);
@@ -38,8 +40,8 @@ if (!empty($travel_date)) {
 
 // Only proceed if date was successfully formatted
 if ($formattedDate) {
-  $query = "INSERT INTO quotations (name, email, phone_no, destination, days, pax, budget, date, package_suggetion) 
-                  VALUES (:name, :email, :phone_no, :destination, :days, :pax, :budget, :date, :package_suggetion)";
+  $query = "INSERT INTO quotations (name, email, phone_no, destination, days, pax_adult, pax_child, pax_infant, budget, date, package_suggetion) 
+                  VALUES (:name, :email, :phone_no, :destination, :days, :pax_adult, :pax_child, :pax_infant, :budget, :date, :package_suggetion)";
 
   $query_run = $conn->prepare($query);
   $query_exec = $query_run->execute([
@@ -48,7 +50,9 @@ if ($formattedDate) {
     ":phone_no" => $phone_no,
     ":destination" => $destination,
     ":days" => $days,
-    ":pax" => $pax,
+    ":pax_adult" => $pax_adult,
+    ":pax_child" => $pax_child,
+    ":pax_infant" => $pax_infant,
     ":budget" => $budget,
     ":date" => $formattedDate,
     ":package_suggetion" => $package_suggetion

@@ -20,7 +20,7 @@ if (!$booking) {
 }
 
 // Get Customer
-$customers = $conn->prepare("SELECT * FROM customer WHERE cust_id = :cust_id");
+$customers = $conn->prepare("SELECT * FROM ca_customer WHERE ca_customer_id = :cust_id");
 $customers->execute([':cust_id' => $booking['customer_id']]);
 $customer = $customers->fetch(PDO::FETCH_ASSOC);
 
@@ -172,6 +172,12 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
         .datePara {
             width: 125px !important;
         }
+        /* New design style */
+        .text-decoration {
+            border: none; 
+            height: 1px;
+            border-top: 1px dashed #000;
+        }
     </style>
 </head>
 
@@ -202,243 +208,195 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                                     </button>
                                 </div>
                                 <div class="row d-flex justify-content-center" id="htmlContent">
-                                    <div class="row px-2 pb-2 mb-5 rounded-5 border border-dark" style="width:700px;">
+                                    <div class="row px-2 pb-2 mb-3 rounded-5 border border-dark" style="width:700px;">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 p-3 d-flex justify-content-between">
-                                                    <img src="../assets/images/uniqbizz_logo.png" alt="uniqbizz logo" height="20px;" class="mt-4">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 p-3 d-flex justify-content-between pt-5">
                                                     <img src="../assets/images/bizz_logo.png" alt="uniqbizz logo" height="50px" width="100px">
+                                                    <div>
+                                                        <p class="fw-bold pt-3 mb-0">Invoice No: <span class="fw-normal"> <?php echo $booking['invoice_no'] ?></span></p>
+                                                        <p class="fw-bold pt-0 mb-0 text-end">Date: <span class="fw-normal"><?php echo $booked_on ?></span></p>
+                                                    </div>
                                                 </div>
+                                                <hr class="text-decoration"></hr>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6 pt-3" style="padding-left: 50px">
-                                                    <h5 style="color: #000; font-size: bolder">Invoice No. <strong> <?php echo $booking['invoice_no'] ?></strong></h5>
-                                                    <h5 style="color: #000; font-size: bolder">Booking No. <strong> <?php echo $booking['order_id'] ?></strong></h5>
-                                                    <h5 style="color: #000; font-size: bolder">Payment: <strong style="color:<?= $pay_status_color ?>"><?php echo $pay_status; ?></strong></h5>
-                                                    <p style="color: #000; font-size: bolder; font-weight: 600"> Transaction ID:
-                                                        <strong><span class="fs-6"><?php echo $total_direct['paymentid'] ?></span></strong>
-                                                    </p>
-                                                    <p class="text-dark">Invoice Date: <?php echo $booked_on ?></p>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 p-3 d-flex justify-content-between pt-0">
+                                                    <div>
+                                                        <p class="fw-bold pt-2 mb-0">Invoice To: </p>
+                                                        <p class="mb-0"><?php echo $booking['name']; ?></p>
+                                                        <p class="mb-0"><?php echo $booking['email']; ?></p>
+                                                        <p class="mb-0"><?php echo $booking['phone']; ?></p>
+                                                        <p class="mb-0"><?php echo $customer['address']; ?></p>
+                                                        <p class="mb-0">Customer ID: <span class=""><?php echo $booking['customer_id']; ?></span></p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="fw-bold pt-2 mb-0 text-end">BizzMirth Holidays Pvt Ltd :</p>
+                                                        <p class="mb-0 text-end">304 - 306, dempo Towers, Patto Plaza Panaji - Goa. 403001</p>
+                                                        <p class="mb-0 text-end">support@uniqbizz.com</p>
+                                                        <p class="mb-0 text-end">8010892265</p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-end pt-3" style="padding-right: 42px">
-                                                    <h5 style="color: #000; font-size: bolder">₹ <strong> <?php echo number_format((float)$total_direct['total_price'], 2, '.', '') ?></strong></h5>
-                                                    <?php
-                                                    if ($booking['gst_status'] == "1") {
-                                                        echo '<p class="textColor" style="text-align: right; padding:5px 0px; color:#473e3e; ">GSTIN - ' . $total_direct['gst_number'] . '</p>';
-                                                    }
-                                                    ?>
+                                                <hr class="text-decoration"></hr>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-0" style="padding-left: 35px">
+                                                    <p class="fw-bolder mb-0">Booking No: <span class="fw-normal"><?php echo $booking['order_id'] ?></span></p>
+                                                    <p class="fw-bolder mb-0">Payment: <span style="color:<?= $pay_status_color ?>"><?php echo $pay_status; ?></span></p>
+                                                    <p class="fw-bolder"> Transaction ID:
+                                                        <span class="fs-6 fw-normal"><?php echo $total_direct['paymentid'] ?></span>
+                                                    </p>
                                                 </div>
                                                 <div class="col-lg-11 col-md-11 col-sm-11 col-11 rounded-5 border border-dark" style="margin: auto;">
-                                                    <div class="d-flex justify-content-evenly border-bottom border-dark pt-2">
-                                                        <!-- <h5 class="text-dark fw-bold text-center">Destination</h5> -->
-                                                        <h5 class="text-dark fw-bold text-center">Customer Details</h5>
-                                                    </div>
                                                     <div class="row">
-                                                        <div class="col-lg-4 col-md-4 col-sm-3 col-12 pt-3 pb-3">
-                                                            <h5 class="text-dark fw-bold ms-2 mb-0">Destination</h5>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-3 pb-1">
                                                             <?php
                                                             foreach ($pictures as $key => $picture) {
-                                                                echo '<div class="preview-images-zone qrCode" style="height:150px; width:100%; position:relative; margin-right:1px; display:inline-flex;">
-                                                                            <img src="../../' . $picture['image'] . '" style="width: 200px; height: 100%; padding: 5px;object-fit:cover">
+                                                                echo '<div class="preview-images-zone qrCode" style="height:180px; width:100%; border-radius: 20px; position:relative; margin-right:1px; display:inline-flex;">
+                                                                            <img src="../../' . $picture['image'] . '" style="width: 100%; height: 180px; border-radius: 20px; object-fit: cover;">
                                                                         </div>
                                                                         ';
                                                             }
                                                             ?>
                                                         </div>
-                                                        <div class="col-lg-8 col-md-8 col-sm-9 col-12 pt-3">
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Order ID</p>
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Customer ID</p>
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Name</p>
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Email</p>
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Phone No</p>
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Package</p>
-                                                                    <p class="ms-3 text-dark fs-6 mb-n1">Departure Date</p>
-                                                                    <p class="ms-3 text-dark fs-6">Member Count</p>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['order_id']; ?> </p>
-                                                                    <?php if ($booking['customer_id'] == "null") {  ?>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1">-</p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['name']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['email']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['phone']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $package['name']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $tour_on; ?></p>
-                                                                        <?php if ($count_mem == 1) {
-                                                                            if ($booking['adults']) {
-                                                                                echo '<p class="ms-2 text-dark fs-6 mb-n1"> ';
-                                                                                if ($booking['adults'] > 1) {
-                                                                                    echo 'Adults: ';
-                                                                                } else {
-                                                                                    echo 'Adult: ';
-                                                                                }
-                                                                                echo $booking['adults'] . '</p>';
-                                                                            }
-                                                                            if ($booking['children']) {
-                                                                                echo '<p class="ms-2 text-dark fs-6 mb-n1"> ';
-                                                                                if ($booking['children'] > 1) {
-                                                                                    echo 'Children: ';
-                                                                                } else {
-                                                                                    echo 'Child: ';
-                                                                                }
-                                                                                echo $booking['children'] . '</p>';
-                                                                            }
-                                                                            if ($booking['infants']) {
-                                                                                echo '<p class="ms-2 text-dark fs-6 mb-n1"> ';
-                                                                                if ($booking['infants'] > 1) {
-                                                                                    echo 'Infants: ';
-                                                                                } else {
-                                                                                    echo 'Infant: ';
-                                                                                }
-                                                                                echo $booking['infants'] . '</p>';
-                                                                            }
-                                                                            $count_mem = 0;
-                                                                        }
-                                                                    } else { ?>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['customer_id']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['name']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $booking['email']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo '+91' . $booking['phone']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $package['name']; ?></p>
-                                                                        <p class="ms-2 text-dark fs-6 mb-n1"><?php echo $tour_on; ?></p>
-                                                                    <?php if ($count_mem == 1) {
-                                                                            if ($booking['adults']) {
-                                                                                echo '<p class="ms-2 text-dark fs-6 mb-n1"> ';
-                                                                                if ($booking['adults'] > 1) {
-                                                                                    echo 'Adults: ';
-                                                                                } else {
-                                                                                    echo 'Adult: ';
-                                                                                }
-                                                                                echo $booking['adults'] . '</p>';
-                                                                            }
-                                                                            if ($booking['children']) {
-                                                                                echo '<p class="ms-2 text-dark fs-6 mb-n1"> ';
-                                                                                if ($booking['children'] > 1) {
-                                                                                    echo 'Children: ';
-                                                                                } else {
-                                                                                    echo 'Child: ';
-                                                                                }
-                                                                                echo $booking['children'] . '</p>';
-                                                                            }
-                                                                            if ($booking['infants']) {
-                                                                                echo '<p class="ms-2 text-dark fs-6 mb-n1"> ';
-                                                                                if ($booking['infants'] > 1) {
-                                                                                    echo 'Infants: ';
-                                                                                } else {
-                                                                                    echo 'Infant: ';
-                                                                                }
-                                                                                echo $booking['infants'] . '</p>';
-                                                                            }
-                                                                            $count_mem = 0;
-                                                                        }
-                                                                    }   ?>
-                                                                </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-0">
+                                                            <div>
+                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Order ID: <span class="fw-normal"><?php echo $booking['order_id']; ?></span></p>
+                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Package: <span class="fw-normal"><?php echo $package['name']; ?></span></p>
+                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Destination: <span class="fw-normal"><?php echo $package['destination']; ?></span></p>
+                                                                <p class="ms-3 text-dark fs-6 mb-0 fw-bolder">Departure Date: <span class="fw-normal"><?php echo $tour_on; ?></span></p>
+                                                                <p class="ms-3 text-dark fs-6 fw-bolder">Member Count: <span class="fw-normal"><?php echo "Adults-".$booking['adults']  .", Child-".$booking['children'] .", Infants-".$booking['infants']; ?></span></p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h4 class="fw-bolder text-dark ps-4 pt-3">Tour Members</h4>
-                                                <div class="col-lg-11 col-md-11 col-sm-11 col-11 rounded-5 border border-dark p-3 table-responsive-sm" style="margin: auto;">
-                                                    <table class="table">
-                                                        <thead class="">
-                                                            <tr class="py-2 border-bottom border-dark">
-                                                                <th class="text-dark fw-bolder">Sr No</th>
-                                                                <th class="text-dark fw-bolder">Name</th>
-                                                                <th class="text-dark fw-bolder">Gender</th>
-                                                                <th class="text-dark fw-bolder">Age</th>
-                                                                <!-- <th class="text-dark fw-bolder">Member Count</th> -->
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="">
-                                                            <?php
-
-                                                            foreach ($member as $key => $person) {
-                                                                if ($person['gender'] == 'male') {
-                                                                    $gender = 'Male';
-                                                                } else if ($person['gender'] == 'female') {
-                                                                    $gender = 'Female';
-                                                                } else {
-                                                                    $gender = 'Other';
-                                                                }
-                                                                echo '<tr class="pt-3">
-                                                                            <td class="text-dark fs-5">' . ++$key . '</td>
-                                                                            <td class="text-dark fs-5">' . $person['name'] . '</td>
-                                                                            <td class="text-dark fs-5">' . $gender . '</td>
-                                                                            <td class="text-dark fs-5">' . $person['age'] . '</td>
-                                                                            <td class="text-dark fs-5 fw-bolder">';
-
-                                                                echo '</td></tr>';
-                                                            }
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="col-lg-11 col-md-11 col-sm-11 col-11 bg-white mt-4 mb-4 rounded-5 border border-dark" style="margin: auto;">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-2">
-                                                            <h4 class="text-center text-dark border-bottom border-dark fw-bold pb-2">Amount</h4>
-                                                        </div>
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex pt-3">
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-dark ps-3">
-                                                                <?php
-                                                                echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Price:</p>';
-                                                                if ($booking['coupons_code'] != "") {
-                                                                    echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Coupon Applied:</p>';
-                                                                    echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight: bold;"><strong>' . $booking['coupons_code'] . '</strong></p>';
-
-                                                                    //echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
-                                                                    //echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600">Sub Total</p>';
-                                                                }
-                                                                if ($booking['gst_status'] == "1") {
-                                                                    echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">GST</p>';
-                                                                }
-                                                                echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
-                                                                echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600 ">TOTAL</p>';
-                                                                ?>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                <?php
-                                                                if ($booking['gst_status'] == "0") {
-                                                                    // direct bill
-                                                                    echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . $total_direct['final_price'] . '</p>';
-                                                                    if ($booking['coupons_code'] != "") {
-
-                                                                        echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . $total_direct['coupon_discount'] . '</p>';
-                                                                        echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                        echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $total_direct['total_net_payable'] . '</strong></p>';
-                                                                    } else {
-                                                                        echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                        echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $total_direct['total_price'] . '</strong></p>';
-                                                                    }
-                                                                } else if ($booking['gst_status'] == "1") {
-                                                                    // GST Bill
-                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['total_price'], 2, '.', '') . '</p>';
-                                                                    if ($booking['coupons_code'] != "") {
-
-                                                                        echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . number_format((float)$total_gst['coupon_discount'], 2, '.', '') . '</p>';
-                                                                        echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                        echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['net_payable'], 2, '.', '') . '</p>';
-                                                                    }
-                                                                    echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>+ ₹ ' . number_format((float)$total_gst['total_gst'], 2, '.', '') . '</strong></p>';
-                                                                    echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
-                                                                    echo '<p class="textColor" style="font-size:14px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . number_format((float)$total_gst['total_net_payable'], 2, '.', '') . '</strong></p>';
-                                                                }
-                                                                ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                             </div>
+                                            <h5 class="fw-bolder text-dark ps-4 pt-3 ms-2">Tour Members</h5>
+                                            <div class="col-lg-11 col-md-11 col-sm-11 col-11 rounded-5 border border-dark px-4 py-2 table-responsive-sm" style="margin: auto;">
+                                                <table class="table">
+                                                    <thead class="">
+                                                        <tr class="py-2 border-bottom border-dark">
+                                                            <th class="text-dark fw-bolder">Sr No</th>
+                                                            <th class="text-dark fw-bolder">Name</th>
+                                                            <th class="text-dark fw-bolder">Gender</th>
+                                                            <th class="text-dark fw-bolder">Age</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="">
+                                                        <?php
+
+                                                        foreach ($member as $key => $person) {
+                                                            if ($person['gender'] == 'male') {
+                                                                $gender = 'Male';
+                                                            } else if ($person['gender'] == 'female') {
+                                                                $gender = 'Female';
+                                                            } else {
+                                                                $gender = 'Other';
+                                                            }
+                                                            echo '<tr class="pt-3">
+                                                                        <td class="text-dark">' . ++$key . '</td>
+                                                                        <td class="text-dark">' . $person['name'] . '</td>
+                                                                        <td class="text-dark">' . $gender . '</td>
+                                                                        <td class="text-dark">' . $person['age'] . '</td>
+                                                                        <td class="text-dark fw-bolder">';
+
+                                                            echo '</td></tr>';
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-lg-11 col-md-12 col-sm-12" style="margin: auto;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 p-3 d-flex justify-content-between">
+                                                        <div>
+                                                            <h5 class="fw-bolder text-dark">Thank You For Your Business</h5>
+                                                        </div>
+                                                        <div>
+                                                            <p class="fw-bold mb-0 text-end">Sub Total: <span class="fw-normal"> <?php echo $total_direct['final_price'] ?></span></p>
+                                                            <!-- only if coupon is applied -->
+                                                            <?php
+                                                                if($booking['coupons_code'] != ""){
+
+                                                            ?>
+                                                            <p class="fw-bold pt-0 mb-0 text-end">Coupon Applied: <span class="fw-normal" style="coupon-position"><?= $total_direct['coupon_discount']?></span></p>
+                                                            <p class="fw-bold pt-0 mt-n1 ms-n4 mb-0 text-start">(<span><?php echo $booking['coupons_code'] ?></span>)</p>
+                                                            <?php
+                                                                }
+                                                                //if GST is applicable
+                                                                if ($booking['gst_status'] == "1") {
+                                                            ?>
+                                                                <p class="fw-bold pt-0 mb-0 text-end">GST: <span class="fw-normal"><?= number_format((float)$total_gst['total_gst'], 2, '.', '')?></span></p>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            <hr class="text-decoration my-0"></hr>
+                                                            <p class="fw-bold mb-0 mt-1 text-end">Total: <span class="fw-normal"> <?php echo  $total_direct['total_price'] ?></span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-lg-11 col-md-11 col-sm-11 col-11 bg-white mt-4 mb-4 rounded-5 border border-dark" style="margin: auto;">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 pt-2">
+                                                        <h5 class="text-center text-dark border-bottom border-dark fw-bold pb-2">Amount</h5>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex pt-3">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-dark ps-3"> -->
+                                                            <?php
+                                                            // echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Price:</p>';
+                                                            // if ($booking['coupons_code'] != "") {
+                                                            //     echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">Coupon Applied:</p>';
+                                                            //     echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight: bold;"><strong>' . $booking['coupons_code'] . '</strong></p>';
+                                                            // }
+                                                            // if ($booking['gst_status'] == "1") {
+                                                            //     echo '<p class="textColor mt-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e; font-weight:600">GST</p>';
+                                                            // }
+                                                            // echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid white;">';
+                                                            // echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e; font-weight:600 ">TOTAL</p>';
+                                                            ?>
+                                                        <!-- </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6"> -->
+                                                            <?php
+                                                            // if ($booking['gst_status'] == "0") {
+                                                            //     // direct bill
+                                                            //     echo '<p class="textColor mb-0" style="font-size:11px; padding:0px 2px 0px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . $total_direct['final_price'] . '</p>';
+                                                            //     if ($booking['coupons_code'] != "") {
+
+                                                            //         echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . $total_direct['coupon_discount'] . '</p>';
+                                                            //         echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                            //         echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $total_direct['total_net_payable'] . '</strong></p>';
+                                                            //     } else {
+                                                            //         echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                            //         echo '<p class="textColor" style="font-size:18px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . $total_direct['total_price'] . '</strong></p>';
+                                                            //     }
+                                                            // } else if ($booking['gst_status'] == "1") {
+                                                            //     // GST Bill
+                                                            //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['total_price'], 2, '.', '') . '</p>';
+                                                            //     if ($booking['coupons_code'] != "") {
+
+                                                            //         echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">- ₹ ' . number_format((float)$total_gst['coupon_discount'], 2, '.', '') . '</p>';
+                                                            //         echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                            //         echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;">₹ ' . number_format((float)$total_gst['net_payable'], 2, '.', '') . '</p>';
+                                                            //     }
+                                                            //     echo '<p class="textColor" style="font-size:11px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>+ ₹ ' . number_format((float)$total_gst['total_gst'], 2, '.', '') . '</strong></p>';
+                                                            //     echo '<hr style="margin: 0px 0px 10px 0px; border-top: 1px solid #83a0ae;">';
+                                                            //     echo '<p class="textColor" style="font-size:14px; padding:5px 2px 5px 10px; color:#473e3e;  text-align:left; font-weight:600;"><strong>₹ ' . number_format((float)$total_gst['total_net_payable'], 2, '.', '') . '</strong></p>';
+                                                            // }
+                                                            ?>
+                                                        <!-- </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
                                         </div>
                                         <footer>
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-3">
                                                 <ol>
-                                                    <li class="text-center text-dark fw-bolder" style="font-size: 10px; list-style:none;">304 - 306, Dempo Towers, Patto Plaza Panjim - Goa - 403001</li>
+                                                    <li class="text-center text-dark fw-bolder" style="font-size: 10px; list-style:none;">This invoice is computer-generated.</li>
                                                 </ol>
                                                 <ol class="d-flex justify-content-between contDetails">
                                                     <li class="text-dark fw-bolder" style="font-size: 10px; list-style:none;">www.uniqbizz.com</li>

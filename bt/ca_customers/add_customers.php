@@ -12,6 +12,11 @@ $today = date('Y-m-d');
 //current year
 $date = date('Y');
 
+$cust_ref_id = isset($_GET['id']) ? $_GET['id'] : '';
+$ta_ref_id = isset($_GET['taRef']) ? $_GET['taRef'] : '';
+$cust_ref_name = isset($_GET['fullname']) ? $_GET['fullname'] : '';
+$cust_type = isset($_GET['status']) ? $_GET['status'] : '0';
+
 // Calculate 20 years before the current date
 $dateTwentyYearsAgo = strtotime("-18 years");
 
@@ -125,8 +130,11 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         $stmt->execute();
                                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         if ($stmt->rowCount() > 0) {
-                                                            foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                echo '<option value="' . $row['ca_travelagency_id'] . '">' . $row['ca_travelagency_id'] . ' (' . $row['firstname'] . ' ' . $row['lastname'] . ')</option>';
+                                                            foreach ($stmt->fetchAll() as $row) {
+                                                                // Check if current row matches the $ta_ref_id
+                                                                $selected = ($ta_ref_id == $row['ca_travelagency_id']) ? 'selected' : '';
+                                                                echo '<option value="' . $row['ca_travelagency_id'] . '" ' . $selected . '>'
+                                                                    . $row['ca_travelagency_id'] .' - '. $row['firstname'] .' '. $row['lastname'] . '</option>';
                                                             }
                                                         }
                                                         ?>
@@ -139,6 +147,20 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6 col-sm-6" id="indirect_add_cust_id">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="cust_ref_id">Customer Reference Id <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cust_ref_id" placeholder="Customer Id" readonly value="<?php echo $cust_ref_id; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6" id="indirect_add_cust_name">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label" for="cust_ref_name">Customer Reference Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cust_ref_name" placeholder="Customer Name" value="<?php echo $cust_ref_name; ?>" readonly>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
@@ -151,18 +173,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name">
                                                 </div>
                                             </div>
-                                            <!--<div class="col-md-6 col-sm-6">-->
-                                            <!--    <div class="input-block mb-3">-->
-                                            <!--        <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>-->
-                                            <!--        <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee First Name">-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
-                                            <!--<div class="col-md-6 col-sm-6">-->
-                                            <!--    <div class="input-block mb-3">-->
-                                            <!--        <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>-->
-                                            <!--        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="email">Email address<span class="text-danger">*</span></label>
@@ -267,14 +277,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="text" class="form-control" id="address" placeholder="Enter Address">
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md-12 col-sm-12 col-12 d-none" id="pay">
-                                                <p class="mt-2 mb-0"><span class="fw-bold me-3">Would you like to become a prime customer and receive a coupon worth 10,000?</span>
-                                                    <input type="radio" id="yes" name="topUp" value="yes" onclick="toggleDiv(true)">
-                                                    <label for="yes">Yes</label>
-                                                    <input type="radio" id="no" class="ms-2" name="topUp" value="no" onclick="toggleDiv(false)" checked>
-                                                    <label for="no">No</label>
-                                                </p>
-                                            </div> -->
                                             <div class="col-md-6 col-sm-6 col-12" id="couponFee">
                                                 <div class="input-block mb-3">
                                                     <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
@@ -287,6 +289,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
                                                         <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option>
                                                         <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
+                                                        <option value="11000">Neo Select Ultra: <span>&#8377 </span>11,000/-</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -431,20 +434,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         <!-- End Page-content -->
 
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <?php echo $date; ?> © Uniqbizz.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Design & Develop by MirthCon
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php include_once "../footer.php" ?>
     </div>
     <!-- end main content-->
 
@@ -493,6 +483,42 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         mybutton && (window.onscroll = function() {
             scrollFunction()
         });
+
+        //get page status
+        var customer_type;
+        $(document).ready(function() {
+            customer_type = <?php echo json_encode($cust_type, JSON_HEX_TAG); ?>;
+            
+            if(customer_type == 0 ){
+                document.getElementById('indirect_add_cust_id').style.display = 'none';
+                document.getElementById('indirect_add_cust_name').style.display = 'none';
+            }else{
+                document.getElementById('indirect_add_cust_id').style.display = 'block';
+                document.getElementById('indirect_add_cust_name').style.display = 'block';
+            } 
+            // Fetch User based on selected designation add by SV on 08-09-2025
+            $('#user_id_name').on('change', function() {
+                var user_id_name = $(this).val();
+                var designation = 'ca_travelagency';
+
+                if (user_id_name !== '') { // ✅ only fire if something is selected
+                    $.ajax({
+                        type: 'POST',
+                        url: '../agents/getUsers.php',
+                        data: { user_id_name: user_id_name, designation: designation },
+                        success: function(response) {
+                            $('#reference_name').val(response);
+                        }
+                    });
+                }
+            });
+
+            // 🔥 Fire once on page load if a value is already selected
+            if ($('#user_id_name').val() !== '') {
+                $('#user_id_name').trigger('change');
+                $('#user_id_name').prop('disabled',true);
+            }
+        });
     </script>
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
@@ -513,26 +539,27 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         //         },
         //     });
         // });
-        // fetch User based on selected designation
-        $('#user_id_name').on('change', function() {
-            var user_id_name = $(this).val();
-            // console.log(user_id_name);
+        //commented on 08-09-2025 by SV to make the preselet of TC work on add ref
+        // // fetch User based on selected designation
+        // $('#user_id_name').on('input', function() {
+        //     var user_id_name = $(this).val();
+        //     // console.log(user_id_name);
 
-            var designation = 'ca_travelagency';
-            // console.log(designation);
+        //     var designation = 'ca_travelagency';
+        //     // console.log(designation);
 
-            $.ajax({
-                type: 'POST',
-                url: '../agents/getUsers.php',
-                data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-                success: function(response) {
-                    // console.log(response);
-                    // $('#pin').html(response);
-                    $('#reference_name').val(response);
-                }
-            });
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '../agents/getUsers.php',
+        //         data: 'user_id_name=' + user_id_name + '&designation=' + designation,
+        //         success: function(response) {
+        //             // console.log(response);
+        //             // $('#pin').html(response);
+        //             $('#reference_name').val(response);
+        //         }
+        //     });
 
-        });
+        // });
 
         $('#country').on('change', function() {
             var countryID = $(this).val();

@@ -15,12 +15,6 @@
         <?php
         require '../connect.php';
 
-        // session_start();
-
-        // if(!isset($_SESSION['username'])){
-        //     echo '<script>location.href = "../login.php";</script>';
-        // }
-
         $state = $_POST['state'];
         if($state == '0'){
             $sql = "SELECT * FROM `ca_customer` WHERE (status = '1' OR status = '3') ORDER BY ca_customer_id ASC ";

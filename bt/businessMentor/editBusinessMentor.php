@@ -404,6 +404,10 @@
 														<option value="12000"<?=$paid_amount == '12000'?'selected':''?>>₹ 12000/-</option>
 													</select>
                                                     <select class="form-select d-none" id="payment_fee2" required disabled>
+														<option value="FOC"<?=$paid_amount == 'FOC'?'selected':''?>>Free</option>
+                                                        <option value="100000" <?=$paid_amount == '100000'?'selected':''?>>₹ 1,00,000/-</option>
+                                                        <option value="200000" <?=$paid_amount == '200000'?'selected':''?>>₹ 2,00,000/-</option>
+                                                        <option value="300000" <?=$paid_amount == '300000'?'selected':''?>>₹ 3,00,000/-</option>
 														<option value="500000" <?=$paid_amount == '500000'?'selected':''?>>₹ 5,00,000/-</option>
 													</select>
 												</div>
@@ -673,20 +677,7 @@
                 <!-- End Page-content -->
 
 
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -742,17 +733,15 @@
                     // $('#designation1').prop('disabled',false);
                     // $('#designation1').removeClass('d-none');
                     // $('#designation2').addClass('d-none');
-                    $('#payment_fee').prop('disabled',false);
-                    $('#payment_fee2').addClass('d-none');
+                    // $('#payment_fee').prop('disabled',false);
                     $('#payment_fee').removeClass('d-none');
-                // }else if(registered == 'mf'){
+                    $('#payment_fee2').addClass('d-none');
+                }else if(registered == 'mf'){
                 //     $('#designation2').removeClass('d-none');
                 //     $('#designation2').prop('disabled',false);
                 //     $('#designation1').addClass('d-none');
-                    $('#payment_fee').val('FOC');
-                    $('#payment_fee').prop('disabled',true);
-                    $('#payment_fee2').addClass('d-none');
-                    $('#payment_fee').removeClass('d-none');
+                    $('#payment_fee').addClass('d-none');
+                    $('#payment_fee2').removeClass('d-none');
                 }else if(registered == 'sf'){
                     // $('#designation1').prop('disabled',true);
                     // $('#designation2').prop('disabled',true);
@@ -897,6 +886,17 @@
             //to hide show payment sections
             $('#payment_fee').on('change', function(){
                 var paytype=$('#payment_fee').val();
+                if (paytype !='FOC') {
+                    $('#paymentModeBlock').removeClass("d-none"); 
+                    $('#payProof').removeClass("d-none"); 
+                }else {
+                    $('#paymentModeBlock').addClass("d-none"); 
+                    $('#payProof').addClass("d-none"); 
+                }
+            });
+            //to hide show payment sections
+            $('#payment_fee2').on('change', function(){
+                var paytype=$('#payment_fee2').val();
                 if (paytype !='FOC') {
                     $('#paymentModeBlock').removeClass("d-none"); 
                     $('#payProof').removeClass("d-none"); 

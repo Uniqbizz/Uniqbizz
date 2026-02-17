@@ -137,7 +137,8 @@
                         <li><a href="payout/sub_franchisee_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Franchisee Contracting Payout</a></li>
                         <li><a href="payout/contracting_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TE Contracting Payout</a></li>
                         <li><a href="payout/recruitment_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TC Recruitment Payout</a></li>
-                        <li><a href="payout/customer_membership_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>CU Membership Payout</a></li>
+                        <!-- CU Membership Payout Renamed to holiday account payout -->
+                        <li><a href="payout/customer_membership_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Holiday Account Payout</a></li>
                         <li><a href="payout/customer_referance_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>CU Reference Payout</a></li>
                         <li><a href="payout/product_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Product Payout</a></li>
                         <!-- <li><a href="employee/view_franchisee_manager.php" key="t-level-1-2"><i class="bx bxs-user-detail"></i>Franchisee Manager</a></li>

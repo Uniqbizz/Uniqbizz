@@ -4,7 +4,6 @@ require '../../connect.php';
 $data = stripslashes(file_get_contents("php://input"));
 // json Decoding, true -> for getting data in associative manner
 $mydata = json_decode($data, true);
-// print_r($mydata);
 
 $booking_id = $mydata['bookingId'];
 $pay_id = $mydata['payID'];

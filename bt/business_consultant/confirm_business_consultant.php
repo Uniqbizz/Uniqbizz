@@ -9,7 +9,7 @@ $string="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()"
 $password = substr(str_shuffle($string), 0,8);
 $status= '1';
 $user_type_id= '3';
-$register_by ='15';
+$register_by ='1';
 
 date_default_timezone_set('Asia/Calcutta');
 $todayYear = date('Y' );
@@ -63,7 +63,7 @@ if($sql2->rowCount()>0){
 $title="Confirm Corporate Agency";
 $message=$uid." has been approved";
 $message2=$uid." has been approved";
-$fromWhom="15";
+$fromWhom="1";
 
 	$sql1 = "UPDATE business_consultant SET status=:status,business_consultant_id=:business_consultant_id WHERE id=:id";
 	$stmt = $conn->prepare($sql1);

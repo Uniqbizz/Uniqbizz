@@ -173,18 +173,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name">
                                                 </div>
                                             </div>
-                                            <!--<div class="col-md-6 col-sm-6">-->
-                                            <!--    <div class="input-block mb-3">-->
-                                            <!--        <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>-->
-                                            <!--        <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee First Name">-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
-                                            <!--<div class="col-md-6 col-sm-6">-->
-                                            <!--    <div class="input-block mb-3">-->
-                                            <!--        <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>-->
-                                            <!--        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation">-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="email">Email address<span class="text-danger">*</span></label>
@@ -289,14 +277,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="text" class="form-control" id="address" placeholder="Enter Address">
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md-12 col-sm-12 col-12 d-none" id="pay">
-                                                <p class="mt-2 mb-0"><span class="fw-bold me-3">Would you like to become a prime customer and receive a coupon worth 10,000?</span>
-                                                    <input type="radio" id="yes" name="topUp" value="yes" onclick="toggleDiv(true)">
-                                                    <label for="yes">Yes</label>
-                                                    <input type="radio" id="no" class="ms-2" name="topUp" value="no" onclick="toggleDiv(false)" checked>
-                                                    <label for="no">No</label>
-                                                </p>
-                                            </div> -->
                                             <div class="col-md-6 col-sm-6 col-12" id="couponFee">
                                                 <div class="input-block mb-3">
                                                     <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
@@ -454,20 +434,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         <!-- End Page-content -->
 
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <?php echo $date; ?> © Uniqbizz.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Design & Develop by MirthCon
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php include_once "../footer.php" ?>
     </div>
     <!-- end main content-->
 

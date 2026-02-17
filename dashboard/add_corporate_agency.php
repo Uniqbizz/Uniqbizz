@@ -404,20 +404,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by Mirthcon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>   
+                <?php include_once "footer.php" ?>  
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 
@@ -437,8 +424,6 @@
         <script src="assets/libs/node-waves/waves.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
         <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <!-- <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script> -->
-        <!-- <script src="assets/js/plugins.js"></script> -->
 
         <script src="assets/js/submitdata.js"></script>
 
@@ -455,36 +440,20 @@
         <!--Swiper slider js-->
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
-        <!-- Dashboard init -->
-        <!-- <script src="assets/js/pages/dashboard-ecommerce.init.js"></script> -->
-
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
         <!-- file upload code js file -->
         <script src="../uploading/uploadUser.js"></script>
-
-        <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script> -->
-
-         <!-- Dashboard init -->
-         <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-
-        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
             //select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();
-                // console.log(designation);
                 $.ajax({
                     type:'POST',
                     url:'agents/get_user_Franchisee.php',
                     data: "designation="+designation,
                     success:function (e) {
-                        // console.log(e);
                         $('#user_id_name').html(e); 
                     },
                     error: function(err){
@@ -496,18 +465,14 @@
             // fetch User based on selected designation
             $('#user_id_name').on('change', function(){
                 var user_id_name = $(this).val();
-                // console.log(user_id_name);
 
                 var designation = $('#designation').val();
-                // console.log(designation);
 
                 $.ajax({
                     type:'POST',
                     url:'agents/getUsers.php',
                     data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
                     success:function(response){
-                    // console.log(response);
-                        // $('#pin').html(response);
                         $('#reference_name').val(response); 
                     }
                 }); 
@@ -534,7 +499,6 @@
             });
                 
             $('#mystate').on('change', function(){
-                // alert();
                 var stateID = $(this).val();
                 if(stateID){
                     $.ajax({
@@ -559,7 +523,6 @@
                         url:'address/pincode.php',
                         data:'city_id='+cityID,
                         success:function(response){
-                            // $('#pin').html(response);
                             $('#pin').val(response); 
                         }
                     }); 
@@ -571,7 +534,6 @@
 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
                 if(paymentMode == "cheque"){
                     $("#chequeOpt").removeClass("d-none");
                     $("#onlineOpt").addClass("d-none");

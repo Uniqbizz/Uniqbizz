@@ -174,9 +174,10 @@
                                                         </select>
                                                         <select id="business_package_amount2" class="form-select d-none"> 
                                                             <option value="">--Select Business Package/Amount--</option> 
-                                                            <option value="100000">1,00,000/-</option> 
+                                                            <!-- <option value="100000">1,00,000/-</option>  -->
                                                             <option value="200000">2,00,000/-</option> 
                                                             <option value="300000">3,00,000/-</option> 
+                                                            <option value="400000">4,00,000/-</option> 
                                                             <option value="500000">5,00,000/-</option> 
                                                         </select>
                                                     </div>
@@ -423,22 +424,7 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-
-
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
 

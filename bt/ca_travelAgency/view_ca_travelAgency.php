@@ -99,12 +99,6 @@
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 class="mb-sm-0 font-size-18">Travel Consultant</h4>
-
-                                    <!-- <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Customers</li>
-                                        </ol> -->
                                     </div>
 
                                 </div>
@@ -124,11 +118,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-6">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newTravelAgencyModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addTravelAgencymodal"><i class="mdi mdi-plus me-1"></i> New Travel Consultant</button>
-                                                </div>
-                                            </div> -->
                                         </div>
 
                                         <div class="table-responsive">
@@ -181,8 +170,7 @@
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
                                                                                     <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                    <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '","' .$row["reference_no"]. '","'.$row["comp_check"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                    
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -194,7 +182,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -224,47 +212,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-8">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCustomerModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCustomers-modal"><i class="mdi mdi-plus me-1"></i> New Customers</button>
-                                                </div>
-                                            </div> -->
                                             <!-- end col-->
 
                                             <!-- Search Filter -->
                                              <div class="row filter-row p-2">
-                                                <!--<div class="col-sm-6 col-md-6"> 
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label"><span>State</span></label>
-                                                        <select class="form-control" id="filter_state" aria-label="Floating label select example"> 
-                                                            <option value="0">--- Select ---</option>
-                                                            <?php
-                                                                // require '../connect.php';
-                                                                // $sql = "SELECT * FROM `states` WHERE status ='1' ";
-                                                                // $stmt = $conn->prepare($sql);
-                                                                // $stmt -> execute();
-                                                                // $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                // if($stmt-> rowCount()>0 ){
-                                                                //     foreach( ($stmt -> fetchAll()) as $key => $row ){
-                                                                //         echo'
-                                                                //             <option value="'.$row['id'].'">'.$row['state_name'].'</option>
-                                                                //         ';
-                                                                //     }
-                                                                // }else{
-                                                                //     echo '<option value="">Department not available</option>'; 
-                                                                // }
-                                                            ?>
-                                                        </select>
-                                                        
-                                                    </div>
-                                                </div> -->
-
                                                 
-                                                <!-- <div class="col-sm-4 col-md-2">
-                                                    <div class="d-grid ">
-                                                        <a href="#" id="filterBranch" class="btn btn-success w-100 "> Search </a>  
-                                                    </div>  
-                                                </div> -->
                                                 <!-- designation -->
                                                 <div class="col-sm-2 col-md-2"> 
                                                     <div class="input-block mb-3">
@@ -367,7 +319,7 @@
                                                                 $rdate= $rd->format('d-m-Y');
 
 
-                                                                $reference_no = substr($row['reference_no'], 0, 2);
+                                                                $reference_no = substr($row['reference_no'], 0, 1) == 'F' ? substr($row['reference_no'], 0, 1):substr($row['reference_no'], 0, 2);
 			                                                    if ($reference_no == "TE" || $reference_no == "CA") {
                                                                     $sql2 = "SELECT * FROM `corporate_agency` WHERE corporate_agency_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY corporate_agency_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
@@ -390,6 +342,31 @@
                                                                             $id = $row2['reference_no'];
                                                                         }
                                                                     }
+                                                                }else if($reference_no == "F"){
+                                                                    $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sub_franchisee_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "MF"){
+                                                                    $sql2 = "SELECT * FROM `master_franchisee` WHERE master_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY master_franchisee_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else{
+                                                                    $name = "NA";
+                                                                    $id = "NA";
                                                                 }
 
 
@@ -417,8 +394,7 @@
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
                                                                                 <li><a href="#" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_travelagency_id"]. '","registered")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -487,7 +463,7 @@
                                                                 $rdate= $rd->format('d-m-Y');
 
 
-                                                                $reference_no = substr($row['reference_no'], 0, 2);
+                                                                $reference_no = substr($row['reference_no'], 0, 1) == 'F' ? substr($row['reference_no'], 0, 1):substr($row['reference_no'], 0, 2);
 			                                                    if ($reference_no == "TE" || $reference_no == "CA") {
                                                                     $sql2 = "SELECT * FROM `corporate_agency` WHERE corporate_agency_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY corporate_agency_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
@@ -501,6 +477,28 @@
                                                                     }
                                                                 }else if($reference_no == "BM"){
                                                                     $sql2 = "SELECT * FROM `business_mentor` WHERE business_mentor_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY business_mentor_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "F"){
+                                                                    $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY sub_franchisee_id ASC ";
+                                                                    $stmt2 = $conn -> prepare($sql2);
+                                                                    $stmt2 -> execute();
+                                                                    $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if($stmt2->rowCount()>0){
+                                                                        foreach(($stmt2->fetchAll()) as $key2 => $row2){
+                                                                            $name = $row2['registrant'];
+                                                                            $id = $row2['reference_no'];
+                                                                        }
+                                                                    }
+                                                                }else if($reference_no == "MF"){
+                                                                    $sql2 = "SELECT * FROM `master_franchisee` WHERE master_franchisee_id = '".$row['reference_no']."' AND (status = '1' OR status = '3') ORDER BY master_franchisee_id ASC ";
                                                                     $stmt2 = $conn -> prepare($sql2);
                                                                     $stmt2 -> execute();
                                                                     $stmt2 -> setFetchMode(PDO::FETCH_ASSOC);
@@ -536,7 +534,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
-                                                                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["ca_travelagency_id"]. '","deactivate")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -564,20 +562,7 @@
                 </div> <!-- End Page-content -->
 
                 
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -670,29 +655,6 @@
             </div>
         </div>
         <!-- end confirmItemModal -->
-
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
-                <div class="modal-content">
-                    <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="avatar-sm mb-4 mx-auto">
-                            <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
-                                <i class="fas fa-user-edit text-primary"></i>
-                            </div>
-                        </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Edit this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Edit Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-editItemModal" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- end editItemModal -->
 
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>

@@ -1,5 +1,4 @@
 <?php
-    // session_start();
     require '../connect.php';
     $current_year = date('Y'); 
 
@@ -121,7 +120,6 @@
 		$stmt =$conn->prepare($sql3);
 
 		$result3=$stmt->execute(array(
-			// ':user_id' => $uid,
 			':title' => $title,
 			':message' => $message,
 			':message2' =>$message2,

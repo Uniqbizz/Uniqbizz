@@ -6,17 +6,20 @@ $payoutmessage = $_GET['payoutmessage'];
 $designation = $_GET['designation'] ?? '';
 $user_id = $_GET['user_id'] ?? '';
 
-if($designation == "business_channel_manager"){
-    $userType = '24';
-    $userIdCommi = 'bch_id';
-}else if($designation == "business_development_manager"){
-    $userType = '25';
-    $userIdCommi = 'bdm_id';
+if($designation == "master_franchisee"){
+    $userType = '28';
+    $userIdCommi = 'bm_id';
+}else if($designation == "sponsor_franchisee"){
+    $userType = '30';
+    $userIdCommi = 'bm_id';
 }else if($designation == "business_mentor"){
     $userType = '26';
     $userIdCommi = 'bm_id';
 }else if($designation == "corporate_agency"){
     $userType = '16';
+    $userIdCommi = 'te_id';
+}else if($designation == "sub_franchisee"){
+    $userType = '29';
     $userIdCommi = 'te_id';
 }else if($designation == "ca_travelagency"){
     $userType = '11';
@@ -332,28 +335,14 @@ if($payoutmessage == 'allPayout'){
                         $status = $row['ta_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '16'){
+                    }else if($userType == '16' || $user_id == '29'){
                         $id = $row['te_id'];
                         $message = $row['te_mess'];
                         $amt = $row['te_amt'];
                         $status = $row['te_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '24'){
-                        $id = $row['bch_id'];
-                        $message = $row['bch_mess'];
-                        $amt = $row['bch_amt'];
-                        $status = $row['bch_status'];
-                        $tds = $amt * $tdsPercentage;
-                        $total = $amt - $tds;
-                    }else if($userType == '25'){
-                        $id = $row['bdm_id'];
-                        $message = $row['bdm_mess'];
-                        $amt = $row['bdm_amt'];
-                        $status = $row['bdm_status'];
-                        $tds = $amt * $tdsPercentage;
-                        $total = $amt - $tds;
-                    }else if($userType == '26'){
+                    }else if($userType == '26' || $user_id == '28' || $user_id == '30'){
                         $id = $row['bm_id'];
                         $message = $row['bm_mess'];
                         $amt = $row['bm_amt'];

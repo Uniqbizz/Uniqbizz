@@ -37,7 +37,7 @@ $('#designation').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_name').html(data);
@@ -110,7 +110,7 @@ $('#designationPrevious').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_namePrevious').html(data);
@@ -184,7 +184,7 @@ $('#designationNext').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_nameNext').html(data);
@@ -258,7 +258,7 @@ $('#designationTotal').on('change', function(){
     // console.log(designation);
     $.ajax({
         type: 'POST',
-        url:  '../agents/get_user_Franchisee',
+        url:  '../agents/get_user_Franchisee.php',
         data: 'designation='+designation,
         success:function(data){
             $('#user_id_nameTotal').html(data);
@@ -433,7 +433,7 @@ function totalPayoutExel(){
         //         console.log(data);
         //     }
         // });
-        window.location.href='forms/business_mentor_payout/download_exel_ca?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
+        window.location.href='forms/business_mentor_payout/download_exel_ca.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage;
     }else{
         alert("Select date first");
         window.location.reload();
@@ -451,7 +451,7 @@ function allPayoutExel(){
     const payoutYear = myArray[0]; // store splited year in new variable
     const payoutMonth = myArray[1]; // store splited month in new variable
     // console.log(designation + user_id + date + payoutmessage);
-    window.location.href='forms/business_mentor_payout/download_exel_ca?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
+    window.location.href='forms/business_mentor_payout/download_exel_ca.php?payoutYear='+payoutYear+'&payoutMonth='+payoutMonth+'&payoutmessage='+payoutmessage+'&designation='+designation+'&user_id='+user_id;
 }
 
 // **** business_mentor_payout Javascript End ****

@@ -41,35 +41,7 @@ if ($user_type_id == '16') {
 	}
 
 	$reference_id = substr($reference_no, 0, 2);
-	// if ($reference_id == "BC") {
-
-	// 	$sql10 = $conn->prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '" . $reference_no . "'");
-	// 	$sql10->execute();
-	// 	$sql10->setFetchMode(PDO::FETCH_ASSOC);
-	// 	if ($sql10->rowCount() > 0) {
-	// 		foreach (($sql10->fetchAll()) as $key10 => $row10) {
-	// 			$Bc_id = $row10['business_consultant_id'];
-	// 			$Bc_name = $row10['firstname'] . ' ' . $row10['lastname'];
-	// 			$Bc_ref = $row10['reference_no'];
-	// 		}
-	// 	}
-
-	// 	$sql11 = $conn->prepare("SELECT * FROM channel_business_director WHERE channel_business_director_id = '" . $Bc_ref . "'");
-	// 	$sql11->execute();
-	// 	$sql11->setFetchMode(PDO::FETCH_ASSOC);
-	// 	if ($sql11->rowCount() > 0) {
-	// 		foreach (($sql11->fetchAll()) as $key11 => $row11) {
-	// 			$cbd_id = $row11['channel_business_director_id'];
-	// 			$cbd_name = $row11['firstname'] . ' ' . $row11['lastname'];
-	// 		}
-	// 	}
-
-
-
-	// 	$bcCommiAmt = $amount * 5 / 100; //25000
-	// 	$cbdCommiAmt = $bcCommiAmt * 30 / 100; //7500
-
-	// } else 
+	
 	if ($reference_id == "BM") {
 
 		$sql10 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");
@@ -532,116 +504,116 @@ if ($user_type_id == '16') {
 						$to = $toEmail;
 						$subject = $subjectName;
 						$message3 = '<!DOCTYPE html>
-						<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
-						<head>
-						<meta charset="UTF-8">
-						<meta name="viewport" content="width=device-width,initial-scale=1">
-						<meta name="x-apple-disable-message-reformatting">
-						<title></title>
-						<!--[if mso]>
-						<noscript>
-							<xml>
-							<o:OfficeDocumentSettings>
-								<o:PixelsPerInch>96</o:PixelsPerInch>
-							</o:OfficeDocumentSettings>
-							</xml>
-						</noscript>
-						<![endif]-->
-						<style>
-							table, td, div, h1, p {font-family: Arial, sans-serif;}
-						</style>
-						</head>
-						<body style="margin:0;padding:0;">
-						<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
-							<tr>
-							<td align="center" style="padding:0;">
-								<table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
-								<tr>
-									<td style="padding:30px;background:#a5a5a5;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
+								<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+								<head>
+								<meta charset="UTF-8">
+								<meta name="viewport" content="width=device-width,initial-scale=1">
+								<meta name="x-apple-disable-message-reformatting">
+								<title></title>
+								<!--[if mso]>
+								<noscript>
+									<xml>
+									<o:OfficeDocumentSettings>
+										<o:PixelsPerInch>96</o:PixelsPerInch>
+									</o:OfficeDocumentSettings>
+									</xml>
+								</noscript>
+								<![endif]-->
+								<style>
+									table, td, div, h1, p {font-family: Arial, sans-serif;}
+								</style>
+								</head>
+								<body style="margin:0;padding:0;">
+								<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
+									<tr>
+									<td align="center" style="padding:0;">
+										<table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
 										<tr>
-										<td style="padding:0;width:50%;" align="left">
-											<img src="https://uniqbizz.com/uploading/uniqbizz_logo.png" alt="" width="100" style="height:auto;display:block; position: absolute; top: 37px;" />
-											<img src="https://uniqbizz.com/uploading/bizzmirth.png" alt="" width="100" style="height:auto;display:block;" /></p>
-										</td>
-										<td style="padding:0;width:50%;" align="right">
-											<table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
-											<tr>
-											<p style="font-size:14px;line-height:20px;font-family:Arial,sans-serif; color: white;">
-												Uniqbizz<br>
-												306 Ambrosia Corporate Park EDC Patto Plaza Panjim Goa 403001<br>
-												Contact No: 0832 2438500 / 8080785714<br>
-												Email ID: support@uniqbizz.com<br>
-												URL: uniqbizz.com
-											</p>
-											
-											</tr>
-											</table>
-										</td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-								<tr>
-									<td style="padding:36px 30px 42px 30px;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-										<tr>
-										<td style="padding:0;">
-											<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-											<tr>
-												
-												<td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
-												<td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-												<!-- <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;" /></p> -->
-												<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif;">Dear ' . $name . '  <br>
-												ID: - ' . $uid . '<br>
-												DOJ: - ' . $doj . '<br>
-												Address: - ' . $address . '<br>
-												Username: - ' . $toEmail . '<br>
-												Password: - ' . $password . '<br><br>
-												<hr><br><br>
-												</p>
-												<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
-													Congratulations on your decision! </p>
-
-													<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; ">
-													A journey of a thousand miles must begin with a single step. Id like to welcome you to Uniqbizz. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Uniqbizz.
-													<br><br>
-
-													Each of is will play a role to ensure your successful integration into the company. Your agenda will involve planning your orientation with company and setting some intial work goals so that you feel immediately productive in your new role. And to earn money which is optional, your earnings will depend directly in the amount of questions prior to your start date, please call me anytime, or send email if that is more convenient. We look forward to having you come onboard. The secret of success is constancy to purpose.
-
-													</p>
-													<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
-													Best Regards,<br>
-													Uniqbizz</p>
+											<td style="padding:30px;background:#a5a5a5;">
+											<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
+												<tr>
+												<td style="padding:0;width:50%;" align="left">
+													<img src="https://uniqbizz.com/uploading/uniqbizz_logo.png" alt="" width="100" style="height:auto;display:block; position: absolute; top: 37px;" />
+													<img src="https://uniqbizz.com/uploading/bizzmirth.png" alt="" width="100" style="height:auto;display:block;" /></p>
 												</td>
-											</tr>
+												<td style="padding:0;width:50%;" align="right">
+													<table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
+													<tr>
+													<p style="font-size:14px;line-height:20px;font-family:Arial,sans-serif; color: white;">
+														Uniqbizz<br>
+														306 Ambrosia Corporate Park EDC Patto Plaza Panjim Goa 403001<br>
+														Contact No: 0832 2438500 / 8080785714<br>
+														Email ID: support@uniqbizz.com<br>
+														URL: uniqbizz.com
+													</p>
+													
+													</tr>
+													</table>
+												</td>
+												</tr>
 											</table>
-										</td>
+											</td>
 										</tr>
-									</table>
-									</td>
-								</tr>
-								<tr>
-									<td style="padding:30px;background:#a5a5a5;">
-									<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
 										<tr>
-										<td style="padding:0;width:50%;" align="left">
-											<p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
-											Uniqbizz.<br/>
-											</p>
-										</td>
-										
+											<td style="padding:36px 30px 42px 30px;">
+											<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+												<tr>
+												<td style="padding:0;">
+													<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+													<tr>
+														
+														<td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
+														<td style="width:260px;padding:0;vertical-align:top;color:#153643;">
+														<!-- <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;" /></p> -->
+														<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif;">Dear ' . $name . '  <br>
+														ID: - ' . $uid . '<br>
+														DOJ: - ' . $doj . '<br>
+														Address: - ' . $address . '<br>
+														Username: - ' . $toEmail . '<br>
+														Password: - ' . $password . '<br><br>
+														<hr><br><br>
+														</p>
+														<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
+															Congratulations on your decision! </p>
+
+															<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; ">
+															A journey of a thousand miles must begin with a single step. Id like to welcome you to Uniqbizz. We are excited that you have accepted our business offer and agreed upon your start date. I trust that this letter finds you mutually excited about your new opportunity with Uniqbizz.
+															<br><br>
+
+															Each of is will play a role to ensure your successful integration into the company. Your agenda will involve planning your orientation with company and setting some intial work goals so that you feel immediately productive in your new role. And to earn money which is optional, your earnings will depend directly in the amount of questions prior to your start date, please call me anytime, or send email if that is more convenient. We look forward to having you come onboard. The secret of success is constancy to purpose.
+
+															</p>
+															<p style="margin:0 0 12px 0;font-size:16px;font-family:Arial,sans-serif; color: #a5a5a5;"> 
+															Best Regards,<br>
+															Uniqbizz</p>
+														</td>
+													</tr>
+													</table>
+												</td>
+												</tr>
+											</table>
+											</td>
 										</tr>
-									</table>
+										<tr>
+											<td style="padding:30px;background:#a5a5a5;">
+											<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
+												<tr>
+												<td style="padding:0;width:50%;" align="left">
+													<p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;">
+													Uniqbizz.<br/>
+													</p>
+												</td>
+												
+												</tr>
+											</table>
+											</td>
+										</tr>
+										</table>
 									</td>
-								</tr>
+									</tr>
 								</table>
-							</td>
-							</tr>
-						</table>
-						</body>
-						</html>';
+								</body>
+								</html>';
 						$mail = new PHPMailer();
 						$mail->IsSMTP();
 						$mail->SMTPAuth = true;
@@ -744,9 +716,9 @@ if ($user_type_id == '16') {
 		if ($sql11->rowCount() > 0) {
 			foreach (($sql11->fetchAll()) as $key11 => $row11) {
 				$Sf_id = $row11['sponsor_franchisee_id'];
-				$Sf_name = $row11['firstname'] .' '. $row1['lastname'] ;
-				$bdm_id = $row10['reference_no'];
-				$bdm_name = $row10['registrant'];
+				$Sf_name = $row11['firstname'] .' '. $row11['lastname'] ;
+				$bdm_id = $row11['reference_no'];
+				$bdm_name = $row11['registrant'];
 			}
 		}
 	}
@@ -872,6 +844,7 @@ if ($user_type_id == '16') {
 			$refCommiAmt = '0';
 			$master_franchisee = '';
 			$message_mf = '';
+			$mfCommiAmt = '0';
 
 			// Master Franchisee Referral edidted on 15-10-2025 by SV
 			if (strpos($reference_no, 'MF') === 0) {
@@ -885,10 +858,10 @@ if ($user_type_id == '16') {
 				if ($row) {
 					$mf_name = $row['firstname'] . ' ' . $row['lastname'];
 					$mfCommiAmt = $amount * 0.05;
-					$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) and paid Rs $amount /-";
+					$message_mf = "Master Franchisee(MF) $mf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
 					$message_sf="$name ($uid) was on-boarded via $mf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
 
-					if (!empty($row['reference_no']) && ($row['reference_no']) != 'Not Applicable') {
+					if (!empty($row['reference_no']) && ($row['reference_no']) !== 'Not Applicable' && ($row['reference_no']) !== 'NA') {
 						$ref_manager = $row['reference_no'];
 
 						// Get ref name
@@ -929,9 +902,9 @@ if ($user_type_id == '16') {
 				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
 				$mfCommiAmt = $amount * 0.05; //25000
 				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
-				$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) and paid Rs $amount /-";
+				$message_mf = "Sponsor Franchisee(SF) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
 				$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
-				if (!empty($sf['reference_no']) && ($sf['reference_no']) != 'Not Applicable') {
+				if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
 					$ref_manager = $sf['reference_no'];
 
 					// Get ref name
@@ -956,7 +929,7 @@ if ($user_type_id == '16') {
 				$refCommiAmt = $amount * 0.05; //25000
 				$ref_name = $ref ? $ref['name'] : '';
 				$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
-				$message_ref = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee. Franchisee Name - $name (ID:$uid) and paid Rs $amount /-";
+				$message_ref = "Direct $ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on on registering Franchisee. Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
 				$message_mf = '';
 				$mfCommiAmt = 0;
 				$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
@@ -964,12 +937,12 @@ if ($user_type_id == '16') {
 			//----------------------------------------------------
 			// Insert into payout table
 			$sql = "INSERT INTO `sub_franchisee_payout` (
-						`zonal_manager`, `message_zm`, `commision_zm`, `status_zm`,
-						`master_franchisee`, `message_mf`, `commision_mf`, `status_mf`,
+						`zonal_manager`, `message_zm`, `commission_zm`, `status_zm`,
+						`master_franchisee`, `message_mf`, `commission_mf`, `status_mf`,
 						`sub_franchisee`, `message_sf`, `sf_amt_paid`, `status_sf`, `status`
 					) VALUES (
-						:zonal_manager, :message_zm, :commision_zm, '2',
-						:master_franchisee, :message_mf, :commision_mf, '2',
+						:zonal_manager, :message_zm, :commission_zm, '2',
+						:master_franchisee, :message_mf, :commission_mf, '2',
 						:sub_franchisee, :message_sf, :sf_amt_paid, '2', '2'
 					)";
 
@@ -977,10 +950,10 @@ if ($user_type_id == '16') {
 			$inserted = $stmt->execute([
 				':zonal_manager'     => $ref_manager,
 				':message_zm'        => $message_ref,
-				':commision_zm'      => $refCommiAmt,
+				':commission_zm'      => $refCommiAmt,
 				':master_franchisee' => $master_franchisee,
 				':message_mf'        => $message_mf,
-				':commision_mf'      => $mfCommiAmt,
+				':commission_mf'      => $mfCommiAmt,
 				':sub_franchisee'    => $uid,
 				':message_sf'        => $message_sf,
 				':sf_amt_paid'       => $amount

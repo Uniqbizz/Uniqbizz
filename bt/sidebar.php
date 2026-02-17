@@ -4,6 +4,7 @@
     }
 </style>
 
+
 <!-- ========== Left Sidebar Start ========== -->
 <div class="vertical-menu">
 
@@ -102,13 +103,13 @@
                     <li>
                         <a href="../businessMentor/businessMentor.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">Business Mentor</span>
+                            <span key="t-contacts">BM / MF / SF</span>
                         </a>
                     </li>
                     <li>
                         <a href="../corporate_agency/view_corporate_agency.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">Techno Enterprise</span>
+                            <span key="t-contacts">TE / F</span>
                         </a>
                     </li>
                     <li>
@@ -130,22 +131,30 @@
                         </a>
                     </li>
                     <!-- <li>
+                        <a href="../user_details/all_users.php" class=" waves-effect">
+                            <i class="bx bxs-user-detail"></i>
+                            <span key="t-contacts">Login Details</span>
+                        </a>
+                    </li> -->
+                    <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bxs-collection"></i>
                             <span key="t-multi-level">Payout</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="true">
-                            <li><a href="../payout/contracting_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Contracting Payout</a></li>
-                            <li><a href="../payout/recruitment_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TC Recruitment Payout</a></li>
-                            <li><a href="../payout/product_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Product Payout</a></li>
-                            <li><a href="../payout/cbd_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>CBD Payout</a></li>
                             <li><a href="../slab_payout/slabPayout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Employee Payout</a></li>
-                            <li><a href="../payout/business_mentor_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Business Mentor Payout</a></li> -->
+                            <li><a href="../payout/sub_franchisee_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Franchisee Contracting Payout</a></li>
+                            <li><a href="../payout/contracting_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TE Contracting Payout</a></li>
+                            <li><a href="../payout/recruitment_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>TC Recruitment Payout</a></li>
+                            <!-- CU Membership Payout Renamed to holiday account payout -->
+                            <li><a href="../payout/customer_membership_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Holiday Account Payout</a></li>
+                            <li><a href="../payout/customer_referance_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>CU Reference Payout</a></li>
+                            <li><a href="../payout/product_payout.php" key="t-level-1-1"><i class="bx bxs-detail"></i>Product Payout</a></li>
                             <!-- <li><a href="employee/view_franchisee_manager.php" key="t-level-1-2"><i class="bx bxs-user-detail"></i>Franchisee Manager</a></li>
                             <li><a href="employee/view_floor_manager.php" key="t-level-1-3"><i class="bx bxs-user-detail"></i>Floor Manager</a></li> -->
-                        <!-- </ul>
+                        </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bxs-user-detail"></i>
                             <span key="t-multi-level">Packages</span>

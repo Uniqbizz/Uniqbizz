@@ -5,7 +5,6 @@ date_default_timezone_set("Asia/Kolkata");
 $getdata = stripslashes(file_get_contents("php://input"));
 // json Decoding, true -> for getting data in associative manner
 $data = json_decode($getdata, true);
-// print_r($data);
 
 $ta_id = $data['ta_id'];
 $package_id = $data['package_id'];

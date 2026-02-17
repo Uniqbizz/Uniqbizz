@@ -96,31 +96,6 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <!-- <div class="col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="user_id_name">User Id & Name<span class="text-danger">*</span></label>
-                                                        <select id="user_id_name" class="form-select">
-                                                            <option value="">--Select Name First--</option> 
-                                                            <?php
-                                                                $sql = "SELECT * FROM `corporate_agency` WHERE status ='1' ORDER BY corporate_agency_id ASC ";
-                                                                $stmt = $conn -> prepare($sql);
-                                                                $stmt -> execute();
-                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                                if($stmt -> rowCount()>0){
-                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
-                                                                        echo '<option value="'.$row['corporate_agency_id'].'">'.$row['corporate_agency_id'].' ('.$row['firstname'].' '.$row['lastname'].')</option>';
-                                                                    }
-                                                                }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="reference_name">Reference Name <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
-                                                    </div>
-                                                </div> -->
 
                                                 <div class="col-md-4 col-sm-12">
                                                     <div class="input-block mb-3">
@@ -284,8 +259,6 @@
                                                             <option value="FOC" selected >Free</option>
                                                             <option value="3000"><span>&#8377 </span>3000/-</option>
                                                             <option value="10000"><span>&#8377 </span>10,000/-</option>
-                                                            <!-- <option value="5000"><span>&#8377 </span>5000/-</option>
-                                                            <option value="15000"><span>&#8377 </span>15,000/-</option> -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -299,12 +272,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <!-- <div class="row">
-                                                    <div class="col-md-12 col-sm-12 mt-3">
-                                                        <p style="font-weight:800; font-size:16px;">New Travel Consultant will pay 5,000/-</p>
-                                                    </div>
-                                                </div>   -->
 
                                                 <div class="pb-3" id="paymentFields">
                                                     <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
@@ -344,21 +311,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <!-- <div class="col-md-12 col-sm-12  mt-2" id="allOpt" style="display:flex; justify-content: center;">
-                                                        <div class="col-md-6 col-sm-12">
-                                                            <div class="mb-3">
-                                                                <label for="file6"><b>PAYMENT PROOF</b></label><br/>
-                                                                <input type="file" name="file6" id="upload_file6">
-                                                            </div>
-                                                            <input type="hidden" id="img_path6" value="">
-                                                            <div id="preview6" style="display: none;">
-                                                                <div id="image_preview6">
-                                                                    <img  alt="Preview" id="img_pre6">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
                                                 </div>
 
                                                 <!-- Attachments -->
@@ -460,20 +412,7 @@
                 <!-- End Page-content -->
 
 
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
 

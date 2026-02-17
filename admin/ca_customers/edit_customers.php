@@ -22,10 +22,8 @@ $city_id = $_GET['hct'];
 $editfor = $_GET['editfor'];
 
 if ($editfor == 'pending') {
-    // $identifier_id= $_POST["vkvbvjfgfikix"];
     $identifier_name = 'id=';
 } else if ($editfor == 'registered') {
-    // $identifier_id= $_POST["vkvbvjfgfikix"];
     $identifier_name = 'ca_customer_id=';
 }
 
@@ -37,34 +35,25 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
 if ($stmt->rowCount() > 0) {
     foreach (($stmt->fetchAll()) as $key => $row) {
         $fid = $row['id'];
-        // $sales_manager_name=$row['fname'];
         $firstname = $row['firstname'];
-        // $username=$row['username'];
         $lastname = $row['lastname'];
-        // $nominee_name = $row['nominee_name'];
-        // $nominee_relation = $row['nominee_relation'];
         $email = $row['email'];
         $contact_no = $row['contact_no'];
         $cust_ref = $row['reference_no']??'';
         $cust_ref_name = $row['registrant']??'';
-        // $business_package=$row['business_package'];
-        // $amount=$row['amount'];
 
         $reference_no = $row['ta_reference_no'];
         if (!$reference_no) {
             $reference_no = $row['reference_no'];
         }
 
-        // $gst_no=$row['gst_no'];
         $date_of_birth = $row['date_of_birth'];
         $gender = $row['gender'];
         $country = $row['country'];
         $state = $row['state'];
         $city = $row['city'];
         $address = $row['address'];
-        // $id_proof=$row['id_proof'];
         $profile_pic = $row['profile_pic'];
-        // $kyc=$row['kyc'];
         $pan_card = $row['pan_card'];
         $aadhar_card = $row['aadhar_card'];
         $voting_card = $row['voting_card'];
@@ -80,8 +69,6 @@ if ($stmt->rowCount() > 0) {
         $status = $row['status'];
         $comp_check=$row['comp_chek'];
         $note = $row['note'];
-        // $complimentary=$row['complimentary'];
-        // $converted=$row['converted'];
 
         //get country
         $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
@@ -270,18 +257,6 @@ if ($stmt->rowCount() > 0) {
                                                     <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name" value=" <?php echo $lastname; ?>">
                                                 </div>
                                             </div>
-                                            <!--<div class="col-md-6 col-sm-6">-->
-                                            <!--    <div class="input-block mb-3">-->
-                                            <!--        <label class="col-form-label" for="nominee_name">Nominee Name<span class="text-danger">*</span></label>-->
-                                            <!--        <input type="text" class="form-control" id="nominee_name" placeholder="Enter Nominee First Name" value=" <?php echo $nominee_name; ?>">-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
-                                            <!--<div class="col-md-6 col-sm-6">-->
-                                            <!--    <div class="input-block mb-3">-->
-                                            <!--        <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>-->
-                                            <!--        <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value=" <?php echo $nominee_relation; ?>">-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="email">Email address<span class="text-danger">*</span></label>
@@ -393,19 +368,6 @@ if ($stmt->rowCount() > 0) {
                                                     <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Enter Address">
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md-12 col-sm-12 col-12 d-none" id="pay">
-                                                <p class="mt-2 mb-0"><span class="fw-bold me-3">Would you like to become a prime customer and receive a coupon worth 10,000?</span>
-                                                    <div>
-                                                    <input type="radio" id="yes" name="topUp" value="yes" onclick="toggleDiv(true)"
-                                                        >
-                                                    <label for="yes">Yes</label>
-
-                                                    <input type="radio" id="no" class="ms-2" name="topUp" value="no" onclick="toggleDiv(false)"
-                                                        >
-                                                    <label for="no">No</label>
-                                                    </div>
-                                                </p>
-                                            </div> -->
                                             <div class="col-md-6 col-sm-6 col-12" id="couponFee">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
@@ -679,20 +641,7 @@ if ($stmt->rowCount() > 0) {
         <!-- End Page-content -->
 
 
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <?php echo $date; ?> © Uniqbizz.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Design & Develop by MirthCon
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php include_once "../footer.php" ?>
     </div>
     <!-- end main content-->
 

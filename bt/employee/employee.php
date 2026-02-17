@@ -98,14 +98,6 @@
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 class="mb-sm-0 font-size-18">Employee / Zonal Manager</h4>
-
-                                    <!-- <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                            <li class="breadcrumb-item active">Customers</li>
-                                        </ol> -->
-                                    <!-- </div> -->
-
                                 </div>
                             </div>
                         </div>
@@ -123,11 +115,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-6">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCorporateAgencyModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCorporateAgencymodal"><i class="mdi mdi-plus me-1"></i> New Corporate Agency</button>
-                                                </div>
-                                            </div> -->
                                         </div>
 
                                         <div class="table-responsive">
@@ -189,6 +176,8 @@
                                                                 $prefixBadge = '<span class="badge bg-info text-dark me-1">BDM</span>';
                                                             } elseif ($row['user_type'] == '24') {
                                                                 $prefixBadge = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }elseif ($row['user_type'] == '31') {
+                                                                $prefixBadge = '<span class="badge bg-secondary me-1">RM</span>';
                                                             }
 
                                                             // Final display name
@@ -213,20 +202,20 @@
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-1">
                                                                                 <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . ($row["reporting_manager"] ?? '') . '","' . ($row["register_by"] ?? '') . '","' . ($row["department"] ?? '') . '","' . ($row["designation"] ?? '') . '","' . ($row["zone"] ?? '') . '"," ' . ($row['branch'] ?? '') . ' ","pending","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","pending","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
+                                                                                
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
                                                             } else {
-                                                                echo '<td><span class="badge text-bg-danger">Delete</span></td>
+                                                                echo '<td><span class="badge text-bg-warning">Pending</span></td>
                                                                     <td>
                                                                         <div class="dropdown">
                                                                             <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-left dropdown-menu-left-1">
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","deleted","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . ($row["reporting_manager"] ?? '') . '","' . ($row["register_by"] ?? '') . '","' . ($row["department"] ?? '') . '","' . ($row["designation"] ?? '') . '","' . ($row["zone"] ?? '') . '"," ' . ($row['branch'] ?? '') . ' ","pending","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -259,12 +248,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-8">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCustomerModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCustomers-modal"><i class="mdi mdi-plus me-1"></i> New Customers</button>
-                                                </div>
-                                            </div> -->
-                                            <!-- end col-->
                                         </div>
                                         
                                         <div class="table-responsive">
@@ -315,9 +298,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["zonal_manager_id"] . '","NA","' . $row["register_by"] . '","NA","NA","' . $row["zone"] . '","NA","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["zonal_manager_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["zonal_manager_id"] . '","NA","NA","NA","NA","NA","' .$row['user_type'] .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -345,6 +326,8 @@
                                                                 $prefix = '<span class="badge bg-info text-dark me-1">BDM</span>';
                                                             } elseif ($row['user_type'] == '24') {
                                                                 $prefix = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }elseif ($row['user_type'] == '31') {
+                                                                $prefix = '<span class="badge bg-secondary me-1">RM</span>';
                                                             }
 
                                                             echo '<tr>
@@ -366,9 +349,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["employee_id"] . '","' . $row["reporting_manager"] . '","' . $row["register_by"] . '","'.$row['department'].'","'.$row['designation'].'","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["employee_id"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["employee_id"] . '","' .$row["reporting_manager"] . '","NA","NA","NA","NA","NA","' .$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
@@ -405,12 +386,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-sm-8">
-                                                <div class="text-sm-end">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#newCustomerModal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addCustomers-modal"><i class="mdi mdi-plus me-1"></i> New Customers</button>
-                                                </div>
-                                            </div> -->
-                                            <!-- end col-->
                                         </div>
                                         
                                         <div class="table-responsive">
@@ -423,7 +398,7 @@
                                                         <th>Phone / Email</th>
                                                         <th>Joining Date</th>
                                                         <th>status</th>
-                                                        <th>Action</th>
+                                                        <!-- <th>Action</th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -444,7 +419,7 @@
                                                         foreach ($zonal_managers as $row) {
                                                             $rdate = (new DateTime($row['register_date']))->format('d-m-Y');
 
-                                                        echo '<tr>
+                                                            echo '<tr>
                                                                 <td>' . $row['zonal_manager_id'] . '</td>
                                                                 <td><span class="badge bg-primary me-1">ZM</span>' . $row['name'] . '</td>
                                                                 <td>N/A</td>
@@ -452,20 +427,9 @@
                                                                     <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact'] . '</p>
                                                                     <p class="mb-0">' . $row['email'] . '</p>
                                                                 </td>
-                                                                <td>' . $rdate . '</td>';
-                                                                
-                                                            echo'<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                <td>
-                                                                    <div class="dropdown">
-                                                                        <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                            <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                        </a>
-                                                                        <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                            <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["zonal_manager_id"] . '","deactivate","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </td>';
-                                                        echo '</tr>';
+                                                                <td>' . $rdate . '</td>
+                                                                <td><span class="badge text-bg-danger">Deactive</span></td>
+                                                            </tr>';
                                                         }
 
                                                         // Then: Employees
@@ -488,9 +452,11 @@
                                                                 $prefix = '<span class="badge bg-info text-dark me-1">BDM</span>';
                                                             } elseif ($row['user_type'] == '24') {
                                                                 $prefix = '<span class="badge bg-success me-1">BCM</span>';
+                                                            }elseif ($row['user_type'] == '31') {
+                                                                $prefix = '<span class="badge bg-secondary me-1">RM</span>';
                                                             }
 
-                                                        echo '<tr>
+                                                            echo '<tr>
                                                                 <td>' . $row['employee_id'] . '</td>
                                                                 <td>' . $prefix . ' ' . $row['name'] . '</td>
                                                                 <td>
@@ -501,20 +467,10 @@
                                                                     <p class="mb-1">+' . $row['country_code'] . $row['contact'] . '</p>
                                                                     <p class="mb-0">' . $row['email'] . '</p>
                                                                 </td>
-                                                                <td>' . $rdate . '</td>';
+                                                                <td>' . $rdate . '</td>
+                                                                <td><span class="badge text-bg-danger">Deactive</span></td>
                                                                 
-                                                            echo'<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                <td>
-                                                                    <div class="dropdown">
-                                                                        <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                            <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                        </a>
-                                                                        <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                            <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["employee_id"] . '","deactivate","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </td>';
-                                                        echo '</tr>';
+                                                            </tr>';
                                                         }
                                                     ?>
 
@@ -539,20 +495,7 @@
                 </div> <!-- End Page-content -->
 
                 
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <?php echo $date; ?> © Uniqbizz.
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end d-none d-sm-block">
-                                    Design & Develop by MirthCon.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <?php include_once "../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -645,29 +588,6 @@
             </div>
         </div>
         <!-- end confirmItemModal -->
-
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
-                <div class="modal-content">
-                    <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="avatar-sm mb-4 mx-auto">
-                            <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
-                                <i class="fas fa-user-edit text-primary"></i>
-                            </div>
-                        </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Edit this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Edit Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-editItemModal" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- end editItemModal -->
 
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/jquery/jquery.min.js"></script>
@@ -775,16 +695,20 @@
             };
 
             function overviewPage(id,ref,dept,desig,zn,br,message,userType){
-                if (userType == 24) {
+                if (userType == "24") {
                     var designation = 'business_chanel_manager';
                     message='business_chanel_manager';
-                }else if (userType == 25){
+                }else if (userType == "25"){
                     var designation = 'business_developement_manager';
                     message='business_developement_manager';
 
-                }else if(userType ==27){
+                }else if(userType =="27"){
                    var designation = 'zonal_manager';
                     message='zonal_manager'; 
+                }else if (userType == "31"){
+                    var designation = 'relationship_manager';
+                    message='relationship_manager';
+
                 }
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&message='+message+'&designation='+designation;
             }

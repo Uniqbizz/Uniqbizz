@@ -48,7 +48,6 @@ if($tc_id ==''){
 
 $fromWhom=$userType;
 $register_by=$userType; 
-// $operation="Delete";
 
 $sql1 = "UPDATE ca_travelagency SET status=:status, deleted_date=:deleted_date WHERE id='".$id."' ";
 $stmt = $conn->prepare($sql1);
