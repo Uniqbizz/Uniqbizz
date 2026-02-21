@@ -1,5 +1,5 @@
 <?php
-require "../connect.php";
+require "../../connect.php";
 
 header('Content-Type: application/json'); // Tell browser we're returning JSON
 

@@ -2,10 +2,10 @@
     session_start();
 
     if(!isset($_SESSION['username'])){
-        echo '<script>location.href = "../login.php";</script>';
+        echo '<script>location.href = "../../login.php";</script>';
     }
 
-    require '../connect.php';
+    require '../../connect.php';
     $date = date('Y'); 
 ?>
 <!doctype html>
@@ -17,27 +17,27 @@
         <title>Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <link rel="shortcut icon" href="../../assets/images/fav.png">
 
         <!-- bootstrap-datepicker css -->
-        <link href="../assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+        <link href="../../assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
 
         <!-- DataTables -->
-        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Responsive datatable examples -->
-        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+        <link href="../../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
-        <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
+        <!-- <script src="../../assets/js/plugin.js"></script> -->
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
         <!-- Date Range Picker CSS Start -->
@@ -82,10 +82,10 @@
             
             <?php 
                 // top header logo, hamberger menu, fullscreen icon, profile
-                include_once '../header.php';
+                include_once '../../header.php';
 
                 // sidebar navigation menu 
-                include_once '../sidebar.php';
+                include_once '../../sidebar.php';
             ?>
 
             
@@ -136,88 +136,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php
-                                                        $sql = "
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'BM' AS user_type FROM business_mentor WHERE status IN ('0', '2')
-                                                            UNION ALL
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
-                                                            UNION ALL
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('0', '2')
-                                                            ORDER BY id ASC
-                                                        ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach ($stmt->fetchAll() as $key => $row) {
-                                                                $bd = new DateTime($row['date_of_birth']);
-                                                                $bdate = $bd->format('d-m-Y');
-
-                                                                $rd = new DateTime($row['added_on']);
-                                                                $rdate = $rd->format('d-m-Y');
-
-                                                                // $label = $row['user_type'] == 'BM' ? '<span class="badge bg-primary me-1">BM</span>' : '<span class="badge bg-success me-1">MF</span>';
-                                                                switch ($row['user_type']) {
-                                                                    case 'BM':
-                                                                        $label = '<span class="badge bg-primary me-1">BM</span>';
-                                                                        break;
-                                                                    case 'MF':
-                                                                        $label = '<span class="badge bg-success me-1">MF</span>';
-                                                                        break;
-                                                                    case 'SF':
-                                                                        $label = '<span class="badge bg-info me-1">SF</span>';
-                                                                        break;
-                                                                    default:
-                                                                        $label = '';
-                                                                }
-
-                                                                echo '<tr>
-                                                                    <td>' . $row['id'] . '</td>
-                                                                    <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
-                                                                    </td>
-                                                                    <td>
-                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['email'] . '</p>
-                                                                    </td>
-                                                                    <td>' . $row['address'] . '</td>
-                                                                    <td>' . $rdate . '</td>';
-
-                                                                if ($row['status'] == '2') {
-                                                                    echo '<td><span class="badge text-bg-warning">Pending</span></td>
-                                                                    <td>
-                                                                        <div class="dropdown">
-                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
-                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","pending","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","pending","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                                <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </td>';
-                                                                } else {
-                                                                    echo '<td><span class="badge text-bg-danger">Delete</span></td>
-                                                                    <td>
-                                                                        <div class="dropdown">
-                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","deleted","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </td>';
-                                                                }
-
-                                                                echo '</tr>';
-                                                            }
-                                                        }
-                                                    ?>
-
+                                                    <!-- data load from models file -->
+                                                    <?php include '../../models/business_mentor/pending_bm.php' ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -246,7 +166,7 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label"><span>Desigantion</span></label>
                                                         <select class="form-control Fileter-list" id="designation_value" aria-label=" Floating label select example"> 
-                                                            <option value="All">All</option>
+                                                            <option value="All" selected>All</option>
                                                             <option value="BM">Business Mentor</option>
                                                             <option value="MF">Master Franchisee</option>
                                                             <option value="SF">Sponsor Franchisee</option>
@@ -261,7 +181,7 @@
                                                         <select class="form-control Fileter-list" id="filter_branch" aria-label=" Floating label select example"> 
                                                             <option value="">--- Select ---</option>
                                                             <?php
-                                                                require '../connect.php';
+                                                                require '../../connect.php';
                                                                 $sql = "SELECT * FROM `branch` WHERE status ='1' ";
                                                                 $stmt = $conn->prepare($sql);
                                                                 $stmt -> execute();
@@ -318,74 +238,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php
-                                                        $sql = "
-                                                            SELECT business_mentor_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'BM' AS user_type FROM business_mentor WHERE status IN ('1')
-                                                            UNION ALL
-                                                            SELECT master_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1')
-                                                            UNION ALL
-                                                            SELECT sponsor_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('1')
-                                                        ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach ($stmt->fetchAll() as $key => $row) {
-                                                                $bd = new DateTime($row['date_of_birth']);
-                                                                $bdate = $bd->format('d-m-Y');
-
-                                                                $rd = new DateTime($row['register_date']);
-                                                                $rdate = $rd->format('d-m-Y');
-
-                                                                $branchID = $row['branch'];
-                                                                $branch = '';
-
-                                                                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
-                                                                $stmtId = $conn->prepare($sqlBranch);
-                                                                $stmtId->execute([$branchID]);
-                                                                if ($stmtId->rowCount() > 0) {
-                                                                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
-                                                                    $branch = $branchData['branch_name'];
-                                                                }
-
-                                                                $label = $row['user_type'] === 'BM'
-                                                                    ? '<span class="badge bg-primary me-1">BM</span>'
-                                                                    : ($row['user_type'] === 'MF' ? '<span class="badge bg-success me-1">MF</span>'
-                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
-
-                                                            echo '<tr>
-                                                                    <td>' . $row['user_id'] . '</td>
-                                                                    <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
-                                                                    </td>
-                                                                    <td>
-                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['email'] . '</p>
-                                                                    </td>
-                                                                    <td>' . $branch . '</td>
-                                                                    <td>' . $row['paid_amount'] . '</td>
-                                                                    <td>' . $rdate . '</td>';
-
-                                                                echo'<td><span class="badge text-bg-success">Active</span></td>
-                                                                    <td>
-                                                                        <div class="dropdown">
-                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'MF' ? 'master_franchisee' : (strtolower($row['user_type']) == 'BM' ? 'business_mentor' : (strtolower($row['user_type']) == 'SF' ? 'sponsor_franchisee' : ''))) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </td>';
-
-                                                            echo '</tr>';
-                                                            }
-                                                        }
-                                                    ?>
+                                                    <!-- data load on model file filterBM.php -->
 
                                                 </tbody>
                                             </table>
@@ -433,72 +286,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php
-                                                        $sql = "
-                                                            SELECT *, 'BM' AS user_type FROM business_mentor WHERE status IN ('3')
-                                                            UNION ALL
-                                                            SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('3')
-                                                            UNION ALL
-                                                            SELECT *, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('3')
-                                                        ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach ($stmt->fetchAll() as $key => $row) {
-                                                                $bd = new DateTime($row['date_of_birth']);
-                                                                $bdate = $bd->format('d-m-Y');
-
-                                                                $rd = new DateTime($row['register_date']);
-                                                                $rdate = $rd->format('d-m-Y');
-
-                                                                $branchID = $row['branch'];
-                                                                $branch = '';
-
-                                                                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
-                                                                $stmtId = $conn->prepare($sqlBranch);
-                                                                $stmtId->execute([$branchID]);
-                                                                if ($stmtId->rowCount() > 0) {
-                                                                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
-                                                                    $branch = $branchData['branch_name'];
-                                                                }
-
-                                                                $label = $row['user_type'] === 'BM'
-                                                                    ? '<span class="badge bg-primary me-1">BM</span>'
-                                                                    : ($row['user_type'] === 'MF' ? '<span class="badge bg-success me-1">MF</span>'
-                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
-
-                                                            echo '<tr>
-                                                                    <td>' . $row['business_mentor_id'] . '</td>
-                                                                    <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
-                                                                    </td>
-                                                                    <td>
-                                                                        <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['email'] . '</p>
-                                                                    </td>
-                                                                    <td>' . $branch . '</td>
-                                                                    <td>' . $row['paid_amount'] . '</td>
-                                                                    <td>' . $rdate . '</td>';
-
-                                                                echo'<td><span class="badge text-bg-danger">Deactive</span></td>
-                                                                    <td>
-                                                                        <div class="dropdown">
-                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                                                                            </a>
-                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["business_mentor_id"] . '","deactivate","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </td>';
-
-                                                            echo '</tr>';
-                                                            }
-                                                        }
-                                                    ?>
+                                                    <!-- data load from models file -->
+                                                    <?php include '../../models/business_mentor/deleted_bm.php' ?>
 
                                                 </tbody>
                                             </table>
@@ -520,7 +309,7 @@
                 </div> <!-- End Page-content -->
 
                 
-                <?php include_once "../footer.php" ?>
+                <?php include_once "../../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -615,33 +404,33 @@
         <!-- end confirmItemModal -->
 
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/jquery/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../../assets/libs/node-waves/waves.min.js"></script>
         <!-- bootstrap-datepicker js -->
-        <script src="../assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="../../assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
         <!-- Required datatable js -->
-        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
         
         <!-- Responsive examples -->
-        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="../../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- Moment.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
         <!-- DataTables datetime sort plugin -->
         <script src="https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js"></script>
         <!-- ecommerce-customer-list init -->
-        <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
+        <!-- <script src="../../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         
         <!-- App js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="../../assets/js/app.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -678,6 +467,9 @@
                 $("#deletedCustomerList-table").DataTable({
                     order: [[5, 'asc']]
                 });
+
+                // initial load
+                reloadBMData();
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,zn,br,editfor,usertype){ 
@@ -741,12 +533,13 @@
             function overviewPage(id,ref,cut,st,ct,message){
 
                 var designation = message == 'business_mentor'?'Business Mentor':(message == 'master_franchisee'?'Master Franchisee':'');
-                window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
+                window.location.href='../../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
             
             // Global flag
             let dateRangeChanged = false;
             let fromDate = '', toDate = '';
+            
 
             // On dropdown/filter change
             $('.Fileter-list').on('change', function(){
@@ -775,7 +568,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'filterBM.php',
+                    url: '../../controllers/business_mentor/filterBM.php',
                     data: dataString,
                     cache: false,
                     success: function(data){

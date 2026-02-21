@@ -1,10 +1,10 @@
 <?php
-require "../connect.php";
+require "../../connect.php";
 
 /* =========================
    INPUTS (safe defaults)
 ========================= */
-$designation = $_POST['designation'] ?? '';
+$designation = $_POST['designation'] ?? 'All';
 $package     = $_POST['package'] ?? '';
 $startFrom   = $_POST['StartFrom'] ?? '';
 $endFrom     = $_POST['EndFrom'] ?? '';
@@ -120,9 +120,16 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $rowClass = 'bg-secondary'; // TC not allotted = no background
                 // $hoverText = '';
             }
+            $isNew = ($rd >= $rdate);
+            $color = $isNew ? 'green' : 'black';
+            $msg = $isNew ? 'Registered to new regime of terms and conditions' : 'Registered to new regime of terms and conditions';
+
 
             echo '<tr>
-                    <td>' . $row['user_id'] . '</td>
+                    <td class="tooltip-cell" style="color: '.$color .';">
+                        '. $row['user_id'].' 
+                        <span class="tooltip-msg">'.$msg .'</span>
+                    </td>
                     <td> 
                         <span class="badge '.$rowClass.' lable-width">'
                             . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 

@@ -2,10 +2,10 @@
     session_start();
 
     if(!isset($_SESSION['username'])){
-        echo '<script>location.href = "../login.php";</script>';
+        echo '<script>location.href = "../../login.php";</script>';
     }
 
-    require '../connect.php';
+    require '../../connect.php';
     //current full date
     $today = date('Y-m-d');
 
@@ -70,21 +70,21 @@
         <title>Upgarde Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <link rel="shortcut icon" href="../../assets/images/fav.png">
 
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
-        <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
+        <!-- <script src="../../assets/js/plugin.js"></script> -->
 
         <!-- Plugins css -->
-        <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
 
     </head>
 
@@ -99,10 +99,10 @@
 
             <?php 
                 // top header logo, hamberger menu, fullscreen icon, profile
-                include_once '../header.php';
+                include_once '../../header.php';
 
                 // sidebar navigation menu 
-                include_once '../sidebar.php';
+                include_once '../../sidebar.php';
             ?>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -257,7 +257,7 @@
                 <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->
-                <?php include_once "../footer.php" ?>
+                <?php include_once "../../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -274,26 +274,26 @@
         <!--end back-to-top-->
 
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/jquery/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- add data to database js file -->
-        <script type="text/javascript" src="../assets/js/submitdata.js"></script>
+        <script type="text/javascript" src="../../assets/js/submitdata.js"></script>
 
         <!-- apexcharts -->
-        <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
+        <!-- <script src="../../assets/libs/apexcharts/apexcharts.min.js"></script> -->
 
         <!-- dashboard init -->
         <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
 
         <!-- App js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="../../assets/js/app.js"></script>
 
         <!-- file upload code js file -->
-        <script src="../../uploading/upload.js"></script>
+        <script src="../../../../uploading/upload.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");

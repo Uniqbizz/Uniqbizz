@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../login.php";</script>';
+    echo '<script>location.href = "../../login.php";</script>';
 }
 
 //current full date
@@ -21,7 +21,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 <html lang="en">
 <?php
 
-require '../connect.php';
+require '../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
 $user_id = $_GET['fyfyfregby'];
@@ -294,21 +294,21 @@ if ($editfor == 'pending') {
     <title>Edit Techno Enterprise / Franchisee | Admin Dashboard </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../assets/images/fav.png">
+    <link rel="shortcut icon" href="../../assets/images/fav.png">
 
     <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Loading Screen and Images size css  -->
-    <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
     <!-- App js -->
-    <!-- <script src="../assets/js/plugin.js"></script> -->
+    <!-- <script src="../../assets/js/plugin.js"></script> -->
 
     <!-- Plugins css -->
-    <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
 
 </head>
 
@@ -323,10 +323,10 @@ if ($editfor == 'pending') {
 
         <?php
         // top header logo, hamberger menu, fullscreen icon, profile
-        include_once '../header.php';
+        include_once '../../header.php';
 
         // sidebar navigation menu 
-        include_once '../sidebar.php';
+        include_once '../../sidebar.php';
         ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -604,7 +604,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label"><b>Profile Picture</b> 
-                                                        <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     </label><br />
@@ -615,9 +615,9 @@ if ($editfor == 'pending') {
                                                     <div id="image_preview1" style="margin-bottom: 50px;">
                                                         <?php
                                                         if ($profile_pic == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1">'; ?>
+                                                            echo '<img src="../../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1">'; ?>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -625,7 +625,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label"><b>Aadhaar Card</b>
-                                                        <a href="<?php echo '../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     </label><br />
@@ -636,9 +636,9 @@ if ($editfor == 'pending') {
                                                     <div id="image_preview2">
                                                         <?php
                                                         if ($aadhar_card == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre2">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $aadhar_card . '" alt="Preview" id="img_pre2">'; ?>
+                                                            echo '<img src="../../../uploading/' . $aadhar_card . '" alt="Preview" id="img_pre2">'; ?>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -646,7 +646,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label"><b>Pan Card</b>
-                                                        <a href="<?php echo '../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     </label><br />
@@ -657,9 +657,9 @@ if ($editfor == 'pending') {
                                                     <div id="image_preview3">
                                                         <?php
                                                         if ($pan_card == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre3">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $pan_card . '" alt="Preview" id="img_pre3">'; ?>
+                                                            echo '<img src="../../../uploading/' . $pan_card . '" alt="Preview" id="img_pre3">'; ?>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -667,7 +667,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label"><b>Bank Passbook</b>
-                                                        <a href="<?php echo '../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     </label><br />
@@ -678,9 +678,9 @@ if ($editfor == 'pending') {
                                                     <div id="image_preview4">
                                                         <?php
                                                         if ($bank_passbook == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre4">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre4">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $bank_passbook . '" alt="Preview" id="img_pre4">'; ?>
+                                                            echo '<img src="../../../uploading/' . $bank_passbook . '" alt="Preview" id="img_pre4">'; ?>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -688,7 +688,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label"><b>Voting Card</b>
-                                                        <a href="<?php echo '../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     </label><br />
@@ -699,9 +699,9 @@ if ($editfor == 'pending') {
                                                     <div id="image_preview5">
                                                         <?php
                                                         if ($voting_card == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre5">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre5">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $voting_card . '" alt="Preview" id="img_pre5">'; ?>
+                                                            echo '<img src="../../../uploading/' . $voting_card . '" alt="Preview" id="img_pre5">'; ?>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -709,7 +709,7 @@ if ($editfor == 'pending') {
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label"><b>Payment Proof</b>
-                                                        <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     </label><br />
@@ -720,9 +720,9 @@ if ($editfor == 'pending') {
                                                     <div id="image_preview6">
                                                         <?php
                                                         if ($payment_proof == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">'; ?>
+                                                            echo '<img src="../../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">'; ?>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -860,7 +860,7 @@ if ($editfor == 'pending') {
             <!-- End Page-content -->
 
 
-            <?php include_once "../footer.php" ?>
+            <?php include_once "../../footer.php" ?>
         </div>
         <!-- end main content-->
 
@@ -877,25 +877,25 @@ if ($editfor == 'pending') {
     <!--end back-to-top-->
 
     <!-- JAVASCRIPT -->
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../assets/libs/node-waves/waves.min.js"></script>
+    <script src="../../assets/libs/jquery/jquery.min.js"></script>
+    <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- add data to database js file -->
-    <script type="text/javascript" src="../assets/js/submitdata.js"></script>
+    <script type="text/javascript" src="../../assets/js/submitdata.js"></script>
 
     <!-- apexcharts -->
-    <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
+    <!-- <script src="../../assets/libs/apexcharts/apexcharts.min.js"></script> -->
 
     <!-- dashboard init -->
     <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
 
     <!-- App js -->
-    <script src="../assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
 
-    <script src="../../uploading/upload.js"></script>
+    <script src="../../../uploading/upload.js"></script>
     <script>
         var mybutton = document.getElementById("back-to-top");
 
@@ -914,195 +914,7 @@ if ($editfor == 'pending') {
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
-        $(document).ready(function() {
-            var paymentMode = $(".payment:checked").val();
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            }
-        });
-        //select Designation
-        $('#designation').on('change', function() {
-            var designation = $('#designation').val();
-            // console.log(designation);
-            $.ajax({
-                type: 'POST',
-                url: '../agents/get_user_Franchisee.php',
-                data: "designation=" + designation,
-                success: function(e) {
-                    // console.log(e);
-                    $('#user_id_name').html(e);
-                },
-                error: function(err) {
-                    console.log(err);
-                },
-            });
-        });
-
-        // fetch User based on selected designation
-        $('#user_id_name').on('change', function() {
-            var user_id_name = $(this).val();
-            // console.log(user_id_name);
-
-            var designation = $('#designation').val();
-            // console.log(designation);
-
-            $.ajax({
-                type: 'POST',
-                url: '../agents/getUsers.php',
-                data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-                success: function(response) {
-                    // console.log(response);
-                    // $('#pin').html(response);
-                    $('#reference_name').val(response);
-                }
-            });
-
-        });
-
-        $('#country').on('change', function() {
-            var countryID = $(this).val();
-            if (countryID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'country_id=' + countryID,
-                    success: function(htmll) {
-                        $('#mystate').html(htmll);
-                        $('#city').html('<option value="">Select state first</option>');
-                    }
-                });
-            } else {
-                $('#mystate').html('<option value="">Select country first</option>');
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        $('#mystate').on('change', function() {
-            // alert();
-            var stateID = $(this).val();
-            if (stateID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'state_id=' + stateID,
-                    success: function(html) {
-                        $('#city').html(html);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        $('#city').on('change', function() {
-            var cityID = $(this).val();
-            if (cityID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/pincode.php',
-                    data: 'city_id=' + cityID,
-                    success: function(response) {
-                        // $('#pin').html(response);
-                        $('#pin').val(response);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        $('#business_package_amount').on('change', function() {
-            var business_package_amount = $(this).val();
-            $('#flex_amount').val(business_package_amount);
-        });
-
-        $('#paymentMode').on('click', function() {
-            var paymentMode = $(".payment:checked").val();
-            // console.log(paymentMode);
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            }
-        });
-
-        //const checkbox = document.getElementById('showTCAlot');
-        let allowedCount = 0;
-
-        // Bind official_purpose change ONCE (outside the checkbox toggle)
-        $('input[name="official_purpose"]').on('change', function() {
-            allowedCount = parseInt($(this).val());
-            $('#allowedCount').text(allowedCount);
-            $('#selectedCount').text(0);
-            $('#selectedTCsInput').val('');
-
-            let reference_no = $('#user_id_name').val();
-
-            $.ajax({
-                url: 'get_available_tcs.php',
-                type: 'POST',
-                data: {
-                    tc_count: allowedCount,
-                    reference_no: reference_no
-                },
-                success: function(response) {
-                    $('#tcListContainer').html(response);
-                    $('#availableTCs').removeClass('d-none');
-
-                    // Attach event to checkboxes inside response
-                    $('#tcListContainer').on('change', '.tc-checkbox', function() {
-                        let selected = $('.tc-checkbox:checked').length;
-                        if (selected > allowedCount) {
-                            this.checked = false;
-                            alert('You can only select ' + allowedCount + ' TC(s).');
-                            return;
-                        }
-                        $('#selectedCount').text(selected);
-
-                        let selectedIds = [];
-                        $('.tc-checkbox:checked').each(function() {
-                            selectedIds.push($(this).val());
-                        });
-
-                        $('#selectedTCsInput').val(selectedIds.join(','));
-                    });
-                }
-            });
-        });
-
-        // checkbox.addEventListener('change', function() {
-        //     if (this.checked) {
-        //         $('#tcallotment').removeClass('d-none');
-        //         $('#availableTCs').removeClass('d-none');
-        //     } else {
-        //         $('#tcallotment').addClass('d-none');
-        //         $('#availableTCs').addClass('d-none');
-
-        //         // Reset all radios
-        //         $('input[name="official_purpose"]').prop('checked', false);
-
-        //         // Clear TC list and counts
-        //         $('#tcListContainer').html('');
-        //         $('#selectedCount').text('0');
-        //         $('#allowedCount').text('0');
-        //         $('#selectedTCsInput').val('');
-        //     }
-        // });
+        
     </script>
 </body>
 

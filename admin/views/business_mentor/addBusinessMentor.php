@@ -2,10 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-	echo '<script>location.href = "../login.php";</script>';
+	echo '<script>location.href = "../../login.php";</script>';
 }
 
-require '../connect.php';
+require '../../connect.php';
 
 //current full date
 $today = date('Y-m-d');
@@ -27,21 +27,21 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<title>Add Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
-	<link rel="shortcut icon" href="../assets/images/fav.png">
+	<link rel="shortcut icon" href="../../assets/images/fav.png">
 
 	<!-- Bootstrap Css -->
-	<link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+	<link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
 	<!-- Icons Css -->
-	<link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+	<link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 	<!-- App Css-->
-	<link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+	<link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 	<!-- Loading Screen and Images size css  -->
-	<link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
 	<!-- App js -->
-	<!-- <script src="../assets/js/plugin.js"></script> -->
+	<!-- <script src="../../assets/js/plugin.js"></script> -->
 
 	<!-- Plugins css -->
-	<!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+	<!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
 
 </head>
 
@@ -56,10 +56,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 		<?php
 		// top header logo, hamberger menu, fullscreen icon, profile
-		include_once '../header.php';
+		include_once '../../header.php';
 
 		// sidebar navigation menu 
-		include_once '../sidebar.php';
+		include_once '../../sidebar.php';
 		?>
 		<!-- ============================================================== -->
 		<!-- Start right Content here -->
@@ -178,7 +178,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-4 col-sm-4 col-3">
 														<div class="input-block">
 															<?php
-															require '../connect.php';
+															require '../../connect.php';
 															$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
 															$stmt->execute();
 															$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -261,7 +261,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<select class="form-select" id="zone">
 														<option value=""> ---- Select Zone ---- </option>
 														<?php
-														require '../connect.php';
+														require '../../connect.php';
 														$sql = "SELECT * FROM `zone` WHERE status ='1' ";
 														$stmt = $conn->prepare($sql);
 														$stmt->execute();
@@ -449,7 +449,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			<!-- End Page-content -->
 
 
-			<?php include_once "../footer.php" ?>
+			<?php include_once "../../footer.php" ?>
 		</div>
 		<!-- end main content-->
 
@@ -464,26 +464,26 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	</button>
 	<!--end back-to-top-->
 	<!-- JAVASCRIPT -->
-	<script src="../assets/libs/jquery/jquery.min.js"></script>
-	<script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-	<script src="../assets/libs/simplebar/simplebar.min.js"></script>
-	<script src="../assets/libs/node-waves/waves.min.js"></script>
+	<script src="../../assets/libs/jquery/jquery.min.js"></script>
+	<script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+	<script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+	<script src="../../assets/libs/node-waves/waves.min.js"></script>
 
 	<!-- add data to database js file -->
-	<script type="text/javascript" src="../assets/js/submitdata.js"></script>
+	<script type="text/javascript" src="../../assets/js/submitdata.js"></script>
 
 	<!-- apexcharts -->
-	<!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
+	<!-- <script src="../../assets/libs/apexcharts/apexcharts.min.js"></script> -->
 
 	<!-- dashboard init -->
 	<!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
 
 	<!-- App js -->
-	<script src="../assets/js/app.js"></script>
+	<script src="../../assets/js/app.js"></script>
 
 	<!-- file upload code js file -->
-	<script src="../../uploading/upload.js"></script>
+	<script src="../../../../uploading/upload.js"></script>
 	<script>
 		var mybutton = document.getElementById("back-to-top");
 
@@ -531,7 +531,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			// console.log(designation);
 			$.ajax({
 				type: 'POST',
-				url: '../agents/get_user_Franchisee.php',
+				url: '../../agents/get_user_Franchisee.php',
 				data: "designation=" + designation,
 				success: function(e) {
 					// console.log(e);
@@ -547,7 +547,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			// console.log(designation);
 			$.ajax({
 				type: 'POST',
-				url: '../agents/get_user_Franchisee.php',
+				url: '../../agents/get_user_Franchisee.php',
 				data: "designation=" + designation,
 				success: function(e) {
 					// console.log(e);
@@ -570,7 +570,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 			$.ajax({
 				type: 'POST',
-				url: '../agents/getUsers.php',
+				url: '../../agents/getUsers.php',
 				data: 'user_id_name=' + user_id_name + '&designation=' + designation,
 				success: function(response) {
 					// console.log(response);
@@ -586,7 +586,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			if (countryID) {
 				$.ajax({
 					type: 'POST',
-					url: '../address/countrydata.php',
+					url: '../../address/countrydata.php',
 					data: 'country_id=' + countryID,
 					success: function(htmll) {
 						$('#mystate').html(htmll);
@@ -606,7 +606,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			if (stateID) {
 				$.ajax({
 					type: 'POST',
-					url: '../address/countrydata.php',
+					url: '../../address/countrydata.php',
 					data: 'state_id=' + stateID,
 					success: function(html) {
 						$('#city').html(html);
@@ -623,7 +623,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			if (cityID) {
 				$.ajax({
 					type: 'POST',
-					url: '../address/pincode.php',
+					url: '../../address/pincode.php',
 					data: 'city_id=' + cityID,
 					success: function(response) {
 						// $('#pin').html(response);
@@ -640,7 +640,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		$('#zone').on('change', function() {
 			var zone_id = $(this).val();
 			$.ajax({
-				url: '../assets/get_data/get_branch.php',
+				url: '../../assets/get_data/get_branch.php',
 				type: 'POST',
 				data: {
 					zone_id: zone_id

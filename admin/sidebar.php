@@ -107,7 +107,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../corporate_agency/view_corporate_agency.php" class=" waves-effect">
+                        <a href="../corporate_agency/views/view_corporate_agency.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
                             <span key="t-contacts">TE / F</span>
                         </a>

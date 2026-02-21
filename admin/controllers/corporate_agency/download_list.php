@@ -1,5 +1,5 @@
 <?php
-    require '../connect.php';
+    require '../../connect.php';
     $disgnation=$_GET['designation'];
     $package=$_GET['package'];
     $from=$_GET['StartFrom'];

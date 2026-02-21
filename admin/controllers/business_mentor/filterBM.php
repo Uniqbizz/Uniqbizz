@@ -15,7 +15,7 @@
     <tbody>
 
     <?php
-        require '../connect.php';
+        require '../../connect.php';
 
         $branchFilter = $_POST['branch'] ?? '';
         $designation  = $_POST['designation'] ?? '';

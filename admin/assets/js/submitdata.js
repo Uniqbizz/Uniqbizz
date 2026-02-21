@@ -3021,9 +3021,9 @@ $("#addCorporateAgency").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == 'corporate_agency'
-    ? 'add_corporate_agency_data.php'
+    ? '../../controllers/corporate_agency/add_corporate_agency_data.php'
     : register_as == 'sub_franchisee'
-        ? 'add_sub_franchisee_data.php'
+        ? '../../controllers/corporate_agency/add_sub_franchisee_data.php'
         : '';
     // console.log('Add customer button clicked');
 
@@ -3229,9 +3229,9 @@ $("#editCorporateAgency").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == 'te'
-    ? 'edit_corporate_agency_data.php'
+    ? '../../controllers/corporate_agency/edit_corporate_agency_data.php'
     : register_as == 'sf'
-        ? 'edit_sub_franchisee_data.php'
+        ? '../../controllers/corporate_agency/edit_sub_franchisee_data.php'
         : '';
     // console.log('Add customer button clicked');
 

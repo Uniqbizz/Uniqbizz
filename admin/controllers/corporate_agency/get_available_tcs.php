@@ -1,5 +1,5 @@
 <?php
-include '../connect.php';
+include '../../connect.php';
 
 $tc_count = $_POST['tc_count'];
 $reference_no = $_POST['reference_no'];

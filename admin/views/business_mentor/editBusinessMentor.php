@@ -2,7 +2,7 @@
     session_start();
 
     if (!isset($_SESSION['username'])) {
-        echo '<script>location.href = "../login.php";</script>';
+        echo '<script>location.href = "../../login.php";</script>';
     }
 
     //current full date
@@ -21,7 +21,7 @@
 <html lang="en">
     <?php
 
-        require '../connect.php';
+        require '../../connect.php';
         $date = date('Y'); 
 
         $id = $_GET['vkvbvjfgfikix'];
@@ -153,21 +153,21 @@
         <title>Edit Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <link rel="shortcut icon" href="../../assets/images/fav.png">
 
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
-        <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
+        <!-- <script src="../../assets/js/plugin.js"></script> -->
 
         <!-- Plugins css -->
-        <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
 
     </head>
 
@@ -182,10 +182,10 @@
 
             <?php 
                 // top header logo, hamberger menu, fullscreen icon, profile
-                include_once '../header.php';
+                include_once '../../header.php';
 
                 // sidebar navigation menu 
-                include_once '../sidebar.php';
+                include_once '../../sidebar.php';
             ?>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -277,7 +277,7 @@
                                                         <div class="col-md-4 col-sm-4 col-3">
                                                             <div class="input-block">
                                                                 <?php
-                                                                    require '../connect.php';
+                                                                    require '../../connect.php';
                                                                     $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
                                                                     $stmt->execute();                                            
                                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -363,7 +363,7 @@
                                                             <option value="<?php echo $zone_id;?>"><?php echo $zone_name.' (Already Selected)' ; ?></option>
                                                             <option value=""> ---- Select Zone ---- </option>
                                                             <?php
-                                                                require '../connect.php';
+                                                                require '../../connect.php';
                                                                 $sql = "SELECT * FROM `zone` WHERE status ='1' ";
                                                                 $stmt = $conn->prepare($sql);
                                                                 $stmt -> execute();
@@ -475,7 +475,7 @@
                                                             if ($profile_pic) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -489,9 +489,9 @@
                                                         <div id="image_preview1">
                                                             <?php
                                                                 if($profile_pic ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
+                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1" class="imgSize">';?>
+                                                                    echo '<img src="../../../../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                         </div>
@@ -504,7 +504,7 @@
                                                             if ($aadhar_card) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -518,9 +518,9 @@
                                                         <div id="image_preview2">
                                                             <?php
                                                                 if($aadhar_card ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
+                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2" class="imgSize">';?>
+                                                                    echo '<img src="../../../../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                         </div>
@@ -533,7 +533,7 @@
                                                             if ($pan_card) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -547,9 +547,9 @@
                                                         <div id="image_preview3">
                                                             <?php
                                                                 if($pan_card ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
+                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../uploading/'.$pan_card.'" alt="Preview" id="img_pre3" class="imgSize">';?>
+                                                                    echo '<img src="../../../../uploading/'.$pan_card.'" alt="Preview" id="img_pre3" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                         </div>
@@ -562,7 +562,7 @@
                                                             if ($bank_passbook) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -576,9 +576,9 @@
                                                         <div id="image_preview4">
                                                             <?php
                                                                 if($bank_passbook ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre4" class="imgSize">';
+                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre4" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../uploading/'.$bank_passbook.'" alt="Preview" id="img_pre4" class="imgSize">';?>
+                                                                    echo '<img src="../../../../uploading/'.$bank_passbook.'" alt="Preview" id="img_pre4" class="imgSize">';?>
                                                                    
                                                             <?php } ?>
                                                         </div>
@@ -591,7 +591,7 @@
                                                             if ($voting_card) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -605,9 +605,9 @@
                                                         <div id="image_preview5">
                                                             <?php
                                                                 if($voting_card ==''){
-                                                                    echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre5" class="imgSize">';
+                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre5" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../uploading/'.$voting_card.'" alt="Preview" id="img_pre5" class="imgSize">';?>
+                                                                    echo '<img src="../../../../uploading/'.$voting_card.'" alt="Preview" id="img_pre5" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                             
@@ -621,7 +621,7 @@
                                                             if ($payment_proof) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -635,9 +635,9 @@
 														<div id="image_preview6">
                                                         <?php
                                                             if ($payment_proof == '') {
-                                                                echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
+                                                                echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
                                                             } else {
-                                                                echo '<img src="../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
+                                                                echo '<img src="../../../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
                                                                 
                                                         <?php } ?>
 														</div>
@@ -677,7 +677,7 @@
                 <!-- End Page-content -->
 
 
-                <?php include_once "../footer.php" ?>
+                <?php include_once "../../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -688,25 +688,25 @@
         </button>
         <!--end back-to-top-->
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/jquery/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- add data to database js file -->
-        <script type="text/javascript" src="../assets/js/submitdata.js"></script>
+        <script type="text/javascript" src="../../assets/js/submitdata.js"></script>
 
         <!-- apexcharts -->
-        <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
+        <!-- <script src="../../assets/libs/apexcharts/apexcharts.min.js"></script> -->
 
         <!-- dashboard init -->
         <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
 
         <!-- App js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="../../assets/js/app.js"></script>
 
-        <script src="../../uploading/upload.js"></script>
+        <script src="../../../../uploading/upload.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -781,7 +781,7 @@
                 // console.log(designation);
                 $.ajax({
                     type:'POST',
-                    url:'../agents/get_user_Franchisee.php',
+                    url:'../../agents/get_user_Franchisee.php',
                     data: "designation="+designation,
                     success:function (e) {
                         // console.log(e);
@@ -804,7 +804,7 @@
 
                 $.ajax({
                     type:'POST',
-                    url:'../agents/getUsers.php',
+                    url:'../../agents/getUsers.php',
                     data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
                     success:function(response){
                     // console.log(response);
@@ -820,7 +820,7 @@
                 if(countryID){
                     $.ajax({
                         type:'POST',
-                        url:'../address/countrydata.php',
+                        url:'../../address/countrydata.php',
                         data:'country_id='+countryID,
                         success:function(htmll){
                             $('#mystate').html(htmll); 
@@ -840,7 +840,7 @@
                 if(stateID){
                     $.ajax({
                         type:'POST',
-                        url:'../address/countrydata.php',
+                        url:'../../address/countrydata.php',
                         data:'state_id='+stateID,
                         success:function(html){
                             $('#city').html(html);
@@ -857,7 +857,7 @@
                 if(cityID){
                     $.ajax({
                         type:'POST',
-                        url:'../address/pincode.php',
+                        url:'../../address/pincode.php',
                         data:'city_id='+cityID,
                         success:function(response){
                             // $('#pin').html(response);
@@ -873,7 +873,7 @@
             $('#zone').on('change', function() {
                 var zone_id = $(this).val();
                 $.ajax({
-                    url: '../assets/get_data/get_branch.php',
+                    url: '../../assets/get_data/get_branch.php',
                     type: 'POST',
                     data: {
                         zone_id: zone_id

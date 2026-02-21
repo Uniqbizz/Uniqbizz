@@ -1,5 +1,5 @@
 <?php
-require "../connect.php";
+require "../../connect.php";
 $current_year = date('Y');
 
 $refid = $_POST["ref_id"];
@@ -9,11 +9,11 @@ $tc_count = $_POST['tcCount'];
 if ($editfor == 'pending') {
 	$identifier_id = $_POST["id"];
 	$identifier_name = 'id=';
-	$message = "Updated Techno Enterprise details from " . $editfor . " list";
-	$message2 = "Updated Techno Enterprise details from " . $editfor . " list";
+	$message = "Updated Franchisee details from " . $editfor . " list";
+	$message2 = "Updated Franchisee details from " . $editfor . " list";
 } else if ($editfor == 'registered') {
 	$identifier_id = $_POST["id"];
-	$identifier_name = 'corporate_agency_id=';
+	$identifier_name = 'sub_franchisee_id=';
 	$message = $identifier_id . " Details has been updated from " . $editfor . " list";
 	$message2 = $identifier_id . " Details has been updated from " . $editfor . " list";
 	$tc_message = $identifier_id . ": ".$tc_count." TC has been Allotted from " . $editfor . " list";
@@ -68,9 +68,9 @@ $roi         = postNumber('roi');
 $tax         = postNumber('tax');
 $repayAmount = postNumber('repayAmount');
 
-$user_type_id = '16';
+$user_type_id = '29';
 
-$title = "Techno Enterprise";
+$title = "Franchisee";
 
 $fromWhom = "1";
 $register_by = "1";
@@ -78,7 +78,7 @@ $operation = "Update";
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
 
-	$sql1 = "UPDATE corporate_agency SET firstname=:firstname,lastname=:lastname,
+	$sql1 = "UPDATE sub_franchisee SET firstname=:firstname,lastname=:lastname,
 	nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,
 	contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, 
 	gst_no=:gst_no, amount=:amount, country=:country,state=:state,city=:city,pincode=:pincode,
@@ -144,7 +144,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		//based on the number of TC's sletect update the TC'c ref id with this TE's id
 
 		//getting the ref_no of the TE (registered only)
-		$sql1 = "SELECT reference_no,user_type,corporate_agency_id FROM corporate_agency WHERE $identifier_name:identifier_id AND status=1";
+		$sql1 = "SELECT reference_no,user_type,sub_franchisee_id FROM sub_franchisee WHERE $identifier_name:identifier_id AND status=1";
 		$stmt3 = $conn->prepare($sql1);
 		$stmt3->execute(array(
 			':identifier_id' => $identifier_id
@@ -153,7 +153,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		$row = $stmt3->fetch(PDO::FETCH_ASSOC);
 		$reference_no = $row['reference_no'];
 		$ref_user_type = $row['user_type'];
-		$corporate_agency_id = $row['corporate_agency_id'];
+		$sub_franchisee_id = $row['sub_franchisee_id'];
 
 
 		if (!empty($tc_ids)) {
@@ -165,7 +165,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 				$stmt = $conn->prepare($sql);
 				$stmt->execute([
 					':registrant' => $firstname . ' ' . $lastname,
-					':new_reference_no' => $corporate_agency_id,
+					':new_reference_no' => $sub_franchisee_id,
 					':tc_id' => $tc_id
 				]);
 			}
