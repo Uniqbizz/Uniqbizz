@@ -120,9 +120,17 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $rowClass = 'bg-secondary'; // TC not allotted = no background
                 // $hoverText = '';
             }
+            $new_reg= new DateTime('2026-01-01');
+            $new_regdate = $new_reg->format('d-m-Y');
+            $isNew = ($rd >= $new_reg);
+            $color = $isNew ? 'green' : 'black';
+            $msg = $isNew ? 'Registered to new regime of terms and conditions' : 'Registered to new regime of terms and conditions';
 
             echo '<tr>
-                    <td>' . $row['user_id'] . '</td>
+                    <td class="tooltip-cell" style="color: '.$color .';">
+                        '. $row['user_id'].' 
+                        <span class="tooltip-msg">'.$msg .'</span>
+                    </td>
                     <td> 
                         <span class="badge '.$rowClass.' lable-width">'
                             . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 

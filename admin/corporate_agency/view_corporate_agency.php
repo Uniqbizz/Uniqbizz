@@ -48,6 +48,29 @@
             .lable-width{
                 width: 18px;
             }
+            /* for tool tip of user indication */
+            .tooltip-cell {
+                position: relative;
+            }
+
+            .tooltip-msg {
+                display: none;
+                position: absolute;
+                background: #717171;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                top: -5px;
+                left: 0;
+                font-size: 12px;
+                white-space: nowrap;
+                z-index: 1;
+            }
+
+            .tooltip-cell:hover .tooltip-msg {
+                display: block;
+            }
+            /* for tool tip of user indication */
 
             @media screen and (max-width: 1191px) {
                 .dropdown-menu-end-1[style] {
@@ -352,6 +375,8 @@
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
+                                                                
+                                                                
                                                                 if ($row["tc_assign_status"] == 1) {
                                                                     $rowClass = 'bg-success'; // TC allotted = green
                                                                     // $hoverText = 'TC Allotted';
@@ -359,9 +384,18 @@
                                                                     $rowClass = 'bg-secondary'; // TC not allotted = no background
                                                                     // $hoverText = '';
                                                                 }
+                                                                $new_reg= new DateTime('2026-01-01');
+                                                                $new_regdate = $new_reg->format('d-m-Y');
+                                                                $isNew = ($rd >= $new_reg);
+                                                                $color = $isNew ? 'green' : 'black';
+                                                                $msg = $isNew ? 'Registered to new regime of terms and conditions' : 'Registered to old regime of terms and conditions';
+
 
                                                                 echo '<tr>
-                                                                        <td>' . $row['user_id'] . '</td>
+                                                                        <td class="tooltip-cell" style="color: '.$color .';">
+                                                                            '. $row['user_id'].' 
+                                                                            <span class="tooltip-msg">'.$msg .'</span>
+                                                                        </td>
                                                                         <td> 
                                                                             <span class="badge '.$rowClass.' lable-width">'
                                                                                 . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
