@@ -101,13 +101,13 @@
                         </a>
                     </li> -->
                     <li>
-                        <a href="../businessMentor/businessMentor.php" class=" waves-effect">
+                        <a href="../../views/business_mentor/businessMentor.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
                             <span key="t-contacts">BM / MF / SF</span>
                         </a>
                     </li>
                     <li>
-                        <a href="../corporate_agency/views/view_corporate_agency.php" class=" waves-effect">
+                        <a href="../../views/corporate_agency/view_corporate_agency.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
                             <span key="t-contacts">TE / F</span>
                         </a>

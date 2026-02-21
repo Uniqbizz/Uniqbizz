@@ -17,7 +17,7 @@ $(document).ready(function(){
 });
 
 function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-    window.location.href='edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+    window.location.href='../../controllers/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
 };
 
 function deletefunc(id,fid,action,usertype){ 
@@ -136,7 +136,7 @@ function overviewPage(id,ref,cut,st,ct,message){
 //franchisee upgrade
 function upgradePage(id,ref){
     // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
-    window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
+    window.location.href='../../controllers/corporate_agency/upgrade_franchisee.php?id='+id+'&ref='+ref;
 }
 
 // Hide date label and show input type date 
@@ -181,14 +181,16 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('AJAX response:', data); // remove after debug
 
             if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
-            $('#registeredCustomerList-table').DataTable().clear().destroy();
+                $('#registeredCustomerList-table').DataTable().clear().destroy();
             }
 
             $('#registeredCustomerList-table tbody').html(data);
 
-            $.fn.dataTable.moment('DD-MM-YYYY');
+            // $.fn.dataTable.moment('DD-MM-YYYY');
 
-            let table = $('#registeredCustomerList-table').DataTable();
+            let table = $('#registeredCustomerList-table').DataTable({
+                order: [[5, 'asc']]
+            });
 
             let TotalAmt = 0;
             let rowCount = table.rows().count();
@@ -395,5 +397,5 @@ function regTcDownload() {
         designation: designation
     });
 
-    window.location.href = "download_list.php?" + params.toString();
+    window.location.href = "../../controllers/corporate_agency/download_list.php?" + params.toString();
 }

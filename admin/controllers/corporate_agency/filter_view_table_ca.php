@@ -120,9 +120,11 @@ $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $rowClass = 'bg-secondary'; // TC not allotted = no background
                 // $hoverText = '';
             }
-            $isNew = ($rd >= $rdate);
+            $new_reg= new DateTime('2026-01-01');
+            $new_regdate = $new_reg->format('d-m-Y');
+            $isNew = ($rd >= $new_reg);
             $color = $isNew ? 'green' : 'black';
-            $msg = $isNew ? 'Registered to new regime of terms and conditions' : 'Registered to new regime of terms and conditions';
+            $msg = $isNew ? 'Registered to new regime of terms and conditions' : 'Registered to old regime of terms and conditions';
 
 
             echo '<tr>

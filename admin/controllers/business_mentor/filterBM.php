@@ -70,11 +70,11 @@
 
         // Build final query based on designation
         if ($designation == "BM") {
-            $sql = $bmQuery . " ORDER BY id ASC";
+            $sql = $bmQuery . " ORDER BY register_date ASC";
         } elseif ($designation == "MF") {
-            $sql = $mfQuery . " ORDER BY id ASC";
+            $sql = $mfQuery . " ORDER BY register_date ASC";
         } elseif ($designation == "SF") {
-            $sql = $sfQuery . " ORDER BY id ASC";
+            $sql = $sfQuery . " ORDER BY register_date ASC";
         } elseif ($designation == "All") {
             $sql = "
                 ($bmQuery)
@@ -82,7 +82,7 @@
                 ($mfQuery)
                 UNION
                 ($sfQuery)
-                ORDER BY id ASC
+                ORDER BY register_date ASC
             ";
         } else {
             die("Invalid designation");

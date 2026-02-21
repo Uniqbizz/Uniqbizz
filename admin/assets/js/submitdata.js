@@ -2035,9 +2035,9 @@ $("#edit_employee").click(function (e) {
 $("#addBusinessMentor").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
-    var url = register_as == 'business_mentor' ? 'addBusinessMentorData.php' 
-            : register_as == 'master_franchisee' ? 'addMasterFranchiseeData.php' 
-            : register_as == 'sponsor_franchisee' ? 'addSponsorFranchiseeData.php' 
+    var url = register_as == 'business_mentor' ? '../../controllers/business_mentor/addBusinessMentorData.php' 
+            : register_as == 'master_franchisee' ? '../../controllers/business_mentor/addMasterFranchiseeData.php' 
+            : register_as == 'sponsor_franchisee' ? '../../controllers/business_mentor/addSponsorFranchiseeData.php' 
             : '';
     // console.log('Add customer button clicked');
 
@@ -2295,9 +2295,9 @@ $("#editBuisnessMentor").on("click", function (e) {
     //     : '';
 
     var register_as = $('#registered').val();
-    var url = register_as == 'bm' ? 'editBusinessMentorData.php' 
-            : register_as == 'mf' ? 'editMasterFranchiseeData.php' 
-            : register_as == 'sf' ? 'editSponsorFranchiseeData.php' 
+    var url = register_as == 'bm' ? '../../controllers/business_mentor/editBusinessMentorData.php' 
+            : register_as == 'mf' ? '../../controllers/business_mentor/editMasterFranchiseeData.php' 
+            : register_as == 'sf' ? '../../controllers/business_mentor/editSponsorFranchiseeData.php' 
             : '';
     // console.log('Add customer button clicked');
 

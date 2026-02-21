@@ -1,6 +1,6 @@
 <?php
 // session_start();
-require '../connect.php';
+require '../../connect.php';
 $current_year = date('Y');
 
 $user_id_name = $_POST['user_id_name'];

@@ -1,5 +1,5 @@
 <?php
-require "../connect.php";
+require "../../connect.php";
 $current_year = date('Y'); 
 
 $fid = $_POST["ref_id"];

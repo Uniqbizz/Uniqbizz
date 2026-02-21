@@ -475,7 +475,7 @@
                                                             if ($profile_pic) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -489,9 +489,9 @@
                                                         <div id="image_preview1">
                                                             <?php
                                                                 if($profile_pic ==''){
-                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
+                                                                    echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../../../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1" class="imgSize">';?>
+                                                                    echo '<img src="../../../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                         </div>
@@ -504,7 +504,7 @@
                                                             if ($aadhar_card) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -518,9 +518,9 @@
                                                         <div id="image_preview2">
                                                             <?php
                                                                 if($aadhar_card ==''){
-                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
+                                                                    echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre2" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../../../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2" class="imgSize">';?>
+                                                                    echo '<img src="../../../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                         </div>
@@ -533,7 +533,7 @@
                                                             if ($pan_card) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -547,9 +547,9 @@
                                                         <div id="image_preview3">
                                                             <?php
                                                                 if($pan_card ==''){
-                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
+                                                                    echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre3" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../../../uploading/'.$pan_card.'" alt="Preview" id="img_pre3" class="imgSize">';?>
+                                                                    echo '<img src="../../../uploading/'.$pan_card.'" alt="Preview" id="img_pre3" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                         </div>
@@ -562,7 +562,7 @@
                                                             if ($bank_passbook) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -576,9 +576,9 @@
                                                         <div id="image_preview4">
                                                             <?php
                                                                 if($bank_passbook ==''){
-                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre4" class="imgSize">';
+                                                                    echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre4" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../../../uploading/'.$bank_passbook.'" alt="Preview" id="img_pre4" class="imgSize">';?>
+                                                                    echo '<img src="../../../uploading/'.$bank_passbook.'" alt="Preview" id="img_pre4" class="imgSize">';?>
                                                                    
                                                             <?php } ?>
                                                         </div>
@@ -591,7 +591,7 @@
                                                             if ($voting_card) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -605,9 +605,9 @@
                                                         <div id="image_preview5">
                                                             <?php
                                                                 if($voting_card ==''){
-                                                                    echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre5" class="imgSize">';
+                                                                    echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre5" class="imgSize">';
                                                                 }else{
-                                                                    echo '<img src="../../../../uploading/'.$voting_card.'" alt="Preview" id="img_pre5" class="imgSize">';?>
+                                                                    echo '<img src="../../../uploading/'.$voting_card.'" alt="Preview" id="img_pre5" class="imgSize">';?>
                                                                     
                                                             <?php } ?>
                                                             
@@ -621,7 +621,7 @@
                                                             if ($payment_proof) {
                                                                 
                                                         ?>
-                                                            <a href="<?php echo '../../../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         <?php
@@ -635,9 +635,9 @@
 														<div id="image_preview6">
                                                         <?php
                                                             if ($payment_proof == '') {
-                                                                echo '<img src="../../../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
+                                                                echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
                                                             } else {
-                                                                echo '<img src="../../../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
+                                                                echo '<img src="../../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
                                                                 
                                                         <?php } ?>
 														</div>
@@ -706,7 +706,7 @@
         <!-- App js -->
         <script src="../../assets/js/app.js"></script>
 
-        <script src="../../../../uploading/upload.js"></script>
+        <script src="../../../uploading/upload.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -727,207 +727,7 @@
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
 
-            $(document).ready(function(){
-                var registered = $("#registered").val();
-                if(registered == 'bm'){
-                    // $('#designation1').prop('disabled',false);
-                    // $('#designation1').removeClass('d-none');
-                    // $('#designation2').addClass('d-none');
-                    // $('#payment_fee').prop('disabled',false);
-                    $('#payment_fee').removeClass('d-none');
-                    $('#payment_fee2').addClass('d-none');
-                }else if(registered == 'mf'){
-                //     $('#designation2').removeClass('d-none');
-                //     $('#designation2').prop('disabled',false);
-                //     $('#designation1').addClass('d-none');
-                    $('#payment_fee').addClass('d-none');
-                    $('#payment_fee2').removeClass('d-none');
-                }else if(registered == 'sf'){
-                    // $('#designation1').prop('disabled',true);
-                    // $('#designation2').prop('disabled',true);
-                    $('#payment_fee').addClass('d-none');
-                    $('#payment_fee2').removeClass('d-none');
-                }
-                
-                var paymentMode = $(".payment:checked").val();
-                if(paymentMode == "cheque"){
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }else if(paymentMode == "online"){
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-            $('#paymentMode').on('click', function() {
-                var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                }
-            });
-            //select Designation
-            $('#designation').on('change', function() {
-                var designation = $('#designation').val();
-                // console.log(designation);
-                $.ajax({
-                    type:'POST',
-                    url:'../../agents/get_user_Franchisee.php',
-                    data: "designation="+designation,
-                    success:function (e) {
-                        // console.log(e);
-                        $('#user_id_name').html(e); 
-                    },
-                    error: function(err){
-                        console.log(err);
-                    },
-                });
-            });
-
-            // fetch User based on selected designation
-            $('#user_id_name').on('change', function(){
-                var user_id_name = $(this).val();
-                var designation = $('#designation').val();
-                // console.log(user_id_name);
-
-                // var designation = $('#designation').val();
-                // console.log(designation);
-
-                $.ajax({
-                    type:'POST',
-                    url:'../../agents/getUsers.php',
-                    data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-                    success:function(response){
-                    // console.log(response);
-                        $('#pin').html(response);
-                        $('#reference_name').val(response); 
-                    }
-                }); 
-               
-            }); 
-
-            $('#country').on('change', function(){
-                var countryID = $(this).val();
-                if(countryID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../../address/countrydata.php',
-                        data:'country_id='+countryID,
-                        success:function(htmll){
-                            $('#mystate').html(htmll); 
-                            $('#city').html('<option value="">Select state first</option>'); 
-                        }
-                    }); 
-                }else{
-                    $('#mystate').html('<option value="">Select country first</option>');
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');   
-                }
-            });
-                
-            $('#mystate').on('change', function(){
-                // alert();
-                var stateID = $(this).val();
-                if(stateID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../../address/countrydata.php',
-                        data:'state_id='+stateID,
-                        success:function(html){
-                            $('#city').html(html);
-                        }
-                    }); 
-                }else{
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');   
-                }
-            });
-
-            $('#city').on('change', function(){
-                var cityID = $(this).val();
-                if(cityID){
-                    $.ajax({
-                        type:'POST',
-                        url:'../../address/pincode.php',
-                        data:'city_id='+cityID,
-                        success:function(response){
-                            // $('#pin').html(response);
-                            $('#pin').val(response); 
-                        }
-                    }); 
-                }else{
-                    $('#city').html('<option value="">Select state first</option>');
-                    $('#pin').val('');
-                }
-            });
-            // on zone change get branch associated with that zone
-            $('#zone').on('change', function() {
-                var zone_id = $(this).val();
-                $.ajax({
-                    url: '../../assets/get_data/get_branch.php',
-                    type: 'POST',
-                    data: {
-                        zone_id: zone_id
-                    },
-                    success: function(data) {
-                        $('#branch').html(data);
-                    }
-                });
-            });
-            //to hide show payment sections
-            $('#payment_fee').on('change', function(){
-                var paytype=$('#payment_fee').val();
-                if (paytype !='FOC') {
-                    $('#paymentModeBlock').removeClass("d-none"); 
-                    $('#payProof').removeClass("d-none"); 
-                }else {
-                    $('#paymentModeBlock').addClass("d-none"); 
-                    $('#payProof').addClass("d-none"); 
-                }
-            });
-            //to hide show payment sections
-            $('#payment_fee2').on('change', function(){
-                var paytype=$('#payment_fee2').val();
-                if (paytype !='FOC') {
-                    $('#paymentModeBlock').removeClass("d-none"); 
-                    $('#payProof').removeClass("d-none"); 
-                }else {
-                    $('#paymentModeBlock').addClass("d-none"); 
-                    $('#payProof').addClass("d-none"); 
-                }
-            });
-            //payment details
-            $('#paymentMode').on('click', function() {
-                var paymentMode = $(".payment:checked").val();
-                // console.log(paymentMode);
-                if (paymentMode == "cheque") {
-                    $("#chequeOpt").removeClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#transactionNo").val("");
-                } else if (paymentMode == "online") {
-                    $("#onlineOpt").removeClass("d-none");
-                    $("#chequeOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                } else {
-                    $("#chequeOpt").addClass("d-none");
-                    $("#onlineOpt").addClass("d-none");
-                    $("#chequeNo").val("");
-                    $("#chequeDate").val("");
-                    $("#bankName").val("");
-                    $("#transactionNo").val("");
-                }
-            });
+            
         </script>
     </body>
 
