@@ -170,7 +170,7 @@
                 </li>
                 <li>
                     <!-- <button class="text-center ms-3 mt-3"> -->
-                        <a href="logout.php" class="dropdown-item btn rounded-pill text-white text-center mt-3 ms-3 w-50 waves-effect" style="background-color: #556ee6">
+                        <a href="../../logout.php" class="dropdown-item btn rounded-pill text-white text-center mt-3 ms-3 w-50 waves-effect" style="background-color: #556ee6">
                             <i class="bx bx-power-off" style="margin-left: -14px !important;"></i>
                             <span class="t-logout">Logout</span>
                         </a>
