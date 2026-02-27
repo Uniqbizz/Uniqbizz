@@ -7,118 +7,7 @@ if (!isset($_SESSION['username'])) {
 ?>
 <!doctype html>
 <html lang="en">
-<?php
-
-require '../connect.php';
-$date = date('Y');
-
-$id = $_GET['vkvbvjfgfikix'];
-$user_id = $_GET['fyfyfregby'];
-$reference_no = $_GET['nohbref'];
-$country_id = $_GET['ncy'];
-$state_id = $_GET['mst'];
-$city_id = $_GET['hct'];
-
-$editfor = $_GET['editfor'];
-
-if ($editfor == 'pending') {
-    $identifier_name = 'id=';
-} else if ($editfor == 'registered') {
-    $identifier_name = 'ca_customer_id=';
-}
-
-$stmt = $conn->prepare("SELECT * FROM `ca_customer` where ca_customer_id='" . $id . "' OR id = '" . $id . "'");
-$stmt->execute();
-// set the resulting array to associative
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-if ($stmt->rowCount() > 0) {
-    foreach (($stmt->fetchAll()) as $key => $row) {
-        $fid = $row['id'];
-        $firstname = $row['firstname'];
-        $lastname = $row['lastname'];
-        $email = $row['email'];
-        $contact_no = $row['contact_no'];
-        $cust_ref = $row['reference_no']??'';
-        $cust_ref_name = $row['registrant']??'';
-
-        $reference_no = $row['ta_reference_no'];
-        if (!$reference_no) {
-            $reference_no = $row['reference_no'];
-        }
-
-        $date_of_birth = $row['date_of_birth'];
-        $gender = $row['gender'];
-        $country = $row['country'];
-        $state = $row['state'];
-        $city = $row['city'];
-        $address = $row['address'];
-        $profile_pic = $row['profile_pic'];
-        $pan_card = $row['pan_card'];
-        $aadhar_card = $row['aadhar_card'];
-        $voting_card = $row['voting_card'];
-        $bank_passbook = $row['passbook'];
-        $payment_proof = $row['payment_proof'];
-        $payment_mode = $row['payment_mode'];
-        $customer_type = $row['customer_type'];
-        $cheque_no = $row['cheque_no'];
-        $cheque_date = $row['cheque_date'];
-        $bank_name = $row['bank_name'];
-        $transaction_no = $row['transaction_no'];
-        $pincode = $row['pincode'];
-        $status = $row['status'];
-        $comp_check=$row['comp_chek'];
-        $note = $row['note'];
-
-        //get country
-        $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
-        $countries->execute();
-        $countries->setFetchMode(PDO::FETCH_ASSOC);
-        if ($countries->rowCount() > 0) {
-            $country = $countries->fetch();
-            $countryname = $country['country_name'];
-        }
-
-        //get state
-        $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
-        $states->execute();
-        $states->setFetchMode(PDO::FETCH_ASSOC);
-        if ($states->rowCount() > 0) {
-            $state = $states->fetch();
-            $statename = $state['state_name'];
-        }
-        //get city
-        $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
-        $cities->execute();
-        $cities->setFetchMode(PDO::FETCH_ASSOC);
-        if ($cities->rowCount() > 0) {
-            $city = $cities->fetch();
-            $city_name = $city['city_name'];
-        }
-
-        $reference_id = substr($reference_no, 0, 2);
-        if ($reference_id == "TA") {
-            $caTravelAgencys = $conn->prepare("SELECT firstname, lastname, reference_no FROM ca_travelagency WHERE ca_travelagency_id='" . $reference_no . "'");
-            $caTravelAgencys->execute();
-            $caTravelAgencys->setFetchMode(PDO::FETCH_ASSOC);
-            if ($caTravelAgencys->rowCount() > 0) {
-                $caTravelAgency = $caTravelAgencys->fetch();
-                $reference_no_fname = $caTravelAgency['firstname'];
-                $reference_no_lname = $caTravelAgency['lastname'];
-            }
-        } else {
-            $cacustomers = $conn->prepare("SELECT firstname, lastname, reference_no FROM ca_customer WHERE ca_customer_id='" . $reference_no . "'");
-            $cacustomers->execute();
-            $cacustomers->setFetchMode(PDO::FETCH_ASSOC);
-            if ($cacustomers->rowCount() > 0) {
-                $cacustomer = $cacustomers->fetch();
-                $reference_no_fname = $cacustomer['firstname'];
-                $reference_no_lname = $cacustomer['lastname'];
-            }
-        }
-    }
-}
-?>
+<?php include '../../models/ca_customer/edit_customer.php'  ?>
 
 <head>
 
@@ -131,13 +20,13 @@ if ($stmt->rowCount() > 0) {
     <link rel="shortcut icon" href="../assets/images/fav.png">
 
     <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Loading Screen and Images size css  -->
-    <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
     <!-- App js -->
     <!-- <script src="../assets/js/plugin.js"></script> -->
 
@@ -173,10 +62,10 @@ if ($stmt->rowCount() > 0) {
 
         <?php
         // top header logo, hamberger menu, fullscreen icon, profile
-        include_once '../header.php';
+        include_once '../../header.php';
 
         // sidebar navigation menu 
-        include_once '../sidebar.php';
+        include_once '../../sidebar.php';
         ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -445,7 +334,7 @@ if ($stmt->rowCount() > 0) {
                                                         if ($profile_pic) {
                                                             
                                                     ?>
-                                                        <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     <?php
@@ -459,9 +348,9 @@ if ($stmt->rowCount() > 0) {
                                                     <div id="image_preview1" style="margin-bottom: 50px;">
                                                         <?php
                                                         if ($profile_pic == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1">';?>
+                                                            echo '<img src="../../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1">';?>
                                                             
                                                     <?php } ?>
                                                     </div>
@@ -474,7 +363,7 @@ if ($stmt->rowCount() > 0) {
                                                         if ($aadhar_card) {
                                                             
                                                     ?>
-                                                        <a href="<?php echo '../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     <?php
@@ -488,9 +377,9 @@ if ($stmt->rowCount() > 0) {
                                                     <div id="image_preview2">
                                                         <?php
                                                         if ($aadhar_card == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre2">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $aadhar_card . '" alt="Preview" id="img_pre2">';?>
+                                                            echo '<img src="../../../uploading/' . $aadhar_card . '" alt="Preview" id="img_pre2">';?>
                                                             
                                                     <?php } ?>
                                                     </div>
@@ -503,7 +392,7 @@ if ($stmt->rowCount() > 0) {
                                                         if ($pan_card) {
                                                             
                                                     ?>
-                                                        <a href="<?php echo '../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     <?php
@@ -517,9 +406,9 @@ if ($stmt->rowCount() > 0) {
                                                     <div id="image_preview3">
                                                         <?php
                                                         if ($pan_card == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre3">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $pan_card . '" alt="Preview" id="img_pre3">';?>
+                                                            echo '<img src="../../../uploading/' . $pan_card . '" alt="Preview" id="img_pre3">';?>
                                                             
                                                     <?php } ?>
                                                     </div>
@@ -532,7 +421,7 @@ if ($stmt->rowCount() > 0) {
                                                         if ($bank_passbook) {
                                                             
                                                     ?>
-                                                        <a href="<?php echo '../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     <?php
@@ -546,9 +435,9 @@ if ($stmt->rowCount() > 0) {
                                                     <div id="image_preview4">
                                                         <?php
                                                         if ($bank_passbook == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre4">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre4">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $bank_passbook . '" alt="Preview" id="img_pre4">';?>
+                                                            echo '<img src="../../../uploading/' . $bank_passbook . '" alt="Preview" id="img_pre4">';?>
                                                             
                                                     <?php } ?>
                                                     </div>
@@ -561,7 +450,7 @@ if ($stmt->rowCount() > 0) {
                                                         if ($voting_card) {
                                                             
                                                     ?>
-                                                        <a href="<?php echo '../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     <?php
@@ -575,9 +464,9 @@ if ($stmt->rowCount() > 0) {
                                                     <div id="image_preview5">
                                                         <?php
                                                         if ($voting_card == '') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre5">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre5">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $voting_card . '" alt="Preview" id="img_pre5">';?>
+                                                            echo '<img src="../../../uploading/' . $voting_card . '" alt="Preview" id="img_pre5">';?>
                                                            
                                                     <?php } ?>
                                                     </div>
@@ -590,7 +479,7 @@ if ($stmt->rowCount() > 0) {
                                                         if ($payment_proof!='none') {
                                                             
                                                     ?>
-                                                        <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                        <a href="<?php echo '../../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
                                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                         </a>
                                                     <?php
@@ -604,9 +493,9 @@ if ($stmt->rowCount() > 0) {
                                                     <div id="image_preview6">
                                                         <?php
                                                         if ($payment_proof =='none') {
-                                                            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
+                                                            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
                                                         } else {
-                                                            echo '<img src="../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
+                                                            echo '<img src="../../../uploading/' . $payment_proof . '" alt="Preview" id="img_pre6">';?>
                                                             
                                                     <?php } ?>
                                                     </div>
@@ -641,7 +530,7 @@ if ($stmt->rowCount() > 0) {
         <!-- End Page-content -->
 
 
-        <?php include_once "../footer.php" ?>
+        <?php include_once "../../footer.php" ?>
     </div>
     <!-- end main content-->
 
@@ -657,211 +546,24 @@ if ($stmt->rowCount() > 0) {
     <!--end back-to-top-->
 
     <!-- JAVASCRIPT -->
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../assets/libs/node-waves/waves.min.js"></script>
+    <script src="../../assets/libs/jquery/jquery.min.js"></script>
+    <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="../.../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- add data to database js file -->
-    <script type="text/javascript" src="../assets/js/submitdata.js"></script>
-
-    <!-- apexcharts -->
-    <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
-
-    <!-- dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
+    <script type="text/javascript" src="../../assets/js/submitdata.js"></script>
 
     <!-- App js -->
-    <script src="../assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
 
-    <script src="../../uploading/upload.js"></script>
+    <script src="../../../uploading/upload.js"></script>
 
-    <script>
-        var mybutton = document.getElementById("back-to-top");
-
-        function scrollFunction() {
-            100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-        }
-
-        function topFunction() {
-            document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-        }
-        mybutton && (window.onscroll = function() {
-            scrollFunction()
-        });
-    </script>
+    <script src="../../resources/common_resources/top_function.js"></script>
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
-    <script>
-        $(document).ready(function() {
-            const paymentMode1 = <?= json_encode($payment_mode) ?>;
-            console.log(paymentMode1);
-            var paymentMode = $(".payment:checked").val();
-            var payment_fee = $('#payment_fee').val()
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-            }
-            var state = $('#mystate').val();
-        });
-        //select Designation
-        $('#designation').on('change', function() {
-            var designation = $('#designation').val();
-            // console.log(designation);
-            $.ajax({
-                type: 'POST',
-                url: '../agents/get_user_Franchisee.php',
-                data: "designation=" + designation,
-                success: function(e) {
-                    // console.log(e);
-                    $('#user_id_name').html(e);
-                },
-                error: function(err) {
-                    console.log(err);
-                },
-            });
-        });
-
-        // fetch User based on selected designation
-        $('#user_id_name').on('change', function() {
-            var user_id_name = $(this).val();
-            // console.log(user_id_name);
-
-            var designation = $('#designation').val();
-            // console.log(designation);
-
-            $.ajax({
-                type: 'POST',
-                url: '../agents/getUsers.php',
-                data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-                success: function(response) {
-                    // console.log(response);
-                    // $('#pin').html(response);
-                    $('#reference_name').val(response);
-                }
-            });
-
-        });
-
-        $('#country').on('change', function() {
-            var countryID = $(this).val();
-            if (countryID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'country_id=' + countryID,
-                    success: function(htmll) {
-                        $('#mystate').html(htmll);
-                        $('#city').html('<option value="">Select state first</option>');
-                    }
-                });
-            } else {
-                $('#mystate').html('<option value="">Select country first</option>');
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        $('#mystate').on('change', function() {
-            // alert();
-            var stateID = $(this).val();
-            if (stateID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'state_id=' + stateID,
-                    success: function(html) {
-                        $('#city').html(html);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-            
-        });
-
-        // function toggleDiv(show) {
-        //     document.getElementById("paymentMode").classList.toggle("d-none", !show);
-        //     document.getElementById("payOpt").classList.toggle("d-none", !show);
-        //     document.getElementById("payProof").classList.toggle("d-none", !show);
-            
-        //     // let paymentFee = document.getElementById("payment_fee");
-
-        //     // if (show) {
-        //     //     // Default to "10000" when showing the fields (you can change this if needed)
-        //     //     paymentFee.value != "FOC";
-        //     // } else {
-        //     //     // Default to "FOC" when hiding the fields
-        //     //     paymentFee.value = "FOC";
-        //     // }
-
-        //     // // Trigger change event if you want to update UI elsewhere
-        //     // paymentFee.dispatchEvent(new Event('change'));
-        // }
-
-        $('#city').on('change', function() {
-            var cityID = $(this).val();
-            if (cityID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/pincode.php',
-                    data: 'city_id=' + cityID,
-                    success: function(response) {
-                        // $('#pin').html(response);
-                        $('#pin').val(response);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-        //payment type
-         $('#payment_fee').on('change', function() {
-            var payval=$(this).val();
-            if (payval != 'FOC') {
-                $('#paymentMode').removeClass('d-none');
-                $('#payProof').removeClass('d-none');
-                $('#payOpt').removeClass('d-none');
-            }else{
-                $('#paymentMode').addClass('d-none');
-                $('#payProof').addClass('d-none');
-                $('#payOpt').addClass('d-none');
-            }
-        });
-        // payment mode
-        $('#paymentMode').on('click', function() {
-            var paymentMode = $(".payment:checked").val();
-            // console.log(paymentMode);
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-                $("#transactionNo").val("");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-                $("#chequeNo").val("");
-                $("#chequeDate").val("");
-                $("#bankName").val("");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-                $("#chequeNo").val("");
-                $("#chequeDate").val("");
-                $("#bankName").val("");
-                $("#transactionNo").val("");
-            }
-        });
-    </script>
+    <script src="../../resources/ca_customer/edit_customer_custom.js"></script>
 </body>
 
 </html>

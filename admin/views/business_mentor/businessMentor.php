@@ -137,7 +137,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <!-- data load from models file -->
-                                                    <?php include '../../models/business_mentor/pending_bm.php' ?>
+                                                    <?php include '../../models/business_mentor/pending_bm_list.php' ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -238,7 +238,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- data load on model file filterBM.php -->
+                                                    <!-- data load from filterBM.php -->
 
                                                 </tbody>
                                             </table>
@@ -287,7 +287,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <!-- data load from models file -->
-                                                    <?php include '../../models/business_mentor/deleted_bm.php' ?>
+                                                    <?php include '../../models/business_mentor/deleted_bm_list.php' ?>
 
                                                 </tbody>
                                             </table>
@@ -432,21 +432,7 @@
         <!-- App js -->
         <script src="../../assets/js/app.js"></script>
 
-        <script>
-            var mybutton = document.getElementById("back-to-top");
-            function scrollFunction() {
-                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-            }
-            function topFunction() {
-                document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-            }
-            mybutton && (window.onscroll = function() {
-                scrollFunction()
-            }
-            );
-
-        </script>
+        <script src="../../resources/common_resources/top_function.js"></script>
 
         <!-- dataTable -->
         <script src="../../resources/business_mentor/bm_mf_sf_custom.js"></script>

@@ -20,7 +20,7 @@ $(document).ready(function(){
             // alert("login ");
             // window.open("index2.php");
             // location.href = "index.php";
-            window.location="index.php";
+            window.location="views/home/index.php";
           }else{
             alert("username and password not correct");
           }

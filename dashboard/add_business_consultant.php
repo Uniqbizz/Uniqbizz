@@ -38,7 +38,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'header.php'; ?>
+            <?php include_once '../header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -66,7 +66,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once 'sidebar.php'; ?>
+            <?php include_once '../sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->

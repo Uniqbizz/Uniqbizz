@@ -181,7 +181,7 @@
                                                     <div class="sign-btn d-none">
                                                         <?php 
                                                             if(isset($_SESSION['username2'])){
-                                                                echo '<a href="dashboard/" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
+                                                                echo '<a href="dashboard/views/" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
                                                                 <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
                                                             }else{
                                                                 echo'<a href="login.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:80px; height:40px;">Log In</a>';
@@ -220,7 +220,7 @@
                                                 <div class="sign-btn">
                                                     <?php 
                                                         if(isset($_SESSION['username2'])){
-                                                            echo '<a href="dashboard/" class="btn-secondary-sm">Dashboard</a>
+                                                            echo '<a href="dashboard/views/" class="btn-secondary-sm">Dashboard</a>
                                                             <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
                                                         }else{
                                                             echo'<a href="login.php" class="btn-secondary-sm">Log In</a>';

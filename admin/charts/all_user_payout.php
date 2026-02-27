@@ -53,7 +53,7 @@ function processF($rows) {
     foreach ($rows as $row) {
         $f_id = $row['techno_enterprise'];
         $f_id_str=substr($f_id,0,1) == 'F'?substr($f_id,0,1):substr($f_id,0,2);
-        if($te_id_str == 'F'){
+        if($f_id_str == 'F'){
             $amount = floatval($row['commision_te']);
             $status = $row['status_te'];
             $unique_fs[$f_id] = true;
@@ -186,7 +186,7 @@ function processResultsMF($rows, $id_key, $amount_key, $status_key) {
 }
 
 $mf_sqls = [
-    ["SELECT master_franchisee, commision_mf, status FROM sub_franchisee_payout", "created_date"],
+    ["SELECT master_franchisee, commission_mf, status FROM sub_franchisee_payout", "created_date"],
     ["SELECT business_mentor, commision_bm, status_bm FROM ca_cu_payout", "created_date"],
     ["SELECT business_mentor, commision_bm, status_bm FROM ca_ta_payout", "created_date"]
 ];
@@ -210,7 +210,7 @@ foreach ($mf_sqls as $index => [$sql, $date_col]) {
             $mf_id_str=substr($mf_id,0,2);
             if($mf_id_str == 'MF'){
                 $status = $row['status'];
-                $amount = $row['commision_mf'];
+                $amount = $row['commission_mf'];
                 $all_mfs[$mf_id] = true;
                 if ($status == 1) {
                     $mf_paid += $amount;
@@ -253,7 +253,7 @@ function processResultsSF($rows, $id_key, $amount_key, $status_key) {
 }
 
 $sf_sqls = [
-    ["SELECT master_franchisee, commision_mf, status FROM sub_franchisee_payout", "created_date"],
+    ["SELECT master_franchisee, commission_mf, status FROM sub_franchisee_payout", "created_date"],
     ["SELECT business_mentor, commision_bm, status_bm FROM ca_cu_payout", "created_date"],
     ["SELECT business_mentor, commision_bm, status_bm FROM ca_ta_payout", "created_date"]
 ];
@@ -277,7 +277,7 @@ foreach ($sf_sqls as $index => [$sql, $date_col]) {
             $sf_id_str=substr($sf_id,0,2);
             if($sf_id_str == 'SF'){
                 $status = $row['status'];
-                $amount = $row['commision_mf'];
+                $amount = $row['commission_mf'];
                 $all_sfs[$sf_id] = true;
                 if ($status == 1) {
                     $sf_paid += $amount;

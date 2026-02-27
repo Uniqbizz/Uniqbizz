@@ -10,10 +10,10 @@ include_once 'dashboard_user_details.php';
                     <!-- Light Logo-->
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="assets/images/fav.png" alt="" height="25">
+                            <img src="../assets/images/fav.png" alt="" height="25">
                         </span>
                         <span class="logo-lg ms-5">
-                            <img src="assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -21,7 +21,7 @@ include_once 'dashboard_user_details.php';
                 <div class="com_logo">
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -192,7 +192,7 @@ include_once 'dashboard_user_details.php';
 
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <img src="../assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -241,7 +241,7 @@ include_once 'dashboard_user_details.php';
 
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <img src="../assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -274,7 +274,7 @@ include_once 'dashboard_user_details.php';
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="../assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">James Lemire</h6>
@@ -297,7 +297,7 @@ include_once 'dashboard_user_details.php';
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="../assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -321,7 +321,7 @@ include_once 'dashboard_user_details.php';
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="../assets/images/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Kenneth Brown</h6>
@@ -345,7 +345,7 @@ include_once 'dashboard_user_details.php';
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="../assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -385,7 +385,7 @@ include_once 'dashboard_user_details.php';
                             <div class="tab-pane fade show p-4" id="all-noti-tab" role="tabpanel">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -396,7 +396,7 @@ include_once 'dashboard_user_details.php';
                             <div class="tab-pane fade p-4" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -406,7 +406,7 @@ include_once 'dashboard_user_details.php';
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="../assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -423,7 +423,7 @@ include_once 'dashboard_user_details.php';
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?php echo '../uploading/' . $profile_pic; ?>" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="<?php echo '../../uploading/' . $profile_pic; ?>" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $userFname . ' ' . $userLname; ?></span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo $designation; ?></span>
@@ -473,7 +473,7 @@ include_once 'dashboard_user_details.php';
                         <a class="dropdown-item" href="profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                         <a class="dropdown-item" href="reset_password.php"><i class="fa-solid fa-key"></i></i> <span class="align-middle">Reset Password</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a class="dropdown-item" href="../logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
             </div>

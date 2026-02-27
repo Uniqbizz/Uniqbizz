@@ -295,21 +295,7 @@
         <!-- file upload code js file -->
         <script src="../../../../uploading/upload.js"></script>
 
-        <script>
-            var mybutton = document.getElementById("back-to-top");
-            function scrollFunction() {
-                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-            }
-            function topFunction() {
-                document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-            }
-            mybutton && (window.onscroll = function() {
-                scrollFunction()
-            }
-            );
-
-        </script>
+        <script src="../../resources/common_resources/top_function.js"></script>
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
             $("#new_select_amount").on('change', function () {

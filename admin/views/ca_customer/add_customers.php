@@ -2,10 +2,10 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../login.php";</script>';
+    echo '<script>location.href = "../../login.php";</script>';
 }
 
-require '../connect.php';
+require '../../connect.php';
 //current full date
 $today = date('Y-m-d');
 
@@ -34,21 +34,21 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../assets/images/fav.png">
+    <link rel="shortcut icon" href="../../assets/images/fav.png">
 
     <!-- Bootstrap Css -->
-    <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Loading Screen and Images size css  -->
-    <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
     <!-- App js -->
-    <!-- <script src="../assets/js/plugin.js"></script> -->
+    <!-- <script src="../../assets/js/plugin.js"></script> -->
 
     <!-- Plugins css -->
-    <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
 
     <style>
         @media screen and (max-width: 420px) {
@@ -79,10 +79,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
         <?php
         // top header logo, hamberger menu, fullscreen icon, profile
-        include_once '../header.php';
+        include_once '../../header.php';
 
         // sidebar navigation menu 
-        include_once '../sidebar.php';
+        include_once '../../sidebar.php';
         ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -434,7 +434,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         <!-- End Page-content -->
 
 
-        <?php include_once "../footer.php" ?>
+        <?php include_once "../../footer.php" ?>
     </div>
     <!-- end main content-->
 
@@ -449,42 +449,24 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <!--end back-to-top-->
 
     <!-- JAVASCRIPT -->
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../assets/libs/node-waves/waves.min.js"></script>
+    <script src="../../assets/libs/jquery/jquery.min.js"></script>
+    <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- add data to database js file -->
-    <script type="text/javascript" src="../assets/js/submitdata.js"></script>
-
-    <!-- apexcharts -->
-    <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
-
-    <!-- dashboard init -->
-    <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
+    <script type="text/javascript" src="../../assets/js/submitdata.js"></script>
 
     <!-- App js -->
-    <script src="../assets/js/app.js"></script>
+    <script src="../../assets/js/app.js"></script>
 
-    <script src="../../uploading/upload.js"></script>
+    <script src="../../../uploading/upload.js"></script>
 
+    <script src="../../resources/common_resources/top_function.js"></script>
+    <script src="../../resources/ca_customer/add_customer_custom.js"></script>
+    <!-- due to php mixed with js this has to be in this js code needs to be on the same file -->
     <script>
-        var mybutton = document.getElementById("back-to-top");
-
-        function scrollFunction() {
-            100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-        }
-
-        function topFunction() {
-            document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-        }
-        mybutton && (window.onscroll = function() {
-            scrollFunction()
-        });
-
-        //get page status
         var customer_type;
         $(document).ready(function() {
             customer_type = <?php echo json_encode($cust_type, JSON_HEX_TAG); ?>;
@@ -495,178 +477,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
             }else{
                 document.getElementById('indirect_add_cust_id').style.display = 'block';
                 document.getElementById('indirect_add_cust_name').style.display = 'block';
-            } 
-            // Fetch User based on selected designation add by SV on 08-09-2025
-            $('#user_id_name').on('change', function() {
-                var user_id_name = $(this).val();
-                var designation = 'ca_travelagency';
-
-                if (user_id_name !== '') { // ✅ only fire if something is selected
-                    $.ajax({
-                        type: 'POST',
-                        url: '../agents/getUsers.php',
-                        data: { user_id_name: user_id_name, designation: designation },
-                        success: function(response) {
-                            $('#reference_name').val(response);
-                        }
-                    });
-                }
-            });
-
-            // 🔥 Fire once on page load if a value is already selected
-            if ($('#user_id_name').val() !== '') {
-                $('#user_id_name').trigger('change');
-                $('#user_id_name').prop('disabled',true);
             }
         });
     </script>
-    <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
-    <script>
-        //select Designation
-        // $('#designation').on('change', function() {
-        //     var designation = $('#designation').val();
-        //     // console.log(designation);
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'../agents/get_user_Franchisee.php',
-        //         data: "designation="+designation,
-        //         success:function (e) {
-        //             // console.log(e);
-        //             $('#user_id_name').html(e); 
-        //         },
-        //         error: function(err){
-        //             console.log(err);
-        //         },
-        //     });
-        // });
-        //commented on 08-09-2025 by SV to make the preselet of TC work on add ref
-        // // fetch User based on selected designation
-        // $('#user_id_name').on('input', function() {
-        //     var user_id_name = $(this).val();
-        //     // console.log(user_id_name);
-
-        //     var designation = 'ca_travelagency';
-        //     // console.log(designation);
-
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '../agents/getUsers.php',
-        //         data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-        //         success: function(response) {
-        //             // console.log(response);
-        //             // $('#pin').html(response);
-        //             $('#reference_name').val(response);
-        //         }
-        //     });
-
-        // });
-
-        $('#country').on('change', function() {
-            var countryID = $(this).val();
-            if (countryID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'country_id=' + countryID,
-                    success: function(htmll) {
-                        $('#mystate').html(htmll);
-                        $('#city').html('<option value="">Select state first</option>');
-                    }
-                });
-            } else {
-                $('#mystate').html('<option value="">Select country first</option>');
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        $('#mystate').on('change', function() {
-            // alert();
-            var stateID = $(this).val();
-            if (stateID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/countrydata.php',
-                    data: 'state_id=' + stateID,
-                    success: function(html) {
-                        $('#city').html(html);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-                            
-        });
-        $('#pay').removeClass('d-none');
-        $('#couponFee').removeClass('d-none');
-
-        //payment type
-         $('#payment_fee').on('change', function() {
-            var payval=$(this).val();
-            if (payval != 'FOC') {
-                $('#paymentMode').removeClass('d-none');
-                $('#payProof').removeClass('d-none');
-                $('#payOpt').removeClass('d-none');
-            }else{
-                $('#paymentMode').addClass('d-none');
-                $('#payProof').addClass('d-none');
-                $('#payOpt').addClass('d-none');
-            }
-        });
-        // payment mode
-        $('#paymentMode').on('click', function() {
-            var paymentMode = $(".payment:checked").val();
-            // console.log(paymentMode);
-            if (paymentMode == "cheque") {
-                $("#chequeOpt").removeClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-                $("#transactionNo").val("");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt").removeClass("d-none");
-                $("#chequeOpt").addClass("d-none");
-                $("#chequeNo").val("");
-                $("#chequeDate").val("");
-                $("#bankName").val("");
-            } else {
-                $("#chequeOpt").addClass("d-none");
-                $("#onlineOpt").addClass("d-none");
-                $("#chequeNo").val("");
-                $("#chequeDate").val("");
-                $("#bankName").val("");
-                $("#transactionNo").val("");
-            }
-        });
-
-        function toggleDiv(show) {
-            document.getElementById("paymentMode").classList.toggle("d-none", !show);
-            document.getElementById("payOpt").classList.toggle("d-none", !show);
-            document.getElementById("payProof").classList.toggle("d-none", !show);
-            let paymentFee = document.getElementById("payment_fee");
-            paymentFee.value = show ? "10000" : "FOC";
-
-        }
-
-        $('#city').on('change', function() {
-            var cityID = $(this).val();
-            if (cityID) {
-                $.ajax({
-                    type: 'POST',
-                    url: '../address/pincode.php',
-                    data: 'city_id=' + cityID,
-                    success: function(response) {
-                        // $('#pin').html(response);
-                        $('#pin').val(response);
-                    }
-                });
-            } else {
-                $('#city').html('<option value="">Select state first</option>');
-                $('#pin').val('');
-            }
-        });
-
-        
-    </script>
+    
 
 </body>
 

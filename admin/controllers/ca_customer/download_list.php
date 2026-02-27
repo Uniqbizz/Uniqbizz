@@ -1,5 +1,5 @@
 <?php
-    require '../connect.php';
+    require '../../connect.php';
 
     $state = $_GET['filterState'];
     $stateName = $_GET['stateText'];

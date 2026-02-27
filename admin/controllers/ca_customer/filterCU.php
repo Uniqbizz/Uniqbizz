@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         <?php
-        require '../connect.php';
+        require '../../connect.php';
 
         $state = $_POST['state'];
         if($state == '0'){

@@ -1690,7 +1690,7 @@ $("#add_employee").click(function (e) {
     var country=state=city=pin=zonal=id_proof=bank_details=addar=pancard=department=designation=zone=branch=reporting_manager=joining_date='';
       
     if (register_as == 'zonal_manager'){
-        url='addZonalManagerData.php';
+        url='../../controllers/employee/addZonalManagerData.php';
         country=$('#country').val();
         state=$('#mystate').val();
         city=$('#city').val();
@@ -1707,7 +1707,7 @@ $("#add_employee").click(function (e) {
         branch = 'NA';
         reporting_manager = 'NA';
     }else if(register_as == 'employee'){
-        url='addEmployeeData.php';
+        url='../../controllers/employee/addEmployeeData.php';
         country='NA';
         state='NA';
         city='NA';
@@ -1861,7 +1861,7 @@ $("#edit_employee").click(function (e) {
     var country=state=city=pin=zonal=id_proof=bank_details=addar=pancard=department=designation=zone=branch=reporting_manager=joining_date='';
       
     if (register_as == '27'){
-        url='editZonalManagerData.php';
+        url='../../controllers/employee/editZonalManagerData.php';
         country=$('#country').val();
         state=$('#mystate').val();
         city=$('#city').val();
@@ -1878,7 +1878,7 @@ $("#edit_employee").click(function (e) {
         branch = 'NA';
         reporting_manager = 'NA';
     }else if(register_as == '24' || register_as == '25'){
-        url='editEmployeeData.php';
+        url='../../controllers/employee/editEmployeeData.php';
         country='NA';
         state='NA';
         city='NA';
@@ -3669,7 +3669,7 @@ $("#add_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: 'add_ca_travelAgency_data.php' ,
+            url: '../../controllers/ca_travel_agency/add_ca_travelAgency_data.php' ,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -3901,7 +3901,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "edit_ca_travelAgency_data.php",
+            url: "../../controllers/ca_travel_agency/edit_ca_travelAgency_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
@@ -4148,7 +4148,7 @@ $("#addCustomer").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "add_customers_data.php",
+            url: "../../controllers/ca_customer/add_customers_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
@@ -4389,7 +4389,7 @@ $("#editCustomer").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "edit_customers_data.php",
+            url: "../../controllers/ca_customer/edit_customers_data.php",
             data: dataString,
             cache: false,
             success: function (data) {

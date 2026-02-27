@@ -21,7 +21,7 @@ $(document).ready(function(){
 });
 
 function editfuncCust(id,refno,regby,cut,st,ct,zn,br,editfor,usertype){ 
-    window.location.href='../../controllers/business_mentor/editBusinessMentor.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor+'&usertype='+usertype;
+    window.location.href='../../views/business_mentor/editBusinessMentor.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor+'&usertype='+usertype;
 };
 
 function deletefunc(id,fid,action,usertype){ 

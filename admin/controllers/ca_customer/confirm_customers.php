@@ -1,6 +1,6 @@
 <?php
-require "../connect.php";
-include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
+require "../../connect.php";
+include('../../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
 date_default_timezone_set('Asia/Calcutta'); //set default timeZone
 $todayYear = date('Y'); // year for Custom Id genaration
