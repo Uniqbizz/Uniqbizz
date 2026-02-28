@@ -78,5 +78,5 @@ function overviewPage(id,ref,dept,desig,zn,br,message,userType){
         message='relationship_manager';
 
     }
-    window.location.href='../../overview_profile/overview.php?id='+id+'&ref='+ref+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&message='+message+'&designation='+designation;
+    window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&message='+message+'&designation='+designation;
 }

@@ -120,5 +120,5 @@ function regCuDownload(){
 
 function overviewPage(id,ref,cut,st,ct,message){
     var designation = 'Customer';
-    window.location.href='../../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
+    window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
 }

@@ -3,9 +3,9 @@
         <!-- <img src="../assets/images/users/avatar-5.jpg" width="75" height="75" alt="" class="rounded-circle"> -->
         <?php
         if ($profile_pic) {
-            echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" class="avatar-md rounded-circle">';
+            echo '<img src="../../../uploading/' . $profile_pic . '" alt="Preview" class="avatar-md rounded-circle">';
         } else {
-            echo '<img src="../../uploading/not_uploaded.png" alt="Preview" class="avatar-md rounded-circle">';
+            echo '<img src="../../../uploading/not_uploaded.png" alt="Preview" class="avatar-md rounded-circle">';
         }
         ?>
     </div>

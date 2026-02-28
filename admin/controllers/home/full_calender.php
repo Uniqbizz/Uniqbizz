@@ -78,7 +78,7 @@
                     ?>
                             
                     <div class="col-md-6 col-sm-6 col-6 pb-3 ps-2">
-                        <a href="../latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-start">View More</button></a>
+                        <a href="../../latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-start">View More</button></a>
                     </div>
                 </div>
 

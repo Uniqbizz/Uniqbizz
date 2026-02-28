@@ -205,7 +205,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
 
 function overviewPage(id,ref,cut,st,ct,message){
     var designation = 'Travel Consultant';
-    window.location.href='../../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
+    window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
 }
 // date picker section
 $(function () {

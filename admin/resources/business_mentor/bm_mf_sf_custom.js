@@ -81,7 +81,7 @@ function confirmfunc(id,email,usertype){
 function overviewPage(id,ref,cut,st,ct,message){
 
     var designation = message == 'business_mentor'?'Business Mentor':(message == 'master_franchisee'?'Master Franchisee':'');
-    window.location.href='../../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
+    window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
 }
 
 // Global flag

@@ -500,7 +500,7 @@ function downloadChartData() {
         formData.append("year", year);
     }
 
-    fetch("../../cahrts/download_chart_data.php", {
+    fetch("../../charts/download_chart_data.php", {
         method: "POST",
         body: formData
     })
