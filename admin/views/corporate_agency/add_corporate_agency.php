@@ -85,6 +85,18 @@
                                     <div class="card-body">
                                         <form>
                                             <h3>Add Techno Enterprise / Franchisee</h3>
+                                            <!-- added coverted section by SV on 28-02-2026 -->
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 d-flex justify-content-end">
+                                                    <div class="input-block mb-3 form-check">
+                                                        <input class="form-check-input" type="checkbox" id="is_converted">
+                                                        <label class="form-check-label" for="is_converted">
+                                                            Converted
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end added coverted section by SV on 28-02-2026 -->
                                             <div class="row">
                                                 <div class="col-md-3 col-sm-6 col-12">
                                                     <div class="input-block mb-3">

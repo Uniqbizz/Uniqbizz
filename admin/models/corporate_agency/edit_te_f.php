@@ -31,6 +31,7 @@ if($user_type == 'te'){
             $email = $row['email'];
             $contact_no = $row['contact_no'];
             $note=$row['note'];
+            $converted = $row['converted'];
             $amount = $row['amount'];
             $amtGST = $row['amtGST'];
             $reference_no = $row['reference_no'];
@@ -144,6 +145,7 @@ if($user_type == 'te'){
             $email = $row['email'];
             $contact_no = $row['contact_no'];
             $note=$row['note'];
+            $converted = $row['converted'];
             $amount = $row['amount'];
             $amtGST = $row['amtGST'];
             $reference_no = $row['reference_no'];

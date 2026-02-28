@@ -85,6 +85,21 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                 <div class="card-body">
                                     <form>
                                         <h3>Edit Techno Enterprise / Franchisee Form</h3>
+                                        <!-- added converted section by SV on 28-03-2026 -->
+                                        <fieldset disabled>
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 d-flex justify-content-end">
+                                                    <div class="input-block mb-3 form-check">
+                                                        <input class="form-check-input" type="checkbox" id="is_converted"
+                                                            <?=$converted==1?'checked':''?>>
+                                                        <label class="form-check-label" for="is_converted">
+                                                            Converted
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <!-- end added converted section by SV on 28-03-2026 -->
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">

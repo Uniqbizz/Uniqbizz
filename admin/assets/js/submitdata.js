@@ -3028,6 +3028,7 @@ $("#addCorporateAgency").on("click", function (e) {
     // console.log('Add customer button clicked');
 
     //var designation = $("#designation").val() ? "travel_agent" : "";
+    var converted = $('#is_converted').is(':checked') ? 1 : 2;//1 converted 2 non converted
     var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' :  $("#user_id_name").val();
     var reference_name = $("#reference_name").val() == 'NA' ? 'Not Applicable' :  $("#reference_name").val();
 
@@ -3197,7 +3198,9 @@ $("#addCorporateAgency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&converted="+
+            converted;
         console.log(dataString);
 
         if (validateForm()) {
