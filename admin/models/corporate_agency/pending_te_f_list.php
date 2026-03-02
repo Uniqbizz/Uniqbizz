@@ -1,16 +1,24 @@
 <?php
     $sql = "
-        SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,'NA' AS upgrade_status_val 
+        SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status,
+        register_by, country, state, city,'NA' AS upgrade_status_val,'NA' AS upgrade_id 
         FROM corporate_agency 
         WHERE status IN ('0', '2') 
         UNION ALL 
-        SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
+        SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
+        register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
         FROM sub_franchisee 
         WHERE status IN ('0', '2')
         UNION ALL 
-        SELECT 'sf' AS user_type, sub_franchisee_id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
-        FROM sub_franchisee 
-        WHERE status=1 AND upgrade_status = 1 
+        SELECT 'sf' AS user_type, f.sub_franchisee_id AS id, f.firstname, f.lastname, f.reference_no, f.registrant, f.country_code, 
+        f.contact_no, f.email, f.amount, f.date_of_birth, f.added_on, f.status, f.register_by, f.country, f.state, f.city, f.upgrade_status AS upgrade_status_val,
+        su.id AS upgrade_id
+        FROM sub_franchisee f
+        LEFT JOIN sub_franchisee_upgrade su 
+            ON su.sub_franchisee_id = f.sub_franchisee_id
+        WHERE 
+            f.status = 1 
+            AND f.upgrade_status = 1 
         ORDER BY added_on ASC
     ";
 
@@ -60,8 +68,8 @@
                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","approve")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-check-circle font-size-16 text-success me-1"></i> approve</a></li>
-                                <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","reject")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Reject</a></li>
+                                <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","approve","'.$row["upgrade_id"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-check-circle font-size-16 text-success me-1"></i> approve</a></li>
+                                <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","reject","'.$row["upgrade_id"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Reject</a></li>
                             </ul>
                         </div>
                     </td>';

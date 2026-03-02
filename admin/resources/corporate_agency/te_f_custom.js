@@ -50,21 +50,23 @@ function deletefunc(id,fid,action,usertype){
 };
 //only for frnachisee users
 var rejectId = null;
+var rejectRecId = null;
 
-function approvalfunc(id, action){
+function approvalfunc(id, action,rec_id){
 
     if(action == "reject"){
         rejectId = id;
+        rejectRecId = rec_id;
         $("#rejectReason").val("");
         $("#charCount").text("0 / 1000");
         $("#rejectModal").modal("show");
         return;
     }
 
-    sendApproval(id, action, "");
+    sendApproval(id, action, "",rec_id);
 }
 
-function sendApproval(id, action, reason){
+function sendApproval(id, action, reason, rec_id){
 
     $.ajax({
         type: "POST",
@@ -72,7 +74,8 @@ function sendApproval(id, action, reason){
         data: {
             id: id,
             action: action,
-            reason: reason
+            reason: reason,
+            rec_id: rec_id
         },
         success:function(data){
             if(data == 1){
@@ -101,7 +104,7 @@ $("#confirmReject").click(function(){
         return;
     }
 
-    sendApproval(rejectId, "reject", reason);
+    sendApproval(rejectId, "reject", reason, rec_id);
     $("#rejectModal").modal("hide");
 });
 
@@ -136,7 +139,7 @@ function overviewPage(id,ref,cut,st,ct,message){
 //franchisee upgrade
 function upgradePage(id,ref){
     // var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
-    window.location.href='../../controllers/corporate_agency/upgrade_franchisee.php?id='+id+'&ref='+ref;
+    window.location.href='upgrade_franchisee.php?id='+id+'&ref='+ref;
 }
 
 // Hide date label and show input type date 
