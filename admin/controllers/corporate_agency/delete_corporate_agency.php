@@ -19,16 +19,16 @@ if ($action == 'pending') {
     $status = '0';
 } else if ($action == 'registered') {
     $ta_id = $_POST["refid"]; // assign corporate_agency/sub_franchisee id
-    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : 'sub_franchisee_id=';
+    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : (($usrtype == 'f') ? 'sub_franchisee_id=': (($usrtype == 'in') ? 'institution_id' : ''));
     $status = '3';
 } else if ($action == 'deactivate') {
     $ta_id = $_POST["refid"];
-    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : 'sub_franchisee_id=';
+    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : (($usrtype == 'f') ? 'sub_franchisee_id=': (($usrtype == 'in') ? 'institution_id' : ''));
     $status = '1';
     $today = null;
 } else if ($action == 'deleted') {
     $ta_id = "";
-    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : 'sub_franchisee_id=';
+    $identifier_name = ($usrtype == 'te') ? 'corporate_agency_id=' : (($usrtype == 'f') ? 'sub_franchisee_id=': (($usrtype == 'in') ? 'institution_id' : ''));
     $status = '2';
     $today = null;
 }

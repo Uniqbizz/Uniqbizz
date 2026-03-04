@@ -33,30 +33,30 @@
     }
 
     if ($designation == 'TE') {
-        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age
+        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, 'NA' AS upgrade_pack
                 FROM corporate_agency 
                 WHERE status IN ('1') $whereExtra
                 ORDER BY added_on ASC";
     } elseif ($designation == 'F') {
-        $sql = "SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age
+        $sql = "SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM sub_franchisee 
                 WHERE status IN ('1') $whereExtra
                 ORDER BY added_on ASC";
     }elseif ($designation == 'IN') {
-        $sql = "SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age
+        $sql = "SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM institution 
                 WHERE status IN ('1') $whereExtra
                 ORDER BY added_on ASC";
     } elseif ($designation == 'All') {
-        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age
+        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, 'NA' AS upgrade_pack
                 FROM corporate_agency 
                 WHERE status IN ('1') $whereExtra
                 UNION ALL
-                SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age
+                SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM sub_franchisee 
                 WHERE status IN ('1') $whereExtra
                 UNION ALL
-                SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age
+                SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM institution 
                 WHERE status IN ('1') $whereExtra
                 ORDER BY added_on ASC";
@@ -152,8 +152,46 @@
                 <td>'.$city_name.'</td>
                 <td>'.$row['pincode'].'</td>
                 <td>'.$row['address'].'</td>
-                <td>'.$row['payment_mode'].'</td>
-                <td>'.$row['amount'].'</td>
+                <td>'.$row['payment_mode'].'</td>';
+            if($row["upgrade_pack"] == 2 && $row['user_type'] == 'sf'){
+                $sql2 = "SELECT upgrade_amt 
+                        FROM sub_franchisee_upgrade 
+                        WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                $stmt = $conn->prepare($sql2);
+
+                $stmt->bindParam(':id', $row['user_id'], PDO::PARAM_STR);  // $id must have the value before execute
+
+                $stmt->execute();
+
+                $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($franchisee_upgrade) {
+                    $output .='<td>' . $franchisee_upgrade['upgrade_amt'] . '</td>';
+                } else{
+                    $output .='<td>' . $row['amount'] . '</td>';    
+                }
+            }else if($row["upgrade_pack"] == 2 && $row['user_type'] == 'in'){
+                $sql2 = "SELECT upgrade_amt 
+                        FROM institution_upgrade 
+                        WHERE institution_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                $stmt = $conn->prepare($sql2);
+
+                $stmt->bindParam(':id', $row['user_id'], PDO::PARAM_STR);  // $id must have the value before execute
+
+                $stmt->execute();
+
+                $institution_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($institution_upgrade) {
+                    $output .='<td>' . $institution_upgrade['upgrade_amt'] . '</td>';
+                } else{
+                    $output .='<td>' . $row['amount'] . '</td>';    
+                }
+            }else{
+                $output .='<td>' . $row['amount'] . '</td>';    
+            }
+
+            $output .='<td>'.$row['amount'].'</td>
                 <td>'.$row['reference_no'].'</td>
                 <td>'.$row['registrant'].'</td>
                 <td>'.$rDate.'</td>

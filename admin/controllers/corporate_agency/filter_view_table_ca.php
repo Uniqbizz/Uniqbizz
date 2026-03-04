@@ -198,7 +198,9 @@ if ($stmt->rowCount() > 0) {
             $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($franchisee_upgrade) {
                 echo'<td>' . $franchisee_upgrade['upgrade_amt'] . '</td>';
-            } 
+            } else{
+                echo'<td>' . $row['amount'] . '</td>';    
+            }
         }else if($row["upgrade_pack"] == 2 && $row['user_type'] == 'in'){
             $sql2 = "SELECT upgrade_amt 
                     FROM institution_upgrade 
@@ -213,7 +215,9 @@ if ($stmt->rowCount() > 0) {
             $institution_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($institution_upgrade) {
                 echo'<td>' . $institution_upgrade['upgrade_amt'] . '</td>';
-            } 
+            } else{
+                echo'<td>' . $row['amount'] . '</td>';    
+            }
         }else{
             echo'<td>' . $row['amount'] . '</td>';    
         }
