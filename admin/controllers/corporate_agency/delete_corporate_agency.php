@@ -8,7 +8,7 @@ $id = $_POST["id"];
 $usrtype = $_POST['usertype'];
 
 // Map user_type to internal user_type_id
-$user_type = $usrtype == 'te' ? "16" : ($usrtype == 'sf' ? "29" : "");
+$user_type = $usrtype == 'te' ? "16" : ($usrtype == 'sf' ? "29" : ($user_type == 'in' ? "32":''));
 
 $status = '';
 $action = $_POST["action"];
@@ -34,7 +34,7 @@ if ($action == 'pending') {
 }
 
 // Set title/message dynamically based on type
-$title = ($usrtype == 'te') ? "Techno Enterprise" : "Franchisee";
+$title = ($usrtype == 'te') ? "Techno Enterprise" : ($usrtype == 'f' ? "Franchisee" : ($usrtype == 'in' ? "Institution" : 'NA'));
 
 if ($ta_id == '') {
     $message = "Deleted $title from $action list";
@@ -49,7 +49,7 @@ $register_by = "1";
 $operation = "Delete";
 
 // Update main table (corporate_agency or sub_franchisee)
-$table_name = ($usrtype == 'te') ? "corporate_agency" : "sub_franchisee";
+$table_name = ($usrtype == 'te') ? "corporate_agency" : ($usrtype == 'f' ? "sub_franchisee" : ($usrtype == 'in' ? "institution" : 'NA'));
 $sql1 = "UPDATE $table_name SET status = :status, deleted_date = :deleted_date WHERE id = :id";
 $stmt = $conn->prepare($sql1);
 $result = $stmt->execute([

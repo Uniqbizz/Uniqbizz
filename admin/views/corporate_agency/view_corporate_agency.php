@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Techno Enterprise / Franchisee View | Admin Dashboard </title>
+        <title>Techno Enterprise / Franchisee View / Institution | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../../assets/images/fav.png">
@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee / Institution</h4>
                                     </div>
 
                                 </div>
@@ -142,7 +142,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Techno Enterprise / Franchisee List</h4>
+                                                        <h4>Pending Techno Enterprise / Franchisee / Institution List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -184,7 +184,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Techno Enterprise / Franchisee List</h4>
+                                                        <h4>Registered Techno Enterprise / Franchisee / Institution List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -248,7 +248,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>TE/F Id</th>
+                                                        <th>TE/F/I Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -285,7 +285,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Techno Enterprise / Franchisee List</h4>
+                                                        <h4>Deleted Techno Enterprise / Franchisee / Institution List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -296,7 +296,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>TE/F Id</th>
+                                                        <th>TE/F/I Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
