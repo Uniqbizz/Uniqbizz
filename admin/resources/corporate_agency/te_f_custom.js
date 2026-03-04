@@ -7,10 +7,10 @@ $(document).ready(function(){
         order: [[5, 'asc']] // 6th column = index 5
     });
 
-    $("#registeredCustomerList-table").DataTable({
+    $('#registeredCustomerList-table').DataTable({
         order: [[5, 'asc']]
     });
-    
+
     $("#deletedCustomerList-table").DataTable({
         order: [[5, 'asc']]
     });
@@ -133,7 +133,7 @@ function confirmfunc(id,email,usertype){
 };
 
 function overviewPage(id,ref,cut,st,ct,message){
-    var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
+    var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':(message == 'institution'?'institution':''));
     window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
 }
 //franchisee upgrade
@@ -175,37 +175,39 @@ document.addEventListener('DOMContentLoaded', function () {
                         '&designation=' + designation;
 
         $.ajax({
-        type: 'POST',
-        url: '../../controllers/corporate_agency/filter_view_table_ca.php',
-        data: dataString,
-        cache: false,
-        success: function (data) {
+            type: 'POST',
+            url: '../../controllers/corporate_agency/filter_view_table_ca.php',
+            data: dataString,
+            cache: false,
+            success: function (data) {
 
-            console.log('AJAX response:', data); // remove after debug
+                console.log('AJAX response:', data); // remove after debug
 
-            if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
-                $('#registeredCustomerList-table').DataTable().clear().destroy();
+                // Destroy existing DataTable safely
+                if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
+                    $('#registeredCustomerList-table').DataTable().clear().destroy();
+                }
+
+                // Inject new rows
+                $('#registeredCustomerList-table tbody').html(data);
+
+                // Re-init DataTable with date sorting on column 6
+                let table = $('#registeredCustomerList-table').DataTable({
+                                order: [[5, 'asc']]
+                            });
+
+                // Calculate totals
+                let TotalAmt = 0;
+                let rowCount = table.rows().count();
+
+                table.rows().every(function () {
+                    let amount = parseFloat(this.data()[4]) || 0; // 5th column amount
+                    TotalAmt += amount;
+                });
+
+                $('#caAmt').val(TotalAmt.toFixed(2));
+                $('#caCount').val(rowCount);
             }
-
-            $('#registeredCustomerList-table tbody').html(data);
-
-            // $.fn.dataTable.moment('DD-MM-YYYY');
-
-            let table = $('#registeredCustomerList-table').DataTable({
-                order: [[5, 'asc']]
-            });
-
-            let TotalAmt = 0;
-            let rowCount = table.rows().count();
-
-            table.rows().every(function () {
-            let amount = parseFloat(this.data()[4]) || 0;
-            TotalAmt += amount;
-            });
-
-            $('#caAmt').val(TotalAmt);
-            $('#caCount').val(rowCount);
-        }
         });
     }
 

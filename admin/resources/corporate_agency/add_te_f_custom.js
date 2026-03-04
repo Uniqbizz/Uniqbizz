@@ -14,11 +14,17 @@ $('#registered').on('change',function(){
         $('#designation2').removeClass('d-none');
         $('#business_package_amount2').removeClass('d-none');
         $('#business_package_amount1').addClass('d-none');
-        
-        // var business_package_amount = $('#business_package_amount2').val();
-        // $('#flex_amount').val(business_package_amount);
-    }
-});
+    }else if(register_type == 'institution'){
+        $('#designation1').addClass('d-none');
+        $('#designation2').removeClass('d-none');
+        $('#business_package_amount2').removeClass('d-none');
+        $('#business_package_amount1').addClass('d-none');
+        const val = $("#test5").val();
+
+        $('.gender[value="' + val + '"]').prop('checked', true);
+        $('.gender').prop('disabled', true);
+            }
+        });
 
 //select Designation
 $('#designation1').on('change', function() {

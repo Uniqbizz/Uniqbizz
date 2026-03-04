@@ -16,7 +16,7 @@ $("#email").keyup(function () {
 var emailtest = (emailtest, testValue) => {
     $.ajax({
         type: "POST",
-        url: "../test_data/emailtest.php",
+        url: "../../test_data/emailtest.php",
         data: "email=" + emailtest + "&tablename=" + testValue,
         success: function (response) {
             if (response == 1) {
@@ -3024,7 +3024,9 @@ $("#addCorporateAgency").on("click", function (e) {
     ? '../../controllers/corporate_agency/add_corporate_agency_data.php'
     : register_as == 'sub_franchisee'
         ? '../../controllers/corporate_agency/add_sub_franchisee_data.php'
-        : '';
+        : register_as == 'institution' 
+            ? '../../controllers/corporate_agency/add_institution_data.php'
+            : '';
     // console.log('Add customer button clicked');
 
     //var designation = $("#designation").val() ? "travel_agent" : "";
@@ -3235,7 +3237,9 @@ $("#editCorporateAgency").on("click", function (e) {
     ? '../../controllers/corporate_agency/edit_corporate_agency_data.php'
     : register_as == 'sf'
         ? '../../controllers/corporate_agency/edit_sub_franchisee_data.php'
-        : '';
+        : register_as == 'in'
+            ? '../../controllers/corporate_agency/edit_institution_data.php'
+            : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();

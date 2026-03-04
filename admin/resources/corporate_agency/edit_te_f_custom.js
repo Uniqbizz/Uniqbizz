@@ -168,22 +168,3 @@ $('input[name="official_purpose"]').on('change', function() {
         }
     });
 });
-
-// checkbox.addEventListener('change', function() {
-//     if (this.checked) {
-//         $('#tcallotment').removeClass('d-none');
-//         $('#availableTCs').removeClass('d-none');
-//     } else {
-//         $('#tcallotment').addClass('d-none');
-//         $('#availableTCs').addClass('d-none');
-
-//         // Reset all radios
-//         $('input[name="official_purpose"]').prop('checked', false);
-
-//         // Clear TC list and counts
-//         $('#tcListContainer').html('');
-//         $('#selectedCount').text('0');
-//         $('#allowedCount').text('0');
-//         $('#selectedTCsInput').val('');
-//     }
-// });

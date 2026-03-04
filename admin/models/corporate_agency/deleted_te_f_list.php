@@ -6,7 +6,11 @@
         UNION ALL 
         SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
         FROM sub_franchisee 
-        WHERE status IN ('3') 
+        WHERE status IN ('3')
+        UNION ALL 
+        SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+        FROM institution 
+        WHERE status IN ('3')  
         ORDER BY register_date ASC
     ";
 

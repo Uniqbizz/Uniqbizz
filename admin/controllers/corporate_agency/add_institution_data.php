@@ -34,7 +34,7 @@
     $city=$_POST['city'];
     $note=$_POST['note'];
     $converted=$_POST['converted'];
-    $user_type="29";
+    $user_type="32";
     // $reference_id = substr($user_id_name, 0 , 2);
     // $user_type=$reference_id == 'BH'? 25 : 16;
 
@@ -47,9 +47,9 @@
     $age = $current_year - $birth_year;
 
     // data insertion for logs tables 
-    $title="Franchisee";
-    $message="Added new Franchisee by admin";
-    $message2="Added new Franchisee by admin";
+    $title="Institution";
+    $message="Added new Institution by admin";
+    $message2="Added new Institution by admin";
     $fromWhom="1";
     $operation="Add";
 
@@ -77,7 +77,7 @@
         $ins_per=20;
     }
     
-    $sql= "INSERT INTO `sub_franchisee` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , 
+    $sql= "INSERT INTO `institution` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , 
            date_of_birth, age, gender, country, state, city, pincode, address, note, converted, profile_pic, gst_no, amount,
            current_commission_per,current_incentive_per,  pan_card, aadhar_card, voting_card, bank_passbook, payment_proof, 
            user_type, registrant, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, reference_no, 

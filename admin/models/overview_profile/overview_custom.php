@@ -36,10 +36,15 @@
     }
     else if ($DBtable == 'sub_franchisee') { // 29
         $sql = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '" . $id . "' AND status = '1'";
+
+    }
+    else if ($DBtable == 'institution'){ // 32
+        $sql = "SELECT * FROM institution WHERE institution_id = '" . $id . "' AND status = '1'";
     }
     else if ($DBtable == 'zonal_manager') { // 27
         $sql = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $id . "' AND status = '1'";
-    }else if ($DBtable == 'relationship_manager') { // 31
+    }
+    else if ($DBtable == 'relationship_manager') { // 31
         $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
     } 
     $stmt = $conn->prepare($sql);
@@ -140,7 +145,7 @@
                 }
                 
             } else {
-                if ($DBtable == 'sub_franchisee') {
+                if ($DBtable == 'sub_franchisee' || $DBtable == 'institution') {
                     $initial_inv = $row['amount'];
                 }
                 $customer_type= $DBtable == 'ca_customer'?$row['customer_type']:'';

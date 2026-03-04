@@ -196,15 +196,19 @@
                                                             <option value="All" selected>All</option>
                                                             <option value="TE">Techno Enterprise</option>
                                                             <option value="F">Franchisee</option>
+                                                            <option value="IN">Institution</option>
                                                         </select>
                                                     </div>
                                                     <div class="designation-filter no-space col-md-2 col-sm-12">
                                                         <select id="business_pack" class="selectdesign filter-opt-2 fw-bolder">
                                                             <option value="">--Select Business Packages--</option>
-                                                            <!-- <option value="all">All</option> -->
-                                                            <option value="200000">Standard</option>
-                                                            <option value="300000">Prime</option>
-                                                            <option value="500000">Premium</option>
+                                                            <option value="all" selected>All</option>
+                                                            <option value="100000">1,00,000</option>
+                                                            <option value="200000">2,00,000</option>
+                                                            <option value="300000">3,00,000</option>
+                                                            <option value="400000">4,00,000</option>
+                                                            <option value="500000">5,00,000</option>
+                                                            <option value="500000_above">Above 5,00,000</option>
                                                         </select>
                                                     </div>
                                                     <div class="month-filter no-space col-md-2 col-sm-12">

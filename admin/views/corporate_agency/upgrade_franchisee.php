@@ -21,43 +21,86 @@
     $subId='';
     $frname='';
     $amount='';
-    $sql1 = "SELECT sub_franchisee_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
+    $id_str=substr($id,0,1);
+    if ($id_str == 'F') {
+        $sql1 = "SELECT sub_franchisee_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
          FROM sub_franchisee 
          WHERE sub_franchisee_id = :id";
 
-    $stmt = $conn->prepare($sql1);
+        $stmt = $conn->prepare($sql1);
 
-    $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
+        $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // get fname and sub_franchisee_id
-    if ($franchisee) {
-        $subId = $franchisee['sub_franchisee_id'];
-        $frname = $franchisee['fname'];
-        $amount = $franchisee['amount'];
-        $prev_comm = $franchisee['current_commission_per'];
-        $prev_ins = $franchisee['current_incentive_per'];
-        $prev_upgrade=$franchisee['upgrade_status'];
-        if($prev_upgrade == 2){
-            $sql2 = "SELECT upgrade_amt 
-                FROM sub_franchisee_upgrade 
-                WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+        // get fname and sub_franchisee_id
+        if ($franchisee) {
+            $subId = $franchisee['sub_franchisee_id'];
+            $frname = $franchisee['fname'];
+            $amount = $franchisee['amount'];
+            $prev_comm = $franchisee['current_commission_per'];
+            $prev_ins = $franchisee['current_incentive_per'];
+            $prev_upgrade=$franchisee['upgrade_status'];
+            if($prev_upgrade == 2){
+                $sql2 = "SELECT upgrade_amt 
+                    FROM sub_franchisee_upgrade 
+                    WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
 
-            $stmt = $conn->prepare($sql2);
+                $stmt = $conn->prepare($sql2);
 
-            $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+                $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
 
-            $stmt->execute();
+                $stmt->execute();
 
-            $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($franchisee_upgrade) {
-                $amount = $franchisee_upgrade['upgrade_amt'];
+                $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($franchisee_upgrade) {
+                    $amount = $franchisee_upgrade['upgrade_amt'];
+                }
+            }
+        }
+    }else if ($id_str == 'I') {
+        $sql1 = "SELECT institution_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
+         FROM institution 
+         WHERE institution_id = :id";
+
+        $stmt = $conn->prepare($sql1);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+
+        $stmt->execute();
+
+        $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // get fname and institution_id
+        if ($franchisee) {
+            $subId = $franchisee['institution_id'];
+            $frname = $franchisee['fname'];
+            $amount = $franchisee['amount'];
+            $prev_comm = $franchisee['current_commission_per'];
+            $prev_ins = $franchisee['current_incentive_per'];
+            $prev_upgrade=$franchisee['upgrade_status'];
+            if($prev_upgrade == 2){
+                $sql2 = "SELECT upgrade_amt 
+                    FROM institution_upgrade 
+                    WHERE institution_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                $stmt = $conn->prepare($sql2);
+
+                $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+
+                $stmt->execute();
+
+                $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($franchisee_upgrade) {
+                    $amount = $franchisee_upgrade['upgrade_amt'];
+                }
             }
         }
     }
+    
+    
 
 
 ?>
@@ -320,7 +363,7 @@
                     $("#incentive").val('20');
                 } else if (amount >= 500000) {
                     $("#commission").val('30');
-                    $("#incentive").val('30');
+                    $("#incentive").val('20');
                 } else {
                     $("#commission").val('');
                     $("#incentive").val('');

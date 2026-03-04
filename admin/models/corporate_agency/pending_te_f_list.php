@@ -10,6 +10,20 @@
         FROM sub_franchisee 
         WHERE status IN ('0', '2')
         UNION ALL 
+        SELECT 'in' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
+        register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
+        FROM institution 
+        WHERE status IN ('0', '2')
+        UNION ALL
+        SELECT 'in' AS user_type, i.institution_id AS id, i.firstname, i.lastname, i.reference_no, i.registrant, i.country_code, i.contact_no, i.email, i.amount, i.date_of_birth, i.added_on, i.status, 
+        i.register_by, i.country, i.state, i.city,i.upgrade_status AS upgrade_status_val, iu.id AS upgrade_id
+        FROM institution i
+        LEFT JOIN institution_upgrade iu 
+            ON iu.institution_id = i.institution_id
+        WHERE 
+            i.status = 1 
+            AND i.upgrade_status = 1
+        UNION ALL 
         SELECT 'sf' AS user_type, f.sub_franchisee_id AS id, f.firstname, f.lastname, f.reference_no, f.registrant, f.country_code, 
         f.contact_no, f.email, f.amount, f.date_of_birth, f.added_on, f.status, f.register_by, f.country, f.state, f.city, f.upgrade_status AS upgrade_status_val,
         su.id AS upgrade_id

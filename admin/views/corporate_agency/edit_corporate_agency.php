@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 <head>
 
     <meta charset="utf-8" />
-    <title>Edit Techno Enterprise / Franchisee | Admin Dashboard </title>
+    <title>Edit Techno Enterprise / Franchisee / Institution | Admin Dashboard </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
     <link rel="shortcut icon" href="../../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
+                                <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee / Institution</h4>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                             <div class="card">
                                 <div class="card-body">
                                     <form>
-                                        <h3>Edit Techno Enterprise / Franchisee Form</h3>
+                                        <h3>Edit Techno Enterprise / Franchisee / Institution Form</h3>
                                         <!-- added converted section by SV on 28-03-2026 -->
                                         <fieldset disabled>
                                             <div class="row">
@@ -149,7 +149,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <input type="date" id="dob" class=" form-control" max="<?php echo $ageLimit; ?>" value="<?php echo $date_of_birth; ?>">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-12">
+                                            <div class="col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="business_package_amount">Business Package/Amount<span class="text-danger">*</span></label>
                                                     <select id="business_package_amount" class="form-select" disabled>
@@ -162,21 +162,16 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-12">
+                                            <div class="col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="flex_amount">Enter Amount<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="flex_amount" placeholder="Enter Amount" value="<?php echo $amount; ?>" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="gst_no">GST No</label>
-                                                    <input type="text" class="form-control" id="gst_no" placeholder="GST NO" value="<?php echo $gst_no; ?>">
-                                                </div>
-                                            </div>
+                                            
                                             <!-- commission and incentive fields only for franchisee. Note: Old regime fRanchisee will have blank data for the same -->
                                             <?php
-                                                if ($user_type == 'sf') {
+                                                if ($user_type == 'sf' || $user_type == 'in') {
                                                 
                                             ?>
                                             <div class="col-md-4 col-sm-12">
@@ -644,21 +639,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <script src="../../assets/js/app.js"></script>
 
     <script src="../../../uploading/upload.js"></script>
-    <script>
-        var mybutton = document.getElementById("back-to-top");
-
-        function scrollFunction() {
-            100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-        }
-
-        function topFunction() {
-            document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-        }
-        mybutton && (window.onscroll = function() {
-            scrollFunction()
-        });
-    </script>
+    <script src="../../resources/common_resources/top_function.js"></script>
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>

@@ -24,7 +24,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Add Techno Enterprise / Franchisee | Admin Dashboard </title>
+        <title>Add Techno Enterprise / Franchisee / Institution | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../../assets/images/fav.png">
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee / Institution</h4>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Add Techno Enterprise / Franchisee</h3>
+                                            <h3>Add Techno Enterprise / Franchisee / Institution</h3>
                                             <!-- added coverted section by SV on 28-02-2026 -->
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 d-flex justify-content-end">
@@ -105,6 +105,7 @@
                                                             <option value="">--Select --</option>
                                                             <option value="corporate_agency">Techno Enterprise </option>
                                                             <option value="sub_franchisee">Franchisee</option>
+                                                            <option value="institution">Institution</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -175,7 +176,7 @@
                                                         <input type="date" class="form-control" id="dob" max="<?php echo $ageLimit ?>" placeholder="Enter Date of Birth">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-12">
+                                                <div class="col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="business_package_amount">Business Package/Amount<span class="text-danger">*</span></label>
                                                         <select id="business_package_amount1" class="form-select" disabled>
@@ -194,16 +195,10 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-12">
+                                                <div class="col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Enter Amount<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="flex_amount" placeholder="Enter Amount" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-sm-12">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="gst_no">GST No</label>
-                                                        <input type="text" class="form-control" id="gst_no" placeholder="GST NO">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">

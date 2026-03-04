@@ -99,6 +99,17 @@ elseif ($DBtable == 'sub_franchisee') {
                  FROM product_payout WHERE te_id = '$id' $dateFilter
                  ORDER BY date DESC";
 } 
+elseif ($DBtable == 'institution') {
+    $sqlUnion = "SELECT 'TC Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
+                 FROM ca_ta_payout WHERE techno_enterprise = '$id' $dateFilter
+                 UNION 
+                 SELECT 'CU Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
+                 FROM ca_cu_payout WHERE techno_enterprise = '$id' $dateFilter
+                 UNION
+                 SELECT 'Product Payout' AS title, te_id, te_mess AS message, te_amt AS amount, created_date AS date, te_status AS status
+                 FROM product_payout WHERE te_id = '$id' $dateFilter
+                 ORDER BY date DESC";
+} 
 elseif ($DBtable == 'ca_travelagency') {
     $sqlUnion = "SELECT 'CU Payout' AS title, travel_consultant, message_tc AS message, commision_tc AS amount, created_date AS date, status_tc AS status
                  FROM ca_cu_payout WHERE travel_consultant = '$id' $dateFilter
