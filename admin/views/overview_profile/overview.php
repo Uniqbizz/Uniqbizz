@@ -289,7 +289,7 @@ include '../../models/overview_profile/overview_custom.php';
                             <?php include '../../controllers/overview_profile/payout_tab.php'?>
                             <!-- Payout End -->
                             <?php 
-                                if($DBtable == 'sub_franchisee'){
+                                if($DBtable == 'sub_franchisee' || $DBtable == 'institution'){
                             ?>
                             <!-- upgarde History Start -->
                             <!-- data load from controllers file -->

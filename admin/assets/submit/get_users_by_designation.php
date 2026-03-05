@@ -25,9 +25,14 @@ if ($designation == '24' || $designation == '25') {
     $stmt = $conn->prepare("SELECT sponsor_franchisee_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', sponsor_franchisee_id, ')') AS fullname FROM sponsor_franchisee WHERE status = 1");
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}elseif ($designation == '29') {
+} elseif ($designation == '29') {
     // F from sub_franchisee
     $stmt = $conn->prepare("SELECT sub_franchisee_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', sub_franchisee_id, ')') AS fullname FROM sub_franchisee WHERE status = 1");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} elseif ($designation == '32') {
+    // I from institution
+    $stmt = $conn->prepare("SELECT institution_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', institution_id, ')') AS fullname FROM institution WHERE status = 1");
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }  elseif ($designation == '16') {

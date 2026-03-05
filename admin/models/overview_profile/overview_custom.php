@@ -46,7 +46,9 @@
     }
     else if ($DBtable == 'relationship_manager') { // 31
         $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
-    } 
+    } else if ($DBtable == 'institution_branch_manager') { // 33
+        $sql = "SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $id . "' AND status = '1'";
+    }
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
@@ -194,13 +196,13 @@
                 $aadhar_card = $row['aadhar_card'];
                 
                 // bank passbook field name changed in ca_travelagency table
-                if ($DBtable == 'ca_travelagency' || $DBtable == 'ca_customer') {
+                if ($DBtable == 'ca_travelagency' || $DBtable == 'ca_customer' || $DBtable == 'institution_branch_manager') {
                     $bank_passbook = $row['passbook'];
                 } else {
                     $bank_passbook = $row['bank_passbook'];
                 }
 
-                if ($DBtable == 'corporate_agency' || $DBtable == 'ca_travelagency' || $DBtable == 'ca_customer') {
+                if ($DBtable == 'corporate_agency' || $DBtable == 'ca_travelagency' || $DBtable == 'ca_customer' || $DBtable == 'institution_branch_manager') {
                     $payment_proof = $row['payment_proof'];
                     $payment_mode = $row['payment_mode'];
                     $cheque_no = $row['cheque_no'];

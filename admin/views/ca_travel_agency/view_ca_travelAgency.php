@@ -186,6 +186,7 @@
                                                             <option value="30">Sponsor Franchisee (SF)</option>
                                                             <option value="16">Techno Enterprise (TE)</option>
                                                             <option value="29">Franchisee (F)</option>
+                                                            <option value="32">Instituion (I)</option>
                                                         </select>
                                                     </div>
                                                 </div>

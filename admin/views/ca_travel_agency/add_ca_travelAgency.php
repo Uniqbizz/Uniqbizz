@@ -91,20 +91,33 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-
-                                                <div class="col-md-4 col-sm-12">
+                                                <div class="col-md-3 col-sm-6 col-12">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label">Designation<span class="text-danger">*</span></label>
+                                                        <label class="col-form-label" for="registered">Registering As<span class="text-danger">*</span></label>
+                                                        <select id="registered" class="form-select">
+                                                            <option value="">--Select --</option>
+                                                            <option value="travel_consultant">Travel Consultant</option>
+                                                            <option value="institution_branch_manager">Institution Branch Manager</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6 col-12">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="designation"> Designation<span class="text-danger">*</span></label>
                                                         <select id="designation" class="form-select">
-                                                            <option value="NA">--Select Designation--</option>
+                                                            <option value="NA" selected>--Select Designation--</option>
                                                             <option value="business_mentor">Business Mentor</option>
                                                             <option value="corporate_agency">Techno Enterprise</option>
                                                             <option value="sub_franchisee">Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                         </select>
+                                                        <select id="designation2" class="form-select d-none">
+                                                            <option value="" selected>--Select Designation--</option>
+                                                            <option value="institution">Institution</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-4 col-sm-12">
+                                                <div class="form-group col-md-3 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
                                                         <select id="user_id_name" class="form-select">
@@ -112,7 +125,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-12">
+                                                <div class="col-md-3 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
@@ -251,7 +264,7 @@
                                                         <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null" selected>--Select Payment Fee--</option>
-                                                            <option value="FOC" selected >Free</option>
+                                                            <option value="FOC">Free</option>
                                                             <option value="3000"><span>&#8377 </span>3000/-</option>
                                                             <option value="10000"><span>&#8377 </span>10,000/-</option>
                                                         </select>

@@ -8,7 +8,7 @@
             $bd= new DateTime($row['date_of_birth']);
             $bdate= $bd->format('d-m-Y');
 
-            $rd= new DateTime($row['added_on']);
+            $rd= new DateTime($row['register_date']);
             $rdate= $rd->format('d-m-Y');
 
             echo'<tr>

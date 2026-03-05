@@ -8,7 +8,7 @@ $id = $_POST["id"];
 $usrtype = $_POST['usertype'];
 
 // Map user_type to internal user_type_id
-$user_type = $usrtype == 'te' ? "16" : ($usrtype == 'sf' ? "29" : ($user_type == 'in' ? "32":''));
+$user_type = $usrtype == 'te' ? "16" : ($usrtype == 'sf' ? "29" : ($usrtype == 'in' ? "32":''));
 
 $status = '';
 $action = $_POST["action"];

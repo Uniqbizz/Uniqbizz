@@ -3483,7 +3483,12 @@ $("#editCorporateAgency").on("click", function (e) {
 $("#add_ca_travelagency").on("click", function (e) {
 
     e.preventDefault();
-
+    var register_as = $('#registered').val();
+    var url = register_as == 'travel_consultant'
+    ? '../../controllers/ca_travel_agency/add_ca_travelAgency_data.php'
+    : register_as == 'institution_branch_manager'
+        ? '../../controllers/ca_travel_agency/add_ca_ins_branch_manager_data.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
@@ -3676,7 +3681,7 @@ $("#add_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: '../../controllers/ca_travel_agency/add_ca_travelAgency_data.php' ,
+            url: url ,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -3697,6 +3702,12 @@ $("#add_ca_travelagency").on("click", function (e) {
 // Edit Travel Agency by admin
 $("#edit_ca_travelagency").on("click", function (e) {
     e.preventDefault();
+    var register_as = $('#registered').val();
+    var url = register_as == 'tc'
+    ? "../../controllers/ca_travel_agency/edit_ca_travelAgency_data.php"
+    : register_as == 'ibr'
+        ? '../../controllers/ca_travel_agency/edit_ca_ins_branch_manager_data.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();
@@ -3908,7 +3919,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "../../controllers/ca_travel_agency/edit_ca_travelAgency_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {

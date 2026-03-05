@@ -1,10 +1,10 @@
 <?php
     $sql = "
-        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'BM' AS user_type FROM business_mentor WHERE status IN ('0', '2')
+        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,register_date,contact_no,status,register_by,country,branch, 'BM' AS user_type FROM business_mentor WHERE status IN ('0', '2')
         UNION ALL
-        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
+        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,register_date,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
         UNION ALL
-        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('0', '2')
+        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,register_date,contact_no,status,register_by,country,branch, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('0', '2')
         ORDER BY id ASC
     ";
     $stmt = $conn->prepare($sql);
@@ -16,7 +16,7 @@
             $bd = new DateTime($row['date_of_birth']);
             $bdate = $bd->format('d-m-Y');
 
-            $rd = new DateTime($row['added_on']);
+            $rd = new DateTime($row['register_date']);
             $rdate = $rd->format('d-m-Y');
 
             // $label = $row['user_type'] == 'BM' ? '<span class="badge bg-primary me-1">BM</span>' : '<span class="badge bg-success me-1">MF</span>';

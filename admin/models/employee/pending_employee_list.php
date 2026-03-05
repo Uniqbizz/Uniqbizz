@@ -19,7 +19,7 @@
     foreach ($zonalManagers as $zm) {
         $zm['user_type'] = '27';
         //$zm['id'] = $zm['zonal_manager_id']; // unify key
-        $zm['added_on'] = $zm['added_on'] ?? null;
+        $zm['register_date'] = $zm['register_date'] ?? null;
         $allUsers[] = $zm;
     }
 
@@ -32,7 +32,7 @@
     $i=1;
     foreach ($allUsers as $row) {
         
-        $rdate = isset($row['added_on']) ? (new DateTime($row['added_on']))->format('d-m-Y') : 'N/A';
+        $rdate = isset($row['register_date']) ? (new DateTime($row['register_date']))->format('d-m-Y') : 'N/A';
 
         // Prefix badge
         $prefixBadge = '';

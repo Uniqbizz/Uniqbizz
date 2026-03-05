@@ -24,7 +24,7 @@
         <?php 
             } 
         ?>
-        <?php if ($DBtable == 'sub_franchisee') { ?>
+        <?php if ($DBtable == 'sub_franchisee' || $DBtable == 'institution') { ?>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" role="tab" href="#s_p">Upgrade History</a>
             </li>

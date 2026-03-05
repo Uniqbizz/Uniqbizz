@@ -6,12 +6,12 @@ $(document).ready(function(){
     loadFilteredTCData();   
 });
 
-function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-    window.location.href='../../views/ca_travel_agency/edit_ca_travelAgency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
+function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
+    window.location.href='../../views/ca_travel_agency/edit_ca_travelAgency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
 };
 
-function deletefunc(id,fid,action){ 
-    var dataString = 'id='+id+'&refid='+fid+'&action='+action;
+function deletefunc(id,fid,action,usertype){ 
+    var dataString = 'id='+id+'&refid='+fid+'&action='+action+'&usertype='+usertype;
 
     $.ajax({
     type: "POST",
@@ -40,9 +40,9 @@ function deletefunc(id,fid,action){
     
 };
 
-function confirmfunc(id,email,ref,compCheck){ 
+function confirmfunc(id,email,ref,compCheck,usertype){ 
 
-    var dataString = 'id='+ id+'&uname='+email+'&ref='+ref+'&compCheck='+compCheck;
+    var dataString = 'id='+ id+'&uname='+email+'&ref='+ref+'&compCheck='+compCheck+'&usertype='+usertype;
     $("#loading-overlay").show(); //loading screen
     $.ajax({
         type: "POST",
@@ -112,9 +112,29 @@ $(document).ready(function () {
 });
 
 function regTcDownload(){
-    const filterState = $('#filter_state').val();
-    const stateText = $('#filter_state option:selected').text();
-    window.location.href='../../controllers/ca_travel_agency/download_list.php?filterState='+filterState+'&stateText='+stateText;
+
+    const userId      = $('#userIdSelect').val()?.trim() || '';
+    const designation = $('#designation').val()?.trim() || '';
+    const state       = $('#filter_state').val()?.trim() || 'All';
+
+    let fromDate = '', toDate = '';
+
+    if (dateRangeChanged) {
+        const dateRange = $('#selectedDate').text().trim();
+        if (dateRange.includes(' to ')) {
+            [fromDate, toDate] = dateRange.split(' to ');
+        }
+    }
+
+    const params = new URLSearchParams({
+        userId: userId,
+        designation: designation,
+        state: state,
+        fromDate: fromDate,
+        toDate: toDate
+    });
+
+    window.location.href = '../../controllers/ca_travel_agency/download_list.php?' + params.toString();
 }
 
 $('#designation').on('change', function () {
@@ -204,7 +224,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
 });
 
 function overviewPage(id,ref,cut,st,ct,message){
-    var designation = 'Travel Consultant';
+    var designation = message == 'ca_travelagency' ? 'Travel Consultant' : (message == 'institution_branch_manager' ? 'Institution Branch Manager' : '');
     window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
 }
 // date picker section

@@ -1,21 +1,59 @@
 //on change of compcheck
-$('#is_complementary').on('change', function () {
-    if ($(this).is(':checked')) {
-        $('#payment_fee').prop('disabled', true);
-        $('.payment').prop('disabled', true);
-    } else {
-        $('#payment_fee').prop('disabled', false);
-        $('.payment').prop('disabled', false);
+$('#registered').trigger('change');
+$('#registered').on('change', function () {
+
+    var register_type = $(this).val();
+
+    if (register_type === 'travel_consultant') {
+
+        // Show main designation
+        $('#designation')
+            .removeClass('d-none');
+
+        // Hide institution designation
+        $('#designation2')
+            .addClass('d-none');
+
+    } 
+    else if (register_type === 'institution_branch_manager') {
+
+        // Hide main designation
+        $('#designation')
+            .addClass('d-none');
+
+        // Show institution designation
+        $('#designation2')
+            .removeClass('d-none');
     }
 });
-// select Designation
+
+//select Designation
 $('#designation').on('change', function() {
     var designation = $('#designation').val();
+    console.log(designation);
     $.ajax({
         type:'POST',
         url:'../../agents/get_user_Franchisee.php',
         data: "designation="+designation,
         success:function (e) {
+            console.log(e);
+            $('#user_id_name').html(e); 
+        },
+        error: function(err){
+            console.log(err);
+        },
+    });
+});
+
+$('#designation2').on('change', function() {
+    var designation = $('#designation2').val();
+    console.log(designation);
+    $.ajax({
+        type:'POST',
+        url:'../../agents/get_user_Franchisee.php',
+        data: "designation="+designation,
+        success:function (e) {
+            console.log(e);
             $('#user_id_name').html(e); 
         },
         error: function(err){
@@ -27,19 +65,36 @@ $('#designation').on('change', function() {
 // fetch User based on selected designation
 $('#user_id_name').on('change', function(){
     var user_id_name = $(this).val();
+    var designation = !$('#designation').hasClass('d-none') 
+    ? $('#designation').val() 
+    : $('#designation2').val();
+    console.log(user_id_name);
 
-    var designation = 'corporate_agency';
+    // var designation = 'franchisee';
+    // console.log(designation);
 
     $.ajax({
         type:'POST',
         url:'../../agents/getUsers.php',
         data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
         success:function(response){
+        // console.log(response);
+            $('#pin').html(response);
             $('#reference_name').val(response); 
         }
     }); 
     
 }); 
+$('#is_complementary').on('change', function () {
+    if ($(this).is(':checked')) {
+        $('#payment_fee').prop('disabled', true);
+        $('.payment').prop('disabled', true);
+    } else {
+        $('#payment_fee').prop('disabled', false);
+        $('.payment').prop('disabled', false);
+    }
+});
+
 
 $('#country').on('change', function(){
     var countryID = $(this).val();

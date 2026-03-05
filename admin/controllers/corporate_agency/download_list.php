@@ -33,33 +33,33 @@
     }
 
     if ($designation == 'TE') {
-        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, 'NA' AS upgrade_pack
+        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, 'NA' AS upgrade_pack
                 FROM corporate_agency 
                 WHERE status IN ('1') $whereExtra
-                ORDER BY added_on ASC";
+                ORDER BY register_date ASC";
     } elseif ($designation == 'F') {
-        $sql = "SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
+        $sql = "SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM sub_franchisee 
                 WHERE status IN ('1') $whereExtra
-                ORDER BY added_on ASC";
+                ORDER BY register_date ASC";
     }elseif ($designation == 'IN') {
-        $sql = "SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
+        $sql = "SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM institution 
                 WHERE status IN ('1') $whereExtra
-                ORDER BY added_on ASC";
+                ORDER BY register_date ASC";
     } elseif ($designation == 'All') {
-        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, 'NA' AS upgrade_pack
+        $sql = "SELECT 'te' AS user_type, id, corporate_agency_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, 'NA' AS upgrade_pack
                 FROM corporate_agency 
                 WHERE status IN ('1') $whereExtra
                 UNION ALL
-                SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
+                SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM sub_franchisee 
                 WHERE status IN ('1') $whereExtra
                 UNION ALL
-                SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
+                SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city, register_date, nominee_name, nominee_relation, payment_mode, address, pincode, gender, age, upgrade_status AS upgrade_pack
                 FROM institution 
                 WHERE status IN ('1') $whereExtra
-                ORDER BY added_on ASC";
+                ORDER BY register_date ASC";
     }
 
     $stmt = $conn->prepare($sql);

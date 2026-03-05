@@ -28,7 +28,7 @@ if ($user_type_id == '16') {
 	if ($sql9->rowCount() > 0) {
 		foreach (($sql9->fetchAll()) as $key9 => $row9) {
 
-			$registerDate = new DateTime($row9['added_on']);
+			$registerDate = new DateTime($row9['register_date']);
 			$doj = $registerDate->format('d/m/Y');
 			$name = $row9['firstname'] . ' ' . $row9['lastname'];
 			$address = $row9['address'];
@@ -661,7 +661,7 @@ if ($user_type_id == '16') {
 	if ($sql9->rowCount() > 0) {
 		foreach (($sql9->fetchAll()) as $key9 => $row9) {
 
-			$registerDate = new DateTime($row9['added_on']);
+			$registerDate = new DateTime($row9['register_date']);
 			$doj = $registerDate->format('d/m/Y');
 			$name = $row9['firstname'] . ' ' . $row9['lastname'];
 			$address = $row9['address'];
@@ -1149,7 +1149,7 @@ if ($user_type_id == '16') {
 	if ($sql9->rowCount() > 0) {
 		foreach (($sql9->fetchAll()) as $key9 => $row9) {
 
-			$registerDate = new DateTime($row9['added_on']);
+			$registerDate = new DateTime($row9['register_date']);
 			$doj = $registerDate->format('d/m/Y');
 			$name = $row9['firstname'] . ' ' . $row9['lastname'];
 			$address = $row9['address'];

@@ -23,8 +23,8 @@ $('#registered').on('change',function(){
 
         $('.gender[value="' + val + '"]').prop('checked', true);
         $('.gender').prop('disabled', true);
-            }
-        });
+    }
+});
 
 //select Designation
 $('#designation1').on('change', function() {
