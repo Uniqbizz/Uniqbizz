@@ -45,7 +45,7 @@ $Year = date('Y'); //year
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
             .card-equal {
-                height: 80% !important;
+                height: 90% !important;
                 width: 100% !important;
             }
 
@@ -150,6 +150,11 @@ $Year = date('Y'); //year
             .fc-daygrid-day {
                 position: relative;
             }
+            /* full calendar start */
+            .calendarheight {
+                height: 375px !important;
+            }
+            /* full calendar end */
             /* top performer section start */
             .bg-indigo-subtle {
                 background: #9054f1ff !important;
@@ -227,11 +232,27 @@ $Year = date('Y'); //year
                 position: absolute;
                 top: 70px;
             }
-            /* .goldCoinImage {
-                position: absolute;
-                top: 10px;
-                right: 40px;
-            } */
+            .viewDetailsButton1:hover {
+                background-color: #222c5c !important;
+                color: #fff !important;
+            }
+            .viewDetailsButton2:hover {
+                background-color: #154e39 !important;
+                color: #fff !important;
+            }
+            .viewDetailsButton3:hover {
+                background-color: #60481e !important;
+                color: #fff !important;
+            }
+            .viewDetailsButton4:hover {
+                background-color: #622a2a !important;
+                color: #fff !important;
+            }
+            /* Latest transaction section */
+            .fontSizeTransaction {
+                font-size: 11px !important;
+            }
+            /* Latest transaction section */
 
             @media (max-width: 1154px){
                 .revenueCardViewButton {
@@ -352,7 +373,7 @@ $Year = date('Y'); //year
                         <!-- end page title -->
                         <div class="row">
                             <div class="col-xl-12">
-                                <div class="card overflow-hidden rounded-4">
+                                <div class="card overflow-hidden rounded-4 mb-3">
                                     <div class="row">
                                         <div class="col-lg-8 col-md-7 col-sm-8 col-12 pe-0">
                                             <div class="p-3 pb-4">
@@ -528,7 +549,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3">
-                                                    <a href="" class="text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton1" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -551,7 +572,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3">
-                                                    <a href="" class="text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton2" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -579,7 +600,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3 revenueCardViewButton">
-                                                    <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                                 
                                             </div>
@@ -603,7 +624,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3">
-                                                    <a href="" class="text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton1" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -626,7 +647,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3">
-                                                    <a href="" class="text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton2" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -648,7 +669,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3">
-                                                    <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -670,7 +691,7 @@ $Year = date('Y'); //year
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center my-3">
-                                                    <a href="" class="text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder text-center py-1" role="button" style="width: 190px;">View details</a>
+                                                    <a href="" class="text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton4" role="button" style="width: 190px;">View details</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -875,11 +896,715 @@ $Year = date('Y'); //year
                                     </div> -->
                                 </div>
                             </div>
+                            <div class="col-xl-12">
+                                <div class="card rounded-4 shadow mb-3">
+                                    <div class="card-body pt-1">
+                                        <div class="card-title pb-1 d-flex justify-content-between ps-3 pe-3">
+                                            <div>
+                                                <h3 class="text-dark pt-2">User Count Details</h3>
+                                            </div>
+                                            <div class="text-end d-flex align-items-center">
+                                                <span class="fs-6">
+                                                    <p>Select Month & Year</p>
+                                                    <input type="month" id="" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="col-12 table-responsive text-center">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="bg-dark-subtle fs-6">Users</th>
+                                                        <th class="bg-dark-subtle">Total</th>
+                                                        <th class="bg-dark-subtle text-end">Revenue</th>
+                                                        <th class="bg-dark-subtle text-end">Commissions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users" style="color: #ffffff;"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Master Franchisees</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">18</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 1.56Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 24.8L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-success rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users" style="color: #ffffff;"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Sponsor Franchisees</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">28</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 2.48Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 24.8L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-primary-subtle rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users text-primary-emphasis"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Business Mentors</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">82</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 68L</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 6.82L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-info rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users" style="color: #ffffff;"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Travel Consultants</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">36</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 72.6Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 7.26L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-warning rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users" style="color: #ffffff;"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Franchisees</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">198</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 2.6Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 26L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-danger rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users" style="color: #ffffff;"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Techno Enterprises</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">52</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 3.56Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 35.6L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="d-flex py-2 align-content-center">
+                                                            <div class="bg-info-subtle rounded-circle d-flex justify-content-center align-items-center" style="width: 37px; height: 35px;">
+                                                                <i class="fa-solid fa-users text-info-emphasis"></i>
+                                                            </div>
+                                                            <p class="text-dark fs-5 align-content-center ps-2">Customers</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5">28,962</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-5 text-end">&#8377; 15.56Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-5 text-end">&#8377; 1.55Cr</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-top">
+                                                            
+                                                            <p class="text-dark fs-5 d-flex justify-content-end fw-bolder ps-2">TOTAL :</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-top">
+                                                            <p class="text-dark fs-5 fw-bolder">29,376</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-top">
+                                                            <p class="text-dark fs-5 fw-bolder text-end">&#8377; 99.04Cr</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-top">
+                                                            <p class="text-success fs-5 fw-bolder text-end">&#8377; 12.683Cr</p>
+                                                            <p class="text-primary fs-6 fw-bolder text-end mb-n1"><span class="text-dark">PAID: &nbsp;&nbsp;</span>&#8377; 7.6Cr</p>
+                                                            <p class="text-primary fs-6 fw-bolder text-end mb-n1"><span class="text-dark">PENDING: &nbsp;&nbsp;</span>&#8377; 5.083Cr</p>
+                                                        </td>
+                                                    </tr>   
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 mb-3">
+                                    <div class="card-body pt-2">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="text-dark pt-2">Customer Chart</h3>
+                                            <select id="customer_years_id" onchange="getMonthlyUserData(this.value)" class="mb-2 rounded-2 px-2 border border-secondary-subtle"></select>
+                                        </div>
+                                        <div id="line-chart" data-colors='["--bs-success"]' class="e-charts"></div>
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <select id="customer_month_id" onchange="getMonthlyUserData(this.value)" class="mb-2 rounded-2 px-3 border border-secondary-subtle"></select>
+                                            <p class="mb-2 rounded-2 px-3 border border-secondary-subtle text-black fw-bold">Count: <span class="text-primary fw-normal">19842</span></p>
+                                            <p class="mb-2 rounded-2 px-3 border border-secondary-subtle text-black fw-bold">Revenue: <span class="text-success fw-normal">&#8377; 200Cr</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 mb-3">
+                                    <div class="card-body pt-2">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="text-dark pt-2">Revenue Chart</h3>
+                                            <select id="revenue_years_id" onchange="getMonthlyUserData(this.value)" class="mb-2 rounded-2 px-2 border border-secondary-subtle"></select>
+                                        </div>
+                                        <h3 class="fw-bold pt-2 pb-3">&#8377; 6.28Cr</h3>
+                                        <div id="doughnut-chart" data-colors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]' class="e-charts"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 shadow mb-3">
+                                    <div class="card-body pt-2">
+                                        <h3 class="text-dark pt-2">Membership Overview</h3>
+                                        <hr>
+                                        <div class="col-12 table-responsive text-center">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="bg-dark-subtle fs-6">Type</th>
+                                                        <th class="bg-dark-subtle">Value</th>
+                                                        <th class="bg-dark-subtle text-end">Count</th>
+                                                        <th class="bg-dark-subtle text-end">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Regular Customer</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377; Free</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">0</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; Free</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Customer</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377;30000</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">28</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 8,40,000</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Plus Customer</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377; 35,000</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">2</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 70,000</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Select</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377; 35,000</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">2</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 70,000</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Select Lite</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377; 21,000</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">2</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 42,000</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Neo Select</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377; 11,000</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">7</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 77,000</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 align-content-center ps-2">Neo Select Ultra</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6">&#8377; 11,000</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">4</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 44,000</p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 mb-3">
+                                    <div class="card-body pt-2">
+                                        <h3 class="text-dark pt-2">Holiday Packages</h3>
+                                        <div id="doughnut-chart-2" data-colors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]' class="e-charts"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card rounded-4 shadow mb-3">
+                                    <div class="card-body pt-2">
+                                        <div class="card-title pb-1 d-flex justify-content-between ps-3 pe-3">
+                                            <div>
+                                                <h3 class="text-dark pt-2">Top Performer</h3>
+                                            </div>
+                                            <div class="text-end d-flex align-items-center">
+                                                <span class="fs-6">
+                                                    <p>Select Month & Year</p>
+                                                    <input type="month" id="" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="col-12 table-responsive text-center">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="bg-dark-subtle fs-6">ID</th>
+                                                        <th class="bg-dark-subtle">Name</th>
+                                                        <th class="bg-dark-subtle text-end">Total Count</th>
+                                                        <th class="bg-dark-subtle text-end">Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-center ps-2">FGA2500004</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark text-center fs-6">Uday Devu Naik</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">1</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 5L</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-center ps-2">FGA2500004</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark text-center fs-6">Uday Devu Naik</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">1</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 5L</p>
+                                                        </td>
+                                                    </tr> 
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-center ps-2">FGA2500004</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark text-center fs-6">Uday Devu Naik</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">1</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 5L</p>
+                                                        </td>
+                                                    </tr> 
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-center ps-2">FGA2500004</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark text-center fs-6">Uday Devu Naik</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">1</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 5L</p>
+                                                        </td>
+                                                    </tr> 
+                                                    <tr>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-center ps-2">FGA2500004</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark text-center fs-6">Uday Devu Naik</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-dark fs-6 text-end">1</p>
+                                                        </td>
+                                                        <td class="py-2 align-content-center">
+                                                            <p class="text-success fs-6 text-end">&#8377; 5L</p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-lg-12">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12" id="eventCalender">
+                                        <!-- Full Calender Start-->
+                                        <div class="card rounded-4">
+                                            <div id="btn-new-event"></div>
+                                            <div id='locale-selector' class="d-none"></div>
+                                            <div class="card-body">
+                                                <div id="external-events">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#event-modal" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addBusinessTraineemodal"><i class="mdi mdi-plus me-1"></i> Add Event</button>
+                                                </div>
+                                                <div id="calendar" class="calendarheight"></div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="event-modal" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header py-3 px-4 border-bottom-0">
+                                                        <h5 class="modal-title" id="modal-title">Event</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div>
+                                                    <div class="modal-body p-4">
+                                                        <form class="needs-validation" name="event-form" id="form-event" novalidate>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Event Name</label>
+                                                                        <input class="form-control" placeholder="Insert Event Name"
+                                                                            type="text" name="title" id="event-title" required value="" />
+
+                                                                        <label class="form-label">Add Event Date</label>
+                                                                        <input class="form-control" placeholder="Insert Event Data"
+                                                                            type="date" name="title" id="event-date" required value="" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-2">
+                                                                <div class=" text-end">
+                                                                    <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Full Calender end -->
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12" id="latestTransaction">
+                                        <!-- Latest Transaction Start-->
+                                        <div class="card rounded-4">
+                                            <h2 class="fs-4 p-3">Latest Transaction</h2>
+                                            <?php
+                                                $sql1 = "SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM corporate_agency UNION ALL 
+                                                        SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM ca_travelagency UNION ALL 
+                                                        SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
+                                                        SELECT master_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM master_franchisee UNION ALL
+                                                        SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee 
+                                                        WHERE status='1' order by date desc limit 5";
+                                                $stmt1 = $conn->prepare($sql1);
+                                                $stmt1->execute();
+                                                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                                if ($stmt1->rowCount() > 0) {
+                                                    foreach (($stmt1->fetchAll()) as $key => $row) {
+                                                        if ($row['user_type'] == "16") {
+                                                            $designation = "Techno Enterprise";
+                                                        } else if ($row['user_type'] == "29") {
+                                                            $designation = "Franchisee";
+                                                        } else if ($row['user_type'] == "11") {
+                                                            $designation = "Travel Consultant";
+                                                        }else if ($row['user_type'] == "28") {
+                                                            $designation = "Master Franchisee";
+                                                        }else if ($row['user_type'] == "30") {
+                                                            $designation = "Sponsor Franchisee";
+                                                        }
+                                                        $rd = new DateTime($row['date']);
+                                                        $rdate = $rd->format('d-m-Y');
+                                                        $TAmt = $row['amount'];
+                                                        $pathFromDB=$row['profile_pic'];
+                                                        $dir  = dirname($pathFromDB);   // profile_pic
+                                                        $file = basename($pathFromDB);
+                                                        $imgPath = "../uploading/" . $dir . "/" . rawurlencode($file);
+                                                        $CATAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $TAmt);
+                                                        echo '
+                                                                <div class="row mx-0">
+                                                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                                                                        <div class="profile-pic pb-1" style="position: relative; left: 15px;">
+                                                                            <img src="' . $imgPath . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                                                                        <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . '</br> <span class="fw-normal fontSizeTransaction">(' . $designation . ')</span></div>
+                                                                    </div>
+                                                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                                                                        <div class="row">
+                                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 px-0">
+                                                                                <div class="name fw-bold">Transfered</br> <span class="fw-normal fontSizeTransaction">' . $rdate . '</span></div>
+                                                                            </div>
+                                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 px-0">
+                                                                                <div class="name fw-bold text-success">&#8377; ' . $CATAmt . '/-</br> <span class="fw-normal text-dark fontSizeTransaction">' . $row['payment_mode'] . '</span></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr />
+                                                                </div>
+                                                            ';
+                                                    }
+                                                } else {
+                                                    echo '
+                                                            <div><p>No Transaction Found</p></div>
+                                                        ';
+                                                }
+                                            ?>  
+                                            <div class="col-md-12 col-sm-12 col-12 pb-3 pe-3">
+                                                <a href="latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-end">View More</button></a>
+                                            </div>
+                                        </div>
+                                        <!-- Latest Transaction End-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-12">
+                                <div class="card rounded-4">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="fs-4 p-3 px-2">Upcoming Birthdays</h2>
+                                        <div class="mt-2 me-2">
+                                            <a href="upcoming_birthday/upcoming_birthday.php"><button class="cpn_btn box-btn">View More</button></a>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-0">
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                        <div class="col-xl-3 col-lg-3 col-md-2 col-sm-2 col-2 pe-0">
+                                            <div class="profile-pic pb-1" style="position: relative; left: 5px;">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 px-0">
+                                            <div class="name fw-bold fs-5">Amit Malhotra</br> <span class="fw-normal fontSizeTransaction">(Franchisee)</span></div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-4 px-0">
+                                            <div class="name fw-bold fs-6 text-primary">23 Mar &#127874;</span></div>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <!-- Customer Types -->
-                            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 mb-2">
+                            <!-- <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 mb-2">
                                 <div class="row">
                                     
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -1444,9 +2169,9 @@ $Year = date('Y'); //year
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <!-- <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
                                 <div class="card p-3 rounded-4">
                                     <h4 class="card-title mb-3">Line Chart</h4>
                                     <hr class="mb-5">
@@ -1494,15 +2219,15 @@ $Year = date('Y'); //year
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> 
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            </div> -->
+                        <!-- </div>  -->
+                        <!-- <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 mb-2"> -->
                                 <!-- Chart Section  all commission -->
-                                <div class="card p-3 rounded-4">
-                                    <div class="row">
+                                <!-- <div class="card p-3 rounded-4">
+                                    <div class="row"> -->
                                         <!-- Type Selector -->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <select id="dataTypeSelect" class="form-control">
                                                 <option value="all" selected>All</option>
                                                 <option value="tc">TC</option>
@@ -1513,30 +2238,28 @@ $Year = date('Y'); //year
                                                 <option value="mf">MF</option>
                                                 <option value="f">F</option>
                                             </select>
-                                        </div>
+                                        </div> -->
         
                                         <!-- Month-Year Selector -->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <input type="month" id="monthSelector" class="form-control">
-                                        </div>
-        
+                                        </div>-->
                                         <!-- Download Button (initially hidden) -->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <button id="downloadChartBtn" class="btn btn-primary w-100" onclick="downloadChartData()" style="display: none;">
                                                 Download Data
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <!-- Chart Summary and Canvas -->
-                                        <div class="col-md-12 mt-4 text-center" id="payout_chart_box">
+                                        <!-- <div class="col-md-12 mt-4 text-center" id="payout_chart_box">
                                             <h5 class="fw-bolder" id="ca_total_count1"></h5>
                                             <h6 class="fw-bolder" id="ca_total_price1"></h6>
                                             <canvas id="myCAChart1" height="115%" weight="115%"></canvas>
                                         </div>
                                     </div>
-                                </div>
-        
+                                </div> -->
                                 <!-- No Data Message -->
-                                <div class="card" id="payout_no_chart_box" style="display: none;">
+                                <!-- <div class="card" id="payout_no_chart_box" style="display: none;">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
@@ -1548,12 +2271,12 @@ $Year = date('Y'); //year
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-2">
+                            <div class="col-lg-6 col-md-12 col-sm-12 mb-2"> -->
                                 <!-- Chart Section customer membership-->
-                                <div class="card p-3 rounded-4" >
-                                    <div class="row">
+                                <!-- <div class="card p-3 rounded-4" >
+                                    <div class="row"> -->
                                         <!-- Type Selector -->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <select id="dataTypeSelect1" class="form-control">
                                                 <option value="all" selected>All</option>
                                                 <option value="Prime">Prime</option>
@@ -1564,31 +2287,31 @@ $Year = date('Y'); //year
                                                 <option value="Neo Select">Neo Select</option>
                                                 <option value="Neo Select Ultra">Neo Select Ultra</option>
                                             </select>
-                                        </div>
+                                        </div> -->
         
                                         <!-- Month-Year Selector -->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <input type="month" id="monthSelector1" class="form-control">
-                                        </div>
+                                        </div> -->
         
                                         <!-- Download Button (initially hidden) -->
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <button id="downloadChartBtn1" class="btn btn-primary w-100" onclick="downloadChartData1()" style="display: none;">
                                                 Download Data
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <!-- Chart Summary and Canvas -->
-                                        <div class="col-md-12 mt-4 text-center" id="ca_chart_box1">
+                                        <!-- <div class="col-md-12 mt-4 text-center" id="ca_chart_box1">
                                             <h5 class="fw-bolder">Customer Membership</h5>
                                             <h6 class="fw-bolder mb-0" id="ca_total_count2"></h6>
                                             <h6 class="fw-bolder" id="ca_total_price2"></h6>
                                             <canvas id="myCAChart2" height="115%" weight="115%"></canvas>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
         
                                 <!-- No Data Message -->
-                                <div class="card" id="ca_no_chart_box1" style="display: none;">
+                                <!-- <div class="card" id="ca_no_chart_box1" style="display: none;">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
@@ -1600,9 +2323,9 @@ $Year = date('Y'); //year
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="card rounded-4">
+                        <!-- <div class="card rounded-4">
                             <div class="row p-4 d-flex justify-content-around">
                                 <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center">
                                     <div class="row">
@@ -1857,10 +2580,10 @@ $Year = date('Y'); //year
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Full Calender -->
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-xl-8" id="eventCalender">
@@ -1874,81 +2597,81 @@ $Year = date('Y'); //year
                                                 <div id="calendar"></div>
                                             </div>
                                         </div>
-                                    </div> <!-- end col -->
+                                    </div> end col -->
 
                                     <!-- Latest Transaction -->
-                                    <div class="col-xl-4 ps-0" id="latestTransaction">
+                                    <!-- <div class="col-xl-4 ps-0" id="latestTransaction">
                                         <div class="card rounded-4">
                                             <h2 class="fs-4 p-3">Latest Transaction</h2>
                                             <?php
-                                            $sql1 = "SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM corporate_agency UNION ALL 
-                                                            SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM ca_travelagency UNION ALL 
-                                                            SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
-                                                            SELECT master_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM master_franchisee UNION ALL
-                                                            SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee 
-                                                            WHERE status='1' order by date desc limit 5";
-                                            $stmt1 = $conn->prepare($sql1);
-                                            $stmt1->execute();
-                                            $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                                            if ($stmt1->rowCount() > 0) {
-                                                foreach (($stmt1->fetchAll()) as $key => $row) {
-                                                    if ($row['user_type'] == "16") {
-                                                        $designation = "Techno Enterprise";
-                                                    } else if ($row['user_type'] == "29") {
-                                                        $designation = "Franchisee";
-                                                    } else if ($row['user_type'] == "11") {
-                                                        $designation = "Travel Consultant";
-                                                    }else if ($row['user_type'] == "28") {
-                                                        $designation = "Master Franchisee";
-                                                    }else if ($row['user_type'] == "30") {
-                                                        $designation = "Sponsor Franchisee";
-                                                    }
-                                                    $rd = new DateTime($row['date']);
-                                                    $rdate = $rd->format('d-m-Y');
-                                                    $TAmt = $row['amount'];
-                                                    $pathFromDB=$row['profile_pic'];
-                                                    $dir  = dirname($pathFromDB);   // profile_pic
-                                                    $file = basename($pathFromDB);
-                                                    $imgPath = "../uploading/" . $dir . "/" . rawurlencode($file);
-                                                    $CATAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $TAmt);
-                                                    echo '
-                                                                <div class="card pt-3">
-                                                                    <div class="row">
-                                                                        <div class="col-xl-3 col-lg-1 col-md-1 col-sm-2 col-2">
-                                                                            <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                                                                <img src="' . $imgPath . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
-                                                                            </div>
-                                                                        </div>
+                                            // $sql1 = "SELECT corporate_agency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM corporate_agency UNION ALL 
+                                            //                 SELECT ca_travelagency_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM ca_travelagency UNION ALL 
+                                            //                 SELECT sub_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, amount as amount, payment_mode, status FROM sub_franchisee UNION ALL
+                                            //                 SELECT master_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM master_franchisee UNION ALL
+                                            //                 SELECT sponsor_franchisee_id as id, firstname, lastname, profile_pic, register_date as date, user_type, paid_amount as amount, payment_mode, status FROM sponsor_franchisee 
+                                            //                 WHERE status='1' order by date desc limit 5"; -->
+                                            // // $stmt1 = $conn->prepare($sql1);
+                                            // $stmt1->execute();
+                                            // $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                                            // if ($stmt1->rowCount() > 0) {
+                                            //     foreach (($stmt1->fetchAll()) as $key => $row) {
+                                            //         if ($row['user_type'] == "16") {
+                                            //             $designation = "Techno Enterprise";
+                                            //         } else if ($row['user_type'] == "29") {
+                                            //             $designation = "Franchisee";
+                                            //         } else if ($row['user_type'] == "11") {
+                                            //             $designation = "Travel Consultant";
+                                            //         }else if ($row['user_type'] == "28") {
+                                            //             $designation = "Master Franchisee";
+                                            //         }else if ($row['user_type'] == "30") {
+                                            //             $designation = "Sponsor Franchisee";
+                                            //         }
+                                            //         $rd = new DateTime($row['date']);
+                                            //         $rdate = $rd->format('d-m-Y');
+                                            //         $TAmt = $row['amount'];
+                                            //         $pathFromDB=$row['profile_pic'];
+                                            //         $dir  = dirname($pathFromDB);   // profile_pic
+                                            //         $file = basename($pathFromDB);
+                                            //         $imgPath = "../uploading/" . $dir . "/" . rawurlencode($file);
+                                            //         $CATAmt = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $TAmt);
+                                            //         echo '
+                                //                                 <div class="card pt-3">
+                                //                                     <div class="row">
+                                //                                         <div class="col-xl-3 col-lg-1 col-md-1 col-sm-2 col-2">
+                                //                                             <div class="profile-pic pb-1" style="position: relative; left: 15px;">
+                                //                                                 <img src="' . $imgPath . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                                //                                             </div>
+                                //                                         </div>
                                                                         
-                                                                        <div class="col-xl-9 col-lg-11 col-md-11 col-sm-10 col-10 d-flex justify-content-between align-items-center">
-                                                                            <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . '</br> <span class="fw-normal">(' . $designation . ')</span></div>
-                                                                        </div>
-                                                                        <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">' . $rdate . '</div>
-                                                                    </div>
+                                //                                         <div class="col-xl-9 col-lg-11 col-md-11 col-sm-10 col-10 d-flex justify-content-between align-items-center">
+                                //                                             <div class="name fw-bold">' . $row['id'] . ' ' . $row['firstname'] . ' ' . $row['lastname'] . '</br> <span class="fw-normal">(' . $designation . ')</span></div>
+                                //                                         </div>
+                                //                                         <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">' . $rdate . '</div>
+                                //                                     </div>
                                                                     
-                                                                    <div class="para ps-3 pb-2">
-                                                                        <p>Transfered <span class="amount">' . $CATAmt . '/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">' . $row['payment_mode'] . '</span>.</p>
-                                                                    </div>
-                                                                </div>
-                                                            ';
-                                                }
-                                            } else {
-                                                echo '
-                                                            <div><p>No Transaction Found</p></div>
-                                                        ';
-                                            }
-                                            ?>
+                                //                                     <div class="para ps-3 pb-2">
+                                //                                         <p>Transfered <span class="amount">' . $CATAmt . '/-</span> to Bizzmirth Holiday Pvt.Ltd via <span class="payment-mode">' . $row['payment_mode'] . '</span>.</p>
+                                //                                     </div>
+                                //                                 </div>
+                                //                             ';
+                                //                 }
+                                //             } else {
+                                //                 echo '
+                                //                             <div><p>No Transaction Found</p></div>
+                                //                         ';
+                                //             }
+                                //             ?>
                                                 
-                                            <div class="col-md-6 col-sm-6 col-6 pb-3 ps-2">
-                                                <a href="latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-start">View More</button></a>
-                                            </div>
-                                        </div>
+                                //             <div class="col-md-6 col-sm-6 col-6 pb-3 ps-2">
+                                //                 <a href="latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-start">View More</button></a>
+                                //             </div>
+                                //         </div>
 
-                                    </div>
-                                </div>
+                                //     </div>
+                                // </div>
                         
-                                <!-- Add New Event MODAL -->
-                                <div class="modal fade" id="event-modal" tabindex="-1">
+                                Add New Event MODAL
+                                <!-- <div class="modal fade" id="event-modal" tabindex="-1">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header py-3 px-4 border-bottom-0">
@@ -1978,25 +2701,25 @@ $Year = date('Y'); //year
                                                         </div>
                                                     </div>
                                                 </form>
-                                            </div>
-                                        </div> <!-- end modal-content-->
-                                    </div> <!-- end modal dialog-->
-                                </div>
+                                            </div> -->
+                                        <!-- </div> end modal-content
+                                    </div> end modal dialog
+                                </div> -->
                                 <!-- end modal-->
-                            </div>
-                        </div>
+                            <!-- </div>
+                        </div> -->
                         <!-- End Full Calender -->
 
                         <!-- Top Performer start -->
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
                                     <h4 class="mb-sm-0 font-size-18">Top Performer</h4>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="card rounded-4">
+                        <!-- <div class="card rounded-4">
                             <div class="row p-4 d-flex justify-content-around">
                                 <div class="col-md-12 col-sm-12 col-12 d-grid align-items-center mb-3">
                                     <div class="row">
@@ -2072,69 +2795,69 @@ $Year = date('Y'); //year
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="bch_top_performer">
+                                                <tbody id="bch_top_performer"> -->
                                                     <?php
-                                                    $srNo = 1;
+                                                    // $srNo = 1;
                                                     // Prepare the SQL query
-                                                    $sql1 = $conn->prepare("
-                                                                    SELECT e1.employee_id AS BCH_user_id,
-                                                                        e1.name AS BCH_user_name,
-                                                                        e1.profile_pic,
-                                                                        e1.status,
-                                                                        COUNT(e2.employee_id) AS BDM_count
-                                                                    FROM employees e1
-                                                                    LEFT JOIN employees e2 ON e1.employee_id = e2.reporting_manager
-                                                                    WHERE e1.user_type = 24 
-                                                                    AND e2.user_type = 25 
-                                                                    AND MONTH(e2.register_date) = '" . $Month . "' 
-                                                                    AND YEAR(e2.register_date) = '" . $Year . "'
-                                                                    AND e1.status = 1
-                                                                    AND e2.status = 1
-                                                                    GROUP BY e1.employee_id, e1.name, e1.profile_pic, e1.status
-                                                                    ORDER BY BDM_count DESC
-                                                                    LIMIT 5
-                                                                ");
+                                                    // $sql1 = $conn->prepare("
+                                                    //                 SELECT e1.employee_id AS BCH_user_id,
+                                                    //                     e1.name AS BCH_user_name,
+                                                    //                     e1.profile_pic,
+                                                    //                     e1.status,
+                                                    //                     COUNT(e2.employee_id) AS BDM_count
+                                                    //                 FROM employees e1
+                                                    //                 LEFT JOIN employees e2 ON e1.employee_id = e2.reporting_manager
+                                                    //                 WHERE e1.user_type = 24 
+                                                    //                 AND e2.user_type = 25 
+                                                    //                 AND MONTH(e2.register_date) = '" . $Month . "' 
+                                                    //                 AND YEAR(e2.register_date) = '" . $Year . "'
+                                                    //                 AND e1.status = 1
+                                                    //                 AND e2.status = 1
+                                                    //                 GROUP BY e1.employee_id, e1.name, e1.profile_pic, e1.status
+                                                    //                 ORDER BY BDM_count DESC
+                                                    //                 LIMIT 5
+                                                    //             ");
 
                                                     // Execute the query
-                                                    $sql1->execute();
+                                                    // $sql1->execute();
 
                                                     // Set the fetch mode to associative array
-                                                    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    // $sql1->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                    if ($sql1->rowCount() > 0) {
+                                                    // if ($sql1->rowCount() > 0) {
                                                         // Loop through the results and display the BCH user details
-                                                        foreach ($sql1->fetchAll() as $bch_id) {
-                                                            echo '<tr>
-                                                                    <td>
-                                                                        <div class="profile-pic pb-1">
-                                                                            <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="profile-pic pb-1">
-                                                                            <img src="../uploading/' . htmlspecialchars($bch_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="align-content-center">
-                                                                        <p class="fw-bold text-dark">' . htmlspecialchars($bch_id['BCH_user_name']) . '</p>
-                                                                        <p class="text-dark">' . htmlspecialchars($bch_id['BCH_user_id']) . '</p> 
-                                                                    </td>
-                                                                    <td class="align-content-center">' . htmlspecialchars($bch_id['BDM_count']) . '</td>';
+                                                    //     foreach ($sql1->fetchAll() as $bch_id) {
+                                                    //         echo '<tr>
+                                                    //                 <td>
+                                                    //                     <div class="profile-pic pb-1">
+                                                    //                         <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                     </div>
+                                                    //                 </td>
+                                                    //                 <td>
+                                                    //                     <div class="profile-pic pb-1">
+                                                    //                         <img src="../uploading/' . htmlspecialchars($bch_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                     </div>
+                                                    //                 </td>
+                                                    //                 <td class="align-content-center">
+                                                    //                     <p class="fw-bold text-dark">' . htmlspecialchars($bch_id['BCH_user_name']) . '</p>
+                                                    //                     <p class="text-dark">' . htmlspecialchars($bch_id['BCH_user_id']) . '</p> 
+                                                    //                 </td>
+                                                    //                 <td class="align-content-center">' . htmlspecialchars($bch_id['BDM_count']) . '</td>';
 
-                                                            // Display status based on the 'status' field value
-                                                            if ($bch_id['status'] == '1') {
-                                                                echo '<td class="align-content-center"><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
-                                                            } else {
-                                                                echo '<td class="align-content-center"><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
-                                                            }
-                                                            echo '</tr>';
-                                                            $srNo++;
-                                                        }
-                                                    } else {
-                                                        echo '<tr>
-                                                            <td colspan="5" class="align-content-center">No data found</td>
-                                                        </tr>';
-                                                    }
+                                                    //         // Display status based on the 'status' field value
+                                                    //         if ($bch_id['status'] == '1') {
+                                                    //             echo '<td class="align-content-center"><span class="badge badge-pill badge-soft-success font-size-12">Active</span></td>';
+                                                    //         } else {
+                                                    //             echo '<td class="align-content-center"><span class="badge badge-pill badge-soft-danger font-size-12">Removed</span></td>';
+                                                    //         }
+                                                    //         echo '</tr>';
+                                                    //         $srNo++;
+                                                    //     }
+                                                    // } else {
+                                                    //     echo '<tr>
+                                                    //         <td colspan="5" class="align-content-center">No data found</td>
+                                                    //     </tr>';
+                                                    // }
                                                     ?>
                                                 </tbody>
                                             </table>
@@ -2167,70 +2890,70 @@ $Year = date('Y'); //year
                                                 </thead>
                                                 <tbody id="bdm_top_performer">
                                                     <?php
-                                                    $srNo = 1;
+                                                    // $srNo = 1;
                                                     // Prepare the SQL query to get the BDM user who brought the highest number of BM
-                                                    $sql1 = $conn->prepare("
-                                                                SELECT e1.employee_id AS BDM_user_id,
-                                                                    e1.name AS BDM_user_name,
-                                                                    e1.reporting_manager,
-                                                                    e1.profile_pic,
-                                                                    e1.status,
-                                                                    COUNT(e2.business_mentor_id) AS BM_count
-                                                                FROM employees e1
-                                                                LEFT JOIN business_mentor e2 ON e1.employee_id = e2.reference_no
-                                                                WHERE e1.user_type = 25 
-                                                                AND e2.user_type = 26 
-                                                                AND MONTH(e2.register_date) = '" . $Month . "' 
-                                                                AND YEAR(e2.register_date) = '" . $Year . "' 
-                                                                GROUP BY e1.employee_id, e1.name, e1.profile_pic, e1.reporting_manager, e1.status
-                                                                ORDER BY BM_count DESC
-                                                                LIMIT 5 
-                                                            ");
+                                                    // $sql1 = $conn->prepare("
+                                                    //             SELECT e1.employee_id AS BDM_user_id,
+                                                    //                 e1.name AS BDM_user_name,
+                                                    //                 e1.reporting_manager,
+                                                    //                 e1.profile_pic,
+                                                    //                 e1.status,
+                                                    //                 COUNT(e2.business_mentor_id) AS BM_count
+                                                    //             FROM employees e1
+                                                    //             LEFT JOIN business_mentor e2 ON e1.employee_id = e2.reference_no
+                                                    //             WHERE e1.user_type = 25 
+                                                    //             AND e2.user_type = 26 
+                                                    //             AND MONTH(e2.register_date) = '" . $Month . "' 
+                                                    //             AND YEAR(e2.register_date) = '" . $Year . "' 
+                                                    //             GROUP BY e1.employee_id, e1.name, e1.profile_pic, e1.reporting_manager, e1.status
+                                                    //             ORDER BY BM_count DESC
+                                                    //             LIMIT 5 
+                                                    //         ");
 
                                                     // Execute the query
-                                                    $sql1->execute();
+                                                    // $sql1->execute();
 
                                                     // Set the fetch mode to associative array
-                                                    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    // $sql1->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                    if ($sql1->rowCount() > 0) {
+                                                    // if ($sql1->rowCount() > 0) {
                                                         // Loop through the results and display the BDM user details
-                                                        foreach ($sql1->fetchAll() as $bdm_id) {
+                                                    //     foreach ($sql1->fetchAll() as $bdm_id) {
 
-                                                            $sql2 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $bdm_id['reporting_manager'] . "'");
-                                                            $sql2->execute();
-                                                            $sql2->setFetchMode(PDO::FETCH_ASSOC);
-                                                            $reporting_manager = $sql2->fetch();
-                                                            $reporting_manager_name = $reporting_manager['name'];
+                                                    //         $sql2 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $bdm_id['reporting_manager'] . "'");
+                                                    //         $sql2->execute();
+                                                    //         $sql2->setFetchMode(PDO::FETCH_ASSOC);
+                                                    //         $reporting_manager = $sql2->fetch();
+                                                    //         $reporting_manager_name = $reporting_manager['name'];
 
-                                                            echo '<tr>
-                                                                <td>
-                                                                    <div class="profile-pic pb-1">
-                                                                        <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="profile-pic pb-1">
-                                                                        <img src="../uploading/' . htmlspecialchars($bdm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                    </div>
-                                                                </td>
-                                                                <td class="align-content-center">
-                                                                    <p class="fw-bold text-dark"> ' . htmlspecialchars($bdm_id['BDM_user_name']) . ' </p>
-                                                                    <p class="text-dark">' . htmlspecialchars($bdm_id['BDM_user_id']) . '</p> 
-                                                                </td>
-                                                                <td class="align-content-center">' . htmlspecialchars($bdm_id['BM_count']) . '</td>
-                                                                <td class="align-content-center">
-                                                                    <p class="mb-1 fw-bold text-dark">' . htmlspecialchars($reporting_manager_name) . '</p>
-                                                                    <p class="mb-1 text-dark">' . htmlspecialchars($bdm_id['reporting_manager']) . '</p>
-                                                                </td>
-                                                            </tr>';
-                                                            $srNo++;
-                                                        }
-                                                    } else {
-                                                        echo '<tr>
-                                                            <td colspan="5" class="align-content-center">No data found</td>
-                                                        </tr>';
-                                                    }
+                                                    //         echo '<tr>
+                                                    //             <td>
+                                                    //                 <div class="profile-pic pb-1">
+                                                    //                     <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                 </div>
+                                                    //             </td>
+                                                    //             <td>
+                                                    //                 <div class="profile-pic pb-1">
+                                                    //                     <img src="../uploading/' . htmlspecialchars($bdm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                 </div>
+                                                    //             </td>
+                                                    //             <td class="align-content-center">
+                                                    //                 <p class="fw-bold text-dark"> ' . htmlspecialchars($bdm_id['BDM_user_name']) . ' </p>
+                                                    //                 <p class="text-dark">' . htmlspecialchars($bdm_id['BDM_user_id']) . '</p> 
+                                                    //             </td>
+                                                    //             <td class="align-content-center">' . htmlspecialchars($bdm_id['BM_count']) . '</td>
+                                                    //             <td class="align-content-center">
+                                                    //                 <p class="mb-1 fw-bold text-dark">' . htmlspecialchars($reporting_manager_name) . '</p>
+                                                    //                 <p class="mb-1 text-dark">' . htmlspecialchars($bdm_id['reporting_manager']) . '</p>
+                                                    //             </td>
+                                                    //         </tr>';
+                                                    //         $srNo++;
+                                                    //     }
+                                                    // } else {
+                                                    //     echo '<tr>
+                                                    //         <td colspan="5" class="align-content-center">No data found</td>
+                                                    //     </tr>';
+                                                    // }
                                                     ?>
                                                 </tbody>
                                             </table>
@@ -2263,65 +2986,65 @@ $Year = date('Y'); //year
                                                 </thead>
                                                 <tbody id="bm_top_performer">
                                                     <?php
-                                                    $srNo = 1;
+                                                    // $srNo = 1;
                                                     // Prepare the SQL query to get the BDM user who brought the highest number of BM
-                                                    $sql1 = $conn->prepare("
-                                                                SELECT e1.business_mentor_id AS BM_user_id,
-                                                                    e1.firstname AS BM_user_fname,
-                                                                    e1.lastname AS BM_user_lname,
-                                                                    e1.reference_no,
-                                                                    e1.registrant,
-                                                                    e1.profile_pic,
-                                                                    e1.status,
-                                                                    COUNT(e2.corporate_agency_id) AS TE_count
-                                                                FROM business_mentor e1
-                                                                LEFT JOIN corporate_agency e2 ON e1.business_mentor_id = e2.reference_no
-                                                                WHERE e1.user_type = 26 -- BDM users
-                                                                AND e2.user_type = 16 -- BM users
-                                                                AND MONTH(e2.register_date) = '" . $Month . "'
-                                                                AND YEAR(e2.register_date) = '" . $Year . "' 
-                                                                GROUP BY e1.business_mentor_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
-                                                                ORDER BY TE_count DESC
-                                                                LIMIT 5 -- Limit to top 5 BDM users who brought the most BM;;
-                                                            ");
+                                                    // $sql1 = $conn->prepare("
+                                                    //             SELECT e1.business_mentor_id AS BM_user_id,
+                                                    //                 e1.firstname AS BM_user_fname,
+                                                    //                 e1.lastname AS BM_user_lname,
+                                                    //                 e1.reference_no,
+                                                    //                 e1.registrant,
+                                                    //                 e1.profile_pic,
+                                                    //                 e1.status,
+                                                    //                 COUNT(e2.corporate_agency_id) AS TE_count
+                                                    //             FROM business_mentor e1
+                                                    //             LEFT JOIN corporate_agency e2 ON e1.business_mentor_id = e2.reference_no
+                                                    //             WHERE e1.user_type = 26 -- BDM users
+                                                    //             AND e2.user_type = 16 -- BM users
+                                                    //             AND MONTH(e2.register_date) = '" . $Month . "'
+                                                    //             AND YEAR(e2.register_date) = '" . $Year . "' 
+                                                    //             GROUP BY e1.business_mentor_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
+                                                    //             ORDER BY TE_count DESC
+                                                    //             LIMIT 5 -- Limit to top 5 BDM users who brought the most BM;;
+                                                    //         ");
 
                                                     // Execute the query
-                                                    $sql1->execute();
+                                                    // $sql1->execute();
 
                                                     // Set the fetch mode to associative array
-                                                    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    // $sql1->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                    if ($sql1->rowCount() > 0) {
+                                                    // if ($sql1->rowCount() > 0) {
                                                         // Loop through the results and display the BDM user details
-                                                        foreach ($sql1->fetchAll() as $bm_id) {
-                                                            echo '<tr>
-                                                                <td>
-                                                                    <div class="profile-pic pb-1">
-                                                                        <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="profile-pic pb-1">
-                                                                        <img src="../uploading/' . htmlspecialchars($bm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                    </div>
-                                                                </td>
-                                                                <td class="align-content-center">
-                                                                    <p class="fw-bold text-dark"> ' . htmlspecialchars($bm_id['BM_user_fname'] . ' ' . $bm_id['BM_user_lname']) . ' </p>
-                                                                    <p class="text-dark">' . htmlspecialchars($bm_id['BM_user_id']) . '</p> 
-                                                                </td>
-                                                                <td class="align-content-center">' . htmlspecialchars($bm_id['TE_count']) . '</td>
-                                                                <td class="align-content-center">
-                                                                    <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($bm_id['registrant']) . '</p>
-                                                                    <p class="mb-1 text-dark">' . htmlspecialchars($bm_id['reference_no']) . '</p>
-                                                                </td>   
-                                                            </tr>';
-                                                            $srNo++;
-                                                        }
-                                                    } else {
-                                                        echo '<tr>
-                                                            <td colspan="5" class="align-content-center">No data found</td>
-                                                        </tr>';
-                                                    }
+                                                    //     foreach ($sql1->fetchAll() as $bm_id) {
+                                                    //         echo '<tr>
+                                                    //             <td>
+                                                    //                 <div class="profile-pic pb-1">
+                                                    //                     <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                 </div>
+                                                    //             </td>
+                                                    //             <td>
+                                                    //                 <div class="profile-pic pb-1">
+                                                    //                     <img src="../uploading/' . htmlspecialchars($bm_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                 </div>
+                                                    //             </td>
+                                                    //             <td class="align-content-center">
+                                                    //                 <p class="fw-bold text-dark"> ' . htmlspecialchars($bm_id['BM_user_fname'] . ' ' . $bm_id['BM_user_lname']) . ' </p>
+                                                    //                 <p class="text-dark">' . htmlspecialchars($bm_id['BM_user_id']) . '</p> 
+                                                    //             </td>
+                                                    //             <td class="align-content-center">' . htmlspecialchars($bm_id['TE_count']) . '</td>
+                                                    //             <td class="align-content-center">
+                                                    //                 <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($bm_id['registrant']) . '</p>
+                                                    //                 <p class="mb-1 text-dark">' . htmlspecialchars($bm_id['reference_no']) . '</p>
+                                                    //             </td>   
+                                                    //         </tr>';
+                                                    //         $srNo++;
+                                                    //     }
+                                                    // } else {
+                                                    //     echo '<tr>
+                                                    //         <td colspan="5" class="align-content-center">No data found</td>
+                                                    //     </tr>';
+                                                    // }
                                                     ?>
                                                 </tbody>
                                             </table>
@@ -2354,65 +3077,65 @@ $Year = date('Y'); //year
                                                 </thead>
                                                 <tbody id="te_top_performer">
                                                     <?php
-                                                    $srNo = 1;
+                                                    // $srNo = 1;
                                                     // Prepare the SQL query to get the BDM user who brought the highest number of BM
-                                                    $sql1 = $conn->prepare("
-                                                                SELECT e1.corporate_agency_id AS TE_user_id,
-                                                                    e1.firstname AS TE_user_fname,
-                                                                    e1.lastname AS TE_user_lname,
-                                                                    e1.reference_no,
-                                                                    e1.registrant,
-                                                                    e1.profile_pic,
-                                                                    e1.status,
-                                                                    COUNT(e2.ca_travelagency_id) AS TA_count
-                                                                FROM corporate_agency e1
-                                                                LEFT JOIN ca_travelagency e2 ON e1.corporate_agency_id = e2.reference_no
-                                                                WHERE e1.user_type = 16 
-                                                                AND e2.user_type = 11 
-                                                                AND MONTH(e2.register_date) = '" . $Month . "'
-                                                                AND YEAR(e2.register_date) = '" . $Year . "' 
-                                                                GROUP BY e1.corporate_agency_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
-                                                                ORDER BY TA_count DESC
-                                                                LIMIT 5 
-                                                            ");
+                                                    // $sql1 = $conn->prepare("
+                                                    //             SELECT e1.corporate_agency_id AS TE_user_id,
+                                                    //                 e1.firstname AS TE_user_fname,
+                                                    //                 e1.lastname AS TE_user_lname,
+                                                    //                 e1.reference_no,
+                                                    //                 e1.registrant,
+                                                    //                 e1.profile_pic,
+                                                    //                 e1.status,
+                                                    //                 COUNT(e2.ca_travelagency_id) AS TA_count
+                                                    //             FROM corporate_agency e1
+                                                    //             LEFT JOIN ca_travelagency e2 ON e1.corporate_agency_id = e2.reference_no
+                                                    //             WHERE e1.user_type = 16 
+                                                    //             AND e2.user_type = 11 
+                                                    //             AND MONTH(e2.register_date) = '" . $Month . "'
+                                                    //             AND YEAR(e2.register_date) = '" . $Year . "' 
+                                                    //             GROUP BY e1.corporate_agency_id, e1.firstname, e1.lastname, e1.reference_no, e1.registrant, e1.profile_pic, e1.status
+                                                    //             ORDER BY TA_count DESC
+                                                    //             LIMIT 5 
+                                                    //         ");
 
                                                     // Execute the query
-                                                    $sql1->execute();
+                                                    // $sql1->execute();
 
                                                     // Set the fetch mode to associative array
-                                                    $sql1->setFetchMode(PDO::FETCH_ASSOC);
+                                                    // $sql1->setFetchMode(PDO::FETCH_ASSOC);
 
-                                                    if ($sql1->rowCount() > 0) {
+                                                    // if ($sql1->rowCount() > 0) {
                                                         // Loop through the results and display the BDM user details
-                                                        foreach ($sql1->fetchAll() as $te_id) {
-                                                            echo '<tr>
-                                                                <td>
-                                                                    <div class="profile-pic pb-1">
-                                                                        <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="profile-pic pb-1">
-                                                                        <img src="../uploading/' . htmlspecialchars($te_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
-                                                                    </div>
-                                                                </td>
-                                                                <td class="align-content-center">
-                                                                    <p class="fw-bold text-dark"> ' . htmlspecialchars($te_id['TE_user_fname'] . ' ' . $te_id['TE_user_lname']) . ' </p>
-                                                                    <p class="text-dark">' . htmlspecialchars($te_id['TE_user_id']) . '</p> 
-                                                                </td>
-                                                                <td class="align-content-center">' . htmlspecialchars($te_id['TA_count']) . '</td>
-                                                                <td class="align-content-center">
-                                                                    <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($te_id['registrant']) . '</p>
-                                                                    <p class="mb-1 text-dark">' . htmlspecialchars($te_id['reference_no']) . '</p>
-                                                                </td>
-                                                            </tr>';
-                                                            $srNo++;
-                                                        }
-                                                    } else {
-                                                        echo '<tr>
-                                                            <td colspan="5" class="align-content-center">No data found</td>
-                                                        </tr>';
-                                                    }
+                                                    //     foreach ($sql1->fetchAll() as $te_id) {
+                                                    //         echo '<tr>
+                                                    //             <td>
+                                                    //                 <div class="profile-pic pb-1">
+                                                    //                     <img src="assets/images/topPerformer/' . $srNo . '.jpg" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                 </div>
+                                                    //             </td>
+                                                    //             <td>
+                                                    //                 <div class="profile-pic pb-1">
+                                                    //                     <img src="../uploading/' . htmlspecialchars($te_id['profile_pic']) . '" alt="profile pic" width="50px" height="50px" class="rounded-circle">
+                                                    //                 </div>
+                                                    //             </td>
+                                                    //             <td class="align-content-center">
+                                                    //                 <p class="fw-bold text-dark"> ' . htmlspecialchars($te_id['TE_user_fname'] . ' ' . $te_id['TE_user_lname']) . ' </p>
+                                                    //                 <p class="text-dark">' . htmlspecialchars($te_id['TE_user_id']) . '</p> 
+                                                    //             </td>
+                                                    //             <td class="align-content-center">' . htmlspecialchars($te_id['TA_count']) . '</td>
+                                                    //             <td class="align-content-center">
+                                                    //                 <p class="mb-0 fw-bold text-dark">' . htmlspecialchars($te_id['registrant']) . '</p>
+                                                    //                 <p class="mb-1 text-dark">' . htmlspecialchars($te_id['reference_no']) . '</p>
+                                                    //             </td>
+                                                    //         </tr>';
+                                                    //         $srNo++;
+                                                    //     }
+                                                    // } else {
+                                                    //     echo '<tr>
+                                                    //         <td colspan="5" class="align-content-center">No data found</td>
+                                                    //     </tr>';
+                                                    // }
                                                     ?>
                                                 </tbody>
                                             </table>
@@ -2912,10 +3635,10 @@ $Year = date('Y'); //year
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <!-- </div> -->
                         <!-- Top Performer end -->
 
-                        <div class="row">
+                        <!-- <div class="row">
 
                             <div class="col-xl-6 col-md-6 col-sm-12 p-3">
                                 <div class="card rounded-4">
@@ -3023,9 +3746,9 @@ $Year = date('Y'); //year
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-xl-6 col-md-6 col-sm-12 p-3">
+                            <!-- <div class="col-xl-6 col-md-6 col-sm-12 p-3">
                                 <div class="card rounded-4">
                                     <div class="card-body">
                                         <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
@@ -3398,9 +4121,9 @@ $Year = date('Y'); //year
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="col-xl-6 col-md-6 col-sm-12 p-3">
+                            <!-- <div class="col-xl-6 col-md-6 col-sm-12 p-3">
                                 <div class="card rounded-4">
                                     <div class="card-body">
                                         <div class="card-title pb-2 d-flex justify-content-between ps-3 pe-3">
@@ -3451,9 +4174,9 @@ $Year = date('Y'); //year
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                        </div>
+                        <!-- </div> -->
 
                     </div>
                     <!-- container-fluid -->
@@ -3480,9 +4203,7 @@ $Year = date('Y'); //year
         <script src="assets/libs/node-waves/waves.min.js"></script>
 
         <!-- Chart JS -->
-        <!-- <script src="assets/libs/chart.js/chart.umd.js"></script> -->
         <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
-        <!-- <script src="assets/js/pages/chartjs.init.js"></script>  -->
 
         <!-- dashboard init -->
         <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
@@ -3503,6 +4224,11 @@ $Year = date('Y'); //year
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>
+        
+        <!-- echarts js -->
+        <script src="assets/libs/echarts/echarts.min.js"></script>
+        <!-- echarts init -->
+        <script src="assets/js/pages/echarts.init.js"></script>
         
         <script>
 
@@ -3525,7 +4251,6 @@ $Year = date('Y'); //year
             var getCurrentYear = currentDate.getFullYear();
             var getCurrentMonth = currentDate.getMonth() + 1;
             var userType, monthYear;
-            // get month for input tag
             var monthControl = "2020";
 
             $(function() {
@@ -3539,32 +4264,48 @@ $Year = date('Y'); //year
                 // Set Default value for years for line chart
                 for (let index = 2020; index <= getCurrentYear; index++) {
                     if (index == getCurrentYear) {
+                        $("#customer_years_id").append('<option selected="selected" value="' + index + '">' + index + '</option>');
+                        $("#revenue_years_id").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                         $("#years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                         $("#yearsCustMemb").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                         $("#consultant_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                         $("#partner_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
                     } else {
+                        $("#customer_years_id").append('<option value="' + index + '">' + index + '</option>');
+                        $("#revenue_years_id").append('<option value="' + index + '">' + index + '</option>');
                         $("#years").append('<option value="' + index + '">' + index + '</option>');
                         $("#yearsCustMemb").append('<option value="' + index + '">' + index + '</option>');
                         $("#consultant_years").append('<option value="' + index + '">' + index + '</option>');
                         $("#partner_years").append('<option value="' + index + '">' + index + '</option>');
                     }
                 }
+                // Month selector
+                const monthNames = [
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                ];
+                const selects = [
+                    // month selector div id
+                    "#customer_month_id"
+                ];
+
+                for (let index = 1; index <= 12; index++) {
+
+                    let monthText = monthNames[index - 1];
+                    let selected = index == getCurrentMonth ? 'selected="selected"' : '';
+
+                    selects.forEach(id => {
+                        $(id).append('<option ' + selected + ' value="' + index + '">' + monthText + '</option>');
+                    });
+                }
+
                 
                 // get chart data
                 getMonthlyUserData(getCurrentYear);
-                // get chart data Customer Membership
                 getMonthlyUserDataCustMemb(getCurrentYear);
-                // getBIPData(); //BIP pie chart
                 getCAData(); //ca Amount Pie Chart
-                //getCAData(); //ca Amount Pie Chart
-                // get monthly user count
                 monthYear = monthControl.value;
-                // monthlyUserCount();
-                // get birthday table
-                // getBirthdayData('customer');
-
-                // console.log('test 22');
             });
             //line chart for all user, excuding Customer 
             async function getMonthlyUserData(get_year) {
@@ -3617,36 +4358,7 @@ $Year = date('Y'); //year
                     data: {
                         labels: xValues,
                         datasets: [
-                            // {
-                            //     label: "Partners",
-                            //     data: values_bp,
-                            //     borderColor: "green",
-                            //     fill: true
-                            // },
-                            // {
-                            //     label: "Channel Business Director",
-                            //     data: values_cbd,
-                            //     borderColor: "yellow",
-                            //     fill: true
-                            // },
-                            // {
-                            //     label: "Base Agency",
-                            //     data: values_cust,
-                            //     borderColor: "red",
-                            //     fill: true
-                            // },
-                            // {
-                            //     label: "Corporate Partner",
-                            //     data: values_cp,
-                            //     borderColor: "purple",
-                            //     fill: true
-                            // },
-                            // {
-                            //     label: "Consultant",
-                            //     data: values_ta,
-                            //     borderColor: "blue",
-                            //     fill: true
-                            // },
+                           
                             {
                                 label: "Employees",
                                 data: values_emp,
@@ -3727,10 +4439,6 @@ $Year = date('Y'); //year
                 values_custPSL = [];
                 values_custNS = [];
                 values_custNSU = [];
-                // values_cacu = [];
-                // values_cbd = [];
-                // values_emp = [];
-                // values_bm = [];
 
                 for (i = 0; i < length; i++) {
                     values_custF.push(data[0][i]);
@@ -3741,10 +4449,7 @@ $Year = date('Y'); //year
                     values_custPSL.push(data[5][i]);
                     values_custNS.push(data[6][i]);
                     values_custNSU.push(data[7][i]);
-                    // values_cacu.push(data[7][i]);
-                    // values_cbd.push(data[8][i]);
-                    // values_emp.push(data[9][i]);
-                    // values_bm.push(data[10][i]);
+                    
                 }
                 var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 new Chart(document.getElementById("myChartCust"), {
@@ -3758,12 +4463,7 @@ $Year = date('Y'); //year
                                 borderColor: "green",
                                 fill: true
                             },
-                            // {
-                            //     label: "Prime",
-                            //     data: values_custPR,
-                            //     borderColor: "yellow",
-                            //     fill: true
-                            // },
+                            
                             {
                                 label: "Premium",
                                 data: values_custP,
@@ -3800,18 +4500,7 @@ $Year = date('Y'); //year
                                 borderColor: "black",
                                 fill: true
                             },
-                            // {
-                            //     label: "Travel Consultant",
-                            //     data: values_cata,
-                            //     borderColor: "pink",
-                            //     fill: true
-                            // },
-                            // {
-                            //     label: "Customer",
-                            //     data: values_cacu,
-                            //     borderColor: "red",
-                            //     fill: true
-                            // }
+                            
                         ]
                     },
                     options: {
@@ -4211,342 +4900,11 @@ $Year = date('Y'); //year
             // for customer member ship
             fetchData1();
 
-            //CP Chart
-            // async function getCPData() {
-            //     const response = await fetch('charts/cp_payout.php');
-            //     const data = await response.json();
-
-            //     // console.log(data);
-
-            //     var xValues = ["Micro", "Basic", "Advance", "Ultra"];
-            //     var yValues = [data[0], data[1], data[2], data[3]];
-            //     var total = data[4];
-            //     var total_pay = data[9]
-            //     var barColors = [
-            //         "#ad2321",
-            //         "#3EB07E",
-            //         "#22497E",
-            //         "#42CFEB"
-            //     ];
-
-            //     document.getElementById("cp_total_count").innerText = "Total CP = " + total + "\n";
-            //     document.getElementById("cp_total_price").innerText = " Total Amount = ₹ " + total_pay;
-
-            //     new Chart(document.getElementById("myCPChart"), {
-            //         type: "pie",
-            //         data: {
-            //             labels: xValues,
-            //             datasets: [{
-            //                 backgroundColor: barColors,
-            //                 data: yValues
-            //             }]
-            //         },
-            //         options: {
-            //             title: {
-            //                 display: false,
-            //                 text: "BIP Payout",
-            //             }
-            //         }
-            //     });
-            // }
-
-            // async function getCAData() {
-            //     const response = await fetch('charts/ca_payout.php');
-            //     const data = await response.json();
-
-            //     // Extract relevant TE data
-            //     const totalCA = data.total_te;
-            //     const total = data.total_te_amount;
-
-            //     // Update stats
-            //     document.getElementById("ca_total_count").innerText = "Total TE = " + totalCA;
-            //     document.getElementById("ca_total_price").innerText = "Total Amount = ₹ " + total.toLocaleString() + "/-";
-
-            //     // Hide/show chart based on data
-            //     if (totalCA == 0) {
-            //         document.getElementById("ca_no_chart_box").style.display = "block";
-            //         document.getElementById("ca_chart_box").style.display = "none";
-            //     } else {
-            //         document.getElementById("ca_no_chart_box").style.display = "none";
-            //         document.getElementById("ca_chart_box").style.display = "block";
-
-            //         // Optional: Pie chart just for fun (TE vs BM vs TC vs Customer)
-            //         const labels = ["TE", "BM", "TC", "Customer"];
-            //         const values = [
-            //             data.total_te_amount,
-            //             data.total_bm_paid,
-            //             data.total_tc_paid,
-            //             data.total_customer_paid
-            //         ];
-            //         const colors = ["#ad2321", "#3EB07E", "#2e51f0", "#f9c74f"];
-
-            //         new Chart(document.getElementById("myCAChart1"), {
-            //             type: "pie",
-            //             data: {
-            //                 labels: labels,
-            //                 datasets: [{
-            //                     backgroundColor: colors,
-            //                     data: values
-            //                 }]
-            //             },
-            //             options: {
-            //                 title: {
-            //                     display: true,
-            //                     text: "Total Paid Amount Split"
-            //                 }
-            //             }
-            //         });
-            //     }
-            // }
-
-            //get monthly count for bc, bp, customer, corporate partner, business trainee
-            // $("#month_year").on('change', function() {
-            //     monthYear = monthControl.value;
-            //     // console.log(monthYear);
-            //     //    hide user table
-            //     document.getElementById("user-box").style.display = "none";
-            //     monthlyUserCount();
-            // });
-
-            // get month count
-            // function monthlyUserCount() {
-            //     $.ajax({
-            //         type: "POST",
-            //         url: 'assets/submit/get_monthly_data.php',
-            //         data: 'month_year=' + monthYear + '&userType=0' + '&userId=0',
-            //         success: function(res) {
-            //             var userCount = JSON.parse(res);
-            //             //fetch data to innerHTML    
-            //             document.getElementById("customer_count").innerHTML = userCount[0];
-            //             document.getElementById("consultant_count").innerHTML = userCount[1];
-            //             document.getElementById("partner_count").innerHTML = userCount[2];
-            //             document.getElementById("corporate_partner_count").innerHTML = userCount[3];
-            //             document.getElementById("business_trainee_count").innerHTML = userCount[4];
-            //             document.getElementById("corporate_agency_count").innerHTML = userCount[10];
-            //             document.getElementById("CA_travel_agent_count").innerHTML = userCount[11];
-            //             document.getElementById("CA_customer_count").innerHTML = userCount[12];
-            //             document.getElementById("cbd_count").innerHTML = userCount[13];
-
-            //         },
-            //         error: function(err) {
-            //             console.log(err);
-            //         }
-            //     });
-
-            // }
-
-            // $(".close-btn").click(function() {
-            //     document.getElementById("user-box").style.display = "none";
-            // });
-
-            // function showUserBox(value) {
-            //     if (value == 'customer') {
-            //         userType = 'customer';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Customer Details";
-
-            //     } else if (value == 'consultant') {
-            //         userType = 'consultant';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Business Consultant Details";
-
-            //     } else if (value == 'partner') {
-            //         userType = 'partner';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Business Partner Details";
-
-            //     } else if (value == 'business_trainee') {
-            //         userType = 'business_trainee';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Business Trainee Details";
-
-            //     } else if (value == 'corporate_partner') {
-            //         userType = 'corporate_partner';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Corporate Partner Details";
-
-            //     } else if (value == 'corporate_agency') {
-            //         userType = 'corporate_agency';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Techno Enterprise Details";
-
-            //     } else if (value == 'ca_travelagency') {
-            //         userType = 'ca_travelagency';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Travel Agency Details";
-
-            //     } else if (value == 'ca_customer') {
-            //         userType = 'ca_customer';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Customers Details";
-            //     } else if (value == 'cbd') {
-            //         userType = 'cbd';
-            //         document.getElementById("user-box").style.display = "block";
-            //         document.getElementById("table-heading").innerHTML = "Monthly Channel Business Director Details";
-            //     }
-            //     // fetch records
-            //     getMonthlyUserDetails(monthYear, userType, startRowfrom, limitCount, columnName, orderBy);
-            //     getMonthlyUsersCount(monthYear, userType);
-            // }
-            // get user details
-            // function getMonthlyUserDetails(monthYear, userType, startRowfrom, limitCount, columnName, orderBy) {
-            //     $(".user_row").remove();
-            //     $.ajax({
-            //         type: "POST",
-            //         url: 'assets/submit/monthly_user_details.php',
-            //         data: 'month_year=' + monthYear + '&userType=' + userType + '&userId=0' + '&startfrom=' + startRowfrom + '&limitCount=' + limitCount + '&column_name=' + columnName + '&order_by=' + orderBy,
-            //         success: function(res) {
-            //             //fetch data to innerHTML    
-            //             $("#user_table").append(res);
-            //         },
-            //         error: function(err) {
-            //             console.log(err);
-            //             x
-            //         }
-            //     });
-            // }
-
-            // var startRowfrom = 0;
-            // var limitCount = 5;
-            // var totalRowCount = 0;
-            // var columnName = 'id';
-            // var orderBy = 'ASC';
-
-            // async function getMonthlyUsersCount(monthYear, userType) {
-            //     // get user counts
-            //     let option = {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json;charset=utf-8'
-            //         },
-            //         body: JSON.stringify({
-            //             month_year: monthYear,
-            //             userType: userType
-            //         })
-            //     }
-            //     const response = await fetch('assets/submit/monthly_user_counts.php', option);
-            //     totalRowCount = await response.json();
-            //     setNumberOfPages(totalRowCount);
-            // }
-            // $("#pagination_row_limit").on('change', function() {
-            //     limitCount = parseInt(this.value);
-            //     startRowfrom = 0;
-
-            //     setNumberOfPages(totalRowCount);
-            //     setActivePeginatedRow(monthYear, userType, startRowfrom, limitCount, columnName, orderBy);
-            // });
-
-            // function setRowOrder(column) {
-            //     // set order by
-            //     if (orderBy == 'ASC') {
-            //         orderBy = 'DESC';
-            //     } else {
-            //         orderBy = 'ASC';
-            //     }
-            //     columnName = column;
-            //     startRowfrom = 0;
-
-            //     setActivePeginatedRow(monthYear, userType, startRowfrom, limitCount, columnName, orderBy)
-            // }
-
-            // function setNumberOfPages(row_count) {
-            //     var no_of_pages = Math.ceil(row_count / limitCount);
-
-            //     var newContainer = document.createElement("div");
-            //     newContainer.classList.add("middle");
-            //     var paginationCount = $('#pagination_row');
-            //     paginationCount.empty();
-
-            //     // previous forword pegination link
-            //     var divString1 = '<div class="pagination"><a href="#"';
-            //     var divString2 = 'class="page_nums';
-            //     var divString3 = '';
-            //     if (no_of_pages < 2) {
-            //         divString3 = 'disable_click';
-            //     }
-            //     var divString41 = '" onclick="getPeginatedRowCount(0, 0);';
-            //     var divString42 = '" onclick="getPeginatedRowCount(0, 1);';
-            //     var divString5 = 'return false;">';
-            //     var divString61 = '&laquo;';
-            //     var divString62 = '&raquo;';
-            //     var divString7 = '</a></div>';
-
-            //     newContainer.innerHTML += divString1.concat(" ", divString2, " ", divString3, " ", divString41, "", divString5, " ", divString61, "", divString7);
-            //     paginationCount.append(newContainer); // for multiple element to append
-
-            //     for (let index = 0; index < no_of_pages; index++) {
-            //         var pagestartfrom = index * limitCount;
-            //         var pageNo = index + 1;
-            //         var htmlString2 = '';
-            //         var htmlString1 = '<div class="pagination"><a href="#" class="page_nums';
-            //         if (pageNo == 1) {
-            //             htmlString2 = 'active';
-            //         }
-            //         var htmlString3 = '" id="page_num_' + pagestartfrom + '" onclick="getPeginatedRowCount(1,' + pagestartfrom + '); return false;">' + pageNo + '</a></div>';
-            //         var html = htmlString1.concat(" ", htmlString2, " ", htmlString3);
-
-            //         newContainer.innerHTML += html;
-            //         paginationCount.append(newContainer); // for multiple element to append
-            //     }
-            //     // next pegination icon
-            //     newContainer.innerHTML += divString1.concat(" ", divString2, " ", divString3, " ", divString42, "", divString5, " ", divString62, "", divString7);
-            //     paginationCount.append(newContainer); // for multiple element to append
-            // }
-
-            // function getPeginatedRowCount(type, value) {
-            //     var get_row = false;
-            //     var get_page_count = startRowfrom + limitCount; // set max page limit
-
-            //     if (type == '1') {
-            //         startRowfrom = value;
-            //         get_row = true;
-            //     } else if (startRowfrom == 0 && value == 0) {} else if (get_page_count >= totalRowCount && value == 1) {} else {
-            //         if (value == 1) {
-            //             startRowfrom += limitCount;
-            //         } else {
-            //             startRowfrom -= limitCount;
-            //         }
-            //         get_row = true;
-            //     }
-
-            //     if (get_row) {
-            //         setActivePeginatedRow(monthYear, userType, startRowfrom, limitCount, columnName, orderBy);
-            //     }
-            // }
-
-            // function setActivePeginatedRow(monthYear, userType, startRowfrom, limitCount, columnName, orderBy) {
-            //     const page_num = document.querySelector('#page_num_' + startRowfrom);
-
-            //     $(".page_nums").removeClass("active");
-            //     page_num.classList.add('active');
-
-            //     getMonthlyUserDetails(monthYear, userType, startRowfrom, limitCount, columnName, orderBy);
-            // }
         </script>
 
         <!-- calender get data and insert data  -->
         <script type="text/javascript">
-            // $(".close-btn").click(function(){
-            //     document.getElementById("user-box1").style.display = "none"; 
-            // });
-
-            // function showUserBox1(value){
-            //     if (value=='latest_transaction'){
-            //         userType='latest_transaction';
-            //         document.getElementById("user-box1").style.display = "block";
-            //         document.getElementById("latestTransaction").style.display="none";
-            //         document.getElementById("eventCalender").classList.remove('col-xl-8');
-            //         document.getElementById("eventCalender").classList.add('col-xl-12');
-            //         document.getElementById("table-heading").innerHTML = "Monthly Latest Transaction Details"; 
-
-            //         showCalender();
-            //     }
-            //     // fetch records
-            //     // getMonthlyUserDetails(monthYear,userType,startRowfrom,limitCount,columnName,orderBy);
-            //     // getMonthlyUsersCount(monthYear,userType);
-            // }
-
-            // function calender get data and insert data
+            
             function showCalender() {
                 var calendarEl = document.getElementById('calendar');
 
@@ -5023,7 +5381,50 @@ $Year = date('Y'); //year
                     }
                 });
             }
+            // Doughnut Chart start
+            document.addEventListener("DOMContentLoaded", function () {
 
+                // First Doughnut
+                var chart1 = echarts.init(document.getElementById('doughnut-chart'));
+
+                var option1 = {
+                    tooltip: { trigger: 'item' },
+                    series: [{
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        data: [
+                            { value: 40, name: 'A' },
+                            { value: 30, name: 'B' },
+                            { value: 20, name: 'C' },
+                            { value: 10, name: 'D' }
+                        ]
+                    }]
+                };
+
+                chart1.setOption(option1);
+
+
+                // Second Doughnut
+                var chart2 = echarts.init(document.getElementById('doughnut-chart-2'));
+
+                var option2 = {
+                    tooltip: { trigger: 'item' },
+                    series: [{
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        data: [
+                            { value: 25, name: 'X' },
+                            { value: 35, name: 'Y' },
+                            { value: 15, name: 'Z' },
+                            { value: 25, name: 'W' }
+                        ]
+                    }]
+                };
+
+                chart2.setOption(option2);
+
+            });
+            // Doughnut Chart end
         </script>
 
     </body>
