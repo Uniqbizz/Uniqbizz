@@ -6008,6 +6008,9 @@ if ($userType == '29') {
                 }
  
                 const xValues = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                const hasAnyData = data.some(arr =>
+                                                Array.isArray(arr) && arr.some(v => Number(v) > 0)
+                                            );
  
                 const labelMap = {
                                     '24': ['BDM','BM','MF','SF','TE','F','TC','CU'],
@@ -6055,15 +6058,28 @@ if ($userType == '29') {
                         datasets
                     },
                     options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: true }
+                        legend: {
+                            display: true
                         },
                         scales: {
-                            y: {
-                                min: 0,
-                                max: 100
-                            }
+                              yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: hasAnyData ? undefined : 5,
+                                        stepSize: hasAnyData ? undefined : 1,
+                                        precision: 0,   // 👈 still forces integers when empty
+                                        callback: function(value) {
+                                            if (!hasAnyData) {
+                                            return value;            // 0–5 when empty
+                                            }
+                                            return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                                        }
+                                    }
+                                }]
+                        },
+                        title: {
+                            display: false,
+                            text: 'Registered Users'
                         }
                     }
                 });

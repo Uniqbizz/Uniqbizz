@@ -3417,6 +3417,9 @@ $Year = date('Y'); //year
                 values_bm.push(data[10][i]);
             }
             var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const hasAnyData = data.some(arr =>
+                                            Array.isArray(arr) && arr.some(v => Number(v) > 0)
+                                        );
             new Chart(document.getElementById("myChart"), {
                 type: 'line',
                 data: {
@@ -3489,12 +3492,20 @@ $Year = date('Y'); //year
                         display: true
                     },
                     scales: {
-                        yAxes: [{
-                            display: true,
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
+                          yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: hasAnyData ? undefined : 5,
+                                        stepSize: hasAnyData ? undefined : 1,
+                                        precision: 0,   // 👈 still forces integers when empty
+                                        callback: function(value) {
+                                            if (!hasAnyData) {
+                                            return value;            // 0–5 when empty
+                                            }
+                                            return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                                        }
+                                    }
+                                }]
                     },
                     title: {
                         display: false,
@@ -3552,6 +3563,9 @@ $Year = date('Y'); //year
                 // values_bm.push(data[10][i]);
             }
             var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const hasAnyData = data.some(arr =>
+                                            Array.isArray(arr) && arr.some(v => Number(v) > 0)
+                                        );
             new Chart(document.getElementById("myChartCust"), {
                 type: 'line',
                 data: {
@@ -3624,12 +3638,20 @@ $Year = date('Y'); //year
                         display: true
                     },
                     scales: {
-                        yAxes: [{
-                            display: true,
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
+                          yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: hasAnyData ? undefined : 5,
+                                        stepSize: hasAnyData ? undefined : 1,
+                                        precision: 0,   // 👈 still forces integers when empty
+                                        callback: function(value) {
+                                            if (!hasAnyData) {
+                                            return value;            // 0–5 when empty
+                                            }
+                                            return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                                        }
+                                    }
+                                }]
                     },
                     title: {
                         display: false,
