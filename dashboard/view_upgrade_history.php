@@ -392,90 +392,6 @@ $initial_inv='';
     <script src="assets/js/app.js"></script>
 
     <script>
-        
-        $(document).ready(function() {
-            $("#example-dataTable").DataTable();
-            $("#example-dataTable-2").DataTable();
-            $('.rejectMess').click(function () {
-                var createdDate=$(this).data("created-date");
-                var usersId=$(this).data("user-id");
-                $.ajax({
-                   url:"travel_agent/getRejectReason.php",
-                   type:"POST",
-                   data:{createdDate:createdDate,usersId:usersId},
-                   success:function(response){
-                    $('#floatingTextarea').text(response);
-                    $("#rejectTopup").modal("show");
-                   } 
-                });
-                
-            });
-        });
-
-        function editfunc(id, cut, st, ct, editfor) {
-            window.location.href = 'edit_customer.php?vkvbvjfgfikix=' + id + '&ncy=' + cut + '&mst=' + st + '&hct=' + ct + '&editfor=' + editfor;
-        };
-
-        function addRefFunc(id, taID, cut, st, ct, editfor) {
-            window.location.href = 'add_customer.php?vkvbvjfgfikix=' + id + '&taId=' + taID + '&ncy=' + cut + '&mst=' + st + '&hct=' + ct + '&editfor=' + editfor;
-        };
-
-        function deletefunc(id, fid, action) {
-            var dataString = 'id=' + id + '&fid=' + fid + '&action=' + action;
-
-            $.ajax({
-                type: "POST",
-                url: "customer/delete_customer_data.php",
-                data: dataString,
-                cache: false,
-                success: function(data) {
-                    console.log(data);
-                    if (data == 0) {
-                        alert("Deleted Succesfully");
-                        window.location.reload();
-                    } else if (data == 1) {
-                        alert("User Activated Succesfully");
-                        window.location.reload();
-                    } else if (data == 2) {
-                        alert("User Restored Succesfully");
-                        window.location.reload();
-                    } else if (data == 3) {
-                        alert("User Deactivated Succesfully");
-                        window.location.reload();
-                    } else {
-                        alert("Request Failed !!");
-                    }
-                }
-            });
-        };
-
-        function confirmfunc(id, email) {
-            var dataString = 'id=' + id + '&uname=' + email;
-
-            $.ajax({
-                type: "POST",
-                url: "customer/confirm_customer.php",
-                data: dataString,
-                cache: false,
-                success: function(data) {
-                    if (data == 1) {
-                        alert("Email and Password sent via sms and email");
-                        window.location.reload();
-                    } else {
-
-                        alert("Failed to confirm");
-                    }
-                }
-            });
-
-        };
-
-        function overviewPage(id, ref, cut, st, ct, message) {
-            var designation = 'Customer';
-            window.location.href = 'overview.php?id=' + id + '&ref=' + ref + '&cut=' + cut + '&st=' + st + '&ct=' + ct + '&message=' + message + '&designation=' + designation;
-        }
-    </script>
-    <script>
         //franchisee upgrade History Details
         function upgradeHistoryPage(id,ref){
             window.location.href='upgrade_franchisee_history.php?id='+id+'&sub_f_id='+ref;
@@ -487,7 +403,10 @@ $initial_inv='';
             ordering: true,
             info: true,
             lengthChange: true,
-            pageLength: 10
+            pageLength: 10,
+            responsive: false,   // IMPORTANT: disable DataTables responsive
+            autoWidth: false,    // IMPORTANT: don’t let DataTables guess widths
+            scrollX: true 
         });
         var acc = document.getElementsByClassName("accordion");
         var i;
