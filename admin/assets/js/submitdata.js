@@ -3021,13 +3021,16 @@ $("#addCorporateAgency").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == 'corporate_agency'
-    ? 'add_corporate_agency_data.php'
-    : register_as == 'sub_franchisee'
+        ? 'add_corporate_agency_data.php'
+        : register_as == 'sub_franchisee'
         ? 'add_sub_franchisee_data.php'
+        : register_as == 'institution' 
+        ? 'add_institution_data.php'
         : '';
     // console.log('Add customer button clicked');
 
     //var designation = $("#designation").val() ? "travel_agent" : "";
+    var converted = $('#is_converted').is(':checked') ? 1 : 2;//1 converted 2 non converted
     var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' :  $("#user_id_name").val();
     var reference_name = $("#reference_name").val() == 'NA' ? 'Not Applicable' :  $("#reference_name").val();
 
@@ -3197,7 +3200,9 @@ $("#addCorporateAgency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&converted="+
+            converted;
         console.log(dataString);
 
         if (validateForm()) {
@@ -3228,11 +3233,14 @@ $("#addCorporateAgency").on("click", function (e) {
 $("#editCorporateAgency").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
+
     var url = register_as == 'te'
     ? 'edit_corporate_agency_data.php'
     : register_as == 'sf'
-        ? 'edit_sub_franchisee_data.php'
-        : '';
+    ? 'edit_sub_franchisee_data.php'
+    : register_as == 'in' 
+    ? 'edit_institution_data.php'
+    : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();

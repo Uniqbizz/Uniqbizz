@@ -466,28 +466,34 @@
         </script>
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
-            // $(document).ready(function(){
-            //     $('#payment_fee').on('change', function(){
-            //         var payment_fee = $('#payment_fee').val();
-            //         if (payment_fee == "FOC") {
-            //             console.log(payment_fee);
-            //         } else if(payment_fee == 'null'){
-            //             alert("Select Payment Fee Option");
-            //         } else{
-            //             var paymentProof = $(':hidden#img_path6').val();
-            //             if (!paymentProof) {
-            //                 alert("Payment Proof Required");
-            //             }
-            //         }
-            //     });
-            // });
+            
+            //On page load hide payment Mode and Payment proof if value selected is FOC or Null
+            $(document).ready(function(){
+                var payment_fee = $("#payment_fee").val();
+                console.log(payment_fee);
+                if(payment_fee == "FOC"){
+                    $("#paymentModeBlock").addClass("d-none");
+                    $("#paymentFields").addClass("d-none");
+                    $('#payProof').addClass('d-none');  
+                }else if(payment_fee == "null"){
+                    $("#paymentModeBlock").addClass("d-none");
+                    $("#paymentFields").addClass("d-none");
+                    $('#payProof').addClass('d-none');  
+                }else{
+                    $("#paymentModeBlock").removeClass("d-none");
+                    $("#paymentFields").removeClass("d-none");
+                    $('#payProof').removeClass('d-none');  
+                }
+            });
             //on change of compcheck
             $('#is_complementary').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#payment_fee').prop('disabled', true);
+                    $('#upload_file6').prop('disabled', true);
                     $('.payment').prop('disabled', true);
                 } else {
                     $('#payment_fee').prop('disabled', false);
+                    $('#payProof').prop('disabled', true);
                     $('.payment').prop('disabled', false);
                 }
             });
@@ -530,6 +536,7 @@
                
             }); 
 
+            // on country change populate state values
             $('#country').on('change', function(){
                 var countryID = $(this).val();
                 if(countryID){
@@ -548,7 +555,8 @@
                     $('#pin').val('');   
                 }
             });
-                
+            
+            // on state change get value of city
             $('#mystate').on('change', function(){
                 // alert();
                 var stateID = $(this).val();
@@ -581,6 +589,7 @@
                 // }
             });
 
+            // on city change get value pincode
             $('#city').on('change', function(){
                 var cityID = $(this).val();
                 if(cityID){
@@ -599,6 +608,7 @@
                 }
             });
 
+            // value selected from drop down display and hide payment block and payment proof
             $('#payment_fee').on('change', function(){
                 var payment_fee = $(this).val();
                 // console.log(payment_fee);
@@ -617,6 +627,7 @@
                 }
             });
 
+            // When payment mode selected show specific section 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
                 // console.log(paymentMode);
@@ -642,6 +653,7 @@
                     // $("#allOpt").removeClass("d-none");
                 }
             });
+
             //for valid check date --SV
             $('#chequeDate').on('input', function () {
                 let value = $(this).val();

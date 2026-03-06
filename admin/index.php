@@ -4267,158 +4267,50 @@ $Year = date('Y'); //year
                 document.body.scrollTop = 0,
                     document.documentElement.scrollTop = 0
             }
-            mybutton && (window.onscroll = function() {
-                scrollFunction()
-            });
-        </script>
-        <script>
-            const currentDate = new Date();
-            var getCurrentYear = currentDate.getFullYear();
-            var getCurrentMonth = currentDate.getMonth() + 1;
-            var userType, monthYear;
-            var monthControl = "2020";
-
-            $(function() {
-                // get min and max month for input tag
-                const date = new Date()
-                const month = ("0" + (date.getMonth() + 1)).slice(-2)
-                const year = date.getFullYear()
-                monthControl.value = `${year}-${month}`;
-                // console.log(monthControl.value);
-
-                // Set Default value for years for line chart
-                for (let index = 2020; index <= getCurrentYear; index++) {
-                    if (index == getCurrentYear) {
-                        $("#customer_years_id").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                        $("#revenue_years_id").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                        $("#years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                        $("#yearsCustMemb").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                        $("#consultant_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                        $("#partner_years").append('<option selected="selected" value="' + index + '">' + index + '</option>');
-                    } else {
-                        $("#customer_years_id").append('<option value="' + index + '">' + index + '</option>');
-                        $("#revenue_years_id").append('<option value="' + index + '">' + index + '</option>');
-                        $("#years").append('<option value="' + index + '">' + index + '</option>');
-                        $("#yearsCustMemb").append('<option value="' + index + '">' + index + '</option>');
-                        $("#consultant_years").append('<option value="' + index + '">' + index + '</option>');
-                        $("#partner_years").append('<option value="' + index + '">' + index + '</option>');
-                    }
-                }
-                // Month selector
-                const monthNames = [
-                    "January", "February", "March", "April",
-                    "May", "June", "July", "August",
-                    "September", "October", "November", "December"
-                ];
-                const selects = [
-                    // month selector div id
-                    "#customer_month_id"
-                ];
-
-                for (let index = 1; index <= 12; index++) {
-
-                    let monthText = monthNames[index - 1];
-                    let selected = index == getCurrentMonth ? 'selected="selected"' : '';
-
-                    selects.forEach(id => {
-                        $(id).append('<option ' + selected + ' value="' + index + '">' + monthText + '</option>');
-                    });
-                }
-
-                
-                // get chart data
-                getMonthlyUserData(getCurrentYear);
-                getMonthlyUserDataCustMemb(getCurrentYear);
-                getCAData(); //ca Amount Pie Chart
-                monthYear = monthControl.value;
-            });
-            //line chart for all user, excuding Customer 
-            async function getMonthlyUserData(get_year) {
-                let option = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify({
-                        year: get_year,
-                        current_year: getCurrentYear,
-                        current_month: getCurrentMonth,
-                        user_id: 0,
-                        user_type: 0
-                    })
-                }
-                const response = await fetch('charts/monthly_customer_count.php', option);
-                const data = await response.json();
-                // console.log(data);
-                length = data[0].length;
-                labels = [];
-                values_cust = [];
-                values_ta = [];
-                values_bp = [];
-                values_cp = [];
-                values_bt = [];
-                values_ca = [];
-                values_cata = [];
-                values_cacu = [];
-                values_cbd = [];
-                values_emp = [];
-                values_bm = [];
-
-                for (i = 0; i < length; i++) {
-                    values_cust.push(data[0][i]);
-                    values_ta.push(data[1][i]);
-                    values_bp.push(data[2][i]);
-                    values_cp.push(data[3][i]);
-                    values_bt.push(data[4][i]);
-                    values_ca.push(data[5][i]);
-                    values_cata.push(data[6][i]);
-                    values_cacu.push(data[7][i]);
-                    values_cbd.push(data[8][i]);
-                    values_emp.push(data[9][i]);
-                    values_bm.push(data[10][i]);
-                }
-                var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                new Chart(document.getElementById("myChart"), {
-                    type: 'line',
-                    data: {
-                        labels: xValues,
-                        datasets: [
-                           
-                            {
-                                label: "Employees",
-                                data: values_emp,
-                                borderColor: "yellow",
-                                fill: true
-                            },
-                            {
-                                label: "Mentor",
-                                data: values_bm,
-                                borderColor: "blue",
-                                fill: true
-                            },
-                            {
-                                label: "Techno Enterprise",
-                                data: values_ca,
-                                borderColor: "green",
-                                fill: true
-                            },
-                            {
-                                label: "Travel Consultant",
-                                data: values_cata,
-                                borderColor: "pink",
-                                fill: true
-                            },
-                            {
-                                label: "Customer",
-                                data: values_cacu,
-                                borderColor: "red",
-                                fill: true
-                            }
-                        ]
-                    },
-                    options: {
-                        legend: {
-                            display: true
+            var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const hasAnyData = data.some(arr =>
+                                            Array.isArray(arr) && arr.some(v => Number(v) > 0)
+                                        );
+            new Chart(document.getElementById("myChart"), {
+                type: 'line',
+                data: {
+                    labels: xValues,
+                    datasets: [
+                        // {
+                        //     label: "Partners",
+                        //     data: values_bp,
+                        //     borderColor: "green",
+                        //     fill: true
+                        // },
+                        // {
+                        //     label: "Channel Business Director",
+                        //     data: values_cbd,
+                        //     borderColor: "yellow",
+                        //     fill: true
+                        // },
+                        // {
+                        //     label: "Base Agency",
+                        //     data: values_cust,
+                        //     borderColor: "red",
+                        //     fill: true
+                        // },
+                        // {
+                        //     label: "Corporate Partner",
+                        //     data: values_cp,
+                        //     borderColor: "purple",
+                        //     fill: true
+                        // },
+                        // {
+                        //     label: "Consultant",
+                        //     data: values_ta,
+                        //     borderColor: "blue",
+                        //     fill: true
+                        // },
+                        {
+                            label: "Employees",
+                            data: values_emp,
+                            borderColor: "yellow",
+                            fill: true
                         },
                         scales: {
                             yAxes: [{
@@ -4544,46 +4436,27 @@ $Year = date('Y'); //year
                             display: false,
                             text: 'Registered Users'
                         }
-                    }
-                });
-            }
-
-            //TE pie chart
-            async function getCAData() {
-                const response = await fetch('charts/ca_payout.php');
-                const data = await response.json();
-
-                // console.log(data);
-
-                var xValues = ["2 Lakhs", "3 Lakhs", "5 Lakhs"];
-                var yValues = [data[4], data[3], data[2]];
-                var total = data[1];
-                var totalCA = data[0];
-                var barColors = [
-                    "#ad2321",
-                    "#3EB07E",
-                    "#2e51f0"
-                ];
-
-                document.getElementById("ca_total_count").innerText = "Total TE = " + totalCA + "\n";
-                document.getElementById("ca_total_price").innerText = " Total Amount = ₹ " + total + "/-";
-
-                if (totalCA == 0) {
-                    document.getElementById("ca_no_chart_box").style.display = "block";
-                    document.getElementById("ca_chart_box").style.display = "none";
-                } else {
-                    document.getElementById("ca_no_chart_box").style.display = "none";
-                    document.getElementById("ca_chart_box").style.display = "block";
-                }
-
-                new Chart(document.getElementById("myCAChart"), {
-                    type: "pie",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: true
+                    },
+                    scales: {
+                          yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: hasAnyData ? undefined : 5,
+                                        stepSize: hasAnyData ? undefined : 1,
+                                        precision: 0,   // 👈 still forces integers when empty
+                                        callback: function(value) {
+                                            if (!hasAnyData) {
+                                            return value;            // 0–5 when empty
+                                            }
+                                            return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                                        }
+                                    }
+                                }]
                     },
                     options: {
                         title: {
@@ -4616,34 +4489,96 @@ $Year = date('Y'); //year
                 chartDataCache = data;
                 renderChart(type,year, month);
             }
-
-            function renderChart(type, month, year) {
-                let label = '', total = 0, paid = 0, pending = 0;
-
-                const dataMap = {
-                    te: {
-                        count: chartDataCache.total_te || 0,
-                        paid: chartDataCache.total_te_amount || 0,
-                        pending: chartDataCache.total_te_pending || 0,
-                        label: 'TE'
+            var xValues = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const hasAnyData = data.some(arr =>
+                                            Array.isArray(arr) && arr.some(v => Number(v) > 0)
+                                        );
+            new Chart(document.getElementById("myChartCust"), {
+                type: 'line',
+                data: {
+                    labels: xValues,
+                    datasets: [
+                        {
+                            label: "Regular",
+                            data: values_custF,
+                            borderColor: "green",
+                            fill: true
+                        },
+                        // {
+                        //     label: "Prime",
+                        //     data: values_custPR,
+                        //     borderColor: "yellow",
+                        //     fill: true
+                        // },
+                        {
+                            label: "Premium",
+                            data: values_custP,
+                            borderColor: "red",
+                            fill: true
+                        },
+                        {
+                            label: "Premium Plus",
+                            data: values_custPP,
+                            borderColor: "purple",
+                            fill: true
+                        },
+                        {
+                            label: "Premium Select",
+                            data: values_custPS,
+                            borderColor: "blue",
+                            fill: true
+                        },
+                        {
+                            label: "Premium Select Lite",
+                            data: values_custPSL,
+                            borderColor: "orange",
+                            fill: true
+                        },
+                        {
+                            label: "Neo Select",
+                            data: values_custNS,
+                            borderColor: "gray",
+                            fill: true
+                        },
+                        {
+                            label: "Neo Select Ultra",
+                            data: values_custNSU,
+                            borderColor: "black",
+                            fill: true
+                        },
+                        // {
+                        //     label: "Travel Consultant",
+                        //     data: values_cata,
+                        //     borderColor: "pink",
+                        //     fill: true
+                        // },
+                        // {
+                        //     label: "Customer",
+                        //     data: values_cacu,
+                        //     borderColor: "red",
+                        //     fill: true
+                        // }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: true
                     },
-                    f: {
-                        count: chartDataCache.total_f || 0,
-                        paid: chartDataCache.total_f_amount || 0,
-                        pending: chartDataCache.total_f_pending || 0,
-                        label: 'F'
-                    },
-                    tc: {
-                        count: chartDataCache.total_tc || 0,
-                        paid: chartDataCache.total_tc_paid || 0,
-                        pending: chartDataCache.total_tc_pending || 0,
-                        label: 'TC'
-                    },
-                    customer: {
-                        count: chartDataCache.total_customer || 0,
-                        paid: chartDataCache.total_customer_paid || 0,
-                        pending: chartDataCache.total_customer_pending || 0,
-                        label: 'Customer'
+                    scales: {
+                          yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: hasAnyData ? undefined : 5,
+                                        stepSize: hasAnyData ? undefined : 1,
+                                        precision: 0,   // 👈 still forces integers when empty
+                                        callback: function(value) {
+                                            if (!hasAnyData) {
+                                            return value;            // 0–5 when empty
+                                            }
+                                            return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                                        }
+                                    }
+                                }]
                     },
                     bm: {
                         count: chartDataCache.total_bm || 0,

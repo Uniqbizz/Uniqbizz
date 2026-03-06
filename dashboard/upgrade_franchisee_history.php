@@ -116,7 +116,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Upgarde Franchisee History | Admin Dashboard </title>
+        <title>Upgarde Franchisee History | Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/fav.png">
@@ -133,6 +133,8 @@
         <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="assets/css/custom.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <!-- App js -->
         <!-- <script src="assets/js/plugin.js"></script> -->
 
@@ -164,16 +166,6 @@
 
                 <div class="page-content">
                     <div class="container-fluid">
-
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Franchisee</h4>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- add customer form start -->
                         <div class="row">
                             <div class="col-12">
@@ -237,7 +229,7 @@
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea"><?= $note ?></textarea>
+                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea" readonly><?= $note ?></textarea>
                                                     </div>
                                                 </div>
                                                 <?php
@@ -246,7 +238,7 @@
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Rejection Reason<span class="text-danger">*</span></label>
-                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea"><?= $rejection_reason ?></textarea>
+                                                        <textarea class="form-control" placeholder="Enter Note" id="floatingTextarea" readonly><?= $rejection_reason ?></textarea>
                                                     </div>
                                                 </div>
                                                 <?php
@@ -301,7 +293,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label"><b>Payment Proof</b>
-                                                            <a href="<?php echo 'uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                            <a href="<?php echo '../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
                                                                 <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                             </a>
                                                         </label><br />
