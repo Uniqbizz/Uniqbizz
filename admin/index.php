@@ -1235,6 +1235,31 @@ $Year = date('Y'); //year
                                             </div>
                                         </div>
                                         <hr>
+                                        <div class="mb-2">
+                                            <ul class="nav nav-pills d-flex justify-content-between" id="navMenu">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" aria-current="page" href="#">Customers</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Institute</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Master Franchisees</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Sponsor Franchisees</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Franchisees</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Techno Enterprise</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Travel Consultants</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                         <div class="col-12 table-responsive text-center">
                                             <table class="table mb-0">
                                                 <thead>
@@ -5426,6 +5451,25 @@ $Year = date('Y'); //year
             });
             // Doughnut Chart end
         </script>
+        <!-- top performer start 6/3/2026 -->
+        <script>
+            // Get the parent UL
+            const navMenu = document.getElementById('navMenu');
+
+            // Add click listener to all child links
+            navMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // prevent page reload if href="#"
+                    
+                    // Remove 'active' from all links
+                    navMenu.querySelectorAll('.nav-link').forEach(item => item.classList.remove('active'));
+                    
+                    // Add 'active' to the clicked link
+                    this.classList.add('active');
+                });
+            });
+        </script>
+        <!-- top performer end 6/3/2026 -->
 
     </body>
 </html>
