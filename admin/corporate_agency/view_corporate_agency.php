@@ -48,6 +48,29 @@
             .lable-width{
                 width: 18px;
             }
+            /* for tool tip of user indication */
+            .tooltip-cell {
+                position: relative;
+            }
+
+            .tooltip-msg {
+                display: none;
+                position: absolute;
+                background: #717171;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                top: -5px;
+                left: 0;
+                font-size: 12px;
+                white-space: nowrap;
+                z-index: 1;
+            }
+
+            .tooltip-cell:hover .tooltip-msg {
+                display: block;
+            }
+            /* for tool tip of user indication */
 
             /* for tool tip of user indication */
             .tooltip-cell {
@@ -403,6 +426,8 @@
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
+                                                                
+                                                                
                                                                 if ($row["tc_assign_status"] == 1) {
                                                                     $rowClass = 'bg-success'; // TC allotted = green
                                                                     // $hoverText = 'TC Allotted';
