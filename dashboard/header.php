@@ -134,9 +134,9 @@ include_once 'dashboard_user_details.php';
                                     <div class="col">
                                         <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
                                     </div>
-                                    <div class="col-auto dropdown-tabs">
+                                    <!-- <div class="col-auto dropdown-tabs">
                                         <span class="badge bg-light-subtle text-body fs-13"> 4 New</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
@@ -147,7 +147,7 @@ include_once 'dashboard_user_details.php';
                                             All
                                         </a>
                                     </li>
-                                    <li class="nav-item waves-effect waves-light">
+                                    <!-- <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab" aria-selected="false">
                                             Messages
                                         </a>
@@ -156,14 +156,14 @@ include_once 'dashboard_user_details.php';
                                         <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab" aria-selected="false">
                                             Alerts
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                    <!-- <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
                                             <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span class="avatar-title bg-info-subtle text-info rounded-circle fs-16">
@@ -265,12 +265,12 @@ include_once 'dashboard_user_details.php';
                                     <div class="my-3 text-center view-all">
                                         <button type="button" class="btn btn-soft-success waves-effect waves-light">View
                                             All Notifications <i class="ri-arrow-right-line align-middle"></i></button>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                             </div>
 
-                            <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
+                            <!-- <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
@@ -372,7 +372,7 @@ include_once 'dashboard_user_details.php';
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div>
+                            <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab"></div> -->
 
                             <div class="notification-actions" id="notification-actions">
                                 <div class="d-flex text-muted justify-content-center">

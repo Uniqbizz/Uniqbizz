@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Techno Enterprise / Franchisee View | Admin Dashboard </title>
+        <title>Techno Enterprise / Franchisee / Institution View | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -67,6 +67,30 @@
                 z-index: 1;
             }
 
+            .tooltip-cell:hover .tooltip-msg {
+                display: block;
+            }
+            /* for tool tip of user indication */
+
+            /* for tool tip of user indication */
+            .tooltip-cell {
+                position: relative;
+            }
+ 
+            .tooltip-msg {
+                display: none;
+                position: absolute;
+                background: #717171;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                top: -5px;
+                left: 0;
+                font-size: 12px;
+                white-space: nowrap;
+                z-index: 1;
+            }
+ 
             .tooltip-cell:hover .tooltip-msg {
                 display: block;
             }
@@ -125,7 +149,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee / Institution</h4>
                                     </div>
 
                                 </div>
@@ -142,7 +166,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Techno Enterprise / Franchisee List</h4>
+                                                        <h4>Pending Techno Enterprise / Franchisee / Institution List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,17 +190,39 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,'NA' AS upgrade_status_val 
+                                                            SELECT 'te' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status,
+                                                            register_by, country, state, city,'NA' AS upgrade_status_val,'NA' AS upgrade_id 
                                                             FROM corporate_agency 
                                                             WHERE status IN ('0', '2') 
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
+                                                            SELECT 'sf' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
+                                                            register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('0', '2')
                                                             UNION ALL 
-                                                            SELECT 'sf' AS user_type, sub_franchisee_id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, register_by, country, state, city,upgrade_status AS upgrade_status_val 
-                                                            FROM sub_franchisee 
-                                                            WHERE status=1 AND upgrade_status = 1 
+                                                            SELECT 'in' AS user_type, id AS id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, added_on, status, 
+                                                            register_by, country, state, city,upgrade_status AS upgrade_status_val, 'NA' AS upgrade_id 
+                                                            FROM institution 
+                                                            WHERE status IN ('0', '2')
+                                                            UNION ALL
+                                                            SELECT 'in' AS user_type, i.institution_id AS id, i.firstname, i.lastname, i.reference_no, i.registrant, i.country_code, i.contact_no, i.email, i.amount, i.date_of_birth, i.added_on, i.status, 
+                                                            i.register_by, i.country, i.state, i.city,i.upgrade_status AS upgrade_status_val, iu.id AS upgrade_id
+                                                            FROM institution i
+                                                            LEFT JOIN institution_upgrade iu 
+                                                                ON iu.institution_id = i.institution_id
+                                                            WHERE 
+                                                                i.status = 1 
+                                                                AND i.upgrade_status = 1
+                                                            UNION ALL 
+                                                            SELECT 'sf' AS user_type, f.sub_franchisee_id AS id, f.firstname, f.lastname, f.reference_no, f.registrant, f.country_code, 
+                                                            f.contact_no, f.email, f.amount, f.date_of_birth, f.added_on, f.status, f.register_by, f.country, f.state, f.city, f.upgrade_status AS upgrade_status_val,
+                                                            su.id AS upgrade_id
+                                                            FROM sub_franchisee f
+                                                            LEFT JOIN sub_franchisee_upgrade su 
+                                                                ON su.sub_franchisee_id = f.sub_franchisee_id
+                                                            WHERE 
+                                                                f.status = 1 
+                                                                AND f.upgrade_status = 1 
                                                             ORDER BY added_on ASC
                                                         ";
 
@@ -194,7 +240,7 @@
 
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
-                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type']=='sf'?'f':($row['user_type']=='te'?'te':'')) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
+                                                                    <td><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type']=='sf'?'f':($row['user_type']=='te'?'te':($row['user_type']=='in'?'in':''))) . '</span>&nbsp' . ucfirst($row['firstname']) . ' ' . ucfirst($row['lastname']) . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p></td>
                                                                     <td>
@@ -226,8 +272,8 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu">
-                                                                                    <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","approve")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-check-circle font-size-16 text-success me-1"></i> approve</a></li>
-                                                                                    <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","reject")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Reject</a></li>
+                                                                                    <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","approve","'.$row["upgrade_id"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-check-circle font-size-16 text-success me-1"></i> approve</a></li>
+                                                                                    <li><a href="#" onclick=\'approvalfunc("' . $row["id"] . '","reject","'.$row["upgrade_id"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Reject</a></li>
                                                                                 </ul>
                                                                             </div>
                                                                         </td>';
@@ -266,7 +312,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Techno Enterprise / Franchisee List</h4>
+                                                        <h4>Registered Techno Enterprise / Franchisee / Institution List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -278,6 +324,7 @@
                                                             <option value="All">All</option>
                                                             <option value="TE">Techno Enterprise</option>
                                                             <option value="F">Franchisee</option>
+                                                            <option value="IN">Institution</option>
                                                         </select>
                                                     </div>
                                                     <div class="designation-filter no-space col-md-2 col-sm-12">
@@ -361,6 +408,10 @@
                                                             SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
                                                             FROM sub_franchisee 
                                                             WHERE status IN ('1') 
+                                                            UNION ALL
+                                                            SELECT 'in' AS user_type, id,  institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status,upgrade_status as upgrade_pack 
+                                                            FROM  institution 
+                                                            WHERE status IN ('1') 
                                                             ORDER BY register_date ASC
                                                         ";
 
@@ -390,7 +441,6 @@
                                                                 $color = $isNew ? 'green' : 'black';
                                                                 $msg = $isNew ? 'Registered to new regime of terms and conditions' : 'Registered to old regime of terms and conditions';
 
-
                                                                 echo '<tr>
                                                                         <td class="tooltip-cell" style="color: '.$color .';">
                                                                             '. $row['user_id'].' 
@@ -398,7 +448,7 @@
                                                                         </td>
                                                                         <td> 
                                                                             <span class="badge '.$rowClass.' lable-width">'
-                                                                                . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : '')) . 
+                                                                                . strtoupper($row['user_type'] == 'sf' ? 'f' : ($row['user_type'] == 'te' ? 'te' : ($row['user_type'] == 'in' ? 'in' : ''))) . 
                                                                             '</span>&nbsp;' . $row['firstname'] . ' ' . $row['lastname'] ;
                                                                             if($row["tc_assign_status"] == 1){
                                                                                 echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
@@ -420,9 +470,11 @@
                                                                             <p class="mb-0">' . $row['email'] . '</p>
                                                                         </td>';
                                                                 if($row["upgrade_pack"] == 2){
-                                                                   $sql2 = "SELECT upgrade_amt 
-                                                                            FROM sub_franchisee_upgrade 
-                                                                            WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+                                                                    $upgradeTable = $row['user_type'] == 'sf' ? 'sub_franchisee_upgrade' : ($row['user_type'] == 'in' ? 'institution_upgrade' : '');
+                                                                    $upgradeTableId = $row['user_type'] == 'sf' ? 'sub_franchisee_id' : ($row['user_type'] == 'in' ? 'institution_id' : '');
+                                                                    $sql2 = "SELECT upgrade_amt 
+                                                                            FROM $upgradeTable 
+                                                                            WHERE $upgradeTableId = :id and upgrade_status=1 ORDER BY id DESC limit 1";
 
                                                                     $stmt = $conn->prepare($sql2);
 
@@ -449,8 +501,8 @@
                                                                                 </a>
                                                                                 <ul class="dropdown-menu">
                                                                                     <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
-                                                                                    if($row['user_type'] == 'sf'){
-                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>';
+                                                                                    if($row['user_type'] == 'sf' || $row['user_type'] == 'in'){
+                                                                                        echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> '.($row['user_type'] == 'sf' ? 'Upgrade Franchisee' : ($row['user_type'] == 'in' ? 'Upgrade Institution' : '')) .' </a></li>';
                                                                                     }
                                                                                     if ($row['user_type'] == 'te' && $row["tc_assign_status"] == 2) {
                                                                                         echo '<li>
@@ -557,7 +609,11 @@
                                                             UNION ALL 
                                                             SELECT 'sf' AS user_type, id, sub_franchisee_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
                                                             FROM sub_franchisee 
-                                                            WHERE status IN ('3') 
+                                                            WHERE status IN ('3')
+                                                            UNION ALL 
+                                                            SELECT 'in' AS user_type, id, institution_id AS user_id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, amount, date_of_birth, register_date, status, register_by, country, state, city,no_tc_alloted,tc_assign_status 
+                                                            FROM institution 
+                                                            WHERE status IN ('3')  
                                                             ORDER BY register_date ASC
                                                         ";
 
@@ -589,7 +645,7 @@
                                                                             if($row["tc_assign_status"] == 1){
                                                                                 echo '<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
                                                                                         TC Allotted
-                                                                                      </small>';
+                                                                                        </small>';
                                                                             } 
                                                                 echo'   </td>
                                                                         <td>
@@ -964,21 +1020,23 @@
             };
             //only for frnachisee users
             var rejectId = null;
+            var rejectRecId = null;
 
-            function approvalfunc(id, action){
+            function approvalfunc(id, action,rec_id){
 
                 if(action == "reject"){
                     rejectId = id;
+                    rejectRecId = rec_id;
                     $("#rejectReason").val("");
                     $("#charCount").text("0 / 1000");
                     $("#rejectModal").modal("show");
                     return;
                 }
 
-                sendApproval(id, action, "");
+                sendApproval(id, action, "",rec_id);
             }
 
-            function sendApproval(id, action, reason){
+            function sendApproval(id, action, reason, rec_id){
 
                 $.ajax({
                     type: "POST",
@@ -986,7 +1044,8 @@
                     data: {
                         id: id,
                         action: action,
-                        reason: reason
+                        reason: reason,
+                        rec_id: rec_id
                     },
                     success:function(data){
                         if(data == 1){
@@ -1015,7 +1074,7 @@
                     return;
                 }
 
-                sendApproval(rejectId, "reject", reason);
+                sendApproval(rejectId, "reject", reason, rec_id);
                 $("#rejectModal").modal("hide");
             });
 
@@ -1044,7 +1103,7 @@
             };
 
             function overviewPage(id,ref,cut,st,ct,message){
-                var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':'');
+                var designation = message=='corporate_agency'?'Techno Enterprise':(message=='sub_franchisee'?'Franchisee':(message == 'institution'?'institution':''));
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
             //franchisee upgrade
