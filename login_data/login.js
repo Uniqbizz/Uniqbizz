@@ -114,8 +114,8 @@ function userLogin(){
 
                 // alert("login ");
                 // window.open("index2.php");
-                // alert();
                 location.href = "dashboard/views/index.php";
+                // alert('test');
               }
               else{
                 alert("username and password not correct");

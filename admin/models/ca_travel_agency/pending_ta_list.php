@@ -1,10 +1,10 @@
 <?php
     $sql = "SELECT 'tc' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, address,
-            date_of_birth, register_date, address, register_by, country, state, city, comp_check, status
+            date_of_birth, added_on, address, register_by, country, state, city, comp_check, status
             FROM `ca_travelagency` WHERE status = '2' OR status = '0'  
             UNION ALL
             SELECT 'ibr' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, address,
-            date_of_birth, register_date, address, register_by, country, state, city, comp_check, status
+            date_of_birth, added_on, address, register_by, country, state, city, comp_check, status
             FROM institution_branch_manager WHERE status = '2' OR status = '0'
             ORDER BY id ASC";
     $stmt = $conn -> prepare($sql);
@@ -15,7 +15,7 @@
             $bd= new DateTime($row['date_of_birth']);
             $bdate= $bd->format('d-m-Y');
 
-            $rd= new DateTime($row['register_date']);
+            $rd= new DateTime($row['added_on']);
             $rdate= $rd->format('d-m-Y');
 
             echo'<tr>

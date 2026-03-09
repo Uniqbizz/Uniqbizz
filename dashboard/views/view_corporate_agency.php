@@ -153,7 +153,7 @@
                                                     <table id="example-dataTable-2" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th data-ordering="false">TE/F ID & Name</th>
+                                                                <th data-ordering="false">TE/F/I ID & Name</th>
                                                                 <th data-ordering="false">Reference ID & Name</th>
                                                                 <th data-ordering="false">Amount</th>
                                                                 <th data-ordering="false">Phone</th>

@@ -131,6 +131,21 @@
                             }
                         }
                     
+                    }else if($userType == '32'){
+                        $sql3 = "SELECT COUNT(DISTINCT ca.institution_branch_manager_id) AS id
+                                    FROM institution_branch_manager ca
+                                    WHERE ca.reference_no = '" . $userId . "' 
+                                    AND ca.status = '1'";
+                        $stmt3 = $conn->prepare($sql3);
+                        $stmt3->execute();
+                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                        if ($stmt3->rowCount() > 0) {
+                            foreach (($stmt3->fetchAll()) as $key => $row) {
+                                $id = $row['id'];
+                                echo '<h1 class="mb-0 text-white">' . $id . '</h1>';
+                            }
+                        }
+                    
                     }else{
                         $sql3 = "SELECT COUNT(ca_travelagency_id) as id FROM ca_travelagency WHERE reference_no = '" . $userId . "' AND status = '1'";
                         $stmt3 = $conn->prepare($sql3);
@@ -175,6 +190,17 @@
                             echo '<p class="text-white">' . $id . '</p>';
                         }
                     }
+                }else if($userType == '32'){
+                    $sql3 = "SELECT COUNT(institution_branch_manager_id) as id FROM institution_branch_manager WHERE reference_no = '" . $userId . "' AND user_type = '11' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                    $stmt3 = $conn->prepare($sql3);
+                    $stmt3->execute();
+                    $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($stmt3->rowCount() > 0) {
+                        foreach (($stmt3->fetchAll()) as $key => $row) {
+                            $id = $row['id'];
+                            echo '<p class="text-white">' . $id . '</p>';
+                        }
+                    }
                 }else{
                     $sql3 = "SELECT COUNT(ca_travelagency_id) as id FROM ca_travelagency WHERE reference_no = '" . $userId . "' AND user_type = '11' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
                     $stmt3 = $conn->prepare($sql3);
@@ -204,22 +230,24 @@
                 </span>
                 <div class="ms-4">
                     <?php
-                    $stmt2 = $conn->prepare("SELECT * FROM `ca_travelagency` WHERE reference_no = ? ");
-                    $stmt2->execute([$userId]);
+                    $stmt2 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM `ca_travelagency` WHERE reference_no = ? 
+                                             UNION ALL
+                                             SELECT institution_branch_manager_id AS user_id FROM `institution_branch_manager` WHERE reference_no = ?");
+                    $stmt2->execute([$userId,$userId]);
                     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                     $count = 0; // Initialize count
 
                     foreach ($referrals as $referral) {
-                        $userCA = $referral['ca_travelagency_id'];
+                        $userCA = $referral['user_id'];
 
                         $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                        $stmt4->execute([$referral['ca_travelagency_id']]);
+                        $stmt4->execute([$referral['user_id']]);
                         $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                         if ($stmt4->rowCount() > 0) {
                             foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
                                 $userTA = $userCATA['ca_customer_id'] . ' ';
-                                $count++; // Increment count for each ca_travelagency_id
+                                $count++; // Increment count for each user_id
                             } //CATA foreach ends
                         } //CATA if loop ends
                     } //CA foreach ends 
@@ -231,14 +259,16 @@
             <div class="d-flex justify-content-between">
                 <p class="text-white">This Month</p>
                 <?php
-                $stmt2 = $conn->prepare("SELECT * FROM `ca_travelagency` WHERE reference_no = ? AND user_type = '11'  ");
-                $stmt2->execute([$userId]);
+                $stmt2 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM `ca_travelagency` WHERE reference_no = ? 
+                                         UNION ALL
+                                         SELECT institution_branch_manager_id AS user_id FROM `institution_branch_manager` WHERE reference_no = ? ");
+                $stmt2->execute([$userId,$userId]);
                 $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                 $count2 = 0; // Initialize count
 
                 foreach ($referrals as $referral) {
-                    $userBM = $referral['ca_travelagency_id'];
+                    $userBM = $referral['user_id'];
 
                     $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'");
                     $stmt4->execute([$userBM]);
@@ -246,7 +276,7 @@
                     if ($stmt4->rowCount() > 0) {
                         foreach (($stmt4->fetchAll()) as $userTEs => $userTE) {
                             $userTECHNO = $userTE['ca_customer_id'] . ' ';
-                            $count2++; // Increment count for each ca_travelagency_id
+                            $count2++; // Increment count for each user_id
                         } //CATA foreach ends
                     } //CATA if loop ends
                 } //CA foreach ends 

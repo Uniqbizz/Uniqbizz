@@ -27,7 +27,7 @@
                     <tbody>
                         <?php
 
-                            if($userType == "11"){
+                            if($userType == "11" || $userType == "33"){
                                 $sql = "SELECT order_id,bookings.name,package.name as package_name,booking_direct_bill.total_net_payable as amount,bookings.created_date as booking_date,bookings.date as travel_date 
                                         FROM `bookings`
                                         INNER JOIN booking_direct_bill on booking_direct_bill.bookings_id=bookings.id

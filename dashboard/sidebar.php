@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                     <?php
-                        }else if($userType == "16" || $userType == "29"){
+                        }else if($userType == "16" || $userType == "29" || $userType == "32"){
                     ?>
                         
                         </li>
@@ -60,14 +60,14 @@
                         </li>
                         
                     <?php  
-                        }else if($userType == "11"){
+                        }else if($userType == "11" || $userType == "33"){
                     ?>
                         
-                        <li class="nav-item <?php if ($first_part=="../views/markup.php") {echo "actives"; } else  {echo "noactive";}?>">
+                        <!-- <li class="nav-item <?php if ($first_part=="../views/markup.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="../views/markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-markup">Markup</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item <?php if ($first_part=="../views/view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="../views/view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-customer">Customer</span>

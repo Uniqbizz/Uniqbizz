@@ -3,7 +3,7 @@
     require 'connect.php';
     session_start();
     if(!isset($_SESSION['username2']) || !isset($_SESSION['user_type_id_value']) || !isset($_SESSION['user_id']) ){
-        echo '<script>location.href = "../login.php";</script>';
+        echo '<script>location.href = "../../login.php";</script>';
     }
 
      $userFname = $_SESSION['username2']; //first name of user 'Ryam'.
@@ -58,6 +58,10 @@
         $sql2 = "SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id = '$userId' ";
     }else if($userType == '30'){
         $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '$userId' ";
+    }else if($userType == '32'){
+        $sql2 = "SELECT * FROM `institution` WHERE institution_id = '$userId' ";
+    }else if($userType == '33'){
+        $sql2 = "SELECT * FROM `institution_branch_manager` WHERE institution_branch_manager_id = '$userId' ";
     }else if($userType == '31'){
         $sql2 = "SELECT * FROM `employees` WHERE employee_id = '$userId' ";
     }
@@ -119,6 +123,10 @@
         $directNext = "Franchisee";
     }else if($userType == '31'){ //RM
         $directNext = "Master Franchisee";
+    }else if($userType == '32'){ //RM
+        $directNext = "Travel Consultant";
+    }else if($userType == '33'){ //RM
+        $directNext = "Customer";
     }
 
     $tdsPercentage=2/100;

@@ -16,7 +16,7 @@
             foreach ($userBMS as $userBM) {
                 $bm_id = $userBM['business_mentor_id'];
                 
-                $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                $stmt4 = $conn->prepare("SELECT 'te' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `corporate_agency` WHERE reference_no = '".$bm_id."' AND status = '2' OR status = '0'");
                 $stmt4->execute([$bm_id]);
                 $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -28,7 +28,7 @@
                     $datev= $dt->format('d-m-Y'); 
                     echo'<tr>
                         <td>'.$srNo++.'</td>
-                        <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                        <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                         <td>'.$userCA['contact_no'].'</td>
                         <td>'.$datev.'</td>';
@@ -41,8 +41,8 @@
                 }
             }
             //direct TE by BDM
-            $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
-            $stmt4->execute([ $bdm_id]);
+            $stmt4 = $conn->prepare("SELECT 'te' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `corporate_agency` WHERE reference_no = '".$bdm_id."' AND status = '2' OR status = '0'");
+            $stmt4->execute();
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCAs as $userCA) {
@@ -53,7 +53,7 @@
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
                     <td>'.$srNo++.'</td>
-                    <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                    <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
                     <td>'.$datev.'</td>';
@@ -67,8 +67,10 @@
             
             //direct Franchisee by BDM
             $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-            $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
-            $stmt4->execute([$bdm_id]);
+            $stmt4 = $conn->prepare("SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$bdm_id."' AND status = '2' OR status = '0'
+                                    UNION ALL
+                                    SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$bdm_id."' AND status = '2' OR status = '0'");
+            $stmt4->execute();
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCAs as $userCA) {
@@ -79,7 +81,7 @@
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
                     <td>'.$srNo++.'</td>
-                    <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                    <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
                     <td>'.$datev.'</td>';
@@ -99,7 +101,9 @@
             foreach ($userBMS as $userBM) {
                 $bm_id = $userBM['id'];
                 
-                $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+                $stmt4 = $conn->prepare("SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$bm_id."' AND status = '2' OR status = '0'
+                                        UNION ALL
+                                        SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$bm_id."' AND status = '2' OR status = '0'");
                 $stmt4->execute([$bm_id]);
                 $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -111,7 +115,7 @@
                     $datev= $dt->format('d-m-Y'); 
                     echo'<tr>
                         <td>'.$srNo++.'</td>
-                        <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                        <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                         <td>'.$userCA['contact_no'].'</td>
                         <td>'.$datev.'</td>';
@@ -133,7 +137,7 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['business_mentor_id'];
             
-            $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
+            $stmt4 = $conn->prepare("SELECT 'te' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
             $stmt4->execute([$bm_id]);
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -145,7 +149,7 @@
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
                     <td>'.$srNo++.'</td>
-                    <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                    <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
                     <td>'.$datev.'</td>';
@@ -159,7 +163,7 @@
         }
         //dirct TE by BDM
         $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-        $stmt4 = $conn->prepare("SELECT * FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
+        $stmt4 = $conn->prepare("SELECT 'te' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM corporate_agency WHERE reference_no = ? AND  status = '2' OR status = '0'");
         $stmt4->execute([$userId]);
         $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -171,7 +175,7 @@
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
                 <td>'.$srNo++.'</td>
-                <td><span class="badge bg-secondary lable-width">' . strtoupper('te') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
                 <td>'.$datev.'</td>';
@@ -184,8 +188,10 @@
         }
         //direct Franchisee by BDM
         $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-        $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
-        $stmt4->execute([$userId]);
+        $stmt4 = $conn->prepare("SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'
+                                UNION ALL
+                                SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'");
+        $stmt4->execute();
         $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCAs as $userCA) {
@@ -196,7 +202,7 @@
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
                 <td>'.$srNo++.'</td>
-                <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
                 <td>'.$datev.'</td>';
@@ -216,8 +222,10 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['id'];
             
-            $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
-            $stmt4->execute([$bm_id]);
+            $stmt4 = $conn->prepare("SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$bm_id."' AND status = '2' OR status = '0'
+                                    UNION ALL
+                                    SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$bm_id."' AND status = '2' OR status = '0'");
+            $stmt4->execute();
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCAs as $userCA) {
@@ -228,7 +236,7 @@
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
                     <td>'.$srNo++.'</td>
-                    <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                    <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;' .$userCA['firstname'].' '.$userCA['lastname'].'</td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
                     <td>'.$datev.'</td>';
@@ -243,9 +251,11 @@
         
     }else if($userType == '26' || $userType == '28' || $userType == '30'){
         if ($userType == '28' || $userType == '30') {
-            $sql = "SELECT * FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
+            $sql = "SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'
+                    UNION ALL
+                    SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'";
         }else{
-            $sql = "SELECT * FROM `corporate_agency` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
+            $sql = "SELECT 'te' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `corporate_agency` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
         }
         $stmt = $conn -> prepare($sql);
         $stmt -> execute();
@@ -258,7 +268,7 @@
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
                     <td>'.$srNo++.'</td>
-                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                    <td><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type']) . '</span>&nbsp;'.$row['firstname'].' '.$row['lastname'].'</td>
                     <td><p>'.$row['reference_no'].'</p><p>'.$row['registrant'].'</p></td>
                     <td>'.$row['contact_no'].'</td>
                     <td>'.$datev.'</td>';
@@ -281,7 +291,9 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['id'];
             
-            $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+            $stmt4 = $conn->prepare("SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'
+                                    UNION ALL
+                                    SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'");
             $stmt4->execute([$bm_id]);
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -293,7 +305,7 @@
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
                     <td>'.$srNo++.'</td>
-                    <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                    <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
                     <td>'.$datev.'</td>';
@@ -308,7 +320,9 @@
         
         //direct Franchisee by RM
         $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-        $stmt4 = $conn->prepare("SELECT * FROM sub_franchisee WHERE reference_no = ? AND  status = '2' OR status = '0'");
+        $stmt4 = $conn->prepare("SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'
+                                UNION ALL
+                                SELECT 'i' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status FROM `institution` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'");
         $stmt4->execute([$userId]);
         $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -320,7 +334,7 @@
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
                 <td>'.$srNo++.'</td>
-                <td><span class="badge bg-secondary lable-width">' . strtoupper('sf') . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
+                <td><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type']) . '</span>&nbsp;'.$userCA['firstname'].' '.$userCA['lastname'].'</td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
                 <td>'.$datev.'</td>';

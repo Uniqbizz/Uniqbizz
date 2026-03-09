@@ -483,7 +483,7 @@
                                                 <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>">
                                                 <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>">
                                                 <input type="hidden" id="id" name="id" value="<?php echo $id;?>">
-                                                <input type="hidden" id="registered" name="registered" value="<?php echo  $registered_as;?>">
+                                                <input type="hidden" id="registered" name="registered" value="<?php echo $user_type;;?>">
                                                 <!-- new added 14-06-2025 -->
                                                 <input type="hidden" id="userType" name="userType" value="<?php echo $userType; ?>"> <!-- 24,25,26 -->
 											    <input type="hidden" id="userId" name="userId" value="<?php echo $userId; ?>"> <!-- BH250001, BM250001 -->

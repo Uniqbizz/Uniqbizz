@@ -123,6 +123,7 @@
                                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
+                                                            <option value="business_mentor">Business Mentor</option>
                                                         </select>
                                                     </div>
                                                 </div>

@@ -506,12 +506,12 @@ if ($userType == '29') {
                                       } 
                                 ?>
 
-                                <?php if ($userType == '11') { 
+                                <?php if ($userType == '11' || $userType == '33') { 
                                         include '../models/home_model/cards/tc.php';
                                       } 
                                 ?>
 
-                                <?php if ($userType == '16' || $userType == '29') { 
+                                <?php if ($userType == '16' || $userType == '29' || $userType == '32') { 
                                         include '../models/home_model/cards/te_f.php';
                                       } 
                                  ?>
@@ -659,7 +659,7 @@ if ($userType == '29') {
                                 ?>
 
                                 <!-- !-- Line Chart and top 5 user table -->
-                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30' || $userType =='31') { 
+                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30' || $userType =='31' || $userType == '33') { 
                                         include '../models/home_model/line_chart/all_users.php';
                                       } 
                                  ?>
@@ -674,7 +674,7 @@ if ($userType == '29') {
                                 <?php include '../models/home_model/cust_engage.php' ?>
                                 <!-- recents 5 bookings -->
                                 <!-- booking id,customer name,package name,amount,booking date,travel date -->
-                                <?php if($userType == "11"){ 
+                                <?php if($userType == "11" || $userType == '33'){ 
                                         include '../models/home_model/recent_booking/tc.php';
                                       } 
                                  ?>

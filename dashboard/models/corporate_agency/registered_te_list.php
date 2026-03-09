@@ -64,8 +64,10 @@
                 echo'</tr>';
             }
             //Direct F
-            $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-            $stmt4->execute([$bdm_id]);
+            $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                     UNION ALL
+                                     SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+            $stmt4->execute([$bdm_id,$bdm_id]);
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCAs as $userCA) {
@@ -75,7 +77,7 @@
                 $dt= new DateTime($userCA['register_date']);
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
-                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td><p>'.$userCA['amount'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
@@ -97,8 +99,10 @@
             foreach ($userBMS as $userBM) {
                 $bm_id = $userBM['id'];
                 
-                $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-                $stmt4->execute([$bm_id]);
+                $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                     UNION ALL
+                                     SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+                $stmt4->execute([$bm_id,$bm_id]);
                 $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCAs as $userCA) {
@@ -108,7 +112,7 @@
                     $dt= new DateTime($userCA['register_date']);
                     $datev= $dt->format('d-m-Y'); 
                     echo'<tr>
-                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                         <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                         <td><p>'.$userCA['amount'].'</p></td>
                         <td>'.$userCA['contact_no'].'</td>
@@ -225,8 +229,10 @@
             echo'</tr>';
         }
         //Direct F
-        $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-        $stmt4->execute([$userId]);
+        $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                UNION ALL
+                                SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+        $stmt4->execute([$userId,$userId]);
         $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCAs as $userCA) {
@@ -236,7 +242,7 @@
             $dt= new DateTime($userCA['register_date']);
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
-                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td><p>'.$userCA['amount'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
@@ -281,8 +287,10 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['id'];
             
-            $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status, register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-            $stmt4->execute([$bm_id]);
+            $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                     UNION ALL
+                                     SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+            $stmt4->execute([$bm_id,$bm_id]);
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCAs as $userCA) {
@@ -292,7 +300,7 @@
                 $dt= new DateTime($userCA['register_date']);
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
-                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td><p>'.$userCA['amount'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
@@ -381,8 +389,10 @@
     else if($userType == "28" || $userTYpe == "30"){
         
         //Direct F
-        $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status, register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-        $stmt4->execute([$userId]);
+        $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                UNION ALL
+                                SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+        $stmt4->execute([$userId,$userId]);
         $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCAs as $userCA) {
@@ -392,7 +402,7 @@
             $dt= new DateTime($userCA['register_date']);
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
-                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td><p>'.$userCA['amount'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
@@ -430,8 +440,10 @@
     }
     else if($userType == "31"){
         //Direct F
-        $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status, register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-        $stmt4->execute([$userId]);
+        $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                     UNION ALL
+                                     SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+        $stmt4->execute([$userId,$userId]);
         $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCAs as $userCA) {
@@ -441,7 +453,7 @@
             $dt= new DateTime($userCA['register_date']);
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
-                <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td><p>'.$userCA['amount'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
@@ -486,8 +498,10 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['id'];
             
-            $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");
-            $stmt4->execute([$bm_id]);
+            $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                     UNION ALL
+                                     SELECT DISTINCT institution_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM institution WHERE reference_no = ? AND (status = '1' OR status = '3')");
+            $stmt4->execute([$bm_id,$bm_id]);
             $userCAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCAs as $userCA) {
@@ -497,7 +511,7 @@
                 $dt= new DateTime($userCA['register_date']);
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
-                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper('f') . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td><p>'.$userCA['amount'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>

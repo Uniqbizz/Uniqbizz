@@ -197,6 +197,20 @@
                                 $tableColumnName3 = 'reference_no';
                                 $tableColumnName2 = 'reference_no';
                             }
+                            // IBR(travel_agent)
+                            if ($userType == '33') {
+                                $tableName = 'ca_customer';
+                                $tableId = 'ca_customer_id';
+                                $tableNameDesignation = 'Customer';
+                                $tableColumn = 'ta_reference_no';
+                            }
+                            //Institution (I->IBR)
+                            if ($userType == '32') {
+                                $tableName = 'institution_branch_manager';
+                                $tableId = 'institution_branch_manager_id';
+                                $tableNameDesignation = 'Travel Agency';
+                                $tableColumn = 'reference_no';
+                            }
                             if ($userType=='28') {
                                 //get franchisee
                                 $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM sub_franchisee WHERE reference_no=? AND status='1'");
@@ -250,6 +264,8 @@
                                     SELECT 'MF' AS type, COUNT(*) AS total FROM master_franchisee WHERE reference_no=? AND status='1'
                                     UNION
                                     SELECT 'SF'  AS type, COUNT(*) AS total FROM sponsor_franchisee WHERE reference_no=? AND status='1'
+                                    UNION
+                                    SELECT 'I'  AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
                                 ";
                                 $stmtCheck = $conn->prepare($sqlCheck);
                                 $stmtCheck->execute([$userId, $userId, $userId, $userId,$userId, $userId]);
@@ -264,6 +280,7 @@
                                 $countBM = $counts['BM'] ?? 0;
                                 $countMF = $counts['MF'] ?? 0;
                                 $countSF = $counts['SF'] ?? 0;
+                                $countSF = $counts['I'] ?? 0;
                                 $countTE = $counts['TE'] ?? 0;
                                 $countF  = $counts['F'] ?? 0;
                                 $countTC = $counts['TC'] ?? 0;
@@ -330,6 +347,8 @@
                                     SELECT 'SF' AS type, COUNT(*) AS total FROM sponsor_franchisee WHERE reference_no=? AND status='1'
                                     UNION
                                     SELECT 'F' AS type, COUNT(*) AS total FROM sub_franchisee WHERE reference_no=? AND status='1'
+                                    UNION
+                                    SELECT 'I' AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
                                 ";
                                 $stmtCheck = $conn->prepare($sqlCheck);
                                 $stmtCheck->execute([$userId, $userId, $userId]);
@@ -344,6 +363,7 @@
                                 $countMF = $counts['MF'] ?? 0;
                                 $countSF = $counts['SF'] ?? 0;
                                 $countF = $counts['F'] ?? 0;
+                                $countI = $counts['I'] ?? 0;
 
                                 // Now decide query based on availability
                                 $queries = [];
@@ -366,6 +386,12 @@
                                 // F
                                 if ($countF > 0) {
                                     $queries[] = "SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                FROM $tableName1 WHERE reference_no=? AND status='1'";
+                                    $params[] = $userId;
+                                }
+                                //I
+                                if ($countI > 0) {
+                                    $queries[] = "SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
                                                 FROM $tableName1 WHERE reference_no=? AND status='1'";
                                     $params[] = $userId;
                                 }
@@ -421,7 +447,7 @@
                                         }
                                     }
                                     $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' )?$row['desination']:$tableNameDesignation;
-                                    if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31') {
+                                    if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31' || $userType == '32') {
                                         # code...
                                         echo '
                                                 <li id="list-item-' . $selected_user . '">

@@ -105,6 +105,7 @@
                                                                 <option value="">--Select--</option>
                                                                 <option value="corporate_agency">Techno Enterprise</option>
                                                                 <option value="sub_franchisee">Franchisee</option>
+                                                                <option value="institution">Institution</option>
                                                             </select>
                                                         </div>
                                                     </div>

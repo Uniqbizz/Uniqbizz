@@ -1,6 +1,6 @@
 <!-- New Card Template Start -->
 <div class="row">
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="<?= $userType == '33' ? 'col-xl-4':'col-xl-3' ?> col-lg-6 col-md-6 col-sm-6 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
             <div>
                 <p class="text-white fw-bold">Registered Customer</p>
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="<?= $userType == '33' ? 'col-xl-4':'col-xl-3' ?> col-lg-6 col-md-6 col-sm-6 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
             <div>
                 <p class="text-white fw-bold">Completed Tours</p>
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="<?= $userType == '33' ? 'col-xl-4':'col-xl-3' ?> col-lg-6 col-md-6 col-sm-6 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
             <div>
                 <p class="text-white fw-bold">Upcoming Tours</p>
@@ -122,6 +122,7 @@
             </div>
         </div>
     </div>
+    <?php if($userType != '33'){  ?>
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
             <div>
@@ -198,4 +199,8 @@
         </div>
     </div>
 </div>
+
 <!-- New Card Template end -->
+<?php
+    } 
+?>

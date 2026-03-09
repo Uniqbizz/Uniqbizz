@@ -44,7 +44,7 @@ if ($user_type_id == '16') {
 	
 	if ($reference_id == "BM") {
 
-		$sql10 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");
+		$sql10 = $conn->prepare("SELECT business_mentor_id,firstname,lastname,reference_no,registrant FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");
 		$sql10->execute();
 		$sql10->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql10->rowCount() > 0) {
@@ -55,7 +55,7 @@ if ($user_type_id == '16') {
 			}
 		}
 
-		$sql11 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $BM_ref . "'");
+		$sql11 = $conn->prepare("SELECT employee_id,name,user_type,reporting_manager FROM employees WHERE employee_id = '" . $BM_ref . "'");
 		$sql11->execute();
 		$sql11->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql11->rowCount() > 0) {
@@ -67,7 +67,7 @@ if ($user_type_id == '16') {
 			}
 		}
 
-		$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $bdm_ref . "'");
+		$sql12 = $conn->prepare("SELECT employee_id,name,user_type FROM employees WHERE employee_id = '" . $bdm_ref . "'");
 		$sql12->execute();
 		$sql12->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql12->rowCount() > 0) {
@@ -82,7 +82,7 @@ if ($user_type_id == '16') {
 		$bdmCommiAmt = $amount * 0.025; //12500
 
 	} else if ($reference_id == "BH") {
-		$sql10 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $reference_no . "' AND user_type = '25' AND status = '1' ");
+		$sql10 = $conn->prepare("SELECT employee_id,name_reporting_manager FROM employees WHERE employee_id = '" . $reference_no . "' AND user_type = '25' AND status = '1' ");
 		$sql10->execute();
 		$sql10->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql10->rowCount() > 0) {
@@ -683,7 +683,7 @@ if ($user_type_id == '16') {
 	//Master Franchisee edidted on 15-10-2025 by SV
 	if ($reference_id == 'MF') {
 		//master franchisee
-		$sql10 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $reference_no . "'");
+		$sql10 = $conn->prepare("SELECT master_franchisee,firstname,lastname,reference_no,registrant FROM master_franchisee WHERE master_franchisee_id = '" . $reference_no . "'");
 		$sql10->execute();
 		$sql10->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql10->rowCount() > 0) {
@@ -710,7 +710,7 @@ if ($user_type_id == '16') {
 	//sponsor Franchisee edited on 15-10-2025 by SV
 	if ($reference_id == 'SF') {
 
-		$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $reference_no . "'");
+		$sql11 = $conn->prepare("SELECT sponsor_franchisee,firstname,lastname,reference_no,registrant FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $reference_no . "'");
 		$sql11->execute();
 		$sql11->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql11->rowCount() > 0) {
@@ -741,7 +741,7 @@ if ($user_type_id == '16') {
 	//BDM/BCM/RM added on 15-10-2025 by SV
 	if ($reference_id == 'BH') {
 
-		$sql11 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $reference_no . "'");
+		$sql11 = $conn->prepare("SELECT employee_id,name,user_type FROM employees WHERE employee_id = '" . $reference_no . "'");
 		$sql11->execute();
 		$sql11->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql11->rowCount() > 0) {
@@ -1171,7 +1171,7 @@ if ($user_type_id == '16') {
 	//Master Franchisee edidted on 15-10-2025 by SV
 	if ($reference_id == 'MF') {
 		//master franchisee
-		$sql10 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $reference_no . "'");
+		$sql10 = $conn->prepare("SELECT master_franchisee_id,firstname,lastname,reference_no,registrant FROM master_franchisee WHERE master_franchisee_id = '" . $reference_no . "'");
 		$sql10->execute();
 		$sql10->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql10->rowCount() > 0) {
@@ -1198,7 +1198,7 @@ if ($user_type_id == '16') {
 	//sponsor Franchisee edited on 15-10-2025 by SV
 	if ($reference_id == 'SF') {
 
-		$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $reference_no . "'");
+		$sql11 = $conn->prepare("SELECT sponsor_franchisee_id,firstname,lastname,reference_no,registrant FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $reference_no . "'");
 		$sql11->execute();
 		$sql11->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql11->rowCount() > 0) {
@@ -1211,6 +1211,22 @@ if ($user_type_id == '16') {
 		}
 	}
 	//---------------------------------------------------
+	//business mentor added on 06-03-2026
+	if ($reference_id == 'BM') {
+
+		$sql11 = $conn->prepare("SELECT business_mentor_id,firstname,lastname,reference_no,registrant FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");
+		$sql11->execute();
+		$sql11->setFetchMode(PDO::FETCH_ASSOC);
+		if ($sql11->rowCount() > 0) {
+			foreach (($sql11->fetchAll()) as $key11 => $row11) {
+				$Sf_id = $row11['business_mentor_id'];
+				$Sf_name = $row11['firstname'] .' '. $row11['lastname'] ;
+				$bdm_id = $row11['reference_no'];
+				$bdm_name = $row11['registrant'];
+			}
+		}
+	}
+	//------------------------------------------------------------------------
 
 	//Zonal Manager removed from system 26-07-2025
 	// if ($reference_id == 'ZM') {
@@ -1229,7 +1245,7 @@ if ($user_type_id == '16') {
 	//BDM/BCM/RM added on 15-10-2025 by SV
 	if ($reference_id == 'BH') {
 
-		$sql11 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $reference_no . "'");
+		$sql11 = $conn->prepare("SELECT employee_id,name,user_type FROM employees WHERE employee_id = '" . $reference_no . "'");
 		$sql11->execute();
 		$sql11->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql11->rowCount() > 0) {

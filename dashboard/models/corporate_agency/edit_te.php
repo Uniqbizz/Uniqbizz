@@ -7,12 +7,14 @@
     $city_id = $_GET['hct'];
     $editfor = $_GET['editfor'];
     $edittype = $_GET['edittype'];
-    $registered_as=$edittype == '16'?'corporate_agency':($edittype == '29'?'sub_franchisee':'NA');
+    $registered_as=$edittype == '16'?'corporate_agency':($edittype == '29'?'sub_franchisee':($edittype == '32' ? 'institution':'NA'));
     if($edittype == '16'){
         $stmt = $conn->prepare("SELECT * FROM `corporate_agency` WHERE corporate_agency_id='".$id."' ");
         
     }else if($edittype == '29'){
         $stmt = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE sub_franchisee_id='".$id."' ");
+    }else if($edittype == '32'){
+        $stmt = $conn->prepare("SELECT * FROM `institution` WHERE institution_id='".$id."' ");
     }
     $stmt->execute();
     // set the resulting array to associative

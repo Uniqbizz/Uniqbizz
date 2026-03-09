@@ -38,7 +38,7 @@
                 } else if ($userType == "16") {
                     $topCustomerTableName = "Travel Agency";
                     $topCustomerTableRefCol = "CU";
-                } else if ($userType == "11") {
+                } else if ($userType == "11" || $userType == '33') {
                     $topCustomerTableName = "Customers";
                     $topCustomerTableRefCol = "CU";
                 } else if ($userType == "18") {
@@ -339,6 +339,26 @@
                                 $tableColumnName6 = 'reference_no';
                                 $tableColumnName7 = 'reference_no';
                             }
+                            // IBR(travel_agent)
+                            if ($userType == '33') {
+                                $tableName1 = 'ca_customer';
+                                $tableId1 = 'ca_customer_id';
+                                $tableNameDesignation = 'Customer';
+                                $tableName2 = 'ca_customer';
+                                $tableId2 = 'ca_customer_id';
+                                $tableColumnName = 'ta_reference_no';
+                                $tableColumnName2 = 'reference_no';
+                            }
+                            // Institution
+                            if ($userType == '32') {
+                                $tableName1 = 'institution_branch_manager';
+                                $tableId1 = 'institution_branch_manager_id';
+                                $tableNameDesignation = 'Travel Agency';
+                                $tableName2 = 'ca_customer';
+                                $tableId2 = 'ca_customer_id';
+                                $tableColumnName = 'reference_no';
+                                $tableColumnName2 = 'ta_reference_no';
+                            }
                             // 21-02-2025 work from here for other 2 users BDM, BM, add user_type for all users - giving problem for BCH and BDM.
                             
                             
@@ -474,6 +494,18 @@
                                                 'SF' AS type
                                             FROM sponsor_franchisee sf
                                             WHERE sf.reference_no = :userId AND sf.status = '1'
+
+                                            UNION ALL
+
+                                            -- I
+                                            SELECT te.id,
+                                                te.institution_id AS user_id,
+                                                te.firstname,
+                                                te.lastname,
+                                                te.register_date,
+                                                'TE' AS type
+                                            FROM institution te
+                                            WHERE te.reference_no = :userId AND te.status = '1'
                                         ) AS combined
                                         ORDER BY combined.id DESC
                                         LIMIT 5
@@ -535,6 +567,18 @@
                                                 'TC' AS type
                                             FROM ca_travelagency tc
                                             WHERE tc.reference_no = :userId AND tc.status = '1'
+
+                                            UNION ALL
+                                            
+                                             -- I
+                                            SELECT te.id,
+                                                te.institution_id AS user_id,
+                                                te.firstname,
+                                                te.lastname,
+                                                te.register_date,
+                                                'TE' AS type
+                                            FROM institution te
+                                            WHERE te.reference_no = :userId AND te.status = '1'
                                         ) AS combined
                                         ORDER BY combined.id DESC
                                         LIMIT 5

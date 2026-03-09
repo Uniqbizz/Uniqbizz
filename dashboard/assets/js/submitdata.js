@@ -17,7 +17,7 @@ $('#email').keyup(function () {
 var emailtest = (emailtest, testValue) => {
     $.ajax({
         type: 'POST',
-        url: 'test_data/emailtest.php',
+        url: '../test_data/emailtest.php',
         data: 'email=' + emailtest + '&tablename=' + testValue,
         success: function (response) {
             if (response == 1) {
@@ -1239,7 +1239,13 @@ $('#add-corporate-agency').click(function (e) {
     e.preventDefault();
     // console.log('Add customer button clicked');
     var registered =$('#registered').val();
-    var url= registered == 'corporate_agency'?"corporate_agency/add_corporate_agency_data.php":registered == 'sub_franchisee'?"corporate_agency/add_franchisee_data.php":"NA"
+    var url= registered == 'corporate_agency'
+                ?"corporate_agency/add_corporate_agency_data.php"
+                :registered == 'sub_franchisee'
+                    ?"corporate_agency/add_franchisee_data.php"
+                    :registered == 'institution'
+                        ?"corporate_agency/add_institution_data.php"
+                        :'NA';
     // var designation = $("#designation").val().trim();
     var user_id_name = $("#user_id_name").val(); // reference id
     var reference_name = $("#reference_name").val(); // reference Name
@@ -1395,7 +1401,13 @@ $('#edit-corporate-agency').click(function (e) {
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
     var registered =$('#registered').val();
-    var url= registered == 'corporate_agency'?"corporate_agency/edit_corporate_agency_data.php":registered == 'sub_franchisee'?"corporate_agency/edit_franchisee_data.php":"NA"
+    var url= registered == '16'
+                ?"corporate_agency/edit_corporate_agency_data.php"
+                :registered == '29'
+                    ?"corporate_agency/edit_franchisee_data.php"
+                    :registered == '32'
+                        ?"corporate_agency/edit_institution_data.php"
+                        :'NA';
     
     var editfor = $('#editfor').val(); // registered OR pending
     var ref_id = $('#ref_id').val();  // reference id
@@ -1551,6 +1563,12 @@ $('#edit-corporate-agency').click(function (e) {
 // Add travel-agent by client  
 $('#add-travel-agent').click(function (e) {
     e.preventDefault();
+    var register_as = $('#registered').val();
+    var url = register_as == 'travel_consultant'
+    ? '"travel_agent/add_travel_agent_data.php"'
+    : register_as == 'institution_branch_manager'
+        ? 'travel_agent/add_ca_ins_branch_manager_data.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
@@ -1721,7 +1739,7 @@ $('#add-travel-agent').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "travel_agent/add_travel_agent_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -1741,6 +1759,12 @@ $('#add-travel-agent').click(function (e) {
 // Edit travel-agent by client 
 $('#edit-travel-agent').click(function (e) {
     e.preventDefault();
+    var register_as = $('#registered').val();
+    var url = register_as == '11'
+    ? '"travel_agent/edit_travel_agent_data.php"'
+    : register_as == '33'
+        ? 'travel_agent/edit_ca_ins_branch_manager_data.php'
+        : '';
 
     // var designation = $("#designation").val();
     // var user_id_name = $("#user_id_name").val();
@@ -1894,7 +1918,7 @@ $('#edit-travel-agent').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "travel_agent/edit_travel_agent_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {

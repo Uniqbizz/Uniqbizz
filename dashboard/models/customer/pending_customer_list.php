@@ -2,21 +2,21 @@
 
     if($userType == "24"){
         
-        $stmt = $conn -> prepare("SELECT * FROM `employees` WHERE reporting_manager = ? AND user_type = '25' ");
+        $stmt = $conn -> prepare("SELECT employee_id FROM `employees` WHERE reporting_manager = ? AND user_type = '25' ");
         $stmt -> execute([$userId]);
         $userBDMS = $stmt -> fetchAll(PDO::FETCH_ASSOC);
         
         foreach( $userBDMS as $userBDM ){
             $bdm_id = $userBDM['employee_id'];
             
-            $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
+            $stmt2 = $conn->prepare("SELECT business_mentor_id FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
             $stmt2->execute([$bdm_id]);
             $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
             //BM->TE->TC->TC->CU
             foreach ($userBMS as $userBM) {
                 $bm_id = $userBM['business_mentor_id'];
 
-                $stmt3 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
                 $stmt3->execute([$bm_id]);
                 $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
@@ -24,7 +24,7 @@
                     $userCAID = $userCA['corporate_agency_id'];
                     // echo $userCA;
 
-                    $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+                    $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
                     $stmt4->execute([$userCA['corporate_agency_id']]);
                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -64,7 +64,7 @@
                 }
                 
                 //direct TC with BM Ref
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
                 $stmt4->execute([$bm_id]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -111,24 +111,28 @@
             foreach ($userBMS as $userBM) {
                 $bm_id = $userBM['id'];
 
-                $stmt3 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
-                $stmt3->execute([$bm_id]);
+                $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                         UNION ALL
+                                         SELECT institution_id AS suser_id FROM institution WHERE reference_no = ?");
+                $stmt3->execute([$bm_id,$bm_id]);
                 $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach($userCAs as $userCA){
-                    $userCAID = $userCA['sub_franchisee_id'];
+                    $userCAID = $userCA['suser_id'];
                     // echo $userCA;
 
-                    $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-                    $stmt4->execute([$userCA['sub_franchisee_id']]);
+                    $stmt4 = $conn->prepare("SELECT ca_travelagency AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                             UNION ALL
+                                             SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+                    $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($userCATAs as $userCATA) {
-                        $userTA = $userCATA['ca_travelagency_id'];
+                        $userTA = $userCATA['user_id'];
                     //    echo $userCA.'=>'.$userTA.'</br>';
 
                         $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                        $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                        $stmt5->execute([$userCATA['user_id']]);
                         $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                         foreach ($userCACUs as $userCACU) {
@@ -159,13 +163,13 @@
                 }
                 
                 //direct TC with BM Ref
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
                 $stmt4->execute([$bm_id]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
                     $userTA = $userCATA['ca_travelagency_id'];
-                //    echo $userCA.'=>'.$userTA.'</br>';
+                    //    echo $userCA.'=>'.$userTA.'</br>';
 
                     $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
                     $stmt5->execute([$userCATA['ca_travelagency_id']]);
@@ -198,7 +202,7 @@
                 }
             }
             //direct BDM->TC->CU by BDM ref
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
             $stmt4->execute([$bdm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -236,7 +240,7 @@
                 }
             }
             //BDM->TE->TC->CU
-            $stmt3 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+            $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
             $stmt3->execute([$bdm_id]);
             $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
@@ -282,25 +286,29 @@
                     }
                 }   
             }
-            //BDM->F->TC->CU
-            $stmt3 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
-            $stmt3->execute([$bdm_id]);
+            //BDM->F/I->TC/IBR->CU
+            $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
+            $stmt3->execute([$bdm_id,$bdm_id]);
             $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
             foreach($userCAs as $userCA){
-                $userCAID = $userCA['sub_franchisee_id'];
+                $userCAID = $userCA['suser_id'];
                 // echo $userCA;
 
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-                $stmt4->execute([$userCA['sub_franchisee_id']]);
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                         UNION ALL
+                                         SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+                $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
-                    $userTA = $userCATA['ca_travelagency_id'];
+                    $userTA = $userCATA['user_id'];
                 //    echo $userCA.'=>'.$userTA.'</br>';
 
                     $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                    $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                    $stmt5->execute([$userCATA['user_id']]);
                     $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($userCACUs as $userCACU) {
@@ -332,14 +340,14 @@
         }
     }else if($userType == "25"){
         
-        $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
+        $stmt2 = $conn->prepare("SELECT business_mentor_id FROM business_mentor WHERE reference_no = ? AND user_type = '26' ");
         $stmt2->execute([$userId]);
         $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         //BM->TE->TC->TC->CU
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['business_mentor_id'];
 
-            $stmt3 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+            $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
             $stmt3->execute([$bm_id]);
             $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
@@ -347,7 +355,7 @@
                 $userCAID = $userCA['corporate_agency_id'];
                 // echo $userCA;
 
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
                 $stmt4->execute([$userCA['corporate_agency_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -387,7 +395,7 @@
             }
             
             //direct TC with BM Ref
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
             $stmt4->execute([$bm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -434,24 +442,28 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['id'];
 
-            $stmt3 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
-            $stmt3->execute([$bm_id]);
+            $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ? 
+                                     UNION ALL
+                                     SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
+            $stmt3->execute([$bm_id,$bm_id]);
             $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
             foreach($userCAs as $userCA){
-                $userCAID = $userCA['sub_franchisee_id'];
+                $userCAID = $userCA['suser_id'];
                 // echo $userCA;
 
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-                $stmt4->execute([$userCA['sub_franchisee_id']]);
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                         UNION ALL
+                                         SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+                $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
-                    $userTA = $userCATA['ca_travelagency_id'];
+                    $userTA = $userCATA['user_id'];
                 //    echo $userCA.'=>'.$userTA.'</br>';
 
                     $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                    $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                    $stmt5->execute([$userCATA['user_id']]);
                     $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($userCACUs as $userCACU) {
@@ -482,13 +494,13 @@
             }
             
             //direct TC with MF/SF Ref
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
             $stmt4->execute([$bm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
                 $userTA = $userCATA['ca_travelagency_id'];
-            //    echo $userCA.'=>'.$userTA.'</br>';
+                //    echo $userCA.'=>'.$userTA.'</br>';
 
                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
                 $stmt5->execute([$userCATA['ca_travelagency_id']]);
@@ -521,7 +533,7 @@
             }
         }
         //direct BDM->TC->CU by BDM ref
-        $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
         $stmt4->execute([$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -559,7 +571,7 @@
             }
         }
         //BDM->TE->TC->CU
-        $stmt3 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+        $stmt3 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
         $stmt3->execute([$userId]);
         $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
@@ -567,7 +579,7 @@
             $userCAID = $userCA['corporate_agency_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
             $stmt4->execute([$userCA['corporate_agency_id']]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -605,25 +617,29 @@
                 }
             }   
         }
-        //BDM->F->TC->CU
-        $stmt3 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
-        $stmt3->execute([$userId]);
+        //BDM->F/I->TC/IBR->CU
+        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                 UNION ALL
+                                 SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
+        $stmt3->execute([$userId,$userId]);
         $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($userCAs as $userCA){
-            $userCAID = $userCA['sub_franchisee_id'];
+            $userCAID = $userCA['suser_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-            $stmt4->execute([$userCA['sub_franchisee_id']]);
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $userTA = $userCATA['ca_travelagency_id'];
+                $userTA = $userCATA['user_id'];
             //    echo $userCA.'=>'.$userTA.'</br>';
 
                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                $stmt5->execute([$userCATA['user_id']]);
                 $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCACUs as $userCACU) {
@@ -655,27 +671,31 @@
         
     }else if($userType == "26" || $userType =="28" || $userType == "30"){
         if ($userType == "28" || $userType == "30") {
-            $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
+            $stmt2 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
+            $stmt2->execute([$userId,$userId]);
         }else{
-            $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+            $stmt2 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? ");
+            $stmt2->execute([$userId]);
         }    
-        $stmt2->execute([$userId]);
+        
         $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($referrals as $referral){
-            $userCA = ($userType == "28"||$userType == "30")?$referral['sub_franchisee_id']:$referral['corporate_agency_id'];
+            $userCA = ($userType == "28"||$userType == "30")?$referral['suser_id']:$referral['corporate_agency_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?");
             $stmt4->execute([$userCA]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $userTA = $userCATA['ca_travelagency_id'];
-            //    echo $userCA.'=>'.$userTA.'</br>';
+                $userTA = $userCATA['user_id'];
+                //    echo $userCA.'=>'.$userTA.'</br>';
 
                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                $stmt5->execute([$userCATA['user_id']]);
                 $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCACUs as $userCACU) {
@@ -728,13 +748,13 @@
         }
         
         //direct TC with BM/MF Ref
-        $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
         $stmt4->execute([$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
             $userTA = $userCATA['ca_travelagency_id'];
-        //    echo $userCA.'=>'.$userTA.'</br>';
+            //    echo $userCA.'=>'.$userTA.'</br>';
 
             $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
             $stmt5->execute([$userCATA['ca_travelagency_id']]);
@@ -787,18 +807,20 @@
                 echo'</tr>';
             }
         }
-    }else if($userType == "16" || $userType == "29"){
+    }else if($userType == "16" || $userType == "29" || $userType == "32"){
         
-        $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-        $stmt4->execute([$userId]);
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                 UNION ALL
+                                 SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+        $stmt4->execute([$userId,$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
-            $userTA = $userCATA['ca_travelagency_id'];
+            $userTA = $userCATA['user_id'];
             // echo $userTA.'</br>';
 
             $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status='2' OR status = '0')");
-            $stmt5->execute([$userCATA['ca_travelagency_id']]);
+            $stmt5->execute([$userCATA['user_id']]);
             $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCACUs as $userCACU) {
@@ -826,7 +848,7 @@
                 echo'</tr>';
             }
         }
-    }else if($userType == "11"){
+    }else if($userType == "11" || $userType == "33"){
         $sql = "SELECT * FROM `ca_customer` WHERE ta_reference_no = '$userId' AND (status = '2' OR status = '0') ";
         $stmt = $conn -> prepare($sql);
         $stmt -> execute();
@@ -893,24 +915,28 @@
         foreach ($userBMS as $userBM) {
             $bm_id = $userBM['id'];
 
-            $stmt3 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
-            $stmt3->execute([$bm_id]);
+            $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? ");
+            $stmt3->execute([$bm_id,$bm_id]);
             $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
             foreach($userCAs as $userCA){
-                $userCAID = $userCA['sub_franchisee_id'];
+                $userCAID = $userCA['suser_id'];
                 // echo $userCA;
 
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-                $stmt4->execute([$userCA['sub_franchisee_id']]);
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                         UNION ALL
+                                         SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+                $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
-                    $userTA = $userCATA['ca_travelagency_id'];
+                    $userTA = $userCATA['user_id'];
                 //    echo $userCA.'=>'.$userTA.'</br>';
 
                     $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                    $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                    $stmt5->execute([$userCATA['user_id']]);
                     $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($userCACUs as $userCACU) {
@@ -941,13 +967,13 @@
             }
             
             //direct TC with BM Ref
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
             $stmt4->execute([$bm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
                 $userTA = $userCATA['ca_travelagency_id'];
-            //    echo $userCA.'=>'.$userTA.'</br>';
+                //    echo $userCA.'=>'.$userTA.'</br>';
 
                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
                 $stmt5->execute([$userCATA['ca_travelagency_id']]);
@@ -980,7 +1006,7 @@
             }
         }
         //direct RM->TC->CU by BDM ref
-        $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
         $stmt4->execute([$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -1017,25 +1043,29 @@
                 echo'</tr>';
             }
         }
-        //RM->F->TC->CU
-        $stmt3 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ? ");
-        $stmt3->execute([$userId]);
+        //RM->F/I->TC/IBR->CU
+        $stmt3 = $conn->prepare("SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                 UNION ALL
+                                 SELECT institution_id AS suser_id FROM institution WHERE reference_no = ? ");
+        $stmt3->execute([$userId,$userId]);
         $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($userCAs as $userCA){
-            $userCAID = $userCA['sub_franchisee_id'];
+            $userCAID = $userCA['suser_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
-            $stmt4->execute([$userCA['sub_franchisee_id']]);
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+            $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $userTA = $userCATA['ca_travelagency_id'];
+                $userTA = $userCATA['user_id'];
             //    echo $userCA.'=>'.$userTA.'</br>';
 
                 $stmt5 = $conn->prepare("SELECT * FROM ca_customer WHERE ta_reference_no = ? AND (status ='2' OR status = '0') ");
-                $stmt5->execute([$userCATA['ca_travelagency_id']]);
+                $stmt5->execute([$userCATA['user_id']]);
                 $userCACUs = $stmt5->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCACUs as $userCACU) {
