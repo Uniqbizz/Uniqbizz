@@ -1457,7 +1457,9 @@ $Year = date('Y'); //year
                                                     }
                                                 } else {
                                                     echo '
-                                                            <div><p>No Transaction Found</p></div>
+                                                            <div class="card rounded-4 py-2 px-2">
+                                                                <div class="name fw-bold fs-6"><p>No Transaction Found</p></div>
+                                                            </div>
                                                         ';
                                                 }
                                             ?>  

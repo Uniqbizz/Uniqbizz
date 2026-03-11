@@ -115,30 +115,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'])) {
             $paymentMode = htmlspecialchars($row['payment_mode'] ?? 'Unknown');
 
             $output .= '
-                    <div class="card pt-3">
-                        <div class="row">
-                            <div class="col-2 col-sm-1 col-md-1 col-lg-1 col-xl-2">
-                                <div class="profile-pic pb-1" style="position: relative; left: 15px;">
-                                    <img src="../uploading/' . $profilePic . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                    <div class="row mx-0">
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+                            <div class="profile-pic pb-1" style="position: relative; left: 15px;">
+                                <img src="../uploading/' . $profilePic . '" alt="profile pic" class="rounded-circle" width="50px" height="50px">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                            <div class="name fw-bold">' . $fullName . '</br> <span class="fw-normal fontSizeTransaction">(' . $designation . ')</span></div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 px-0">
+                                    <div class="name fw-bold">Transfered</br> <span class="fw-normal fontSizeTransaction">' . $rdate . '</span></div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 px-0">
+                                    <div class="name fw-bold text-success">&#8377; ' . $CATAmt . '/-</br> <span class="fw-normal text-dark fontSizeTransaction">' . $paymentMode . '</span></div>
                                 </div>
                             </div>
-                            
-                            <div class="col-10 col-sm-11 col-md-11 col-lg-11 col-xl-10 d-flex justify-content-between align-items-center">
-                                <div class="name fw-bold">' . $fullName . ' <span class="fw-normal">(' . $designation . ')</span></div>
-                            </div>
-                            <div class="date text-end fs-6" style="position: absolute; top: 5px; right: 0px;">' . $rdate . '</div>
                         </div>
-                        
-                        <div class="para ps-3 pb-2">
-                            <p>Transferred <span class="amount">' . $CATAmt . '/-</span> to Bizzmirth Holiday Pvt. Ltd via <span class="payment-mode">' . $paymentMode . '</span>.</p>
-                        </div>
+                        <hr />
                     </div>
             ';
         }
-        $output .=' <div class="col-md-6 col-sm-6 col-6 pb-3 ps-2">
-                        <a href="latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-start">View More</button></a>
-                    </div>
-                </div>';
+        $output .=' <div class="col-md-12 col-sm-12 col-12 pb-3 pe-3">
+                        <a href="latest_transaction/latest_transaction.php"><button class="cpn_btn box-btn float-end">View More</button></a>
+                    </div>';
         echo $output;
     } else {
         echo '<div class="card rounded-4 py-2 px-2">
