@@ -12,21 +12,22 @@
     $zone_id = $_GET['zone'];
     $branch_id = $_GET['branch'];
     $editfor = $_GET['editfor'];
-    $usertype = $_GET['usertype']; // 'mf' for master franchisee, 'bm' for business mentor
+    $usertype = $_GET['usertype']; // 'MF' for master franchisee, 'BM' for business mentor
+    $transfer_check=$_GET['tr_check']??0;
 
     if ($editfor == 'pending') {
         $identifier_name = 'id=';
     } else if ($editfor == 'registered') {
-        $identifier_name = $usertype == 'mf' ? 'master_franchisee_id=' :($usertype == 'bm' ? 'business_mentor_id=' : ($usertype == 'sf' ? 'sponsor_franchisee_id=' : ''));
+        $identifier_name = $usertype == 'MF' ? 'master_franchisee_id=' :($usertype == 'BM' ? 'business_mentor_id=' : ($usertype == 'SF' ? 'sponsor_franchisee_id=' : ''));
     }
 
-    $testValue = $usertype == 'bm' ? '26' : ($usertype == 'mf' ? '28' : ($usertype == 'sf' ? '30' : ''));
+    $testValue = $usertype == 'BM' ? '26' : ($usertype == 'MF' ? '28' : ($usertype == 'SF' ? '30' : ''));
 
-    if ($usertype == 'mf') {
+    if ($usertype == 'MF') {
         $stmt = $conn->prepare("SELECT * FROM `master_franchisee` WHERE master_franchisee_id='" . $id . "' OR id = '" . $id . "'");
-    } else if($usertype == 'bm') {
+    } else if($usertype == 'BM') {
         $stmt = $conn->prepare("SELECT * FROM `business_mentor` WHERE business_mentor_id='" . $id . "' OR id = '" . $id . "'");
-    } else if($usertype == 'sf') {
+    } else if($usertype == 'SF') {
         $stmt = $conn->prepare("SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id='" . $id . "' OR id = '" . $id . "'");
     }
 
@@ -105,7 +106,7 @@
             if ($reference_no == "Not Applicable") {
                 $reference_no_fname = "Not Applicable";
             } else {
-                if ($usertype == 'mf') {
+                if ($usertype == 'MF') {
                     // Master Franchisee → Get reporting manager (Zonal Manager) from `zonal_manager` table
                     $stmt_manager = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :ref");
                 } else {

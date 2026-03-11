@@ -11,6 +11,7 @@
     $user_type = $_GET['usertype'];
     $comp_check= '';
     $editfor = $_GET['editfor'];
+    $transfer_check=$_GET['tr_check']??0;
 
     if ($user_type == 'tc') {
         if($editfor == 'pending'){

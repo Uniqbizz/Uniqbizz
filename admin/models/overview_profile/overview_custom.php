@@ -242,6 +242,85 @@
                     $cityname = $city['city_name'];
                 }
             }
+            //edit array
+            if ($DBtable == 'business_mentor' || $DBtable == 'sponsor_franchisee' || $DBtable == 'master_franchisee') {
+                $edit_arr = [
+                                "id" => $id,
+                                "reference_no" => $row['reference_no'],
+                                "register_by" => $row['register_by'],
+                                "country" => $row['country'],
+                                "state" => $row['state'],
+                                "city" => $row['city'],
+                                "zone" => $row['zone'],
+                                "branch" => $row['branch'],
+                                "type" => "registered",
+                                "user_type" => $row['user_type'],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'corporate_agency' || $DBtable == 'sub_franchisee') { // 16/29
+                $edit_arr = [
+                                "user_id" => $id,
+                                "reference_no" => $row["reference_no"],
+                                "register_by" => $row["register_by"],
+                                "country" => $row["country"],
+                                "state" => $row["state"],
+                                "city" => $row["city"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                                
+                            ];
+            } else if ($DBtable == 'ca_travelagency') { // 11
+                $edit_arr = [
+                                "id" => $id,
+                                "reference_no" => $row["reference_no"],
+                                "register_by" => $row["register_by"],
+                                "country" => $row["country"],
+                                "state" => $row["state"],
+                                "city" => $row["city"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'ca_customer') { // 10
+                $edit_arr = [
+                                "id" => $id,
+                                "reference_no" => $row["reference_no"],
+                                "register_by" => $row["register_by"],
+                                "country" => $row["country"],
+                                "state" => $row["state"],
+                                "city" => $row["city"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'business_chanel_manager' || $DBtable == 'business_developement_manager' || $DBtable == 'relationship_manager') { // 25
+                $edit_arr = [
+                                "employee_id" => $id,
+                                "reporting_manager" => $row["reporting_manager"],
+                                "register_by" => $row["register_by"],
+                                "department" => $row["department"],
+                                "designation" => $row["designation"],
+                                "zone" => $row["zone"],
+                                "branch" => $row["branch"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'zonal_manager') { // 27
+                $edit_arr = [
+                                "zonal_manager_id" => $id,
+                                "reporting_manager" => "NA",
+                                "register_by" => $row["register_by"],
+                                "department" => "NA",
+                                "designation" => "NA",
+                                "zone" => $row["zone"],
+                                "branch" => "NA",
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            }
         }
     }
     $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager' || $DBtable == 'relationship_manager') ? $name : $firstname . ' ' . $lastname;

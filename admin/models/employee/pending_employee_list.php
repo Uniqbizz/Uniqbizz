@@ -1,13 +1,42 @@
 <?php
+    
     // 1. Fetch employees (BCM, BDM)
-    $sql = "SELECT * FROM `employees` WHERE (status = '2' OR status = '0') ORDER BY employee_id ASC";
+    $sql = "SELECT e.*, 'NA' AS transfer_id
+            FROM employees e
+            WHERE e.status IN ('0','2')
+
+            UNION ALL
+
+            SELECT e.*, tu.id AS transfer_id
+            FROM employees e
+            INNER JOIN transfered_users tu 
+                ON tu.transfer_user_id = e.employee_id 
+                AND tu.transfer_status = 1
+            WHERE e.status = '1'
+            AND e.transfer_check = '1'
+
+            ORDER BY id ASC";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $employees = $stmt->fetchAll();
 
     // 2. Fetch zonal managers
-    $sql_zm = "SELECT * FROM `zonal_manager` WHERE (status = '2' OR status = '0') ORDER BY zonal_manager_id ASC";
+    $sql_zm = "SELECT zm.*, 'NA' AS transfer_id
+                FROM zonal_manager zm
+                WHERE zm.status IN ('0','2')
+
+                UNION ALL
+
+                SELECT zm.*, tu.id AS transfer_id
+                FROM zonal_manager zm
+                INNER JOIN transfered_users tu 
+                    ON tu.transfer_user_id = zm.zonal_manager_id
+                    AND tu.transfer_status = 1
+                WHERE zm.status = '1'
+                AND zm.transfer_check = '1'
+
+                ORDER BY id ASC";
     $stmt_zm = $conn->prepare($sql_zm);
     $stmt_zm->execute();
     $stmt_zm->setFetchMode(PDO::FETCH_ASSOC);
@@ -73,6 +102,48 @@
                         </ul>
                     </div>
                 </td>';
+        }else if ($row['transfer_check'] == '1')  {
+            $user_id_str = ($row['user_type'] == 27) ? $row['zonal_manager_id'] : $row['employee_id'];
+            echo '<td><span class="badge text-bg-info">Transfer Requested</span></td>
+                    <td>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="#" onclick="openTransferModal(\''.$user_id_str.'\', \''.$row['transfer_id'].'\', 2, \''.$row['user_type'].'\')" class="dropdown-item">
+                                    <i class="mdi mdi-check-circle text-success me-1"></i> Approve
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" onclick="openTransferModal(\''.$user_id_str.'\', \''.$row['transfer_id'].'\', 3, \''.$row['user_type'].'\')" class="dropdown-item">
+                                    <i class="mdi mdi-trash-can text-danger me-1"></i> Reject
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" 
+                                    onclick="editfuncCust(
+                                        \'' . $user_id_str . '\',
+                                        \'' . ($row['reporting_manager'] ?? '') . '\',
+                                        \'' . ($row['register_by'] ?? '') . '\',
+                                        \'' . ($row['department'] ?? '') . '\',
+                                        \'' . ($row['designation'] ?? '') . '\',
+                                        \'' . ($row['zone'] ?? '') . '\',
+                                        \'' . ($row['branch'] ?? '') . '\',
+                                        \'registered\',
+                                        \'' . $row['user_type'] . '\'
+                                    )" 
+                                    class="dropdown-item">
+                                    <i class="mdi mdi-eye font-size-16 text-info me-1"></i> View Request
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    </td>';
         } else {
             echo '<td><span class="badge text-bg-danger">Delete</span></td>
                 <td>

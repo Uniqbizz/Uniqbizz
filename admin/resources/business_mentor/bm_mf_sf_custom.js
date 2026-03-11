@@ -1,15 +1,8 @@
 $(document).ready(function(){
-                
-    // Register the date format before using DataTables
-    $.fn.dataTable.moment('DD-MM-YYYY');
 
     // Now initialize DataTables
     $("#pendingCustomerList-table").DataTable({
         order: [[5, 'asc']] // 6th column = index 5
-    });
-
-    $("#registeredCustomerList-table").DataTable({
-        order: [[5, 'asc']]
     });
     
     $("#deletedCustomerList-table").DataTable({
@@ -106,32 +99,39 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
 
 // Reload function
 function reloadBMData(){
+
     let filterDesig = $('#filter_branch').val();
-    let desig = $('#designation_value').val();
+    let desig = $('#designation_value').val() ?? 'All';
 
     let dataString = 'branch='+filterDesig+'&designation='+desig;
+
     if (dateRangeChanged) {
         dataString += '&fromDate='+fromDate+'&toDate='+toDate;
+    }
+
+    // destroy existing table if already initialized
+    if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
+        $('#registeredCustomerList-table').DataTable().destroy();
     }
 
     $.ajax({
         type: 'POST',
         url: '../../controllers/business_mentor/filterBM.php',
         data: dataString,
-        cache: false,
         success: function (data) {
 
-            if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
-                $('#registeredCustomerList-table').DataTable().clear().destroy();
-            }
+            // Replace full table
+            $('#bmView').html(data);
 
-            $('#registeredCustomerList-table tbody').html(data);
-
-            let table = $('#registeredCustomerList-table').DataTable({
-                order: [[6, 'asc']]
+            // Apply DataTable AFTER inserting table
+            $('#registeredCustomerList-table').DataTable({
+                order: [[6, 'asc']],
+                pageLength: 10,
+                paging: true,
+                searching: true,
+                info: true
             });
 
-            console.log('Rows:', table.rows().count());
         }
     });
 }

@@ -1,4 +1,4 @@
-<table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-tableFilter">
+<table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
     <thead class="table-light">
         <tr>
             <th>Business Mentor Id</th>
@@ -103,8 +103,8 @@
                 $bd = new DateTime($row['date_of_birth']);
                 $bdate = $bd->format('d-m-Y');
 
-                $rd = new DateTime($row['register_date']);
-                $rdate = $rd->format('d-m-Y');
+                $rdate_display = date("d-m-Y", strtotime($row['register_date']));
+                $rdate_sort = date("Y-m-d", strtotime($row['register_date']));
 
                 $branchID = $row['branch'];
                 $branch = '';
@@ -134,7 +134,7 @@
                     </td>
                     <td>' . $branch . '</td>
                     <td>' . $row['paid_amount'] . '</td>
-                    <td>' . $rdate . '</td>';
+                    <td data-order="'.$rdate_sort.'">' . $rdate_display . '</td>';
 
                 echo'<td><span class="badge text-bg-success">Active</span></td>
                     <td>
@@ -144,7 +144,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
                                 <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtoUpper($row['user_type']) == 'MF' ? 'master_franchisee' : (strtoUpper($row['user_type']) == 'BM' ? 'business_mentor' : (strtoUpper($row['user_type']) == 'SF' ? 'sponsor_franchisee' : ''))) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . strtoUpper($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . $row['user_type'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                 <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","' . strtoUpper($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                             </ul>
                         </div>

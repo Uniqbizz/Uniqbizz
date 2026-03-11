@@ -12,6 +12,7 @@ $reference_id = '';
 $user_type=$_GET['usertype'];
 
 $editfor = $_GET['editfor'];
+$transfer_check=$_GET['tr_check']??0;
 //corporate_agency
 if($user_type == 'te'){
     $stmt = $conn->prepare("SELECT * FROM `corporate_agency` where corporate_agency_id='" . $id . "' OR id = '" . $id . "'");

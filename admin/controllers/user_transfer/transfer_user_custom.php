@@ -1,11 +1,11 @@
 <?php
-require '../connect.php';
+require '../../connect.php';
 
 $post = $_POST;
 
-$user_type      = $post['user_type'];
-$identifier_id  = $post['id'];
-$email          = $post['email'] ?? '';
+$user_type     = $post['user_type'];
+$identifier_id = $post['id'];
+$email         = $post['email'] ?? '';
 
 /* =========================
 USER TYPE → TABLE MAP
@@ -20,11 +20,12 @@ function getUserTable($user_type)
         32=>'institution',33=>'institution_branch_manager',
         16=>'corporate_agency',11=>'ca_travelagency',10=>'ca_customer'
     ];
+
     return $map[$user_type] ?? null;
 }
 
 /* =========================
-TABLE IDENTIFIER
+IDENTIFIER COLUMN
 ========================= */
 
 function getIdentifierColumn($table)
@@ -42,36 +43,43 @@ function getIdentifierColumn($table)
         'ca_travelagency'=>'ca_travelagency_id',
         'ca_customer'=>'ca_customer_id'
     ];
+
     return $map[$table] ?? 'id';
 }
 
 $table = getUserTable($user_type);
-$identifier_name = getIdentifierColumn($table);
+
+if(!$table){
+    echo 0;
+    exit;
+}
+
+$identifier_column = getIdentifierColumn($table);
 
 /* =========================
 DATA PREP
 ========================= */
 
 $data = $post;
-$data['id']=$identifier_id;
+$data['id'] = $identifier_id;
 
-$loginData=[
+$loginData = [
     'username'=>$email,
     'user_id'=>$identifier_id
 ];
 
-$logData=[
+$logData = [
     'user_id'=>$identifier_id,
     'title'=>'User Transfer',
-    'message'=>$identifier_id.' Was Transfer Requested',
-    'message2'=>$identifier_id.' Was Transfer Requested',
+    'message'=>$identifier_id.' Transfer Requested',
+    'message2'=>$identifier_id.' Transfer Requested',
     'reference_no'=>'NA',
     'register_by'=>'1',
     'from_whom'=>'1',
     'operation'=>'User Transfer'
 ];
 
-$transferData=[
+$transferData = [
     'prev_user_name'=>$post['prev_user_name'] ?? '',
     'prev_user_email'=>$post['prev_user_email'] ?? '',
     'prev_user_doj'=>$post['prev_user_doj'] ?? '',
@@ -80,9 +88,15 @@ $transferData=[
     'transfer_user_id'=>$identifier_id
 ];
 
-$result=user_transfer(
-    $conn,$table,$identifier_name,$identifier_id,
-    $data,$loginData,$logData,$transferData
+$result = user_transfer(
+    $conn,
+    $table,
+    $identifier_column,
+    $identifier_id,
+    $data,
+    $loginData,
+    $logData,
+    $transferData
 );
 
 echo $result ? 1 : 0;
@@ -92,18 +106,18 @@ echo $result ? 1 : 0;
 TRANSFER FUNCTION
 ========================= */
 
-function user_transfer($conn,$table,$identifier_name,$identifier_id,$data,$loginData,$logData,$transferData)
+function user_transfer($conn,$table,$identifier_column,$identifier_id,$data,$loginData,$logData,$transferData)
 {
     try{
 
         $conn->beginTransaction();
 
-        /* -------- FILTER DATA -------- */
+        /* -------- FILTER FORM DATA -------- */
 
         $ignore=[
             'table','user_type','prev_user_name',
             'prev_user_email','prev_user_doj','editfor',
-            'username','user_id'
+            'username','user_id','id'
         ];
 
         $updateData=[];
@@ -111,25 +125,24 @@ function user_transfer($conn,$table,$identifier_name,$identifier_id,$data,$login
         foreach($data as $key=>$value){
 
             if(in_array($key,$ignore)) continue;
-            if($key=='id') continue;
 
             $updateData[$key]=$value;
         }
 
-        /* -------- PAYLOAD -------- */
+        /* -------- BUILD PAYLOAD -------- */
 
         $payload=[
             'table'=>$table,
-            'identifier_column'=>$identifier_name,
+            'identifier_column'=>$identifier_column,
             'identifier_id'=>$identifier_id,
             'update_data'=>$updateData,
             'login_data'=>$loginData
         ];
 
-        $transferData['pending_payload']=json_encode($payload);
-        $transferData['transfer_status']=1;
+        $transferData['pending_payload'] = json_encode($payload);
+        $transferData['transfer_status'] = 1; // 1=requested 2=approved 3=rejected
 
-        /* -------- INSERT TRANSFER -------- */
+        /* -------- INSERT TRANSFER REQUEST -------- */
 
         $sql="INSERT INTO transfered_users
         (prev_user_name,prev_user_email,prev_user_doj,new_user_name,new_user_email,
@@ -141,15 +154,15 @@ function user_transfer($conn,$table,$identifier_name,$identifier_id,$data,$login
         $stmt=$conn->prepare($sql);
         $stmt->execute($transferData);
 
-        /* -------- FLAG USER -------- */
+        /* -------- FLAG USER AS TRANSFER REQUESTED -------- */
 
-        $stmt=$conn->prepare("UPDATE $table
+        $stmt=$conn->prepare("UPDATE {$table}
                               SET transfer_check=1
-                              WHERE $identifier_name=:id");
+                              WHERE {$identifier_column}=:id");
 
         $stmt->execute([':id'=>$identifier_id]);
 
-        /* -------- LOG -------- */
+        /* -------- SYSTEM LOG -------- */
 
         $sqlLog="INSERT INTO logs
         (user_id,title,message,message2,reference_no,register_by,from_whom,operation)
@@ -160,13 +173,16 @@ function user_transfer($conn,$table,$identifier_name,$identifier_id,$data,$login
         $stmt->execute($logData);
 
         $conn->commit();
+
         return true;
 
-    }catch(Exception $e){
+    }
+    catch(Exception $e){
 
         $conn->rollBack();
         echo $e->getMessage();
         return false;
+
     }
 }
 ?>

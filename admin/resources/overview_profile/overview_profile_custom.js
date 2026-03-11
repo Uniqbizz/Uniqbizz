@@ -221,3 +221,74 @@ $('#paymentMode1').on('click', function() {
         $("#transactionNo1").val("");
     }
 });
+//for transfer
+function editfuncCust(data){ 
+    if (data.user_type == '26' || data.user_type == '28' || data.user_type == '30') {
+        
+        var fileName = 'business_mentor/editBusinessMentor.php';
+
+        window.location.href = '../../views/' + fileName +
+            '?vkvbvjfgfikix=' + data.id +
+            '&nohbref=' + data.reference_no +
+            '&fyfyfregby=' + data.register_by +
+            '&ncy=' + data.country +
+            '&mst=' + data.state +
+            '&hct=' + data.city +
+            '&zone=' + data.zone +
+            '&branch=' + data.branch +
+            '&editfor=' + data.type +
+            '&usertype=' + data.user_type +
+            '&tr_check=' + data.tr_check;
+    }else if(data.user_type == '16' || data.user_type == '29'){
+        var fileName = 'corporate_agency/edit_corporate_agency.php';
+
+        window.location.href = '../../views/' + fileName +
+            '?vkvbvjfgfikix=' + data.user_id +
+            '&fyfyfregby=' + data.reference_no +
+            '&nohbref=' + data.register_by +
+            '&ncy=' + data.country +
+            '&mst=' + data.state +
+            '&hct=' + data.city +
+            '&editfor=' + data.type +
+            '&usertype=' + data.user_type+
+            '&tr_check=' + data.tr_check;
+    }else if(data.user_type == '25' || data.user_type == '24' || data.user_type == '31' || data.user_type == '27'){
+        var fileName = 'employee/editEmployee.php';
+
+        window.location.href = '../../views/' + fileName +
+            '?vkvbvjfgfikix=' + data.employee_id +
+            '&fyfyfregby=' + data.reporting_manager +
+            '&nohbref=' + data.register_by +
+            '&dept=' + data.department +
+            '&desig=' + data.designation +
+            '&zn=' + data.zone +
+            '&br=' + data.branch +
+            '&editfor=' + data.type +
+            '&usertype=' + data.user_type+
+            '&tr_check=' + data.tr_check;
+    }else if(data.user_type == '10'){
+        var fileName = 'ca_customer/edit_customers.php';
+
+            window.location.href = '../../views/' + fileName +
+            '?vkvbvjfgfikix=' + data.id +
+            '&fyfyfregby=' + data.register_by +
+            '&nohbref=' + data.reference_no +
+            '&ncy=' + data.country +
+            '&mst=' + data.state +
+            '&hct=' + data.city +
+            '&editfor=' + data.type +
+            '&tr_check=' + data.tr_check;
+    }else if(data.user_type == '11'){
+        var fileName = 'ca_travel_agency/edit_ca_travelAgency.php';
+
+            window.location.href = '../../views/' + fileName +
+            '?vkvbvjfgfikix=' + data.id +
+            '&fyfyfregby=' + data.register_by +
+            '&nohbref=' + data.reference_no +
+            '&ncy=' + data.country +
+            '&mst=' + data.state +
+            '&hct=' + data.city +
+            '&editfor=' + data.type +
+            '&tr_check=' + data.tr_check;
+    }
+}

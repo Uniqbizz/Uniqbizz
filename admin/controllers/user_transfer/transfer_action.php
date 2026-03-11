@@ -1,10 +1,10 @@
 <?php
-require '../connect.php';
-$transfer_res='';
+require '../../connect.php';
+
 if(isset($_POST['transfer_user_id'])){
 
     $transfer_id=$_POST['transfer_id'];
-    $status=$_POST['status'];
+    $status=(int)$_POST['status'];
     $text=$_POST['text'];
 
     $reason=($status==2?$text:'');
@@ -15,7 +15,7 @@ if(isset($_POST['transfer_user_id'])){
     echo $result;
     exit;
 }
-//logs function
+
 function insertLog($conn,$data){
 
     $sql="INSERT INTO logs
@@ -23,9 +23,12 @@ function insertLog($conn,$data){
     VALUES
     (:user_id,:title,:message,:message2,:reference_no,:register_by,:from_whom,:operation)";
 
+    // echo "<pre>LOG QUERY:\n$sql\n";
+    // print_r($data);
+    // echo "</pre>";
+
     $stmt=$conn->prepare($sql);
     $stmt->execute($data);
-
 }
 
 /* =========================
@@ -38,7 +41,13 @@ function user_transfer_action($conn,$transfer_id,$status,$reason='',$remark='')
 
         $conn->beginTransaction();
 
-        $stmt=$conn->prepare("SELECT * FROM transfered_users WHERE id=:id");
+        $sql="SELECT * FROM transfered_users WHERE id=:id";
+
+        // echo "<pre>QUERY:\n$sql\n";
+        // print_r(['id'=>$transfer_id]);
+        // echo "</pre>";
+
+        $stmt=$conn->prepare($sql);
         $stmt->execute([':id'=>$transfer_id]);
         $transfer=$stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -52,15 +61,25 @@ function user_transfer_action($conn,$transfer_id,$status,$reason='',$remark='')
         $identifier_column=$payload['identifier_column'];
         $identifier_id=$payload['identifier_id'];
 
-        if($status==2){
+        if($status == 2){
 
             $data=$payload['update_data'];
             $loginData=$payload['login_data'];
+
+            $ignore = [
+                'prev_user_data',
+                'transfer_check',
+                'user_type',
+                'editfor',
+                'note'
+            ];
 
             $set=[];
             $params=[];
 
             foreach($data as $key=>$value){
+
+                if(in_array($key,$ignore)) continue;
 
                 $set[]="$key=:$key";
                 $params[$key]=$value;
@@ -69,26 +88,35 @@ function user_transfer_action($conn,$transfer_id,$status,$reason='',$remark='')
             $params['id']=$identifier_id;
 
             $sql="UPDATE $table SET ".implode(',',$set)." WHERE $identifier_column=:id";
+
+            // echo "<pre>APPROVE UPDATE QUERY:\n$sql\n";
+            // print_r($params);
+            // echo "</pre>";
+
             $stmt=$conn->prepare($sql);
             $stmt->execute($params);
 
             /* update login */
 
-            $stmt=$conn->prepare("UPDATE login
-                                  SET username=:username
-                                  WHERE user_id=:user_id");
+            $sql="UPDATE login SET username=:username WHERE user_id=:user_id";
 
+            // echo "<pre>LOGIN UPDATE QUERY:\n$sql\n";
+            // print_r($loginData);
+            // echo "</pre>";
+
+            $stmt=$conn->prepare($sql);
             $stmt->execute($loginData);
 
             /* mark approved */
 
-            $stmt=$conn->prepare("UPDATE $table
-                                  SET transfer_check=2
-                                  WHERE $identifier_column=:id");
+            $sql="UPDATE $table SET transfer_check=2 WHERE $identifier_column=:id";
 
+            // echo "<pre>TRANSFER FLAG QUERY:\n$sql\n";
+            // print_r(['id'=>$identifier_id]);
+            // echo "</pre>";
+
+            $stmt=$conn->prepare($sql);
             $stmt->execute([':id'=>$identifier_id]);
-
-            /* -------- LOG APPROVED -------- */
 
             $logData = [
                 'user_id' => $identifier_id,
@@ -100,20 +128,19 @@ function user_transfer_action($conn,$transfer_id,$status,$reason='',$remark='')
                 'from_whom' => '1',
                 'operation' => 'Transfer Approved'
             ];
+
             insertLog($conn,$logData);
-        }
 
-        if($status==3){
+        }else if($status == 3){
 
-            /* reset flag */
+            $sql="UPDATE $table SET transfer_check=0 WHERE $identifier_column=:id";
 
-            $stmt=$conn->prepare("UPDATE $table
-                                  SET transfer_check=0
-                                  WHERE $identifier_column=:id");
+            // echo "<pre>REJECT QUERY:\n$sql\n";
+            // print_r(['id'=>$identifier_id]);
+            // echo "</pre>";
 
+            $stmt=$conn->prepare($sql);
             $stmt->execute([':id'=>$identifier_id]);
-
-            /* -------- LOG REJECTED -------- */
 
             $logData = [
                 'user_id' => $identifier_id,
@@ -129,22 +156,30 @@ function user_transfer_action($conn,$transfer_id,$status,$reason='',$remark='')
             insertLog($conn,$logData);
         }
 
-        /* update transfer table */
-
-        $stmt=$conn->prepare("UPDATE transfered_users
+        $sql="UPDATE transfered_users
         SET transfer_status=:status,
             transfer_reason=:reason,
-            transfer_remark=:remark
-        WHERE id=:id");
+            transfer_remark=:remark,
+            transfer_update_date=NOW()
+        WHERE id=:id";
 
-        $stmt->execute([
+        $params=[
             ':status'=>$status,
             ':reason'=>$reason,
             ':remark'=>$remark,
             ':id'=>$transfer_id
-        ]);
+        ];
+
+        // echo "<pre>TRANSFER TABLE UPDATE:\n$sql\n";
+        // print_r($params);
+        // echo "</pre>";
+        
+
+        $stmt=$conn->prepare($sql);
+        $stmt->execute($params);
 
         $conn->commit();
+
         return $status;
 
     }catch(Exception $e){

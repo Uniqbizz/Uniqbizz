@@ -85,6 +85,14 @@
                                     <div class="card-body">
                                         <form>
                                             <h3>Edit Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
+                                            <?php if ($transfer_check) {?>
+                                            <div class="d-flex justify-content-end">
+                                                <span class="gap-1 px-2 py-1 bg-info-subtle text-info rounded">
+                                                    <i class="fa-solid fa-right-left"></i>
+                                                    Transfer
+                                                </span>
+                                            </div>
+                                            <?php }?>
                                             <div class="row">
                                                 <!-- Personal Details -->
 

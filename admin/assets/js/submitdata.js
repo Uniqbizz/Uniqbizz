@@ -1682,358 +1682,15 @@ $("#editChannelBusinessDirector").on("click", function (e) {
 // @@@@****#### Business Consultant End by admin @@@@****####
 
 // @@@@****#### Employee start by admin @@@@****####
-// Add Employee by admin
-$("#add_employee").click(function (e) {
-    e.preventDefault();
-    var register_as=$('#registered').val();
-    var url=''
-    var country=state=city=pin=zonal=id_proof=bank_details=addar=pancard=department=designation=zone=branch=reporting_manager=joining_date='';
-      
-    if (register_as == 'zonal_manager'){
-        url='../../controllers/employee/addZonalManagerData.php';
-        country=$('#country').val();
-        state=$('#mystate').val();
-        city=$('#city').val();
-        pin=$('#pin').val();
-        zonal=$('#zonal').val();
-        id_proof = 'NA';
-        addar= $(":hidden#img_path2").val().trim();
-        pancard= $(":hidden#img_path3").val().trim();
-        bank_details = $(":hidden#img_path4").val().trim();
-        joining_date = 'NA';
-        department = 'NA';
-        designation = 'NA';
-        zone = 'NA';
-        branch = 'NA';
-        reporting_manager = 'NA';
-    }else if(register_as == 'employee'){
-        url='../../controllers/employee/addEmployeeData.php';
-        country='NA';
-        state='NA';
-        city='NA';
-        pin='NA';
-        zonal='NA';
-        id_proof= $(":hidden#img_path2").val().trim();
-        addar= 'NA';
-        pancard= 'NA';
-        bank_details = $(":hidden#img_path3").val().trim();
-        joining_date = $("#joining_date").val().trim();
-        department = $("#department").val().trim();
-        designation = $("#designation").val().trim();
-        zone = $("#zone").val().trim();
-        branch = $("#branch").val().trim();
-        reporting_manager = $("#reporting_manager").val().trim();
-    }
-    var name = $("#fullName").val().trim();
-    var birth_date = $("#birth_date").val().trim();
-    var country_cd = $("#country_cd").val().trim();
-    var contact = $("#contact").val().trim();
-    var email = $("#email").val().trim();
-    var address = $("#address").val().trim();
-    var gender = $(".gender:checked").val();
-    var profile_pic = $(":hidden#img_path1").val().trim();
-    
-   
 
-    //if note is empty
-    var rawNote = $("#note").val();
-    var note = (typeof rawNote === "string") ? (rawNote === "" ? "" : rawNote.trim()) : "";
 
-    // var testp= $('#testphone').val();
-    var testE = $("#testemail").val();
-
-    //age calculation
-    var birth_date_split = birth_date.split("-");
-    var age = currentYear - birth_date_split[0];
-    // console.log(age);
-
-    //joining date calculation
-    var joining_date_split = joining_date.split("-");
-    var joining = currentYear - joining_date_split[0];
-    // console.log(joining);
-
-    var characterLetters = /^[A-Za-z\s]+$/;
-    var phoneReg = /^[0-9]{10}$/;
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    var specialChar = /[!@#$%^&*]/g;
-
-    if (name === "" || name.length <= 2) {
-        alert("Enter Proper Name");
-    } else if (birth_date === "") {
-        alert("Choose Correct Birth date");
-    } else if (age < 20) {
-        alert("Age must be more than 20 Years");
-    } else if (contact === "") {
-        alert("Please enter contact number");
-    } else if (!phoneReg.test(contact)) {
-        alert("Contact Number Must be 10 Digit");
-    } else if (email == "") {
-        alert("Enter Email");
-    } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
-    } else if (testE == "1") {
-        alert("Email already exists");
-    } else if (address === "") {
-        alert("Please Enter address");
-    } else if (gender !== "male" && gender !== "female" && gender !== "others") {
-        alert("Please Select Gender");
-    }else if (country === "" && register_as == 'zonal_manager') {
-        alert("Please Select Country");
-    }else if (state === "" && register_as == 'zonal_manager') {
-        alert("Please Select State");
-    }else if (city === "" && register_as == 'zonal_manager') {
-        alert("Please Select City");
-    }else if (zonal === "" && register_as == 'zonal_manager') {
-        alert("Please Select Zone");
-    } else if (joining_date === "" && register_as == 'employee') {
-        alert("Please Select Joining date");
-    } else if (joining > 20 && register_as == 'employee') {
-        alert("Joining date can not be more than 20 Years");
-    } else if (department === "" && register_as == 'employee') {
-        alert("Please Select department");
-    } else if (designation === "" && register_as == 'employee') {
-        alert("Please Select designation");
-    } else if (zone === "" && register_as == 'employee') {
-        alert("Please Select zone");
-    } else if (branch === "" && register_as == 'employee') {
-        alert("Please Select branch");
-    } else if (profile_pic === "") {
-        alert("Please Upload profile Picture");
-    } else if (id_proof === "" && register_as == 'employee') {
-        alert("Please provide valid id proof");
-    } else if (addar === "" && register_as == 'zonal_manager') {
-        alert("Please provide valid id proof");
-    } else if (pancard === "" && register_as == 'zonal_manager') {
-        alert("Please provide valid id proof");
-    } else if (bank_details === "") {
-        alert("Please provide correct bank details");
-    } else {
-       var dataString =
-        "name=" + name +
-        "&birth_date=" + birth_date +
-        "&country_cd=" + country_cd+
-        "&contact=" + contact +
-        "&email=" + email +
-        "&address=" + address +
-        "&gender=" + gender +
-        "&joining_date=" + joining_date +
-        "&department=" + department +
-        "&designation=" + designation +
-        "&zone=" + zone +
-        "&branch=" + branch +
-        "&reporting_manager=" + reporting_manager +
-        "&profile_pic=" + profile_pic +
-        "&id_proof=" + id_proof +
-        "&addar=" + addar +
-        "&pancard=" + pancard +
-        "&bank_details=" + bank_details +
-        "&country=" + country +
-        "&state=" + state +
-        "&city=" + city +
-        "&pin=" + pin +
-        "&zonal=" + zonal +
-        "&note=" + note;
-
-        //console.log(dataString);
-        $("#add_employee").attr("disabled", "disabled");
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: dataString,
-            cache: false,
-            success: function (data) {
-                if (data == 1) {
-                    alert("Added Successfully");
-                    location.href = "employee.php";
-                } else {
-                    alert("Failed");
-                }
-            },
-        });
-    }
-});
-// Edit Employee by admin
-$("#edit_employee").click(function (e) {
-    e.preventDefault();
-    var register_as=$('#registered').val();
-    var url=''
-    var country=state=city=pin=zonal=id_proof=bank_details=addar=pancard=department=designation=zone=branch=reporting_manager=joining_date='';
-      
-    if (register_as == '27'){
-        url='../../controllers/employee/editZonalManagerData.php';
-        country=$('#country').val();
-        state=$('#mystate').val();
-        city=$('#city').val();
-        pin=$('#pin').val();
-        zonal=$('#zonal').val();
-        id_proof = 'NA';
-        addar= $(":hidden#img_path2").val().trim();
-        pancard= $(":hidden#img_path3").val().trim();
-        bank_details = $(":hidden#img_path4").val().trim();
-        joining_date = 'NA';
-        department = 'NA';
-        designation = 'NA';
-        zone = 'NA';
-        branch = 'NA';
-        reporting_manager = 'NA';
-    }else if(register_as == '24' || register_as == '25'){
-        url='../../controllers/employee/editEmployeeData.php';
-        country='NA';
-        state='NA';
-        city='NA';
-        pin='NA';
-        zonal='NA';
-        id_proof= $(":hidden#img_path2").val().trim();
-        addar= 'NA';
-        pancard= 'NA';
-        bank_details = $(":hidden#img_path3").val().trim();
-        joining_date = $("#joining_date").val().trim();
-        department = $("#department").val().trim();
-        designation = $("#designation").val().trim();
-        zone = $("#zone").val().trim();
-        branch = $("#branch").val().trim();
-        reporting_manager = $("#reporting_manager").val().trim();
-    }
-    var id = $("#empID").val().trim();
-    var name = $("#fullName").val().trim();
-    var birth_date = $("#birth_date").val().trim();
-    var country_cd = $("#country_cd").val().trim();
-    var contact = $("#contact").val().trim();
-    var email = $("#email").val().trim();
-    var address = $("#address").val().trim();
-    var gender = $(".gender:checked").val();
-    var editfor = $("#editfor").val().trim();
-    var ref_id = $("#ref_id").val().trim();
-    var profile_pic = $(":hidden#img_path1").val().trim();
-
-    //if note is empty
-    var rawNote = $("#note").val();
-    var note = (typeof rawNote === "string") ? (rawNote === "" ? "" : rawNote.trim()) : "";
-
-    // var testp= $('#testphone').val();
-    var testE = $("#testemail").val();
-
-    //age calculation
-    var birth_date_split = birth_date.split("-");
-    var age = currentYear - birth_date_split[0];
-    // console.log(age);
-
-    //joining date calculation
-    var joining_date_split = joining_date.split("-");
-    var joining = currentYear - joining_date_split[0];
-    // console.log(joining);
-
-    var characterLetters = /^[A-Za-z\s]+$/;
-    var phoneReg = /^[0-9]{10}$/;
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    var specialChar = /[!@#$%^&*]/g;
-
-    if (name === "" || name.length <= 2) {
-        alert("Enter Proper Name");
-    } else if (birth_date === "") {
-        alert("Choose Correct Birth date");
-    } else if (age < 20) {
-        alert("Age must be more than 20 Years");
-    } else if (contact === "") {
-        alert("Please enter contact number");
-    } else if (!phoneReg.test(contact)) {
-        alert("Contact Number Must be 10 Digit");
-    } else if (email == "") {
-        alert("Enter Email");
-    } else if (!emailReg.test(email)) {
-        alert("Enter Proper Email");
-    } else if (testE == "1") {
-        alert("Email already exists");
-    } else if (address === "") {
-        alert("Please Enter address");
-    } else if (gender !== "male" && gender !== "female" && gender !== "others") {
-        alert("Please Select Gender");
-    } else if (country === "" && register_as == '27') {
-        alert("Please Select Country");
-    }else if (state === "" && register_as == '27') {
-        alert("Please Select State");
-    }else if (city === "" && register_as == '27') {
-        alert("Please Select City");
-    }else if (zonal === "" && register_as == '27') {
-        alert("Please Select Zone");
-    } else if (joining_date === "" && (register_as == '24' || register_as == '25')) {
-        alert("Please Select Joining date");
-    } else if (joining > 20 && (register_as == '24' || register_as == '25')) {
-        alert("Joining date can not be more than 20 Years");
-    } else if (department === "" && (register_as == '24' || register_as == '25')) {
-        alert("Please Select department");
-    } else if (designation === "" && (register_as == '24' || register_as == '25')) {
-        alert("Please Select designation");
-    } else if (zone === "" && (register_as == '24' || register_as == '25')) {
-        alert("Please Select zone");
-    } else if (branch === "" && (register_as == '24' || register_as == '25')) {
-        alert("Please Select branch");
-    } else if (profile_pic === "") {
-        alert("Please Upload profile Picture");
-    } else if (id_proof === "" && (register_as == '24' || register_as == '25')) {
-        alert("Please provide valid id proof");
-    } else if (addar === "" && register_as == '27') {
-        alert("Please provide valid id proof");
-    } else if (pancard === "" && register_as == '27') {
-        alert("Please provide valid id proof");
-    } else if (bank_details === "") {
-        alert("Please provide correct bank details");
-    } else {
-        var dataString =
-            "id=" +id +
-            "&name=" + name +
-            "&birth_date=" + birth_date +
-            "&country_cd=" + country_cd +
-            "&contact=" + contact +
-            "&email=" + email +
-            "&address=" + address +
-            "&gender=" + gender +
-            "&joining_date=" + joining_date +
-            "&department=" + department +
-            "&designation=" + designation +
-            "&zone=" + zone +
-            "&branch=" + branch +
-            "&reporting_manager=" + reporting_manager +
-            "&profile_pic=" + profile_pic +
-            "&id_proof=" + id_proof +
-            "&addar=" + addar +
-            "&pancard=" + pancard +
-            "&bank_details=" + bank_details +
-            "&country=" + country +
-            "&state=" + state +
-            "&city=" + city +
-            "&pin=" + pin +
-            "&zonal=" + zonal +
-            "&ref_id=" + ref_id +
-            "&editfor=" + editfor +
-            "&note=" + note;
-
-        console.log(dataString);
-        $("#edit_employee").attr("disabled", "disabled");
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: dataString,
-            cache: false,
-            success: function (data) {
-                if (data == 1) {
-                    alert("Edited Successfully");
-                    location.href = "employee.php";
-                } else {
-                    alert("Failed");
-                }
-            },
-        });
-    }
-});
 // @@@@****#### Employee End by admin @@@@****####
 
 // @@@@****#### Business Mentor start by admin @@@@****####
 // Add Business Mentor by admin
 $("#addBusinessMentor").on("click", function (e) {
     e.preventDefault();
+    var transfer_check =$('#tr_check').val();
     var register_as = $('#registered').val();
     var url = register_as == 'business_mentor' ? '../../controllers/business_mentor/addBusinessMentorData.php' 
             : register_as == 'master_franchisee' ? '../../controllers/business_mentor/addMasterFranchiseeData.php' 
@@ -2259,7 +1916,8 @@ $("#addBusinessMentor").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&transfer_check="+transfer_check;
         console.log(dataString);
 
         $("#addBusinessMentor").attr("disabled", "disabled");
@@ -2293,7 +1951,12 @@ $("#editBuisnessMentor").on("click", function (e) {
     // : register_as == 'mf'
     //     ? 'editMasterFranchiseeData.php'
     //     : '';
-
+    var transfer_check=$('#tr_check').val();
+    var prev_user_name=prev_user_email='';
+    if (transfer_check == 1) {
+        prev_user_name=$('#prev_user_name').val();
+        prev_user_email=$('#prev_user_email').val();
+    }
     var register_as = $('#registered').val();
     var url = register_as == 'bm' ? '../../controllers/business_mentor/editBusinessMentorData.php' 
             : register_as == 'mf' ? '../../controllers/business_mentor/editMasterFranchiseeData.php' 
@@ -2510,7 +2173,8 @@ $("#editBuisnessMentor").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&transfer_check="+transfer_check;
         console.log(dataString);
 
         $("#editBuisnessMentor").attr("disabled", "disabled");
@@ -3019,6 +2683,7 @@ $("#editBusinessTrainee").on("click", function (e) {
 // Add Corporate Agency by admin
 $("#addCorporateAgency").on("click", function (e) {
     e.preventDefault();
+    var transfer_check=$('#tr_check').val();
     var register_as = $('#registered').val();
     var url = register_as == 'corporate_agency'
     ? '../../controllers/corporate_agency/add_corporate_agency_data.php'
@@ -3202,7 +2867,8 @@ $("#addCorporateAgency").on("click", function (e) {
             "&note=" +
             note+
             "&converted="+
-            converted;
+            converted+
+            "&transfer_check="+transfer_check;
         console.log(dataString);
 
         if (validateForm()) {
@@ -3232,6 +2898,12 @@ $("#addCorporateAgency").on("click", function (e) {
 // Edit Corporate Agency by admin
 $("#editCorporateAgency").on("click", function (e) {
     e.preventDefault();
+    var transfer_check=$('#tr_check').val();
+    var prev_user_name=prev_user_email='';
+    if (transfer_check == 1) {
+        prev_user_name=$('#prev_user_name').val();
+        prev_user_email=$('#prev_user_email').val();
+    }
     var register_as = $('#registered').val();
     var url = register_as == 'te'
     ? '../../controllers/corporate_agency/edit_corporate_agency_data.php'
@@ -3451,7 +3123,8 @@ $("#editCorporateAgency").on("click", function (e) {
             + "&tenure=" + tenure
             + "&roi=" + roi
             + "&tax=" + tax
-            + "&repayAmount=" + repayAmount;
+            + "&repayAmount=" + repayAmount
+            + "&transfer_check=" + transfer_check;
         //console.log(dataString);
 
         $("#editCorporateAgency").attr("disabled", "disabled");
@@ -3483,6 +3156,7 @@ $("#editCorporateAgency").on("click", function (e) {
 $("#add_ca_travelagency").on("click", function (e) {
 
     e.preventDefault();
+    var transfer_check=$('#tr_check').val();
     var register_as = $('#registered').val();
     var url = register_as == 'travel_consultant'
     ? '../../controllers/ca_travel_agency/add_ca_travelAgency_data.php'
@@ -3673,7 +3347,9 @@ $("#add_ca_travelagency").on("click", function (e) {
             "&note=" +
             note+
             "&comp_check="+
-            comp_check;
+            comp_check+
+            "&transfer_check="+
+            transfer_check;
         // console.log(dataString);
 
         $("#add_ca_travelagency").attr("disabled", "disabled");
@@ -3702,6 +3378,12 @@ $("#add_ca_travelagency").on("click", function (e) {
 // Edit Travel Agency by admin
 $("#edit_ca_travelagency").on("click", function (e) {
     e.preventDefault();
+    var transfer_check=$('#tr_check').val();
+    var prev_user_name=prev_user_email='';
+    if (transfer_check == 1) {
+        prev_user_name=$('#prev_user_name').val();
+        prev_user_email=$('#prev_user_email').val();
+    }
     var register_as = $('#registered').val();
     var url = register_as == 'tc'
     ? "../../controllers/ca_travel_agency/edit_ca_travelAgency_data.php"
@@ -3911,7 +3593,9 @@ $("#edit_ca_travelagency").on("click", function (e) {
             "&note=" +
             note+
             "&comp_check="+
-            comp_check;
+            comp_check+
+            "&transfer_check="+
+            transfer_check;
         // console.log(dataString);
 
         $("#edit_ca_travelagency").attr("disabled", "disabled");
@@ -3942,6 +3626,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
 // Add customer by admin
 $("#addCustomer").on("click", function (e) {
     e.preventDefault();
+    var transfer_check = $('#tr_check').val();
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
@@ -4158,7 +3843,9 @@ $("#addCustomer").on("click", function (e) {
             "&payment_label=" +
             payment_label +
             '&isComplementary=' +
-            isComplementary;
+            isComplementary+
+            "&transfer_check="+
+            transfer_check;
         console.log(dataString);
 
         $("#addCustomer").attr("disabled", "disabled");
@@ -4186,6 +3873,12 @@ $("#addCustomer").on("click", function (e) {
 // Edit customer by admin
 $("#editCustomer").on("click", function (e) {
     e.preventDefault();
+    var transfer_check = $("#tr_check").val();
+    var prev_user_name=prev_user_email='';
+    if (transfer_check == 1) {
+        prev_user_name=$('#prev_user_name').val();
+        prev_user_email=$('#prev_user_email').val();
+    }
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();
@@ -4248,16 +3941,6 @@ $("#editCustomer").on("click", function (e) {
     let payment_label = payment_text.includes(":")
         ? payment_text.split(":")[0].trim() // Extract part before colon
         : payment_text; // If no colon, use the whole text
-    // var chequeNo = $("#chequeNo").val().trim();
-    // var chequeDate = $("#chequeDate").val().trim();
-    // var bankName = $("#bankName").val().trim();
-    // var transactionNo = $("#transactionNo").val().trim();
-
-    // var profile_pic = $(":hidden#img_path1").val().trim();
-    // var aadhar_card = $(":hidden#img_path2").val().trim();
-    // var pan_card = $(":hidden#img_path3").val().trim();
-    // var passbook = $(":hidden#img_path4").val().trim();
-    // var voting_card = $(":hidden#img_path5").val().trim();
 
     //if note is empty
     var rawNote = $("#note").val();
@@ -4399,7 +4082,9 @@ $("#editCustomer").on("click", function (e) {
             "&payment_label=" +
             payment_label +
             '&isComplementary=' +
-            isComplementary;
+            isComplementary+
+            "&transfer_check="+
+            transfer_check;
         // console.log(dataString);
 
         $("#editCustomer").attr("disabled", "disabled");

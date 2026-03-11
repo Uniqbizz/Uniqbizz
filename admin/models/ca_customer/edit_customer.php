@@ -11,6 +11,7 @@
     $city_id = $_GET['hct'];
 
     $editfor = $_GET['editfor'];
+    $transfer_check=$_GET['tr_check']??0;
 
     if ($editfor == 'pending') {
         $identifier_name = 'id=';

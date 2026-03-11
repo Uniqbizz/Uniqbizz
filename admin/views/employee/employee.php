@@ -330,6 +330,7 @@
             </div>
         </div>
         <!-- end confirmItemModal -->
+        <?php include '../common_views/transfer_modal_view.php' ?>
 
         <!-- JAVASCRIPT -->
         <script src="../../assets/libs/jquery/jquery.min.js"></script>
@@ -358,6 +359,7 @@
 
         <!-- dataTable -->
         <script src="../../resources/employee/employee_custom.js"></script>
+        <script src="../../resources/common_resources/transfer_custom.js"></script>
 
     </body>
 

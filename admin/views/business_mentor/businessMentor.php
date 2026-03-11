@@ -223,25 +223,8 @@
                                         </div>
                                         
                                         <div class="table-responsive" id="bmView">
-                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th>BM/MF Id</th>
-                                                        <th>Full Name</th>
-                                                        <th>Reference ID / Name</th>
-                                                        <th>Phone / Email</th>
-                                                        <th>Branch</th>
-                                                        <th>Amt</th>
-                                                        <th>Joining Date</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- data load from filterBM.php -->
-
-                                                </tbody>
-                                            </table>
+                                            <!-- data load from controller file filterBM.php -->
+                                            
                                             <!-- end table -->
                                         </div>
                                         

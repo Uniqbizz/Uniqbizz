@@ -85,6 +85,14 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                 <div class="card-body">
                                     <form>
                                         <h3>Edit Techno Enterprise / Franchisee / Institution Form</h3>
+                                        <?php if ($transfer_check) {?>
+                                        <div class="d-flex justify-content-end">
+                                            <span class="gap-1 px-2 py-1 bg-info-subtle text-info rounded">
+                                                <i class="fa-solid fa-right-left"></i>
+                                                Transfer
+                                            </span>
+                                        </div>
+                                        <?php }?>
                                         <!-- added converted section by SV on 28-03-2026 -->
                                         <fieldset disabled>
                                             <div class="row">
