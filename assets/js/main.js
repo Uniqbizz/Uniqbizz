@@ -78,16 +78,59 @@
             clickable: true,
         },
     });
-    var swiper = new Swiper(".testimonialThree-active", {
-        loop: true,
-        autoplay: {
-            delay: 3000,
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            type: "progressbar",
-        },
+    // <!-- testimonial start 6/3/2026-->
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const images = [
+            "assets/images/hero/testimonial-banner-1.jpg",
+            "assets/images/hero/testimonial-banner-2.jpg",
+            "assets/images/hero/testimonial-banner-3.jpg",
+            "assets/images/hero/testimonial-banner-4.jpg",
+            "assets/images/hero/testimonial-banner-5.jpg"
+        ];
+
+        var swiper = new Swiper(".testimonialThree-active", {
+            loop: true,
+
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false
+            },
+
+            pagination: {
+                el: ".swiper-pagination",
+                type: "progressbar",
+            },
+
+            on: {
+                slideChange: function () {
+                    let index = this.realIndex; // correct index even with loop
+                    document.getElementById("testimonialBanner").src = images[index];
+                }
+            }
+        });
+        // Pause autoplay on hover over slider
+        const slider = document.querySelector(".testimonialThree-active");
+        slider.addEventListener("mouseenter", () => swiper.autoplay.stop());
+        slider.addEventListener("mouseleave", () => swiper.autoplay.start());
+
+        // Optional: Pause autoplay on hover over the banner image too
+        const banner = document.getElementById("testimonialBanner");
+        banner.addEventListener("mouseenter", () => swiper.autoplay.stop());
+        banner.addEventListener("mouseleave", () => swiper.autoplay.start());
+
     });
+    // <!-- testimonial end 6/3/2026-->
+    // var swiper = new Swiper(".testimonialThree-active", {
+    //     loop: true,
+    //     autoplay: {
+    //         delay: 3000,
+    //     },
+    //     pagination: {
+    //         el: ".swiper-pagination",
+    //         type: "progressbar",
+    //     },
+    // });
     var swiper = new Swiper(".tourSwiper-active", {
         loop: true,
         slidesPerView: 1,
