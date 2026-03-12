@@ -102,7 +102,7 @@
         #testimonialBanner{
             transition: all 0.5s ease;
             width: 100% !important;
-            height: 400px !important;
+            height: 450px !important;
             overflow: hidden !important;
             object-fit: fill !important;
         }
@@ -1249,7 +1249,7 @@
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6">
                         <div class="hero-banner imgEffect2 o-hidden radius-20">
-                            <img id="testimonialBanner" src="assets/images/hero/testimonial-banner-1.jpg" alt="Bizzmirth Holidays" width="100%" height="500px">
+                            <img id="testimonialBanner" src="assets/images/hero/testimonial-banner-1.jpg" alt="Bizzmirth Holidays">
                         </div>
                     </div>
                     <!-- / End Slider -->
