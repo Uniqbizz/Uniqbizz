@@ -1,3 +1,28 @@
+$("#email").keyup(function () {
+    var email = $("#email").val().trim();
+    var testValue = $("#testValue").val().trim();
+    emailtest(email, testValue);
+});
+
+var emailtest = (emailtest, testValue) => {
+    $.ajax({
+        type: "POST",
+        url: "../../test_data/emailtest.php",
+        data: "email=" + emailtest + "&tablename=" + testValue,
+        success: function (response) {
+            if (response == 1) {
+                $("#testemails").html(
+                    '<input type="hidden"  id="testemail" value="1" >'
+                );
+            } else {
+                $("#testemails").html(
+                    '<input  type="hidden" id="testemail" value="0" >'
+                );
+                // return false;
+            }
+        },
+    });
+};
 //select register
 $('#registered').on('change',function(){
 	var register_type = $(this).val();

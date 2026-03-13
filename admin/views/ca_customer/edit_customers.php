@@ -18,6 +18,7 @@ if (!isset($_SESSION['username'])) {
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="../assets/images/fav.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Bootstrap Css -->
     <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -27,6 +28,7 @@ if (!isset($_SESSION['username'])) {
     <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Loading Screen and Images size css  -->
     <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../resources/common_resources/edit_log_tooltip_custom.css"></link>
     <!-- App js -->
     <!-- <script src="../assets/js/plugin.js"></script> -->
 
@@ -89,7 +91,7 @@ if (!isset($_SESSION['username'])) {
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form>
+                                    <form id="cutomer_form">
                                         <h3>Edit Customers Form</h3>
                                         <?php if ($transfer_check) {?>
                                         <div class="d-flex justify-content-end">
@@ -522,8 +524,11 @@ if (!isset($_SESSION['username'])) {
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
                                         <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
 
-                                        <div class="submit-section d-flex justify-content-center mb-4">
+                                        <div class="submit-section d-flex justify-content-between mb-4">
                                             <button type="submit" class="btn btn-primary px-5 py-2" id="editCustomer">Submit</button>
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                Close
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -552,6 +557,10 @@ if (!isset($_SESSION['username'])) {
         <i class="mdi mdi-arrow-up"></i>
     </button>
     <!--end back-to-top-->
+    <!-- commom view modals -->
+    <?php include '../common_views/edit_reason_modal_view.php'?>
+    
+    <?php include '../common_views/no_edit_modal.php'?>
 
     <!-- JAVASCRIPT -->
     <script src="../../assets/libs/jquery/jquery.min.js"></script>
@@ -572,6 +581,7 @@ if (!isset($_SESSION['username'])) {
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script src="../../resources/ca_customer/edit_customer_custom.js"></script>
+    <script src="../../resources/common_resources/edit_log_tooltip_custom.js"></script>
 </body>
 
 </html>

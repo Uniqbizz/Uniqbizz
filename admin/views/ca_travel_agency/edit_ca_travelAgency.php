@@ -543,11 +543,14 @@
                                             <input type="hidden" id="prev_user_data" name="prev_user_data"
                                                 value="<?php echo htmlspecialchars(json_encode($prev_user_data), ENT_QUOTES, 'UTF-8'); ?>">
 
-                                            <div class="submit-section d-flex <?=$transfer_check == 1?'justify-content-between':'justify-content-center'?> mb-4">
+                                            <div class="submit-section d-flex <?=$transfer_status != 1?'justify-content-between':'justify-content-center'?> mb-4">
                                              <?php if($transfer_check == 1){ ?>    
                                                 <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="edit_ca_travelagency">Save Changes</button>
                                                 <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="transfer_tc_ibr">
                                                     Submit Transfer
+                                                </button>
+                                                <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                    Close
                                                 </button>
                                             <?php } else if($transfer_status == 1) { ?>
                                                 <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
@@ -555,6 +558,9 @@
                                                 </button>
                                             <?php }  else { ?>
                                                 <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="edit_ca_travelagency">Submit</button>
+                                                <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                    Close
+                                                </button>
                                             <?php } ?>
                                             </div>
                                         </form>
@@ -584,7 +590,9 @@
             <i class="mdi mdi-arrow-up"></i>
         </button>
         <!--end back-to-top-->
+        <!-- commom view modals -->
         <?php include '../common_views/edit_reason_modal_view.php'?>
+        <?php include '../common_views/no_edit_modal.php'?>
         <!-- JAVASCRIPT -->
         <script src="../../assets/libs/jquery/jquery.min.js"></script>
         <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -628,10 +636,6 @@
                     .not("#close")
                     .prop("disabled", true);
 
-                });
-                $("#close").on('click',function () {
-                    // Go back to the previous page
-                    window.history.back(); // or window.history.go(-1);
                 });
             </script>
         <?php

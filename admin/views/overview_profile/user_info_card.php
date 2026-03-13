@@ -54,7 +54,7 @@
                         }
                     ?>
                     <?php
-                        if($DBtable !== 'ca_customer' || $DBtable !== 'institution'){//institution and customer account are non transferable
+                        if($DBtable != 'ca_customer' && $DBtable != 'institution'){//institution and customer account are non transferable
                     ?>
                     <div class="row">
                         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">

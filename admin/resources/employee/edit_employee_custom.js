@@ -1,5 +1,10 @@
 let cachedEmpBlock = null;
 let cachedZmBlock = null;
+var originalFormData;
+
+$(document).ready(function () {
+    originalFormData = JSON.stringify($("#employee_form").serializeArray());
+});
 
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
@@ -86,6 +91,13 @@ $('#zone').on('change', function() {
 
 // Edit Employee by admin
 $("#confirmEditReason").click(function (e) {
+
+    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
     var edit_reason = $("#edit_reason").val().trim();
 
     if(edit_reason === ""){
@@ -294,11 +306,19 @@ $("#confirmEditReason").click(function (e) {
 $("#edit_employee").click(function (e) {
 
     e.preventDefault();
+    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
 
     // show modal first
     $("#editReasonModal").modal("show");
 
 });
+$("#noChangeOk, #noChangeClose").add("#noChangeModal")
+.on("click hidden.bs.modal", () => history.back());
 //Transfer employee
 $("#transfer_employee").click(function (e) {
 
@@ -349,4 +369,8 @@ $("#transfer_employee").click(function (e) {
         }
     });
 
+});
+$("#close").on('click',function () {
+    // Go back to the previous page
+    window.history.back(); // or window.history.go(-1);
 });

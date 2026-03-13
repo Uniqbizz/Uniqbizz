@@ -1,3 +1,4 @@
+var originalFormData;
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
     var testValue = $("#testValue").val().trim();
@@ -25,6 +26,7 @@ var emailtest = (emailtest, testValue) => {
 };
 
 $(document).ready(function(){
+    originalFormData = JSON.stringify($("#employee_form").serializeArray());
     var registered = $("#registered").val();
     if(registered == 'bm'){
         $('#payment_fee').removeClass('d-none');
@@ -208,6 +210,13 @@ $('#paymentMode').on('click', function() {
 
 // Edit Business Mentor by admin
 $("#confirmEditReason").on("click", function (e) {
+    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
+
     var edit_reason = $("#edit_reason").val().trim();
 
     if(edit_reason === ""){
@@ -474,11 +483,18 @@ $("#confirmEditReason").on("click", function (e) {
 $("#editBuisnessMentor").click(function (e) {
 
     e.preventDefault();
+    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
 
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
     // show modal first
     $("#editReasonModal").modal("show");
 
 });
+$("#noChangeOk, #noChangeClose").add("#noChangeModal")
+.on("click hidden.bs.modal", () => history.back());
 //Transfer bm/sf/mf
 $("#transfer_bm_sf_mf").click(function (e) {
 
@@ -531,4 +547,8 @@ $("#transfer_bm_sf_mf").click(function (e) {
         }
     });
 
+});
+$("#close").on('click',function () {
+    // Go back to the previous page
+    window.history.back(); // or window.history.go(-1);
 });

@@ -17,9 +17,9 @@
 
         $state = $_POST['state'];
         if($state == '0'){
-            $sql = "SELECT * FROM `ca_customer` WHERE (status = '1' OR status = '3') ORDER BY ca_customer_id ASC ";
+            $sql = "SELECT * FROM `ca_customer` WHERE (status = '1') ORDER BY ca_customer_id ASC ";
         }else{
-            $sql = "SELECT * FROM `ca_customer` WHERE state = '".$state."' AND (status = '1' OR status = '3') ORDER BY ca_customer_id ASC ";
+            $sql = "SELECT * FROM `ca_customer` WHERE state = '".$state."' AND (status = '1') ORDER BY ca_customer_id ASC ";
         }
         $stmt = $conn -> prepare($sql);
         $stmt -> execute();

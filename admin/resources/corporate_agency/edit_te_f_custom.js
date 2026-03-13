@@ -1,3 +1,4 @@
+var originalFormData;
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
     var testValue = $("#testValue").val().trim();
@@ -24,6 +25,7 @@ var emailtest = (emailtest, testValue) => {
     });
 };
 $(document).ready(function() {
+    originalFormData = JSON.stringify($("#te_f_i_form").serializeArray());
     var paymentMode = $(".payment:checked").val();
     if (paymentMode == "cheque") {
         $("#chequeOpt").removeClass("d-none");
@@ -196,6 +198,11 @@ $('input[name="official_purpose"]').on('change', function() {
 
 // Confirm edit reason click (same pattern as BM)
 $("#confirmEditReason").on("click", function (e) {
+    var currentFormData = JSON.stringify($("#te_f_i_form").serializeArray());
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
 
     var edit_reason = $("#edit_reason").val().trim();
 
@@ -433,12 +440,20 @@ $("#confirmEditReason").on("click", function (e) {
 
 // Open reason modal first
 $("#editCorporateAgency").click(function (e) {
-    console.log('clicked');
     
     e.preventDefault();
+    var currentFormData = JSON.stringify($("#te_f_i_form").serializeArray());
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
     $("#editReasonModal").modal("show");
 
 });
+
+$("#noChangeOk, #noChangeClose").add("#noChangeModal")
+.on("click hidden.bs.modal", () => history.back());
+
 $("#transfer_te_f_i").click(function (e) {
 
     e.preventDefault();
@@ -490,4 +505,8 @@ $("#transfer_te_f_i").click(function (e) {
         }
     });
 
+});
+$("#close").on('click',function () {
+    // Go back to the previous page
+    window.history.back(); // or window.history.go(-1);
 });

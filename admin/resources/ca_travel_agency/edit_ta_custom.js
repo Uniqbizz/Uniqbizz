@@ -1,4 +1,6 @@
 //on change of compcheck
+
+var originalFormData;
 $('#is_complementary').on('change', function () {
     if ($(this).is(':checked')) {
         $('#payment_fee').prop('disabled', true);
@@ -7,6 +9,7 @@ $('#is_complementary').on('change', function () {
     }
 });
 $(document).ready(function(){
+    originalFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
     var paymentMode = $(".payment:checked").val();
     if(paymentMode == "cheque"){
         $("#chequeOpt").removeClass("d-none");
@@ -160,6 +163,11 @@ $('#paymentMode').on('click', function(){
 });
 // Edit Travel Agency by admin
 $("#confirmEditReason").on("click", function (e) {
+    var currentFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
     var edit_reason = $("#edit_reason").val().trim();
 
     if(edit_reason === ""){
@@ -413,11 +421,18 @@ $("#confirmEditReason").on("click", function (e) {
 $("#edit_ca_travelagency").click(function (e) {
 
     e.preventDefault();
+    var currentFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
+    if(originalFormData === currentFormData){
+        $("#noChangeModal").modal("show");
+        return;
+    }
 
     // show modal first
     $("#editReasonModal").modal("show");
 
 });
+$("#noChangeOk, #noChangeClose").add("#noChangeModal")
+.on("click hidden.bs.modal", () => history.back());
 //Transfer bm/sf/mf
 $("#transfer_tc_ibr").click(function (e) {
 
@@ -470,4 +485,8 @@ $("#transfer_tc_ibr").click(function (e) {
         }
     });
 
+});
+$("#close").on('click',function () {
+    // Go back to the previous page
+    window.history.back(); // or window.history.go(-1);
 });
