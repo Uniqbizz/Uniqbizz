@@ -270,7 +270,7 @@
                                 "tr_check" => "1"
                                 
                             ];
-            } else if ($DBtable == 'ca_travelagency') { // 11
+            } else if ($DBtable == 'ca_travelagency' || $DBtable == 'institution_branch_manager') { // 11/33
                 $edit_arr = [
                                 "id" => $id,
                                 "reference_no" => $row["reference_no"],

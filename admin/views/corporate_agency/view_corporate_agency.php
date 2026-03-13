@@ -560,7 +560,7 @@
                 </div>
             </div>
         </div>
-
+        <?php include '../common_views/transfer_modal_view.php' ?>
         <!-- JAVASCRIPT -->
         <script src="../../assets/libs/jquery/jquery.min.js"></script>
         <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -588,6 +588,7 @@
         <script src="../../assets/js/app.js"></script>
         <script src="../../resources/common_resources/top_function.js"></script>
         <script src="../../resources/corporate_agency/te_f_custom.js"></script>
+        <script src="../../resources/common_resources/transfer_custom.js"></script>
     </body>
 
 </html>

@@ -45,10 +45,10 @@
             $update_data = $payload['update_data'] ?? [];
 
             $fid = $update_data['id'] ?? null;
-            $name = $update_data['name'] ?? null;
-            $update_data = $payload['update_data'] ?? [];
-            $email = $update_data['email'] ?? null;
             $update_data_prev = json_decode($update_data['prev_user_data'], true);
+            $name = $update_data['name'] ??$update_data_prev['name'] ?? null;
+            $update_data = $payload['update_data'] ?? [];
+            $email = $update_data['email'] ??$update_data_prev['email'] ?? null;
             $contact = $update_data['contact']?? $update_data_prev['contact'] ?? null;
             $country_cd = $update_data['country_code'] ??$update_data_prev['country_code'] ?? null;
             $reporting_manager_id = $update_data_prev['reporting_manager'] ?? null;
@@ -125,7 +125,6 @@
             $user_id = $login_data['user_id'] ?? null;
 
             $transfer_status=$row['transfer_status'];
-            echo $transfer_status;
         }
     }else{
         if($usertype == 27){

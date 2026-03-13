@@ -85,8 +85,15 @@ $('#zone').on('change', function() {
 });
 
 // Edit Employee by admin
-$("#edit_employee").click(function (e) {
-    e.preventDefault();
+$("#confirmEditReason").click(function (e) {
+    var edit_reason = $("#edit_reason").val().trim();
+
+    if(edit_reason === ""){
+        alert("Please enter reason for edit");
+        return;
+    }
+
+    $("#editReasonModal").modal("hide");
     var transfer_check = $('#tr_check').val();
     var register_as=$('#registered').val();
     var prev_user_data=$('#prev_user_data').val();
@@ -161,7 +168,7 @@ $("#edit_employee").click(function (e) {
     var phoneReg = /^[0-9]{10}$/;
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     var specialChar = /[!@#$%^&*]/g;
-
+    var edit_reason_param = "&edit_reason=" + encodeURIComponent(edit_reason);
     if (name === "" || name.length <= 2) {
         alert("Enter Proper Name");
     } else if (birth_date === "") {
@@ -243,7 +250,8 @@ $("#edit_employee").click(function (e) {
             "&note=" + note+
             "&transfer_check="+transfer_check+
             "&user_type="+register_as+
-            "&prev_user_data="+encodeURIComponent(prev_user_data);
+            "&prev_user_data="+encodeURIComponent(prev_user_data)+
+            edit_reason_param;
 
         console.log(dataString);
         $("#edit_employee").attr("disabled", "disabled");
@@ -282,6 +290,14 @@ $("#edit_employee").click(function (e) {
         }
         
     }
+});
+$("#edit_employee").click(function (e) {
+
+    e.preventDefault();
+
+    // show modal first
+    $("#editReasonModal").modal("show");
+
 });
 //Transfer employee
 $("#transfer_employee").click(function (e) {

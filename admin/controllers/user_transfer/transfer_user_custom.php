@@ -78,15 +78,26 @@ $logData = [
     'from_whom'=>'1',
     'operation'=>'User Transfer'
 ];
-
-$transferData = [
-    'prev_user_name'=>$post['prev_user_name'] ?? '',
-    'prev_user_email'=>$post['prev_user_email'] ?? '',
-    'prev_user_doj'=>$post['prev_user_doj'] ?? '',
-    'new_user_name'=>$post['name'] ?? '',
-    'new_user_email'=>$email,
-    'transfer_user_id'=>$identifier_id
-];
+if (in_array($user_type, [24, 25, 27, 31])) {
+    
+    $transferData = [
+        'prev_user_name'=>$post['prev_user_name'] ?? '',
+        'prev_user_email'=>$post['prev_user_email'] ?? '',
+        'prev_user_doj'=>$post['prev_user_doj'] ?? '',
+        'new_user_name'=>$post['name'] ?? '',
+        'new_user_email'=>$email,
+        'transfer_user_id'=>$identifier_id
+    ];
+} else {
+    $transferData = [
+        'prev_user_name'=>$post['prev_user_name'] ?? '',
+        'prev_user_email'=>$post['prev_user_email'] ?? '',
+        'prev_user_doj'=>$post['prev_user_doj'] ?? '',
+        'new_user_name'=>$post['firstname'] .' '.$post['lastname']?? '',
+        'new_user_email'=>$email,
+        'transfer_user_id'=>$identifier_id
+    ];
+}
 
 $result = user_transfer(
     $conn,

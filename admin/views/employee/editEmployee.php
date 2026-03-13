@@ -38,6 +38,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Loading Screen and Images size css  -->
     <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../resources/common_resources/edit_log_tooltip_custom.css"></link>
 
 </head>
 
@@ -598,7 +599,8 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
                                         <input type="hidden" id="registered" name="registered" value="<?php echo $usertype; ?>">
                                         <input type="hidden" id="tr_check" name="tr_check" value="<?php echo $transfer_check; ?>">
-                                        <input type="hidden" id="prev_user_name" name="prev_user_name" value="<?php echo $name; ?>">
+                                        <input type="hidden" id="prev_user_fname" name="prev_user_fname" value="<?php echo $firstname ?>">
+                                        <input type="hidden" id="prev_user_lname" name="prev_user_lname" value="<?php echo $name; ?>">
                                         <input type="hidden" id="prev_user_email" name="prev_user_email" value="<?php echo $email; ?>">
                                         <input type="hidden" id="prev_user_doj" name="prev_user_doj" value="<?php echo $date_of_joining; ?>">
                                         
@@ -613,7 +615,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                             </button>
 
                                             <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="transfer_employee">
-                                                Submit
+                                                Submit Transfer
                                             </button>
 
                                         <?php } else if($transfer_status == 1) { ?>
@@ -647,12 +649,14 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         </div>
         <!-- end main content-->
 
+
     </div>
     <!--start back-to-top-->
     <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
         <i class="mdi mdi-arrow-up"></i>
     </button>
     <!--end back-to-top-->
+    <?php include '../common_views/edit_reason_modal_view.php'?>
     <!-- JAVASCRIPT -->
     <script src="../../assets/libs/jquery/jquery.min.js"></script>
     <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -673,7 +677,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script src="../../resources/employee/edit_employee_custom.js"></script>
     <script src="../../resources/common_resources/edit_log_tooltip_custom.js"></script>
-    <script src="../../resources/common_resources/edit_log_tooltip_custom.css"></script>
+    
     <?php if ($transfer_check == 1) { ?>
         <script>
             $(document).ready(function(){

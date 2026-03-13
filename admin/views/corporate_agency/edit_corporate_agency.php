@@ -28,6 +28,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- App favicon -->
     <link rel="shortcut icon" href="../../assets/images/fav.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Bootstrap Css -->
     <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -37,6 +38,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Loading Screen and Images size css  -->
     <link href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../resources/common_resources/edit_log_tooltip_custom.css"></link>
     <!-- App js -->
     <!-- <script src="../../assets/js/plugin.js"></script> -->
 
@@ -83,7 +85,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form>
+                                    <form id="te_f_i_form">
                                         <h3>Edit Techno Enterprise / Franchisee / Institution Form</h3>
                                         <?php if ($transfer_check) {?>
                                         <div class="d-flex justify-content-end">
@@ -125,12 +127,20 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="firstname" placeholder="Enter First Name" value=" <?php echo $firstname; ?>">
+                                                    <?php
+                                                        $column = 'firstname';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="lastname">Last Name<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name" value=" <?php echo $lastname; ?>">
+                                                    <?php
+                                                        $column = 'lastname';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
@@ -143,18 +153,30 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="nominee_relation">Nominee Relation<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="nominee_relation" placeholder="Enter Nominee Relation" value=" <?php echo $nominee_relation; ?>">
+                                                    <?php
+                                                        $column = 'nominee_relation';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="email">Email address<span class="text-danger">*</span></label>
                                                     <input type="email" class="form-control" id="email" placeholder="Enter Email address" value="<?php echo $email; ?>">
+                                                    <?php
+                                                        $column = 'email';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="dob">Date Of Birth<span class="text-danger">*</span></label>
                                                     <input type="date" id="dob" class=" form-control" max="<?php echo $ageLimit; ?>" value="<?php echo $date_of_birth; ?>">
+                                                    <?php
+                                                        $column = 'date_of_birth';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
@@ -213,6 +235,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                                                                                                                                                                 echo ' checked ';
                                                                                                                                                                                                             } ?>>&nbsp;&nbsp;&nbsp;Others</label>
                                                         </div>
+                                                        <?php
+                                                            $column = 'gender';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,6 +269,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         <div class="input-block">
                                                             <label class="col-form-label">Phone Number<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="phone" placeholder="Enter Phone Number" value=" <?php echo $contact_no; ?>">
+                                                            <?php
+                                                                $column = 'contact_no';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,6 +306,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         <option value="<?php echo $state_id; ?>"><?php echo $statename . ' (Already Selected)'; ?></option>
                                                         <option value="">--Select country first--</option>
                                                     </select>
+                                                    <?php
+                                                        $column = 'state';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
@@ -285,6 +319,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         <option value="<?php echo $city_id; ?>"><?php echo $city_name . ' (Already Selected)'; ?></option>
                                                         <option value="">--Select state first--</option>
                                                     </select>
+                                                    <?php
+                                                        $column = 'city';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
@@ -292,12 +330,20 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly>
                                                 </div>
+                                                <?php
+                                                    $column = 'pincode';
+                                                    include '../common_views/edit_log_tooltip.php';
+                                                ?>
                                             </div>
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Enter First Name">
                                                 </div>
+                                                <?php
+                                                    $column = 'address';
+                                                    include '../common_views/edit_log_tooltip.php';
+                                                ?>
                                             </div>
 
                                             <div class="col-md-6 col-sm-6">
@@ -483,6 +529,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
                                                 </div>
+                                                <?php
+                                                    $column = 'note';
+                                                    include '../common_views/edit_log_tooltip.php';
+                                                ?>
                                             </div>
                                             <div class="col-md-12 col-sm-12 d-none <?= $status != 1 ?'d-none':''?>">
                                                 <div class="input-block mb-3">
@@ -594,10 +644,29 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                         <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no; ?>">
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
                                         <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-                                        <input type="hidden" id="registered" name="registered" value="<?php echo $user_type; ?>">
+                                        <input type="hidden" id="registered" name="registered" value="<?php echo $user_type;?>"> 
+                                        <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> 
+                                        <input type="hidden" id="tr_check" name="tr_check" value="<?php echo $transfer_check; ?>">
+                                        <input type="hidden" id="prev_user_name" name="prev_user_name" value="<?php echo  $firstname .' '.$lastname; ?>">
+                                        <input type="hidden" id="prev_user_email" name="prev_user_email" value="<?php echo $email; ?>">
+                                        <input type="hidden" id="prev_user_doj" name="prev_user_doj" value="<?php echo  $date_of_joning; ?>">
+                                    
+                                        <input type="hidden" id="prev_user_data" name="prev_user_data"
+                                            value="<?php echo htmlspecialchars(json_encode($prev_user_data), ENT_QUOTES, 'UTF-8'); ?>">
 
-                                        <div class="submit-section d-flex justify-content-center mb-4">
+                                        <div class="submit-section d-flex <?=$transfer_check == 1?'justify-content-between':'justify-content-center'?> mb-4">
+                                            <?php if($transfer_check == 1){ ?>    
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editCorporateAgency">Save Changes</button>
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="transfer_te_f_i">
+                                                Submit Transfer
+                                            </button>
+                                        <?php } else if($transfer_status == 1) { ?>
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                Close
+                                            </button>
+                                        <?php }  else { ?>
                                             <button type="submit" class="btn btn-primary px-5 py-2" id="editCorporateAgency">Submit</button>
+                                        <?php } ?>
                                         </div>
                                     </form>
                                 </div>
@@ -626,7 +695,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
         <i class="mdi mdi-arrow-up"></i>
     </button>
     <!--end back-to-top-->
-
+    <?php include '../common_views/edit_reason_modal_view.php'?>
     <!-- JAVASCRIPT -->
     <script src="../../assets/libs/jquery/jquery.min.js"></script>
     <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -647,7 +716,43 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <script src="../../assets/js/app.js"></script>
 
     <script src="../../../uploading/upload.js"></script>
+    <script src="../../resources/corporate_agency/edit_te_f_custom.js"></script>
     <script src="../../resources/common_resources/top_function.js"></script>
+    <script src="../../resources/common_resources/edit_log_tooltip_custom.js"></script>
+        
+        <?php if ($transfer_check == 1) { ?>
+            <script>
+                $(document).ready(function(){
+
+                    // Disable transfer button initially
+                    $('#transfer_te_f_i').prop('disabled', true);
+
+                });
+            </script>
+        <?php
+
+            }
+        ?>
+        <?php if ($transfer_status == 1) { ?>
+            <script>
+                $(document).ready(function(){
+
+                    // Disable transfer button initially
+                    $("#te_f_i_form")
+                    .find("input, textarea, select, button")
+                    .not("#close")
+                    .prop("disabled", true);
+
+                });
+                $("#close").on('click',function () {
+                    // Go back to the previous page
+                    window.history.back(); // or window.history.go(-1);
+                });
+            </script>
+        <?php
+
+            }
+        ?>
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>

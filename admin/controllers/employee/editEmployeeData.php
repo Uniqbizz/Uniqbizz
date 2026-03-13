@@ -41,6 +41,7 @@
     $bank_details = $_POST['bank_details'];
     $note = $_POST['note'];
     $user_type = $_POST['user_type'];
+    $edit_reason = $_POST['edit_reason'];
 
     $register_by = '1';
     $fromWhom = '1';
@@ -230,20 +231,23 @@
 
         foreach($changes as $change){
 
-            $stmtLog=$conn->prepare("INSERT INTO field_edit_logs
-            (table_name,record_id,column_name,old_value,new_value,changed_by,changed_role,ip_address)
-            VALUES
-            (:table_name,:record_id,:column_name,:old_value,:new_value,:changed_by,:changed_role,:ip_address)");
+            $stmtLog = $conn->prepare("
+                INSERT INTO field_edit_logs
+                (table_name,record_id,column_name,old_value,new_value,change_reason,changed_by,changed_role,ip_address)
+                VALUES
+                (:table_name,:record_id,:column_name,:old_value,:new_value,:change_reason,:changed_by,:changed_role,:ip_address)
+            ");
 
             $stmtLog->execute([
-            ':table_name'=>'employees',
-            ':record_id'=>$identifier_id,
-            ':column_name'=>$change['column'],
-            ':old_value'=>$change['old'],
-            ':new_value'=>$change['new'],
-            ':changed_by'=>$register_by,
-            ':changed_role'=>'admin',
-            ':ip_address'=>$ip_address
+                ':table_name'     => 'employees',
+                ':record_id'      => $identifier_id,
+                ':column_name'    => $change['column'],
+                ':old_value'      => $change['old'],
+                ':new_value'      => $change['new'],
+                ':change_reason'  => $edit_reason,
+                ':changed_by'     => $register_by,
+                ':changed_role'   => 'admin',
+                ':ip_address'     => $ip_address
             ]);
         }
     }

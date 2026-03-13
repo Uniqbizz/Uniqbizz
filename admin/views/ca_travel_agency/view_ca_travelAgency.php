@@ -15,7 +15,7 @@
         
         <meta charset="utf-8" />
         <title>Travel Consultant View | Admin Dashboard </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../../assets/images/fav.png">
 
@@ -178,7 +178,7 @@
                                                     <div class="input-block">
                                                         <label class="col-form-label" for="designation"><span>Designation</span></label>
                                                         <select id="designation" name="designation" class="form-select filter_items">
-                                                            <option value="" disabled selected>-- Select Designation --</option>
+                                                            <option value="0"selected>All</option>
                                                             <option value="24">Business Channel Manager (BCM)</option>
                                                             <option value="25">Business Development Manager (BDM)</option>
                                                             <option value="26">Business Mentor (BM)</option>
@@ -386,6 +386,9 @@
         </div>
         <!-- end confirmItemModal -->
 
+        <!-- end confirmItemModal -->
+        <?php include '../common_views/transfer_modal_view.php' ?>
+
         <!-- JAVASCRIPT -->
         <script src="../../assets/libs/jquery/jquery.min.js"></script>
         <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -403,10 +406,6 @@
         <script src="../../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         
-        <!-- ecommerce-customer-list init -->
-        <!-- <script src="../../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
-        <!-- Date Range Picker Script Start -->
-        <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <!-- Date Range Picker Script End -->
@@ -418,6 +417,7 @@
 
         <!-- dataTable -->
         <script src="../../resources/ca_travel_agency/ta_custom.js"></script>
+        <script src="../../resources/common_resources/transfer_custom.js"></script>
         <!-- Date Range Script -->
 
     </body>

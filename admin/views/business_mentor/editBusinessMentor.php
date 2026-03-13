@@ -28,6 +28,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../../assets/images/fav.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
         <!-- Bootstrap Css -->
         <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -37,11 +38,7 @@
         <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
         <link rel="stylesheet" href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
-        <!-- App js -->
-        <!-- <script src="../../assets/js/plugin.js"></script> -->
-
-        <!-- Plugins css -->
-        <!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+        <link rel="stylesheet" href="../../resources/common_resources/edit_log_tooltip_custom.css"></link>
 
     </head>
 
@@ -83,7 +80,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form>
+                                        <formn id="bm_mf_sf_form">
                                             <h3>Edit Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
                                             <?php if ($transfer_check) {?>
                                             <div class="d-flex justify-content-end">
@@ -112,36 +109,60 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">First Name <span class="text-danger">*</span></label>
                                                         <input class="form-control" type="text" id="firstname" value="<?php echo $firstname; ?>">
+                                                        <?php
+                                                            $column = 'firstname';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Last Name <span class="text-danger">*</span></label>
                                                         <input class="form-control" type="text" id="lastname" value=" <?php echo $lastname; ?>">
+                                                        <?php
+                                                            $column = 'lastname';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
                                                         <input class="form-control" type="text" id="nominee_name" value=" <?php echo $nominee_name; ?>">
+                                                        <?php
+                                                            $column = 'nominee_name';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
                                                         <input class="form-control" type="text" id="nominee_relation" value=" <?php echo $nominee_relation; ?>">
+                                                        <?php
+                                                            $column = 'nominee_relation';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Email Address<span class="text-danger">*</span></label>
                                                         <input class="form-control" type="email" id="email" value="<?php echo $email;?>">
+                                                        <?php
+                                                            $column = 'email';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
                                                         <input class="form-control" type="date" id="dob" value="<?php echo $date_of_birth ;?>">
+                                                        <?php
+                                                            $column = 'date_of_birth';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
@@ -152,6 +173,10 @@
                                                             <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test4" value="female" <?php if ($gender == 'female'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Female</label>
                                                             <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test5" value="others" <?php if ($gender == 'others'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Other</label>
                                                         </div>
+                                                        <?php
+                                                            $column = 'gender';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 mb-3">
@@ -182,6 +207,10 @@
                                                             <div class="input-block">
                                                                 <label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
                                                                 <input class="form-control" type="text" id="phone" value=" <?php echo $contact_no; ?>">
+                                                                <?php
+                                                                    $column = 'contact_no';
+                                                                    include '../common_views/edit_log_tooltip.php';
+                                                                ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -215,6 +244,10 @@
                                                             <option value="<?php echo $state_id;?>"><?php echo $statename.' (Already Selected)' ; ?></option>
                                                             <option value="">--Select country first--</option>
                                                         </select>
+                                                        <?php
+                                                            $column = 'state';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -224,6 +257,10 @@
                                                             <option value="<?php echo $city_id;?>"><?php echo $city_name.' (Already Selected)' ; ?></option>
                                                             <option value="">--Select state first--</option>
                                                         </select>
+                                                        <?php
+                                                            $column = 'city';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">  
@@ -231,12 +268,20 @@
                                                         <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly >
                                                     </div>
+                                                    <?php
+                                                        $column = 'pincode';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                                 <div class="col-md-12 col-sm-12">  
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Address" readonly >
+                                                        <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Address" >
                                                     </div>
+                                                    <?php
+                                                        $column = 'address';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -261,6 +306,10 @@
                                                                 }
                                                             ?>
                                                         </select>
+                                                        <?php
+                                                            $column = 'zone';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -270,6 +319,10 @@
                                                             <option value="<?php echo $branch_id;?>"><?php echo $branch_name.' (Already Selected)' ; ?></option>
                                                             <option value=""> ---- Select Zone First ---- </option>
                                                         </select>
+                                                        <?php
+                                                            $column = 'branch';
+                                                            include '../common_views/edit_log_tooltip.php';
+                                                        ?>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
@@ -531,6 +584,10 @@
                                                         <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
                                                     </div>
+                                                    <?php
+                                                        $column = 'note';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                                 
                                             </div>
@@ -541,11 +598,29 @@
                                             <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>"> <!--CBD240001 -->
                                             <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>"> <!--registered -->
                                             <input type="hidden" id="id" name="id" value="<?php echo $id;?>"> <!--BM250001 -->
-                                            <input type="hidden" id="registered" name="registered" value="<?php echo $usertype;?>"> <!--BM250001 -->
+                                            <input type="hidden" id="registered" name="registered" value="<?php echo $testValue;?>"> <!--BM250001 -->
                                             <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> <!-- Business mentor -->
+                                            <input type="hidden" id="tr_check" name="tr_check" value="<?php echo $transfer_check; ?>">
+                                            <input type="hidden" id="prev_user_name" name="prev_user_name" value="<?php echo  $firstname .' '.$lastname; ?>">
+                                            <input type="hidden" id="prev_user_email" name="prev_user_email" value="<?php echo $email; ?>">
+                                            <input type="hidden" id="prev_user_doj" name="prev_user_doj" value="<?php echo  $date_of_joning; ?>">
+                                        
+                                            <input type="hidden" id="prev_user_data" name="prev_user_data"
+                                                value="<?php echo htmlspecialchars(json_encode($prev_user_data), ENT_QUOTES, 'UTF-8'); ?>">
 
-                                            <div class="submit-section d-flex justify-content-center mb-4">
+                                            <div class="submit-section d-flex <?=$transfer_check == 1?'justify-content-between':'justify-content-center'?> mb-4">
+                                             <?php if($transfer_check == 1){ ?>    
+                                                <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editBuisnessMentor">Save Changes</button>
+                                                <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="transfer_bm_sf_mf">
+                                                    Submit Transfer
+                                                </button>
+                                            <?php } else if($transfer_status == 1) { ?>
+                                                <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                    Close
+                                                </button>
+                                            <?php }  else { ?>
                                                 <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editBuisnessMentor">Submit</button>
+                                            <?php } ?>
                                             </div>
                                         </form>
                                     </div>
@@ -569,6 +644,7 @@
             <i class="mdi mdi-arrow-up"></i>
         </button>
         <!--end back-to-top-->
+        <?php include '../common_views/edit_reason_modal_view.php'?>
         <!-- JAVASCRIPT -->
         <script src="../../assets/libs/jquery/jquery.min.js"></script>
         <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -594,6 +670,41 @@
 
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script src="../../resources/business_mentor/edit_bm_mf_f_custom.js"></script>
+        <script src="../../resources/common_resources/edit_log_tooltip_custom.js"></script>
+        
+        <?php if ($transfer_check == 1) { ?>
+            <script>
+                $(document).ready(function(){
+
+                    // Disable transfer button initially
+                    $('#transfer_bm_sf_mf').prop('disabled', true);
+
+                });
+            </script>
+        <?php
+
+            }
+        ?>
+        <?php if ($transfer_status == 1) { ?>
+            <script>
+                $(document).ready(function(){
+
+                    // Disable transfer button initially
+                    $("#bm_mf_sf_form")
+                    .find("input, textarea, select, button")
+                    .not("#close")
+                    .prop("disabled", true);
+
+                });
+                $("#close").on('click',function () {
+                    // Go back to the previous page
+                    window.history.back(); // or window.history.go(-1);
+                });
+            </script>
+        <?php
+
+            }
+        ?>
     </body>
 
 </html>

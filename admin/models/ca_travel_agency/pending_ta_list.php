@@ -1,11 +1,23 @@
 <?php
-    $sql = "SELECT 'tc' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, address,
-            date_of_birth, added_on, address, register_by, country, state, city, comp_check, status
-            FROM `ca_travelagency` WHERE status = '2' OR status = '0'  
+    $sql = "SELECT 'tc' AS user_type,tc.id,tc.ca_travelagency_id AS user_id_str,tc.firstname,tc.lastname,tc.reference_no,tc.registrant,tc.country_code,tc.contact_no,
+                tc.email,tc.address,tc.date_of_birth,tc.added_on,tc.address,tc.register_by,tc.country,tc.state,tc.city,tc.comp_check,tc.status,
+                tc.transfer_check,IFNULL(tu.id,'NA') AS transfer_id,tc.user_type AS user_type_val
+            FROM ca_travelagency tc
+            LEFT JOIN transfered_users tu
+                ON tu.transfer_user_id = tc.ca_travelagency_id
+                AND tu.transfer_status = 1
+            WHERE tc.status IN ('0','2')
+            OR (tc.status='1' AND tc.transfer_check='1' AND tu.id IS NOT NULL)
             UNION ALL
-            SELECT 'ibr' AS user_type, id, firstname, lastname, reference_no, registrant, country_code, contact_no, email, address,
-            date_of_birth, added_on, address, register_by, country, state, city, comp_check, status
-            FROM institution_branch_manager WHERE status = '2' OR status = '0'
+            SELECT 'ibr' AS user_type,ibr.id,ibr.institution_branch_manager_id AS user_id_str,ibr.firstname,ibr.lastname,ibr.reference_no,ibr.registrant,ibr.country_code,ibr.contact_no,
+                ibr.email,ibr.address,ibr.date_of_birth,ibr.added_on,ibr.address,ibr.register_by,ibr.country,ibr.state,ibr.city,ibr.comp_check,
+                ibr.status,ibr.transfer_check,IFNULL(tu.id,'NA') AS transfer_id,ibr.user_type AS user_type_val
+            FROM institution_branch_manager ibr
+            LEFT JOIN transfered_users tu
+                ON tu.transfer_user_id = ibr.institution_branch_manager_id
+                AND tu.transfer_status = 1
+            WHERE ibr.status IN ('0','2')
+            OR (ibr.status='1' AND ibr.transfer_check='1' AND tu.id IS NOT NULL)
             ORDER BY id ASC";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
@@ -45,6 +57,39 @@
                             </ul>
                         </div>
                     </td>';
+                }else if ($row['transfer_check'] == '1')  {
+                    $user_id_str =$row['user_id_str'];
+                    echo '<td><span class="badge text-bg-info">Transfer Requested</span></td>
+                            <td>
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a href="#" onclick="openTransferModal(\''.$user_id_str.'\', \''.$row['transfer_id'].'\', 2, \''.$row['user_type_val'].'\')" class="dropdown-item">
+                                            <i class="mdi mdi-check-circle text-success me-1"></i> Approve
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" onclick="openTransferModal(\''.$user_id_str.'\', \''.$row['transfer_id'].'\', 3, \''.$row['user_type_val'].'\')" class="dropdown-item">
+                                            <i class="mdi mdi-trash-can text-danger me-1"></i> Reject
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" 
+                                            onclick=\'editfuncCust("' . $user_id_str . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . strtolower($row['user_type']) . '")\'
+                                            
+                                            class="dropdown-item">
+                                            <i class="mdi mdi-eye font-size-16 text-info me-1"></i> View Request
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            </td>';
                 }else{
                     echo'<td><span class="badge text-bg-danger">Delete</span></td>
                     <td>

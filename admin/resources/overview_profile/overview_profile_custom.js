@@ -289,6 +289,7 @@ function editfuncCust(data){
             '&mst=' + data.state +
             '&hct=' + data.city +
             '&editfor=' + data.type +
+            '&usertype=' + data.user_type+
             '&tr_check=' + data.tr_check;
     }
 }

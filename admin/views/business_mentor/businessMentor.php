@@ -385,6 +385,7 @@
             </div>
         </div>
         <!-- end confirmItemModal -->
+        <?php include '../common_views/transfer_modal_view.php' ?>
 
         <!-- JAVASCRIPT -->
         <script src="../../assets/libs/jquery/jquery.min.js"></script>
@@ -416,9 +417,8 @@
         <script src="../../assets/js/app.js"></script>
 
         <script src="../../resources/common_resources/top_function.js"></script>
-
-        <!-- dataTable -->
         <script src="../../resources/business_mentor/bm_mf_sf_custom.js"></script>
+        <script src="../../resources/common_resources/transfer_custom.js"></script>
     </body>
 
 </html>

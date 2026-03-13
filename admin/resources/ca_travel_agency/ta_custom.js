@@ -1,6 +1,5 @@
 $(document).ready(function(){
     $("#pendingCustomerList-table").DataTable();
-    $("#registeredCustomerList-table").DataTable();
     $("#deletedTravelAgentList-table").DataTable();
     // initial load
     loadFilteredTCData();   
@@ -167,7 +166,7 @@ let dateRangeChanged = false; // Flag to track if date range was changed
 
 function loadFilteredTCData() {
     const userId = $('#userIdSelect').val()?.trim() || '';
-    const designation = $('#designation').val()?.trim() || '';
+    const designation = $('#designation').val()?.trim() || 'All';
     const state = $('#filter_state').val()?.trim() || 'All';
 
     let fromDate = '', toDate = '';
@@ -195,13 +194,35 @@ function loadFilteredTCData() {
         url: '../../controllers/ca_travel_agency/filterTC.php',
         data: dataString,
         success: function (data) {
+
             if (data) {
+
+                // Destroy old DataTable if exists
+                if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
+                    $('#registeredCustomerList-table').DataTable().clear().destroy();
+                }
+
+                // Insert new table
                 $('#tcView').html(data);
-                $("#registeredCustomerList-tableFilter").DataTable();
-                const totalRows = $("#registeredCustomerList-tableFilter").DataTable().rows().count();
-                $('#filterCount').val(totalRows);
+
+                // Initialize DataTable AFTER inserting
+                setTimeout(function () {
+
+                    let table = $('#registeredCustomerList-table').DataTable({
+                        pageLength: 10,
+                        order: [[6, "asc"]],
+                        responsive: true,
+                        lengthMenu: [10, 25, 50, 100]
+                    });
+
+                    $('#filterCount').val(table.rows().count());
+
+                }, 50);
+
             } else {
-                $('#tcView').html('<tr><td colspan="9">No data found</td></tr>');
+
+                $('#tcView').html('<p class="text-center">No data found</p>');
+
             }
         },
         error: function (xhr, status, error) {

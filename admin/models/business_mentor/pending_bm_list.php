@@ -1,10 +1,43 @@
 <?php
     $sql = "
-        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'BM' AS user_type FROM business_mentor WHERE status IN ('0', '2')
+        SELECT 
+            bm.id,bm.business_mentor_id AS user_id_str,bm.firstname,bm.lastname,
+            bm.reference_no,bm.registrant,bm.country_code,bm.email,bm.address,
+            bm.state,bm.city,bm.zone,bm.date_of_birth,bm.added_on,bm.contact_no,
+            bm.status,bm.register_by,bm.country,bm.branch,'BM' AS user_type, bm.user_type AS user_type_val,
+            bm.transfer_check,IFNULL(tu.id,'NA') AS transfer_id
+        FROM business_mentor bm
+        LEFT JOIN transfered_users tu
+            ON tu.transfer_user_id = bm.business_mentor_id
+            AND tu.transfer_status = 1
+        WHERE bm.status IN ('0','2')
+        OR (bm.status='1' AND bm.transfer_check='1' AND tu.id IS NOT NULL)
         UNION ALL
-        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
+        SELECT 
+            mf.id,mf.master_franchisee_id AS user_id_str,mf.firstname,mf.lastname,
+            mf.reference_no,mf.registrant,mf.country_code,mf.email,mf.address,
+            mf.state,mf.city,mf.zone,mf.date_of_birth,mf.added_on,mf.contact_no,
+            mf.status,mf.register_by,mf.country,mf.branch,'MF' AS user_type,mf.user_type AS user_type_val,
+            mf.transfer_check,IFNULL(tu.id,'NA') AS transfer_id
+        FROM master_franchisee mf
+        LEFT JOIN transfered_users tu
+            ON tu.transfer_user_id = mf.master_franchisee_id
+            AND tu.transfer_status = 1
+        WHERE mf.status IN ('0','2')
+        OR (mf.status='1' AND mf.transfer_check='1' AND tu.id IS NOT NULL)
         UNION ALL
-        SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('0', '2')
+        SELECT 
+            sf.id,sf.sponsor_franchisee_id AS user_id_str,sf.firstname,sf.lastname,
+            sf.reference_no,sf.registrant,sf.country_code,sf.email,sf.address,
+            sf.state,sf.city,sf.zone,sf.date_of_birth,sf.added_on,sf.contact_no,
+            sf.status,sf.register_by,sf.country,sf.branch,'SF' AS user_type,sf.user_type AS user_type_val,
+            sf.transfer_check,IFNULL(tu.id,'NA') AS transfer_id
+        FROM sponsor_franchisee sf
+        LEFT JOIN transfered_users tu
+            ON tu.transfer_user_id = sf.sponsor_franchisee_id
+            AND tu.transfer_status = 1
+        WHERE sf.status IN ('0','2')
+        OR (sf.status='1' AND sf.transfer_check='1' AND tu.id IS NOT NULL)
         ORDER BY id ASC
     ";
     $stmt = $conn->prepare($sql);
@@ -55,13 +88,46 @@
                             <i class="mdi mdi-dots-horizontal font-size-18"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
-                            <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","pending","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                            <li><a href="#" onclick=\'editfuncCust("' . $row["id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","pending","' . $row['user_type_val'] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                             <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","","pending","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                             <li><a href="#" onclick=\'confirmfunc("' . $row["id"] . '","' . $row["email"] . '","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
                         </ul>
                     </div>
                 </td>';
-            } else {
+            }else if ($row['transfer_check'] == '1')  {
+            $user_id_str =$row['user_id_str'];
+            echo '<td><span class="badge text-bg-info">Transfer Requested</span></td>
+                    <td>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="#" onclick="openTransferModal(\''.$user_id_str.'\', \''.$row['transfer_id'].'\', 2, \''.$row['user_type_val'].'\')" class="dropdown-item">
+                                    <i class="mdi mdi-check-circle text-success me-1"></i> Approve
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" onclick="openTransferModal(\''.$user_id_str.'\', \''.$row['transfer_id'].'\', 3, \''.$row['user_type_val'].'\')" class="dropdown-item">
+                                    <i class="mdi mdi-trash-can text-danger me-1"></i> Reject
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" 
+                                    onclick=\'editfuncCust("' . $user_id_str . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","pending","' . strtolower($row['user_type']) . '")\'
+                                     
+                                    class="dropdown-item">
+                                    <i class="mdi mdi-eye font-size-16 text-info me-1"></i> View Request
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    </td>';
+        } else {
                 echo '<td><span class="badge text-bg-danger">Delete</span></td>
                 <td>
                     <div class="dropdown">
