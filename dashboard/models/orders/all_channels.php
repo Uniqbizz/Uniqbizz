@@ -279,18 +279,18 @@
     //I login
     else if ($userType == '32') {
         //I and lower hirachy
-        $sql0 = "SELECT institution_branch_manager.institution_branch_manager_id, institution_branch_manager.firstname, institution_branch_manager.lastname, institution_branch_manager.email, institution_branch_manager.contact_no FROM institution_branch_manager
+        $sql0 = "SELECT institution_branch_manager.institution_branch_manager_id AS tc_id, institution_branch_manager.firstname, institution_branch_manager.lastname, institution_branch_manager.email, institution_branch_manager.contact_no FROM institution_branch_manager
             INNER JOIN institution on institution.institution_id = institution_branch_manager.reference_no and institution.status=1                                                        
             WHERE institution_branch_manager.status=1 and institution.institution_id='" . $userId . "'";
         $stmt0 = $conn->prepare($sql0);
         $stmt0->execute();
         $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
     }
-    //SF login
+    //F login
     else if ($userType == '29') {
         // Franchisee (F) and lower hierarchy (all TA under F)
         $sql0 = "
-            SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
+            SELECT ca.ca_travelagency_id AS tc_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
             FROM ca_travelagency ca
             INNER JOIN sub_franchisee f 
                 ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
@@ -304,7 +304,7 @@
     //TC login
     else if ($userType == '11') {
         //TC
-        $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
+        $sql0 = "SELECT ca_travelagency.ca_travelagency_id AS tc_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
             WHERE ca_travelagency.status=1 and ca_travelagency_id='" . $userId . "'";
         $stmt0 = $conn->prepare($sql0);
         $stmt0->execute();

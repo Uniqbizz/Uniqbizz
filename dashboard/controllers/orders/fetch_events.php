@@ -4,24 +4,45 @@ require '../../dashboard_user_details.php';
 header('Content-Type: application/json');
 
 try {
+    // Load TA list
     $ta_list = [];
-    $sql0 = '';
-    $params = ['userId' => $userId];
-
-
-    //data load from models file
     include '../../models/orders/all_channels.php';
-    
-    $ta_ids = array_column($ta_list, 'ca_travelagency_id');
+
+    $ta_ids = array_column($ta_list, 'tc_id');
     $placeholders = [];
     foreach ($ta_ids as $index => $id) {
         $placeholders[] = ":id$index";
     }
     $placeholdersString = implode(',', $placeholders);
 
-    $selected_date = isset($_GET['selected_date']) ? $_GET['selected_date'] : null;
+    $selected_date = trim($_GET['selected_date'] ?? '');
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 4;
 
+    // Initialize conditions
+    $conditions = [];
+    $binds = [];
+
+    if ($selected_date !== '') {
+        $conditions[] = "DATE(b.date) = :selected_date";
+        $binds[':selected_date'] = $selected_date;
+    }
+
+    if ($userType === '10') {
+        $conditions[] = "b.customer_id = :userId";
+        $binds[':userId'] = $userId;
+    } elseif (!empty($ta_ids)) {
+        $conditions[] = "b.customer_id IN (
+            SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no IN ($placeholdersString)
+        )";
+        foreach ($ta_ids as $index => $id) {
+            $binds[":id$index"] = $id;
+        }
+    } else {
+        echo json_encode(["bookings" => []], JSON_PRETTY_PRINT);
+        exit;
+    }
+
+    // Build SQL
     $sql = "SELECT 
                 b.id, 
                 b.order_id, 
@@ -40,31 +61,6 @@ try {
             LEFT JOIN package p ON b.package_id = p.id
             LEFT JOIN ca_customer c ON b.customer_id = c.ca_customer_id";
 
-    $conditions = [];
-    $binds = [];
-
-    if ($selected_date) {
-        $conditions[] = "DATE(b.date) = :selected_date";
-        $binds[':selected_date'] = $selected_date;
-    }
-
-    if ($userType === '10') {
-        $conditions[] = "b.customer_id = :userId";
-        $binds[':userId'] = $userId;
-    } elseif (!empty($ta_ids)) {
-        // Restrict bookings to customers of the TAs only
-        $conditions[] = "b.customer_id IN (
-            SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no IN ($placeholdersString)
-        )";
-        foreach ($ta_ids as $index => $id) {
-            $binds[":id$index"] = $id;
-        }
-    } else {
-        // No valid TA IDs found for the user
-        echo json_encode(["bookings" => []], JSON_PRETTY_PRINT);
-        exit;
-    }
-
     if (!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
     }
@@ -79,7 +75,20 @@ try {
     $stmt->execute();
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode(["bookings" => $bookings ?: []], JSON_PRETTY_PRINT);
+    // Always include debug info
+    $response = [
+        "bookings" => $bookings ?: [],
+        "_debug" => [
+            "sql" => $sql,
+            "binds" => $binds
+        ]
+    ];
+
+    echo json_encode($response, JSON_PRETTY_PRINT);
+
 } catch (PDOException $e) {
-    echo json_encode(["error" => "Database error: " . $e->getMessage()]);
+    echo json_encode([
+        "bookings" => [],
+        "error" => "Database error: " . $e->getMessage()
+    ]);
 }

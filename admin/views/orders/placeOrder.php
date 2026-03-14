@@ -139,22 +139,38 @@ require '../../connect.php';
                                         <label class="col-form-label">Package Image</label>
                                         <div class="row d-flex justify-content-center">
                                             <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+                                                <?php
+                                                    require '../../../connect.php';
+
+                                                    $sql = "SELECT * FROM package_pictures GROUP BY package_id ORDER BY id DESC";
+                                                    $stmt = $conn->prepare($sql);
+                                                    $stmt->execute();
+                                                    $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                ?>
+
                                                 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                                                     <div class="carousel-inner rounded-4">
-                                                        <div class="carousel-item active">
-                                                            <img src="../../../uploading/packages/Amritsar-Dalhousie-Dharamshala1725538644-1.jpg" class="d-block w-100" height="400px" alt="...">
+
+                                                        <?php
+                                                            $active = true;
+
+                                                            foreach($images as $row){
+                                                                $img = "../../../".$row['image'];
+                                                        ?>
+
+                                                        <div class="carousel-item <?php if($active){ echo 'active'; $active=false;} ?>">
+                                                            <img src="<?php echo $img; ?>" class="d-block w-100" height="400px" alt="package image">
                                                         </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../../../uploading/packages/Andhra-Pradesh-Z1646117736-1.jpg" class="d-block w-100" height="400px" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../../../uploading/packages/Bangalore-Mysore1725535571-1.jpg" class="d-block w-100" height="400px" alt="...">
-                                                        </div>
+
+                                                        <?php } ?>
+
                                                     </div>
+
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                         <span class="visually-hidden">Previous</span>
                                                     </button>
+
                                                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
                                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                         <span class="visually-hidden">Next</span>

@@ -316,7 +316,7 @@
                                                 </tr>
                                             </thead>
                                             <!-- data load from models file -->
-                                             <?php include '../models\orders\all_orders.php' ?>
+                                             <?php include '../models/orders/all_orders.php' ?>
                                         </table>
                                         <!-- pegination start -->
                                         <div class="center text-center" id="pagination_row"></div>
