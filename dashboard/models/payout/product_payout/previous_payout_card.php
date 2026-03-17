@@ -3,7 +3,7 @@
     if($userType == '11'){ //travel_consultant
         $userIdCommi = 'ta_id';
         $amtCal = 'ta_markup + ta_amt';
-    }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
+    }elseif($userType == '16' || $userType == '29' || $userType == '32'){ //Techno Enterprise/ corporate agency/Franchisee
         $userIdCommi = 'te_id';
         $amtCal = 'te_amt';
     }elseif($userType == '10'){ //customer

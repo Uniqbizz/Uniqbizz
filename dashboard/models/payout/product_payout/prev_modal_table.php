@@ -18,6 +18,8 @@
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
     }else if($userType == '30'){
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
+    }else if($userType == '32'){
+        $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
     }
     
     $stmt = $conn -> prepare($sql);

@@ -108,7 +108,7 @@
             <?php
             // top header logo, hamberger menu, fullscreen icon, profile
             include_once '../header.php';
-
+            include '../notification_card.php';
             // sidebar navigation menu 
             include_once '../sidebar.php';
             ?>

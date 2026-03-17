@@ -50,7 +50,7 @@
                 $fname = $value['firstname'];
                 $lname = $value['lastname'];
                 $phone_no = $value['contact_no'];
-                $bank_passbook = ($userType == '10' || $userType == '11') ? $value['passbook'] : $value['bank_passbook'];
+                $bank_passbook = ($userType == '10' || $userType == '11' || $userType == '33') ? $value['passbook'] : $value['bank_passbook'];
                 $pan_card = $value['pan_card'] ?? '';
                 $aadhar_card = $value['aadhar_card'] ?? '';
                 $voting_card = $value['voting_card'] ?? '';

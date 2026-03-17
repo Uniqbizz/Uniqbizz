@@ -45,30 +45,7 @@
 
             <?php include_once '../header.php'; ?>
 
-            <!-- removeNotificationModal -->
-            <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mt-2 text-center">
-                                <lord-icon src="../../../../cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                                <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                    <h4>Are you sure ?</h4>
-                                    <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
-                                </div>
-                            </div>
-                            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                                <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
-                            </div>
-                        </div>
-
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+            <?php include '../notification_card.php'?>
             <!-- ========== App Menu ========== -->
            
             <?php include_once '../sidebar.php'; ?>
@@ -173,7 +150,7 @@
                             </div>
 
                         </div>
-                        <?php if($userType == "10" || $userType == "11" ||$userType == "3" ){ ?>
+                        <?php if($userType == "10" || $userType == "11" ||$userType == "33" ){ ?>
                             <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
                                 <a href="add_customer.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                                     <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>

@@ -18,6 +18,8 @@
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
     }else if($userType == '30'){//Sponsor Franchisee
         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
+    }else if($userType == '32'){//franchisee
+        $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
     }
     
     $stmt = $conn -> prepare($sql);
@@ -75,7 +77,7 @@
                 $status = $row['ta_status'];
                 $tds = $amt * $tdsPercentage;
                 $total = $amt - $tds;
-            }else if($userType == '16'|| $userType == '29'){
+            }else if($userType == '16'|| $userType == '29' || $userType == '32'){
                 $id = $row['te_id'];
                 $message = $row['te_mess'];
                 $amt = $row['te_amt'];

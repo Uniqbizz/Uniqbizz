@@ -42,30 +42,7 @@ include '../models/customer/customer.php';
 
         <?php include_once '../header.php'; ?>
 
-        <!-- removeNotificationModal -->
-        <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="NotificationModalbtn-close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mt-2 text-center">
-                            <lord-icon src="javascript:void(0);" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                            <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                                <h4>Are you sure ?</h4>
-                                <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                            <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
-                        </div>
-                    </div>
-
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+        <?php include '../notification_card.php'?>
         <!-- ========== App Menu ========== -->
 
         <?php include_once '../sidebar.php'; ?>
@@ -127,7 +104,7 @@ include '../models/customer/customer.php';
                                                             <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
                                                         </div>
                                                     </div>
-                                                <?php } else if ($userType == '11') { ?>
+                                                <?php } else if ($userType == '11' || $userType == '33') { ?>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
@@ -321,7 +298,7 @@ include '../models/customer/customer.php';
                                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
                                                     </div>
                                                 </div>
-                                                <?php if ($userType == 11 || $userType == 10) { ?>
+                                                <?php if ($userType == 11 || $userType == 10 || $userType == 33) { ?>
 
                                                 
                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">
@@ -522,9 +499,6 @@ include '../models/customer/customer.php';
 
     <!--Swiper slider js-->
     <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
-
-    <!-- App js -->
-    <script src="../assets/js/app.js"></script>
 
     <script src=""></script>
 </body>

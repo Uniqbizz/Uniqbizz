@@ -55,6 +55,7 @@ include_once '../dashboard_user_details.php';
         <?php include_once '../header.php'; ?>
 
         <!-- removeNotificationModal -->
+        <?php include '../notification_card.php'?>
         <!-- ========== App Menu ========== -->
 
         <?php include_once '../sidebar.php'; ?>

@@ -84,7 +84,7 @@
                     <?php } ?>   
 
                     <?php  
-                         if($userType != "18" && $userType != "19" && $userType !="24" && $userType !="25" && $userType!='31'){
+                         if($userType != "18" && $userType != "19" && $userType !="24" && $userType !="25" && $userType!='31' && $userType!='33'){
                     ?>
                         <li class="nav-item">  <!--payout -->
                             <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
@@ -93,7 +93,7 @@
                             <div class="collapse menu-dropdown" id="sidebarMultilevel">
                                 <ul class="nav nav-sm flex-column">
                                     <?php 
-                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="31"){ 
+                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="31" || $userType =="32"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="../views/product_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="../views/product_payout.php" class="nav-link menu-link">
@@ -102,7 +102,7 @@
                                         </li>
                                     <?php
                                         }
-                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30"){ 
+                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="32"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="../views/customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="../views/customer_recruitment_payout.php" class="nav-link menu-link">
