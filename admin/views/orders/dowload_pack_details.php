@@ -309,12 +309,20 @@ if ($data9->rowCount() > 0) {
     </main>
     <script src="../assets/libs/jquery/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <!-- <script>
         window.print();
         window.onafterprint = function() {
             window.history.back(); // or use window.location.href = 'yourpage.php';
         };
-    </script>
+    </script> -->
+    <?php if (!defined('IS_API')) { ?>
+        <script>
+            window.print();
+            window.onafterprint = function() {
+                window.history.back();
+            };
+        </script>
+    <?php } ?>
 </body>
 
 </html>
