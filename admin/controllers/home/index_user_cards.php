@@ -15,13 +15,12 @@
                         <div class="flex-grow-1 ps-2">
                             <p class="text-muted fw-medium">Total Customers</p>
                             <?php
-                                $stmt = $conn->prepare("SELECT count(ca_customer_id) as totalca_customer FROM ca_customer where user_type='10' and status='1' ");
+                                $stmt = $conn->prepare("SELECT COUNT(ca_customer_id) as totalca_customer FROM ca_customer WHERE user_type='10' AND status='1'");
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                 if ($stmt->rowCount() > 0) {
                                     foreach (($stmt->fetchAll()) as $key => $row) {
-                                        $totalca_customer = $row['totalca_customer'];
-                                        echo '<h3 class="mb-0 text-dark">'.$totalca_customer.'</h3>';
+                                        echo '<h3 class="mb-0 text-dark">'.$row['totalca_customer'].'</h3>';
                                     }
                                 } else {
                                     echo '<h3 class="mb-0 text-dark">0</h3>';
@@ -35,6 +34,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Franchisee | TE | Institution -->
         <div class="col-lg-3 col-md-3 col-sm-6 col-12">
             <div class="card card-equal mini-stats-wid rounded-4">
                 <div class="card-body">
@@ -51,18 +52,14 @@
                             <?php
                                 $stmt = $conn->prepare("
                                     SELECT 
-                                        (SELECT COUNT(corporate_agency_id) FROM corporate_agency WHERE user_type='16') +
-                                        (SELECT COUNT(sub_franchisee_id) FROM sub_franchisee WHERE user_type='29') +
-                                        (SELECT COUNT(institution_id) FROM institution WHERE user_type='32' AND status='1')
+                                        COALESCE((SELECT COUNT(corporate_agency_id) FROM corporate_agency WHERE user_type='16'),0) +
+                                        COALESCE((SELECT COUNT(sub_franchisee_id) FROM sub_franchisee WHERE user_type='29'),0) +
+                                        COALESCE((SELECT COUNT(institution_id) FROM institution WHERE user_type='32' AND status='1'),0)
                                     AS total_users
                                 ");
-
                                 $stmt->execute();
                                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                $total_users = $row['total_users'] ?? 0;
-
-                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                                echo '<h3 class="mb-0 text-dark">'.($row['total_users'] ?? 0).'</h3>';
                             ?>
                         </div>
                     </div>
@@ -72,6 +69,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Revenue -->
         <div class="col-md-6 col-sm-9 col-12">
             <div class="card card-equal mini-stats-wid rounded-4">
                 <div class="card-body">
@@ -85,40 +84,44 @@
                         </div>
                         <div class="flex-fill">
                             <p class="text-muted fw-medium ps-2">Revenue Generated Full</p>
-                            <!-- <h3 class="mb-0 text-dark ps-2">&#8377; 302Cr</h3> -->
                             <?php
-                                
                                 $stmt = $conn->prepare("
-                                    SELECT 
-                                        (SELECT SUM(amount) FROM corporate_agency WHERE user_type='16') +
-                                        (SELECT SUM(amount) FROM sub_franchisee WHERE user_type='29') +
-                                        (SELECT SUM(amount) FROM institution WHERE user_type='32') +
-                                        (SELECT SUM(paid_amount) FROM business_mentor WHERE user_type='26') +
-                                        (SELECT SUM(paid_amount) FROM master_franchisee WHERE user_type='28') +
-                                        (SELECT SUM(paid_amount) FROM sponsor_franchisee WHERE user_type='30') + 
-                                        (SELECT SUM(amount) FROM ca_travelagency WHERE user_type='11') + 
-                                        (SELECT SUM(paid_amount) FROM ca_customer WHERE user_type='10' AND status = '1') 
-                                    AS total_revenue
+                                    SELECT SUM(total) AS total_revenue
+                                    FROM (
+                                        SELECT COALESCE(SUM(amount),0) AS total FROM corporate_agency WHERE user_type='16'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(amount),0) FROM sub_franchisee WHERE user_type='29'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(amount),0) FROM institution WHERE user_type='32'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(paid_amount),0) FROM business_mentor WHERE user_type='26'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(paid_amount),0) FROM master_franchisee WHERE user_type='28'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(paid_amount),0) FROM sponsor_franchisee WHERE user_type='30'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(amount),0) FROM ca_travelagency WHERE user_type='11'
+                                        UNION ALL
+                                        SELECT COALESCE(SUM(paid_amount),0) FROM ca_customer WHERE user_type='10' AND status='1'
+                                    ) t
                                 ");
                                 $stmt->execute();
                                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                                $total_revenue = $row['total_revenue'] ?? 0;
-                                echo '<h3 class="mb-0 text-dark">&#8377;'.formatIndianCurrency($total_revenue).'</h3>';
+                                echo '<h3 class="mb-0 text-dark">&#8377;'.formatIndianCurrency($row['total_revenue'] ?? 0).'</h3>';
                             ?>
                         </div>
                         <div class="flex-fill">
-                            <!-- <div class="goldCoinImage"> -->
-                                <img src="../../assets/images/goldcoin.png" style="width: 165px; height: 110px;" alt="">
-                            <!-- </div> -->
+                            <img src="../../assets/images/goldcoin.png" style="width: 165px; height: 110px;" alt="">
                         </div>
                     </div>
                     <div class="d-flex justify-content-center my-3 revenueCardViewButton">
                         <a href="../payout/sub_franchisee_payout.php" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3" role="button" style="width: 190px;">View details</a>
                     </div>
-                    
                 </div>
             </div>
         </div>
+
+        <!-- Travel Consultant -->
         <div class="col-md-3 col-sm-6 col-12">
             <div class="card card-equal mini-stats-wid rounded-4">
                 <div class="card-body">
@@ -133,13 +136,12 @@
                         <div class="flex-grow-1 ps-2">
                             <p class="text-muted fw-medium">Travel Consultant</p>
                             <?php
-                                $stmt = $conn->prepare("SELECT count(ca_travelagency_id) as totalca_travelagency FROM ca_travelagency where user_type='11' and status='1' ");
+                                $stmt = $conn->prepare("SELECT COUNT(ca_travelagency_id) as totalca_travelagency FROM ca_travelagency WHERE user_type='11' AND status='1'");
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                 if ($stmt->rowCount() > 0) {
                                     foreach (($stmt->fetchAll()) as $key => $row) {
-                                        $totalca_travelagency = $row['totalca_travelagency'];
-                                        echo '<h3 class="mb-0 text-dark">'.$totalca_travelagency.'</h3>';
+                                        echo '<h3 class="mb-0 text-dark">'.$row['totalca_travelagency'].'</h3>';
                                     }
                                 } else {
                                     echo '<h3 class="mb-0 text-dark">0</h3>';
@@ -153,6 +155,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- MF | SF | BM -->
         <div class="col-md-3 col-sm-6 col-12">
             <div class="card card-equal mini-stats-wid rounded-4">
                 <div class="card-body">
@@ -169,18 +173,14 @@
                             <?php
                                 $stmt = $conn->prepare("
                                     SELECT 
-                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26') +
-                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28') +
-                                        (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
+                                        COALESCE((SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26'),0) +
+                                        COALESCE((SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28'),0) +
+                                        COALESCE((SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1'),0)
                                     AS total_users
                                 ");
-
                                 $stmt->execute();
                                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                $total_users = $row['total_users'] ?? 0;
-
-                                echo '<h3 class="mb-0 text-dark">'.$total_users.'</h3>';
+                                echo '<h3 class="mb-0 text-dark">'.($row['total_users'] ?? 0).'</h3>';
                             ?>
                         </div>
                     </div>
