@@ -5,7 +5,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 require '../../connect.php';
-include '../../controllers\common_controllers\currency_function.php';
+include '../../controllers/common_controllers/currency_function.php';
 $date = date('Y');
 
 // get current date to show next payout amount  and pass it in sql @ line 129
