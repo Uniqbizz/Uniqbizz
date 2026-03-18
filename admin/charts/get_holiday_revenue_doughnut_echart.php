@@ -32,6 +32,8 @@ $totals = [
     "Domestic" => 0
 ];
 
+$holiday_revenue = 0;
+
 $stmt = $conn->prepare("SELECT * FROM bookings WHERE status = '1'");
 $stmt->execute();
 $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -80,7 +82,7 @@ $data = [
         $totals['International'],
         $totals['Domestic']
     ],
-    "holiday_revenue" => $holiday_revenue ?? 0
+    "holiday_revenue" => [formatIndianCurrency($holiday_revenue)] ?? 0
 ];
 
 echo json_encode($data);
