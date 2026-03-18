@@ -90,15 +90,15 @@
                                 
                                 $stmt = $conn->prepare("
                                     SELECT 
-                                        (SELECT SUM(amount) FROM corporate_agency WHERE user_type='16') +
-                                        (SELECT SUM(amount) FROM sub_franchisee WHERE user_type='29') +
-                                        (SELECT SUM(amount) FROM institution WHERE user_type='32') +
-                                        (SELECT SUM(paid_amount) FROM business_mentor WHERE user_type='26') +
-                                        (SELECT SUM(paid_amount) FROM master_franchisee WHERE user_type='28') +
-                                        (SELECT SUM(paid_amount) FROM sponsor_franchisee WHERE user_type='30') + 
-                                        (SELECT SUM(amount) FROM ca_travelagency WHERE user_type='11') + 
-                                        (SELECT SUM(paid_amount) FROM ca_customer WHERE user_type='10' AND status = '1') 
-                                    AS total_revenue
+                                        COALESCE((SELECT SUM(amount) FROM corporate_agency WHERE user_type='16'), 0) +
+                                        COALESCE((SELECT SUM(amount) FROM sub_franchisee WHERE user_type='29'), 0) +
+                                        COALESCE((SELECT SUM(amount) FROM institution WHERE user_type='32'), 0) +
+                                        COALESCE((SELECT SUM(paid_amount) FROM business_mentor WHERE user_type='26'), 0) +
+                                        COALESCE((SELECT SUM(paid_amount) FROM master_franchisee WHERE user_type='28'), 0) +
+                                        COALESCE((SELECT SUM(paid_amount) FROM sponsor_franchisee WHERE user_type='30'), 0) + 
+                                        COALESCE((SELECT SUM(amount) FROM ca_travelagency WHERE user_type='11'), 0) + 
+                                        COALESCE((SELECT SUM(paid_amount) FROM ca_customer WHERE user_type='10' AND status = '1'), 0)
+                                    AS total_revenue;
                                 ");
                                 $stmt->execute();
                                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
