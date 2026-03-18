@@ -43,30 +43,10 @@ include_once 'dashboard_user_details.php';
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <?php
                         // Function to format number in Indian style
-                        function formatIndianNumber($num) {
-                            $decimalPart = "";
-                        
-                            // Convert number to string and handle decimal part
-                            $num = (string) $num;
-                            if (strpos($num, '.') !== false) {
-                                list($num, $decimalPart) = explode('.', $num);
-                                $decimalPart = '.' . $decimalPart;
-                            }
-                        
-                            // Handle the first three digits separately
-                            $lastThree = substr($num, -3);
-                            $rest = substr($num, 0, -3); // Get remaining digits
-                        
-                            if ($rest != '') {
-                                $rest = preg_replace("/\B(?=(\d{2})+(?!\d))/", ",", $rest); // Add commas every 2 digits
-                                $num = $rest . ',' . $lastThree; // Combine with last 3 digits
-                            }
-                        
-                            return $num . $decimalPart;
-                        }
+                        include '../controllers/common_controllers/currency_function.php';
 
                         // Check if user exists
-                        $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
+                        $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND (`user_type_id` = '11' OR `user_type_id` ='33')");
                         $stmt1->execute([$userId]);
 
                         // Fetch the latest available balance for the given ta_id
@@ -75,7 +55,7 @@ include_once 'dashboard_user_details.php';
                         $result3 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
                         $available_bal = ($result3['available_balance'] ?? 0);
-                        $available_bal = formatIndianNumber($available_bal);
+                        $available_bal = formatIndianCurrency($available_bal);
 
                         if ($stmt1->rowCount() > 0) {
                             echo '<button type="button" class="btn shadow-none">
@@ -438,7 +418,7 @@ include_once 'dashboard_user_details.php';
                         
 
                         // Check if user exists
-                        $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND `user_type_id` = '11'");
+                        $stmt1 = $conn->prepare("SELECT * FROM `login` WHERE status = '1' AND `user_id` = ? AND (`user_type_id` = '11' OR `user_type_id` ='33')");
                         $stmt1->execute([$userId]);
 
                         // Fetch the latest available balance for the given ta_id
@@ -446,7 +426,7 @@ include_once 'dashboard_user_details.php';
                         $stmt2->execute(array(':ta_id' => $userId));
                         $row = $stmt2->fetch(PDO::FETCH_ASSOC);
                         $ta_top_amt = $row['available_balance'] ?? '';
-                        $ta_top_amt = formatIndianNumber($ta_top_amt);
+                        $ta_top_amt = formatIndianCurrency($ta_top_amt);
 
                         if ($stmt1->rowCount() > 0) {
                             // Button visible only on mobile screens (small screens)

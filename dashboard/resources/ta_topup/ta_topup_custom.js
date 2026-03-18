@@ -114,3 +114,74 @@ $('#paymentMode').on('click', function() {
         $('#transactionNo').val('');
     }
 });
+//Add topup balance by sv on 28 Jan 2025
+$('#add-ta-topup').click(function (e) {
+    e.preventDefault();
+
+    var ta_id = $("#user_id_name").val();
+    var ta_full_name = $("#reference_name").val();
+    var name_parts = ta_full_name.trim().split(/\s+/);
+    var ta_fname = name_parts[0];
+    var ta_lname = name_parts[1];
+    var ta_topup_amt = $("#ta_amt").val().trim();
+    var ta_pay_mode = $(".payment:checked").val();
+    var ta_cheque_no = $("#chequeNo").val().trim();
+    var ta_cheque_date = $("#chequeDate").val().trim();
+    var ta_bank_name = $("#bankName").val().trim();
+    var ta_transaction_id = $("#transactionNo").val().trim();
+    var ta_ref_img = $(":hidden#previewcheque2").val();
+    //current date
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    var day = String(today.getDate()).padStart(2, '0');
+    var hours = String(today.getHours()).padStart(2, '0');
+    var minutes = String(today.getMinutes()).padStart(2, '0');
+    var seconds = String(today.getSeconds()).padStart(2, '0');
+    // Format as "YYYY-MM-DD HH:MM:SS"
+    var currentDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    //console.log(currentDateTime);
+
+    var ta_created_date = currentDateTime;
+    var ta_updated_date = currentDateTime;
+
+    //validation
+
+    var dataString = {
+        ta_id: ta_id,
+        ta_fname: ta_fname,
+        ta_lname: ta_lname,
+        ta_topup_amt: ta_topup_amt,
+        ta_pay_mode: ta_pay_mode,
+        ta_cheque_no: ta_cheque_no,
+        ta_cheque_date: ta_cheque_date,
+        ta_bank_name: ta_bank_name,
+        ta_transaction_id: ta_transaction_id,
+        ta_ref_img: ta_ref_img,
+        ta_created_date: ta_created_date,
+        ta_updated_date: ta_updated_date,
+        ta_status: 1
+    };
+
+    if (validateForm()) {
+        $.ajax({
+            type: "POST",
+            url: "../controllers/travel_agent/add_ta_top_up_data.php",
+            data: dataString,
+            cache: false,
+            success: function (data) {
+                //console.log(data);
+                if (data == 1) {
+                    $("#loading-overlay").hide(); //loading screen
+                    alert("Added Successfuly");
+                    location.href = "view_ta_topup.php";
+                } else {
+                    $("#loading-overlay").hide(); //loading screen
+                    alert("Failed");
+                }
+            },
+        });
+    }
+
+});

@@ -83,7 +83,7 @@ include_once '../dashboard_user_details.php';
                                         <form>
                                             <div class="row g-3">
 
-                                                <?php if ($userType == '11') { ?>
+                                                <?php if ($userType == '11' || $userType == "33") { ?>
                                                     <div class="col-lg-6">
                                                         <div class="form-floating">
                                                             <input type="text" class="form-control" id="user_id_name" placeholder="Enter Reference ID" value="<?php echo $userId; ?>" readonly>

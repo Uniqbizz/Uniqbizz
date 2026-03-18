@@ -55,7 +55,7 @@ include_once '../dashboard_user_details.php';
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-            <?php if ($userType == "11") { ?>
+            <?php if ($userType == "11" || $userType == "33") { ?>
                 <div class="page-content">
                     <div class="container-fluid">
                         <!-- start page title -->
