@@ -12,7 +12,7 @@
     <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="row mt-3">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <h4><?= $User_name ?><span> <?= $id ?></span></h4>
+                <h4><?= $User_name ?><span id='user_id'> <?= $id ?></span></h4>
             </div>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="row">

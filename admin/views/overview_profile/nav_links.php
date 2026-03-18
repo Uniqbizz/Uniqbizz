@@ -29,6 +29,12 @@
                 <a class="nav-link" data-bs-toggle="tab" role="tab" href="#s_p">Upgrade History</a>
             </li>
         <?php } ?>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#editLogs">Edit History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#transferLogs">Transfer History</a>
+        </li>
 
     </ul>
 </nav>

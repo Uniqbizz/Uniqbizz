@@ -58,11 +58,10 @@ mybutton && (window.onscroll = function() {
     scrollFunction()
 });
 $(document).ready(function() {
-    // $("#user_table1").DataTable();
-    // $("#user_table2").DataTable();
-    // $("#user_table3").DataTable();
-    // $("#user_table4").DataTable();
-    // $("#user_table5").DataTable();
+    $('a[href="#editLogs"]').on('shown.bs.tab', function () {
+        loadLogs();
+    });
+    // loadLogs();
     if($('#DBtable').val() == 'ca_customer'){
         $("#couponsTable").DataTable();
     }
@@ -293,3 +292,81 @@ function editfuncCust(data){
             '&tr_check=' + data.tr_check;
     }
 }
+let from_date = '';
+let to_date = '';
+
+/* ================= LOAD DATA ================= */
+function loadLogs(){
+    $.ajax({
+        url: '../../models/overview_profile/forms/edit_log_history.php',
+        method: 'POST',
+        dataType: 'json', // ✅ IMPORTANT
+        data: {
+            action: 'fetch_logs',
+            record_id: $('#user_id').text().trim(),
+            from_date: from_date,
+            to_date: to_date
+        },
+        success: function(res){
+
+            console.log("Parsed Data:", res);
+
+            if(res.status !== 'success'){
+                console.log("Error:", res.message);
+                return;
+            }
+
+            let data = res.data; // ✅ extract array
+            let html = '';
+
+            if(!data || data.length === 0){
+                html = `<tr><td colspan="7">No data found</td></tr>`;
+            } else {
+
+                data.forEach(row => {
+                    html += `
+                        <tr>
+                            <td>${row.created_at}</td>
+                            <td>${row.column_name}</td>
+                            <td>${row.old_value ?? '-'}</td>
+                            <td>${row.new_value ?? '-'}</td>
+                            <td>${row.changed_role ?? '-'}</td>
+                            <td>${row.change_reason ?? '-'}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            $('#editLogsbody').html(html);
+        },
+        error: function(xhr){
+            console.log("RAW RESPONSE:", xhr.responseText); // 🔍 debug
+        }
+    });
+}
+
+/* ================= DATE RANGE ================= */
+$('#editrangeDate').daterangepicker({
+    autoUpdateInput: false
+});
+
+$('#editrangeDate').on('apply.daterangepicker', function(ev, picker) {
+    from_date = picker.startDate.format('YYYY-MM-DD');
+    to_date = picker.endDate.format('YYYY-MM-DD');
+
+    $(this).val(from_date + ' - ' + to_date);
+    loadLogs();
+});
+
+$('#editrangeDate').on('cancel.daterangepicker', function() {
+    $(this).val('');
+    from_date = '';
+    to_date = '';
+    loadLogs();
+});
+
+/* ================= DOWNLOAD ================= */
+$('#downloadBtn').click(function(){
+    let url = `../../models/overview_profile/forms/edit_log_history.php?download=1&from_date=${from_date}&to_date=${to_date}&record_id=${$('#user_id').text().trim()}`;
+    window.open(url, '_blank');
+});
