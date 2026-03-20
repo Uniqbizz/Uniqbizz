@@ -327,7 +327,7 @@ function loadLogs(){
             let html = '';
 
             if(!data || data.length === 0){
-                html = `<tr><td colspan="7">No data found</td></tr>`;
+                html = ``;
             } else {
                 data.forEach(row => {
                     html += `
@@ -349,7 +349,10 @@ function loadLogs(){
             $('#editLogTable').DataTable({
                 pageLength: 10,
                 ordering: true,
-                searching: true
+                searching: true,
+                language: {
+                    emptyTable: "No data found"
+                }
             });
         }
     });
@@ -410,7 +413,7 @@ function loadTLogs(){
             let html = '';
 
             if(!data || data.length === 0){
-                html = `<tr><td colspan="11">No data found</td></tr>`;
+                html = ``;
             } else {
                 data.forEach(row => {
                     html += `
@@ -444,7 +447,10 @@ function loadTLogs(){
                 pageLength: 10,
                 ordering: true,
                 searching: true,
-                scrollX: true // 🔥 useful for many columns
+                scrollX: true,
+                language: {
+                    emptyTable: "No data found"
+                } 
             });
         }
     });
