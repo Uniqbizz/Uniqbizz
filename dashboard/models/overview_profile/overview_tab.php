@@ -173,6 +173,8 @@
                                 </div>
                             </div>
                         </div>
+                        <?php if ($reference_no && $registrant) {
+                        ?>
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="input-block mb-3">
@@ -185,6 +187,10 @@
                                 </div>
                             </div>
                         </div>
+                        <?php
+                            }
+                        ?>
+                        
                     <?php } else { ?>
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
