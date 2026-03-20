@@ -15,7 +15,7 @@
 
     <!-- TABLE -->
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover" id="editLogTable">
             <thead>
                 <tr>
                     <th>Date</th>

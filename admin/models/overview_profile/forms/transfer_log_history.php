@@ -14,21 +14,21 @@
         $from_date = $_POST['from_date'] ?? '';
         $to_date   = $_POST['to_date'] ?? '';
 
-        $query = "SELECT * FROM field_edit_logs WHERE 1";
+        $query = "SELECT * FROM transfered_users WHERE 1";
         $params = [];
 
         if(!empty($record_id)){
-            $query .= " AND record_id = :record_id";
+            $query .= " AND transfer_user_id = :record_id";
             $params[':record_id'] = $record_id;
         }
 
         if(!empty($from_date) && !empty($to_date)){
-            $query .= " AND DATE(created_at) BETWEEN :from_date AND :to_date";
+            $query .= " AND DATE(transfer_date) BETWEEN :from_date AND :to_date";
             $params[':from_date'] = $from_date;
             $params[':to_date']   = $to_date;
         }
 
-        $query .= " ORDER BY created_at DESC";
+        $query .= " ORDER BY transfer_date DESC";
 
         try {
 
@@ -60,11 +60,11 @@
 
         $record_id  = $_GET['record_id'] ?? '';
         header("Content-Type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=".$record_id."_edit_logs.xls");
+        header("Content-Disposition: attachment; filename=".$record_id."_transfer_logs.xls");
         $from_date  = $_GET['from_date'] ?? '';
         $to_date    = $_GET['to_date'] ?? '';
 
-        $query = "SELECT * FROM field_edit_logs WHERE 1";
+        $query = "SELECT * FROM transfered_users WHERE 1";
         $params = [];
 
         if(!empty($table_name)){
@@ -73,17 +73,17 @@
         }
 
         if(!empty($record_id)){
-            $query .= " AND record_id = :record_id";
+            $query .= " AND transfer_user_id = :record_id";
             $params[':record_id'] = $record_id;
         }
 
         if(!empty($from_date) && !empty($to_date)){
-            $query .= " AND DATE(created_at) BETWEEN :from_date AND :to_date";
+            $query .= " AND DATE(transfer_date) BETWEEN :from_date AND :to_date";
             $params[':from_date'] = $from_date;
             $params[':to_date']   = $to_date;
         }
 
-        $query .= " ORDER BY created_at DESC";
+        $query .= " ORDER BY transfer_date DESC";
 
         $stmt = $conn->prepare($query);
         $stmt->execute($params);
@@ -94,21 +94,40 @@
         echo "<table border='1'>
             <tr>
                 <th>Date</th>
-                <th>Column</th>
-                <th>Old Value</th>
-                <th>New Value</th>
-                <th>Changed By</th>
-                <th>Reason</th>
+                <th>Previous User</th>
+                <th>Previous User Email</th>
+                <th>Previous DOJ</th>
+                <th>New User</th>
+                <th>New User Email</th>
+                <th>Transfer Reason</th>
+                <th>Transfer Remark</th>
+                <th>Transfer status</th>
+                <th>Approve/Reject Date</th>
+                <th>Transfered By</th>
             </tr>";
 
         foreach($result as $row){
             echo "<tr>
-                <td>{$row['created_at']}</td>
-                <td>{$row['column_name']}</td>
-                <td>{$row['old_value']}</td>
-                <td>{$row['new_value']}</td>
-                <td>{$row['changed_role']}</td>
-                <td>{$row['change_reason']}</td>
+                <td>{$row['transfer_date']}</td>
+                <td>{$row['prev_user_name']}</td>
+                <td>{$row['prev_user_email']}</td>
+                <td>{$row['prev_user_doj']}</td>
+                <td>{$row['new_user_name']}</td>
+                <td>{$row['new_user_email']}</td>
+                <td>{$row['transfer_reason']}</td>
+                <td>{$row['transfer_remark']}</td>
+                <td>";
+                    if ($row['transfer_status'] == 2) {
+                        echo 'Approved';
+                    } elseif ($row['transfer_status'] == 3) {
+                        echo 'Rejected';
+                    } else {
+                        echo 'Pending';
+                    }
+
+            echo"</td>
+                <td>{$row['transfer_update_date']}</td>
+                <td>Admin</td>
             </tr>";
         }
 

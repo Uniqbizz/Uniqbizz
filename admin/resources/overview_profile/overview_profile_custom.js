@@ -61,6 +61,9 @@ $(document).ready(function() {
     $('a[href="#editLogs"]').on('shown.bs.tab', function () {
         loadLogs();
     });
+    $('a[href="#transferLogs"]').on('shown.bs.tab', function () {
+        loadTLogs();
+    });
     // loadLogs();
     if($('#DBtable').val() == 'ca_customer'){
         $("#couponsTable").DataTable();
@@ -297,10 +300,16 @@ let to_date = '';
 
 /* ================= LOAD DATA ================= */
 function loadLogs(){
+
+    // 🔥 Destroy if already initialized
+    if ($.fn.DataTable.isDataTable('#editLogTable')) {
+        $('#editLogTable').DataTable().destroy();
+    }
+
     $.ajax({
         url: '../../models/overview_profile/forms/edit_log_history.php',
         method: 'POST',
-        dataType: 'json', // ✅ IMPORTANT
+        dataType: 'json',
         data: {
             action: 'fetch_logs',
             record_id: $('#user_id').text().trim(),
@@ -309,20 +318,17 @@ function loadLogs(){
         },
         success: function(res){
 
-            console.log("Parsed Data:", res);
-
             if(res.status !== 'success'){
                 console.log("Error:", res.message);
                 return;
             }
 
-            let data = res.data; // ✅ extract array
+            let data = res.data;
             let html = '';
 
             if(!data || data.length === 0){
                 html = `<tr><td colspan="7">No data found</td></tr>`;
             } else {
-
                 data.forEach(row => {
                     html += `
                         <tr>
@@ -338,9 +344,13 @@ function loadLogs(){
             }
 
             $('#editLogsbody').html(html);
-        },
-        error: function(xhr){
-            console.log("RAW RESPONSE:", xhr.responseText); // 🔍 debug
+
+            // ✅ Reinitialize DataTable
+            $('#editLogTable').DataTable({
+                pageLength: 10,
+                ordering: true,
+                searching: true
+            });
         }
     });
 }
@@ -368,5 +378,100 @@ $('#editrangeDate').on('cancel.daterangepicker', function() {
 /* ================= DOWNLOAD ================= */
 $('#downloadBtn').click(function(){
     let url = `../../models/overview_profile/forms/edit_log_history.php?download=1&from_date=${from_date}&to_date=${to_date}&record_id=${$('#user_id').text().trim()}`;
+    window.open(url, '_blank');
+});
+
+/* ================= TRANSFER DATA ================= */
+function loadTLogs(){
+
+    // 🔥 Destroy if already initialized
+    if ($.fn.DataTable.isDataTable('#transferLogTable')) {
+        $('#transferLogTable').DataTable().destroy();
+    }
+
+    $.ajax({
+        url: '../../models/overview_profile/forms/transfer_log_history.php',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            action: 'fetch_logs',
+            record_id: $('#user_id').text().trim(),
+            from_date: from_date,
+            to_date: to_date
+        },
+        success: function(res){
+
+            if(res.status !== 'success'){
+                console.log("Error:", res.message);
+                return;
+            }
+
+            let data = res.data;
+            let html = '';
+
+            if(!data || data.length === 0){
+                html = `<tr><td colspan="11">No data found</td></tr>`;
+            } else {
+                data.forEach(row => {
+                    html += `
+                        <tr>
+                            <td>${row.transfer_date}</td>
+                            <td>${row.prev_user_name}</td>
+                            <td>${row.prev_user_email}</td>
+                            <td>${row.prev_user_doj}</td>
+                            <td>${row.new_user_name}</td>
+                            <td>${row.new_user_email}</td>
+                            <td>${row.transfer_reason}</td>
+                            <td>${row.transfer_remark}</td>
+                            <td>
+                                ${
+                                    row.transfer_status == 2 ? 'Approved' :
+                                    row.transfer_status == 3 ? 'Rejected' :
+                                    'Pending'
+                                }
+                            </td>
+                            <td>${row.transfer_update_date}</td>
+                            <td>Admin</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            $('#transferLogsbody').html(html);
+
+            // ✅ Reinitialize DataTable
+            $('#transferLogTable').DataTable({
+                pageLength: 10,
+                ordering: true,
+                searching: true,
+                scrollX: true // 🔥 useful for many columns
+            });
+        }
+    });
+}
+
+/* ================= DATE RANGE ================= */
+$('#editrangeDate1').daterangepicker({
+    autoUpdateInput: false
+});
+
+$('#editrangeDate1').on('apply.daterangepicker', function(ev, picker) {
+    from_date = picker.startDate.format('YYYY-MM-DD');
+    to_date = picker.endDate.format('YYYY-MM-DD');
+
+    $(this).val(from_date + ' - ' + to_date);
+    loadTLogs();
+});
+
+$('#editrangeDate1').on('cancel.daterangepicker', function() {
+    $(this).val('');
+    from_date = '';
+    to_date = '';
+    loadTLogs();
+});
+
+/* ================= DOWNLOAD ================= */
+$('#downloadBtn1').click(function(){
+    let url = `../../models/overview_profile/forms/transfer_log_history.php?download=1&from_date=${from_date}&to_date=${to_date}&record_id=${$('#user_id').text().trim()}`;
     window.open(url, '_blank');
 });

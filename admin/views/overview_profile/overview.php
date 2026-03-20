@@ -314,6 +314,13 @@ include '../../models/overview_profile/overview_custom.php';
                                 } 
                             ?>
                             <?php include '../../controllers/overview_profile/edit_log_history.php' ?>
+                            <?php
+                                $excludeTables = ['ca_customer', 'institution'];
+
+                                if (!in_array($DBtable, $excludeTables)) {
+                                    include '../../controllers/overview_profile/transfer_log_history.php';
+                                }
+                            ?>
                         </div>
                     </div>
 
