@@ -1,5 +1,4 @@
 <?php
-    include 'get_upper_cahnnel.php';
     if($userType == "24"){
         
         $stmt = $conn -> prepare("SELECT employee_id FROM `employees` WHERE reporting_manager = ? AND user_type = '25' ");
@@ -124,7 +123,7 @@
 
                     echo'<tr>
                         <td>
-                            <p>'.$userCATA['ca_travelagency_id'].'</p>
+                            <p>'.$userCATA['tc_id'].'</p>
                             <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                         </td>
                         <td>
@@ -356,7 +355,7 @@
 
                 echo'<tr>
                     <td>
-                        <p>'.$userCATA['ca_travelagency_id'].'</p>
+                        <p>'.$userCATA['tc_id'].'</p>
                         <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                     </td>
                     <td>
@@ -467,15 +466,15 @@
             
         }else{
             if($userType == '16'){
-            $sql4 = "SELECT *,CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
+                $sql4 = "SELECT *,CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
                     FROM `ca_travelagency` 
                     LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "'
                     WHERE (reference_no = '$userId' OR tm.te_id = '" . $userId . "') AND (status = '1' OR status = '3') ";
             }else{
-                $sql4 = "SELECT ca_travelagency_id AS ca_travelagency_id,date_of_birth,register_date,firtname,lastname,contact_no,status
+                $sql4 = "SELECT ca_travelagency_id AS ca_travelagency_id,id,date_of_birth,register_date,firstname,lastname,contact_no,status,reference_no,registrant,country,state,city
                          FROM `ca_travelagency` WHERE reference_no = '$userId' AND (status = '1' OR status = '3')
                          UNION ALL
-                         SELECT institution_branch_manager_id AS ca_travelagency_id,date_of_birth,register_date,firtname,lastname,contact_no,status
+                         SELECT institution_branch_manager_id AS ca_travelagency_id,id,date_of_birth,register_date,firstname,lastname,contact_no,status,reference_no,registrant,country,state,city
                          FROM `institution_branch_manager` WHERE reference_no = '$userId' AND (status = '1' OR status = '3') ";
             }
             $stmt4 = $conn -> prepare($sql4);
@@ -567,10 +566,10 @@
     }else if($userType == "31"){
         
         //direct TC with RM Ref
-        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS ca_travelagency_id,date_of_birth,register_date,firtname,lastname,contact_no,status
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS ca_travelagency_id,date_of_birth,register_date,firstname,lastname,contact_no,status
                          FROM `ca_travelagency` WHERE reference_no = ? AND (status = '1' OR status = '3')
                          UNION ALL
-                         SELECT institution_branch_manager_id AS ca_travelagency_id,date_of_birth,register_date,firtname,lastname,contact_no,status
+                         SELECT institution_branch_manager_id AS ca_travelagency_id,date_of_birth,register_date,firstname,lastname,contact_no,status
                          FROM `institution_branch_manager` WHERE reference_no = ?' AND (status = '1' OR status = '3')");
         $stmt4->execute([$userId,$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);

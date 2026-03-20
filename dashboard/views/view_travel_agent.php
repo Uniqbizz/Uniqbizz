@@ -135,7 +135,7 @@
                                                                 <th data-ordering="false">Phone</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                <?php  if($userType == '16' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '30'){ ?>
+                                                                <?php  if($userType == '16' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '30' || $userType == '32'){ ?>
                                                                     <th data-ordering="false">Action</th>
                                                                 <?php } ?>
                                                             </tr>

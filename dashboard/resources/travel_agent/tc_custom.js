@@ -1,6 +1,15 @@
 $(document).ready(function(){
-    $("#example-dataTable").DataTable();
-    $("#example-dataTable-2").DataTable();
+    $("#example-dataTable").DataTable({
+        language: {
+            emptyTable: "No data found"
+        }
+    });
+
+    $("#example-dataTable-2").DataTable({
+        language: {
+            emptyTable: "No data found"
+        }
+    });
 });
 
 function editfunc(id,cut,st,ct,editfor){

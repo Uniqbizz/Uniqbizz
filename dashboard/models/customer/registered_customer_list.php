@@ -357,9 +357,9 @@
             $userCAID = $userCA['suser_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT ca_travelagency AS user_id FROM ca_travelagency WHERE reference_no = ?
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
                                      UNION ALL
-                                     SELECT institution_branch_manager AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+                                     SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
             $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -560,9 +560,9 @@
         }  
     }else if($userType == "16" || $userType == "29" || $userType == '32'){
         
-        $stmt4 = $conn->prepare("SELECT ca_travelagency AS user_id FROM ca_travelagency WHERE reference_no = ?
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM ca_travelagency WHERE reference_no = ?
                                  UNION ALL
-                                 SELECT institution_branch_manager AS user_id FROM institution_branch_manager WHERE reference_no = ?");
+                                 SELECT institution_branch_manager_id AS user_id FROM institution_branch_manager WHERE reference_no = ?");
         $stmt4->execute([$userId,$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 

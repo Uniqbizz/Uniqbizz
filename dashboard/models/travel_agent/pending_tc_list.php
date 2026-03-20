@@ -1,6 +1,6 @@
 <?php
 
-    include 'get_upper_cahnnel.php';
+    include 'get_upper_channel.php';
 
     if($userType == "24"){
         
