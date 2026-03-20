@@ -108,8 +108,18 @@
                         </div>
                         <div class="flex-fill">
                             <!-- <div class="goldCoinImage"> -->
-                                <img src="assets/images/WalletMoneyAdded.gif" style="width: 165px; height: 110px;" alt="">
+                                <!-- <img src="assets/images/WalletMoneyAdded.gif" style="width: 165px; height: 110px;" alt=""> -->
                             <!-- </div> -->
+                             <div class="dotlottie-player" style="width: 200px;">
+                                <dotlottie-player
+                                    src="assets/images/Service.lottie"
+                                    background="transparent"
+                                    speed="1"
+                                    style="width: 100%; height: auto;"
+                                    loop
+                                    autoplay>
+                                </dotlottie-player>
+                            </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center my-3 revenueCardViewButton">

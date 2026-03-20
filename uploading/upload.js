@@ -1,5 +1,6 @@
 
 var uploadUrl = "../../../uploading/upload.php";
+var uploadTermsUrl = "../../uploading/upload.php";
 var transactuploadUrl = "../uploading/upload.php";
 
 //employee BCH and BDM pics upload
@@ -434,7 +435,7 @@ $('#terms_condition').change(function(){
     form_data.append('file', file_data);
     form_data.append('folder',folder);
     $.ajax({
-        url: uploadUrl,
+        url: uploadTermsUrl,
         type: "POST",
         data: form_data,
         contentType: false,
