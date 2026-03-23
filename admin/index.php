@@ -253,6 +253,24 @@ $Year = date('Y'); //year
                 font-size: 11px !important;
             }
             /* Latest transaction section */
+            /* Revenue generated section */
+            .dotlottie-player2 {
+                width: 220px; 
+                height: 100px; 
+                position: absolute; 
+                top: -210px;
+                right: -20px;
+            }
+            /* Revenue generated section */
+            
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            th, td {
+                white-space: nowrap;
+            }
 
             @media (max-width: 1154px){
                 .revenueCardViewButton {
@@ -261,6 +279,13 @@ $Year = date('Y'); //year
                 }
                 .commissionAmount {
                     font-size: 20px !important;
+                }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -200px;
+                    right: -50px;
                 }
             }
             @media (max-width: 1110px){
@@ -277,6 +302,13 @@ $Year = date('Y'); //year
                     position: absolute;
                     top: 90px;
                 }
+                .dotlottie-player2 {
+                    width: 190px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -180px;
+                    right: -50px;
+                }
             }
             @media (max-width: 992px){
                 .revenueCardViewButton {
@@ -286,6 +318,13 @@ $Year = date('Y'); //year
                 .flex-fill img {
                     width: 140px !important;
                     height: 100px !important;
+                }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -210px;
+                    right: -50px;
                 }
             }
             @media (max-width: 854px){
@@ -310,6 +349,22 @@ $Year = date('Y'); //year
                     position: absolute;
                     top: 60px;
                 }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -210px;
+                    right: 0px;
+                }
+            }
+            @media (max-width: 602px){
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -210px;
+                    right: -35px;
+                }
             }
             @media (max-width: 575px){
                 .dotlottie-player {
@@ -332,6 +387,13 @@ $Year = date('Y'); //year
                 }
                 .flex-fill {
                    height: 100px !important;
+                }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -125px;
+                    left: -35px;
                 }
             }
             
@@ -582,25 +644,30 @@ $Year = date('Y'); //year
                                         <div class="card card-equal mini-stats-wid rounded-4">
                                             <div class="card-body">
                                                 <div class="d-flex">
-                                                    <div class="flex-fill">
-                                                        <div class="mini-stat-icon avatar-sm rounded-circle bg-warning">
-                                                            <span class="avatar-title2">
-                                                                <i class="fa-solid fa-wallet font-size-24"></i>
-                                                            </span>
-                                                        </div>
+                                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-warning">
+                                                        <span class="avatar-title2">
+                                                            <i class="fa-solid fa-wallet font-size-24"></i>
+                                                        </span>
                                                     </div>
-                                                    <div class="flex-fill">
+                                                    <div class="">
                                                         <p class="text-muted fw-medium ps-2">Revenue Generated Full</p>
                                                         <h3 class="mb-0 text-dark ps-2">&#8377; 302Cr</h3>
                                                     </div>
-                                                    <div class="flex-fill">
-                                                        <!-- <div class="goldCoinImage"> -->
-                                                            <img src="assets/images/goldcoin.png" style="width: 165px; height: 110px;" alt="">
-                                                        <!-- </div> -->
-                                                    </div>
                                                 </div>
-                                                <div class="d-flex justify-content-center my-3 revenueCardViewButton">
-                                                    <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3" role="button" style="width: 190px;">View details</a>
+                                                <div class="mt-4 mb-2">
+                                                    <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3 px-5" role="button" style="width: 190px;">View details</a>
+                                                </div>
+                                                <div class="flex-fill" style="position: relative;">
+                                                    <div class="dotlottie-player2">
+                                                        <dotlottie-player
+                                                            src="assets/images/Wallet_MoneyAdded.lottie"
+                                                            background="transparent"
+                                                            speed="1"
+                                                            style="width: 100%; height: auto;"
+                                                            loop
+                                                            autoplay>
+                                                        </dotlottie-player>
+                                                    </div>
                                                 </div>
                                                 
                                             </div>
@@ -1097,117 +1164,119 @@ $Year = date('Y'); //year
                                     <div class="card-body pt-2">
                                         <h3 class="text-dark pt-2">Membership Overview</h3>
                                         <hr>
-                                        <div class="col-12 table-responsive text-center">
-                                            <table class="table mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="bg-dark-subtle fs-6">Type</th>
-                                                        <th class="bg-dark-subtle">Value</th>
-                                                        <th class="bg-dark-subtle text-end">Count</th>
-                                                        <th class="bg-dark-subtle text-end">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Regular Customer</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377; Free</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">0</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; Free</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Customer</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377;30000</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">28</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; 8,40,000</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Plus Customer</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377; 35,000</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">2</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; 70,000</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Select</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377; 35,000</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">2</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; 70,000</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Premium Select Lite</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377; 21,000</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">2</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; 42,000</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Neo Select</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377; 11,000</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">7</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; 77,000</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 align-content-center ps-2">Neo Select Ultra</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6">&#8377; 11,000</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-dark fs-6 text-end">4</p>
-                                                        </td>
-                                                        <td class="py-2 align-content-center">
-                                                            <p class="text-success fs-6 text-end">&#8377; 44,000</p>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <div class="col-12 text-center">
+                                            <div class="table-responsive">
+                                                <table class="table mb-0">
+                                                    <thead class="bg-light">
+                                                        <tr>
+                                                            <th class="bg-dark-subtle fs-6">Type</th>
+                                                            <th class="bg-dark-subtle">Value</th>
+                                                            <th class="bg-dark-subtle text-end">Count</th>
+                                                            <th class="bg-dark-subtle text-end">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Regular Customer</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377; Free</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; Free</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Premium Customer</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377;30000</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">28</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; 8,40,000</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Premium Plus Customer</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377; 35,000</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">2</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; 70,000</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Premium Select</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377; 35,000</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">2</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; 70,000</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Premium Select Lite</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377; 21,000</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">2</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; 42,000</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Neo Select</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377; 11,000</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">7</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; 77,000</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 align-content-center ps-2">Neo Select Ultra</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6">&#8377; 11,000</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">4</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-success fs-6 text-end">&#8377; 44,000</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
