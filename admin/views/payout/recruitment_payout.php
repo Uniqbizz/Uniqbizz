@@ -1,8 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION['username'])){
-        echo '<script>location.href = "../../login.php";</script>';
-    }
+    include '../../models/common_models/session_check.php';
     include '../../models/common_models/payout_date_values.php';
 
 ?>
