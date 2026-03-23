@@ -296,59 +296,20 @@
                     <i class="fa-regular fa-money-bill-1 fa-2xl" style="color: #ffffff;"></i>
                 </span>
                 <?php
+                include '../models/common_models/user_commission_query.php';
 
                 //pending amount
                 //status = 1 Confirm,  2 pending
-                $sqlCAP = $conn->prepare("SELECT SUM(te_amt) as teProductAmt FROM product_payout WHERE te_id = '" . $userId . "' AND te_status='2' ");
+                
+                // print_r($sqlCAP);
                 $sqlCAP->execute();
                 $sqlCAP->setFetchMode(PDO::FETCH_ASSOC);
                 if ($sqlCAP->rowCount() > 0) {
                     foreach (($sqlCAP->fetchAll()) as $key => $row) {
-                        $PendingAmt = $row['teProductAmt'];
+                        $finalAmtP = number_format($row['commission_pending_amount']);
+                        $finalAmtC = number_format($row['commission_paid_amount']);
                     }
                 }
-                //status = 1 pending,  2 confirm
-                $sqlTAP = $conn->prepare("SELECT SUM(commision_te) as teCommiAmt FROM ca_ta_payout WHERE techno_enterprise = '" . $userId . "' AND status_te = '2' ");
-                $sqlTAP->execute();
-                $sqlTAP->setFetchMode(PDO::FETCH_ASSOC);
-                if ($sqlTAP->rowCount() > 0) {
-                    foreach (($sqlTAP->fetchAll()) as $key => $row) {
-                        $PendingComm = $row['teCommiAmt'];
-                    }
-                }
-
-                $AmtTotalPending = $PendingAmt + $PendingComm;
-                $tdsAmtPending = $AmtTotalPending * $tdsPercentage;
-                $walletBalPending = $AmtTotalPending - $tdsAmtPending;
-                $truncatedWalletBalP = floor($walletBalPending * 100) / 100;
-                $finalAmtP = number_format($truncatedWalletBalP, 2);
-
-                //confirm amount
-                //status = 1 Confirm,  2 pending
-                $sqlCAP = $conn->prepare("SELECT SUM(te_amt) as teProductAmt FROM product_payout WHERE te_id = '" . $userId . "' AND te_status='1' ");
-                $sqlCAP->execute();
-                $sqlCAP->setFetchMode(PDO::FETCH_ASSOC);
-                if ($sqlCAP->rowCount() > 0) {
-                    foreach (($sqlCAP->fetchAll()) as $key => $row) {
-                        $ConfirmAmt = $row['teProductAmt'];
-                    }
-                }
-                //status = 1 pending,  2 confirm
-                $sqlTAP = $conn->prepare("SELECT SUM(commision_te) as teCommiAmt FROM ca_ta_payout WHERE techno_enterprise = '" . $userId . "' AND status_te = '1' ");
-                $sqlTAP->execute();
-                $sqlTAP->setFetchMode(PDO::FETCH_ASSOC);
-                if ($sqlTAP->rowCount() > 0) {
-                    foreach (($sqlTAP->fetchAll()) as $key => $row) {
-                        $ConfirmComm = $row['teCommiAmt'];
-                    }
-                }
-
-                $AmtTotalConfirm = $ConfirmAmt + $ConfirmComm;
-                $tdsAmtConfirm = $AmtTotalConfirm * $tdsPercentage;
-                $walletBalConfirm = $AmtTotalConfirm - $tdsAmtConfirm;
-                $truncatedWalletBalC = floor($walletBalConfirm * 100) / 100;
-                $finalAmtC = number_format($truncatedWalletBalC, 2);
-
 
                 ?>
                 <div class="ms-4">
