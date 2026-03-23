@@ -129,7 +129,7 @@
                             <a href="terms-condition.php" class="single">Terms & Conditions</a>
                         </li>
                         <li class="single-list">
-                            <a href="#" class="single">Privacy and Cookies Statement</a>
+                            <a href="privatePolicy.php" class="single">Privacy and Cookies Statement</a>
                         </li>
                         <li class="single-list">
                             <a href="contact.php" class="single">How the site works</a>
