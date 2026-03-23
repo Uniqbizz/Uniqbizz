@@ -9,10 +9,10 @@
                                 <h4 class="title">Company</h4>
                                 <ul class="listing">
                                     <li class="single-lsit">
-                                        <a href="#">Private Policy</a>
+                                        <a href="privatePolicy.php">Private Policy</a>
                                     </li>
                                     <li class="single-lsit">
-                                        <a href="#">Cancellation & Refund Policy</a>
+                                        <a href="cancellation.php">Cancellation & Refund Policy</a>
                                     </li>
                                     <li class="single-lsit">
                                         <a href="terms-condition.php">Terms & Conditions</a>
