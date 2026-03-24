@@ -1172,6 +1172,7 @@ $Year = date('Y'); //year
                                                             <th class="bg-dark-subtle fs-6">Type</th>
                                                             <th class="bg-dark-subtle">Value</th>
                                                             <th class="bg-dark-subtle text-end">Count</th>
+                                                            <th class="bg-dark-subtle text-end">Complimentary</th>
                                                             <th class="bg-dark-subtle text-end">Total</th>
                                                         </tr>
                                                     </thead>
@@ -1182,6 +1183,9 @@ $Year = date('Y'); //year
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-dark fs-6">&#8377; Free</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-dark fs-6 text-end">0</p>
@@ -1201,6 +1205,9 @@ $Year = date('Y'); //year
                                                                 <p class="text-dark fs-6 text-end">28</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">13</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
                                                                 <p class="text-success fs-6 text-end">&#8377; 8,40,000</p>
                                                             </td>
                                                         </tr>
@@ -1213,6 +1220,9 @@ $Year = date('Y'); //year
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-dark fs-6 text-end">2</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-success fs-6 text-end">&#8377; 70,000</p>
@@ -1229,6 +1239,9 @@ $Year = date('Y'); //year
                                                                 <p class="text-dark fs-6 text-end">2</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
                                                                 <p class="text-success fs-6 text-end">&#8377; 70,000</p>
                                                             </td>
                                                         </tr>
@@ -1241,6 +1254,9 @@ $Year = date('Y'); //year
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-dark fs-6 text-end">2</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-success fs-6 text-end">&#8377; 42,000</p>
@@ -1257,6 +1273,9 @@ $Year = date('Y'); //year
                                                                 <p class="text-dark fs-6 text-end">7</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
                                                                 <p class="text-success fs-6 text-end">&#8377; 77,000</p>
                                                             </td>
                                                         </tr>
@@ -1269,6 +1288,9 @@ $Year = date('Y'); //year
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-dark fs-6 text-end">4</p>
+                                                            </td>
+                                                            <td class="py-2 align-content-center">
+                                                                <p class="text-dark fs-6 text-end">0</p>
                                                             </td>
                                                             <td class="py-2 align-content-center">
                                                                 <p class="text-success fs-6 text-end">&#8377; 44,000</p>
