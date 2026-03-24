@@ -26,7 +26,7 @@
                             <div class="footer-tittle">
                                 <h4 class="title">Explore</h4>
                                 <ul class="listing">
-                                    <li class="single-lsit"><a href="faq.php">Faq</a></li>
+                                    <li class="single-lsit"><a href="visa.php">Visa</a></li>
                                     <li class="single-lsit">
                                         <a href="tour-list.php">Tour Listings</a>
                                     </li>
