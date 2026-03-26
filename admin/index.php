@@ -390,25 +390,25 @@ function formatIndianCurrency($num) {
                         <!-- end page title -->
                         <div class="row">
                             <!-- welcome banner with last login -->
-                            <?php include 'index_welcome_card.php'; ?>
+                            <?php include 'index_modules/index_welcome_card.php'; ?>
                             <!-- system user count, total revenue, pending and paid commission  -->
-                            <?php include 'index_user_cards.php'; ?>
+                            <?php include 'index_modules/index_user_cards.php'; ?>
                             <!-- user count with revenue and commission paid and pending -->
-                            <?php include 'index_user_count_table.php'; ?>
+                            <?php include 'index_modules/index_user_count_table.php'; ?>
                             <!-- line chart -->
-                            <?php include 'customer_line_chart.php'; ?>
+                            <?php include 'index_modules/customer_line_chart.php'; ?>
                             <!-- doughnut user revenue chart  -->
-                            <?php include 'user_revenue_chart.php'; ?>
+                            <?php include 'index_modules/user_revenue_chart.php'; ?>
                             <!-- Membership overview  -->
-                            <?php include 'customer_membership_overview.php'; ?>
+                            <?php include 'index_modules/customer_membership_overview.php'; ?>
                             <!-- doughnut holidays packages chart  -->
-                            <?php include 'holidays_package_chart.php'; ?>
+                            <?php include 'index_modules/holidays_package_chart.php'; ?>
                             <!-- Top performer -->
-                            <?php include 'top_performer.php'; ?>
+                            <?php include 'index_modules/top_performer.php'; ?>
                             <!-- Calender   -->
-                            <?php include 'calender_transaction.php'; ?>
+                            <?php include 'index_modules/calender_transaction.php'; ?>
                             <!-- upcoming birthdays -->
-                            <?php include 'upcoming_birthdays.php'; ?>
+                            <?php include 'index_modules/upcoming_birthdays.php'; ?>
                         </div>
                     
                     </div>
@@ -463,7 +463,7 @@ function formatIndianCurrency($num) {
         <!-- echarts init -->
         <!-- <script src="assets/js/pages/echarts.init.js"></script> -->
         
-        <script src="index_custom.js"></script>
+        <script src="index_modules/index_custom.js"></script>
         
     </body>
 </html>
