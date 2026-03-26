@@ -76,17 +76,15 @@
             <div class="card card-equal mini-stats-wid rounded-4">
                 <div class="card-body">
                     <div class="d-flex">
-                        <div class="flex-fill">
-                            <div class="mini-stat-icon avatar-sm rounded-circle bg-warning">
-                                <span class="avatar-title2">
-                                    <i class="fa-solid fa-wallet font-size-24"></i>
-                                </span>
-                            </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-warning">
+                            <span class="avatar-title2">
+                                <i class="fa-solid fa-wallet font-size-24"></i>
+                            </span>
                         </div>
-                        <div class="flex-fill">
+                        <div class="">
                             <p class="text-muted fw-medium ps-2">Revenue Generated Full</p>
                             <!-- <h3 class="mb-0 text-dark ps-2">&#8377; 302Cr</h3> -->
-                            <?php
+                             <?php
                                 
                                 $stmt = $conn->prepare("
                                     SELECT 
@@ -103,27 +101,24 @@
                                 $stmt->execute();
                                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                                 $total_revenue = $row['total_revenue'] ?? 0;
-                                echo '<h3 class="mb-0 text-dark">&#8377;'.formatIndianCurrency($total_revenue).'</h3>';
+                                echo '<h3 class="mb-0 ms-2 text-dark">  &#8377; '.formatIndianCurrency($total_revenue).'</h3>';
                             ?>
                         </div>
-                        <div class="flex-fill">
-                            <!-- <div class="goldCoinImage"> -->
-                                <!-- <img src="assets/images/WalletMoneyAdded.gif" style="width: 165px; height: 110px;" alt=""> -->
-                            <!-- </div> -->
-                             <div class="dotlottie-player" style="width: 200px;">
-                                <dotlottie-player
-                                    src="assets/images/Service.lottie"
-                                    background="transparent"
-                                    speed="1"
-                                    style="width: 100%; height: auto;"
-                                    loop
-                                    autoplay>
-                                </dotlottie-player>
-                            </div>
-                        </div>
                     </div>
-                    <div class="d-flex justify-content-center my-3 revenueCardViewButton">
-                        <a href="payout/sub_franchisee_payout.php" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3" role="button" style="width: 190px;">View details</a>
+                    <div class="mt-4 mb-2">
+                        <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3 px-5" role="button" style="width: 190px;">View details</a>
+                    </div>
+                    <div class="flex-fill" style="position: relative;">
+                        <div class="dotlottie-player2">
+                            <dotlottie-player
+                                src="assets/images/Wallet_MoneyAdded.lottie"
+                                background="transparent"
+                                speed="1"
+                                style="width: 100%; height: auto;"
+                                loop
+                                autoplay>
+                            </dotlottie-player>
+                        </div>
                     </div>
                     
                 </div>
