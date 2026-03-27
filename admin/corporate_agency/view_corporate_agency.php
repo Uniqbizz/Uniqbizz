@@ -48,6 +48,29 @@
             .lable-width{
                 width: 18px;
             }
+            /* for tool tip of user indication */
+            .tooltip-cell {
+                position: relative;
+            }
+
+            .tooltip-msg {
+                display: none;
+                position: absolute;
+                background: #717171;
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                top: -5px;
+                left: 0;
+                font-size: 12px;
+                white-space: nowrap;
+                z-index: 1;
+            }
+
+            .tooltip-cell:hover .tooltip-msg {
+                display: block;
+            }
+            /* for tool tip of user indication */
 
             /* for tool tip of user indication */
             .tooltip-cell {
@@ -403,6 +426,8 @@
 
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
+                                                                
+                                                                
                                                                 if ($row["tc_assign_status"] == 1) {
                                                                     $rowClass = 'bg-success'; // TC allotted = green
                                                                     // $hoverText = 'TC Allotted';
@@ -459,13 +484,14 @@
 
                                                                     $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
                                                                     if ($franchisee_upgrade) {
-                                                                echo'    <td>' . $franchisee_upgrade['upgrade_amt'] . '</td>';
+                                                                        echo '<td>' . $franchisee_upgrade['upgrade_amt'] . '</td>';
+                                                                    } else {
+                                                                        echo '<td>0</td>'; // or fallback amount
                                                                     } 
                                                                 }else{
-                                                                echo'    <td>' . $row['amount'] . '</td>';    
+                                                                    echo'    <td>' . $row['amount'] . '</td>';    
                                                                 }
-                                                                echo'    <td>' . $rdate . '</td>';
-
+                                                                    echo'    <td>' . $rdate . '</td>';
 
                                                                 if ($row['status'] == '1') {
                                                                     echo '<td><span class="badge text-bg-success">Active</span></td>
@@ -475,7 +501,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu">
-                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
+                                                                                    <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'sf' ? 'sub_franchisee' : (strtolower($row['user_type']) == 'te' ? 'corporate_agency' :  (strtolower($row['user_type']) == 'in' ? 'institution' : ''))) .'")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>';
                                                                                     if($row['user_type'] == 'sf' || $row['user_type'] == 'in'){
                                                                                         echo'<li><a href="#" onclick=\'upgradePage("' . $row["user_id"] . '","' .$row["reference_no"] . '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> '.($row['user_type'] == 'sf' ? 'Upgrade Franchisee' : ($row['user_type'] == 'in' ? 'Upgrade Institution' : '')) .' </a></li>';
                                                                                     }
