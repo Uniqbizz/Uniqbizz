@@ -96,7 +96,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         'reference' => $row['reference_no'] . ' ' . $row['registrant'],
         'customer_type' => $row['customer_type'],
         'contact_no' => $row['contact_no'],
-        'added_on' => $datev,
+        'register_date' => $datev,
         'status' => $statusText,
         'status_code' => $row['status']
     ];

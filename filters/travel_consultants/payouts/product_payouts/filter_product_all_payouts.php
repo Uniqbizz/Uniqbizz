@@ -2,6 +2,11 @@
 header("Content-Type: application/json");
 require '../../../../connect.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['status' => 'error', 'message' => 'Only POST allowed']);
+    exit;
+}
+
 $request = json_decode(file_get_contents('php://input'), true);
 
 // Inputs

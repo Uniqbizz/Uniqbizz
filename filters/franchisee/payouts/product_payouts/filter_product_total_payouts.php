@@ -21,7 +21,7 @@ if (!is_array($request)) {
 }
 
 $userId = $request['userId'] ?? null;
-$search = $request['search'] ?? '';
+$search = trim($request['search'] ?? '');
 $year   = $request['year'] ?? null;
 $month  = $request['month'] ?? null;
 
@@ -33,13 +33,7 @@ if (!$userId) {
     exit;
 }
 
-if (!$year || !$month) {
-    echo json_encode([
-        "status" => false,
-        "message" => "year and month required"
-    ]);
-    exit;
-}
+$isAllTime = empty($year) && empty($month);
 
 $checkStmt = $conn->prepare("
     SELECT 1 
@@ -47,9 +41,7 @@ $checkStmt = $conn->prepare("
     WHERE reference_no = :user_ref 
     LIMIT 1
 ");
-
-$checkStmt->bindValue(':user_ref', $userId, PDO::PARAM_STR);
-$checkStmt->execute();
+$checkStmt->execute([':user_ref' => $userId]);
 
 if (!$checkStmt->fetchColumn()) {
     echo json_encode([
@@ -61,12 +53,6 @@ if (!$checkStmt->fetchColumn()) {
 
 $tdsPercentage = 2 / 100;
 
-$response = [
-    'status' => 'error',
-    'message' => '',
-    'data' => []
-];
-
 function truncateToTwoDecimals($num)
 {
     return floor($num * 100) / 100;
@@ -76,140 +62,107 @@ try {
 
     $col = 'te';
 
-    /*
-    ------------------------------------------------
-    ONLY CHANGE: MONTH + YEAR FILTER
-    ------------------------------------------------
-    */
+    // =========================
+    // WHERE CLAUSE
+    // =========================
+    $where = ["p.{$col}_id = :userId"];
 
-    $sql = "SELECT * FROM product_payout 
-            WHERE {$col}_id = :userId
-            AND YEAR(created_date) = :year
-            AND MONTH(created_date) = :month
-            ORDER BY created_date DESC";
+    if (!$isAllTime) {
+        $where[] = "YEAR(p.created_date) = :year";
+        $where[] = "MONTH(p.created_date) = :month";
+    }
+
+    if (!empty($search)) {
+        $where[] = "(
+            pkg.name LIKE :search OR
+            CONCAT(cu.firstname, ' ', cu.lastname) LIKE :search OR
+            p.{$col}_mess LIKE :search OR
+            DATE(p.created_date) LIKE :search OR
+            CAST(p.{$col}_amt AS CHAR) LIKE :search OR
+            CAST((p.{$col}_amt * 0.02) AS CHAR) LIKE :search OR
+            CAST((p.{$col}_amt - (p.{$col}_amt * 0.02)) AS CHAR) LIKE :search
+        )";
+    }
+
+    $whereSql = implode(" AND ", $where);
+
+    // =========================
+    // MAIN QUERY (JOIN)
+    // =========================
+    $sql = "
+        SELECT 
+            p.*,
+            pkg.name AS packageName,
+            cu.firstname,
+            cu.lastname
+        FROM product_payout p
+        LEFT JOIN package pkg ON pkg.id = p.package_id
+        LEFT JOIN ca_customer cu ON cu.ca_customer_id = p.cu_id
+        WHERE $whereSql
+        ORDER BY p.created_date DESC
+    ";
 
     $stmt = $conn->prepare($sql);
 
-    $stmt->bindParam(':userId', $userId);
-    $stmt->bindParam(':year', $year);
-    $stmt->bindParam(':month', $month);
+    $stmt->bindValue(':userId', $userId);
+
+    if (!$isAllTime) {
+        $stmt->bindValue(':year', $year);
+        $stmt->bindValue(':month', $month);
+    }
+
+    if (!empty($search)) {
+        $stmt->bindValue(':search', '%' . $search . '%');
+    }
 
     $stmt->execute();
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $transactions = [];
     $totalAmount = 0;
 
-    while ($row = $stmt->fetch()) {
+    foreach ($rows as $row) {
 
         $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-        $stmt1 = $conn->prepare("SELECT name FROM package WHERE id = :pkgId");
-        $stmt1->bindParam(':pkgId', $row['package_id']);
-        $stmt1->execute();
-        $pkg = $stmt1->fetch();
-        $packageName = $pkg['name'] ?? 'Unknown Package';
+        $customerName = trim(($row['firstname'] ?? '') . ' ' . ($row['lastname'] ?? ''));
 
-        $stmt2 = $conn->prepare("SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = :cid");
-        $stmt2->bindParam(':cid', $row['cu_id']);
-        $stmt2->execute();
-        $cu = $stmt2->fetch();
-        $customerName = trim(($cu['firstname'] ?? '') . ' ' . ($cu['lastname'] ?? ''));
-
-        $amt = (float)($row["{$col}_amt"] ?? 0);
-        $message = $row["{$col}_mess"] ?? '';
-        $statusCode = $row["{$col}_status"] ?? '0';
-        $statusText = ($statusCode == '1') ? 'Paid' : 'Pending';
-
+        $amt = (float)$row["{$col}_amt"];
         $tds = $amt * $tdsPercentage;
         $total = truncateToTwoDecimals($amt - $tds);
+
         $totalAmount += $amt;
 
-        $transaction = [
+        $transactions[] = [
             'date' => $dt,
-            'packageName' => $packageName,
+            'packageName' => $row['packageName'] ?? 'Unknown Package',
             'customerName' => $customerName,
             'noOfAdults' => $row['no_of_adult'],
             'noOfChildren' => $row['no_of_child'],
-            'message' => $message,
+            'message' => $row["{$col}_mess"],
             'amount' => $amt,
             'tds' => $tds,
             'totalPayable' => $total,
-            'status' => $statusText,
-            'statusCode' => $statusCode
+            'status' => ($row["{$col}_status"] == '1') ? 'Paid' : 'Pending',
+            'statusCode' => $row["{$col}_status"]
         ];
-
-        $transactions[] = $transaction;
     }
 
-    if (count($transactions) === 0) {
-        $response = [
+    if (empty($transactions)) {
+        echo json_encode([
             "status" => true,
             "count" => 0,
             "data" => [],
-            "message" => "No records found for this month"
-        ];
-        echo json_encode($response, JSON_PRETTY_PRINT);
+            "message" => $isAllTime ? "No records found" : "No records found for this month"
+        ], JSON_PRETTY_PRINT);
         exit;
     }
-
-    /*
-    ------------------------------------------------
-    SEARCH LOGIC (UNCHANGED)
-    ------------------------------------------------
-    */
-
-    if (!empty($search)) {
-
-        $filteredTransactions = array_filter($transactions,function($transaction) use ($search){
-
-            $searchLower = strtolower($search);
-
-            return
-                stripos($transaction['packageName'],$searchLower) !== false ||
-                stripos($transaction['customerName'],$searchLower) !== false ||
-                stripos($transaction['message'],$searchLower) !== false ||
-                stripos($transaction['status'],$searchLower) !== false ||
-                stripos($transaction['date'],$searchLower) !== false ||
-                stripos((string)$transaction['amount'],$searchLower) !== false ||
-                stripos((string)$transaction['tds'],$searchLower) !== false ||
-                stripos((string)$transaction['totalPayable'],$searchLower) !== false;
-        });
-
-        $transactions = array_values($filteredTransactions);
-
-        if (count($transactions) === 0) {
-
-            $response = [
-                "status" => true,
-                "count" => 0,
-                "data" => [],
-                "message" => "No matching results found for your search criteria"
-            ];
-
-            echo json_encode($response, JSON_PRETTY_PRINT);
-            exit;
-        }
-
-        $totalAmount = array_sum(array_column($transactions,'amount'));
-    }
-
-    $totalTDS = $totalAmount * $tdsPercentage;
-    $totalPayable = truncateToTwoDecimals($totalAmount - $totalTDS);
 
     $response = [
         "status" => true,
         "count" => count($transactions),
         "data" => $transactions,
         "message" => "Results found"
-    ];
-
-} catch (PDOException $e) {
-
-    $response = [
-        'status' => 'error',
-        'message' => "Database error: " . $e->getMessage(),
-        'data' => []
     ];
 
 } catch (Exception $e) {
@@ -222,5 +175,4 @@ try {
 }
 
 echo json_encode($response, JSON_PRETTY_PRINT);
-
 ?>

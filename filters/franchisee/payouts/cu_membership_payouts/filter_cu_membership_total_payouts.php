@@ -19,7 +19,7 @@ if (!is_array($request)) {
 }
 
 $userId = $request['userId'] ?? '';
-$search = $request['search'] ?? '';
+$search = trim($request['search'] ?? '');
 $year   = $request['year'] ?? null;
 $month  = $request['month'] ?? null;
 
@@ -31,23 +31,16 @@ if (!$userId) {
     exit;
 }
 
-if (!$year || !$month) {
-    echo json_encode([
-        "status" => false,
-        "message" => "year and month required"
-    ]);
-    exit;
-}
+$isAllTime = empty($year) && empty($month);
 
+// Validate user
 $checkStmt = $conn->prepare("
     SELECT 1 
     FROM ca_travelagency 
     WHERE reference_no = :user_ref 
     LIMIT 1
 ");
-
-$checkStmt->bindValue(':user_ref', $userId, PDO::PARAM_STR);
-$checkStmt->execute();
+$checkStmt->execute([':user_ref' => $userId]);
 
 if (!$checkStmt->fetchColumn()) {
     echo json_encode([
@@ -58,7 +51,7 @@ if (!$checkStmt->fetchColumn()) {
 }
 
 $designation = 'techno_enterprise';
-$commision = 'commision_te';  
+$commision = 'commision_te';
 
 $response = [
     'success' => false,
@@ -69,140 +62,106 @@ $response = [
 
 try {
 
+    // Detect message column
     $user_id_str = substr($userId, 0, 1) == 'F' ? substr($userId, 0, 1) : substr($userId, 0, 2);
 
     if ($user_id_str == 'MF' || $user_id_str == 'SF' || $user_id_str == 'BM') {
-        $message = "message_bm";
+        $messageCol = "message_bm";
     } else if ($user_id_str == 'F' || $user_id_str == 'CA' || $user_id_str == 'TE') {
-        $message = "message_te";
-    } else if ($user_id_str == 'TA') {
-        $message = "message_tc";
+        $messageCol = "message_te";
     } else {
-        $message = "message_te";
+        $messageCol = "message_tc";
     }
 
-    /*
-    ------------------------------------------------
-    ONLY CHANGE: month + year filter
-    ------------------------------------------------
-    */
+    // =========================
+    // WHERE CLAUSE
+    // =========================
+    $where = ["ca.$designation = :user_id"];
+
+    if (!$isAllTime) {
+        $where[] = "YEAR(ca.created_date) = :year";
+        $where[] = "MONTH(ca.created_date) = :month";
+    }
+
+    // 🔥 SQL SEARCH (important)
+    if (!empty($search)) {
+        $where[] = "(
+        ca.$messageCol LIKE :search OR
+        ca.id LIKE :search OR
+        ca.$commision LIKE :search OR
+        DATE(ca.created_date) LIKE :search OR
+
+        CAST((ca.$commision * 0.02) AS CHAR) LIKE :search OR
+        CAST((ca.$commision - (ca.$commision * 0.02)) AS CHAR) LIKE :search
+        )";
+    }
+
+    $whereSql = implode(" AND ", $where);
 
     $sql = "
         SELECT 
+            ca.id,
             ca.created_date,
             ca.status,
-            ca.id,
-            ca.message_bm,
-            ca.message_te,
-            ca.commision_te,
-            ca.commision_bm,
-            ca.travel_consultant,
-            ca.message_tc,
-            ca.commision_tc,
-            ca.status_tc,
-            cap.status,
-            cap.date AS paydate
+            ca.$messageCol,
+            ca.$commision
         FROM ca_cu_payout ca
-        LEFT JOIN ca_cu_payout_paid cap 
-            ON cap.$designation = ca.$designation 
-            AND cap.travel_consultant = ca.travel_consultant
-        WHERE ca.$designation = :user_id
-        AND YEAR(ca.created_date) = :year
-        AND MONTH(ca.created_date) = :month
+        WHERE $whereSql
         ORDER BY ca.id DESC
     ";
 
-    $model2 = $conn->prepare($sql);
+    $stmt = $conn->prepare($sql);
 
-    $model2->bindParam(':user_id', $userId);
-    $model2->bindParam(':year', $year);
-    $model2->bindParam(':month', $month);
+    $stmt->bindValue(':user_id', $userId);
 
-    $model2->execute();
-    $model2->setFetchMode(PDO::FETCH_ASSOC);
+    if (!$isAllTime) {
+        $stmt->bindValue(':year', $year);
+        $stmt->bindValue(':month', $month);
+    }
+
+    if (!empty($search)) {
+        $stmt->bindValue(':search', '%' . $search . '%');
+    }
+
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $payoutRecords = [];
     $totalPayout = 0;
 
-    if ($model2->rowCount() > 0) {
+    foreach ($rows as $row) {
 
-        foreach ($model2->fetchAll() as $row) {
+        $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-            $dt = new DateTime($row['created_date']);
-            $dt = $dt->format('Y-m-d');
+        $messageText = str_replace('.', " ", $row[$messageCol] ?? '');
 
-            $messageText = str_replace('.', " ", $row[$message] ?? '');
+        $amount = (float)$row[$commision];
+        $tds = $amount * 0.02;
+        $total = $amount - $tds;
 
-            $Commision = floatval($row[$commision] ?? 0);
-            $CommisionTDS = $Commision * 2 / 100;
-            $CommisionTotal = $Commision - $CommisionTDS;
+        $payoutRecords[] = [
+            'id' => $row['id'],
+            'date' => $dt,
+            'payout_details' => $messageText,
+            'amount' => $amount,
+            'tds' => $tds,
+            'totalPayable' => $total,
+            'status' => $row['status'] == '1' ? 'Paid' : 'Pending'
+        ];
 
-            $status = $row['status'] ?? '0';
-
-            $record = [
-                'id' => $row['id'],
-                'date' => $dt,
-                'payout_details' => $messageText,
-                'amount' => $Commision,
-                'tds' => $CommisionTDS,
-                'totalPayable' => $CommisionTotal,
-                'status' => $status == '1' ? 'Paid' : 'Pending'
-            ];
-
-            $payoutRecords[] = $record;
-            $totalPayout += $Commision;
-        }
+        $totalPayout += $amount;
     }
 
-    if (count($payoutRecords) === 0) {
-
+    if (empty($payoutRecords)) {
         echo json_encode([
             'success' => true,
             'count' => 0,
             'data' => [],
-            'message' => 'No records found for this month'
+            'message' => $isAllTime 
+                ? 'No records found'
+                : 'No records found for this month'
         ], JSON_PRETTY_PRINT);
-
         exit;
-    }
-
-    /*
-    ------------------------------------------------
-    SEARCH LOGIC (UNCHANGED)
-    ------------------------------------------------
-    */
-
-    if (!empty($search)) {
-
-        $filteredRecords = array_filter($payoutRecords, function($record) use ($search) {
-
-            $searchLower = strtolower($search);
-
-            return
-                stripos($record['payout_details'], $searchLower) !== false ||
-                stripos($record['status'], $searchLower) !== false ||
-                stripos($record['date'], $searchLower) !== false ||
-                stripos((string)$record['amount'], $searchLower) !== false ||
-                stripos((string)$record['tds'], $searchLower) !== false ||
-                stripos((string)$record['totalPayable'], $searchLower) !== false ||
-                stripos((string)$record['id'], $searchLower) !== false;
-        });
-
-        $payoutRecords = array_values($filteredRecords);
-
-        $totalPayout = array_sum(array_column($payoutRecords, 'amount'));
-
-        if (count($payoutRecords) === 0) {
-
-            echo json_encode([
-                'success' => true,
-                'count' => 0,
-                'data' => [],
-                'message' => 'No matching results found for your search criteria'
-            ], JSON_PRETTY_PRINT);
-
-            exit;
-        }
     }
 
     $response['success'] = true;
@@ -211,7 +170,6 @@ try {
     $response['message'] = 'Results found';
 
 } catch (Exception $e) {
-
     $response['message'] = 'Error: ' . $e->getMessage();
 }
 

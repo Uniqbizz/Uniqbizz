@@ -18,12 +18,14 @@ try {
         throw new Exception("Invalid JSON input.");
     }
 
-    // ✅ Only userId is required now
     if (!isset($input['userId'])) {
         throw new Exception("Missing required field: userId");
     }
 
     $userId = $input['userId'];
+    $search = trim($input['search'] ?? '');
+    $month  = $input['month'] ?? null;
+    $year   = $input['year'] ?? null;
 
     $columnDesignation = 'travel_consultant';
     $columnMessage = 'message_tc';
@@ -32,20 +34,16 @@ try {
 
     $tdsPercentage = 0.02;
 
-    $totalDateMonth = $input['totalDateMonth'] ?? null;
-    $totalDateYear = $input['totalDateYear'] ?? null;
+    $isAllTime = empty($month) && empty($year);
 
-    // ✅ Detect mode
-    $isAllTime = empty($totalDateMonth) && empty($totalDateYear);
-
-    // ====== BUILD WHERE CLAUSE ======
+    // 🔹 WHERE CLAUSE
     $where = "$columnDesignation = :userId";
 
     if (!$isAllTime) {
         $where .= " AND YEAR(created_date) = :year AND MONTH(created_date) = :month";
     }
 
-    // ====== TOTAL PAYOUT ======
+    // 🔹 TOTAL PAYOUT (unchanged)
     $query = "SELECT SUM($columnCommision) AS total_payable 
               FROM ca_cu_payout 
               WHERE $where";
@@ -54,23 +52,23 @@ try {
     $stmt->bindParam(':userId', $userId);
 
     if (!$isAllTime) {
-        $stmt->bindParam(':year', $totalDateYear);
-        $stmt->bindParam(':month', $totalDateMonth);
+        $stmt->bindParam(':year', $year);
+        $stmt->bindParam(':month', $month);
     }
 
     $stmt->execute();
     $totalRow = $stmt->fetch(PDO::FETCH_ASSOC);
     $total_payable = (float)($totalRow['total_payable'] ?? 0);
 
-    // ====== FETCH PAYOUTS ======
+    // 🔹 FETCH DATA
     $sql = "SELECT * FROM ca_cu_payout WHERE $where ORDER BY created_date DESC";
 
     $stmt2 = $conn->prepare($sql);
     $stmt2->bindParam(':userId', $userId);
 
     if (!$isAllTime) {
-        $stmt2->bindParam(':year', $totalDateYear);
-        $stmt2->bindParam(':month', $totalDateMonth);
+        $stmt2->bindParam(':year', $year);
+        $stmt2->bindParam(':month', $month);
     }
 
     $stmt2->execute();
@@ -78,7 +76,11 @@ try {
     $payouts = [];
     $totalTDS = 0;
 
+    $searchLower = strtolower(trim($search));
+    $isNumeric = is_numeric($searchLower);
+
     while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+
         $dt = date('Y-m-d', strtotime($row['created_date']));
 
         $message = str_replace('Rs.', 'Rs ', $row[$columnMessage]);
@@ -88,9 +90,41 @@ try {
         $tds = $CommAmt * $tdsPercentage;
         $totalAmt = $CommAmt - $tds;
 
-        $totalTDS += $tds;
-
         $status = $row[$columnStatus] == '1' ? 'Paid' : 'Pending';
+
+        // 🔥 SEARCH FILTER (MAIN FIX)
+        if ($searchLower !== '') {
+
+            $fullMessage = strtolower($message2);
+            $statusLower = strtolower($status);
+
+            $match = false;
+
+            // TEXT MATCH
+            if (
+                strpos($fullMessage, $searchLower) !== false ||
+                strpos($statusLower, $searchLower) !== false
+            ) {
+                $match = true;
+            }
+
+            // NUMERIC MATCH (commission, tds, total)
+            if (!$match && $isNumeric) {
+                $num = (float)$searchLower;
+
+                if (
+                    $CommAmt == $num ||
+                    $tds == $num ||
+                    $totalAmt == $num
+                ) {
+                    $match = true;
+                }
+            }
+
+            if (!$match) continue;
+        }
+
+        $totalTDS += $tds;
 
         $payouts[] = [
             "date" => $dt,
@@ -102,10 +136,9 @@ try {
         ];
     }
 
-    // ====== FINAL TOTAL PAYABLE AFTER TDS ======
+    // 🔹 FINAL TOTAL AFTER TDS
     $finalPayable = $total_payable - $totalTDS;
 
-    // ====== RESPONSE ======
     $response = [
         "status" => true,
         "message" => "Data fetched successfully",
