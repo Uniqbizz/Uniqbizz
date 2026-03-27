@@ -98,6 +98,15 @@
             pointer-events: auto;
             cursor: pointer;
         }
+        /* testimonial start 6/3/2026 */
+        #testimonialBanner{
+            transition: all 0.5s ease;
+            width: 100% !important;
+            height: 450px !important;
+            overflow: hidden !important;
+            object-fit: fill !important;
+        }
+        /* testimonial end*/
         @media screen and (max-width: 1184px) {
             .carousel-section {
                 width: 300px !important;
@@ -957,7 +966,7 @@
         </section>
         <!--/ End-of About US-->
 
-         <!-- Feature S t a r t -->
+        <!-- Feature S t a r t -->
         <section class="feature-area feature-area-bg mt-0 pt-0">
             <div class="container">
                 <div class="row justify-content-center position-relative z-10">
@@ -1085,6 +1094,172 @@
             </div>
         </section>
         <!--/ End of Feature -->
+
+        <!-- Testimonial S t a r t 6/3/2026 -->
+        <section class="testimonial-area-three position-relative section-bg-before-two top-padding bottom-padding">
+            <div class="container">
+                <div class="row justify-content-center position-relative">
+                    <div class="col-xl-7 col-lg-7">
+                        <div class="section-title mx-430 mx-auto text-center">
+                            <span class="highlights fancy-font font-400">Testimonial</span>
+                            <h4 class="title">
+                                What People Have Said About Our Service
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-4 align-items-center">
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="swiper testimonialThree-active">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide testimonial-card">
+                                    <div class="testimonial-header">
+                                        <div class="user-img">
+                                            <img src="assets/images/testimonial/img-5.png" alt="Bizzmirth Holidays">
+                                        </div>
+                                        <div class="user-info">
+                                            <p class="name">Vasudev Hadkonkar</p>
+                                            <p class="destination">Rajasthan</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                       <div class="rattings">
+                                            <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i>
+                                        </div> 
+                                        <p class="date">September 2025</p>
+                                    </div>
+                                    
+                                    <div class="testimonial-body">
+                                        <p class="pera">
+                                            Rajasthan's Royal charm, historic landmarks, and colourful traditions left us amazed.
+                                            Bizzmirth Holidays Pvt Ltd delivered excellent hospitality, and well organised arrangements, 
+                                            making our tour a truly memorable one, Looking forward to book with them again, With Regards , Vasudev Hadkonkar.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide testimonial-card">
+                                    <div class="testimonial-header">
+                                        <div class="user-img">
+                                            <img src="assets/images/testimonial/img-5.png" alt="Bizzmirth Holidays">
+                                        </div>
+                                        <div class="user-info">
+                                            <p class="name">Vivek Naik</p>
+                                            <p class="destination">Kashmir</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="rattings">
+                                            <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i>
+                                        </div>
+                                        <p class="date">December 2024</p>
+                                    </div>
+                                    <div class="testimonial-body">
+                                        <p class="pera">
+                                            Good Quality of Accomodation
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide testimonial-card">
+                                    <div class="testimonial-header">
+                                        <div class="user-img">
+                                            <img src="assets/images/testimonial/img-5.png" alt="Bizzmirth Holidays">
+                                        </div>
+                                        <div class="user-info">
+                                            <p class="name">Keshav Gaude</p>
+                                            <p class="destination">Shimla Manali</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="rattings">
+                                            <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i>
+                                        </div>
+                                        <p class="date">May 2025</p>
+                                    </div>
+                                    <div class="testimonial-body">
+                                        <p class="pera">
+                                            Thanks to Bizzmirth Holidays Pvt Ltd for their exceptional and proffessional service during 
+                                            our trip to Shimla-Manali. You made our trip safe, relaxing, memorable with perfect itinerary , 
+                                            timely pickups and quality hotels. Impressed with the quality service provided by 
+                                            Bizzmirth Holidays Pvt Ltd and definitely will use again and also will recommend to our friends and family. 
+                                            With Regards K.G & family.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide testimonial-card">
+                                    <div class="testimonial-header">
+                                        <div class="user-img">
+                                            <img src="assets/images/testimonial/img-5.png" alt="Bizzmirth Holidays">
+                                        </div>
+                                        <div class="user-info">
+                                            <p class="name">Milind Kumbhar</p>
+                                            <p class="destination">Hyderabad</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="rattings">
+                                            <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i><i class="ri-star-fill"></i><i 
+                                                class="ri-star-line"></i>
+                                        </div>
+                                        <p class="date">December 2025</p>
+                                    </div>
+                                    <div class="testimonial-body">
+                                        <p class="pera">
+                                            We booked our holiday with Bizzmirth  Holidays pvt ltd.Everything was perfect and went smoothly. 
+                                            Great communication and information provided. Enjoyed our Family Tour, Thanks for all your help,
+                                            Arranging holiday was great.Milind kumbhar
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide testimonial-card">
+                                    <div class="testimonial-header">
+                                        <div class="user-img">
+                                            <img src="assets/images/testimonial/img-5.png" alt="Bizzmirth Holidays">
+                                        </div>
+                                        <div class="user-info">
+                                            <p class="name">Teja Hadkonkar</p>
+                                            <p class="destination">Bhuj</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="rattings">
+                                            <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                                class="ri-star-fill"></i><i class="ri-star-fill"></i><i 
+                                                class="ri-star-line"></i>
+                                        </div>
+                                        <p class="date">Jan 2026</p>
+                                    </div>
+                                    <div class="testimonial-body">
+                                        <p class="pera">
+                                            Amazing Bhuj Tour with Bizzmirth Holidays beautifully covered the White Rann, Historic places, 
+                                            and vibrant local cultures with complete facilities and smooth arrangements. 
+                                            looking forward to book with them again.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="hero-banner imgEffect2 o-hidden radius-20">
+                            <img id="testimonialBanner" src="assets/images/hero/testimonial-banner-1.jpg" alt="Bizzmirth Holidays">
+                        </div>
+                    </div>
+                    <!-- / End Slider -->
+                </div>
+            </div>
+            <div class="shape-testimonial">
+                <img src="assets/images/icon/graphic.png" alt="Bizzmirth Holidays">
+            </div>
+        </section>
+        <!--/ End of Testimonial -->
 
         <!-- Special area S t a r t -->
         <!-- <section class="special-area section-padding2">
@@ -1768,139 +1943,7 @@
         </section> -->
         <!--/ End of Explore -->
 
-        <!-- Testimonial S t a r t -->
-        <!-- <section class="testimonial-area-three position-relative section-bg-before-two top-padding">
-            <div class="container">
-                <div class="row justify-content-center position-relative">
-                    <div class="col-xl-7 col-lg-7">
-                        <div class="section-title mx-430 mx-auto text-center">
-                            <span class="highlights fancy-font font-400">Testimonial</span>
-                            <h4 class="title">
-                                What People Have Said About Our Service
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4 align-items-center">
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="swiper testimonialThree-active">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide testimonial-card">
-                                    <div class="testimonial-header">
-                                        <div class="user-img">
-                                            <img src="assets/images/testimonial/testimonial-1.jpeg" alt="Bizzmirth Holidays">
-                                        </div>
-                                        <div class="user-info">
-                                            <p class="name">David Malan</p>
-                                            <p class="designation">Traveler</p>
-                                        </div>
-                                    </div>
-                                    <div class="rattings">
-                                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
-                                            class="ri-star-fill"></i><i class="ri-star-fill"></i><i
-                                            class="ri-star-fill"></i>
-                                    </div>
-                                    <div class="testimonial-body">
-                                        <p class="pera line-clamp-3">
-                                            Lorem ipsum dolor sit amet consectetur. Et amet nulla in
-                                            adipiscing. Donec tincidunt dui vel adipiscing sit
-                                            turpis neque at cursus. Dignissim scelerisque mattis
-                                            ultricies vitae.
-                                        </p>
-                                    </div>
-                                    <div class="testimonial-footer">
-                                        <div class="logo">
-                                            <img src="assets/images/logo/logo.png" alt="Bizzmirth Holidays" class="changeLogo">
-                                        </div>
-                                        <p class="date">Jan 20, 2025</p>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide testimonial-card">
-                                    <div class="testimonial-header">
-                                        <div class="user-img">
-                                            <img src="assets/images/testimonial/testimonial-1.jpeg" alt="Bizzmirth Holidays">
-                                        </div>
-                                        <div class="user-info">
-                                            <p class="name">David Malan</p>
-                                            <p class="designation">Traveler</p>
-                                        </div>
-                                    </div>
-                                    <div class="rattings">
-                                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
-                                            class="ri-star-fill"></i><i class="ri-star-fill"></i><i
-                                            class="ri-star-fill"></i>
-                                    </div>
-                                    <div class="testimonial-body">
-                                        <p class="pera line-clamp-3">
-                                            Lorem ipsum dolor sit amet consectetur. Et amet nulla in
-                                            adipiscing. Donec tincidunt dui vel adipiscing sit
-                                            turpis neque at cursus. Dignissim scelerisque mattis
-                                            ultricies vitae.
-                                        </p>
-                                    </div>
-                                    <div class="testimonial-footer">
-                                        <div class="logo">
-                                            <img src="assets/images/logo/logo.png" alt="Bizzmirth Holidays" class="changeLogo">
-                                        </div>
-                                        <p class="date">Jan 20, 2025</p>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide testimonial-card">
-                                    <div class="testimonial-header">
-                                        <div class="user-img">
-                                            <img src="assets/images/testimonial/testimonial-1.jpeg" alt="Bizzmirth Holidays">
-                                        </div>
-                                        <div class="user-info">
-                                            <p class="name">David Malan</p>
-                                            <p class="designation">Traveler</p>
-                                        </div>
-                                    </div>
-                                    <div class="rattings">
-                                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
-                                            class="ri-star-fill"></i><i class="ri-star-fill"></i><i
-                                            class="ri-star-fill"></i>
-                                    </div>
-                                    <div class="testimonial-body">
-                                        <p class="pera line-clamp-3">
-                                            Lorem ipsum dolor sit amet consectetur. Et amet nulla in
-                                            adipiscing. Donec tincidunt dui vel adipiscing sit
-                                            turpis neque at cursus. Dignissim scelerisque mattis
-                                            ultricies vitae.
-                                        </p>
-                                    </div>
-                                    <div class="testimonial-footer">
-                                        <div class="logo">
-                                            <img src="assets/images/logo/logo.png" alt="Bizzmirth Holidays" class="changeLogo">
-                                        </div>
-                                        <p class="date">Jan 20, 2025</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
-                        <div class="hero-banner imgEffect2 o-hidden radius-20">
-                            <img src="assets/images/hero/testimonial-three-banner.png" alt="Bizzmirth Holidays"> -->
-                            <!-- shape 01 -->
-                            <!-- <div class="shape">
-                                <img src="assets/images/icon/feature-shape.png" alt="Bizzmirth Holidays">
-                            </div>
-                            <a href="../../www.youtube.com/watcha076.html?v=Cn4G2lZ_g2I" data-fancybox="video-gallery" class="wow bounceIn" data-wow-delay=".2s">
-                                <div class="video-player">
-                                    <i class="ri-play-fill"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div> -->
-                    <!-- / End Slider -->
-                <!-- </div>
-            </div>
-            <div class="shape-testimonial">
-                <img src="assets/images/icon/graphic.png" alt="Bizzmirth Holidays">
-            </div>
-        </section> -->
-        <!--/ End of Testimonial -->
+        
 
         <!-- Brand S t a r t -->
         <!-- <div class="brand-area">
@@ -2386,7 +2429,6 @@
 
         });
     </script>
-
     <!-- Carousel section end -->
 </body>
 
