@@ -469,7 +469,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="pt-2">Previous Payout<span class="fw-bold date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
 
                                             if($userType == '11'){ //travel_consultant
@@ -501,7 +501,7 @@
                                                     $previousPayoutTDS = $previousPayout * $tdsPercentage;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                     $truncatedPrevAmount = floor($TotalpreviousPayout * 100) / 100;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .number_format($truncatedPrevAmount,2). '/- </p>
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2">Rs.' .number_format($truncatedPrevAmount,2). '/- </p>
                                                     <span class="badge bg-success fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
@@ -529,7 +529,7 @@
                                     <span id="prevDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$prevdate" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo number_format($truncatedPrevAmount,2); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo number_format($truncatedPrevAmount,2); ?>/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
                                             </a> -->
@@ -721,7 +721,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="pt-3">Next Payout<span class="fw-bold date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
@@ -751,7 +751,7 @@
                                                     $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                     $truncatedNextAmount = floor($TotalNextPayout * 100) / 100;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .number_format($truncatedNextAmount,2). '/- </p>
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2">Rs.' .number_format($truncatedNextAmount,2). '/- </p>
                                                     <span class="badge bg-success fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
@@ -779,7 +779,7 @@
                                     <span id="nextDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo number_format($truncatedNextAmount,2); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo number_format($truncatedNextAmount,2); ?>/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
                                             </a> -->
@@ -971,7 +971,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="pt-3">Total Payout<span class="fw-bold date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
@@ -1003,7 +1003,7 @@
                                                     $TotalPayoutFinal = $total_payable - $totalPayoutTDS;
                                                     $truncatedAmount = floor($TotalPayoutFinal * 100) / 100;
                                                    echo'
-                                                    <p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.number_format($truncatedAmount,2).'/- </p>
+                                                    <p class="fs-5 font fw-bolder mt-n2">Rs.'.number_format($truncatedAmount,2).'/- </p>
                                                     <span class="badge bg-success fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>
                                                     ';
                                                 }
@@ -1032,7 +1032,7 @@
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo  $truncatedAmount; ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo  $truncatedAmount; ?>/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
                                             </a> -->
@@ -1306,4 +1306,3 @@
         </script>
     </body>
 </html>
-

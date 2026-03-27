@@ -348,7 +348,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-2">Previous Payout<span class="fw-bold font-size-12 date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             $previousPayout = $conn -> prepare("SELECT SUM($columnCommision) as previousPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
                                             $previousPayout -> execute();
@@ -359,14 +359,16 @@
                                                     $previousPayoutTDS = $previousPayout * $tdsPercentage;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p>
-                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                    <div>
+                                                        <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
                                         ?>
                                         
-                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                            <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                        </a>
+                                            <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                                <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                     
                                     
@@ -383,7 +385,7 @@
                                     <span id="prevDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$prevdate" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo round($TotalpreviousPayout); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo round($TotalpreviousPayout); ?>/- </p>
                                             
                                         </div>
                                     </span>
@@ -499,7 +501,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-3">Next Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             $nextPayout = $conn -> prepare("SELECT SUM($columnCommision) as nextPayout FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
@@ -510,14 +512,16 @@
                                                     $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalNextPayout). '/- </p>
-                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                    <div>
+                                                        <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
                                         ?>
                                         
-                                        <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                            <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                        </a>
+                                            <a href="payout/forms/recruitment_payout/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
+                                                <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                     
                                     
@@ -535,7 +539,7 @@
                                     <span id="nextDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo round($TotalNextPayout); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo round($TotalNextPayout); ?>/- </p>
                                         </div>
                                     </span>
                             
@@ -653,7 +657,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="font-size-18 pt-3">Total Payout<span class="fw-bold font-size-12 date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             $totalPayout = "SELECT SUM($columnCommision) as total_payable FROM ca_ta_payout WHERE $columnDesignation = '".$userId."'  AND  $columnStatus = '1'";
                                             $Payout = $conn -> prepare($totalPayout);
@@ -685,7 +689,7 @@
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p class="font-size-14">Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold font-size-10 ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo $total_payable; ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo $total_payable; ?>/- </p>
                                             
                                         </div>
                                     </span>
