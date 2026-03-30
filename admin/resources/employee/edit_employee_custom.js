@@ -320,7 +320,7 @@ $("#confirmEditReason").click(function (e) {
 
 $("#edit_employee").click(function (e) {
     e.preventDefault();
-    const currentFormData = JSON.stringify($("#employee_form").serializeArray());
+    const currentFormData = JSON.stringify(getFormData());
 
     if (originalFormData === currentFormData) {
         $("#noChangeModal").modal("show");

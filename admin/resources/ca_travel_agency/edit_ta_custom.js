@@ -1,6 +1,22 @@
 //on change of compcheck
 
-var originalFormData;
+let originalFormData = "";
+function getFormData() {
+    return $("#tc_ibr_form")
+        .serializeArray()
+        .filter(field =>
+            field.name !== "prev_user_data" &&
+            field.name !== "testemail"
+        );
+}
+
+$(window).on("load", function () {
+    // wait a bit for AJAX + DOM changes
+    setTimeout(() => {
+        originalFormData = JSON.stringify(getFormData());
+        console.log("FINAL ORIGINAL:", originalFormData);
+    }, 800);
+});
 $('#is_complementary').on('change', function () {
     if ($(this).is(':checked')) {
         $('#payment_fee').prop('disabled', true);
@@ -9,7 +25,7 @@ $('#is_complementary').on('change', function () {
     }
 });
 $(document).ready(function(){
-    originalFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
+    // originalFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
     var paymentMode = $(".payment:checked").val();
     if(paymentMode == "cheque"){
         $("#chequeOpt").removeClass("d-none");
@@ -421,7 +437,7 @@ $("#confirmEditReason").on("click", function (e) {
 $("#edit_ca_travelagency").click(function (e) {
 
     e.preventDefault();
-    var currentFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
+    var currentFormData = JSON.stringify(getFormData());
     if(originalFormData === currentFormData){
         $("#noChangeModal").modal("show");
         return;
@@ -432,7 +448,9 @@ $("#edit_ca_travelagency").click(function (e) {
 
 });
 $("#noChangeOk, #noChangeClose").add("#noChangeModal")
-.on("click hidden.bs.modal", () => history.back());
+.on("click hidden.bs.modal", () => {
+    window.location.href='view_ca_travelAgency.php';
+});
 //Transfer bm/sf/mf
 $("#transfer_tc_ibr").click(function (e) {
 

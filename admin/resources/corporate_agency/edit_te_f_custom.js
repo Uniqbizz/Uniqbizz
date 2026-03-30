@@ -14,7 +14,7 @@ $(window).on("load", function () {
     setTimeout(() => {
         originalFormData = JSON.stringify(getFormData());
         console.log("FINAL ORIGINAL:", originalFormData);
-    }, 800);
+    }, 1500);
 });
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
@@ -453,7 +453,8 @@ $("#confirmEditReason").on("click", function (e) {
 $("#editCorporateAgency").click(function (e) {
     
     e.preventDefault();
-    var currentFormData = JSON.stringify($("#te_f_i_form").serializeArray());
+    var currentFormData = JSON.stringify(getFormData());
+    console.log("Current:", JSON.stringify(getFormData()));
     if(originalFormData === currentFormData){
         $("#noChangeModal").modal("show");
         return;

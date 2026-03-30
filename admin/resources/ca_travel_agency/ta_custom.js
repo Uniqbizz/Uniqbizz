@@ -81,21 +81,36 @@ function loadTravelAgenciesByState() {
         cache: false,
         success: function (data) {
             if (data) {
-                console.log('success ' + data);
                 $('#tcView').html(data);
 
-                // Destroy existing DataTable if already initialized
-                if ($.fn.DataTable.isDataTable('#registeredCustomerList-tableFilter')) {
-                    $('#registeredCustomerList-tableFilter').DataTable().destroy();
+                const tableSelector = '#registeredCustomerList-table';
+
+                // Destroy old DataTable if exists
+                if ($.fn.DataTable.isDataTable(tableSelector)) {
+                    $(tableSelector).DataTable().clear().destroy();
                 }
 
-                let table = $("#registeredCustomerList-tableFilter").DataTable();
-                let totalRows = table.rows().count();
+                // Initialize DataTable AFTER the table exists in DOM
+                $(tableSelector).DataTable({
+                    pageLength: 10,
+                    order: [[6, "asc"]],
+                    responsive: true,
+                    lengthMenu: [10, 25, 50, 100]
+                });
+
+                // Update total rows count
+                const totalRows = $(tableSelector).DataTable().rows().count();
                 $('#filterCount').val(totalRows);
+
             } else {
-                console.log('unsuccess ' + data);
-                $('#tcView').html(data);
+                $('#tcView').html('<p class="text-center">No data found</p>');
+                $('#filterCount').val(0);
             }
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX Error:', error);
+            $('#tcView').html('<p class="text-center text-danger">Error loading data</p>');
+            $('#filterCount').val(0);
         }
     });
 }
