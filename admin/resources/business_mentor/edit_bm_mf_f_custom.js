@@ -1,4 +1,22 @@
-var originalFormData;
+// const currentYear = new Date().getFullYear();
+let originalFormData = "";
+function getFormData() {
+    return $("#bm_mf_sf_form")
+        .serializeArray()
+        .filter(field =>
+            field.name !== "prev_user_data" &&
+            field.name !== "testemail"
+        );
+}
+
+$(window).on("load", function () {
+    // wait a bit for AJAX + DOM changes
+    setTimeout(() => {
+        originalFormData = JSON.stringify(getFormData());
+        console.log("FINAL ORIGINAL:", originalFormData);
+    }, 800);
+});
+
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
     var testValue = $("#testValue").val().trim();
@@ -26,7 +44,6 @@ var emailtest = (emailtest, testValue) => {
 };
 
 $(document).ready(function(){
-    originalFormData = JSON.stringify($("#employee_form").serializeArray());
     var registered = $("#registered").val();
     if(registered == 'bm'){
         $('#payment_fee').removeClass('d-none');
@@ -210,12 +227,12 @@ $('#paymentMode').on('click', function() {
 
 // Edit Business Mentor by admin
 $("#confirmEditReason").on("click", function (e) {
-    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+    // var currentFormData = JSON.stringify($("#bm_mf_sf_form").serializeArray());
 
-    if(originalFormData === currentFormData){
-        $("#noChangeModal").modal("show");
-        return;
-    }
+    // if(originalFormData === currentFormData){
+    //     $("#noChangeModal").modal("show");
+    //     return;
+    // }
 
     var edit_reason = $("#edit_reason").val().trim();
 
@@ -483,7 +500,7 @@ $("#confirmEditReason").on("click", function (e) {
 $("#editBuisnessMentor").click(function (e) {
 
     e.preventDefault();
-    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+    var currentFormData = JSON.stringify($("#bm_mf_sf_form").serializeArray());
 
     if(originalFormData === currentFormData){
         $("#noChangeModal").modal("show");
@@ -494,7 +511,9 @@ $("#editBuisnessMentor").click(function (e) {
 
 });
 $("#noChangeOk, #noChangeClose").add("#noChangeModal")
-.on("click hidden.bs.modal", () => history.back());
+.on("click hidden.bs.modal", () => {
+    window.location.href = "businessMentor.php";
+});
 //Transfer bm/sf/mf
 $("#transfer_bm_sf_mf").click(function (e) {
 

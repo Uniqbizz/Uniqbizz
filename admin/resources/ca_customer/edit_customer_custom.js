@@ -1,6 +1,21 @@
-var originalFormData;
+let originalFormData = "";
+function getFormData() {
+    return $("#cutomer_form")
+        .serializeArray()
+        .filter(field =>
+            field.name !== "prev_user_data" &&
+            field.name !== "testemail"
+        );
+}
+
+$(window).on("load", function () {
+    // wait a bit for AJAX + DOM changes
+    setTimeout(() => {
+        originalFormData = JSON.stringify(getFormData());
+        console.log("FINAL ORIGINAL:", originalFormData);
+    }, 800);
+});
 $(document).ready(function() {
-    originalFormData = JSON.stringify($("#cutomer_form").serializeArray());
     var paymentMode = $(".payment:checked").val();
     var payment_fee = $('#payment_fee').val()
     if (paymentMode == "cheque") {
@@ -146,7 +161,7 @@ $('#paymentMode').on('click', function() {
     }
 });
 // Edit customer by admin
-$("#editCustomer").on("click", function (e) {
+$("#confirmEditReason").on("click", function (e) {
     e.preventDefault();
     var currentFormData = JSON.stringify($("#cutomer_form").serializeArray());
 
@@ -390,8 +405,21 @@ $("#editCustomer").on("click", function (e) {
         });
     }
 });
+$("#editCustomer").click(function (e) {
+    e.preventDefault();
+    const currentFormData = JSON.stringify($("#cutomer_form").serializeArray());
+
+    if (originalFormData === currentFormData) {
+        $("#noChangeModal").modal("show");
+        return;
+    }
+
+    $("#editReasonModal").modal("show");
+});
 $("#noChangeOk, #noChangeClose").add("#noChangeModal")
-.on("click hidden.bs.modal", () => history.back());
+.on("click hidden.bs.modal", () => {
+    window.location.href = "view_customers.php";
+});
 $("#close").on('click',function () {
     // Go back to the previous page
     window.history.back(); // or window.history.go(-1);

@@ -1,4 +1,21 @@
-var originalFormData;
+let originalFormData;
+
+function getFormData() {
+    return $("#te_f_i_form")
+        .serializeArray()
+        .filter(field =>
+            field.name !== "prev_user_data" &&
+            field.name !== "testemail"
+        );
+}
+
+$(window).on("load", function () {
+    // wait a bit for AJAX + DOM changes
+    setTimeout(() => {
+        originalFormData = JSON.stringify(getFormData());
+        console.log("FINAL ORIGINAL:", originalFormData);
+    }, 800);
+});
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
     var testValue = $("#testValue").val().trim();
@@ -25,7 +42,6 @@ var emailtest = (emailtest, testValue) => {
     });
 };
 $(document).ready(function() {
-    originalFormData = JSON.stringify($("#te_f_i_form").serializeArray());
     var paymentMode = $(".payment:checked").val();
     if (paymentMode == "cheque") {
         $("#chequeOpt").removeClass("d-none");
@@ -198,11 +214,6 @@ $('input[name="official_purpose"]').on('change', function() {
 
 // Confirm edit reason click (same pattern as BM)
 $("#confirmEditReason").on("click", function (e) {
-    var currentFormData = JSON.stringify($("#te_f_i_form").serializeArray());
-    if(originalFormData === currentFormData){
-        $("#noChangeModal").modal("show");
-        return;
-    }
 
     var edit_reason = $("#edit_reason").val().trim();
 
@@ -452,7 +463,9 @@ $("#editCorporateAgency").click(function (e) {
 });
 
 $("#noChangeOk, #noChangeClose").add("#noChangeModal")
-.on("click hidden.bs.modal", () => history.back());
+.on("click hidden.bs.modal", () =>{
+    window.location.href = "view_corporate_agency.php";
+});
 
 $("#transfer_te_f_i").click(function (e) {
 

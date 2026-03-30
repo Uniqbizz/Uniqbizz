@@ -1,9 +1,23 @@
 let cachedEmpBlock = null;
 let cachedZmBlock = null;
-var originalFormData;
+let originalFormData = "";
+const currentYear = new Date().getFullYear();
 
-$(document).ready(function () {
-    originalFormData = JSON.stringify($("#employee_form").serializeArray());
+function getFormData() {
+    return $("#employee_form")
+        .serializeArray()
+        .filter(field =>
+            field.name !== "prev_user_data" &&
+            field.name !== "testemail"
+        );
+}
+
+$(window).on("load", function () {
+    // wait a bit for AJAX + DOM changes
+    setTimeout(() => {
+        originalFormData = JSON.stringify(getFormData());
+        console.log("FINAL ORIGINAL:", originalFormData);
+    }, 800);
 });
 
 $("#email").keyup(function () {
@@ -92,12 +106,12 @@ $('#zone').on('change', function() {
 // Edit Employee by admin
 $("#confirmEditReason").click(function (e) {
 
-    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+    // var currentFormData = JSON.stringify($("#employee_form").serializeArray());
 
-    if(originalFormData === currentFormData){
-        $("#noChangeModal").modal("show");
-        return;
-    }
+    // if(originalFormData === currentFormData){
+    //     $("#noChangeModal").modal("show");
+    //     return;
+    // }
     var edit_reason = $("#edit_reason").val().trim();
 
     if(edit_reason === ""){
@@ -303,22 +317,23 @@ $("#confirmEditReason").click(function (e) {
         
     }
 });
+
 $("#edit_employee").click(function (e) {
-
     e.preventDefault();
-    var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+    const currentFormData = JSON.stringify($("#employee_form").serializeArray());
 
-    if(originalFormData === currentFormData){
+    if (originalFormData === currentFormData) {
         $("#noChangeModal").modal("show");
         return;
     }
 
-    // show modal first
     $("#editReasonModal").modal("show");
-
 });
+
 $("#noChangeOk, #noChangeClose").add("#noChangeModal")
-.on("click hidden.bs.modal", () => history.back());
+.on("click hidden.bs.modal", () =>{
+    window.location.href = "employee.php";
+});
 //Transfer employee
 $("#transfer_employee").click(function (e) {
 
