@@ -106,7 +106,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">First Name <span class="text-danger">*</span></label>
-                                                        <input class="form-control" type="text" id="firstname" value="<?php echo $firstname; ?>">
+                                                        <input class="form-control" type="text" id="firstname" name="firstname" value="<?php echo $firstname; ?>">
                                                         <?php
                                                             $column = 'firstname';
                                                             include '../common_views/edit_log_tooltip.php';
@@ -116,7 +116,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Last Name <span class="text-danger">*</span></label>
-                                                        <input class="form-control" type="text" id="lastname" value=" <?php echo $lastname; ?>">
+                                                        <input class="form-control" type="text" id="lastname" name="lastname" value=" <?php echo $lastname; ?>">
                                                         <?php
                                                             $column = 'lastname';
                                                             include '../common_views/edit_log_tooltip.php';
@@ -126,7 +126,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
-                                                        <input class="form-control" type="text" id="nominee_name" value=" <?php echo $nominee_name; ?>">
+                                                        <input class="form-control" type="text" id="nominee_name" name="nominee_name" value=" <?php echo $nominee_name; ?>">
                                                         <?php
                                                             $column = 'nominee_name';
                                                             include '../common_views/edit_log_tooltip.php';
@@ -136,7 +136,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
-                                                        <input class="form-control" type="text" id="nominee_relation" value=" <?php echo $nominee_relation; ?>">
+                                                        <input class="form-control" type="text" id="nominee_relation" name="nominee_relation" value=" <?php echo $nominee_relation; ?>">
                                                         <?php
                                                             $column = 'nominee_relation';
                                                             include '../common_views/edit_log_tooltip.php';
@@ -146,7 +146,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Email Address<span class="text-danger">*</span></label>
-                                                        <input class="form-control" type="email" id="email" value="<?php echo $email;?>">
+                                                        <input class="form-control" type="email" id="email" name="email" value="<?php echo $email;?>">
                                                         <?php
                                                             $column = 'email';
                                                             include '../common_views/edit_log_tooltip.php';
@@ -156,7 +156,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-                                                        <input class="form-control" type="date" id="dob" value="<?php echo $date_of_birth ;?>">
+                                                        <input class="form-control" type="date" id="dob" name="dob" value="<?php echo $date_of_birth ;?>">
                                                         <?php
                                                             $column = 'date_of_birth';
                                                             include '../common_views/edit_log_tooltip.php';
@@ -188,7 +188,7 @@
                                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                                 ?>
                                                                 <label for="country_cd" class="col-form-label">Code:</label>
-                                                                <select class="form-control" id="country_cd">
+                                                                <select class="form-control" id="country_cd" name="country_cd">
                                                                     <?php 
                                                                         if($stmt->rowCount()>0){
                                                                             foreach (($stmt->fetchAll()) as $key => $row) {  
@@ -204,7 +204,7 @@
                                                         <div class="col-md-8 col-sm-8 col-9">
                                                             <div class="input-block">
                                                                 <label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
-                                                                <input class="form-control" type="text" id="phone" value=" <?php echo $contact_no; ?>">
+                                                                <input class="form-control" type="text" id="phone" name="phone" value=" <?php echo $contact_no; ?>">
                                                                 <?php
                                                                     $column = 'contact_no';
                                                                     include '../common_views/edit_log_tooltip.php';
@@ -221,7 +221,7 @@
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                         ?>
                                                         <label class="col-form-label">Country <span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="country">
+                                                        <select class="form-select" id="country" name="country">
                                                             <option value="<?php echo $country_id;?>"><?php echo $countryname.' (Already Selected)' ; ?></option>
                                                             <?php 
                                                                 if($stmt->rowCount()>0){
@@ -238,7 +238,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">State<span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                                        <select class="form-select" id="mystate" name="mystate" aria-label="Floating label select example">
                                                             <option value="<?php echo $state_id;?>"><?php echo $statename.' (Already Selected)' ; ?></option>
                                                             <option value="">--Select country first--</option>
                                                         </select>
@@ -251,7 +251,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">City<span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="city" aria-label="Floating label select example">
+                                                        <select class="form-select" id="city" name="city" aria-label="Floating label select example">
                                                             <option value="<?php echo $city_id;?>"><?php echo $city_name.' (Already Selected)' ; ?></option>
                                                             <option value="">--Select state first--</option>
                                                         </select>
@@ -264,7 +264,7 @@
                                                 <div class="col-md-6 col-sm-6">  
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly >
+                                                        <input type="text" class="form-control" id="pin" name="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly >
                                                     </div>
                                                     <?php
                                                         $column = 'pincode';
@@ -274,7 +274,7 @@
                                                 <div class="col-md-12 col-sm-12">  
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Address" >
+                                                        <input type="text" class="form-control" id="address" name="address" value="<?php echo $address ?>" placeholder="Address" >
                                                     </div>
                                                     <?php
                                                         $column = 'address';
@@ -284,7 +284,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Zone <span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="zone">
+                                                        <select class="form-select" id="zone" name="zone">
                                                             <option value="<?php echo $zone_id;?>"><?php echo $zone_name.' (Already Selected)' ; ?></option>
                                                             <option value=""> ---- Select Zone ---- </option>
                                                             <?php
@@ -313,7 +313,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="branch">
+                                                        <select class="form-select" id="branch" name="branch">
                                                             <option value="<?php echo $branch_id;?>"><?php echo $branch_name.' (Already Selected)' ; ?></option>
                                                             <option value=""> ---- Select Zone First ---- </option>
                                                         </select>
@@ -580,7 +580,7 @@
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
+                                                        <input type="text" class="form-control" id="note" name="note" placeholder="Enter Note" value="<?php echo $note; ?>">
                                                     </div>
                                                     <?php
                                                         $column = 'note';

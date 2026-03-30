@@ -179,11 +179,7 @@ $('#paymentMode').on('click', function(){
 });
 // Edit Travel Agency by admin
 $("#confirmEditReason").on("click", function (e) {
-    var currentFormData = JSON.stringify($("#tc_ibr_form").serializeArray());
-    if(originalFormData === currentFormData){
-        $("#noChangeModal").modal("show");
-        return;
-    }
+    e.preventDefault();
     var edit_reason = $("#edit_reason").val().trim();
 
     if(edit_reason === ""){
