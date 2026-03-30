@@ -500,7 +500,7 @@ $("#confirmEditReason").on("click", function (e) {
 $("#editBuisnessMentor").click(function (e) {
 
     e.preventDefault();
-    var currentFormData = JSON.stringify($("#bm_mf_sf_form").serializeArray());
+    var currentFormData = JSON.stringify(getFormData());
 
     if(originalFormData === currentFormData){
         $("#noChangeModal").modal("show");
