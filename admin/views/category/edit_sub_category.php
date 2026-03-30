@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['username'])){
-    echo '<script>location.href = "../../login";</script>';
-}
+include '../../models/common_models/session_check.php';
 
 $id = $_GET['vkvbvjfgfikix'];
 

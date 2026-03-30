@@ -1,10 +1,8 @@
 <?php
     session_start();
 
-    if(!isset($_SESSION['username'])){
-        echo '<script>location.href = "../../index";</script>';
-    }
-   include '../../models\quotation\qoutation.php';  
+    include '../../models/common_models/session_check.php';
+    include '../../models/quotation/qoutation.php';  
 ?>
 <!doctype html>
 <html lang="en">
