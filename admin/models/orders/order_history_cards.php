@@ -58,8 +58,9 @@
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $today = date('Y-m-d'); // Get today's date as a string
 
-    $mindate= "01-01-2022";
+    $mindate= "2022-01-01";
     $maxdate=$today;
+    
     foreach ($bookings as $booking) {
         $maxdate=$booking['max_b_date'] ?? $today;
         // Ensure 'date' exists in booking data

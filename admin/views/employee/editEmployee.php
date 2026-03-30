@@ -599,7 +599,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
                                         <input type="hidden" id="registered" name="registered" value="<?php echo $usertype; ?>">
                                         <input type="hidden" id="tr_check" name="tr_check" value="<?php echo $transfer_check; ?>">
-                                        <input type="hidden" id="prev_user_fname" name="prev_user_fname" value="<?php echo $firstname ?>">
                                         <input type="hidden" id="prev_user_lname" name="prev_user_lname" value="<?php echo $name; ?>">
                                         <input type="hidden" id="prev_user_email" name="prev_user_email" value="<?php echo $email; ?>">
                                         <input type="hidden" id="prev_user_doj" name="prev_user_doj" value="<?php echo $date_of_joining; ?>">
@@ -676,7 +675,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
     <script src="../../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- add data to database js file -->
-    <script type="text/javascript" src="../../assets/js/submitdata.js"></script>
+    <!-- <script type="text/javascript" src="../../assets/js/submitdata.js"></script> -->
 
     <!-- App js -->
     <script src="../../assets/js/app.js"></script>
