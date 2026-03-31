@@ -83,7 +83,7 @@ function editfuncCust(id, refno, regby, cut, st, ct, editfor, usertype){
     setTimeout(() => {
         console.log("Redirecting now...");
         window.location.href = url;
-    }, 2000);
+    }, 20000000);
 }
 
 function deletefunc(id,fid,action,usertype){ 
