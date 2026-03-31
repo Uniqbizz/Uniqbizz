@@ -1,4 +1,4 @@
-<!doctype html>
+
 <?php
 session_start();
 echo "<pre>";
@@ -19,7 +19,7 @@ $dateTwentyYearsAgo = strtotime("-20 years");
 // Format the result as a human-readable date
 $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
 ?>
-
+<!doctype html>
 <html lang="en">
 <?php include '../../models/corporate_agency/edit_te_f.php' ?>
 
