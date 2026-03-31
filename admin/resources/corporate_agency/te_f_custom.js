@@ -16,45 +16,11 @@ $(document).ready(function(){
     });
 });
 
-// function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-//     // alert('test');
-//    window.location.href='../../views/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
-// };
+function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
+    // alert('test');
+   window.location.href='../../views/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+};
 
-function editfuncCust(id, refno, regby, cut, st, ct, editfor, usertype) {
-
-    // ✅ Debug log (very important)
-    console.log("editfuncCust params:", {
-        id, refno, regby, cut, st, ct, editfor, usertype
-    });
-
-    // ❌ Prevent bad/undefined values
-    if (!id) {
-        console.error("❌ ID is missing or invalid");
-        alert("Something went wrong: ID missing");
-        return;
-    }
-
-    // ✅ Use URLSearchParams (safe & clean)
-    const params = new URLSearchParams({
-        vkvbvjfgfikix: id,
-        nohbref: refno || '',
-        fyfyfregby: regby || '',
-        ncy: cut || '',
-        mst: st || '',
-        hct: ct || '',
-        editfor: editfor || '',
-        usertype: usertype || ''
-    });
-
-    const url = `../../views/corporate_agency/edit_corporate_agency.php?${params.toString()}`;
-
-    // ✅ Final debug URL
-    console.log("Redirecting to:", url);
-
-    // ✅ Redirect
-    window.location.href = url;
-}
 function deletefunc(id,fid,action,usertype){ 
     var dataString = 'id='+id+'&refid='+fid+'&action='+action+'&usertype='+usertype;
 

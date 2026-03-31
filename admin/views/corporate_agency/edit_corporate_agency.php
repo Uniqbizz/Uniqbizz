@@ -1,29 +1,30 @@
-
 <?php
-session_start();
-echo "<pre>";
-    echo'$_SESSION';
+    session_start();
+    echo "<pre>";
+        echo'$_SESSION';
+        print_r($_SESSION);
+        exit;
+
+    include '../../models/common_models/session_check.php';
+    echo "<br>STEP 2<br>";
     print_r($_SESSION);
-    exit;
 
-include '../../models/common_models/session_check.php';
+    //current full date
+    $today = date('Y-m-d');
 
-//current full date
-$today = date('Y-m-d');
+    //current year
+    $date = date('Y');
 
-//current year
-$date = date('Y');
+    // Calculate 20 years before the current date
+    $dateTwentyYearsAgo = strtotime("-20 years");
 
-// Calculate 20 years before the current date
-$dateTwentyYearsAgo = strtotime("-20 years");
-
-// Format the result as a human-readable date
-$ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
+    // Format the result as a human-readable date
+    $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
 ?>
-<?php include '../../models/corporate_agency/edit_te_f.php' ?>
 <!doctype html>
 <html lang="en">
-
+    <?php include '../../models/corporate_agency/edit_te_f.php' ?>
+    
 <head>
 
     <meta charset="utf-8" />
