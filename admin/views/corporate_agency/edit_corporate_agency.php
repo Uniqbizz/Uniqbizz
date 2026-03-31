@@ -1,13 +1,7 @@
 <?php
     session_start();
-    echo "<pre>";
-        echo'$_SESSION';
-        print_r($_SESSION);
-        exit;
 
     include '../../models/common_models/session_check.php';
-    echo "<br>STEP 2<br>";
-    print_r($_SESSION);
 
     //current full date
     $today = date('Y-m-d');

@@ -1,8 +1,5 @@
 <?php
     session_start();
-    echo "<pre>";
-    print_r($_SESSION);
-    exit;
     include '../../models/common_models/session_check.php';
 
     //current full date
