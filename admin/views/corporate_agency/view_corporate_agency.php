@@ -1,5 +1,8 @@
 <?php
     session_start();
+    echo "<pre>";
+    print_r($_SESSION);
+    exit;
 
     include '../../models/common_models/session_check.php';
 
@@ -353,7 +356,7 @@
         <!--end back-to-top-->
 
         <!-- Modal -->
-        <!-- <div class="modal fade" id="newCorporateAgencyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="newCorporateAgencyModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm">
                 <div class="modal-content">
                     <div class="modal-body px-4 py-5 text-center">
@@ -374,7 +377,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
         <!-- end newCorporateAgencyModal -->
 
         <!-- Modal -->
