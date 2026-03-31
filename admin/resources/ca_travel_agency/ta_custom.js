@@ -18,7 +18,7 @@ function deletefunc(id,fid,action,usertype){
     data: dataString,
     cache: false,
         success:function(data){
-            console.log('data'+data);
+            // console.log('data'+data);
             if( data == 0 ){
                 alert("Deleted Succesfully");
                 window.location.reload();
@@ -49,7 +49,7 @@ function confirmfunc(id,email,ref,compCheck,usertype){
         data: dataString,
         cache: false,
         success:function(data){
-            console.log(data);
+            // console.log(data);
             if(data == 1){
                 $("#loading-overlay").hide(); //loading screen
                 alert("Email and Password sent via sms and email");

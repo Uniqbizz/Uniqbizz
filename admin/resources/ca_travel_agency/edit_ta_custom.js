@@ -14,7 +14,7 @@ $(window).on("load", function () {
     // wait a bit for AJAX + DOM changes
     setTimeout(() => {
         originalFormData = JSON.stringify(getFormData());
-        console.log("FINAL ORIGINAL:", originalFormData);
+        // console.log("FINAL ORIGINAL:", originalFormData);
     }, 800);
 });
 $('#is_complementary').on('change', function () {
@@ -418,7 +418,7 @@ $("#confirmEditReason").on("click", function (e) {
                 data: dataString,
                 cache: false,
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     if (data == 1) {
                         alert("Edit Successfuly");
                         location.href = "view_ca_travelAgency.php";

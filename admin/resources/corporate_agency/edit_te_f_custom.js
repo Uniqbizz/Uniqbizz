@@ -13,7 +13,7 @@ $(window).on("load", function () {
     // wait a bit for AJAX + DOM changes
     setTimeout(() => {
         originalFormData = JSON.stringify(getFormData());
-        console.log("FINAL ORIGINAL:", originalFormData);
+        // console.log("FINAL ORIGINAL:", originalFormData);
     }, 1500);
 });
 $("#email").keyup(function () {
@@ -429,7 +429,7 @@ $("#confirmEditReason").on("click", function (e) {
                 cache: false,
                 success: function (data) {
 
-                    console.log(data);
+                    // console.log(data);
 
                     $("#loading-overlay").hide();
 
@@ -454,7 +454,7 @@ $("#editCorporateAgency").click(function (e) {
     
     e.preventDefault();
     var currentFormData = JSON.stringify(getFormData());
-    console.log("Current:", JSON.stringify(getFormData()));
+    // console.log("Current:", JSON.stringify(getFormData()));
     if(originalFormData === currentFormData){
         $("#noChangeModal").modal("show");
         return;

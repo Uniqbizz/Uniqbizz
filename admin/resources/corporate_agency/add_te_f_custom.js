@@ -54,13 +54,13 @@ $('#registered').on('change',function(){
 //select Designation
 $('#designation1').on('change', function() {
     var designation = $('#designation1').val();
-    console.log(designation);
+    // console.log(designation);
     $.ajax({
         type:'POST',
         url:'../../agents/get_user_Franchisee.php',
         data: "designation="+designation,
         success:function (e) {
-            console.log(e);
+            // console.log(e);
             $('#user_id_name').html(e); 
         },
         error: function(err){
@@ -71,13 +71,13 @@ $('#designation1').on('change', function() {
 
 $('#designation2').on('change', function() {
     var designation = $('#designation2').val();
-    console.log(designation);
+    // console.log(designation);
     $.ajax({
         type:'POST',
         url:'../../agents/get_user_Franchisee.php',
         data: "designation="+designation,
         success:function (e) {
-            console.log(e);
+            // console.log(e);
             $('#user_id_name').html(e); 
         },
         error: function(err){
@@ -387,7 +387,7 @@ $("#addCorporateAgency").on("click", function (e) {
             "&converted="+
             converted+
             "&transfer_check="+transfer_check;
-        console.log(dataString);
+        // console.log(dataString);
 
         if (validateForm()) {
             $("#addCorporateAgency").attr("disabled", "disabled");

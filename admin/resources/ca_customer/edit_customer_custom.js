@@ -17,7 +17,7 @@ let originalFormData = {};
 $(window).on("load", function () {
     setTimeout(() => {
         originalFormData = getFormData();
-        console.log("ORIGINAL:", originalFormData);
+        // console.log("ORIGINAL:", originalFormData);
     }, 1500); // keep if AJAX is there
 });
 function isFormChanged(original, current) {
@@ -404,7 +404,7 @@ $("#confirmEditReason").on("click", function (e) {
             data: dataString,
             cache: false,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 if (data == 1) {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Edit Successfuly");
@@ -421,7 +421,7 @@ $("#editCustomer").click(function (e) {
     e.preventDefault();
 
     const currentFormData = getFormData();
-    console.log("CURRENT:", currentFormData);
+    // console.log("CURRENT:", currentFormData);
 
     if (!isFormChanged(originalFormData, currentFormData)) {
         $("#noChangeModal").modal("show");

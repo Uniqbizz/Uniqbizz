@@ -181,8 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
             cache: false,
             success: function (data) {
 
-                console.log('AJAX response:', data); // remove after debug
-
                 // Destroy existing DataTable safely
                 if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
                     $('#registeredCustomerList-table').DataTable().clear().destroy();

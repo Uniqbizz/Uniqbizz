@@ -468,7 +468,7 @@ $("#addBusinessMentor").on("click", function (e) {
             "&note=" +
             note+
             "&transfer_check="+transfer_check;
-        console.log(dataString);
+        // console.log(dataString);
 
         $("#addBusinessMentor").attr("disabled", "disabled");
         // console.log(dataString);

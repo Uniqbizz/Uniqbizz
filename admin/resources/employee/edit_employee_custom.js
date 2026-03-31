@@ -16,7 +16,7 @@ $(window).on("load", function () {
     // wait a bit for AJAX + DOM changes
     setTimeout(() => {
         originalFormData = JSON.stringify(getFormData());
-        console.log("FINAL ORIGINAL:", originalFormData);
+        // console.log("FINAL ORIGINAL:", originalFormData);
     }, 800);
 });
 
@@ -279,7 +279,7 @@ $("#confirmEditReason").click(function (e) {
             "&prev_user_data="+encodeURIComponent(prev_user_data)+
             edit_reason_param;
 
-        console.log(dataString);
+        // console.log(dataString);
         $("#edit_employee").attr("disabled", "disabled");
         if (transfer_check == 1) {
 
