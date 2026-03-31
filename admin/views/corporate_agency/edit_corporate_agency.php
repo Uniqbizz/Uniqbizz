@@ -2,6 +2,7 @@
 <?php
 session_start();
 echo "<pre>";
+    echo'$_SESSION)';
     print_r($_SESSION);
     exit;
 
