@@ -131,6 +131,8 @@ function reloadBMData(){
                 searching: true,
                 info: true
             });
+            var totalRows = $("#registeredCustomerList-table").DataTable().rows().count();
+            $('#filterCount').val(totalRows);
 
         }
     });
