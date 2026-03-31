@@ -16,75 +16,10 @@ $(document).ready(function(){
     });
 });
 
-// function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-//     // alert('test');
-//    window.location.href='../../views/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
-// };
-function editfuncCust(id, refno, regby, cut, st, ct, editfor, usertype){ 
-    
-    console.log("===== EDIT FUNCTION CALLED =====");
-
-    // 🔍 Step 1: Log all incoming values
-    console.log("Incoming Values:");
-    console.log({
-        id: id,
-        refno: refno,
-        regby: regby,
-        cut: cut,
-        st: st,
-        ct: ct,
-        editfor: editfor,
-        usertype: usertype
-    });
-
-    // 🚨 Step 2: Check for undefined/null/empty
-    console.log("Validation Check:");
-    if (!id) console.error("❌ ID is missing");
-    if (!refno) console.warn("⚠️ refno is missing");
-    if (!regby) console.warn("⚠️ regby is missing");
-    if (!cut) console.warn("⚠️ country (cut) is missing");
-    if (!st) console.warn("⚠️ state (st) is missing");
-    if (!ct) console.warn("⚠️ city (ct) is missing");
-    if (!editfor) console.warn("⚠️ editfor is missing");
-    if (!usertype) console.warn("⚠️ usertype is missing");
-
-    // 🔐 Step 3: Encode values (VERY IMPORTANT)
-    const params = {
-        vkvbvjfgfikix: encodeURIComponent(id || ''),
-        nohbref: encodeURIComponent(refno || ''),
-        fyfyfregby: encodeURIComponent(regby || ''),
-        ncy: encodeURIComponent(cut || ''),
-        mst: encodeURIComponent(st || ''),
-        hct: encodeURIComponent(ct || ''),
-        editfor: encodeURIComponent(editfor || ''),
-        usertype: encodeURIComponent(usertype || '')
-    };
-
-    console.log("Encoded Params:", params);
-
-    // 🌐 Step 4: Build URL
-    const url = '../../views/corporate_agency/edit_corporate_agency.php?' +
-        'vkvbvjfgfikix=' + params.vkvbvjfgfikix +
-        '&nohbref=' + params.nohbref +
-        '&fyfyfregby=' + params.fyfyfregby +
-        '&ncy=' + params.ncy +
-        '&mst=' + params.mst +
-        '&hct=' + params.hct +
-        '&editfor=' + params.editfor +
-        '&usertype=' + params.usertype;
-
-    console.log("Final URL:", url);
-
-    // 🧪 Step 5: Try opening in new tab first (SAFE TEST)
-    console.log("Opening in new tab for testing...");
-    window.open(url, '_blank');
-
-    // ⏸️ Step 6: Delay redirect so you can see logs
-    setTimeout(() => {
-        console.log("Redirecting now...");
-        window.location.href = url;
-    }, 20000000);
-}
+function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
+    // alert('test');
+   window.location.href='../../views/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+};
 
 function deletefunc(id,fid,action,usertype){ 
     var dataString = 'id='+id+'&refid='+fid+'&action='+action+'&usertype='+usertype;
