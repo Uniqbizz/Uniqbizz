@@ -133,6 +133,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'country_code';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-8 col-sm-8 col-9">
@@ -197,9 +201,9 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
                                                             <input class="form-control" type="date" id="joining_date" name="joining_date" value="<?php echo $date_of_joining; ?>" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
                                                             <?php
-                                                        $column = 'date_of_joining';
-                                                        include '../common_views/edit_log_tooltip.php';
-                                                    ?>
+                                                                $column = 'date_of_joining';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -287,7 +291,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             </label>
                                                             <input class="form-control" type="file" id="profile_pic">
                                                         </div>
-                                                        <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                        <input type="hidden" id="img_path1" name="img_path1" value="<?php echo $profile_pic; ?>">
                                                         <div id="preview1">
                                                             <div id="image_preview1">
                                                                 <?php
@@ -315,7 +319,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             </label>
                                                             <input class="form-control" type="file" id="id_proof">
                                                         </div>
-                                                        <input type="hidden" id="img_path2" value="<?php echo $id_proof; ?>">
+                                                        <input type="hidden" id="img_path2" name="img_path2" value="<?php echo $id_proof; ?>">
                                                         <div id="preview2">
                                                             <div id="image_preview2">
                                                                 <?php
@@ -343,7 +347,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             </label>
                                                             <input class="form-control" type="file" id="bank_details">
                                                         </div>
-                                                        <input type="hidden" id="img_path3" value="<?php echo $bank_details; ?>">
+                                                        <input type="hidden" id="img_path3" name="img_path3" value="<?php echo $bank_details; ?>">
                                                         <div id="preview3">
                                                             <div id="image_preview3">
                                                                 <?php
@@ -384,6 +388,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'country';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -406,6 +414,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                     }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'state';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -428,12 +440,20 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                     }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'city';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="pin" name="pin" placeholder="Pincode" readonly value="<?=$pincode?>">
+                                                            <?php
+                                                                $column = 'pincode';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -456,6 +476,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                     }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'zone';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
 
@@ -475,7 +499,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                     }
                                                                 ?>
                                                             </label>
-                                                            <input class="form-control" type="file" id="profile_pic">
+                                                            <input class="form-control" type="file" id="profile_pic" name="profile_pic">
                                                         </div>
                                                         <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
                                                         <div id="preview1">
@@ -505,7 +529,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             </label>
                                                             <input class="form-control" type="file" name="file2" id="upload_file2">
                                                         </div>
-                                                        <input type="hidden" id="img_path2" value="<?=$aadhar_card?>">
+                                                        <input type="hidden" id="img_path2" name="img_path2" value="<?=$aadhar_card?>">
                                                         <div id="preview2">
                                                             <?php
                                                                 if ($aadhar_card == '') {
@@ -531,7 +555,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             </label>
                                                             <input class="form-control" type="file" name="file3" id="upload_file3">
                                                         </div>
-                                                        <input type="hidden" id="img_path3" value="<?=$pan_card?>">
+                                                        <input type="hidden" id="img_path3" name="img_path3" value="<?=$pan_card?>">
                                                         <div id="preview3">
                                                             <div id="image_preview3">
                                                             <?php
@@ -561,7 +585,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                         </label>
                                                         <input class="form-control" type="file" id="bank_details">
                                                     </div>
-                                                    <input type="hidden" id="img_path4" value="<?php echo $bank_details; ?>">
+                                                    <input type="hidden" id="img_path4" name="img_path4" value="<?php echo $bank_details; ?>">
                                                     <div id="preview3">
                                                         <div id="image_preview4">
                                                             <?php

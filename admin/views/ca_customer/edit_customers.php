@@ -224,6 +224,10 @@ include '../../models/common_models/session_check.php';
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'country_code';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-8 col-sm-8 col-9">
@@ -393,7 +397,7 @@ include '../../models/common_models/session_check.php';
                                                     </label><br />
                                                     <input class="form-control" type="file" name="file1" id="upload_file1">
                                                 </div>
-                                                <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                                                <input type="hidden" id="img_path1" name="img_path1" value="<?php echo $profile_pic; ?>">
                                                 <div id="preview1">
                                                     <div id="image_preview1" style="margin-bottom: 50px;">
                                                         <?php
@@ -422,7 +426,7 @@ include '../../models/common_models/session_check.php';
                                                     </label><br />
                                                     <input class="form-control" type="file" name="file2" id="upload_file2">
                                                 </div>
-                                                <input type="hidden" id="img_path2" value="<?php echo $aadhar_card; ?>">
+                                                <input type="hidden" id="img_path2" name="img_path2" value="<?php echo $aadhar_card; ?>">
                                                 <div id="preview2" style="margin-bottom: 50px;">
                                                     <div id="image_preview2">
                                                         <?php
@@ -451,7 +455,7 @@ include '../../models/common_models/session_check.php';
                                                     </label><br />
                                                     <input class="form-control" type="file" name="file3" id="upload_file3">
                                                 </div>
-                                                <input type="hidden" id="img_path3" value="<?php echo $pan_card; ?>">
+                                                <input type="hidden" id="img_path3" name="img_path3" value="<?php echo $pan_card; ?>">
                                                 <div id="preview3" style="margin-bottom: 50px;">
                                                     <div id="image_preview3">
                                                         <?php
@@ -480,7 +484,7 @@ include '../../models/common_models/session_check.php';
                                                     </label><br />
                                                     <input class="form-control" type="file" name="file4" id="upload_file4">
                                                 </div>
-                                                <input type="hidden" id="img_path4" value="<?php echo $bank_passbook; ?>">
+                                                <input type="hidden" id="img_path4" name="img_path4" value="<?php echo $bank_passbook; ?>">
                                                 <div id="preview4" style="margin-bottom: 50px;">
                                                     <div id="image_preview4">
                                                         <?php
@@ -509,7 +513,7 @@ include '../../models/common_models/session_check.php';
                                                     </label><br />
                                                     <input class="form-control" type="file" name="file5" id="upload_file5">
                                                 </div>
-                                                <input type="hidden" id="img_path5" value="<?php echo $voting_card; ?>">
+                                                <input type="hidden" id="img_path5" name="img_path5" value="<?php echo $voting_card; ?>">
                                                 <div id="preview5" style="margin-bottom: 50px;">
                                                     <div id="image_preview5">
                                                         <?php
