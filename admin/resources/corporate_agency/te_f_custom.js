@@ -17,7 +17,8 @@ $(document).ready(function(){
 });
 
 function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-    window.location.href='../../views/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+    alert('test');
+   // window.location.href='../../views/corporate_agency/edit_corporate_agency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
 };
 
 function deletefunc(id,fid,action,usertype){ 
