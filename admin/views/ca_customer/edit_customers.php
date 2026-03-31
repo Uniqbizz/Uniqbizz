@@ -136,6 +136,7 @@ include '../../models/common_models/session_check.php';
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="cust_reference_name">Customer Reference Full Name<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="cust_reference_name" placeholder="Enter Last Name" value="<?php echo $cust_ref_name; ?>" readonly>
+                                                    
                                                 </div>
                                             </div>
                                             <?php
@@ -145,25 +146,41 @@ include '../../models/common_models/session_check.php';
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="firstname">First Name<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="firstname" placeholder="Enter First Name" value=" <?php echo $firstname; ?>">
+                                                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter First Name" value=" <?php echo $firstname; ?>">
+                                                    <?php
+                                                        $column = 'firstname';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="lastname">Last Name<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="lastname" placeholder="Enter Last Name" value=" <?php echo $lastname; ?>">
+                                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Last Name" value=" <?php echo $lastname; ?>">
+                                                    <?php
+                                                        $column = 'lastname';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="email">Email address<span class="text-danger">*</span></label>
-                                                    <input type="email" class="form-control" id="email" placeholder="Enter Email address" value="<?php echo $email; ?>">
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email address" value="<?php echo $email; ?>">
+                                                    <?php
+                                                        $column = 'email';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="dob">Birthdate<span class="text-danger">*</span></label>
-                                                    <input type="date" id="dob" class=" form-control" value="<?php echo $date_of_birth; ?>">
+                                                    <input type="date" id="dob" name="dob" class=" form-control" value="<?php echo $date_of_birth; ?>">
+                                                    <?php
+                                                        $column = 'date_of_birth';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
@@ -180,6 +197,10 @@ include '../../models/common_models/session_check.php';
                                                                                                                                                                                 echo ' checked ';
                                                                                                                                                                             } ?>>&nbsp;&nbsp;&nbsp;Other</label>
                                                     </div>
+                                                    <?php
+                                                        $column = 'gender';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12 mb-3">
@@ -192,7 +213,7 @@ include '../../models/common_models/session_check.php';
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             ?>
                                                             <label for="country_cd" class="col-form-label">Code:</label>
-                                                            <select class="form-select" id="country_cd">
+                                                            <select class="form-select" id="country_cd" name="country_cd">
                                                                 <?php
                                                                 if ($stmt->rowCount() > 0) {
                                                                     foreach (($stmt->fetchAll()) as $key => $row) {
@@ -208,8 +229,13 @@ include '../../models/common_models/session_check.php';
                                                     <div class="col-md-8 col-sm-8 col-9">
                                                         <div class="input-block">
                                                             <label for="phone" class="col-form-label">Phone Number<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="phone" value=" <?php echo $contact_no; ?>">
+                                                            <input type="text" class="form-control" id="phone" name="phone" value=" <?php echo $contact_no; ?>">
+                                                            <?php
+                                                                $column = 'contact_no';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -221,7 +247,7 @@ include '../../models/common_models/session_check.php';
                                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                     ?>
                                                     <label class="col-form-label" for="country">Country<span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="country">
+                                                    <select class="form-select" id="country" name="country">
                                                         <option value="<?php echo $country_id; ?>"><?php echo $countryname . ' (Already Selected)'; ?></option>
                                                         <?php
                                                         if ($stmt->rowCount() > 0) {
@@ -238,31 +264,47 @@ include '../../models/common_models/session_check.php';
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="mystate">State<span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                                    <select class="form-select" id="mystate" name="mystate" aria-label="Floating label select example">
                                                         <option value="<?php echo $state_id; ?>"><?php echo $statename . ' (Already Selected)'; ?></option>
                                                         <option value="">--Select country first--</option>
                                                     </select>
+                                                    <?php
+                                                        $column = 'state';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="city">City<span class="text-danger">*</span></label>
-                                                    <select class="form-select" id="city" aria-label="Floating label select example">
+                                                    <select class="form-select" id="city" name="city" aria-label="Floating label select example">
                                                         <option value="<?php echo $city_id; ?>"><?php echo $city_name . ' (Already Selected)'; ?></option>
                                                         <option value="">--Select state first--</option>
                                                     </select>
+                                                    <?php
+                                                        $column = 'city';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="pin" value="<?php echo $pincode; ?>" readonly>
+                                                    <input type="text" class="form-control" id="pin" name="pin" value="<?php echo $pincode; ?>" readonly>
+                                                    <?php
+                                                        $column = 'pincode';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Enter Address">
+                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo $address ?>" placeholder="Enter Address">
+                                                    <?php
+                                                        $column = 'address';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6 col-12" id="couponFee">
@@ -512,12 +554,16 @@ include '../../models/common_models/session_check.php';
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
+                                                    <input type="text" class="form-control" id="note" name="note" placeholder="Enter Note" value="<?php echo $note; ?>">
+                                                    <?php
+                                                        $column = 'note';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- for edit data page -->
-                                        <input type="hidden" id="testValue" name="testValue" value="10"> <!-- Customer -->
+                                        <input type="hidden" id="testValue" name="testValue" value="<?= $user_type ?>"> <!-- Customer -->
                                         <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no; ?>">
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
                                         <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">

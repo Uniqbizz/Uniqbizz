@@ -94,7 +94,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Full Name <span class="text-danger">*</span></label>
-                                                    <input class="form-control" type="text" id="fullName" value="<?php echo $name; ?>">
+                                                    <input class="form-control" type="text" id="fullName" name="fullName" value="<?php echo $name; ?>">
                                                     <?php
                                                         $column = 'name';
                                                         include '../common_views/edit_log_tooltip.php';
@@ -104,7 +104,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-                                                    <input class="form-control" type="date" id="birth_date" value="<?php echo $date_of_birth; ?>" max="<?php echo $ageLimit; ?>">
+                                                    <input class="form-control" type="date" id="birth_date" name="birth_date" value="<?php echo $date_of_birth; ?>" max="<?php echo $ageLimit; ?>">
                                                     <?php
                                                         $column = 'date_of_birth';
                                                         include '../common_views/edit_log_tooltip.php';
@@ -122,7 +122,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             ?>
                                                             <label for="country_cd" class="col-form-label">Code:</label>
-                                                            <select class="form-control" id="country_cd">
+                                                            <select class="form-control" id="country_cd" name="country_cd">
                                                                 <?php
                                                                 if ($stmt->rowCount() > 0) {
                                                                     foreach (($stmt->fetchAll()) as $key => $row) {
@@ -138,7 +138,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-8 col-sm-8 col-9">
                                                         <div class="input-block">
                                                             <label class="col-form-label">Contact Number <span class="text-danger">*</span></label>
-                                                            <input class="form-control" type="number" id="contact" value="<?php echo $contact; ?>">
+                                                            <input class="form-control" type="number" id="contact" name="contact" value="<?php echo $contact; ?>">
                                                             <?php
                                                                 $column = 'contact';
                                                                 include '../common_views/edit_log_tooltip.php';
@@ -150,7 +150,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                                                    <input class="form-control" type="email" id="email" value="<?php echo $email; ?>">
+                                                    <input class="form-control" type="email" id="email" name="email" value="<?php echo $email; ?>">
                                                     <?php
                                                         $column = 'email';
                                                         include '../common_views/edit_log_tooltip.php';
@@ -160,7 +160,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Address <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="address" value="<?php echo $address; ?>">
+                                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo $address; ?>">
                                                     <?php
                                                         $column = 'address';
                                                         include '../common_views/edit_log_tooltip.php';
@@ -195,7 +195,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
-                                                            <input class="form-control" type="date" id="joining_date" value="<?php echo $date_of_joining; ?>" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
+                                                            <input class="form-control" type="date" id="joining_date" name="joining_date" value="<?php echo $date_of_joining; ?>" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
                                                             <?php
                                                         $column = 'date_of_joining';
                                                         include '../common_views/edit_log_tooltip.php';
@@ -205,7 +205,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Department <span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="department" <?= $transfer_check ==1 ?'disabled':''?>>
+                                                            <select class="form-select" id="department" name="department" <?= $transfer_check ==1 ?'disabled':''?>>
                                                                 <option value="<?php echo $dept; ?>"><?php echo $departmentname . ' (Already Selected)'; ?></option>
                                                                 <!-- data load from models file -->
                                                                 <?php include '../../models/common_models/department.php' ?>
@@ -219,7 +219,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Designation <span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="designation" <?= $transfer_check ==1 ?'disabled':''?>>
+                                                            <select class="form-select" id="designation" name="designation" <?= $transfer_check ==1 ?'disabled':''?>>
                                                                 <option value="<?php echo $desig; ?>"><?php echo $designationname . ' (Already Selected)'; ?></option>
                                                                 <!-- data load from models file -->
                                                                 <?php include '../../models/common_models/designation.php' ?>
@@ -233,7 +233,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Zone <span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="zone" <?= $transfer_check ==1 ?'disabled':''?>>
+                                                            <select class="form-select" id="zone" name="zone" <?= $transfer_check ==1 ?'disabled':''?>>
                                                                 <option value="<?php echo $zn; ?>"><?php echo $zone_name . ' (Already Selected)'; ?></option>
                                                                 <!-- data load from models file -->
                                                                 <?php include '../../models/common_models/zones.php' ?>
@@ -247,7 +247,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Branch <span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="branch" <?= $transfer_check ==1 ?'disabled':''?>>
+                                                            <select class="form-select" id="branch" name="branch" <?= $transfer_check ==1 ?'disabled':''?>>
                                                                 <option value="<?php echo $br; ?>"> <?php echo $branch_name . ' (Already Selected)'; ?> </option>
                                                             </select>
                                                             <?php
@@ -259,7 +259,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Reporting Manager <span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="reporting_manager" <?= $transfer_check ==1 ?'disabled':''?>>
+                                                            <select class="form-select" id="reporting_manager" name="reporting_manager" <?= $transfer_check ==1 ?'disabled':''?>>
                                                                 <option value="<?php echo $reporting_manager_id; ?>"> <?php echo $reporting_manager_name . ' (Already Selected)'; ?> </option>
                                                                 <!-- data load on models file -->
                                                                 <?php include '../../models/common_models/reporting_manager.php' ?>
@@ -372,7 +372,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             ?>
                                                             <label class="col-form-label">Country <span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="country">
+                                                            <select class="form-select" id="country" name="country">
                                                                 <option value="">--Select Country--</option>
                                                                 <?php
                                                                 if ($stmt->rowCount() > 0) {
@@ -394,7 +394,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             ?>
                                                             <label class="col-form-label">State<span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="mystate" aria-label="Floating label select example">
+                                                            <select class="form-select" id="mystate" name="mystate" aria-label="Floating label select example">
                                                                 <option value="">--Select country first--</option>
                                                                 <?php
                                                                     if ($stmt->rowCount() > 0) {
@@ -416,7 +416,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             ?>
                                                             <label class="col-form-label">City<span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="city" aria-label="Floating label select example">
+                                                            <select class="form-select" id="city" name="city" aria-label="Floating label select example">
                                                                 <option value="">--Select state first--</option>
                                                                 <?php
                                                                     if ($stmt->rowCount() > 0) {
@@ -433,7 +433,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="pin" placeholder="Pincode" readonly value="<?=$pincode?>">
+                                                            <input type="text" class="form-control" id="pin" name="pin" placeholder="Pincode" readonly value="<?=$pincode?>">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -444,7 +444,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             ?>
                                                             <label class="col-form-label">Zone<span class="text-danger">*</span></label>
-                                                            <select class="form-select" id="zonal" aria-label="Floating label select example">
+                                                            <select class="form-select" id="zonal" name="zonal" aria-label="Floating label select example">
                                                                 <option value="">--Select state first--</option>
                                                                 <?php
                                                                     if ($stmt->rowCount() > 0) {
@@ -581,7 +581,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="input-block mb-3 mt-2">
                                                     <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
+                                                    <input type="text" class="form-control" id="note" name="note" placeholder="Enter Note" value="<?php echo $note; ?>">
                                                     <?php
                                                         $column = 'note';
                                                         include '../common_views/edit_log_tooltip.php';

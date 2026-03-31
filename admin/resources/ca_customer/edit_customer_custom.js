@@ -1,20 +1,28 @@
-let originalFormData = "";
 function getFormData() {
-    return $("#cutomer_form")
+    let data = {};
+
+    $("#cutomer_form")
         .serializeArray()
-        .filter(field =>
-            field.name !== "prev_user_data" &&
-            field.name !== "testemail"
-        );
+        .forEach(field => {
+            if (field.name !== "prev_user_data" && field.name !== "testemail") {
+                data[field.name] = field.value.trim();
+            }
+        });
+
+    return data;
 }
 
+let originalFormData = {};
+
 $(window).on("load", function () {
-    // wait a bit for AJAX + DOM changes
     setTimeout(() => {
-        originalFormData = JSON.stringify(getFormData());
-        console.log("FINAL ORIGINAL:", originalFormData);
-    }, 800);
+        originalFormData = getFormData();
+        console.log("ORIGINAL:", originalFormData);
+    }, 1500); // keep if AJAX is there
 });
+function isFormChanged(original, current) {
+    return JSON.stringify(original) !== JSON.stringify(current);
+}
 $(document).ready(function() {
     var paymentMode = $(".payment:checked").val();
     var payment_fee = $('#payment_fee').val()
@@ -163,12 +171,14 @@ $('#paymentMode').on('click', function() {
 // Edit customer by admin
 $("#confirmEditReason").on("click", function (e) {
     e.preventDefault();
-    var currentFormData = JSON.stringify($("#cutomer_form").serializeArray());
+    var edit_reason = $("#edit_reason").val().trim();
 
-    if(originalFormData === currentFormData){
-        $("#noChangeModal").modal("show");
+    if(edit_reason === ""){
+        alert("Please enter reason for edit");
         return;
     }
+
+    $("#editReasonModal").modal("hide");
     var transfer_check = $("#tr_check").val();
     var prev_user_name=prev_user_email='';
     if (transfer_check == 1) {
@@ -247,6 +257,7 @@ $("#confirmEditReason").on("click", function (e) {
     //age calculation
     var birth_date_split = dob.split("-");
     var age = currentYear - birth_date_split[0];
+    var edit_reason_param = "&edit_reason=" + encodeURIComponent(edit_reason);
     // console.log(age);
 
     var characterLetters = /^[A-Za-z\s]+$/;
@@ -380,7 +391,8 @@ $("#confirmEditReason").on("click", function (e) {
             '&isComplementary=' +
             isComplementary+
             "&transfer_check="+
-            transfer_check;
+            transfer_check+
+            edit_reason_param;
         // console.log(dataString);
 
         $("#editCustomer").attr("disabled", "disabled");
@@ -407,9 +419,11 @@ $("#confirmEditReason").on("click", function (e) {
 });
 $("#editCustomer").click(function (e) {
     e.preventDefault();
-    const currentFormData = JSON.stringify($("#cutomer_form").serializeArray());
 
-    if (originalFormData === currentFormData) {
+    const currentFormData = getFormData();
+    console.log("CURRENT:", currentFormData);
+
+    if (!isFormChanged(originalFormData, currentFormData)) {
         $("#noChangeModal").modal("show");
         return;
     }

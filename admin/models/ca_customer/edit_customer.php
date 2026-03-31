@@ -1,6 +1,7 @@
 <?php
 
     require '../../connect.php';
+    include __DIR__ . '/../common_models/get_table_user_type.php';
     $date = date('Y');
 
     $id = $_GET['vkvbvjfgfikix'];
@@ -18,7 +19,7 @@
     } else if ($editfor == 'registered') {
         $identifier_name = 'ca_customer_id=';
     }
-
+    $user_type=10;
     $stmt = $conn->prepare("SELECT * FROM `ca_customer` where ca_customer_id='" . $id . "' OR id = '" . $id . "'");
     $stmt->execute();
     // set the resulting array to associative
