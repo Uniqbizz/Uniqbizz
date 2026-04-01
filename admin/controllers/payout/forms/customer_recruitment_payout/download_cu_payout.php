@@ -154,7 +154,7 @@ if($baNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../customer_membership_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../../views/payout/customer_membership_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 

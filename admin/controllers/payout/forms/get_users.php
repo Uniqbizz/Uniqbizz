@@ -1,5 +1,5 @@
 <?php
-require '../../connect.php';
+require '../../../connect.php';
 
 $table = $_POST["designation"];
 
@@ -46,6 +46,16 @@ if ($table == 'bcm' || $table == 'bdm') {
         $id_field = 'sub_franchisee_id';
         $name_field = 'firstname';
         $label = '--Select Franchisee ID & Name--';
+    }else if ($table == "institution") {
+        $user = $conn->prepare("SELECT * FROM institution WHERE status = '1' ORDER BY institution_id");
+        $id_field = 'institution_id';
+        $name_field = 'firstname';
+        $label = '--Select Institution ID & Name--';
+    }else if ($table == "institution_branch_manager") {
+        $user = $conn->prepare("SELECT * FROM institution_branch_manager WHERE status = '1' ORDER BY institution_branch_manager_id");
+        $id_field = 'institution_branch_manager_id';
+        $name_field = 'firstname';
+        $label = '--Select Institution Branch Manager ID & Name--';
     } else if ($table == "ca_travelagency") {
         $user = $conn->prepare("SELECT * FROM ca_travelagency WHERE status = '1' ORDER BY ca_travelagency_id");
         $id_field = 'ca_travelagency_id';
