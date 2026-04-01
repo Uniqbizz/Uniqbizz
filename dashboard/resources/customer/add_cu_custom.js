@@ -6,7 +6,7 @@ $('#user_id_name').on('change', function() {
 
     $.ajax({
         type: 'POST',
-        url: '../../agents/getUsers.php',
+        url: '../agents/getUsers.php',
         data: 'user_id_name=' + user_id_name + '&designation=' + designation,
         success: function(response) {
             $('#reference_name').val(response);
@@ -20,7 +20,7 @@ $('#country').on('change', function() {
     if (countryID) {
         $.ajax({
             type: 'POST',
-            url: '../../address/countrydata.php',
+            url: '../address/countrydata.php',
             data: 'country_id=' + countryID,
             success: function(htmll) {
                 $('#mystate').html(htmll);
@@ -39,7 +39,7 @@ $('#mystate').on('change', function() {
     if (stateID) {
         $.ajax({
             type: 'POST',
-            url: '../../address/countrydata.php',
+            url: '../address/countrydata.php',
             data: 'state_id=' + stateID,
             success: function(html) {
                 $('#city').html(html);
@@ -102,7 +102,7 @@ $('#city').on('change', function() {
     if (cityID) {
         $.ajax({
             type: 'POST',
-            url: '../../address/pincode.php',
+            url: '../address/pincode.php',
             data: 'city_id=' + cityID,
             success: function(response) {
                 $('#pin').val(response);
