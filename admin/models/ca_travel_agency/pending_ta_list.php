@@ -98,7 +98,7 @@
                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted",,"'.$row["user_type"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
+                                <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","deleted","'.$row["user_type"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore</a></li>
                             </ul>
                         </div>
                     </td>';

@@ -1441,7 +1441,7 @@ if ($user_type_id == '16') {
 			//----------------------------------------------------
 			// Insert into payout table
 			$sql = "INSERT INTO `institution_payout` (
-						`employees`, `message_emp`, `commission_emp`, `status_zm`,
+						`employees`, `message_emp`, `commission_emp`, `status_emp`,
 						`master_franchisee`, `message_mf`, `commission_mf`, `status_mf`,
 						`institution`, `message_sf`, `sf_amt_paid`, `status_sf`, `status`
 					) VALUES (
