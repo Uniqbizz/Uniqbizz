@@ -1,351 +1,351 @@
 <?php
-require '../../connect.php';
+    require '../../connect.php';
 
-$stateFilter = $_POST['state'] ?? 'All';
-$userId = $_POST['userId'] ?? '';
-$designation = $_POST['designation'] ?? '';
-$fromDate = $_POST['fromDate'] ?? '';
-$toDate = $_POST['toDate'] ?? '';
+    $stateFilter = $_POST['state'] ?? 'All';
+    $userId = $_POST['userId'] ?? '';
+    $designation = $_POST['designation'] ?? '';
+    $fromDate = $_POST['fromDate'] ?? '';
+    $toDate = $_POST['toDate'] ?? '';
 
-$reporting_manager = '';
+    $reporting_manager = '';
 
-$whereClause = "WHERE 1=1";
-$params = [];
+    $whereClause = "WHERE 1=1";
+    $params = [];
 
-/* ================= STATE FILTER ================= */
+    /* ================= STATE FILTER ================= */
 
-if ($stateFilter !== '0' && $stateFilter !== '' && $stateFilter !== 'All') {
-    $whereClause .= " AND state = ?";
-    $params[] = $stateFilter;
-}
+    if ($stateFilter !== '0' && $stateFilter !== '' && $stateFilter !== 'All') {
+        $whereClause .= " AND state = ?";
+        $params[] = $stateFilter;
+    }
 
-/* ================= DATE FILTER ================= */
+    /* ================= DATE FILTER ================= */
 
-if (!empty($fromDate) && !empty($toDate)) {
+    if (!empty($fromDate) && !empty($toDate)) {
+        try {
+            $from = (new DateTime($fromDate))->format('Y-m-d');
+            $to   = (new DateTime($toDate))->format('Y-m-d');
+
+            $whereClause .= " AND DATE(register_date) BETWEEN ? AND ?";
+            $params[] = $from;
+            $params[] = $to;
+
+        } catch (Exception $e) {}
+    }
+
+    $tcIds = [];
+
     try {
-        $from = (new DateTime($fromDate))->format('Y-m-d');
-        $to   = (new DateTime($toDate))->format('Y-m-d');
 
-        $whereClause .= " AND DATE(register_date) BETWEEN ? AND ?";
-        $params[] = $from;
-        $params[] = $to;
+        if (!empty($designation)) {
 
-    } catch (Exception $e) {}
-}
+            function fetchColumn($conn,$sql,$params=[]){
+                $stmt = $conn->prepare($sql);
+                $stmt->execute($params);
+                return $stmt->fetchAll(PDO::FETCH_COLUMN);
+            }
 
-$tcIds = [];
+            /* ================= BM ================= */
 
-try {
+            if ($designation == '26') {
 
-    if (!empty($designation)) {
+                if (!empty($userId)) {
 
-        function fetchColumn($conn,$sql,$params=[]){
-            $stmt = $conn->prepare($sql);
-            $stmt->execute($params);
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
-        }
-
-        /* ================= BM ================= */
-
-        if ($designation == '26') {
-
-            if (!empty($userId)) {
-
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no = ?
-                AND status='1'",[$userId]);
-
-            } else {
-
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no LIKE 'BM%'
-                AND status='1'");
-
-                $teList = fetchColumn($conn,
-                "SELECT corporate_agency_id
-                FROM corporate_agency
-                WHERE reference_no LIKE 'BM%'
-                AND (status='1' OR status='3')");
-
-                if(!empty($teList)){
-
-                    $ph = implode(',',array_fill(0,count($teList),'?'));
-
-                    $tcFromTE = fetchColumn($conn,
+                    $tcIds = fetchColumn($conn,
                     "SELECT ca_travelagency_id
                     FROM ca_travelagency
-                    WHERE reference_no IN ($ph)
-                    AND status='1'",$teList);
+                    WHERE reference_no = ?
+                    AND status='1'",[$userId]);
 
-                    $tcIds = array_merge($tcIds,$tcFromTE);
-                }
-            }
-        }
+                } else {
 
-        /* ================= MF ================= */
-
-        elseif ($designation == '28') {
-
-            if (!empty($userId)) {
-
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no = ?
-                AND status='1'",[$userId]);
-
-            } else {
-
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no LIKE 'MF%'
-                AND status='1'");
-
-                $frList = fetchColumn($conn,
-                "SELECT sub_franchisee_id
-                FROM sub_franchisee
-                WHERE reference_no LIKE 'MF%'
-                AND (status='1' OR status='3')");
-
-                if(!empty($frList)){
-
-                    $ph = implode(',',array_fill(0,count($frList),'?'));
-
-                    $tcFromF = fetchColumn($conn,
+                    $tcIds = fetchColumn($conn,
                     "SELECT ca_travelagency_id
                     FROM ca_travelagency
-                    WHERE reference_no IN ($ph)
-                    AND status='1'",$frList);
+                    WHERE reference_no LIKE 'BM%'
+                    AND status='1'");
 
-                    $tcIds = array_merge($tcIds,$tcFromF);
+                    $teList = fetchColumn($conn,
+                    "SELECT corporate_agency_id
+                    FROM corporate_agency
+                    WHERE reference_no LIKE 'BM%'
+                    AND (status='1' OR status='3')");
+
+                    if(!empty($teList)){
+
+                        $ph = implode(',',array_fill(0,count($teList),'?'));
+
+                        $tcFromTE = fetchColumn($conn,
+                        "SELECT ca_travelagency_id
+                        FROM ca_travelagency
+                        WHERE reference_no IN ($ph)
+                        AND status='1'",$teList);
+
+                        $tcIds = array_merge($tcIds,$tcFromTE);
+                    }
                 }
             }
-        }
 
-        /* ================= TE ================= */
+            /* ================= MF ================= */
 
-        elseif ($designation == '16') {
+            elseif ($designation == '28') {
 
-            if (!empty($userId)) {
+                if (!empty($userId)) {
 
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no = ?
-                AND status='1'",[$userId]);
+                    $tcIds = fetchColumn($conn,
+                    "SELECT ca_travelagency_id
+                    FROM ca_travelagency
+                    WHERE reference_no = ?
+                    AND status='1'",[$userId]);
 
-            } else {
+                } else {
 
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE (reference_no LIKE 'TE%' OR reference_no LIKE 'CA%')
-                AND status='1'");
+                    $tcIds = fetchColumn($conn,
+                    "SELECT ca_travelagency_id
+                    FROM ca_travelagency
+                    WHERE reference_no LIKE 'MF%'
+                    AND status='1'");
+
+                    $frList = fetchColumn($conn,
+                    "SELECT sub_franchisee_id
+                    FROM sub_franchisee
+                    WHERE reference_no LIKE 'MF%'
+                    AND (status='1' OR status='3')");
+
+                    if(!empty($frList)){
+
+                        $ph = implode(',',array_fill(0,count($frList),'?'));
+
+                        $tcFromF = fetchColumn($conn,
+                        "SELECT ca_travelagency_id
+                        FROM ca_travelagency
+                        WHERE reference_no IN ($ph)
+                        AND status='1'",$frList);
+
+                        $tcIds = array_merge($tcIds,$tcFromF);
+                    }
+                }
             }
-        }
 
-        /* ================= F ================= */
+            /* ================= TE ================= */
 
-        elseif ($designation == '29') {
+            elseif ($designation == '16') {
 
-            if (!empty($userId)) {
+                if (!empty($userId)) {
 
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no = ?
-                AND status='1'",[$userId]);
+                    $tcIds = fetchColumn($conn,
+                    "SELECT ca_travelagency_id
+                    FROM ca_travelagency
+                    WHERE reference_no = ?
+                    AND status='1'",[$userId]);
 
-            } else {
+                } else {
 
-                $tcIds = fetchColumn($conn,
-                "SELECT ca_travelagency_id
-                FROM ca_travelagency
-                WHERE reference_no LIKE 'F%'
-                AND status='1'");
+                    $tcIds = fetchColumn($conn,
+                    "SELECT ca_travelagency_id
+                    FROM ca_travelagency
+                    WHERE (reference_no LIKE 'TE%' OR reference_no LIKE 'CA%')
+                    AND status='1'");
+                }
             }
-        }
 
-        /* ================= INSTITUTION ================= */
+            /* ================= F ================= */
 
-        elseif ($designation == '32') {
+            elseif ($designation == '29') {
 
-            if (!empty($userId)) {
+                if (!empty($userId)) {
 
-                $tcIds = fetchColumn($conn,
-                "SELECT institution_branch_manager_id
-                FROM institution_branch_manager
-                WHERE reference_no = ?
-                AND status='1'",[$userId]);
+                    $tcIds = fetchColumn($conn,
+                    "SELECT ca_travelagency_id
+                    FROM ca_travelagency
+                    WHERE reference_no = ?
+                    AND status='1'",[$userId]);
 
-            } else {
+                } else {
 
-                $tcIds = fetchColumn($conn,
-                "SELECT institution_branch_manager_id
-                FROM institution_branch_manager
-                WHERE reference_no LIKE 'I%'
-                AND status='1'");
+                    $tcIds = fetchColumn($conn,
+                    "SELECT ca_travelagency_id
+                    FROM ca_travelagency
+                    WHERE reference_no LIKE 'F%'
+                    AND status='1'");
+                }
             }
+
+            /* ================= INSTITUTION ================= */
+
+            elseif ($designation == '32') {
+
+                if (!empty($userId)) {
+
+                    $tcIds = fetchColumn($conn,
+                    "SELECT institution_branch_manager_id
+                    FROM institution_branch_manager
+                    WHERE reference_no = ?
+                    AND status='1'",[$userId]);
+
+                } else {
+
+                    $tcIds = fetchColumn($conn,
+                    "SELECT institution_branch_manager_id
+                    FROM institution_branch_manager
+                    WHERE reference_no LIKE 'I%'
+                    AND status='1'");
+                }
+            }
+
         }
 
+    } catch(PDOException $e){
+        echo '<p class="text-center">Error loading TC hierarchy.</p>';
+        exit;
     }
 
-} catch(PDOException $e){
-    echo '<p class="text-center">Error loading TC hierarchy.</p>';
-    exit;
-}
+    /* ================= MAIN QUERY ================= */
 
-/* ================= MAIN QUERY ================= */
+    $isFilterApplied = isset($_POST['designation']) && $_POST['designation'] != '';
 
-$isFilterApplied = isset($_POST['designation']) && $_POST['designation'] != '';
+    $whereConditions = [];
+    $queryParams = $params;
 
-$whereConditions = [];
-$queryParams = $params;
+    if ($isFilterApplied) {
 
-if ($isFilterApplied) {
+        if (!empty($tcIds)) {
 
-    if (!empty($tcIds)) {
+            $ph = implode(',',array_fill(0,count($tcIds),'?'));
 
-        $ph = implode(',',array_fill(0,count($tcIds),'?'));
+            $whereConditions[] = "user_id IN ($ph)";
+            $queryParams = array_merge($queryParams,$tcIds);
 
-        $whereConditions[] = "user_id IN ($ph)";
-        $queryParams = array_merge($queryParams,$tcIds);
+        } else {
 
-    } else {
-
-        $whereConditions[] = "1=0";
+            $whereConditions[] = "1=0";
+        }
     }
-}
 
-if(!empty($whereConditions)){
-    $whereClause .= " AND ".implode(" AND ",$whereConditions);
-}
+    if(!empty($whereConditions)){
+        $whereClause .= " AND ".implode(" AND ",$whereConditions);
+    }
 
-/* ================= INNER QUERY ================= */
+    /* ================= INNER QUERY ================= */
 
-$innerQuery = "
+    $innerQuery = "
 
-    SELECT 'tc' AS user_type,id,ca_travelagency_id AS user_id,reference_no,registrant,amount,country_code,contact_no,
-    address,register_date,status,country,state,city,firstname,lastname,email,register_by,user_type AS user_type_val
-    FROM ca_travelagency WHERE status = 1
+        SELECT 'tc' AS user_type,id,ca_travelagency_id AS user_id,reference_no,registrant,amount,country_code,contact_no,
+        address,register_date,status,country,state,city,firstname,lastname,email,register_by,user_type AS user_type_val
+        FROM ca_travelagency WHERE status = 1
 
-    UNION ALL
+        UNION ALL
 
-    SELECT 'ibr' AS user_type,id,institution_branch_manager_id AS user_id,reference_no,registrant,amount,country_code,contact_no,
-    address,register_date,status,country,state,city,firstname,lastname,email,register_by,user_type AS user_type_val
-    FROM institution_branch_manager WHERE status = 1
-";
+        SELECT 'ibr' AS user_type,id,institution_branch_manager_id AS user_id,reference_no,registrant,amount,country_code,contact_no,
+        address,register_date,status,country,state,city,firstname,lastname,email,register_by,user_type AS user_type_val
+        FROM institution_branch_manager WHERE status = 1
+    ";
 
-/* ================= FINAL QUERY ================= */
+    /* ================= FINAL QUERY ================= */
 
-$query = "SELECT * FROM ( $innerQuery ) AS final_table $whereClause";
+    $query = "SELECT * FROM ( $innerQuery ) AS final_table $whereClause";
 
-$stmt = $conn->prepare($query);
-$stmt->execute($queryParams);
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare($query);
+    $stmt->execute($queryParams);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-/* ================= TABLE ================= */
+    /* ================= TABLE ================= */
 
-if(empty($rows)){
-    echo '<p class="text-center">No TC data found.</p>';
-    exit;
-}
+    if(empty($rows)){
+        echo '<p class="text-center">No TC data found.</p>';
+        exit;
+    }
 
-echo '<table id="registeredCustomerList-table" class="table align-middle table-nowrap dt-responsive nowrap w-100">';
+    echo '<table id="registeredCustomerList-table" class="table align-middle table-nowrap dt-responsive nowrap w-100">';
 
-echo '<thead class="table-light">
-<tr>
-<th>TC Id / Full Name</th>
-<th>Reference ID / Name</th>
-<th>Referal Ref ID/ Name</th>
-<th>Paid Amount</th>
-<th>Phone / Email</th>
-<th>Address</th>
-<th>Joining Date</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>';
+    echo '<thead class="table-light">
+    <tr>
+    <th>TC Id / Full Name</th>
+    <th>Reference ID / Name</th>
+    <th>Referal Ref ID/ Name</th>
+    <th>Paid Amount</th>
+    <th>Phone / Email</th>
+    <th>Address</th>
+    <th>Joining Date</th>
+    <th>Status</th>
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>';
 
-foreach ($rows as $row){
+    foreach ($rows as $row){
 
-$rdate_display = date("d-m-Y", strtotime($row['register_date']));
-$rdate_sort = date("Y-m-d", strtotime($row['register_date']));
+    $rdate_display = date("d-m-Y", strtotime($row['register_date']));
+    $rdate_sort = date("Y-m-d", strtotime($row['register_date']));
 
-$statusClass = ($row['status'] == '1') ? 'success' : 'danger';
-$statusText  = ($row['status'] == '1') ? 'Active' : 'Deactive';
+    $statusClass = ($row['status'] == '1') ? 'success' : 'danger';
+    $statusText  = ($row['status'] == '1') ? 'Active' : 'Deactive';
 
-echo '<tr>';
+    echo '<tr>';
 
-echo '<td>
-<p class="mb-1">'.htmlspecialchars($row['user_id']).'</p>
-<p class="mb-0">'.htmlspecialchars($row['firstname'].' '.$row['lastname']).'</p>
-</td>';
+    echo '<td>
+    <p class="mb-1">'.htmlspecialchars($row['user_id']).'</p>
+    <p class="mb-0">'.htmlspecialchars($row['firstname'].' '.$row['lastname']).'</p>
+    </td>';
 
-echo '<td>
-<p class="mb-1">'.htmlspecialchars($row['reference_no']).'</p>
-<p class="mb-0">'.htmlspecialchars($row['registrant']).'</p>
-</td>';
+    echo '<td>
+    <p class="mb-1">'.htmlspecialchars($row['reference_no']).'</p>
+    <p class="mb-0">'.htmlspecialchars($row['registrant']).'</p>
+    </td>';
 
-echo '<td>-</td>';
+    echo '<td>-</td>';
 
-echo '<td>'.htmlspecialchars($row['amount'] ?: 0).'</td>';
+    echo '<td>'.htmlspecialchars($row['amount'] ?: 0).'</td>';
 
-echo '<td>
-<p class="mb-1">+'.htmlspecialchars($row['country_code']).' '.htmlspecialchars($row['contact_no']).'</p>
-<p class="mb-0">'.htmlspecialchars($row['email']).'</p>
-</td>';
+    echo '<td>
+    <p class="mb-1">+'.htmlspecialchars($row['country_code']).' '.htmlspecialchars($row['contact_no']).'</p>
+    <p class="mb-0">'.htmlspecialchars($row['email']).'</p>
+    </td>';
 
-echo '<td>'.htmlspecialchars($row['address']).'</td>';
+    echo '<td>'.htmlspecialchars($row['address']).'</td>';
 
-echo '<td data-order="'.$rdate_sort.'">' . $rdate_display . '</td>';
+    echo '<td data-order="'.$rdate_sort.'">' . $rdate_display . '</td>';
 
-echo '<td><span class="badge text-bg-'.$statusClass.'">'.$statusText.'</span></td>';
+    echo '<td><span class="badge text-bg-'.$statusClass.'">'.$statusText.'</span></td>';
 
-echo '<td>
-<div class="dropdown">
-<a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown">
-<i class="mdi mdi-dots-horizontal font-size-18"></i>
-</a>
+    echo '<td>
+    <div class="dropdown">
+    <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown">
+    <i class="mdi mdi-dots-horizontal font-size-18"></i>
+    </a>
 
-<ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
+    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
 
-<li>
-<a href="#"
-onclick="overviewPage(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\''.($row['user_type']=='tc'?'ca_travelagency':'institution_branch_manager').'\')"
-class="dropdown-item">
-<i class="mdi mdi-eye text-info me-1"></i> View
-</a>
-</li>
+    <li>
+    <a href="#"
+    onclick="overviewPage(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\''.($row['user_type']=='tc'?'ca_travelagency':'institution_branch_manager').'\')"
+    class="dropdown-item">
+    <i class="mdi mdi-eye text-info me-1"></i> View
+    </a>
+    </li>
 
-<li>
-<a href="#"
-onclick="editfuncCust(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['register_by'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\'registered\',\''.$row['user_type_val'].'\')"
-class="dropdown-item">
-<i class="mdi mdi-pencil text-primary me-1"></i> Edit
-</a>
-</li>
+    <li>
+    <a href="#"
+    onclick="editfuncCust(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['register_by'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\'registered\',\''.$row['user_type_val'].'\')"
+    class="dropdown-item">
+    <i class="mdi mdi-pencil text-primary me-1"></i> Edit
+    </a>
+    </li>
 
-<li>
-<a href="#"
-onclick="deletefunc(\''.$row['id'].'\',\''.$row['user_id'].'\',\'registered\',\''.$row['user_type'].'\')"
-class="dropdown-item">
-<i class="mdi mdi-trash-can text-danger me-1"></i> Delete
-</a>
-</li>
+    <li>
+    <a href="#"
+    onclick="deletefunc(\''.$row['id'].'\',\''.$row['user_id'].'\',\'registered\',\''.$row['user_type'].'\')"
+    class="dropdown-item">
+    <i class="mdi mdi-trash-can text-danger me-1"></i> Delete
+    </a>
+    </li>
 
-</ul>
-</div>
-</td>';
+    </ul>
+    </div>
+    </td>';
 
-echo '</tr>';
-}
+    echo '</tr>';
+    }
 
-echo '</tbody></table>';
+    echo '</tbody></table>';
 ?>
