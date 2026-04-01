@@ -47,8 +47,8 @@ else if ($DBtable == 'sub_franchisee') { // 29
 }
 else if ($DBtable == 'zonal_manager') { // 27
     $sql = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $id . "' AND status = '1'";
-}else if ($DBtable == 'relationship_manager') { // 31
-    $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
+}else if ($DBtable == 'institution') { // 31
+    $sql = "SELECT * FROM institution WHERE institution_id = '" . $id . "' AND status = '1' AND user_type=32";
 } 
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -585,7 +585,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     <?php 
                                         } 
                                     ?>
-                                    <?php if ($DBtable == 'sub_franchisee') { ?>
+                                    <?php if ($DBtable == 'sub_franchisee' || $DBtable == 'institution') { ?>
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" role="tab" href="#s_p">Upgrade History</a>
                                         </li>
@@ -9623,7 +9623,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                             </div>
                             <!-- Payout End -->
                             <?php 
-                                if($DBtable == 'sub_franchisee'){
+                                if($DBtable == 'sub_franchisee' || $DBtable == 'institution'){
                             ?>
                             <!-- upgarde History Start -->
                             <div class="tab-pane fade card px-3 rounded-4" id="s_p" role="tabpanel">
@@ -9633,16 +9633,23 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             <h5>Upgarde History</h5>
                                         </div>
                                         <?php
-                                            $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM sub_franchisee_upgrade
+                                            if($DBtable == 'sub_franchisee'){
+                                                $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM sub_franchisee_upgrade
                                                                 WHERE sub_franchisee_id='".$id."' and upgrade_status=1
                                                                 ORDER BY upgrade_approval_date DESC limit 1";
+                                            }else if($DBtable == 'institution'){
+                                                $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM institution_upgrade
+                                                                WHERE institution_id='".$id."' and upgrade_status=1
+                                                                ORDER BY upgrade_approval_date DESC limit 1";
+                                            }
+                                        
                                             $stmt101 = $conn->prepare($sql101);
                                             // print_r($stmt101);
                                             $stmt101->execute();
                                             $stmt101->setFetchMode(PDO::FETCH_ASSOC);
                                             if ($stmt101->rowCount() > 0) {
                                                  foreach (($stmt101->fetchAll()) as $key => $row) {
-                                                    $tamount = $row['upgrade_amt'];
+                                                    $tamount = $row['upgrade_amt'] ?? 0;
                                                  }
                                             }else{
                                                 $tamount = $initial_inv;
@@ -9681,13 +9688,22 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         </thead>
                                         <tbody id="upgardeHistory">
                                             <?php
-                                            
-                                            $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
+                                            if($DBtable == 'sub_franchisee'){
+                                                $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
                                                                 payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
                                                                 approved_by,note,upgrade_status 
                                                                 FROM sub_franchisee_upgrade
                                                                 WHERE sub_franchisee_id='".$id."'
                                                                 ORDER BY upgrade_request_date ASC ";
+                                            }else if($DBtable == 'institution'){
+                                                $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
+                                                                payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
+                                                                approved_by,note,upgrade_status 
+                                                                FROM institution_upgrade
+                                                                WHERE institution_id='".$id."'
+                                                                ORDER BY upgrade_request_date ASC ";
+                                            }
+                                            
                                             $stmtUnion = $conn->prepare($sqlUnion);
                                             $stmtUnion->execute();
                                             $stmtUnion->setFetchMode(PDO::FETCH_ASSOC);

@@ -1,6 +1,8 @@
 
-var uploadUrl = "../../../uploading/upload.php";
+var uploadUrl = "../../uploading/upload.php";
+var uploadTermsUrl = "../../uploading/upload.php";
 var transactuploadUrl = "../uploading/upload.php";
+var uploadUrlUpgrade = "../../uploading/upload.php";
 
 //employee BCH and BDM pics upload
 // ** Profile Pic upload **
@@ -34,7 +36,7 @@ $('#profile_pic').change(function(){
                 $('#profile_pic').val('');
             }else{
                 $("#preview1").show();
-                $("#img_pre1").attr("src","../../../uploading/"+data);
+                $("#img_pre1").attr("src","../../uploading/"+data);
                 $("#img_path1").val(data);
             }
                 
@@ -73,7 +75,7 @@ $('#id_proof').change(function(){
                 $('#id_proof').val('');
             }else{
                 $("#preview2").show();
-                $("#img_pre2").attr("src","../../../uploading/"+data);
+                $("#img_pre2").attr("src","../../uploading/"+data);
                 $("#img_path2").val(data);
             }
         }
@@ -111,14 +113,14 @@ $('#bank_details').change(function(){
                 $('#bank_details').val('');
             }else{
                 $("#preview3").show();
-                $("#img_pre3").attr("src","../../../uploading/"+data);
+                $("#img_pre3").attr("src","../../uploading/"+data);
                 $("#img_path3").val(data);
             }
         }
     });
 });
 
-// ** cheque/transact pic **
+// ** cheque/transact pic TA top up**
 $('#upload_cheque').change(function () {
     
     var folder = 'tatopup';
@@ -189,7 +191,7 @@ $('#upload_file1').change(function () {
                 $('#upload_file1').val('');
             }else{
                 $("#preview1").show();
-                $("#img_pre1").attr("src","../../../uploading/"+data);
+                $("#img_pre1").attr("src","../../uploading/"+data);
                 $("#img_path1").val(data);
             }
         }
@@ -227,7 +229,7 @@ $('#upload_file2').change(function () {
                 $('#upload_file2').val('');
             }else{
                 $("#preview2").show();
-                $("#img_pre2").attr("src","../../../uploading/"+data);
+                $("#img_pre2").attr("src","../../uploading/"+data);
                 $("#img_path2").val(data);
             }
         }
@@ -265,7 +267,7 @@ $('#upload_file3').change(function () {
                 $('#upload_file3').val('');
             }else{
                 $("#preview3").show();
-                $("#img_pre3").attr("src","../../../uploading/"+data);
+                $("#img_pre3").attr("src","../../uploading/"+data);
                 $("#img_path3").val(data);
             }
         }
@@ -303,7 +305,7 @@ $('#upload_file4').change(function () {
                 $('#upload_file4').val('');
             }else{
                 $("#preview4").show();
-                $("#img_pre4").attr("src","../../../uploading/"+data);
+                $("#img_pre4").attr("src","../../uploading/"+data);
                 $("#img_path4").val(data);
             }
         }
@@ -341,14 +343,14 @@ $('#upload_file5').change(function () {
                 $('#upload_file5').val('');
             }else{
                 $("#preview5").show();
-                $("#img_pre5").attr("src","../../../uploading/"+data);
+                $("#img_pre5").attr("src","../../uploading/"+data);
                 $("#img_path5").val(data);
             }
         }
     });
 });
 
-// ** Payment Proof Pic upload **
+// ** Payment Proof Pic upload   **
 $('#upload_file6').change(function () {
     var folder = 'payment';
 
@@ -379,7 +381,45 @@ $('#upload_file6').change(function () {
                 $('#upload_file6').val('');
             }else{
                 $("#preview6").show();
-                $("#img_pre6").attr("src","../../../uploading/"+data);
+                $("#img_pre6").attr("src","../../uploading/"+data);
+                $("#img_path6").val(data);
+            }
+        }
+    });
+});
+
+// ** use also for franchisee and institution upgrade **
+$('#upload_file_upgrade').change(function () {
+    var folder = 'payment';
+
+    var file_data = $('#upload_file_upgrade').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrlUpgrade,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_file_upgrade').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_file_upgrade').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_file_upgrade').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_file_upgrade').val('');
+            }else{
+                $("#preview6").show();
+                $("#img_pre6").attr("src","../../uploading/"+data);
                 $("#img_path6").val(data);
             }
         }
@@ -434,7 +474,7 @@ $('#terms_condition').change(function(){
     form_data.append('file', file_data);
     form_data.append('folder',folder);
     $.ajax({
-        url: uploadUrl,
+        url: uploadTermsUrl,
         type: "POST",
         data: form_data,
         contentType: false,
@@ -456,7 +496,7 @@ $('#terms_condition').change(function(){
                 $('#terms_condition').val('');
             }else{
                 $("#previewTerms").show();
-                $("#img_preTerms").attr("src","../../../uploading/"+data);
+                $("#img_preTerms").attr("src","../../uploading/"+data);
                 $("#img_pathTerms").val(data);
             }
                 
