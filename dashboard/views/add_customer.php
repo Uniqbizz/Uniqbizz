@@ -500,7 +500,7 @@ include '../models/customer/customer.php';
     <!--Swiper slider js-->
     <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
 
-    <script src=""></script>
+    <script src="../resources/customer/add_cu_custom.js"></script>
 </body>
 
 </html>
