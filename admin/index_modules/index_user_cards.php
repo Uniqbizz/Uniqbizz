@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="mt-4 mb-2">
-                        <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3 px-5" role="button" style="width: 190px;">View details</a>
+                        <a href="payout/sub_franchisee_payout.php" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3 px-5" role="button" style="width: 190px;">View details</a>
                     </div>
                     <div class="flex-fill" style="position: relative;">
                         <div class="dotlottie-player2">

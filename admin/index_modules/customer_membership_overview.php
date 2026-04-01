@@ -1,3 +1,4 @@
+<!-- Made table responsive 26-03-2026 -->
 <!-- Membership overview  -->
 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="card rounded-4 shadow mb-3">

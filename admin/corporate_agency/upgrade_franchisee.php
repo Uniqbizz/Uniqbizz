@@ -275,7 +275,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label"><b>Payment Proof</b></label><br/>
-                                                        <input class="form-control" type="file" name="file6" id="upload_file6">
+                                                        <input class="form-control" type="file" name="file6" id="upload_file_upgrade">
                                                     </div>
                                                     <input type="hidden" id="img_path6" value="">
                                                     <div id="preview6" style="display: none;">
