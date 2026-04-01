@@ -44,7 +44,7 @@ include '../../models/common_models/session_check.php';
                         <div class="container-fluid">
                             <div class="text-end p-3">
                                 <!-- return previous page link -->
-                                <li class=" badge badge-pill p-2" id="return_to_views_btn" style="width:fit-content; background-color: #0036a2"><a href="../../index.php" class="text-white"><i class="fa fa-backward text-white" aria-hidden="true"></i> Back</a></li>
+                                <li class=" badge badge-pill p-2" id="return_to_views_btn" style="width:fit-content; background-color: #0036a2"><a href="../home/index.php" class="text-white"><i class="fa fa-backward text-white" aria-hidden="true"></i> Back</a></li>
                             </div>  
                             <div class="row">
                                 <div class="card">

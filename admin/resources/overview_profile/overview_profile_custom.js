@@ -58,19 +58,39 @@ mybutton && (window.onscroll = function() {
     scrollFunction()
 });
 $(document).ready(function() {
+
+    // 🔥 FIX: Force tabs inside .tab-content
+    let $tabContent = $('.tab-content');
+
+    let $editLog = $('#editLogs').closest('.tab-pane');
+    if ($editLog.length && !$editLog.parent().hasClass('tab-content')) {
+        $tabContent.append($editLog);
+    }
+
+    let $transferLog = $('#transferLogs').closest('.tab-pane');
+    if ($transferLog.length && !$transferLog.parent().hasClass('tab-content')) {
+        $tabContent.append($transferLog);
+    }
+
+
+    // Your existing code 👇 (unchanged)
+
     $('a[href="#editLogs"]').on('shown.bs.tab', function () {
         loadLogs();
     });
+
     $('a[href="#transferLogs"]').on('shown.bs.tab', function () {
         loadTLogs();
     });
-    // loadLogs();
+
     if($('#DBtable').val() == 'ca_customer'){
         $("#couponsTable").DataTable();
     }
+
     $("#payoutDetailsTable").DataTable();
 
     var paymentMode = $(".payment:checked").val();
+
     if (paymentMode == "cheque") {
         $("#chequeOpt").removeClass("d-none");
         $("#onlineOpt").addClass("d-none");
@@ -82,7 +102,6 @@ $(document).ready(function() {
         $("#onlineOpt").addClass("d-none");
     }
 });
-
 $('#upgardeHistoryTable').DataTable({
     paging: true,
     searching: true,

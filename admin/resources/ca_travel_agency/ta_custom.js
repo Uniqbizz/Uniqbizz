@@ -1,8 +1,8 @@
 $(document).ready(function(){
     $("#pendingCustomerList-table").DataTable();
     $("#deletedTravelAgentList-table").DataTable();
-    // initial load
-    loadFilteredTCData();   
+    // initial load  
+    loadTravelAgenciesByState();
 });
 
 function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
@@ -18,7 +18,7 @@ function deletefunc(id,fid,action,usertype){
     data: dataString,
     cache: false,
         success:function(data){
-            console.log('data'+data);
+            // console.log('data'+data);
             if( data == 0 ){
                 alert("Deleted Succesfully");
                 window.location.reload();
@@ -49,7 +49,7 @@ function confirmfunc(id,email,ref,compCheck,usertype){
         data: dataString,
         cache: false,
         success:function(data){
-            console.log(data);
+            // console.log(data);
             if(data == 1){
                 $("#loading-overlay").hide(); //loading screen
                 alert("Email and Password sent via sms and email");
@@ -121,9 +121,9 @@ $('#filter_state').on('change', function () {
 });
 
 // On page load
-$(document).ready(function () {
-    loadTravelAgenciesByState();
-});
+// $(document).ready(function () {
+//     loadTravelAgenciesByState();
+// });
 
 function regTcDownload(){
 
@@ -212,32 +212,30 @@ function loadFilteredTCData() {
 
             if (data) {
 
-                // Destroy old DataTable if exists
-                if ($.fn.DataTable.isDataTable('#registeredCustomerList-table')) {
-                    $('#registeredCustomerList-table').DataTable().clear().destroy();
-                }
-
-                // Insert new table
                 $('#tcView').html(data);
 
-                // Initialize DataTable AFTER inserting
-                setTimeout(function () {
+                const tableSelector = '#registeredCustomerList-table';
 
-                    let table = $('#registeredCustomerList-table').DataTable({
-                        pageLength: 10,
-                        order: [[6, "asc"]],
-                        responsive: true,
-                        lengthMenu: [10, 25, 50, 100]
-                    });
+                // Destroy old DataTable if exists
+                if ($.fn.DataTable.isDataTable(tableSelector)) {
+                    $(tableSelector).DataTable().clear().destroy();
+                }
 
-                    $('#filterCount').val(table.rows().count());
+                // Initialize DataTable AFTER the table exists in DOM
+                $(tableSelector).DataTable({
+                    pageLength: 10,
+                    order: [[6, "asc"]],
+                    responsive: true,
+                    lengthMenu: [10, 25, 50, 100]
+                });
 
-                }, 50);
+                // Update total rows count
+                const totalRows = $(tableSelector).DataTable().rows().count();
+                $('#filterCount').val(totalRows);
 
             } else {
-
                 $('#tcView').html('<p class="text-center">No data found</p>');
-
+                $('#filterCount').val(0);
             }
         },
         error: function (xhr, status, error) {

@@ -13,7 +13,7 @@ $(window).on("load", function () {
     // wait a bit for AJAX + DOM changes
     setTimeout(() => {
         originalFormData = JSON.stringify(getFormData());
-        console.log("FINAL ORIGINAL:", originalFormData);
+        // console.log("FINAL ORIGINAL:", originalFormData);
     }, 800);
 });
 
@@ -482,7 +482,7 @@ $("#confirmEditReason").on("click", function (e) {
                 data: dataString,
                 cache: false,
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     if (data == 1) {
                         $("#loading-overlay").hide(); //loading screen
                         alert("Edit Successfuly");

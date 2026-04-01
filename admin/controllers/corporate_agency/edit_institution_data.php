@@ -20,6 +20,9 @@ if ($editfor == 'pending') {
 	$tc_message2 = $identifier_id . ": ".$tc_count." TC has been Alloted from " . $editfor . " list";
 }
 
+/* =========================
+COLLECT POST DATA
+========================= */
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $nominee_name = $_POST['nominee_name'];
@@ -29,10 +32,11 @@ $gender = $_POST['gender'];
 $country_code = $_POST['country_code'];
 $phone = $_POST['phone'];
 $dob = $_POST['dob'];
-// get age of the user
+
 $birthYear = str_split($dob, 4);
 $birth_year = $birthYear[0];
 $age = $current_year - $birth_year;
+
 $gst_no = $_POST['gst_no'];
 $amount = $_POST['amount'];
 $profile_pic = $_POST['profile_pic'];
@@ -51,16 +55,14 @@ $pincode = $_POST['pincode'];
 $country = $_POST['country'];
 $state = $_POST['state'];
 $city = $_POST['city'];
-$note=$_POST['note'];
-$tc_ids = [];
+$note = $_POST['note'];
 
 $tc_ids = $_POST['selectedIds'] ?? [];
 $tc_ids = is_array($tc_ids) ? array_filter($tc_ids) : array_filter(explode(',', $tc_ids));
-
 $tc_assign_status = !empty($tc_ids) ? 1 : 2;
 
 function postNumber($key) {
-    return (isset($_POST[$key]) && is_numeric($_POST[$key])) ? (float)$_POST[$key] : 0;
+	return (isset($_POST[$key]) && is_numeric($_POST[$key])) ? (float)$_POST[$key] : 0;
 }
 
 $tenure      = postNumber('tenure');
@@ -69,154 +71,190 @@ $tax         = postNumber('tax');
 $repayAmount = postNumber('repayAmount');
 
 $user_type_id = '32';
-
 $title = "Institution";
-
 $fromWhom = "1";
 $register_by = "1";
 $operation = "Update";
 
-if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
+/* =========================
+FETCH OLD DATA (FOR LOGS)
+========================= */
+$sql_old = "SELECT * FROM institution WHERE $identifier_name:identifier_id";
+$stmt_old = $conn->prepare($sql_old);
+$stmt_old->execute([':identifier_id' => $identifier_id]);
+$oldData = $stmt_old->fetch(PDO::FETCH_ASSOC);
 
-	$sql1 = "UPDATE institution SET firstname=:firstname,lastname=:lastname,
-	nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,
-	contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, 
-	gst_no=:gst_no, amount=:amount, country=:country,state=:state,city=:city,pincode=:pincode,
-	address=:address,note=:note,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,
-	bank_passbook=:passbook, payment_proof=:payment_proof, payment_mode=:payment_mode, cheque_no=:cheque_no, 
-	cheque_date=:cheque_date, bank_name=:bank_name, transaction_no=:transaction_no,
-	no_tc_alloted=:no_tc_alloted,repay_tenure=:repay_tenure,roi=:roi,tax=:tax,
-	repay_amount=:repay_amount,tc_assign_status=:tc_assign_status
-	WHERE $identifier_name:identifier_id ";
-	$stmt = $conn->prepare($sql1);
-	$result =  $stmt->execute(array(
-		':firstname' => $firstname,
-		':lastname' => $lastname,
-		':nominee_name' => $nominee_name,
-		':nominee_relation' => $nominee_relation,
-		':country_code' => $country_code,
-		':contact_no' => $phone,
-		':email' => $email,
-		':gst_no' => $gst_no,
-		':amount' => $amount,
-		':gender' => $gender,
-		':date_of_birth' => $dob,
-		':country' => $country,
-		':state' => $state,
-		':city' => $city,
-		':pincode' => $pincode,
-		':address' => $address,
-		':note' => $note,
-		':profile_pic' => $profile_pic,
-		// ':kyc' => $kyc,
-		':age' => $age,
-		':pan_card' => $pan_card,
-		':aadhar_card' => $aadhar_card,
-		':voting_card' => $voting_card,
-		':passbook' => $bank_passbook,
-		':payment_proof' => $payment_proof,
-		':payment_mode' => $payment_mode,
-		':cheque_no' => $cheque_no,
-		':cheque_date' => $cheque_date,
-		':bank_name' => $bank_name,
-		':transaction_no' => $transaction_no,
-		':no_tc_alloted' => $tc_count,
-		':repay_tenure' =>$tenure,
-		':roi' =>$roi,
-		':tax' =>$tax,
-		':repay_amount' =>$repayAmount,
-		':tc_assign_status'=>$tc_assign_status,
-		':identifier_id' => $identifier_id
-	));
+/* =========================
+PREPARE NEW DATA
+========================= */
+$newData = [
+	'firstname' => $firstname,
+	'lastname' => $lastname,
+	'nominee_name' => $nominee_name,
+	'nominee_relation' => $nominee_relation,
+	'country_code' => $country_code,
+	'contact_no' => $phone,
+	'email' => $email,
+	'gender' => $gender,
+	'date_of_birth' => $dob,
+	'gst_no' => $gst_no,
+	'amount' => $amount,
+	'country' => $country,
+	'state' => $state,
+	'city' => $city,
+	'pincode' => $pincode,
+	'address' => $address,
+	'note' => $note,
+	'profile_pic' => $profile_pic,
+	'pan_card' => $pan_card,
+	'aadhar_card' => $aadhar_card,
+	'voting_card' => $voting_card,
+	'bank_passbook' => $bank_passbook,
+	'payment_proof' => $payment_proof,
+	'payment_mode' => $payment_mode,
+	'cheque_no' => $cheque_no,
+	'cheque_date' => $cheque_date,
+	'bank_name' => $bank_name,
+	'transaction_no' => $transaction_no,
+	'no_tc_alloted' => $tc_count,
+	'repay_tenure' => $tenure,
+	'roi' => $roi,
+	'tax' => $tax,
+	'repay_amount' => $repayAmount,
+	'tc_assign_status' => $tc_assign_status
+];
 
-	if ($result) {
+/* =========================
+FIND FIELD CHANGES
+========================= */
+$field_changes = [];
 
-		$sql = "UPDATE login SET username=:email WHERE user_id=:user_id and user_type_id=:user_type_id";
-		$stmt2 = $conn->prepare($sql);
-		$result2 =  $stmt2->execute(array(
-			':email' => $email,
-			':user_type_id' => $user_type_id,
-			':user_id' => $identifier_id
-		));
-
-		//add selected number of TC's for the TE
-		//find the bm/bdm who registred the TE and get the TC'c who dont have TE alloted to them
-		//based on the number of TC's sletect update the TC'c ref id with this TE's id
-
-		//getting the ref_no of the TE (registered only)
-		$sql1 = "SELECT reference_no,user_type,institution_id FROM institution WHERE $identifier_name:identifier_id AND status=1";
-		$stmt3 = $conn->prepare($sql1);
-		$stmt3->execute(array(
-			':identifier_id' => $identifier_id
-		));
-		// Fetch single row
-		$row = $stmt3->fetch(PDO::FETCH_ASSOC);
-		$reference_no = $row['reference_no'];
-		$ref_user_type = $row['user_type'];
-		$institution_id = $row['institution_id'];
-
-
-		if (!empty($tc_ids)) {
-			foreach ($tc_ids as $tc_id) {
-				$sql = "UPDATE ca_travelagency 
-						SET registrant = :registrant, reference_no = :new_reference_no 
-						WHERE ca_travelagency_id = :tc_id AND status=1";
-
-				$stmt = $conn->prepare($sql);
-				$stmt->execute([
-					':registrant' => $firstname . ' ' . $lastname,
-					':new_reference_no' => $institution_id,
-					':tc_id' => $tc_id
-				]);
-			}
-		}
-		//|| strpos($reference_no, 'BM') !== false
-
-
-		if ($result2) {
-
-			$sql3 = "INSERT INTO logs (user_id,title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:user_id,:title ,:message, :message2,:reference_no, :register_by, :from_whom,:operation)";
-			$stmt3 = $conn->prepare($sql3);
-
-			$result3 = $stmt3->execute(array(
-				':user_id' => $identifier_id,
-				':title' => $title,
-				':message' => $message,
-				':message2' => $message2,
-				':reference_no' => $refid,
-				':register_by' => $register_by,
-				':from_whom' => $fromWhom,
-				':operation' => $operation
-			));
-			//log only if TC are alloted
-			if ($tc_count) {
-				$sql3_1 = "INSERT INTO logs (user_id,title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:user_id,:title ,:message, :message2,:reference_no, :register_by, :from_whom,:operation)";
-				$stmt3_1 = $conn->prepare($sql3_1);
-	
-				$result3_1 = $stmt3->execute(array(
-					':user_id' => $identifier_id,
-					':title' => 'TC Allotment',
-					':message' => $tc_message,
-					':message2' => $tc_message2,
-					':reference_no' => $refid,
-					':register_by' => $register_by,
-					':from_whom' => $fromWhom,
-					':operation' => 'TC Allotment'
-				));
-			}
-
-			if ($result3) {
-				echo 1;
-			} else {
-				echo 0;
-			}
-			// echo 1;
-		} else {
-			echo 0;
-		}
-	} else {
-		echo 0;
+foreach ($newData as $field => $newValue) {
+	$oldValue = $oldData[$field] ?? '';
+	if ((string)$oldValue !== (string)$newValue) {
+		$field_changes[] = "$field: '$oldValue' → '$newValue'";
 	}
+}
+
+$field_log_message = implode(", ", $field_changes);
+
+/* =========================
+UPDATE QUERY
+========================= */
+$sql1 = "UPDATE institution SET firstname=:firstname,lastname=:lastname,
+nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,
+contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, 
+gst_no=:gst_no, amount=:amount, country=:country,state=:state,city=:city,pincode=:pincode,
+address=:address,note=:note,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,
+bank_passbook=:passbook, payment_proof=:payment_proof, payment_mode=:payment_mode, cheque_no=:cheque_no, 
+cheque_date=:cheque_date, bank_name=:bank_name, transaction_no=:transaction_no,
+no_tc_alloted=:no_tc_alloted,repay_tenure=:repay_tenure,roi=:roi,tax=:tax,
+repay_amount=:repay_amount,tc_assign_status=:tc_assign_status
+WHERE $identifier_name:identifier_id ";
+
+$stmt = $conn->prepare($sql1);
+$result = $stmt->execute([
+	':firstname' => $firstname,
+	':lastname' => $lastname,
+	':nominee_name' => $nominee_name,
+	':nominee_relation' => $nominee_relation,
+	':country_code' => $country_code,
+	':contact_no' => $phone,
+	':email' => $email,
+	':gst_no' => $gst_no,
+	':amount' => $amount,
+	':gender' => $gender,
+	':date_of_birth' => $dob,
+	':country' => $country,
+	':state' => $state,
+	':city' => $city,
+	':pincode' => $pincode,
+	':address' => $address,
+	':note' => $note,
+	':profile_pic' => $profile_pic,
+	':age' => $age,
+	':pan_card' => $pan_card,
+	':aadhar_card' => $aadhar_card,
+	':voting_card' => $voting_card,
+	':passbook' => $bank_passbook,
+	':payment_proof' => $payment_proof,
+	':payment_mode' => $payment_mode,
+	':cheque_no' => $cheque_no,
+	':cheque_date' => $cheque_date,
+	':bank_name' => $bank_name,
+	':transaction_no' => $transaction_no,
+	':no_tc_alloted' => $tc_count,
+	':repay_tenure' => $tenure,
+	':roi' => $roi,
+	':tax' => $tax,
+	':repay_amount' => $repayAmount,
+	':tc_assign_status' => $tc_assign_status,
+	':identifier_id' => $identifier_id
+]);
+
+/* =========================
+AFTER UPDATE
+========================= */
+if ($result) {
+
+	/* LOGIN UPDATE */
+	$sql = "UPDATE login SET username=:email WHERE user_id=:user_id and user_type_id=:user_type_id";
+	$stmt2 = $conn->prepare($sql);
+	$stmt2->execute([
+		':email' => $email,
+		':user_type_id' => $user_type_id,
+		':user_id' => $identifier_id
+	]);
+
+	/* SYSTEM LOG */
+	$sql3 = "INSERT INTO logs (user_id,title,message,message2,reference_no, register_by, from_whom,operation)
+	VALUES (:user_id,:title ,:message, :message2,:reference_no, :register_by, :from_whom,:operation)";
+	$stmt3 = $conn->prepare($sql3);
+
+	$result3 = $stmt3->execute([
+		':user_id' => $identifier_id,
+		':title' => $title,
+		':message' => $message,
+		':message2' => $message2,
+		':reference_no' => $refid,
+		':register_by' => $register_by,
+		':from_whom' => $fromWhom,
+		':operation' => $operation
+	]);
+
+	/* FIELD EDIT LOG */
+	if (!empty($field_log_message)) {
+		$stmt_field = $conn->prepare($sql3);
+		$stmt_field->execute([
+			':user_id' => $identifier_id,
+			':title' => 'Field Update',
+			':message' => $field_log_message,
+			':message2' => $field_log_message,
+			':reference_no' => $refid,
+			':register_by' => $register_by,
+			':from_whom' => $fromWhom,
+			':operation' => 'Field Edit'
+		]);
+	}
+
+	/* TC LOG */
+	if ($tc_count) {
+		$stmt3_1 = $conn->prepare($sql3);
+		$stmt3_1->execute([
+			':user_id' => $identifier_id,
+			':title' => 'TC Allotment',
+			':message' => $tc_message,
+			':message2' => $tc_message2,
+			':reference_no' => $refid,
+			':register_by' => $register_by,
+			':from_whom' => $fromWhom,
+			':operation' => 'TC Allotment'
+		]);
+	}
+
+	echo 1;
+
 } else {
 	echo 0;
 }
+?>

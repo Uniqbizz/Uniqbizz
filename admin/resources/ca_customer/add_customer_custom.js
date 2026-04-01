@@ -374,7 +374,7 @@ $("#addCustomer").on("click", function (e) {
             isComplementary+
             "&transfer_check="+
             transfer_check;
-        console.log(dataString);
+        // console.log(dataString);
 
         $("#addCustomer").attr("disabled", "disabled");
         // console.log(dataString);
@@ -385,7 +385,7 @@ $("#addCustomer").on("click", function (e) {
             data: dataString,
             cache: false,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 if (data == 1) {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Added Successfuly");

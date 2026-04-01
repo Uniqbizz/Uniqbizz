@@ -29,7 +29,7 @@ $('#designation').on('change', function() {
 
     $.ajax({
         type: 'POST',
-        url: '../../payout/forms/get_users.php',
+        url: '../../controllers/payout/forms/get_users.php',
         data: "designation=" + designation,
         success: function(e) {
             $('.user_row').remove();
@@ -74,6 +74,12 @@ $('#user_id_name').on('change', function() {
     }
     if (designation == 'ca_travelagency'){
         user_type=11;
+    }
+    if (designation == 'institution'){
+        user_type=32;
+    }
+    if (designation == 'institution_branch_manager'){
+        user_type=33;
     }
     if (designation == 'ca_customer'){
         user_type=10;

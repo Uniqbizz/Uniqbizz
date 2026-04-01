@@ -319,7 +319,7 @@
 
                 $payment_mode=$row['payment_mode'];
                 $payment_proof=$row['payment_proof'];
-
+                $payment_fee=$row['amount'];
                 $pan_card=$row['pan_card'];
                 $aadhar_card=$row['aadhar_card'];
                 $voting_card=$row['voting_card'];

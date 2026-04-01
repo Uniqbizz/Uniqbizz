@@ -21,7 +21,7 @@ function deletefunc(id,fid,action){
     data: dataString,
     cache: false,
         success:function(data){
-            console.log('data'+data);
+            // console.log('data'+data);
             if( data == 0 ){
                 alert("Deleted Succesfully");
                 window.location.reload();
@@ -82,7 +82,7 @@ function loadCustomersByState() {
         cache: false,
         success: function (data) {
             if (data) {
-                console.log('success ' + data);
+                // console.log('success ' + data);
                 $('#cuView').html(data);
 
                 // Reinitialize DataTable safely

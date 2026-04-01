@@ -55,13 +55,13 @@ $('#registered').on('change', function () {
 //select Designation
 $('#designation').on('change', function() {
     var designation = $('#designation').val();
-    console.log(designation);
+    // console.log(designation);
     $.ajax({
         type:'POST',
         url:'../../agents/get_user_Franchisee.php',
         data: "designation="+designation,
         success:function (e) {
-            console.log(e);
+            // console.log(e);
             $('#user_id_name').html(e); 
         },
         error: function(err){
@@ -72,13 +72,13 @@ $('#designation').on('change', function() {
 
 $('#designation2').on('change', function() {
     var designation = $('#designation2').val();
-    console.log(designation);
+    // console.log(designation);
     $.ajax({
         type:'POST',
         url:'../../agents/get_user_Franchisee.php',
         data: "designation="+designation,
         success:function (e) {
-            console.log(e);
+            // console.log(e);
             $('#user_id_name').html(e); 
         },
         error: function(err){
@@ -93,7 +93,7 @@ $('#user_id_name').on('change', function(){
     var designation = !$('#designation').hasClass('d-none') 
     ? $('#designation').val() 
     : $('#designation2').val();
-    console.log(user_id_name);
+    // console.log(user_id_name);
 
     // var designation = 'franchisee';
     // console.log(designation);
@@ -460,7 +460,7 @@ $("#add_ca_travelagency").on("click", function (e) {
             data: dataString,
             cache: false,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 if (data == 1) {
                     $("#loading-overlay").hide(); //loading screen
                     alert("Added Successfuly");

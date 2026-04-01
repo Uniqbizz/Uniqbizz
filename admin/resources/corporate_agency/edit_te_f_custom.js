@@ -429,7 +429,7 @@ $("#confirmEditReason").on("click", function (e) {
                 cache: false,
                 success: function (data) {
 
-                    console.log(data);
+                    // console.log(data);
 
                     $("#loading-overlay").hide();
 

@@ -362,7 +362,21 @@ switch ($user_type) {
             }
         }
         break;
-
+    case '32': // I
+        $tcs = fetchReferrals($conn, 'institution_branch_manager', 'reference_no', $userId);
+        if (empty($tcs)) {
+            noReferralsFoundMessage();
+        } else {
+            foreach ($tcs as $tc) {
+                $tcId = $tc['institution_branch_manager_id'];
+                $tcCount = fetchReferralCount($conn, 'ca_customer', 'reference_no', $tcId) +
+                           fetchReferralCount($conn, 'ca_customer', 'ta_reference_no', $tcId);
+                renderAccordionItemFull("IBR", $tc, 'institution_branch_manager_id', $tcCount);
+                renderCustomerReferrals($conn, $tcId, 2);
+                echo "</div>";
+            }
+        }
+        break;
     case '11': // TC
         $tcId = $userId;
         $tcCount = fetchReferralCount($conn, 'ca_customer', 'reference_no', $tcId) +
@@ -371,7 +385,14 @@ switch ($user_type) {
         renderCustomerReferrals($conn, $tcId, 2);
         echo "</div>";
         break;
-
+    case '11': // IBR
+        $tcId = $userId;
+        $tcCount = fetchReferralCount($conn, 'ca_customer', 'reference_no', $tcId) +
+                   fetchReferralCount($conn, 'ca_customer', 'ta_reference_no', $tcId);
+        renderAccordionItemFull("IBR", ['institution_branch_manager_id' => $tcId], 'institution_branch_manager_id', $tcCount);
+        renderCustomerReferrals($conn, $tcId, 2);
+        echo "</div>";
+        break;
     case '10': // Customer
         renderAccordionItemFull("CU", ['ca_customer_id' => $userId], 'ca_customer_id');
         renderCustomerReferrals($conn, $userId, 1);
