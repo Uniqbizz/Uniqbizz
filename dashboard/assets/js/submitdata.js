@@ -482,7 +482,7 @@ $('#addBusinessMentor').on('click', function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "business_mentor/add_business_mentor_data.php",
+            url: "../controllers/business_mentor/add_business_mentor_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
@@ -676,7 +676,7 @@ $('#editBuisnessMentor').on('click', function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "business_mentor/edit_business_mentor_data.php",
+            url: "../controllers/business_mentor/edit_business_mentor_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
@@ -1170,11 +1170,11 @@ $('#add-corporate-agency').click(function (e) {
     // console.log('Add customer button clicked');
     var registered =$('#registered').val();
     var url= registered == 'corporate_agency'
-                ?"corporate_agency/add_corporate_agency_data.php"
+                ?"../controllers/corporate_agency/add_corporate_agency_data.php"
                 :registered == 'sub_franchisee'
-                    ?"corporate_agency/add_franchisee_data.php"
+                    ?"../controllers/corporate_agency/add_franchisee_data.php"
                     :registered == 'institution'
-                        ?"corporate_agency/add_institution_data.php"
+                        ?"../controllers/corporate_agency/add_institution_data.php"
                         :'NA';
     // var designation = $("#designation").val().trim();
     var user_id_name = $("#user_id_name").val(); // reference id
@@ -1332,11 +1332,11 @@ $('#edit-corporate-agency').click(function (e) {
     // var reference_name = $("#reference_name").val();
     var registered =$('#registered').val();
     var url= registered == '16'
-                ?"corporate_agency/edit_corporate_agency_data.php"
+                ?"../controllers/corporate_agency/edit_corporate_agency_data.php"
                 :registered == '29'
-                    ?"corporate_agency/edit_franchisee_data.php"
+                    ?"../controllers/corporate_agency/edit_franchisee_data.php"
                     :registered == '32'
-                        ?"corporate_agency/edit_institution_data.php"
+                        ?"../controllers/corporate_agency/edit_institution_data.php"
                         :'NA';
     
     var editfor = $('#editfor').val(); // registered OR pending
@@ -1495,9 +1495,9 @@ $('#add-travel-agent').click(function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == 'travel_consultant'
-    ? '"travel_agent/add_travel_agent_data.php"'
+    ? '"../controllers/travel_agent/add_travel_agent_data.php"'
     : register_as == 'institution_branch_manager'
-        ? 'travel_agent/add_ca_ins_branch_manager_data.php'
+        ? '../controllers/travel_agent/add_ca_ins_branch_manager_data.php'
         : '';
     // console.log('Add customer button clicked');
 
@@ -1691,9 +1691,9 @@ $('#edit-travel-agent').click(function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == '11'
-    ? '"travel_agent/edit_travel_agent_data.php"'
+    ? '"../controllers/travel_agent/edit_travel_agent_data.php"'
     : register_as == '33'
-        ? 'travel_agent/edit_ca_ins_branch_manager_data.php'
+        ? '../controllers/travel_agent/edit_ca_ins_branch_manager_data.php'
         : '';
 
     // var designation = $("#designation").val();
@@ -2052,7 +2052,7 @@ $('#add-customer').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "customer/add_customer_data.php",
+            url: "../controllers/customer/add_customer_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
@@ -2258,7 +2258,7 @@ $('#edit-customer').click(function (e) {
 
         $.ajax({
             type: "POST",
-            url: "customer/edit_customer_data.php",
+            url: "../controllers/customer/edit_customer_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
