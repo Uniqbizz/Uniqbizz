@@ -1,11 +1,6 @@
 <?php
-
 	session_start();
-
-	if(!isset($_SESSION['username'])){
-		echo '<script>location.href = "../../login.php";</script>';
-	}
-
+    
     include '../../connect.php';
     $current_year = date('Y'); 
 

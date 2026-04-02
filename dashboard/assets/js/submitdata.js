@@ -173,20 +173,20 @@ $('#add_bdm').click(function (e) {
 
         var dataString = 'name=' + name + '&birth_date=' + birth_date + '&country_cd=' + country_cd + '&contact=' + contact + '&email=' + email + '&address=' + address + '&gender=' + gender + '&joining_date=' + joining_date + '&department=' + department + '&designation=' + designation + '&zone=' + zone + '&branch=' + branch + '&reporting_manager=' + reporting_manager + '&profile_pic=' + profile_pic + '&id_proof=' + id_proof + '&bank_details=' + bank_details + '&userId=' + userId + '&userType=' + userType;
 
-        console.log(dataString);
+        // console.log(dataString);
         $('#add_bdm').attr("disabled", "disabled");
 
         $.ajax({
             type: 'POST',
-            url: 'business_development_manager/add_business_development_manager_data.php',
+            url: '../controllers/business_development_manager/add_business_development_manager_data.php',
             data: dataString,
             cache: false,
             success: function (data) {
-                if (data == 1) {
+                if (data.trim() == "1") {
                     alert("Added Successfully");
                     location.href = "view_business_development_manager.php";
                 } else {
-                    alert("Failed");
+                    alert("Failed: " + data);
                 }
             }
         });
@@ -283,7 +283,7 @@ $('#edit_bdm').click(function (e) {
 
         $.ajax({
             type: 'POST',
-            url: 'business_development_manager/edit_business_development_manager_data.php',
+            url: '../controllers/business_development_manager/edit_business_development_manager_data.php',
             data: dataString,
             cache: false,
             success: function (data) {

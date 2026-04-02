@@ -17,6 +17,12 @@ try {
     $userType = $_POST['userType'];
 
     $counts = [
+        'pendingIBR' => 0,
+        'registeredIBR' => 0,
+        'deletedIBR' => 0,
+        'pendingI' => 0,
+        'registeredI' => 0,
+        'deletedI' => 0,
         'pendingF' => 0,
         'registeredF' => 0,
         'deletedF' => 0,
@@ -305,9 +311,8 @@ try {
     elseif ($userType == '26') {
         fetchCustomerCounts($conn, $userId, $counts);
         
-    }elseif ($userType == '16') {
+    }elseif ($userType == '16' || $userType == '32') {
         fetchCustomerCounts($conn, $userId, $counts);
-        
     }
     else if($userType == '28'){
         $fId = $userId;

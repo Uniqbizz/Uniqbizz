@@ -140,7 +140,8 @@ function showCountlist(userType, userId) {
         success: function (response) {
             if (response.status === 'success') {
                 const data = response.data;
-
+                const prefix2 = userId.substring(0, 2);
+                const prefix1 = userId.substring(0, 1);
                 // Example: Populate table with ID `#countTableBody`
                 const tableBody = $('#countTableBody');
                 tableBody.empty(); // Clear previous data
@@ -177,6 +178,12 @@ function showCountlist(userType, userId) {
                             <td>${data.deletedF}</td>
                         </tr>
                         <tr>
+                            <th>Institution</th>
+                            <td>${data.pendingI}</td>
+                            <td>${data.registeredI}</td>
+                            <td>${data.deletedI}</td>
+                        </tr>
+                        <tr>
                             <th>Travel Consultant</th>
                             <td>${data.pendingTC}</td>
                             <td>${data.registeredTC}</td>
@@ -191,8 +198,7 @@ function showCountlist(userType, userId) {
                     `);
                 }
                 if (userType == '25'){
-                    const prefix2 = userId.substring(0, 2);
-                    const prefix1 = userId.substring(0, 1);
+                   
                     if (['BM', 'MF', 'SF'].includes(prefix2)) {
                         if (prefix2 === 'BM') {
                             tableBody.append(`
@@ -201,6 +207,12 @@ function showCountlist(userType, userId) {
                                     <td>${data.pendingTE}</td>
                                     <td>${data.registeredTE}</td>
                                     <td>${data.deletedTE}</td>
+                                </tr>
+                                <tr>
+                                    <th>Institution</th>
+                                    <td>${data.pendingI}</td>
+                                    <td>${data.registeredI}</td>
+                                    <td>${data.deletedI}</td>
                                 </tr>
                                 <tr>
                                     <th>Travel Consultant</th>
@@ -222,6 +234,12 @@ function showCountlist(userType, userId) {
                                     <td>${data.pendingF}</td>
                                     <td>${data.registeredF}</td>
                                     <td>${data.deletedF}</td>
+                                </tr>
+                                <tr>
+                                    <th>Institution</th>
+                                    <td>${data.pendingI}</td>
+                                    <td>${data.registeredI}</td>
+                                    <td>${data.deletedI}</td>
                                 </tr>
                                 <tr>
                                     <th>Travel Consultant</th>
@@ -261,24 +279,56 @@ function showCountlist(userType, userId) {
                                 <td>${data.deletedCU}</td>
                             </tr>
                         `);
+                    } else if (prefix1 === 'I') {
+                        tableBody.append(`
+                            <tr>
+                                <th>Institution Branch Manager</th>
+                                <td>${data.pendingIBR}</td>
+                                <td>${data.registeredIBR}</td>
+                                <td>${data.deletedIBR}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
                     }
                 }
                 if (userType == '26'){
 
-                    tableBody.append(`
-                        <tr>
-                            <th>Travel Consultant</th>
-                            <td>${data.pendingTC}</td>
-                            <td>${data.registeredTC}</td>
-                            <td>${data.deletedTC}</td>
-                        </tr>
-                        <tr>
-                            <th>Customer</th>
-                            <td>${data.pendingCU}</td>
-                            <td>${data.registeredCU}</td>
-                            <td>${data.deletedCU}</td>
-                        </tr>
-                    `);
+                    if (prefix1 === 'F' || prefix2 === 'TE' || prefix2 === 'CA') {
+                        tableBody.append(`
+                            <tr>
+                                <th>Travel Consultant</th>
+                                <td>${data.pendingTC}</td>
+                                <td>${data.registeredTC}</td>
+                                <td>${data.deletedTC}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
+                    } else if (prefix1 === 'I') {
+                        tableBody.append(`
+                            <tr>
+                                <th>Institution Branch Manager</th>
+                                <td>${data.pendingIBR}</td>
+                                <td>${data.registeredIBR}</td>
+                                <td>${data.deletedIBR}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
+                    }
                 }
                 if (userType == '16'){
                     tableBody.append(`
@@ -291,8 +341,6 @@ function showCountlist(userType, userId) {
                     `);
                 }
                 if (userType == '28'){
-                    const prefix2 = userId.substring(0, 2);
-                    const prefix1 = userId.substring(0, 1);
                     if (prefix2 === 'TA') {
                         tableBody.append(`
                             <tr>
@@ -317,6 +365,21 @@ function showCountlist(userType, userId) {
                                 <td>${data.deletedCU}</td>
                             </tr>
                         `);
+                    } else if (prefix1 === 'I') {
+                        tableBody.append(`
+                            <tr>
+                                <th>Institution Branch Manager</th>
+                                <td>${data.pendingIBR}</td>
+                                <td>${data.registeredIBR}</td>
+                                <td>${data.deletedIBR}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
                     }
                     
                 }
@@ -331,20 +394,37 @@ function showCountlist(userType, userId) {
                     `);
                 }
                 if (userType == '30'){
-                    tableBody.append(`
-                        <tr>
-                            <th>Travel Consultant</th>
-                            <td>${data.pendingTC}</td>
-                            <td>${data.registeredTC}</td>
-                            <td>${data.deletedTC}</td>
-                        </tr>
-                        <tr>
-                            <th>Customer</th>
-                            <td>${data.pendingCU}</td>
-                            <td>${data.registeredCU}</td>
-                            <td>${data.deletedCU}</td>
-                        </tr>
-                    `);
+                    if (prefix1 === 'F') {
+                        tableBody.append(`
+                            <tr>
+                                <th>Travel Consultant</th>
+                                <td>${data.pendingTC}</td>
+                                <td>${data.registeredTC}</td>
+                                <td>${data.deletedTC}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
+                    } else if (prefix1 === 'I') {
+                        tableBody.append(`
+                            <tr>
+                                <th>Institution Branch Manager</th>
+                                <td>${data.pendingIBR}</td>
+                                <td>${data.registeredIBR}</td>
+                                <td>${data.deletedIBR}</td>
+                            </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
+                    }
                 }
                 if (userType == '31'){
                     tableBody.append(`
@@ -369,6 +449,16 @@ function showCountlist(userType, userId) {
                         
                     `);
                     
+                }
+                if (userType == '32'){
+                    tableBody.append(`
+                        <tr>
+                            <th>Customer</th>
+                            <td>${data.pendingCU}</td>
+                            <td>${data.registeredCU}</td>
+                            <td>${data.deletedCU}</td>
+                        </tr>
+                    `);
                 }
             } else {
                 console.error('Error:', response.message);

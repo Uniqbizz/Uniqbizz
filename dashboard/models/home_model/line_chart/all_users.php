@@ -32,59 +32,39 @@
         <div class="card rounded-4">
             <div class="card-header align-items-center d-flex rounded-top-4">
                 <?php
-                if ($userType == "3") {
-                    $topCustomerTableName = "Corporate Agency";
-                    $topCustomerTableRefCol = "TA";
-                } else if ($userType == "16") {
-                    $topCustomerTableName = "Travel Agency";
-                    $topCustomerTableRefCol = "CU";
-                } else if ($userType == "11" || $userType == '33') {
-                    $topCustomerTableName = "Customers";
-                    $topCustomerTableRefCol = "CU";
-                } else if ($userType == "18") {
-                    $topCustomerTableName = "Business Consultant";
-                    $topCustomerTableRefCol = "BC";
-                } else if ($userType == "10") { //customer can bring customer thay why $topCustomerTableName value is "Customer"
-                    $topCustomerTableName = "Customers";
-                    $topCustomerTableRefCol = "CU";
-                } else if ($userType == "19") {
-                    $topCustomerTableName = "Business Operation Executive";
-                    $topCustomerTableRefCol = "BOE";
-                } else if ($userType == "20") {
-                    $topCustomerTableName = "Training Manager";
-                    $topCustomerTableRefCol = "TM";
-                } else if ($userType == "21") {
-                    $topCustomerTableName = "Sales Executive";
-                    $topCustomerTableRefCol = "SE";
-                } else if ($userType == "24") {
-                    $topCustomerTableName = "Business Development Manager";
-                    $topCustomerTableRefCol = "BDM";
-                } else if ($userType == "25") {
-                    $topCustomerTableName = "BM/TE/F/TC";
-                    $topCustomerTableRefCol = "BM/TE/F/TC";
-                } else if ($userType == "26") {
-                    $topCustomerTableName = "Travel Consultant";
-                    $topCustomerTableRefCol = "TC";
-                }else if ($userType == "28") {
-                    $topCustomerTableName = "Travel Consultant/Franchisee";
-                    $topCustomerTableRefCol = "TC/F";
-                }else if ($userType == "29") {
-                    $topCustomerTableName = "Travel Consultant";
-                    $topCustomerTableRefCol = "TC";
-                }else if ($userType == "30") {
-                    $topCustomerTableName = "Franchisee";
-                    $topCustomerTableRefCol = "F";
-                }else if ($userType == "31") {
-                    $topCustomerTableName = "(Master/Sponsor) Franchisee/Franchisee";
-                    $topCustomerTableRefCol = "MF/SF";
-                }
+                    if ($userType == "16") {
+                        $topCustomerTableName = "Travel Agency";
+                        $topCustomerTableRefCol = "CU";
+                    } else if ($userType == "11" || $userType == '33') {
+                        $topCustomerTableName = "Customers";
+                        $topCustomerTableRefCol = "CU";
+                    } else if ($userType == "10") { //customer can bring customer thay why $topCustomerTableName value is "Customer"
+                        $topCustomerTableName = "Customers";
+                        $topCustomerTableRefCol = "CU";
+                    } else if ($userType == "24") {
+                        $topCustomerTableName = "Business Development Manager";
+                        $topCustomerTableRefCol = "BDM";
+                    } else if ($userType == "25") {
+                        $topCustomerTableName = "BM/TE/F/TC";
+                        $topCustomerTableRefCol = "BM/TE/F/TC";
+                    } else if ($userType == "26") {
+                        $topCustomerTableName = "Travel Consultant";
+                        $topCustomerTableRefCol = "TC";
+                    }else if ($userType == "28") {
+                        $topCustomerTableName = "Travel Consultant/Franchisee";
+                        $topCustomerTableRefCol = "TC/F";
+                    }else if ($userType == "29") {
+                        $topCustomerTableName = "Travel Consultant";
+                        $topCustomerTableRefCol = "TC";
+                    }else if ($userType == "30") {
+                        $topCustomerTableName = "Franchisee";
+                        $topCustomerTableRefCol = "F";
+                    }else if ($userType == "31") {
+                        $topCustomerTableName = "(Master/Sponsor) Franchisee/Franchisee";
+                        $topCustomerTableRefCol = "MF/SF";
+                    }
                 ?>
                 <h4 class="card-title mb-0 flex-grow-1">Top <?php echo $topCustomerTableName; ?></h4>
-                <!-- <div class="flex-shrink-0">
-                        <button type="button" class="btn btn-soft-info btn-sm">
-                            <i class="ri-file-list-3-line align-bottom"></i> Download
-                        </button>
-                    </div> -->
             </div><!-- end card header -->
 
             <div class="card-body pb-2">
@@ -101,18 +81,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            // business_consultant
-                            if ($userType == '3') {
-                                $tableName1 = 'corporate_agency';
-                                $tableId1 = 'corporate_agency_id';
-                                $tableNameDesignation = 'Corporate Agency';
-                                $tableName2 = 'ca_travelagency';
-                                $tableId2 = 'ca_travelagency_id';
-                                $tableColumnName = 'reference_no';
-                                $tableColumnName2 = 'reference_no';
-                            }
-                            // corporate_agency
+                            <?php                            // corporate_agency
                             if ($userType == '16') {
                                 $tableName1 = 'ca_travelagency';
                                 $tableId1 = 'ca_travelagency_id';
@@ -139,46 +108,6 @@
                                 $tableNameDesignation = 'Customer';
                                 $tableName2 = 'ca_customer';
                                 $tableId2 = 'ca_customer_id';
-                                $tableColumnName = 'reference_no';
-                                $tableColumnName2 = 'reference_no';
-                            }
-                            // channel_business_director
-                            if ($userType == '18') {
-                                $tableName1 = 'business_consultant';
-                                $tableId1 = 'business_consultant_id';
-                                $tableNameDesignation = 'Business Consultant';
-                                $tableName2 = 'corporate_agency';
-                                $tableId2 = 'corporate_agency_id';
-                                $tableColumnName = 'reference_no';
-                                $tableColumnName2 = 'reference_no';
-                            }
-                            // CA Franchisee
-                            if ($userType == '19') {
-                                $tableName1 = 'business_operation_executive';
-                                $tableId1 = 'business_operation_executive_id';
-                                $tableNameDesignation = 'Business Operation Executive';
-                                $tableName2 = 'training_manager';
-                                $tableId2 = 'training_manager_id';
-                                $tableColumnName = 'reference_no';
-                                $tableColumnName2 = 'reference_no';
-                            }
-                            // Business Operation Executive
-                            if ($userType == '20') {
-                                $tableName1 = 'training_manager';
-                                $tableId1 = 'training_manager_id';
-                                $tableNameDesignation = 'Training Manager';
-                                $tableName2 = 'sales_executive';
-                                $tableId2 = 'sales_executive_id';
-                                $tableColumnName = 'reference_no';
-                                $tableColumnName2 = 'reference_no';
-                            }
-                            // Training Manager table 2's id and name put proper 
-                            if ($userType == '21') {
-                                $tableName1 = 'sales_executive';
-                                $tableId1 = 'sales_executive_id';
-                                $tableNameDesignation = 'Sales Executive';
-                                $tableName2 = 'sales_executive';
-                                $tableId2 = 'sales_executive_id';
                                 $tableColumnName = 'reference_no';
                                 $tableColumnName2 = 'reference_no';
                             }
@@ -511,8 +440,9 @@
                                         LIMIT 5
                                     ";
 
-                                    $stmt = $conn->prepare($sql);
-                                    $stmt->execute(['userId' => $userId]); 
+                                    $stmt2 = $conn->prepare($sql);
+                                    
+                                    $stmt2->execute(['userId' => $userId]); 
                             }else if($userType == '31'){
                                                                                                     
                                 $sql = "SELECT combined.id,
@@ -584,8 +514,8 @@
                                         LIMIT 5
                                     ";
 
-                                $stmt = $conn->prepare($sql);
-                                $stmt->execute(['userId' => $userId]);
+                                $stmt2 = $conn->prepare($sql);
+                                $stmt2->execute(['userId' => $userId]);
 
                                 
                             }else{

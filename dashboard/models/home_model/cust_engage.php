@@ -15,13 +15,6 @@
                 <div data-simplebar style="max-height: 190px" class="px-3 mx-n3">
                     <ul class="list-unstyled mb-0 pt-2" id="candidate-list">
                         <?php
-                            // business_consultant
-                            if ($userType == '3') {
-                                $tableName = 'corporate_agency';
-                                $tableId = 'corporate_agency_id';
-                                $tableNameDesignation = 'Corporate Agency';
-                                $tableColumn = 'reference_no';
-                            }
                             // corporate_agency
                             if ($userType == '16') {
                                 $tableName = 'ca_travelagency';
@@ -43,41 +36,7 @@
                                 $tableNameDesignation = 'Customer';
                                 $tableColumn = 'reference_no';
                             }
-                            // channel_business_director
-                            if ($userType == '18') {
-                                $tableName = 'business_consultant';
-                                $tableId = 'business_consultant_id';
-                                $tableNameDesignation = 'Business Consultant';
-                                $tableColumn = 'reference_no';
-                            }
-                            // CA Franchisee
-                            if ($userType == '19') {
-                                $tableName = 'business_operation_executive';
-                                $tableId = 'business_operation_executive_id';
-                                $tableNameDesignation = 'Business Operation Executive';
-                                $tableColumn = 'reference_no';
-                            }
-                            // Business Operation Executive
-                            if ($userType == '20') {
-                                $tableName = 'training_manager';
-                                $tableId = 'training_manager_id';
-                                $tableNameDesignation = 'Training Manager';
-                                $tableColumn = 'reference_no';
-                            }
-                            // Training Manager
-                            if ($userType == '21') {
-                                $tableName = 'sales_executive';
-                                $tableId = 'sales_executive_id';
-                                $tableNameDesignation = 'Sales Executive';
-                                $tableColumn = 'reference_no';
-                            }
-                            // Sales Executive not set for ref table dummy name and id added
-                            if ($userType == '22') {
-                                $tableName = 'business_operation_executive';
-                                $tableId = 'business_operation_executive_id';
-                                $tableNameDesignation = 'Business Operation Executive';
-                                $tableColumn = 'reference_no';
-                            }
+                            
                             //Business Channel manager
                             if ($userType == '24') {
                                 $tableName = 'employees';
@@ -140,6 +99,14 @@
                                 $tableId12 = 'sub_franchisee_id';
                                 $tableColumnName12 = 'reference_no';
                                 $tableColumnName11 = 'reference_no';
+                                //for direct I
+                                $tableName13 = 'institution'; //TC
+                                $tableId13 = 'institution_id'; //TC ID
+                                $tableNameDesignation6 = 'Institution';
+                                $tableName14 = 'institution_branch_manager';
+                                $tableId14 = 'institution_branch_manager_id';
+                                $tableColumnName13 = 'reference_no';
+                                $tableColumnName14 = 'reference_no';
                             }
                             //Business Mentor (BM->TC)
                             if ($userType == '26') {
@@ -208,7 +175,7 @@
                             if ($userType == '32') {
                                 $tableName = 'institution_branch_manager';
                                 $tableId = 'institution_branch_manager_id';
-                                $tableNameDesignation = 'Travel Agency';
+                                $tableNameDesignation = 'Institution Branch Manager';
                                 $tableColumn = 'reference_no';
                             }
                             if ($userType=='28') {
@@ -239,16 +206,19 @@
                                                 ";
 
                                     $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
                                 }else if ($countSF>0){
                                     $sqlCandidates="SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
                                                         FROM $tableName 
                                                         WHERE $tableColumn = '$userId' AND status = '1'";
                                     $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
                                 }else if($countTC>0){
                                     $sqlCandidates="SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
                                                         FROM $tableName1 
                                                         WHERE $tableColumn1 = '$userId' AND status = '1'";
                                     $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
                                 }
                             }else if ($userType=='25') {
                                 // Check existence in all tables at once
@@ -268,7 +238,7 @@
                                     SELECT 'I'  AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
                                 ";
                                 $stmtCheck = $conn->prepare($sqlCheck);
-                                $stmtCheck->execute([$userId, $userId, $userId, $userId,$userId, $userId]);
+                                $stmtCheck->execute([$userId, $userId, $userId, $userId,$userId, $userId, $userId]);
                                 
 
                                 $counts = [];
@@ -280,7 +250,7 @@
                                 $countBM = $counts['BM'] ?? 0;
                                 $countMF = $counts['MF'] ?? 0;
                                 $countSF = $counts['SF'] ?? 0;
-                                $countSF = $counts['I'] ?? 0;
+                                $countI = $counts['I'] ?? 0;
                                 $countTE = $counts['TE'] ?? 0;
                                 $countF  = $counts['F'] ?? 0;
                                 $countTC = $counts['TC'] ?? 0;
@@ -325,7 +295,13 @@
                                 // SF
                                 if ($countSF > 0) {
                                     $queries[] = "SELECT id, sponsor_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation5' AS desination 
-                                                FROM $tableName10 WHERE reference_no=? AND status='1'";
+                                                FROM $tableName11 WHERE reference_no=? AND status='1'";
+                                    $params[] = $userId;
+                                }
+                                // I
+                                if ($countI > 0) {
+                                    $queries[] = "SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation6' AS desination 
+                                                FROM $tableName13 WHERE reference_no=? AND status='1'";
                                     $params[] = $userId;
                                 }
 
@@ -413,24 +389,24 @@
                                                         LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "' 
                                                         WHERE ($tableColumn = '$userId' OR tm.te_id = '" . $userId . "') AND status = '1' ";
                                     $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
                                 }else{
                                     $sqlCandidates = "SELECT * FROM $tableName WHERE $tableColumn = '$userId' AND status = '1' ";
                                     $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
                                 }
                             }
-                            $candidates->execute();
+                            // print_r($sqlCandidates);
                             $candidates->setFetchMode(PDO::FETCH_ASSOC);
                             if ($candidates->rowCount() > 0) {
                                 foreach (($candidates->fetchAll()) as $key => $row) {
                                 if ($userType == '28' || $userType =='25' || $userType =='31') {
                                     $selected_user =$row['userid'];
                                 }else{
-                                    $selected_user = ($userType == '24') ? $row['employee_id'] :
-                                                        (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] :
-                                                        (($userType == '30') ? $row['sub_franchisee_id'] : ''));
-
-
-
+                                    $selected_user = ($userType == '24') ? $row['employee_id'] ://BCM->BDM
+                                                        (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] : //BM/TE->TC
+                                                        (($userType == '30'|| $userType == '28') ? $row['sub_franchisee_id'] : //MF/SF->F
+                                                        ($userType == '32' ? $row['institution_branch_manager_id']:''))); //I->IBR
                                 }
                                     if ($userType == '24') {
                                         $fname = $row['name'];
@@ -461,7 +437,7 @@
                                                             <h5 class="fs-13 mb-1 text-truncate">
                                                                 <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
                                                             </h5>
-                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31') ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
+                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31' || $userType == '32') ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -496,7 +472,7 @@
             </div>
         </div>
         <?php
-            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30') {
+            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30' || $userType =='32' || $userType =='33') {
         ?>
         <!-- show table only for user type 25,24,26 -->
         
@@ -547,6 +523,12 @@
                                     <td><?=$deletedF??0?></td>
                                 </tr>
                                 <tr>
+                                    <th scope="row">Institution</th>
+                                    <td><?=$pendingI??0?></td>
+                                    <td><?=$registeredI??0?></td>
+                                    <td><?=$deletedI??0?></td>
+                                </tr>
+                                <tr>
                                     <th scope="row">Travel Consultant</th>
                                     <td><?=$pendingTC??0?></td>
                                     <td><?=$registeredTC??0?></td>
@@ -577,6 +559,12 @@
                                     <td><?=$deletedF??0?></td>
                                 </tr>
                                 <tr>
+                                    <th scope="row">Institution</th>
+                                    <td><?=$pendingI??0?></td>
+                                    <td><?=$registeredI??0?></td>
+                                    <td><?=$deletedI??0?></td>
+                                </tr>
+                                <tr>
                                     <th scope="row">Travel Consultant</th>
                                     <td><?=$pendingTC??0?></td>
                                     <td><?=$registeredTC??0?></td>
@@ -599,6 +587,12 @@
                                     <td><?=$pendingTE??0?></td>
                                     <td><?=$registeredTE??0?></td>
                                     <td><?=$deletedTE??0?></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Institution Branch Manager</th>
+                                    <td><?=$pendingIBR??0?></td>
+                                    <td><?=$registeredIBR??0?></td>
+                                    <td><?=$deletedIBR??0?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">CU</th>
@@ -663,6 +657,15 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Customer</th>
+                                    <td><?=$pendingCU??0?></td>
+                                    <td><?=$registeredCU??0?></td>
+                                    <td><?=$deletedCU??0?></td>
+                                </tr>
+                            <?php
+                                }if($userType=='32'){
+                            ?>
+                                <tr>
+                                    <th scope="row">CU</th>
                                     <td><?=$pendingCU??0?></td>
                                     <td><?=$registeredCU??0?></td>
                                     <td><?=$deletedCU??0?></td>

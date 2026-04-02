@@ -159,16 +159,16 @@
 
                 /* PENDING AMOUNT */
                 (
-                    COALESCE((SELECT SUM(commision_te) FROM ca_ta_payout WHERE techno_enterprise LIKE 'I%' AND status = 2 techno_enterprise='".$userId."' ),0) +
-                    COALESCE((SELECT SUM(commision_te) FROM ca_cu_payout WHERE techno_enterprise LIKE 'I%' AND status = 2 techno_enterprise='".$userId."' ),0) +
-                    COALESCE((SELECT SUM(te_amt) FROM product_payout WHERE te_id LIKE 'I%' AND status = 2 te_id='".$userId."' ),0)
+                    COALESCE((SELECT SUM(commision_te) FROM ca_ta_payout WHERE techno_enterprise LIKE 'I%' AND status = 2 AND techno_enterprise='".$userId."' ),0) +
+                    COALESCE((SELECT SUM(commision_te) FROM ca_cu_payout WHERE techno_enterprise LIKE 'I%' AND status = 2 AND techno_enterprise='".$userId."' ),0) +
+                    COALESCE((SELECT SUM(te_amt) FROM product_payout WHERE te_id LIKE 'I%' AND status = 2 AND te_id='".$userId."' ),0)
                 ) AS commission_pending_amount,
 
                 /* TOTAL AMOUNT */
                 (
                     COALESCE((SELECT SUM(commision_te) FROM ca_ta_payout WHERE techno_enterprise LIKE 'I%' AND status IN (1,2) AND techno_enterprise='".$userId."' ),0) +
                     COALESCE((SELECT SUM(commision_te)  FROM ca_cu_payout WHERE techno_enterprise LIKE 'I%' AND status IN (1,2) AND techno_enterprise='".$userId."' ),0) +
-                    COALESCE((SELECT SUM(te_amt) FROM product_payout WHERE te_id LIKE 'I%' AND status IN (1,2) AND techno_enterprise='".$userId."' ),0)
+                    COALESCE((SELECT SUM(te_amt) FROM product_payout WHERE te_id LIKE 'I%' AND status IN (1,2) AND te_id='".$userId."' ),0)
                 ) AS commission_all;
             ");
     }elseif ($userType == '11') {

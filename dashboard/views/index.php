@@ -1,5 +1,5 @@
 <?php
-include_once '../dashboard_user_details.php';
+include '../dashboard_user_details.php';
 
 // get current date to show next payout amount  and pass it in sql @ line 129
 $date = date('F,Y'); //month and year. 'F' - month in Text form
@@ -260,12 +260,12 @@ if ($userType == '29') {
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <?php include_once "../header.php" ?>
+        <?php include "../header.php" ?>
 
         <?php include '../notification_card.php'?>
         <!-- ========== App Menu ========== -->
 
-        <?php include_once "../sidebar.php" ?>
+        <?php include "../sidebar.php" ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -662,7 +662,7 @@ if ($userType == '29') {
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
 
-             <?php include_once "../footer.php" ?>
+             <?php include "../footer.php" ?>
 
         </div><!-- end main content-->
 
@@ -696,7 +696,7 @@ if ($userType == '29') {
     <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
 
     <!-- App js -->
-    <script src="../assets/js/app.js"></script>
+    <!-- <script src="../assets/js/app.js"></script> -->
 
     <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
