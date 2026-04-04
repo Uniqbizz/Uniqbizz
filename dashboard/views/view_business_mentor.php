@@ -191,6 +191,6 @@
         <script src="../assets/js/app.js"></script>
 
 
-        <script src=""></script>
+        <script src="../resources/business_mentor/bm_custom.js"></script>
     </body>
 </html>

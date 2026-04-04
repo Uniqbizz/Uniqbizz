@@ -2,8 +2,8 @@
     <div class="col-xl-1 col-lg-12 col-md-12 col-sm-12 col-12">
         <!-- <img src="../assets/images/users/avatar-5.jpg" width="75" height="75" alt="" class="rounded-circle"> -->
         <?php
-        if ($profile_pic) {
-            echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" class="avatar-md rounded-circle img-fluid">';
+        if ($profile_pic_img) {
+            echo '<img src="../../uploading/' . $profile_pic_img . '" alt="Preview" class="avatar-md rounded-circle img-fluid">';
         } else {
             echo '<img src="../../uploading/not_uploaded.png" alt="Preview" class="avatar-md rounded-circle img-fluid">';
         }

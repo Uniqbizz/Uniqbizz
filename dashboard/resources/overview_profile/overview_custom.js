@@ -5,6 +5,15 @@ $(document).ready(function() {
     $('a[href="#transferLogs"]').on('shown.bs.tab', function () {
         loadTLogs();
     });
+    $('a[href="#overview"]').on('shown.bs.tab', function () {
+        loadTLogs();
+    });
+    $('a[href="#activities"]').on('shown.bs.tab', function () {
+        loadTLogs();
+    });
+    $('a[href="#teams"]').on('shown.bs.tab', function () {
+        loadTLogs();
+    });
     // loadLogs();
     if($('#DBtable').val() == 'ca_customer'){
         $("#couponsTable").DataTable();
@@ -52,7 +61,7 @@ $(function () {
         var user_type = $('#user_type').val();
 
         $.ajax({
-            url: '../controllers/overview_profile/payout_tab.php',
+            url: '../models/overview_profile/forms/payout_overview.php',
             type: 'POST',
             dataType: 'json',
             data: {

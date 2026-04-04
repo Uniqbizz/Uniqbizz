@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-sm-6 " style="display: flex; justify-content: space-between; ">
                             <div class="input-block mb-3 col-sm-9">
-                                <label class="col-form-label">Contact Number: <span class="ms-2"><?php echo '+' . $country_code . '' . $contact ?></span></label>
+                                <label class="col-form-label">Contact Number: <span class="ms-2"><?php echo '+' . $country_code . '' . $contact_no ?></span></label>
                             </div>
 
                         </div>
@@ -29,6 +29,7 @@
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
                                 <label class="col-form-label">Address: <span class="ms-2"><?php echo $address; ?></span></label>
+                            </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -93,19 +94,19 @@
                             <div class="input-block mt-1">
                                 <label class="col-form-label">
                                     Profile Picture 
-                                    <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                    <a href="<?php echo '../../uploading/' . $profile_pic_img; ?>" download class="ms-3" title="Download">
                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                     </a>
                                 </label>
                             </div>
-                            <input type="hidden" id="img_path1" value="<?php echo $profile_pic; ?>">
+                            <input type="hidden" id="img_path1" value="<?php echo $profile_pic_img; ?>">
                             <div id="preview1">
                                 <div id="image_preview1">
                                     <?php
-                                    if ($profile_pic == '') {
+                                    if ($profile_pic_img == '') {
                                         echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1" class="imgSize">';
                                     } else {
-                                        echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1" class="imgSize">';
+                                        echo '<img src="../../uploading/' . $profile_pic_img . '" alt="Preview" id="img_pre1" class="imgSize">';
                                     }
                                     ?>
                                 </div>
@@ -373,7 +374,7 @@
                             <div class="mb-0">
                                 <label for="file1">
                                     <b>PROFILE</b>
-                                    <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                    <a href="<?php echo '../../uploading/' . $profile_pic_img; ?>" download class="ms-3" title="Download">
                                             <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                     </a>
                                 </label><br />
@@ -381,10 +382,10 @@
                             <div id="preview1">
                                 <div id="image_preview1">
                                     <?php
-                                    if ($profile_pic == '') {
+                                    if ($profile_pic_img == '') {
                                         echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
                                     } else {
-                                        echo '<img src="../../uploading/' . $profile_pic . '" alt="Preview" id="img_pre1">';
+                                        echo '<img src="../../uploading/' . $profile_pic_img . '" alt="Preview" id="img_pre1">';
                                     }
                                     ?>
                                 </div>

@@ -79,7 +79,7 @@
                 $zone = $row['zone'];
                 $branch = $row['branch'];
                 $address = $row['address'];
-                $profile_pic = $row['profile_pic'];
+                $profile_pic_img = $row['profile_pic'];
                 $id_proof = $row['id_proof'];
                 $bank_details = $row['bank_details'];
                 $register_by = $row['register_by'];
@@ -191,7 +191,7 @@
                 $state = $row['state'];
                 $city = $row['city'];
                 $address = $row['address'];
-                $profile_pic = $row['profile_pic'];
+                $profile_pic_img = $row['profile_pic'];
                 $pan_card = $row['pan_card'];
                 $aadhar_card = $row['aadhar_card'];
                 

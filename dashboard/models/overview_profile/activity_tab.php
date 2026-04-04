@@ -1,4 +1,4 @@
-<div class="tab-pane fade card px-3 rounded-4" id="activities" role="tabpanel">
+<div class="tab-pane fade card px-2 rounded-4" id="activities" role="tabpanel">
     <?php
         // Fetch logs where user is either actor or target
         $stmt = $conn->prepare("SELECT * FROM `logs` WHERE reference_no = :id ORDER BY `id` DESC");
