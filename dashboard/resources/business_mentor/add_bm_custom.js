@@ -18,7 +18,7 @@ $('#designation').on('change', function() {
     console.log(designation);
     $.ajax({
         type: 'POST',
-        url: '../../agents/get_user_Franchisee.php',
+        url: '../agents/get_user_Franchisee.php',
         data: "designation=" + designation,
         success: function(e) {
             console.log(e);
@@ -37,7 +37,7 @@ $('#user_id_name').on('change', function() {
     console.log(user_id_name);
     $.ajax({
         type: 'POST',
-        url: '../../agents/getUsers.php',
+        url: '../agents/getUsers.php',
         data: 'user_id_name=' + user_id_name + '&designation=' + designation,
         success: function(response) {
             $('#pin').html(response);
@@ -52,7 +52,7 @@ $('#country').on('change', function() {
     if (countryID) {
         $.ajax({
             type: 'POST',
-            url: '../../address/countrydata.php',
+            url: '../address/countrydata.php',
             data: 'country_id=' + countryID,
             success: function(htmll) {
                 $('#mystate').html(htmll);
@@ -71,7 +71,7 @@ $('#mystate').on('change', function() {
     if (stateID) {
         $.ajax({
             type: 'POST',
-            url: '../../address/countrydata.php',
+            url: '../address/countrydata.php',
             data: 'state_id=' + stateID,
             success: function(html) {
                 $('#city').html(html);
@@ -88,7 +88,7 @@ $('#city').on('change', function() {
     if (cityID) {
         $.ajax({
             type: 'POST',
-            url: '../../address/pincode.php',
+            url: '../address/pincode.php',
             data: 'city_id=' + cityID,
             success: function(response) {
                 $('#pin').val(response);
@@ -121,7 +121,7 @@ $('.payment-value').on('change', function() {
 $('#zone').on('change', function() {
     var zone_id = $(this).val();
     $.ajax({
-        url: '../../assets/get_data/get_branch.php',
+        url: '../assets/get_data/get_branch.php',
         type: 'POST',
         data: {
             zone_id: zone_id
