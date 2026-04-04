@@ -225,7 +225,7 @@
     if(!empty($whereConditions)){
         $whereClause .= " AND ".implode(" AND ",$whereConditions);
     }
-    
+
     $innerQuery = "
 
         SELECT 'tc' AS user_type,id,ca_travelagency_id AS user_id,reference_no,registrant,amount,country_code,contact_no,
@@ -292,6 +292,13 @@
             }
         } elseif ($reference_no == 'I') {
             $stmt2 = $conn->prepare("SELECT * FROM institution WHERE institution_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $name = $refData['registrant'];
+                $id = $refData['reference_no'];
+            }
+        } elseif ($reference_no == 'F') {
+            $stmt2 = $conn->prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = ? AND (status = '1' OR status = '3')");
             $stmt2->execute([$row['reference_no']]);
             if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
                 $name = $refData['registrant'];
