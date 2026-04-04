@@ -25,7 +25,7 @@
                                          SELECT institution_id AS suser_id FROM `institution` WHERE reference_no = ? 
                                          UNION ALL
                                          SELECT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?");
-                $stmt3->execute([$bm_id]);
+                $stmt3->execute([$bm_id, $bm_id, $bm_id]);
                 $userCAs = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach($userCAs as $userCA){
