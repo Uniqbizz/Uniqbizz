@@ -225,9 +225,7 @@
     if(!empty($whereConditions)){
         $whereClause .= " AND ".implode(" AND ",$whereConditions);
     }
-
-    /* ================= INNER QUERY ================= */
-
+    
     $innerQuery = "
 
         SELECT 'tc' AS user_type,id,ca_travelagency_id AS user_id,reference_no,registrant,amount,country_code,contact_no,
@@ -275,76 +273,132 @@
 
     foreach ($rows as $row){
 
-    $rdate_display = date("d-m-Y", strtotime($row['register_date']));
-    $rdate_sort = date("Y-m-d", strtotime($row['register_date']));
+        $rdate_display = date("d-m-Y", strtotime($row['register_date']));
+        $rdate_sort = date("Y-m-d", strtotime($row['register_date']));
 
-    $statusClass = ($row['status'] == '1') ? 'success' : 'danger';
-    $statusText  = ($row['status'] == '1') ? 'Active' : 'Deactive';
+        $statusClass = ($row['status'] == '1') ? 'success' : 'danger';
+        $statusText  = ($row['status'] == '1') ? 'Active' : 'Deactive';
 
-    echo '<tr>';
+        $name = $id = '';
+        $reference_no=(substr($row['reference_no'],0,1) == 'F' || substr($row['reference_no'],0,1) == 'I') ? substr($row['reference_no'],0,1):
+                    substr($row['reference_no'],0,2);
 
-    echo '<td>
-    <p class="mb-1">'.htmlspecialchars($row['user_id']).'</p>
-    <p class="mb-0">'.htmlspecialchars($row['firstname'].' '.$row['lastname']).'</p>
-    </td>';
+        if ($reference_no == 'TE' || $reference_no == 'CA') {
+            $stmt2 = $conn->prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $name = $refData['registrant'];
+                $id = $refData['reference_no'];
+            }
+        } elseif ($reference_no == 'I') {
+            $stmt2 = $conn->prepare("SELECT * FROM institution WHERE institution_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $name = $refData['registrant'];
+                $id = $refData['reference_no'];
+            }
+        } elseif ($reference_no == 'BM') {
+            $stmt2 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $name = $refData['registrant'];
+                $id = $refData['reference_no'];
+            }
+        } elseif ($reference_no == 'MF') {
+            $stmt2 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $name = $refData['registrant'];
+                $id = $refData['reference_no'];
+            }
+        } elseif ($reference_no == 'SF') {
+            $stmt2 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $name = $refData['registrant'];
+                $id = $refData['reference_no'];
+            }
+        }elseif ($reference_no == 'BH') {
+            $stmt2 = $conn->prepare("SELECT * FROM employees WHERE employee_id = ? AND (status = '1' OR status = '3')");
+            $stmt2->execute([$row['reference_no']]);
+            if ($refData = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                $reporting_manager = $refData['reporting_manager'];
+            }
+            $stmt3 = $conn->prepare("SELECT * FROM employees WHERE employee_id = ? AND (status = '1' OR status = '3')");
+            $stmt3->execute([$reporting_manager]);
+            if ($refData2 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+                $id = $refData2['employee_id'];
+                $name = $refData2['name'];
+            }
+        }
 
-    echo '<td>
-    <p class="mb-1">'.htmlspecialchars($row['reference_no']).'</p>
-    <p class="mb-0">'.htmlspecialchars($row['registrant']).'</p>
-    </td>';
+        echo '<tr>';
 
-    echo '<td>-</td>';
+        echo '<td>
+        <p class="mb-1">'.htmlspecialchars($row['user_id']).'</p>
+        <p class="mb-0">'.htmlspecialchars($row['firstname'].' '.$row['lastname']).'</p>
+        </td>';
 
-    echo '<td>'.htmlspecialchars($row['amount'] ?: 0).'</td>';
+        echo '<td>
+        <p class="mb-1">'.htmlspecialchars($row['reference_no']).'</p>
+        <p class="mb-0">'.htmlspecialchars($row['registrant']).'</p>
+        </td>';
 
-    echo '<td>
-    <p class="mb-1">+'.htmlspecialchars($row['country_code']).' '.htmlspecialchars($row['contact_no']).'</p>
-    <p class="mb-0">'.htmlspecialchars($row['email']).'</p>
-    </td>';
+        echo '<td>
+        <p class="mb-1">'.htmlspecialchars($id).'</p>
+        <p class="mb-0">'.htmlspecialchars($name).'</p>
+        </td>';
 
-    echo '<td>'.htmlspecialchars($row['address']).'</td>';
+        echo '<td>'.htmlspecialchars($row['amount'] ?: 0).'</td>';
 
-    echo '<td data-order="'.$rdate_sort.'">' . $rdate_display . '</td>';
+        echo '<td>
+        <p class="mb-1">+'.htmlspecialchars($row['country_code']).' '.htmlspecialchars($row['contact_no']).'</p>
+        <p class="mb-0">'.htmlspecialchars($row['email']).'</p>
+        </td>';
 
-    echo '<td><span class="badge text-bg-'.$statusClass.'">'.$statusText.'</span></td>';
+        echo '<td>'.htmlspecialchars($row['address']).'</td>';
 
-    echo '<td>
-    <div class="dropdown">
-    <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown">
-    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-    </a>
+        echo '<td data-order="'.$rdate_sort.'">' . $rdate_display . '</td>';
 
-    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
+        echo '<td><span class="badge text-bg-'.$statusClass.'">'.$statusText.'</span></td>';
 
-    <li>
-    <a href="#"
-    onclick="overviewPage(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\''.($row['user_type']=='tc'?'ca_travelagency':'institution_branch_manager').'\')"
-    class="dropdown-item">
-    <i class="mdi mdi-eye text-info me-1"></i> View
-    </a>
-    </li>
+        echo '<td>
+        <div class="dropdown">
+        <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown">
+        <i class="mdi mdi-dots-horizontal font-size-18"></i>
+        </a>
 
-    <li>
-    <a href="#"
-    onclick="editfuncCust(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['register_by'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\'registered\',\''.$row['user_type_val'].'\')"
-    class="dropdown-item">
-    <i class="mdi mdi-pencil text-primary me-1"></i> Edit
-    </a>
-    </li>
+        <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
 
-    <li>
-    <a href="#"
-    onclick="deletefunc(\''.$row['id'].'\',\''.$row['user_id'].'\',\'registered\',\''.$row['user_type'].'\')"
-    class="dropdown-item">
-    <i class="mdi mdi-trash-can text-danger me-1"></i> Delete
-    </a>
-    </li>
+        <li>
+        <a href="#"
+        onclick="overviewPage(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\''.($row['user_type']=='tc'?'ca_travelagency':'institution_branch_manager').'\')"
+        class="dropdown-item">
+        <i class="mdi mdi-eye text-info me-1"></i> View
+        </a>
+        </li>
 
-    </ul>
-    </div>
-    </td>';
+        <li>
+        <a href="#"
+        onclick="editfuncCust(\''.$row['user_id'].'\',\''.$row['reference_no'].'\',\''.$row['register_by'].'\',\''.$row['country'].'\',\''.$row['state'].'\',\''.$row['city'].'\',\'registered\',\''.$row['user_type_val'].'\')"
+        class="dropdown-item">
+        <i class="mdi mdi-pencil text-primary me-1"></i> Edit
+        </a>
+        </li>
 
-    echo '</tr>';
+        <li>
+        <a href="#"
+        onclick="deletefunc(\''.$row['id'].'\',\''.$row['user_id'].'\',\'registered\',\''.$row['user_type'].'\')"
+        class="dropdown-item">
+        <i class="mdi mdi-trash-can text-danger me-1"></i> Delete
+        </a>
+        </li>
+
+        </ul>
+        </div>
+        </td>';
+
+        echo '</tr>';
     }
 
     echo '</tbody></table>';
