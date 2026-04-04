@@ -3484,7 +3484,12 @@ $("#editCorporateAgency").on("click", function (e) {
 $("#add_ca_travelagency").on("click", function (e) {
 
     e.preventDefault();
-
+    var register_as = $('#registered').val();
+    var url = register_as == 'travel_consultant'
+    ? 'add_ca_travelAgency_data.php'
+    : register_as == 'institution_branch_manager'
+        ? 'add_ca_ins_branch_manager_data.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
@@ -3677,7 +3682,7 @@ $("#add_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: 'add_ca_travelAgency_data.php' ,
+            url: url ,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -3699,7 +3704,12 @@ $("#add_ca_travelagency").on("click", function (e) {
 $("#edit_ca_travelagency").on("click", function (e) {
     e.preventDefault();
     // console.log('Add customer button clicked');
-
+    var register_as = $('#registered').val();
+    var url = register_as == '11'
+    ? "edit_ca_travelAgency_data.php"
+    : register_as == '33'
+        ? 'edit_ca_ins_branch_manager_data.php'
+        : '';
     // var designation = $("#designation").val();
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
@@ -3909,7 +3919,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "edit_ca_travelAgency_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {

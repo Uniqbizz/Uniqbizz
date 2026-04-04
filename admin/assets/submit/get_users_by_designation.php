@@ -15,8 +15,28 @@ if ($designation == '24' || $designation == '25') {
     $stmt = $conn->prepare("SELECT business_mentor_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', business_mentor_id, ')') AS fullname FROM business_mentor WHERE status = 1");
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} elseif ($designation == '16') {
-    // BM from corporate_agency
+}elseif ($designation == '28') {
+    // MF from master_franchisee
+    $stmt = $conn->prepare("SELECT master_franchisee_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', master_franchisee_id, ')') AS fullname FROM master_franchisee WHERE status = 1");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} elseif ($designation == '30') {
+    // SF from sponsor_franchisee
+    $stmt = $conn->prepare("SELECT sponsor_franchisee_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', sponsor_franchisee_id, ')') AS fullname FROM sponsor_franchisee WHERE status = 1");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} elseif ($designation == '29') {
+    // F from sub_franchisee
+    $stmt = $conn->prepare("SELECT sub_franchisee_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', sub_franchisee_id, ')') AS fullname FROM sub_franchisee WHERE status = 1");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} elseif ($designation == '32') {
+    // I from institution
+    $stmt = $conn->prepare("SELECT institution_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', institution_id, ')') AS fullname FROM institution WHERE status = 1");
+    $stmt->execute();
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}  elseif ($designation == '16') {
+    // TE from corporate_agency
     $stmt = $conn->prepare("SELECT corporate_agency_id AS user_id, CONCAT(firstname, ' ', lastname, ' (', corporate_agency_id, ')') AS fullname FROM corporate_agency WHERE status = 1");
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);

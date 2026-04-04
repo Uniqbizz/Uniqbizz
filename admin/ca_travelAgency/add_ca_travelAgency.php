@@ -96,8 +96,17 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-
-                                                <div class="col-md-4 col-sm-12">
+                                                <div class="col-md-3 col-sm-6 col-12">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="registered">Registering As<span class="text-danger">*</span></label>
+                                                        <select id="registered" class="form-select">
+                                                            <option value="">--Select --</option>
+                                                            <option value="travel_consultant">Travel Consultant</option>
+                                                            <option value="institution_branch_manager">Institution Branch Manager</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Designation<span class="text-danger">*</span></label>
                                                         <select id="designation" class="form-select">
@@ -107,9 +116,13 @@
                                                             <option value="sub_franchisee">Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                         </select>
+                                                        <select id="designation2" class="form-select d-none">
+                                                            <option value="" selected>--Select Designation--</option>
+                                                            <option value="institution">Institution</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-4 col-sm-12">
+                                                <div class="form-group col-md-3 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
                                                         <select id="user_id_name" class="form-select">
@@ -117,7 +130,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-12">
+                                                <div class="col-md-3 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
@@ -468,22 +481,68 @@
         <script>
             
             //On page load hide payment Mode and Payment proof if value selected is FOC or Null
-            $(document).ready(function(){
-                var payment_fee = $("#payment_fee").val();
-                console.log(payment_fee);
-                if(payment_fee == "FOC"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $('#payProof').addClass('d-none');  
-                }else if(payment_fee == "null"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $('#payProof').addClass('d-none');  
-                }else{
-                    $("#paymentModeBlock").removeClass("d-none");
-                    $("#paymentFields").removeClass("d-none");
-                    $('#payProof').removeClass('d-none');  
+            //on change of compcheck
+            $('#registered').trigger('change');
+            $('#registered').on('change', function () {
+
+                var register_type = $(this).val();
+
+                if (register_type === 'travel_consultant') {
+
+                    // Show main designation
+                    $('#designation')
+                        .removeClass('d-none');
+
+                    // Hide institution designation
+                    $('#designation2')
+                        .addClass('d-none');
+
+                } 
+                else if (register_type === 'institution_branch_manager') {
+
+                    // Hide main designation
+                    $('#designation')
+                        .addClass('d-none');
+
+                    // Show institution designation
+                    $('#designation2')
+                        .removeClass('d-none');
                 }
+            });
+
+            //select Designation
+            $('#designation').on('change', function() {
+                var designation = $('#designation').val();
+                // console.log(designation);
+                $.ajax({
+                    type:'POST',
+                    url:'../agents/get_user_Franchisee.php',
+                    data: "designation="+designation,
+                    success:function (e) {
+                        // console.log(e);
+                        $('#user_id_name').html(e); 
+                    },
+                    error: function(err){
+                        console.log(err);
+                    },
+                });
+            });
+
+            $('#designation2').on('change', function() {
+                var designation = $('#designation2').val();
+                // console.log(designation);
+                $.ajax({
+                    type:'POST',
+                    url:'../agents/get_user_Franchisee.php',
+                    data: "designation="+designation,
+                    success:function (e) {
+                        // console.log(e);
+                        $('#user_id_name').html(e); 
+                    },
+                    error: function(err){
+                        console.log(err);
+                    },
+                });
             });
             //on change of compcheck
             $('#is_complementary').on('change', function () {
