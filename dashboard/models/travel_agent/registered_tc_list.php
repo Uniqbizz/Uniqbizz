@@ -163,7 +163,7 @@
         }
     }else if($userType == "25"){
         //direct TC with BDM Ref
-        $stmt4 = $conn->prepare("SELECT ca_travelagency_id,date_of_birth,register_date,reference_no,firstname,lastname,contact,status
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id,date_of_birth,register_date,reference_no,firstname,lastname,contact_no,status
                                      FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
         $stmt4->execute([$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -217,10 +217,10 @@
                 $userCAID = $userCA['suser_id'];
                 // echo $userCA;
 
-                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
                                         FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
                                         UNION ALL
-                                        SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status
+                                        SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
                                         FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
                 $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -253,7 +253,7 @@
             }
             
             //direct TC with BM/MF Ref
-            $stmt4 = $conn->prepare("SELECT ca_travelagency_id,firstname,lastname,registrant, reference_no,contact_no,status
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
                                         FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
             $stmt4->execute([$bm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -298,10 +298,10 @@
             $userCAID = $userCA['suser_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
                                     FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
                                     UNION ALL
-                                    SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status
+                                    SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
                                     FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
             $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);

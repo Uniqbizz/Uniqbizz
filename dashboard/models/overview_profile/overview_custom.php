@@ -8,46 +8,53 @@
     $DBtable = $_GET['message'];
     $designation1 = $_GET['designation'];
 
-    if ($DBtable == 'business_consultant') { // 3
-        $sql = "SELECT * FROM business_consultant WHERE business_consultant_id = '" . $id . "' AND status = '1'";
-    } else if ($DBtable == 'business_trainee') { // 15
-        $sql = "SELECT * FROM business_trainee WHERE business_trainee_id = '" . $id . "' AND status = '1'";
-    } else if ($DBtable == 'corporate_agency') { // 16
+    if ($DBtable == 'corporate_agency') { // 16
         $sql = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '" . $id . "' AND status = '1'";
+        $user_type = 16;
     } else if ($DBtable == 'ca_travelagency') { // 11
         $sql = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '" . $id . "' AND status = '1'";
-    } else if ($DBtable == 'channel_business_director') { // 18
-        $sql = "SELECT * FROM channel_business_director WHERE channel_business_director_id = '" . $id . "' AND status = '1'";
-    } else if ($DBtable == 'ca_customer') { // 10
+        $user_type = 11;
+    } if ($DBtable == 'ca_customer') { // 10
         $sql = "SELECT * FROM ca_customer WHERE ca_customer_id = '" . $id . "' AND status = '1'";
+        $user_type = 10;
     } else if ($DBtable == 'business_chanel_manager') { // 24,
         $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=24";
+        $user_type = 24;
     } else if ($DBtable == 'business_developement_manager') { // 25
         $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=25";
+        $user_type = 25;
     } 
     else if ($DBtable == 'business_mentor') { // 26
         $sql = "SELECT * FROM business_mentor WHERE business_mentor_id = '" . $id . "' AND status = '1'";
+        $user_type = 26;
     }
     else if ($DBtable == 'master_franchisee') { // 28
         $sql = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $id . "' AND status = '1'";
+        $user_type = 28;
     }
     else if ($DBtable == 'sponsor_franchisee') { // 30
         $sql = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $id . "' AND status = '1'";
+        $user_type = 30;
     }
     else if ($DBtable == 'sub_franchisee') { // 29
         $sql = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '" . $id . "' AND status = '1'";
+        $user_type = 29;
 
     }
     else if ($DBtable == 'institution'){ // 32
         $sql = "SELECT * FROM institution WHERE institution_id = '" . $id . "' AND status = '1'";
+        $user_type = 32;
     }
     else if ($DBtable == 'zonal_manager') { // 27
         $sql = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $id . "' AND status = '1'";
+        $user_type = 27;
     }
     else if ($DBtable == 'relationship_manager') { // 31
         $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
+        $user_type = 31;
     } else if ($DBtable == 'institution_branch_manager') { // 33
         $sql = "SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $id . "' AND status = '1'";
+        $user_type = 33;
     }
     $stmt = $conn->prepare($sql);
     $stmt->execute();
@@ -83,7 +90,6 @@
                 $id_proof = $row['id_proof'];
                 $bank_details = $row['bank_details'];
                 $register_by = $row['register_by'];
-                $user_type = $row['user_type'];
                 // $register_date=$row['register_date'];
                 $rd = new DateTime($row['register_date']);
                 $rdate = $rd->format('d-m-Y');

@@ -404,7 +404,7 @@
             }   
         }
         //BDM->TC->CU
-        $stmt4 = $conn->prepare("SELECT ca_travelagency FROM ca_travelagency WHERE reference_no = ?");
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
         $stmt4->execute([$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 

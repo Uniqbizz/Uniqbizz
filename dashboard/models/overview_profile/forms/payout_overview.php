@@ -63,7 +63,7 @@
                     FROM product_payout WHERE bm_id = '$id' $dateFilter
                     ORDER BY date DESC";
     } 
-    elseif ($DBtable == 'mastert_franchisee') {
+    elseif ($DBtable == 'master_franchisee') {
         $sqlUnion = "SELECT 'MF Payout' AS title, master_franchisee, message_mf AS message, commision_mf AS amount, created_date AS date, status_mf AS status
                     FROM sub_franchisee_payout WHERE master_franchisee = '$id' AND created_date BETWEEN '$start_date' AND '$end_date'
                     UNION 
@@ -78,7 +78,7 @@
                     ORDER BY date DESC";
     } 
     elseif ($DBtable == 'corporate_agency') {
-        $sqlUnion = "SELECT 'TC Payout' AS title, techno_enterprise, message_ca AS message, commision_ca AS amount, created_date AS date, status_ca AS status
+        $sqlUnion = "SELECT 'TC Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status
                     FROM ca_ta_payout WHERE corporate_agency = '$id' $dateFilter
                     UNION 
                     SELECT 'CU Payout' AS title, techno_enterprise, message_te AS message, commision_te AS amount, created_date AS date, status_te AS status

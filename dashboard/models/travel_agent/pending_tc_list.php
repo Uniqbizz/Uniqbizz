@@ -190,7 +190,7 @@
         //direct TC with BDM Ref
         $stmt4 = $conn->prepare("SELECT id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,contact_no,status
                                 FROM ca_travelagency WHERE reference_no = ? AND (status = '2' OR status = '0')");
-        $stmt4->execute([$user_id]);
+        $stmt4->execute([$userId ]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
@@ -223,7 +223,7 @@
                                 SELECT DISTINCT sponsor_franchisee_id AS id FROM sponsor_franchisee WHERE reference_no = ? AND user_type = '30'
                                 UNION ALL
                                 SELECT DISTINCT business_mentor_id AS id FROM business_mentor WHERE reference_no = ? AND user_type = '26'");
-        $stmt2->execute([$userId,$userId,$user_id]);
+        $stmt2->execute([$userId,$userId,$userId ]);
         $userBMS = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userBMS as $userBM) {
@@ -312,7 +312,7 @@
                                 UNION ALL
                                 SELECT DISTINCT institution_id AS suser_id FROM `institution` WHERE reference_no = ?");
         
-        $stmt2->execute([$userId,$user_id,$user_id]);
+        $stmt2->execute([$userId,$userId ,$userId ]);
         $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($referrals as $referral){

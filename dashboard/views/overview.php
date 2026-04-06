@@ -248,6 +248,9 @@ include '../models/overview_profile/overview_custom.php';
         include_once '../sidebar.php';
         ?>
         <div class="layout-wrapper">
+            <input type="hidden" name="user_id" id="user_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="user_type" id="user_type" value="<?php echo $user_type; ?>">
+            <input type="hidden" name="DBtable" id="DBtable" value="<?php echo $DBtable; ?>">
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
@@ -310,9 +313,7 @@ include '../models/overview_profile/overview_custom.php';
             </div>
         </div>
     </div>
-    <input type="hidden" name="user_id" id="user_id" value="<?php echo $id; ?>">
-    <input type="hidden" name="user_type" id="user_type" value="<?php echo $user_type; ?>">
-    <input type="hidden" name="DBtable" id="DBtable" value="<?php echo $DBtable; ?>">
+    
     <!-- END layout-wrapper -->
     <!--start back-to-top-->
     <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
