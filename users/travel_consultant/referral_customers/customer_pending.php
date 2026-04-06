@@ -43,7 +43,7 @@ if ($userType == "11") {
             // Format dates exactly as in your code
             $bd = new DateTime($row['date_of_birth']);
             $bdate = $bd->format('d-m-Y');
-            $dt = new DateTime($row['register_date']);
+            $dt = new DateTime($row['added_on']);
             $datev = $dt->format('d-m-Y');
             
             // Get status exactly as in your code

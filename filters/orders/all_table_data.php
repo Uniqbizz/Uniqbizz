@@ -1,25 +1,29 @@
 <?php
-require '../connect.php';
+require '../../connect.php';
 header('Content-Type: application/json');
 
 try {
-    // Capture incoming data
     $input = json_decode(file_get_contents("php://input"), true);
     if (!$input) {
         $input = $_POST;
     }
 
-    if (!isset($input['userId']) || !isset($input['userType'])) {
+    if (!isset($input['id']) || !isset($input['userType'])) {
         echo json_encode(["status" => "error", "message" => "userId and userType are required"]);
         exit;
     }
 
-    $userId = $input['userId'];
+    $userId = $input['id'];
     $userType = $input['userType'];
-    $tab_name = isset($input['tabName']) ? $input['tabName'] : 'all';
+
+    // FILTER PARAMS
+    $search = isset($input['search']) ? trim($input['search']) : "";
+    $fromDate = isset($input['fromDate']) ? trim($input['fromDate']) : "";
+    $toDate = isset($input['toDate']) ? trim($input['toDate']) : "";
+
     $customer_fil = "";
 
-    // Build SQL based on userType
+    // ---------------- USER TYPE SQL (UNCHANGED) ----------------
     if ($userType == '24') {
         $sql0 = "SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
                  FROM ca_travelagency ca
@@ -90,21 +94,39 @@ try {
         exit;
     }
 
-    // Fetch travel agencies
+    // ---------------- FETCH TA ----------------
     $stmt0 = $conn->prepare($sql0);
     $stmt0->execute();
     $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
 
     if (empty($ta_list)) {
-        echo json_encode(["status" => "success", "travelAgencies" => [], "bookings" => []]);
+        echo json_encode(["status" => "success", "bookings" => []]);
         exit;
     }
 
-    // Map TA IDs for booking query
     $ta_ids = array_column($ta_list, 'ca_travelagency_id');
     $ta_ids_str = "'" . implode("','", $ta_ids) . "'";
 
-    // Fetch bookings with payment details using GROUP BY properly
+    // ---------------- FILTERS ----------------
+    $filters = "";
+
+    if (!empty($search)) {
+        $filters .= " AND (
+            b.id LIKE '%$search%' OR
+            b.order_id LIKE '%$search%' OR
+            b.customer_id LIKE '%$search%' OR
+            b.name LIKE '%$search%' OR
+            b.phone LIKE '%$search%' OR
+            b.email LIKE '%$search%' OR
+            p.name LIKE '%$search%'
+        )";
+    }
+
+    if (!empty($fromDate) && !empty($toDate)) {
+        $filters .= " AND DATE(b.date) BETWEEN '$fromDate' AND '$toDate'";
+    }
+
+    // ---------------- MAIN QUERY (UNCHANGED STRUCTURE) ----------------
     $sql = "SELECT 
                 b.id, 
                 b.order_id, 
@@ -133,6 +155,7 @@ try {
             LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
             WHERE b.ta_id IN ($ta_ids_str)
               $customer_fil
+              $filters
             GROUP BY 
                 b.id, b.order_id, b.customer_id, b.package_id, p.name, p.tour_days,
                 b.name, b.phone, b.email, b.date, b.ta_id, b.status, b.confirm_status,
@@ -144,10 +167,19 @@ try {
     $stmt->execute();
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if (empty($bookings)) {
+        echo json_encode([
+            "status" => "success",
+            "bookings" => []
+        ]);
+        exit;
+    }
+
     $result = [];
 
     foreach ($bookings as $booking) {
-        // Payment calculation using data from the joined query
+
+        // PAYMENT (UNCHANGED)
         $perecent_fill = 0;
         $booking_paid_amt = 0;
         $booking_full_amt = $booking['final_price'];
@@ -176,7 +208,7 @@ try {
             $booking_paid_amt = $booking['amount'];
         }
 
-        // Determine booking status
+        // STATUS (UNCHANGED)
         $startDate = new DateTime($booking['date']);
         $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0;
         $endDate = clone $startDate;
@@ -200,7 +232,7 @@ try {
             $booking_status = "Unknown";
         }
 
-        // Find travel agency details
+        // TA DETAILS (UNCHANGED)
         $ta_details = null;
         foreach ($ta_list as $ta) {
             if ($ta['ca_travelagency_id'] == $booking['ta_id']) {
@@ -209,6 +241,7 @@ try {
             }
         }
 
+        // FINAL RESPONSE (EXACTLY YOUR FORMAT)
         $result[] = [
             "id" => $booking['id'],
             "booking_id" => $booking['order_id'],
@@ -234,16 +267,10 @@ try {
         "status" => "success",
         "bookings" => $result
     ], JSON_PRETTY_PRINT);
-    
-} catch (PDOException $e) {
-    echo json_encode([
-        "status" => "error", 
-        "message" => "Database error: " . $e->getMessage(),
-        "trace" => $e->getTraceAsString()
-    ], JSON_PRETTY_PRINT);
+
 } catch (Exception $e) {
     echo json_encode([
-        "status" => "error", 
+        "status" => "error",
         "message" => $e->getMessage()
-    ], JSON_PRETTY_PRINT);
+    ]);
 }
