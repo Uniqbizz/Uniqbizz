@@ -1,16 +1,4 @@
 var userType= document.getElementById("user_type").value;
-function highlightSelected(id) {
-    // Remove highlight from all list items
-    document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
-        el.classList.remove("selected-li");
-    });
-
-    // Add highlight to the selected one
-    const selected = document.getElementById(id);
-    if (selected) {
-        selected.classList.add("selected-li");
-    }
-}
 const currentDate = new Date();
 // console.log(currentDate);
 var getCurrentYear = currentDate.getFullYear();
@@ -48,14 +36,14 @@ async function getMonthlyUserData(get_year) {
         const xValues = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
         const labelMap = {
-            '24': ['BDM','BM','MF','SF','TE','F','TC','CU'],
-            '25': ['BM','MF','SF','TE','F','TC','CU'],
-            '26': ['TE','TC','CU'],
-            '28': ['F','TC','CU'],
-            '29': ['TC','CU'],
-            '16': ['TC','CU'],
-            '30': ['F','TC','CU'],
-            '31': ['MF','SF','F','TC','CU'],
+            '24': ['BDM','BM','MF','SF','TE','F','TA','CU'],
+            '25': ['BM','MF','SF','TE','F','TA','CU'],
+            '26': ['TE','TA','CU'],
+            '28': ['F','TA','CU'],
+            '29': ['TA','CU'],
+            '16': ['TA','CU'],
+            '30': ['F','TA','CU'],
+            '31': ['MF','SF','F','TA','CU'],
             '11': ['CU']
         };
 
@@ -321,6 +309,15 @@ function showCountlist(userType, userId) {
                                 <td>${data.registeredIBR}</td>
                                 <td>${data.deletedIBR}</td>
                             </tr>
+                            <tr>
+                                <th>Customer</th>
+                                <td>${data.pendingCU}</td>
+                                <td>${data.registeredCU}</td>
+                                <td>${data.deletedCU}</td>
+                            </tr>
+                        `);
+                    }else if (prefix2 === 'TA') {
+                        tableBody.append(`
                             <tr>
                                 <th>Customer</th>
                                 <td>${data.pendingCU}</td>

@@ -287,9 +287,9 @@ try {
             
 
             // ---- Direct role-specific counts (when logged user is TE, TC, F, CU, etc.) ----
-            $userPrefix = substr($userId, 0, 2);
+            $userPrefix = substr($userId, 0, 1) == 'F' ? substr($userId, 0, 1) : substr($userId, 0, 2);
 
-            if ($userPrefix == 'TC') {
+            if ($userPrefix == 'TA') {
                 // Direct TC
                 fetchCustomerCounts($conn, $userId, $counts);
             }
@@ -297,7 +297,7 @@ try {
                 // Direct TE
                 fetchCustomerCounts($conn, $userId, $counts);
             }
-            elseif ($userPrefix == 'F_') { // adjust if sub_franchisee prefix differs
+            elseif ($userPrefix == 'F') { // adjust if sub_franchisee prefix differs
                 // Direct F
                 fetchCustomerCounts($conn, $userId, $counts);
             }
@@ -309,9 +309,42 @@ try {
     }
 
     elseif ($userType == '26') {
-        fetchCustomerCounts($conn, $userId, $counts);
-        
-    }elseif ($userType == '16' || $userType == '32') {
+        $prefix=(substr($userId,0,1) == 'F' || substr($userId,0,1) == 'I') ? substr($userId,0,1) : substr($userId,0,2);
+        if ($prefix == 'F' || $prefix == 'TE' || $prefix == 'CA') {
+            // ---- TC counts (under BM) ----
+            $counts['pendingTC']   += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND status = '2'", [$userId]);
+            $counts['registeredTC']+= getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND status = '1'", [$userId]);
+            $counts['deletedTC']   += getCount($conn, "SELECT count(*) as cnt FROM ca_travelagency WHERE reference_no = ? AND (status = '0' OR status = '3')", [$userId]);
+
+            // F -> TC
+            $tcs = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ?");
+            $tcs->execute([$userId]);
+
+            foreach ($tcs->fetchAll(PDO::FETCH_ASSOC) as $tc) {
+                fetchCustomerCounts($conn, $tc['ca_travelagency_id'], $counts);
+            }
+        }elseif ($prefix == 'I') {
+            // =====================================
+            //  I -> IBR
+            // =====================================
+
+            $counts['pendingIBR']   += getCount($conn, "SELECT count(*) as cnt FROM institution_branch_manager WHERE reference_no = ? AND status = '2'", [$userId]);
+            $counts['registeredIBR']+= getCount($conn, "SELECT count(*) as cnt FROM institution_branch_manager WHERE reference_no = ? AND status = '1'", [$userId]);
+            $counts['deletedIBR']   += getCount($conn, "SELECT count(*) as cnt FROM institution_branch_manager WHERE reference_no = ? AND (status = '0' OR status = '3')", [$userId]);
+
+            $ibrs = $conn->prepare("SELECT * FROM institution_branch_manager WHERE reference_no = ?");
+            $ibrs->execute([$userId]);
+
+            foreach ($ibrs->fetchAll(PDO::FETCH_ASSOC) as $ibr) {
+                $ibrId = $ibr['institution_branch_manager_id'];
+
+                // IBR -> CU
+                fetchCustomerCounts($conn, $ibrId, $counts);
+            }
+        }elseif ($prefix == 'TA') {
+            fetchCustomerCounts($conn, $userId, $counts);
+        }
+    }elseif ($userType == '16' || $userType == '32' || $userType == '29') {
         fetchCustomerCounts($conn, $userId, $counts);
     }
     else if($userType == '28'){
@@ -356,11 +389,7 @@ try {
             // TC -> CU
             fetchCustomerCounts($conn, $tcId, $counts);
         }
-    }elseif ($userType == '29') {
-        fetchCustomerCounts($conn, $userId, $counts);
-        
-    }
-    elseif ($userType == '31') {
+    }elseif ($userType == '31') {
             $bmId = $userId;
 
             // ---- TC counts (under MF/SF) ----
@@ -392,14 +421,14 @@ try {
             }
 
             // ---- Direct role-specific counts (when logged user is TE, TC, F, CU, etc.) ----
-            $userPrefix = substr($userId, 0, 2);
+            $userPrefix = substr($userId, 0, 1) == 'F' ? substr($userId, 0, 1) : substr($userId, 0, 2);
 
-            if ($userPrefix == 'TC') {
+            if ($userPrefix == 'TA') {
                 // Direct TC
                 fetchCustomerCounts($conn, $userId, $counts);
             }
             
-            elseif ($userPrefix == 'F_') { // adjust if sub_franchisee prefix differs
+            elseif ($userPrefix == 'F') { // adjust if sub_franchisee prefix differs
                 // Direct F
                 fetchCustomerCounts($conn, $userId, $counts);
             }

@@ -114,6 +114,18 @@
                                 $tableId = 'ca_travelagency_id';
                                 $tableNameDesignation = 'Travel Agency';
                                 $tableColumn = 'reference_no';
+                                $tableName1 = 'corporate_agency';
+                                $tableId1 = 'corporate_agency_id';
+                                $tableNameDesignation1 = 'Techno Enterprise';
+                                $tableColumn1 = 'reference_no';
+                                $tableName2 = 'sub_franchisee';
+                                $tableId2 = 'sub_franchisee_id';
+                                $tableNameDesignation2 = 'Franchisee';
+                                $tableColumn2 = 'reference_no';
+                                $tableName3 = 'institution';
+                                $tableId3 = 'institution_id';
+                                $tableNameDesignation3 = 'Institution';
+                                $tableColumn3 = 'reference_no';
                             }
                             //Master Franchisee (MF->TC/MF->F->TC)
                             if ($userType == '28') {
@@ -382,6 +394,73 @@
                                     $candidates->execute($params);
                                     
                                 }
+                            }else if ($userType=='26') {
+                                // Check existence in all tables at once
+                                $sqlCheck = "
+                                    SELECT 'F' AS type, COUNT(*) AS total FROM sub_franchisee WHERE reference_no=? AND status='1'
+                                    UNION
+                                    SELECT 'TE' AS type, COUNT(*) AS total FROM corporate_agency WHERE reference_no=? AND status='1'
+                                    UNION
+                                    SELECT 'I' AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
+                                    UNION
+                                    SELECT 'TC' AS type, COUNT(*) AS total FROM ca_travelagency WHERE reference_no=? AND status='1'
+                                ";
+                                $stmtCheck = $conn->prepare($sqlCheck);
+                                $stmtCheck->execute([$userId, $userId, $userId, $userId]);
+                                
+
+                                $counts = [];
+                                while ($row = $stmtCheck->fetch(PDO::FETCH_ASSOC)) {
+                                    $counts[$row['type']] = (int)$row['total']; // force integer
+                                }
+
+                                // Assign variables                                                                
+                                $countF = $counts['F'] ?? 0;
+                                $countTE = $counts['TE'] ?? 0;
+                                $countI = $counts['I'] ?? 0;
+                                $countTC = $counts['TC'] ?? 0;
+
+                                // Now decide query based on availability
+                                $queries = [];
+                                $params = [];
+
+                                
+                                // TC
+                                if ($countTC > 0) {
+                                    $queries[] = "SELECT id, $tableId AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                FROM $tableName WHERE reference_no=? AND status='1'";
+                                                
+                                    $params[] = $userId;
+                                }
+                                // TE
+                                if ($countTE > 0) {
+                                    $queries[] = "SELECT id, $tableId1 AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                FROM $tableName1 WHERE reference_no=? AND status='1'";
+                                    $params[] = $userId;
+                                }
+                                // F
+                                if ($countF > 0) {
+                                    $queries[] = "SELECT id, $tableId2 AS userid, firstname, lastname, profile_pic, '$tableNameDesignation2' AS desination 
+                                                FROM $tableName2 WHERE reference_no=? AND status='1'";
+                                    $params[] = $userId;
+                                }
+                                //I
+                                if ($countI > 0) {
+                                    $queries[] = "SELECT id, $tableId3 AS userid, firstname, lastname, profile_pic, '$tableNameDesignation3' AS desination 
+                                                FROM $tableName3 WHERE reference_no=? AND status='1'";
+                                    $params[] = $userId;
+                                }
+
+                                // Execute only if we have something to query
+                                
+                                if (!empty($queries)) {
+                                    $sql = "SELECT * FROM (" . implode(" UNION ALL ", $queries) . ") AS combined
+                                            ORDER BY id DESC 
+                                            LIMIT 5";
+                                    $candidates = $conn->prepare($sql);
+                                    $candidates->execute($params);
+                                    
+                                }
                             }else{
                                 if($userType =='16'){
                                     $sqlCandidates = "SELECT *, CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
@@ -400,11 +479,11 @@
                             $candidates->setFetchMode(PDO::FETCH_ASSOC);
                             if ($candidates->rowCount() > 0) {
                                 foreach (($candidates->fetchAll()) as $key => $row) {
-                                if ($userType == '28' || $userType =='25' || $userType =='31') {
+                                if ($userType == '28' || $userType =='25' || $userType =='31' || $userType == '26') {
                                     $selected_user =$row['userid'];
                                 }else{
                                     $selected_user = ($userType == '24') ? $row['employee_id'] ://BCM->BDM
-                                                        (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] : //BM/TE->TC
+                                                        (($userType == '16') ? $row['ca_travelagency_id'] : //BM/TE->TC
                                                         (($userType == '30'|| $userType == '28') ? $row['sub_franchisee_id'] : //MF/SF->F
                                                         ($userType == '32' ? $row['institution_branch_manager_id']:''))); //I->IBR
                                 }
@@ -422,22 +501,22 @@
                                             }
                                         }
                                     }
-                                    $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' )?$row['desination']:$tableNameDesignation;
+                                    $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' || $userType == '26' )?$row['desination']:$tableNameDesignation;
                                     if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31' || $userType == '32') {
                                         # code...
                                         echo '
                                                 <li id="list-item-' . $selected_user . '">
-                                                    <a class="d-flex align-items-center py-2" style="cursor: grab;" onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
+                                                    <a class="d-flex align-items-center py-2" style="cursor: grab;" id="candidate-img" onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
                                                         <div class="flex-shrink-0 me-2">
                                                             <div class="avatar-xs">
                                                                 <img src="../../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h5 class="fs-13 mb-1 text-truncate">
-                                                                <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
+                                                            <h5 class="fs-13 mb-1 text-truncate" >
+                                                                <span class="candidate-name" id="candidate-name">' . $fname . ' ' . $lname . '</span>
                                                             </h5>
-                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31' || $userType == '32') ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
+                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31' || $userType == '32' || $userType =='26') ? '' : 'd-none') . ' candidate-position" id="candidate-position">' . $tableNameDesignation . '</div>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -450,12 +529,12 @@
                                                     <a href="javascript:void(0);" class="d-flex align-items-center py-2">
                                                         <div class="flex-shrink-0 me-2">
                                                             <div class="avatar-xs">
-                                                                <img src="../../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
+                                                                <img src="../../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" id="candidate-img" style="height: 35px; width: 35px;">
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h5 class="fs-13 mb-1 text-truncate"><span class="candidate-name">' . $fname . ' ' . $lname . '</span></h5>
-                                                            <div class="d-none candidate-position">' . $tableNameDesignation . '</div>
+                                                            <h5 class="fs-13 mb-1 text-truncate" ><span class="candidate-name" id="candidate-name">' . $fname . ' ' . $lname . '</span></h5>
+                                                            <div class="d-none candidate-position" id="candidate-position">' . $tableNameDesignation . '</div>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -583,10 +662,10 @@
                                 if($userType=='26'){
                             ?>
                                 <tr>
-                                    <th scope="row">Techno Enterprise</th>
-                                    <td><?=$pendingTE??0?></td>
-                                    <td><?=$registeredTE??0?></td>
-                                    <td><?=$deletedTE??0?></td>
+                                    <th scope="row">Travel Agency</th>
+                                    <td><?=$pendingTC??0?></td>
+                                    <td><?=$registeredTC??0?></td>
+                                    <td><?=$deletedTC??0?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Institution Branch Manager</th>
