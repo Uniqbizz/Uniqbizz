@@ -4,7 +4,7 @@ header("Content-Disposition: attachment; filename=Next_Payout_List.xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-require '../../../connect.php';
+require '../../../../connect.php';
 $payoutYear = $_GET['payoutYear'];
 $payoutMonth = $_GET['payoutMonth'];
 $payoutmessage = $_GET['payoutmessage'];

@@ -1,5 +1,5 @@
 <?php
-require '../../../connect.php';
+require '../../../../connect.php';
 $payoutYear = $_GET['payoutYear'];
 $payoutMonth = $_GET['payoutMonth'];
 $payoutmessage = $_GET['payoutmessage'];

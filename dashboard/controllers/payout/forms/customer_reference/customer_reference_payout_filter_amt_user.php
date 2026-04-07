@@ -1,6 +1,6 @@
  <!-- // next & prev model name & amount section replace  -->
  <?php
-    require "../../../connect.php";
+    require "../../../../connect.php";
    
     $cap_id = $_POST['cap_id'];
     $designation = $_POST['designation'];

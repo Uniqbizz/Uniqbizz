@@ -1,7 +1,7 @@
 <!-- all payout section filter  -->
 <?php
 
-require "../../../connect.php";
+require "../../../../connect.php";
 
 $cap_id = $_POST['cap_id'] ?? null;
 $designation = $_POST['designation'] ?? null;

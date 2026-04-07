@@ -1,6 +1,6 @@
 <!-- total payout Model and section amount change and add date to model  -->
 <?php
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $TotalYear = $_POST['TotalYear'];
 $TotalMonth = $_POST['TotalMonth'];

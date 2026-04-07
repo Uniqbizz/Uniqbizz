@@ -1,7 +1,7 @@
 <!-- Pending payment Model data add to table   -->
 <?php
 
-    require '../../../connect.php';
+    require '../../../../connect.php';
 
     // id,userID, paymentMessage, message, Commi, status, col_update
 

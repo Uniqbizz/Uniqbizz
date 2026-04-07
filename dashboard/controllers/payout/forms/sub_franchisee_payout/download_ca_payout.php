@@ -1,6 +1,6 @@
 <?php
  
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $id = $_GET['vkvbvjfgfikix'];
 $bc = $_GET['bc'];
@@ -51,15 +51,15 @@ if($caNames -> rowCount()>0){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download payout</title>
     <!--== FAV ICON ==-->
-    <link rel="shortcut icon" href="../../../assets/images/fav.png">
+    <link rel="shortcut icon" href="../../../../assets/images/fav.png">
 
     <!--== ALL CSS FILES ==-->
     <!-- Bootstrap Css -->
-    <link href="../../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="../../../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <style>
             .go-back{
                 margin: 10px 30px 20px;
@@ -86,7 +86,7 @@ if($caNames -> rowCount()>0){
     <body>
         <div class="background" >
             <div class="container cont-btn d-flex justify-content-around pt-3 pb-4">
-                <a href="../../../sub_franchisee_payout.php" class="go-back"> Go Back</a>
+                <a href="../../../../views/sub_franchisee_payout.php" class="go-back"> Go Back</a>
                 
                 <a href="#" id="generatePDF" class="download-btn">
                     <i class="fa fa-download " aria-hidden="true" style="color: white;" ></i> 
@@ -102,13 +102,13 @@ if($caNames -> rowCount()>0){
                                 <tbody>
                                     <tr>
                                         <td class="left">
-                                            <img class="ms-2" style="height: 15px; " src="../../../assets/images/uniqbizz_logo.png" alt="" />
+                                            <img class="ms-2" style="height: 15px; " src="../../../../assets/images/uniqbizz_logo.png" alt="" />
                                         </td>
                                         <td class="center">
                                             <h4 class="fw-bolder lh-lg"> Statement Of The Month</h4>
                                         </td>
                                         <td class="right">
-                                            <img class="me-2" style="height: 28px; " src="../../../assets/images/bizz_logo.png" alt="" />
+                                            <img class="me-2" style="height: 28px; " src="../../../../assets/images/bizz_logo.png" alt="" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -183,15 +183,15 @@ if($caNames -> rowCount()>0){
             </div>
         </div>
         <!-- JAVASCRIPT -->
-        <script src="../../../assets/js/jquery/jquery-3.7.1.min.js"></script>
-        <script src="../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../../../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <script>
             $("#generatePDF").click(function () {
                 // $(document).ready(function() {
                 var divToPrint=document.getElementById('htmlContent');
                     newWin = window.open("");
-                    newWin.document.write('<html><head><link rel="stylesheet" href="../../../assets/css/bootstrap.min.css"><link rel="stylesheet" href="../../../assets/css/icons.min.css"><link rel="stylesheet" href="../../../assets/css/app.min.css"></head><body style="margin-top: 20px;" onload="window.print()">'+divToPrint.outerHTML+'</body></html>');
+                    newWin.document.write('<html><head><link rel="stylesheet" href="../../../../assets/css/bootstrap.min.css"><link rel="stylesheet" href="../../../../assets/css/icons.min.css"><link rel="stylesheet" href="../../../../assets/css/app.min.css"></head><body style="margin-top: 20px;" onload="window.print()">'+divToPrint.outerHTML+'</body></html>');
                     newWin.print();
                     newWin.close();
 

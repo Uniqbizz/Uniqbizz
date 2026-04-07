@@ -1,5 +1,5 @@
 <?php
-require '../../../connect.php';
+require '../../../../connect.php';
 
 $designation = $_POST['designation'] ?? '';
 $month_year = $_POST['month_year'] ?? '';
