@@ -51,7 +51,6 @@ $pincode = $_POST['pincode'];
 $country = $_POST['country'];
 $state = $_POST['state'];
 $city = $_POST['city'];
-$note=$_POST['note'];
 $tc_ids = [];
 
 $tc_ids = $_POST['selectedIds'] ?? [];
@@ -82,7 +81,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 	nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,
 	contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age, 
 	gst_no=:gst_no, amount=:amount, country=:country,state=:state,city=:city,pincode=:pincode,
-	address=:address,note=:note,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,
+	address=:address,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card ,
 	bank_passbook=:passbook, payment_proof=:payment_proof, payment_mode=:payment_mode, cheque_no=:cheque_no, 
 	cheque_date=:cheque_date, bank_name=:bank_name, transaction_no=:transaction_no,
 	no_tc_alloted=:no_tc_alloted,repay_tenure=:repay_tenure,roi=:roi,tax=:tax,
@@ -106,7 +105,6 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
 		':city' => $city,
 		':pincode' => $pincode,
 		':address' => $address,
-		':note' => $note,
 		':profile_pic' => $profile_pic,
 		// ':kyc' => $kyc,
 		':age' => $age,
