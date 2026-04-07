@@ -1,6 +1,14 @@
 $(document).ready(function(){
-    $("#example-dataTable").DataTable();
-    $("#example-dataTable-2").DataTable();
+    $("#example-dataTable").DataTable({
+        language: {
+            emptyTable: "No Pending Users"
+        }
+    });
+    $("#example-dataTable-2").DataTable({
+        language: {
+            emptyTable: "No Registered Users"
+        }
+    });
 });
 
 function editfunc(id,cut,regby,country,st,ct,editfor,edittype){

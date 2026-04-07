@@ -243,9 +243,7 @@
                 echo'</tr>';
             }
         }
-        if (!$userCA && !$userBM) {
-            echo'<tr><tr>';
-        }
+        
     }
     else if($userType == "26"){
         
@@ -300,10 +298,7 @@
                 }
             echo'</tr>';
         }
-        if (!$userCA) {
-            echo'<tr><tr>';
-        }
-        
+                
     }
     else if($userType == "28" || $userTYpe == "30"){
         
@@ -354,9 +349,6 @@
                         </td>';
                 }
             echo'</tr>';
-        }
-        if (!$userCA && !$userBM) {
-            echo'<tr><tr>';
         }
         
     }

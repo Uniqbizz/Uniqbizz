@@ -197,9 +197,7 @@
                 echo'</tr>';
             }
         }
-        if (!$userCA && !$userBM) {
-            echo'<tr><tr>';
-        }
+        
     }else if($userType == '26' || $userType == '28' || $userType == '30'){
         $sql = "SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status,registrant FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'
                 UNION ALL
@@ -208,9 +206,9 @@
                 SELECT 'te' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status,registrant FROM `corporate_agency` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0' ";
         $stmt = $conn -> prepare($sql);
         $stmt -> execute();
-        $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-        if($stmt -> rowCount()>0){
-            foreach(($stmt -> fetchAll()) as $key => $row){
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($rows)){
+            foreach($rows as $row){
                 $bd= new DateTime($row['date_of_birth']);
                 $bdate= $bd->format('d-m-Y');
                 $dt= new DateTime($row['added_on']);
@@ -228,8 +226,6 @@
                     }
                 echo'</tr>';
             }
-        }else{
-            echo'<tr><tr>';
         }
     }else if($userType == '28' || $userType == '30'){
         $sql = "SELECT 'f' AS user_type,firstname,lastname,date_of_birth,added_on,reference_no,contact_no,status,registrant FROM `sub_franchisee` WHERE reference_no = '".$userId."' AND status = '2' OR status = '0'
@@ -257,8 +253,6 @@
                     }
                 echo'</tr>';
             }
-        }else{
-            echo'<tr><tr>';
         }
     }else if($userType == "31"){
         //Franchisee through MF/SF
