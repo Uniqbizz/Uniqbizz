@@ -286,7 +286,6 @@ function editfuncCust(data){
             '&usertype=' + data.user_type+
             '&tr_check=' + data.tr_check;
     }else if(data.user_type == 25 || data.user_type == 24 || data.user_type == 31 || data.user_type == 27){
-        console.log('inside condition');
         
         var fileName = 'employee/editEmployee.php';
 
