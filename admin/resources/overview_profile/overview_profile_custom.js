@@ -250,7 +250,7 @@ function editfuncCust(data){
 
         window.location.href = '../../views/' + fileName +
             '?vkvbvjfgfikix=' + data.id +
-            '&nohbref=' + data.reference_no +
+            '&nohbref=' + (data.reference_no || 'NA') +
             '&fyfyfregby=' + data.register_by +
             '&ncy=' + data.country +
             '&mst=' + data.state +
