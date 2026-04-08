@@ -97,7 +97,7 @@
                                     <select id="user_type" class="contact-input">
                                         <option value=""> -- Select Login As -- </option>;
                                         <?php 
-                                            $sql = "SELECT * FROM `user_type` WHERE status = '1' AND id IN (24, 25, 26, 16, 11, 10, 28, 29,33,32) ";
+                                            $sql = "SELECT * FROM `user_type` WHERE status = '1' AND id IN (24, 25, 26, 16, 11, 10, 28, 29,30,33,32) ";
                                             $stmt = $conn -> prepare($sql);
                                             $stmt -> execute();
                                             $stmt -> setFetchMode(PDO::FETCH_ASSOC);

@@ -51,7 +51,7 @@
         }
         else if ($userType == '28' || $userType == '30') {
     ?>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
             <div>
                 <p class="text-white fw-bold">Franchisee</p>
@@ -97,7 +97,7 @@
     <?php        
         }
     ?>
-    <div class="<?=($userType=='28' || $userType =='30')?'col-xl-4 col-lg-4 col-md-4':'col-xl-3 col-lg-3 col-md-3'?> col-sm-12 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
             <div>
                 <p class="text-white fw-bold">Travel Consultant</p>
@@ -278,7 +278,7 @@
             </div>
         </div>
     </div>
-    <div class="<?=($userType=='28' || $userType =='30')?'col-xl-4 col-lg-4 col-md-4':'col-xl-3 col-lg-3 col-md-3'?> col-sm-12 col-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
             <div>
                 <p class="text-white fw-bold">Customer</p>
@@ -579,7 +579,7 @@
         </div>
     </div>
 
-    <div class="<?=($userType=='28'||$userType=='30')?'col-xl-4 col-lg-4 col-md-4':'col-xl-3 col-lg-6 col-md-3'?> col-sm-12 col-12">
+    <div class="col-xl-3 col-lg-6 col-md-3 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
             <div>
                 <p class="text-white fw-bold">Commission Earned</p>
