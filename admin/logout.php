@@ -1,24 +1,30 @@
-<?php   
-    session_start(); //to ensure you are using same session
-    // session_destroy();
-    // if(session_destroy()){
-    // 	header('location:index.php');
-    // }
+<?php
+  session_start();
 
-    if(isset($_SESSION['username'])){
-        unset($_SESSION['username']);
-        unset($_SESSION['user_details_access_id']);
-        //   setcookie('user2','');
-        // setcookie('pass','');
+  // Unset all session variables
+  $_SESSION = [];
 
-        // session_destroy();
-    
-    }
+  // Destroy session
+  session_destroy();
 
-	
-	
+  // Delete session cookie also (IMPORTANT)
+  if (ini_get("session.use_cookies")) {
+      $params = session_get_cookie_params();
+      setcookie(session_name(), '', time() - 42000,
+          $params["path"], $params["domain"],
+          $params["secure"], $params["httponly"]
+      );
+  }
+
+  // Delete custom cookies
+  if(isset($_COOKIE['user2'])){
+      setcookie('user2', '', time() - 3600, '/');
+  }
+  if(isset($_COOKIE['pass'])){
+      setcookie('pass', '', time() - 3600, '/');
+  }
+
+  // Redirect
   header("location: index.php");
-
-
-
+  exit();
 ?>
