@@ -242,6 +242,17 @@ $('#paymentMode1').on('click', function() {
     }
 });
 //for transfer
+$(document).on('click', '.edit-btn', function () {
+    let data = $(this).attr('data-user');
+
+    try {
+        data = JSON.parse(data);
+        editfuncCust(data);
+    } catch (e) {
+        console.error("JSON Parse Error:", data);
+    }
+});
+
 function editfuncCust(data){ 
     if (data.user_type == '26' || data.user_type == '28' || data.user_type == '30') {
         
