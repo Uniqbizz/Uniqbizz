@@ -247,6 +247,8 @@ $(document).on('click', '.edit-btn', function () {
 
     try {
         data = JSON.parse(data);
+        console.log(data);
+        
         editfuncCust(data);
     } catch (e) {
         console.error("JSON Parse Error:", data);
