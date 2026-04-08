@@ -8,6 +8,7 @@ $request = json_decode(file_get_contents('php://input'), true);
 // ✅ Inputs
 $userId   = $request['id'] ?? '';
 $userType = 10; // FORCE customer type
+$search   = trim($request['search'] ?? '');
 $month    = (isset($request['month']) && $request['month'] !== '') ? (int)$request['month'] : null;
 $year     = (isset($request['year']) && $request['year'] !== '') ? (int)$request['year'] : null;
 
@@ -18,7 +19,7 @@ if (!$userId) {
     exit;
 }
 
-// ✅ Base SQL based on userType
+// ✅ Base SQL
 switch ($userType) {
     case '10':
         $sql = "SELECT * FROM product_payout WHERE (cu1_id = :uid OR cu2_id = :uid OR cu3_id = :uid)";
@@ -45,7 +46,7 @@ switch ($userType) {
         exit;
 }
 
-// ✅ Add month/year filter ONLY if both exist
+// ✅ Month/year filter
 if ($month !== null && $year !== null) {
     $sql .= " AND MONTH(created_date) = :month AND YEAR(created_date) = :year";
 }
@@ -60,6 +61,7 @@ if ($month !== null && $year !== null) {
 }
 
 $stmt->execute();
+
 $data = [];
 
 if ($stmt->rowCount() > 0) {
@@ -84,7 +86,7 @@ if ($stmt->rowCount() > 0) {
         $no_of_child = $row['no_of_child'];
         $ta_markup = null;
 
-        // ✅ Same logic untouched
+        // ✅ Existing logic untouched
         if ($userType == '10') {
             if ($row['cu1_id'] == $userId) {
                 $message = $row['cu1_mess'];
@@ -125,16 +127,46 @@ if ($stmt->rowCount() > 0) {
         $tds = $amt * $tdsPercentage;
         $totalPayable = $amt - $tds;
 
+        $statusText = ($status == '1' ? "Paid" : "Pending");
+
+        // ✅ FINAL MESSAGE (same as your output)
+        $finalMessage = $message . " on selling " . $packageName . " Package to " . $cuName .
+            " | Adults: " . $no_of_adult . " | Children: " . $no_of_child;
+
+        // ✅ GLOBAL SEARCH (NEW)
+        if (!empty($search)) {
+            $searchLower = strtolower($search);
+
+            $searchableString = strtolower(
+                $dt . ' ' .
+                $finalMessage . ' ' .
+                $ta_markup . ' ' .
+                $amt . ' ' .
+                $tds . ' ' .
+                $totalPayable . ' ' .
+                $statusText
+            );
+
+            if (strpos($searchableString, $searchLower) === false) {
+                continue;
+            }
+        }
+
         $data[] = [
             "date" => $dt,
-            "message" => $message . " on selling " . $packageName . " Package to " . $cuName .
-                " | Adults: " . $no_of_adult . " | Children: " . $no_of_child,
+            "message" => $finalMessage,
             "markup" => $ta_markup,
             "amount" => $amt,
             "tds" => $tds,
             "total_payable" => $totalPayable,
-            "status" => ($status == '1' ? "Paid" : "Pending")
+            "status" => $statusText
         ];
+    }
+
+    // ✅ No data after filtering
+    if (empty($data)) {
+        echo json_encode(["status" => "success", "message" => "No data found", "payouts" => []]);
+        exit;
     }
 
     echo json_encode(["status" => "success", "payouts" => $data], JSON_PRETTY_PRINT);

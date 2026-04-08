@@ -7,45 +7,32 @@ $response = [];
 try {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    $userId = isset($data['userId']) ? $data['userId'] : '';
-    $month  = isset($data['month']) ? (int)$data['month'] : null; // force int
-    $year   = isset($data['year']) ? (int)$data['year'] : null;
+    // ✅ Inputs (keep request same)
+    $userId = $data['id'] ?? '';
+    $search = trim($data['search'] ?? '');
 
-    $tdsPer = 0.02; // 2%
+    // ✅ Proper handling of empty month/year
+    $month = (isset($data['month']) && $data['month'] !== '') ? (int)$data['month'] : null;
+    $year  = (isset($data['year']) && $data['year'] !== '') ? (int)$data['year'] : null;
+
+    $tdsPer = 0.02;
 
     if (!$userId) {
         echo json_encode(["status" => false, "message" => "User ID is required"]);
         exit;
     }
 
-    // Build dynamic WHERE clause
-    $where = "customer_id = ? AND status = '1'";
+    // ✅ WHERE clause
+    $where = "customer_id = ? AND status IN ('1', '2')";
     $params = [$userId];
 
     if ($month !== null && $year !== null) {
         $where .= " AND MONTH(created_date) = ? AND YEAR(created_date) = ?";
         $params[] = $month;
         $params[] = $year;
-        // changes as per month & year if exist
-        $stmt = $conn->prepare("
-        SELECT SUM(referral_amount) AS payout 
-        FROM customer_reference_payout 
-        WHERE $where ");
-    } else {
-        $stmt = $conn->prepare("
-        SELECT SUM(referral_amount) AS payout 
-        FROM customer_reference_payout 
-        WHERE customer_id = ? AND status = '1'");
     }
 
-    $stmt->execute($params);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $totalPayout = floatval($row['payout'] ?? 0);
-    $tds = $totalPayout * $tdsPer;
-    $netPayable = $totalPayout - $tds;
-
-    // Fetch records with dynamic conditions
+    // ✅ Fetch records
     $stmt = $conn->prepare("
         SELECT 
             id, 
@@ -64,16 +51,19 @@ try {
     $stmt->execute($params);
 
     $records = [];
+    $totalPayout = 0;
+
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
         $dt = (new DateTime($row['created_date']))->format('Y-m-d');
 
-        // Messages
         $message1 = $row['message1'] ?: $row['message2'];
         $message1 = str_replace('.', "\n", $message1);
+
         $message2 = $row['message_details'] ?? 'NA';
         $message2 = str_replace('.', "\n", $message2);
 
-        // Commission logic
+        // Commission logic (UNCHANGED)
         if (!$row['comm_amt1']) {
             $commission = floatval($row['comm_amt2']);
             $tdsValue = null;
@@ -84,27 +74,70 @@ try {
             $total = $commission - $tdsValue;
         }
 
+        $statusText = ($row['status'] == '1' || $row['status'] == '3') ? "Paid" : "Pending";
+
+        // ✅ GLOBAL SEARCH
+        if (!empty($search)) {
+            $searchLower = strtolower($search);
+
+            $searchableString = strtolower(
+                $dt . ' ' .
+                $message1 . ' ' .
+                $message2 . ' ' .
+                $commission . ' ' .
+                $tdsValue . ' ' .
+                $total . ' ' .
+                $statusText
+            );
+
+            if (strpos($searchableString, $searchLower) === false) {
+                continue;
+            }
+        }
+
+        // ✅ accumulate filtered totals
+        $totalPayout += $commission;
+
         $records[] = [
             "date"           => $dt,
-            "message" => $message1,
+            "message"        => $message1,
             "payout_details" => $message2,
             "amount"         => round($commission, 2),
             "tds"            => isset($tdsValue) ? round($tdsValue, 2) : "NA",
             "total_payable"  => round($total, 2),
-            "status"         => ($row['status'] == '1' || $row['status'] == '3') ? "Paid" : "Pending"
+            "status"         => $statusText
         ];
     }
 
-    // Final JSON response
+    // ✅ No data case
+    if (empty($records)) {
+        echo json_encode([
+            "status" => true,
+            "message" => "No data found",
+            "user" => ["userId" => $userId],
+            "total_payout" => 0,
+            "tds" => 0,
+            "net_payable" => 0,
+            "date" => ($month !== null && $year !== null) ? $month . ' ' . $year : null,
+            "records" => []
+        ]);
+        exit;
+    }
+
+    // ✅ totals AFTER filtering
+    $tds = $totalPayout * $tdsPer;
+    $netPayable = $totalPayout - $tds;
+
     $response = [
         "status"       => true,
         "user"         => ["userId" => $userId],
         "total_payout" => round($totalPayout, 2),
         "tds"          => round($tds, 2),
         "net_payable"  => round($netPayable, 2),
-        "date"         => ($month && $year) ? $month . ' ' . $year : null,
+        "date"         => ($month !== null && $year !== null) ? $month . ' ' . $year : null,
         "records"      => $records
     ];
+
 } catch (Exception $e) {
     $response = [
         "status"  => false,
