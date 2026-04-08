@@ -46,7 +46,7 @@
                         <p>
                             Commission Earned:
                             <span id="commissionTotal" class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle">
-                                ₹0
+                                ₹ 0
                             </span>
                         </p>
                     </div>

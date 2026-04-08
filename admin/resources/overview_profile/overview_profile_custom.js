@@ -7,7 +7,6 @@ $(function () {
         $.ajax({
             url: '../../controllers/overview_profile/payout_tab.php',
             type: 'POST',
-            dataType: 'json',
             data: {
                 id: id,
                 DBtable: DBtable,
@@ -28,7 +27,7 @@ $(function () {
                 $('#payoutDetailsTable').DataTable();
 
                 // Step 4: Update commission total
-                $('#commissionTotal').html('₹' + response.total);
+                $('#commissionTotal').html('₹' + (response.total || 0) );
             },
             error: function (xhr, status, error) {
                 console.log('Error:', error);
