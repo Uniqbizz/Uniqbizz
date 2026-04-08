@@ -69,7 +69,7 @@
 
             <div class="card-body pb-2">
                 <div class="table-responsive table-card mb-1">
-                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0" id="top-users">
                         <thead class="text-muted table-light">
                             <tr>
                                 <th scope="col">ID</th>

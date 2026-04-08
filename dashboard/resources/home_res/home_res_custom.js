@@ -8,7 +8,16 @@ var getCurrentMonth = currentDate.getMonth() + 1;
 var userType, monthYear;
 // get month for input tag
 var monthControl = document.querySelector('#month_year');
-
+$(document).ready(function(){
+    $("#top-users").DataTable({
+        language: {
+            emptyTable: "No data"
+        },
+        searching: false,   
+        paging: false,
+        info: false       
+    });
+});
 let monthlyChart;
 
 async function getMonthlyUserData(get_year) {

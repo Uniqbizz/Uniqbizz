@@ -51,6 +51,10 @@ if ($userType == '29') {
 
     <!--Swiper slider css-->
     <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+    <!-- DataTables -->
+    <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 
     <!-- Layout config Js -->
     <script src="../assets/js/layout.js"></script>
@@ -271,249 +275,53 @@ if ($userType == '29') {
         <!-- ============================================================== -->
         <div class="main-content">
         <input type="hidden" value="<?= $userType?>" id="user_type"/>
-            <div class="page-content">
-                <div class="container-fluid">
+        <div class="page-content">
+            <div class="container-fluid">
 
-                    <div class="row">
-                        <div class="col">
+                <div class="row">
+                    <div class="col">
 
-                            <div class="h-100">
-                                <!-- Greeting section  -->
-                                <div class="row mb-3 pb-1">
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                                            <div class="flex-grow-1">
-                                                <h4 class="fs-16 mb-1">Welcome, <?php echo $userFname . ' ' . $userLname; ?>!</h4>
-                                                <p class="text-muted mb-0">Here's what's happening on your dashboard.</p>
-                                            </div>
+                        <div class="h-100">
+                            <!-- Greeting section  -->
+                            <div class="row mb-3 pb-1">
+                                <div class="col-12">
+                                    <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                        <div class="flex-grow-1">
+                                            <h4 class="fs-16 mb-1">Welcome, <?php echo $userFname . ' ' . $userLname; ?>!</h4>
+                                            <p class="text-muted mb-0">Here's what's happening on your dashboard.</p>
+                                        </div>
 
-                                        </div><!-- end card header -->
-                                    </div>
-                                    <!--end col-->
-                                </div><!--end row-->
+                                    </div><!-- end card header -->
+                                </div>
+                                <!--end col-->
+                            </div><!--end row-->
 
-                                <?php if ($userType == '3') { ?> <!--Business Consultent => 3  -->
-                                    <!-- Statistic col group of 4 -->
-                                    <div class="row">
-                                        <!-- <div class="col-xl-3 col-md-6">
-                                                <div class="card card-animate">
-                                                    <div class="card-body">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="flex-grow-1 overflow-hidden">
-                                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Corporate Agency Lead</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                                            <div>
-                                                                <?php
-                                                                $sql3 = "SELECT COUNT(corporate_agency_id) as id FROM corporate_agency WHERE reference_no = '" . $userId . "' AND status = '2'";
-                                                                $stmt3 = $conn->prepare($sql3);
-                                                                $stmt3->execute();
-                                                                $stmt3->setFetchMode(PDO::FETCH_ASSOC);
-                                                                if ($stmt3->rowCount() > 0) {
-                                                                    foreach (($stmt3->fetchAll()) as $key => $row) {
-                                                                        $id = $row['id'];
-                                                                        echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="' . $id . '"></span></h4>';
-                                                                    }
-                                                                }
-                                                                ?>
-                                                                <a href="view_corporate_agency.php" class="text-decoration-underline">View  </a>
-                                                            </div>
-                                                            <div class="avatar-sm flex-shrink-0">
-                                                                <span class="avatar-title bg-success rounded fs-3">
-                                                                    <i class="bx bx-user-circle"></i>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-
-                                        <div class="col-xl-4 col-md-6">
-                                            <!-- card -->
+                            <?php if ($userType == '3') { ?> <!--Business Consultent => 3  -->
+                                <!-- Statistic col group of 4 -->
+                                <div class="row">
+                                    <!-- <div class="col-xl-3 col-md-6">
                                             <div class="card card-animate">
                                                 <div class="card-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Corporate Agency </p>
+                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Corporate Agency Lead</p>
                                                         </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-danger fs-14 mb-0">
-                                                                    <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                                                </h5>
-                                                            </div> -->
                                                     </div>
                                                     <div class="d-flex align-items-end justify-content-between mt-4">
                                                         <div>
                                                             <?php
-                                                            $sql3 = "SELECT COUNT(corporate_agency_id) as id FROM corporate_agency WHERE reference_no = '" . $userId . "' AND status = '1'";
+                                                            $sql3 = "SELECT COUNT(corporate_agency_id) as id FROM corporate_agency WHERE reference_no = '" . $userId . "' AND status = '2'";
                                                             $stmt3 = $conn->prepare($sql3);
                                                             $stmt3->execute();
                                                             $stmt3->setFetchMode(PDO::FETCH_ASSOC);
                                                             if ($stmt3->rowCount() > 0) {
                                                                 foreach (($stmt3->fetchAll()) as $key => $row) {
                                                                     $id = $row['id'];
-                                                                    echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="activeID" class="counter-value" data-target="' . $id . '"></span></h4>';
+                                                                    echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="' . $id . '"></span></h4>';
                                                                 }
                                                             }
                                                             ?>
-                                                            <a href="view_corporate_agency.php" class="text-decoration-underline">View </a>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info rounded fs-3">
-                                                                <i class="bx bx-user-circle"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
-
-                                        <div class="col-xl-4 col-md-6">
-                                            <!-- card -->
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Travel Agency</p>
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-success fs-14 mb-0">
-                                                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
-                                                                </h5>
-                                                            </div> -->
-                                                    </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <?php
-                                                            $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
-                                                            $stmt2->execute([$userId]);
-                                                            $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                                                            $count = 0; // Initialize count
-
-                                                            foreach ($referrals as $referral) {
-                                                                $userCA = $referral['corporate_agency_id'];
-
-                                                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
-                                                                $stmt4->execute([$referral['corporate_agency_id']]);
-                                                                $stmt4->setFetchMode(PDO::FETCH_ASSOC);
-                                                                if ($stmt4->rowCount() > 0) {
-                                                                    foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
-                                                                        $userTA = $userCATA['ca_travelagency_id'] . ' ';
-                                                                        $count++; // Increment count for each ca_travelagency_id
-                                                                    } //CATA foreach ends
-                                                                } //CATA if loop ends
-                                                            } //CA foreach ends 
-
-                                                            echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="' . $count . '"></span></h4>';
-                                                            ?>
-                                                            <!-- <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="5">0</span></h4> -->
-                                                            <a href="view_travel_agent.php" class="text-decoration-underline">View </a>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-warning rounded fs-3">
-                                                                <i class="bx bx-shopping-bag"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
-
-                                        <div class="col-xl-4 col-md-6">
-                                            <!-- card -->
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Wallet</p>
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-muted fs-14 mb-0">
-                                                                    +0.00 %
-                                                                </h5>
-                                                            </div> -->
-                                                    </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <?php
-
-                                                            $sqlCAP = $conn->prepare("SELECT SUM(comm_amtTotal) as CommAmt FROM ca_payout WHERE business_consultant = '" . $userId . "' AND status='1' ");
-                                                            $sqlCAP->execute();
-                                                            $sqlCAP->setFetchMode(PDO::FETCH_ASSOC);
-                                                            if ($sqlCAP->rowCount() > 0) {
-                                                                foreach (($sqlCAP->fetchAll()) as $key => $row) {
-                                                                    $amt = $row['CommAmt'];
-                                                                }
-                                                            }
-
-                                                            $sqlTAP = $conn->prepare("SELECT SUM(commision_bc) as Comm FROM ca_ta_payout WHERE business_consultant = '" . $userId . "' AND status_bc= '1' ");
-                                                            $sqlTAP->execute();
-                                                            $sqlTAP->setFetchMode(PDO::FETCH_ASSOC);
-                                                            if ($sqlTAP->rowCount() > 0) {
-                                                                foreach (($sqlTAP->fetchAll()) as $key => $row) {
-                                                                    $Comm = $row['Comm'];
-                                                                    $tds = $Comm * 5 / 100;
-                                                                    $walletBal = $Comm - $tds;
-                                                                }
-                                                            }
-
-                                                            $walletBal = $amt + $Comm;
-                                                            echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4">&#8377<span class="counter-value" data-target="' . $walletBal . '"></span></h4>';
-
-                                                            ?>
-
-                                                            <a href="contracting_payout.php" class="text-decoration-underline">View Wallet Details</a>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-danger rounded fs-3">
-                                                                <i class="bx bx-wallet"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
-                                    </div> <!-- end row-->
-                                <?php } ?>
-
-                                <?php if ($userType == '10') { 
-                                        include '../models/home_model/cards/customer.php';  
-                                      } 
-                                ?>
-
-                                <?php if ($userType == '11' || $userType == '33') { 
-                                        include '../models/home_model/cards/tc.php';
-                                      } 
-                                ?>
-
-                                <?php if ($userType == '16' || $userType == '29' || $userType == '32') { 
-                                        include '../models/home_model/cards/te_f.php';
-                                      } 
-                                 ?>
-
-                                <?php if ($userType == '15') { ?> <!--Business Trainee => 15  Hold -->
-                                    <!-- Statistic col group of 4 -->
-                                    <div class="row">
-                                        <div class="col-xl-3 col-md-6">
-                                            <!-- card -->
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Customer Lead</p>
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-success fs-14 mb-0">
-                                                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
-                                                                </h5>
-                                                            </div> -->
-                                                    </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="220">0</span></h4>
-                                                            <a href="#" class="text-decoration-underline">View </a>
+                                                            <a href="view_corporate_agency.php" class="text-decoration-underline">View  </a>
                                                         </div>
                                                         <div class="avatar-sm flex-shrink-0">
                                                             <span class="avatar-title bg-success rounded fs-3">
@@ -521,148 +329,344 @@ if ($userType == '29') {
                                                             </span>
                                                         </div>
                                                     </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
+                                                </div>
+                                            </div>
+                                        </div> -->
 
-                                        <div class="col-xl-3 col-md-6">
-                                            <!-- card -->
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Customer Registered </p>
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-danger fs-14 mb-0">
-                                                                    <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                                                                </h5>
-                                                            </div> -->
+                                    <div class="col-xl-4 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Corporate Agency </p>
                                                     </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="115">0</span></h4>
-                                                            <a href="#" class="text-decoration-underline">View </a>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-info rounded fs-3">
-                                                                <i class="bx bx-user-circle"></i>
-                                                            </span>
-                                                        </div>
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-danger fs-14 mb-0">
+                                                                <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <?php
+                                                        $sql3 = "SELECT COUNT(corporate_agency_id) as id FROM corporate_agency WHERE reference_no = '" . $userId . "' AND status = '1'";
+                                                        $stmt3 = $conn->prepare($sql3);
+                                                        $stmt3->execute();
+                                                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt3->rowCount() > 0) {
+                                                            foreach (($stmt3->fetchAll()) as $key => $row) {
+                                                                $id = $row['id'];
+                                                                echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="activeID" class="counter-value" data-target="' . $id . '"></span></h4>';
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <a href="view_corporate_agency.php" class="text-decoration-underline">View </a>
                                                     </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-info rounded fs-3">
+                                                            <i class="bx bx-user-circle"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
 
-                                        <div class="col-xl-3 col-md-6">
-                                            <!-- card -->
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total Booking</p>
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-success fs-14 mb-0">
-                                                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
-                                                                </h5>
-                                                            </div> -->
+                                    <div class="col-xl-4 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Travel Agency</p>
                                                     </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="0">0</span></h4>
-                                                            <a href="#" class="text-decoration-underline">View </a>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-warning rounded fs-3">
-                                                                <i class="bx bx-shopping-bag"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-success fs-14 mb-0">
+                                                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <?php
+                                                        $stmt2 = $conn->prepare("SELECT * FROM `corporate_agency` WHERE reference_no = ? ");
+                                                        $stmt2->execute([$userId]);
+                                                        $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-                                        <div class="col-xl-3 col-md-6">
-                                            <!-- card -->
-                                            <div class="card card-animate">
-                                                <div class="card-body">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-grow-1 overflow-hidden">
-                                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Wallet</p>
-                                                        </div>
-                                                        <!-- <div class="flex-shrink-0">
-                                                                <h5 class="text-muted fs-14 mb-0">
-                                                                    +0.00 %
-                                                                </h5>
-                                                            </div> -->
-                                                    </div>
-                                                    <div class="d-flex align-items-end justify-content-between mt-4">
-                                                        <div>
-                                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">&#8377<span class="counter-value" data-target="0000">0</span></h4>
-                                                            <a href="#" class="text-decoration-underline">View Wallet Details</a>
-                                                        </div>
-                                                        <div class="avatar-sm flex-shrink-0">
-                                                            <span class="avatar-title bg-danger rounded fs-3">
-                                                                <i class="bx bx-wallet"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- end card body -->
-                                            </div><!-- end card -->
-                                        </div><!-- end col -->
-                                    </div> <!-- end row-->
-                                <?php } ?>
+                                                        $count = 0; // Initialize count
 
-                                <?php if ($userType == '24') { 
-                                        include '../models/home_model/cards/bcm.php';
-                                      } 
+                                                        foreach ($referrals as $referral) {
+                                                            $userCA = $referral['corporate_agency_id'];
+
+                                                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ?");
+                                                            $stmt4->execute([$referral['corporate_agency_id']]);
+                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                            if ($stmt4->rowCount() > 0) {
+                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                    $userTA = $userCATA['ca_travelagency_id'] . ' ';
+                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                } //CATA foreach ends
+                                                            } //CATA if loop ends
+                                                        } //CA foreach ends 
+
+                                                        echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="' . $count . '"></span></h4>';
+                                                        ?>
+                                                        <!-- <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="5">0</span></h4> -->
+                                                        <a href="view_travel_agent.php" class="text-decoration-underline">View </a>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-warning rounded fs-3">
+                                                            <i class="bx bx-shopping-bag"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+
+                                    <div class="col-xl-4 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Wallet</p>
+                                                    </div>
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-muted fs-14 mb-0">
+                                                                +0.00 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <?php
+
+                                                        $sqlCAP = $conn->prepare("SELECT SUM(comm_amtTotal) as CommAmt FROM ca_payout WHERE business_consultant = '" . $userId . "' AND status='1' ");
+                                                        $sqlCAP->execute();
+                                                        $sqlCAP->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($sqlCAP->rowCount() > 0) {
+                                                            foreach (($sqlCAP->fetchAll()) as $key => $row) {
+                                                                $amt = $row['CommAmt'];
+                                                            }
+                                                        }
+
+                                                        $sqlTAP = $conn->prepare("SELECT SUM(commision_bc) as Comm FROM ca_ta_payout WHERE business_consultant = '" . $userId . "' AND status_bc= '1' ");
+                                                        $sqlTAP->execute();
+                                                        $sqlTAP->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($sqlTAP->rowCount() > 0) {
+                                                            foreach (($sqlTAP->fetchAll()) as $key => $row) {
+                                                                $Comm = $row['Comm'];
+                                                                $tds = $Comm * 5 / 100;
+                                                                $walletBal = $Comm - $tds;
+                                                            }
+                                                        }
+
+                                                        $walletBal = $amt + $Comm;
+                                                        echo '<h4 class="fs-22 fw-semibold ff-secondary mb-4">&#8377<span class="counter-value" data-target="' . $walletBal . '"></span></h4>';
+
+                                                        ?>
+
+                                                        <a href="contracting_payout.php" class="text-decoration-underline">View Wallet Details</a>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-danger rounded fs-3">
+                                                            <i class="bx bx-wallet"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+                                </div> <!-- end row-->
+                            <?php } ?>
+
+                            <?php if ($userType == '10') { 
+                                    include '../models/home_model/cards/customer.php';  
+                                    } 
+                            ?>
+
+                            <?php if ($userType == '11' || $userType == '33') { 
+                                    include '../models/home_model/cards/tc.php';
+                                    } 
+                            ?>
+
+                            <?php if ($userType == '16' || $userType == '29' || $userType == '32') { 
+                                    include '../models/home_model/cards/te_f.php';
+                                    } 
                                 ?>
 
-                                <?php if ($userType == '25' || $userType == '31') { 
-                                        include '../models/home_model/cards/bdm_rm.php';
-                                      } 
+                            <?php if ($userType == '15') { ?> <!--Business Trainee => 15  Hold -->
+                                <!-- Statistic col group of 4 -->
+                                <div class="row">
+                                    <div class="col-xl-3 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Customer Lead</p>
+                                                    </div>
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-success fs-14 mb-0">
+                                                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="220">0</span></h4>
+                                                        <a href="#" class="text-decoration-underline">View </a>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-success rounded fs-3">
+                                                            <i class="bx bx-user-circle"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+
+                                    <div class="col-xl-3 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Customer Registered </p>
+                                                    </div>
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-danger fs-14 mb-0">
+                                                                <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="115">0</span></h4>
+                                                        <a href="#" class="text-decoration-underline">View </a>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-info rounded fs-3">
+                                                            <i class="bx bx-user-circle"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+
+                                    <div class="col-xl-3 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total Booking</p>
+                                                    </div>
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-success fs-14 mb-0">
+                                                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="0">0</span></h4>
+                                                        <a href="#" class="text-decoration-underline">View </a>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-warning rounded fs-3">
+                                                            <i class="bx bx-shopping-bag"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+
+                                    <div class="col-xl-3 col-md-6">
+                                        <!-- card -->
+                                        <div class="card card-animate">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Wallet</p>
+                                                    </div>
+                                                    <!-- <div class="flex-shrink-0">
+                                                            <h5 class="text-muted fs-14 mb-0">
+                                                                +0.00 %
+                                                            </h5>
+                                                        </div> -->
+                                                </div>
+                                                <div class="d-flex align-items-end justify-content-between mt-4">
+                                                    <div>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">&#8377<span class="counter-value" data-target="0000">0</span></h4>
+                                                        <a href="#" class="text-decoration-underline">View Wallet Details</a>
+                                                    </div>
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-danger rounded fs-3">
+                                                            <i class="bx bx-wallet"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card body -->
+                                        </div><!-- end card -->
+                                    </div><!-- end col -->
+                                </div> <!-- end row-->
+                            <?php } ?>
+
+                            <?php if ($userType == '24') { 
+                                    include '../models/home_model/cards/bcm.php';
+                                    } 
+                            ?>
+
+                            <?php if ($userType == '25' || $userType == '31') { 
+                                    include '../models/home_model/cards/bdm_rm.php';
+                                    } 
+                            ?>
+
+                            <?php if ($userType == '26' || $userType == '28' || $userType == '30') { 
+                                    include '../models/home_model/cards/bm_mf_sf.php';
+                                    } 
                                 ?>
 
-                                <?php if ($userType == '26' || $userType == '28' || $userType == '30') { 
-                                        include '../models/home_model/cards/bm_mf_sf.php';
-                                      } 
-                                 ?>
+                            <!-- progress Bar -->
+                            <?php if ($userType == '11' || $userType == '16') { 
+                                    include '../models/home_model/progress_bar/te_tc.php';
+                                    } 
+                            ?>
 
-                                <!-- progress Bar -->
-                                <?php if ($userType == '11' || $userType == '16') { 
-                                        include '../models/home_model/progress_bar/te_tc.php';
-                                      } 
+                            <!-- !-- Line Chart and top 5 user table -->
+                            <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30' || $userType =='31' || $userType == '33') { 
+                                    include '../models/home_model/line_chart/all_users.php';
+                                    } 
                                 ?>
 
-                                <!-- !-- Line Chart and top 5 user table -->
-                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30' || $userType =='31' || $userType == '33') { 
-                                        include '../models/home_model/line_chart/all_users.php';
-                                      } 
-                                 ?>
+                            <?php if (!$userType == "19" || !$userType == "24" || !$userType == "25" || !$userType == "26") { 
+                                    include '../models/home_model/recent_booking/bm_bdm_bm.php';
+                                    } 
+                                ?>
 
-                                <?php if (!$userType == "19" || !$userType == "24" || !$userType == "25" || !$userType == "26") { 
-                                        include '../models/home_model/recent_booking/bm_bdm_bm.php';
-                                      } 
-                                 ?>
-
-                                <!-- top customer engagment -->
-                                
-                                <?php include '../models/home_model/cust_engage.php' ?>
-                                <!-- recents 5 bookings -->
-                                <!-- booking id,customer name,package name,amount,booking date,travel date -->
-                                <?php if($userType == "11" || $userType == '33'){ 
-                                        include '../models/home_model/recent_booking/tc.php';
-                                      } 
-                                 ?>
-                                <!-- end recent 5 booking -->
-                            </div>
+                            <!-- top customer engagment -->
+                            
+                            <?php include '../models/home_model/cust_engage.php' ?>
+                            <!-- recents 5 bookings -->
+                            <!-- booking id,customer name,package name,amount,booking date,travel date -->
+                            <?php if($userType == "11" || $userType == '33'){ 
+                                    include '../models/home_model/recent_booking/tc.php';
+                                    } 
+                                ?>
+                            <!-- end recent 5 booking -->
                         </div>
                     </div>
-                </div> <!-- container-fluid -->
-            </div><!-- End Page-content -->
+                </div>
+            </div> <!-- container-fluid -->
+        </div><!-- End Page-content -->
 
-             <?php include "../footer.php" ?>
+        <?php include "../footer.php" ?>
 
         </div><!-- end main content-->
 
@@ -699,7 +703,13 @@ if ($userType == '29') {
     <!-- <script src="../assets/js/app.js"></script> -->
 
     <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
-
+    <!-- Required datatable js -->
+    <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    
+    <!-- Responsive examples -->
+    <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
     <!-- Dashboard init  popular candidates section js file-->
     <script src="../assets/js/pages/dashboard-job.init.js"></script>
