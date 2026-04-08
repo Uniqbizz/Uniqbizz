@@ -278,7 +278,7 @@ function editfuncCust(data){
 
         window.location.href = '../../views/' + fileName +
             '?vkvbvjfgfikix=' + data.employee_id +
-            '&fyfyfregby=' + data.reporting_manager +
+            '&fyfyfregby=' + (data.reporting_manager || 'NA') +
             '&nohbref=' + data.register_by +
             '&dept=' + data.department +
             '&desig=' + data.designation +
