@@ -1,5 +1,4 @@
 <?php
-    $hasData = false;
 
     if($userType == "24"){
         
@@ -295,7 +294,6 @@
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $hasData = true;
                 $bd= new DateTime($userCATA['date_of_birth']);
                 $bdate= $bd->format('d-m-Y');
                 $dt= new DateTime($userCATA['register_date']);
@@ -320,38 +318,51 @@
                 echo'</tr>';
             }   
         }
-        if(!$hasData){
-            echo '<tr></tr>';
-        }
         
         
     }
     else if($userType == "16" || $userType == "26" || $userType == "29" || $userType == "28" || $userType == "30" || $userType == '32'){
-        if(in_array($userType, ["28","29","30"])){
+        if(in_array($userType, ["28","29"])){
             // Create a function to print the CA Travel Agency Row (to avoid duplicate code)
             function showCaTravelAgencyRow($userCATA, $conn,$userId,$userType){
-                $hasData = true;
                 $bdate = (new DateTime($userCATA['date_of_birth']))->format('d-m-Y');
                 $datev = (new DateTime($userCATA['register_date']))->format('d-m-Y');
-
+                $message=$userCATA['user_type'] == 11 ? 'ca_travelagency' : ($userCATA['user_type'] == 33 ? 'institution_branch_manager' : '');
                 echo '<tr>
-                        <td><p>'.$userCATA['ca_travelagency_id'].'</p><p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p></td>
+                        <td><p>'.$userCATA['user_id'].'</p><p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p></td>
                         <td><p>'.$userCATA['reference_no'].'</p><p>'.$userCATA['registrant'].'</p></td>
                         <td>'.$userCATA['contact_no'].'</td>
                         <td>'.$datev.'</td>';
 
                 if($userCATA['status'] == '1'){
                     echo '<td><span class="badge bg-success">Active</span></td>';
-                    if (substr($userCATA['reference_no'], 0, 2) === 'MF' || substr($userCATA['reference_no'], 0, 1) === 'F'){
+                    if (substr($userCATA['reference_no'], 0, 2) === 'MF' || 
+                        substr($userCATA['reference_no'], 0, 1) === 'F' || 
+                        substr($userCATA['reference_no'], 0, 1) === 'I'){
                         echo '<td>
                                     <div class="dropdown d-inline-block">
                                         <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown">
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["ca_travelagency_id"].'","'.$userCATA["reference_no"].'","'.$userCATA["country"].'","'.$userCATA["state"].'","'.$userCATA["city"].'","ca_travelagency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
-                                            <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userCATA["ca_travelagency_id"]. '","' .$userCATA["country"]. '","' .$userCATA["state"]. '","' .$userCATA["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCATA["id"].'","'.$userCATA["ca_travelagency_id"].'","'.$userCATA["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>
+                                            <li>
+                                                <a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["user_id"].'","'.$userCATA["reference_no"].'","'.$userCATA["country"].'","'.$userCATA["state"].'","'.$userCATA["city"].'","'.$message.'")\'>
+                                                    <i class="ri-eye-fill align-bottom me-2 text-muted"></i> 
+                                                    Overview
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$userCATA["user_id"]. '","' .$userCATA["country"]. '","' .$userCATA["state"]. '","' .$userCATA["city"]. '","registered","'.$userCATA['user_type'].'")\'>
+                                                    <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> 
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCATA["id"].'","'.$userCATA["user_id"].'","'.$userCATA["reference_no"].'","registered","'.$userId.'","'.$userType.'","'.$userCATA['user_type'].'")\'>
+                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> 
+                                                    Delete
+                                                    </a>
+                                                </li>
                                         </ul>
                                     </div>
                                 </td>';  
@@ -362,7 +373,12 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["ca_travelagency_id"].'","'.$userCATA["reference_no"].'","'.$userCATA["country"].'","'.$userCATA["state"].'","'.$userCATA["city"].'","ca_travelagency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                            <li>
+                                                <a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["ca_travelagency_id"].'","'.$userCATA["reference_no"].'","'.$userCATA["country"].'","'.$userCATA["state"].'","'.$userCATA["city"].'","'.$message.'")\'>
+                                                    <i class="ri-eye-fill align-bottom me-2 text-muted"></i> 
+                                                    Overview
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </td>';  
@@ -371,14 +387,15 @@
                     echo '<td><span class="badge bg-danger">Deactive</span></td>';
 
                     $logsCheck = $conn->prepare("SELECT * FROM logs WHERE user_id=? AND operation='deactivated' ORDER BY register_date DESC LIMIT 1 ");
-                    $logsCheck->execute([$userCATA["ca_travelagency_id"]]);
+                    $logsCheck->execute([$userCATA["user_id"]]);
                     $resLog = $logsCheck->fetch(PDO::FETCH_ASSOC);
 
                     $referenceMap = [
                         "1" => "Admin",
                         "29" => "Franchisee",
                         "28" => "Master Franchisee",
-                        "30" => "Sponsor Franchisee"
+                        "30" => "Sponsor Franchisee",
+                        "32" => "Institution"
                     ];
 
                     $deactivatedBy = isset($referenceMap[$resLog['from_whom']]) ? $referenceMap[$resLog['from_whom']] : 'Unknown';
@@ -396,8 +413,12 @@
             foreach($referrals as $referral){
                 $userCA = $referral['sub_franchisee_id'];
 
-                $stmt4 = $conn->prepare("SELECT * FROM ca_travelagency WHERE reference_no = ? AND (status = '1' OR status = '3')");
-                $stmt4->execute([$userCA]);
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,contact_no,status,user_type
+                                        FROM ca_travelagency WHERE reference_no = ? AND (status = '1' OR status = '3')
+                                        UNION ALL
+                                        SELECT institution_branch_manager_id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,contact_no,status,user_type
+                                        FROM institution_branch_manager WHERE reference_no=? AND (status ='1' OR status='3')");
+                $stmt4->execute([$userCA,$userCA]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
@@ -415,9 +436,6 @@
                     showCaTravelAgencyRow($userCATA, $conn,$userId,$userType);
                 }
             }
-            if(!$hasData){
-                echo '<tr></tr>';
-            }
             
         }else{
             if($userType == '16'){
@@ -426,10 +444,10 @@
                     LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "'
                     WHERE (reference_no = '$userId' OR tm.te_id = '" . $userId . "') AND (status = '1' OR status = '3') ";
             }else{
-                $sql4 = "SELECT ca_travelagency_id AS ca_travelagency_id,id,date_of_birth,register_date,firstname,lastname,contact_no,status,reference_no,registrant,country,state,city
+                $sql4 = "SELECT ca_travelagency_id AS ca_travelagency_id,id,date_of_birth,register_date,firstname,lastname,contact_no,status,reference_no,registrant,country,state,city,user_type
                          FROM `ca_travelagency` WHERE reference_no = '$userId' AND (status = '1' OR status = '3')
                          UNION ALL
-                         SELECT institution_branch_manager_id AS ca_travelagency_id,id,date_of_birth,register_date,firstname,lastname,contact_no,status,reference_no,registrant,country,state,city
+                         SELECT institution_branch_manager_id AS ca_travelagency_id,id,date_of_birth,register_date,firstname,lastname,contact_no,status,reference_no,registrant,country,state,city,user_type
                          FROM `institution_branch_manager` WHERE reference_no = '$userId' AND (status = '1' OR status = '3') ";
             }
             $stmt4 = $conn -> prepare($sql4);
@@ -437,7 +455,6 @@
             $stmt4 -> setFetchMode(PDO::FETCH_ASSOC);
             if($stmt4 -> rowCount()>0){
                 foreach(($stmt4 -> fetchAll()) as $key => $row){
-                    $hasData = true;
                     $bd= new DateTime($row['date_of_birth']);
                     $bdate= $bd->format('d-m-Y');
                     $dt= new DateTime($row['register_date']);
@@ -486,16 +503,41 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>';
+                                            <li>
+                                                <a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$row["ca_travelagency_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\'>
+                                                    <i class="ri-eye-fill align-bottom me-2 text-muted"></i> 
+                                                    Overview
+                                                </a>
+                                            </li>';
                                 if($userType =='16'){
                                     if(!empty($row['alloted_check'])){
                                         if($row['alloted_check'] == 0){
-                                            echo'<li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                                <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>';
+                                            echo'<li>
+                                                    <a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered","'.$row['user_type'].'")\'>
+                                                        <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> 
+                                                        Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.',"'.$row['user_type'].'")\'>
+                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> 
+                                                        Delete
+                                                    </a>
+                                                </li>';
                                         }
                                     }else{
-                                        echo'<li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered")\'><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$userType.'")\'><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete</a></li>'; 
+                                        echo'<li>
+                                                <a class="dropdown-item edit-item-btn" onclick=\'editfunc("' .$row["ca_travelagency_id"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered","'.$row['user_type'].'")\'>
+                                                    <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> 
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>    
+                                                <a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","registered","'.$userId.'","'.$row['user_type'].'")\'>
+                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> 
+                                                    Delete
+                                                </a>
+                                            </li>'; 
                                     }
                                 }
                                 echo'   </ul>
@@ -508,7 +550,12 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","deactivate","'.$userId.'","'.$userType.'")\'><i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> Restore</a></li>
+                                            <li>
+                                                <a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$row["id"].'","'.$row["ca_travelagency_id"].'","'.$row["reference_no"].'","deactivate","'.$userId.'","'.$userType.'")\'>
+                                                    <i class="ri-arrow-go-back-fill align-bottom me-2 text-muted"></i> 
+                                                    Restore
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </td>';
@@ -516,9 +563,6 @@
                         }    
                     echo'</tr>';
                 }
-            }
-            if(!$hasData){
-                echo '<tr></tr>';
             }
         } 
             
@@ -534,7 +578,6 @@
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
-            $hasData = true;
             $userTA = $userCATA['id'];
             //echo $userCA.'=>'.$userTA.'</br>';
 
@@ -595,7 +638,6 @@
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
-                    $hasData = true;
                     $bd= new DateTime($userCATA['date_of_birth']);
                     $bdate= $bd->format('d-m-Y');
                     $dt= new DateTime($userCATA['register_date']);
@@ -631,7 +673,6 @@
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $hasData = true;
                 $bd= new DateTime($userCATA['date_of_birth']);
                 $bdate= $bd->format('d-m-Y');
                 $dt= new DateTime($userCATA['register_date']);
@@ -656,9 +697,6 @@
                 echo'</tr>';
             }
             
-        }
-        if(!$hasData){
-            echo '<tr></tr>';
         }
         
     }

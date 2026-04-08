@@ -12,12 +12,12 @@ $(document).ready(function(){
     });
 });
 
-function editfunc(id,cut,st,ct,editfor){
+function editfunc(id,cut,st,ct,editfor,userType){
     window.location.href='edit_travel_agent.php?vkvbvjfgfikix='+id+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
 };
 
-function deletefunc(id,fid,refid,action,userId,userType){
-    var dataString = 'id='+id+'&fid='+fid+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType;
+function deletefunc(id,fid,refid,action,userId,userType,tc_type){
+    var dataString = 'id='+id+'&fid='+fid+'&refid='+refid+'&action='+action+'&userId='+userId+'&userType='+userType+'&tc_type='+tc_type;
                     
     $.ajax({
         type: "POST",
@@ -45,7 +45,7 @@ function deletefunc(id,fid,refid,action,userId,userType){
     });
 };
 
-function overviewPage(id,ref,cut,st,ct,message){
-    var designation = 'Travel Consultant';
+function overviewPage(id,ref,cut,st,ct,message,userType){
+    var designation = userType == 11 ? 'Travel Consultant' : (userType == 33 ? 'Institution Branch Manager' : '');
     window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
 }

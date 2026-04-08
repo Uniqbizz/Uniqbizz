@@ -76,22 +76,24 @@
                                         <div class="h-100">
                                             <form>
                                                 <div class="row">
-                                                    <div class="input-block mb-3">
-                                                        <label class="col-form-label">Register As<span class="text-danger">*</span></label>
-                                                        <select id="registered" class="form-select">
-                                                            
-                                                        <?php 
-                                                            if ($userType == '32'){
-                                                        ?>
-                                                            <option value="institution_branch_manager" selected disabled>Institution Branch Manager</option>
-                                                        <?php 
-                                                            } else {
-                                                        ?>
-                                                                <option value="travel_consultant" selected disabled>Travel Consultant</option>
-                                                        <?php
-                                                            }
-                                                        ?>
-                                                        </select>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Register As<span class="text-danger">*</span></label>
+                                                            <select id="registered" class="form-select">
+                                                                
+                                                            <?php 
+                                                                if ($userType == '32'){
+                                                            ?>
+                                                                <option value="institution_branch_manager" selected disabled>Institution Branch Manager</option>
+                                                            <?php 
+                                                                } else {
+                                                            ?>
+                                                                    <option value="travel_consultant" selected disabled>Travel Consultant</option>
+                                                            <?php
+                                                                }
+                                                            ?>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <?php if($userType == "3" ){ ?>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
