@@ -256,7 +256,7 @@ $(document).on('click', '.edit-btn', function () {
 });
 
 function editfuncCust(data){ 
-    if (data.user_type == '26' || data.user_type == '28' || data.user_type == '30') {
+    if (data.user_type == 26 || data.user_type == 28 || data.user_type == 30) {
         
         var fileName = 'business_mentor/editBusinessMentor.php';
 
@@ -272,7 +272,7 @@ function editfuncCust(data){
             '&editfor=' + data.type +
             '&usertype=' + data.user_type +
             '&tr_check=' + data.tr_check;
-    }else if(data.user_type == '16' || data.user_type == '29'){
+    }else if(data.user_type == 16 || data.user_type == 29){
         var fileName = 'corporate_agency/edit_corporate_agency.php';
 
         window.location.href = '../../views/' + fileName +
@@ -285,7 +285,7 @@ function editfuncCust(data){
             '&editfor=' + data.type +
             '&usertype=' + data.user_type+
             '&tr_check=' + data.tr_check;
-    }else if(data.user_type == '25' || data.user_type == '24' || data.user_type == '31' || data.user_type == '27'){
+    }else if(data.user_type == 25 || data.user_type == 24 || data.user_type == 31 || data.user_type == 27){
         var fileName = 'employee/editEmployee.php';
 
         window.location.href = '../../views/' + fileName +
@@ -299,7 +299,7 @@ function editfuncCust(data){
             '&editfor=' + data.type +
             '&usertype=' + data.user_type+
             '&tr_check=' + data.tr_check;
-    }else if(data.user_type == '10'){
+    }else if(data.user_type == 10){
         var fileName = 'ca_customer/edit_customers.php';
 
             window.location.href = '../../views/' + fileName +
@@ -311,7 +311,7 @@ function editfuncCust(data){
             '&hct=' + data.city +
             '&editfor=' + data.type +
             '&tr_check=' + data.tr_check;
-    }else if(data.user_type == '11'){
+    }else if(data.user_type == 11){
         var fileName = 'ca_travel_agency/edit_ca_travelAgency.php';
 
             window.location.href = '../../views/' + fileName +
