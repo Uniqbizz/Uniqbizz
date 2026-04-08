@@ -58,7 +58,7 @@
                     ?>
                     <div class="row">
                         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                            <button class="btn btn-warning btn-sm" onclick="editfuncCust(<?= json_encode($edit_arr) ?>)">
+                            <button class="btn btn-warning btn-sm" onclick='editfuncCust(<?= htmlspecialchars(json_encode($edit_arr), ENT_QUOTES, "UTF-8") ?>)'>
                                 <i class="fa-solid fa-right-left me-1"></i> Transfer
                             </button>
                         </div>
