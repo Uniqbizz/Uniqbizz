@@ -111,8 +111,8 @@
                                             <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
-                                            <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
+                                            <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
+                                            <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" ><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -241,8 +241,8 @@
                                             <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
-                                            <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
+                                            <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
+                                            <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" ><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
                                         </ul>
                                     </div>
                                 </td>
