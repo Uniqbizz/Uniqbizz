@@ -2,9 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    echo '<script>location.href = "../../login.php";</script>';
-}
+include '../../models/common_models/session_check.php';
 
 require '../../connect.php';
 include '../../models/overview_profile/overview_custom.php';
