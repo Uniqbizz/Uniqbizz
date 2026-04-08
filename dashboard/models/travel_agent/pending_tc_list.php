@@ -179,13 +179,7 @@
             }
         }
 
-        //  FINAL CHECK
-        if(!$hasData){
-            echo '<tr></tr>';
-        }
     }else if($userType == "25"){
-
-        $hasData = false; //  ADD
 
         //direct TC with BDM Ref
         $stmt4 = $conn->prepare("SELECT id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,contact_no,status
@@ -297,14 +291,7 @@
                 echo'</tr>';
             }
         }
-
-        // FINAL CHECK
-        if(!$hasData){
-            echo '<tr></tr>';
-        }
     }else if($userType == "26" || $userType == "28" || $userType == "30"){
-
-        $hasData = false; //  ADD
 
         $stmt2 = $conn->prepare("SELECT DISTINCT sub_franchisee_id AS suser_id FROM `sub_franchisee` WHERE reference_no = ?
                                 UNION ALL
@@ -376,10 +363,6 @@
             echo'</tr>';
         }  
 
-        //  FINAL CHECK
-        if(!$hasData){
-            echo '<tr></tr>';
-        }
     }else if ($userType == "16" || $userType == "29" || $userType == "32") {
         $sql3 = "
             SELECT id AS user_id, date_of_birth, added_on, registrant, reference_no, lastname, firstname, contact_no, status 
@@ -397,40 +380,29 @@
         $stmt3->execute([$userId, $userId]);
         $results = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
-        $hasData = !empty($results); //  KEY LINE
+        foreach ($results as $row) {
 
-        if ($hasData) {
+            $datev = !empty($row['added_on']) 
+                ? (new DateTime($row['added_on']))->format('d-m-Y') 
+                : '';
 
-            foreach ($results as $row) {
+            $statusBadge = ($row['status'] == '2')
+                ? '<span class="badge bg-warning">Pending</span>'
+                : '<span class="badge bg-danger">Delete</span>';
 
-                $datev = !empty($row['added_on']) 
-                    ? (new DateTime($row['added_on']))->format('d-m-Y') 
-                    : '';
-
-                $statusBadge = ($row['status'] == '2')
-                    ? '<span class="badge bg-warning">Pending</span>'
-                    : '<span class="badge bg-danger">Delete</span>';
-
-                echo '<tr>
-                        <td>' . $row['user_id'] . '</td>
-                        <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                        <td>
-                            <p>' . $row['reference_no'] . '</p>
-                            <p>' . $row['registrant'] . '</p>
-                        </td>
-                        <td>' . $row['contact_no'] . '</td>
-                        <td>' . $datev . '</td>
-                        <td>' . $statusBadge . '</td>
-                    </tr>';
-            }
-
-        } else {
-            //  Optional: show empty row OR keep blank (your choice)
-            echo '<tr></tr>';
+            echo '<tr>
+                    <td>' . $row['user_id'] . '</td>
+                    <td>' . $row['firstname'] . ' ' . $row['lastname'] . '</td>
+                    <td>
+                        <p>' . $row['reference_no'] . '</p>
+                        <p>' . $row['registrant'] . '</p>
+                    </td>
+                    <td>' . $row['contact_no'] . '</td>
+                    <td>' . $datev . '</td>
+                    <td>' . $statusBadge . '</td>
+                </tr>';
         }
     }else if($userType == "31"){
-
-        $hasData = false; //  IMPORTANT
 
         // direct TC with RM Ref
         $stmt4 = $conn->prepare("
@@ -568,11 +540,6 @@
                     <td>'.$statusBadge.'</td>
                 </tr>';
             }
-        }
-
-        //  FINAL EMPTY CHECK (VERY IMPORTANT)
-        if (!$hasData) {
-            echo '<tr><td colspan="6" class="text-center">No Data Found</td></tr>';
         }
     }
 ?>

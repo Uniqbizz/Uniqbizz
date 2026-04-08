@@ -20,8 +20,6 @@
 
             foreach ($userCATAs as $userCATA) {
 
-                $hasData = true; //  IMPORTANT
-
                 $bd = new DateTime($userCATA['date_of_birth']);
                 $datev = (new DateTime($userCATA['register_date']))->format('d-m-Y'); 
 
@@ -90,8 +88,6 @@
 
                     foreach ($userCATAs as $userCATA){
 
-                        $hasData = true; //  IMPORTANT
-
                         $datev = (new DateTime($userCATA['register_date']))->format('d-m-Y'); 
                         $ref = get_reference($conn, $userCATA['reference_no']); //  FIXED
 
@@ -129,8 +125,6 @@
 
                 foreach ($userCATAs as $userCATA){
 
-                    $hasData = true;
-
                     $datev = (new DateTime($userCATA['register_date']))->format('d-m-Y'); 
                     $ref = get_reference($conn, $userCATA['reference_no']);
 
@@ -158,9 +152,6 @@
                 }
             }
         }
-        if(!$hasData){
-            echo '<tr></tr>';
-        }
     }else if($userType == "25"){
         //direct TC with BDM Ref
         $stmt4 = $conn->prepare("SELECT ca_travelagency_id,date_of_birth,register_date,reference_no,firstname,lastname,contact_no,status
@@ -169,7 +160,6 @@
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
-            $hasData = true;
             $bd= new DateTime($userCATA['date_of_birth']);
             $bdate= $bd->format('d-m-Y');
             $dt= new DateTime($userCATA['register_date']);
@@ -231,7 +221,6 @@
                     $bdate= $bd->format('d-m-Y');
                     $dt= new DateTime($userCATA['register_date']);
                     $datev= $dt->format('d-m-Y'); 
-                    $hasData = true;
                     echo'<tr>
                         <td>
                             <p>'.$userCATA['tc_id'].'</p>
@@ -259,7 +248,6 @@
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $hasData = true;
                 $bd= new DateTime($userCATA['date_of_birth']);
                 $bdate= $bd->format('d-m-Y');
                 $dt= new DateTime($userCATA['register_date']);

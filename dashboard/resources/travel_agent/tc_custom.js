@@ -1,13 +1,13 @@
 $(document).ready(function(){
     $("#example-dataTable").DataTable({
         language: {
-            emptyTable: "No data found"
+            emptyTable: "No Pending Users"
         }
     });
 
     $("#example-dataTable-2").DataTable({
         language: {
-            emptyTable: "No data found"
+            emptyTable: "No Registered Users"
         }
     });
 });
