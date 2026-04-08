@@ -5,7 +5,7 @@ $(function () {
         var user_type = $('#user_type').val();
 
         $.ajax({
-            url: '../../controllers/overview_profile/payout_tab.php',
+            url: '../../models/overview_profile/forms/payout_overview.php',
             type: 'POST',
             data: {
                 id: id,
