@@ -2,6 +2,10 @@
 
     require 'connect.php';
     session_start();
+    // Prevent caching
+    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+    header("Pragma: no-cache"); // HTTP 1.0
+    header("Expires: 0"); // Proxies
     if(!isset($_SESSION['username2']) || !isset($_SESSION['user_type_id_value']) || !isset($_SESSION['user_id']) ){
         echo '<script>location.href = "../../index.php";</script>';
     }
