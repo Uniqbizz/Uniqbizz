@@ -1028,9 +1028,9 @@ $('#add-travel-agent').click(function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == 'travel_consultant'
-    ? '"../controllers/travel_agent/add_travel_agent_data.php"'
+    ? "../controllers/travel_agent/add_travel_agent_data.php"
     : register_as == 'institution_branch_manager'
-        ? '../controllers/travel_agent/add_ca_ins_branch_manager_data.php'
+        ? "../controllers/travel_agent/add_ca_ins_branch_manager_data.php"
         : '';
     // console.log('Add customer button clicked');
 
@@ -1224,9 +1224,9 @@ $('#edit-travel-agent').click(function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == '11'
-    ? '"../controllers/travel_agent/edit_travel_agent_data.php"'
+    ? "../controllers/travel_agent/edit_travel_agent_data.php"
     : register_as == '33'
-        ? '../controllers/travel_agent/edit_ca_ins_branch_manager_data.php'
+        ? "../controllers/travel_agent/edit_ca_ins_branch_manager_data.php"
         : '';
 
     // var designation = $("#designation").val();

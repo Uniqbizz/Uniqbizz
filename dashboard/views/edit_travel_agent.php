@@ -14,28 +14,28 @@
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="Themesbrand" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/fav.png">
+        <link rel="shortcut icon" href="../assets/images/fav.png">
 
         <!-- jsvectormap css -->
-        <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
         <!--Swiper slider css-->
-        <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Layout config Js -->
-        <script src="assets/js/layout.js"></script>
+        <script src="../assets/js/layout.js"></script>
         <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
-        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
-        <link rel="stylesheet" href="assets/css/custom.css" />
-        <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
-        <link href="assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css" />
+        <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
@@ -43,11 +43,11 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once "header.php"; ?>
+            <?php include_once "../header.php"; ?>
             <?php include '../notification_card.php'?>
             <!-- ========== App Menu ========== -->
 
-            <?php include_once "sidebar.php"; ?>
+            <?php include_once "../sidebar.php"; ?>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
@@ -274,7 +274,7 @@
                                                                 <?php
                                                                     if($profile_pic !=''){
                                                                 ?>
-                                                                <a href="<?php echo '../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../../uploading/' . $profile_pic; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                                 <?php
@@ -288,9 +288,9 @@
                                                             <div id="image_preview1">
                                                                 <?php
                                                                     if($profile_pic ==''){
-                                                                        echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre1">';
                                                                     }else{
-                                                                        echo '<img src="../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1">';
+                                                                        echo '<img src="../../uploading/'.$profile_pic.'" alt="Preview" id="img_pre1">';
                                                                 ?>
                                                                     
                                                                 <?php    
@@ -306,7 +306,7 @@
                                                                 <?php
                                                                     if($aadhar_card !=''){
                                                                 ?>
-                                                                <a href="<?php echo '../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../../uploading/' . $aadhar_card; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                                 <?php
@@ -320,9 +320,9 @@
                                                             <div id="image_preview2">
                                                                 <?php
                                                                     if($aadhar_card ==''){
-                                                                        echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre2">';
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre2">';
                                                                     }else{
-                                                                        echo '<img src="../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2">';
+                                                                        echo '<img src="../../uploading/'.$aadhar_card.'" alt="Preview" id="img_pre2">';
                                                                 ?>
                                                                     
                                                                 <?php
@@ -338,7 +338,7 @@
                                                                 <?php
                                                                     if($pan_card !=''){
                                                                 ?>
-                                                                <a href="<?php echo '../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../../uploading/' . $pan_card; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                                 <?php
@@ -352,9 +352,9 @@
                                                             <div id="image_preview3">
                                                                 <?php
                                                                     if($pan_card ==''){
-                                                                        echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre3">';
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre3">';
                                                                     }else{
-                                                                        echo '<img src="../uploading/'.$pan_card.'" alt="Preview" id="img_pre3">';
+                                                                        echo '<img src="../../uploading/'.$pan_card.'" alt="Preview" id="img_pre3">';
                                                                 ?>
                                                                     
                                                                 <?php
@@ -370,7 +370,7 @@
                                                                 <?php
                                                                     if($bank_passbook !=''){
                                                                 ?>
-                                                                <a href="<?php echo '../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../../uploading/' . $bank_passbook; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                                 <?php
@@ -384,9 +384,9 @@
                                                             <div id="image_preview4">
                                                                 <?php
                                                                     if($bank_passbook ==''){
-                                                                        echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre4">';
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre4">';
                                                                     }else{
-                                                                        echo '<img src="../uploading/'.$bank_passbook.'" alt="Preview" id="img_pre4">';
+                                                                        echo '<img src="../../uploading/'.$bank_passbook.'" alt="Preview" id="img_pre4">';
                                                                 ?>
                                                                     
                                                                 <?php
@@ -402,7 +402,7 @@
                                                                 <?php
                                                                     if($voting_card !=''){
                                                                 ?>
-                                                                <a href="<?php echo '../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../../uploading/' . $voting_card; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                                 <?php
@@ -416,9 +416,9 @@
                                                             <div id="image_preview5">
                                                                 <?php
                                                                     if($voting_card ==''){
-                                                                        echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre5">';
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre5">';
                                                                     }else{
-                                                                        echo '<img src="../uploading/'.$voting_card.'" alt="Preview" id="img_pre5">';
+                                                                        echo '<img src="../../uploading/'.$voting_card.'" alt="Preview" id="img_pre5">';
                                                                 ?>
                                                                     
                                                                 <?php
@@ -435,7 +435,7 @@
                                                                 <?php
                                                                     if($payment_proof !=''){
                                                                 ?>
-                                                                <a href="<?php echo '../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
+                                                                <a href="<?php echo '../../uploading/' . $payment_proof; ?>" download class="ms-3" title="Download">
                                                                     <i class="fa fa-download fa-1x" aria-hidden="true"></i>
                                                                 </a>
                                                                 <?php
@@ -449,9 +449,9 @@
                                                             <div id="image_preview6">
                                                                 <?php
                                                                     if($payment_proof ==''){
-                                                                        echo '<img src="../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
+                                                                        echo '<img src="../../uploading/not_uploaded.png" alt="Preview" id="img_pre6">';
                                                                     }else{
-                                                                        echo '<img src="../uploading/'.$payment_proof.'" alt="Preview" id="img_pre6">';
+                                                                        echo '<img src="../../uploading/'.$payment_proof.'" alt="Preview" id="img_pre6">';
                                                                 ?>
                                                                     
                                                                 <?php
@@ -484,7 +484,7 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php include_once "footer.php" ?>   
+                <?php include_once "../footer.php" ?>   
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
 
@@ -495,33 +495,33 @@
         <!--end back-to-top-->
         
         <!-- JAVASCRIPT -->
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
-        <script src="assets/libs/feather-icons/feather.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../assets/libs/feather-icons/feather.min.js"></script>
         <!-- jquery -->
-        <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
 
-        <script src="assets/js/submitdata.js"></script>
+        <script src="../assets/js/submitdata.js"></script>
         
         <!-- !-- materialdesign icon js- -->
-        <script src="assets/js/pages/remix-icons-listing.js"></script>
+        <script src="../assets/js/pages/remix-icons-listing.js"></script>
 
         <!-- apexcharts -->
-        <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+        <script src="../assets/libs/apexcharts/apexcharts.min.js"></script>
 
         <!-- Vector map-->
-        <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
+        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
 
         <!--Swiper slider js-->
-        <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
 
         <!-- App js -->
-        <script src="assets/js/app.js"></script>
+        <script src="../assets/js/app.js"></script>
 
         <!-- file upload code js file -->
-        <script src="../uploading/uploadUser.js"></script>
+        <script src="../../uploading/uploadUser.js"></script>
         <script src="../resources/travel_agent/edit_tc_custom.js"></script>
     </body>
 </html>

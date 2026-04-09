@@ -322,7 +322,7 @@
         
     }
     else if($userType == "16" || $userType == "26" || $userType == "29" || $userType == "28" || $userType == "30" || $userType == '32'){
-        if(in_array($userType, ["28","29","30",26])){
+        if(in_array($userType, ["28","29","30","26"])){
             // Create a function to print the CA Travel Agency Row (to avoid duplicate code)
             function showCaTravelAgencyRow($userCATA, $conn,$userId,$userType){
                 $bdate = (new DateTime($userCATA['date_of_birth']))->format('d-m-Y');
@@ -478,7 +478,7 @@
                     }
                     echo'<tr>
                         <td>
-                            <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$row['ca_travelagency_id'].'</p>
+                            <p><span class="badge bg-secondary lable-width">' . strtoupper($row['user_type'] == '11'?'tc':($row['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$row['ca_travelagency_id'].'</p>
                             <p>'.$row['firstname'].' '.$lastName.'</p>
                         </td>';
                         if(!empty($row['alloted_check'])){

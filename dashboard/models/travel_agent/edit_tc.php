@@ -4,8 +4,17 @@
     $state_id = $_GET['mst'];
     $city_id = $_GET['hct'];
     $editfor = $_GET['editfor'];
+    $user_type = $_GET['userType'];
+    $table_name=$table_userid='';
+    if ($user_type == 11) {
+        $table_name='ca_travelagency';
+        $table_userid='ca_travelagency_id';
+    }elseif ($user_type == 33) {
+        $table_name='institution_branch_manager';
+        $table_userid='institution_branch_manager_id';
+    }
 
-    $stmt = $conn->prepare("SELECT * FROM `ca_travelagency` WHERE ca_travelagency_id='".$id."' OR id = '".$id."' ");
+    $stmt = $conn->prepare("SELECT * FROM $table_name  WHERE $table_userid='".$id."' OR id = '".$id."' ");
     $stmt->execute();
     // set the resulting array to associative
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -42,6 +51,7 @@
             $transaction_no=$row['transaction_no'];
             $pincode=$row['pincode'];
             $register_by=$row['register_by'];
+            $user_type=$row['user_type'];
 
             //get country
             $countries = $conn->prepare("SELECT country_name FROM countries where id='".$country."' and status='1' ");

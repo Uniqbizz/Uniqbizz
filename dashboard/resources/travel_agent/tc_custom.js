@@ -13,7 +13,7 @@ $(document).ready(function(){
 });
 
 function editfunc(id,cut,st,ct,editfor,userType){
-    window.location.href='edit_travel_agent.php?vkvbvjfgfikix='+id+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
+    window.location.href='edit_travel_agent.php?vkvbvjfgfikix='+id+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&userType='+userType;
 };
 
 function deletefunc(id,fid,refid,action,userId,userType,tc_type){
