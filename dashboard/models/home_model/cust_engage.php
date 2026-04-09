@@ -551,9 +551,16 @@
                                 if ($userType == '28' || $userType =='25' || $userType =='31' || $userType == '26' || $userType == '28' || $userType == '30') {
                                     $selected_user =$row['userid'];
                                 }else{
-                                    $selected_user = ($userType == '24') ? $row['employee_id'] ://BCM->BDM
-                                                        (($userType == '16') ? $row['ca_travelagency_id'] : //BM/TE->TC
-                                                        ($userType == '32' ? $row['institution_branch_manager_id']:'')); //I->IBR
+                                    $map = [
+                                                '24' => 'employee_id',
+                                                '16' => 'ca_travelagency_id',
+                                                '32' => 'institution_branch_manager_id',
+                                                '29' => 'ca_travelagency_id'
+                                            ];
+
+                                    $selected_user = isset($map[$userType]) 
+                                        ? ($row[$map[$userType]] ?? '') 
+                                        : '';
                                 }
                                     if ($userType == '24') {
                                         $fname = $row['name'];

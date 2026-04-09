@@ -19,7 +19,12 @@ $(document).ready(function(){
     });
 });
 let monthlyChart;
-
+function hexToRgba(hex, alpha = 0.5) {
+    const r = parseInt(hex.substring(1, 3), 16);
+    const g = parseInt(hex.substring(3, 5), 16);
+    const b = parseInt(hex.substring(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 async function getMonthlyUserData(get_year) {
     const option = {
         method: 'POST',
@@ -99,7 +104,8 @@ async function getMonthlyUserData(get_year) {
             label: labels[i] || `Series ${i + 1}`,
             data: safeData,
             borderColor: colors[i % colors.length],
-            backgroundColor: colors[i % colors.length] + '77',
+            backgroundColor: hexToRgba(colors[i % colors.length], 0.4),
+            pointBackgroundColor: colors[i % colors.length],
             fill: true,
             tension: 0.4,
             pointRadius: 3,
