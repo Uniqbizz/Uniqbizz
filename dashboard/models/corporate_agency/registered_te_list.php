@@ -146,7 +146,7 @@
             $dt= new DateTime($userCA['register_date']);
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
-                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':($userCA['user_type'] == '16'?'te':''))) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td><p>'.$userCA['amount'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
@@ -159,7 +159,7 @@
                                     <i class="ri-more-fill align-middle"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","sub_franchisee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' . $userCA["user_type"] . '")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
                                     <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["sub_franchisee_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                     <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["sub_franchisee_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                     
@@ -208,7 +208,7 @@
                 $dt= new DateTime($userCA['register_date']);
                 $datev= $dt->format('d-m-Y'); 
                 echo'<tr>
-                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                    <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':($userCA['user_type'] == '16'?'te':''))) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                     <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                     <td><p>'.$userCA['amount'].'</p></td>
                     <td>'.$userCA['contact_no'].'</td>
@@ -221,7 +221,7 @@
                                         <i class="ri-more-fill align-middle"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                        <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","sub_franchisee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                        <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' . $userCA["user_type"] . '")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
                                         <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["sub_franchisee_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                         <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["sub_franchisee_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                     </ul>
@@ -263,7 +263,7 @@
             $dt= new DateTime($userCA['register_date']);
             $datev= $dt->format('d-m-Y'); 
             echo'<tr>
-                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':'')) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
+                <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCA['user_type'] == '29'?'f':($userCA['user_type'] == '32'?'i':($userCA['user_type'] == '16'?'te':''))) . '</span>&nbsp;'.$userCA['sub_franchisee_id'].'</p><p>'.$userCA['firstname'].' '.$userCA['lastname'].'</p></td>
                 <td><p>'.$userCA['reference_no'].'</p><p>'.$userCA['registrant'].'</p></td>
                 <td><p>'.$userCA['amount'].'</p></td>
                 <td>'.$userCA['contact_no'].'</td>
@@ -276,7 +276,7 @@
                                     <i class="ri-more-fill align-middle"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","sub_franchisee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' . $userCA["user_type"] . '")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
                                     <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["sub_franchisee_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                     <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["sub_franchisee_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                     
@@ -300,7 +300,7 @@
         }
                 
     }
-    else if($userType == "28" || $userTYpe == "30"){
+    else if($userType == "28" || $userType == "30"){
         
         //Direct F
         $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,user_type,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status,register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')
@@ -329,7 +329,7 @@
                                     <i class="ri-more-fill align-middle"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","sub_franchisee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' . $userCA["user_type"] . '")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
                                     <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["sub_franchisee_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                     <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["sub_franchisee_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                 </ul>
@@ -380,7 +380,7 @@
                                     <i class="ri-more-fill align-middle"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","sub_franchisee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                    <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' . $userCA["user_type"] . '")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
                                     <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["sub_franchisee_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                     <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["sub_franchisee_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                     
@@ -438,7 +438,7 @@
                                         <i class="ri-more-fill align-middle"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                        <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","sub_franchisee")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
+                                        <li><a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCA["sub_franchisee_id"]. '","' .$userCA["reference_no"]. '","' .$userCA["country"]. '","' .$userCA["state"]. '","' .$userCA["city"]. '","' . $userCA["user_type"] . '")\'><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Overview</a></li>
                                         <li><a class="dropdown-item edit-item-btn" onclick=\'editfunc("' . $userCA["sub_franchisee_id"] . '","' . $userCA["reference_no"] . '","' . $userCA["register_by"] . '","' . $userCA["country"] . '","' . $userCA["state"] . '","' . $userCA["city"] . '","registered","' . $userCA["user_type"] . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                         <li><a class="dropdown-item remove-item-btn" onclick=\'deletefunc("'.$userCA["id"].'","'.$userCA["sub_franchisee_id"].'","' . $userCA["reference_no"] . '","registered","'.$userId.'","'.$userCA['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                     </ul>

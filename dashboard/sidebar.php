@@ -350,12 +350,12 @@
                     ?>
                         <li class="nav-item <?php if ($first_part=="../views/view_corporate_agency.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="../views/view_corporate_agency.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history"><?=($userType == "28"|| $userType =="30")? 'Franchisee':'Techno Enterprise'?></span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history"><?=($userType == "28"|| $userType =="30")? 'F/I':'TE/I'?></span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="../views/view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="../views/view_travel_agent.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-order-history">Travel Consultant</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-order-history"><?=($userType == "28"|| $userType =="30")? 'TC/IBR':'TC/IBR'?></span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="../views/view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">

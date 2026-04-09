@@ -25,11 +25,11 @@ async function getMonthlyUserData(get_year) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json;charset=utf-8' },
         body: JSON.stringify({
-        year: get_year,
-        current_year: getCurrentYear,
-        current_month: getCurrentMonth,
-        user_id: userId,
-        user_type: userType
+            year: get_year,
+            current_year: getCurrentYear,
+            current_month: getCurrentMonth,
+            user_id: userId,
+            user_type: userType
         })
     };
 
@@ -45,22 +45,42 @@ async function getMonthlyUserData(get_year) {
         const xValues = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
         const labelMap = {
-            '24': ['BDM','BM','MF','SF','TE','F','TA','CU'],
-            '25': ['BM','MF','SF','TE','F','TA','CU'],
-            '26': ['TE','TA','CU'],
-            '28': ['F','TA','CU'],
+            '24': ['BDM','BM','MF','SF','TE','F','I','TA','IBR','CU'],
+            '25': ['BM','MF','SF','TE','F','I','TA','IBR','CU'],
+            '26': ['TE','F','I','TA','IBR','CU'],
+            '28': ['F','I','TA','IBR','CU'],
             '29': ['TA','CU'],
             '16': ['TA','CU'],
-            '30': ['F','TA','CU'],
-            '31': ['MF','SF','F','TA','CU'],
-            '11': ['CU']
+            '30': ['F','I','TA','IBR','CU'],
+            '31': ['MF','SF','F','I','TA','IBR','CU'],
+            '11': ['CU'],
+            '32': ['IBR','CU'],
+            '33': ['CU']
         };
 
         const labels = labelMap[userType] || [];
         const colors = [
-            '#f39c12','#27ae60','#2980b9','#8e44ad',
-            '#e74c3c','#1abc9c','#f1c40f','#0ff12d'
-        ];
+                            '#f39c12', // orange
+                            '#27ae60', // green
+                            '#2980b9', // blue
+                            '#8e44ad', // purple
+                            '#e74c3c', // red
+                            '#1abc9c', // teal
+                            '#f1c40f', // yellow
+                            '#0ff12d', // neon green
+                            '#ff6b6b', // light red
+                            '#34495e', // dark blue-grey
+                            '#16a085', // dark teal
+                            '#d35400', // burnt orange
+                            '#2ecc71', // light green
+                            '#9b59b6', // soft purple
+                            '#c0392b', // dark red
+                            '#7f8c8d', // grey
+                            '#00cec9', // cyan
+                            '#6c5ce7', // violet
+                            '#fd79a8', // pink
+                            '#e17055'  // coral
+                        ];
 
         const MONTHS = 12;
 
@@ -72,7 +92,7 @@ async function getMonthlyUserData(get_year) {
             const safeData = Array.isArray(arr) ? arr.slice(0, MONTHS) : [];
 
             while (safeData.length < MONTHS) {
-                safeData.push(0);   // 👈 force 12 months so chart renders
+                safeData.push(0);   //  force 12 months so chart renders
             }
 
             return {
@@ -99,19 +119,19 @@ async function getMonthlyUserData(get_year) {
             },
             options: {
                 responsive: true,
-                legend: { display: true },   // 👈 v2 plugin config
+                legend: { display: true },   //  v2 plugin config
                 scales: {
                     yAxes: [{
                         ticks: {
                             min: 0,
                             max: hasAnyData ? undefined : 5,
                             stepSize: hasAnyData ? undefined : 1,
-                            precision: 0,   // 👈 still forces integers when empty
+                            precision: 0,   //  still forces integers when empty
                             callback: function(value) {
                                 if (!hasAnyData) {
                                 return value;            // 0–5 when empty
                                 }
-                                return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                                return Number(value.toFixed(2));  //  formats 0.30000000004 → 0.3
                             }
                         }
                     }]

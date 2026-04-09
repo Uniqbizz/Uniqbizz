@@ -50,12 +50,16 @@ function deletefunc(id,fid,refid,action,userId,userType){
 };
 
 function overviewPage(id,ref,cut,st,ct,message){
-    var designation =message= '';
-    if(id.startsWith('F')){
-        designation ='Franchisee'
+    var designation ='';
+    if(message == 29){
+        designation ='Franchisee';
         message= 'sub_franchisee';
-    }else{
-        designation ='Techno Enterprise'
+    }else if(message == 32){
+        designation ='Institution';
+        message= 'institution';
+        
+    }else if(message == 16){
+        designation ='Techno Enterprise';
         message= 'corporate_agency';
         
     }

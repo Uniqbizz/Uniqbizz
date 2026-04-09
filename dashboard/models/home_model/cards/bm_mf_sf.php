@@ -4,7 +4,7 @@
         if ($userType == '26'){
     ?>
 
-    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
             <div>
                 <p class="text-white fw-bold">Techno Enterprise</p>
@@ -47,11 +47,12 @@
             </div>
         </div>
     </div>
+    
     <?php
         }
         else if ($userType == '28' || $userType == '30') {
     ?>
-    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
             <div>
                 <p class="text-white fw-bold">Franchisee</p>
@@ -62,7 +63,7 @@
                 </span>
                 <div class="ms-4">
                     <?php
-                        $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '16' AND status = '1'";
+                        $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '29' AND status = '1'";
                         $stmt3 = $conn->prepare($sql3);
                         $stmt3->execute();
                         $stmt3->setFetchMode(PDO::FETCH_ASSOC);
@@ -79,7 +80,7 @@
             <div class="d-flex justify-content-between">
                 <p class="text-white">This Month</p>
                 <?php
-                    $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '16' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                    $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '29' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
                     $stmt3 = $conn->prepare($sql3);
                     $stmt3->execute();
                     $stmt3->setFetchMode(PDO::FETCH_ASSOC);
@@ -94,10 +95,97 @@
             </div>
         </div>
     </div>
+    
     <?php        
         }
     ?>
-    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+        <div class="card rounded-3 pt-3 pb-2 px-4 cardBg5">
+            <div>
+                <p class="text-white fw-bold">Institution</p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="">
+                    <i class="fa-regular fa-user fa-2xl" style="color: #ffffff;"></i>
+                </span>
+                <div class="ms-4">
+                    <?php
+                        $sql3 = "SELECT COUNT(institution_id) as id FROM institution WHERE reference_no = '" . $userId . "' AND user_type = '29' AND status = '1'";
+                        $stmt3 = $conn->prepare($sql3);
+                        $stmt3->execute();
+                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                        if ($stmt3->rowCount() > 0) {
+                            foreach (($stmt3->fetchAll()) as $key => $row) {
+                                $id = $row['id'];
+                                echo '<h1 class="mb-0 text-white">' . $id . '</h1>';
+                            }
+                        }
+                    ?>
+                    
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="text-white">This Month</p>
+                <?php
+                    $sql3 = "SELECT COUNT(institution_id) as id FROM institution WHERE reference_no = '" . $userId . "' AND user_type = '29' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                    $stmt3 = $conn->prepare($sql3);
+                    $stmt3->execute();
+                    $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($stmt3->rowCount() > 0) {
+                        foreach (($stmt3->fetchAll()) as $key => $row) {
+                            $id = $row['id'];
+                            echo '<p class="text-white">' . $id . '</p>';
+                        }
+                    }
+                ?>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+        <div class="card rounded-3 pt-3 pb-2 px-4 cardBg6">
+            <div>
+                <p class="text-white fw-bold">Institution Branch Manager</p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="">
+                    <i class="fa-regular fa-user fa-2xl" style="color: #ffffff;"></i>
+                </span>
+                <div class="ms-4">
+                    <?php
+                        $sql3 = "SELECT COUNT(institution_branch_manager_id) as id FROM institution_branch_manager WHERE reference_no = '" . $userId . "' AND user_type = '29' AND status = '1'";
+                        $stmt3 = $conn->prepare($sql3);
+                        $stmt3->execute();
+                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                        if ($stmt3->rowCount() > 0) {
+                            foreach (($stmt3->fetchAll()) as $key => $row) {
+                                $id = $row['id'];
+                                echo '<h1 class="mb-0 text-white">' . $id . '</h1>';
+                            }
+                        }
+                    ?>
+                    
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="text-white">This Month</p>
+                <?php
+                    $sql3 = "SELECT COUNT(institution_branch_manager_id) as id FROM institution_branch_manager WHERE reference_no = '" . $userId . "' AND user_type = '29' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                    $stmt3 = $conn->prepare($sql3);
+                    $stmt3->execute();
+                    $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($stmt3->rowCount() > 0) {
+                        foreach (($stmt3->fetchAll()) as $key => $row) {
+                            $id = $row['id'];
+                            echo '<p class="text-white">' . $id . '</p>';
+                        }
+                    }
+                ?>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
             <div>
                 <p class="text-white fw-bold">Travel Consultant</p>
@@ -278,308 +366,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-        <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
-            <div>
-                <p class="text-white fw-bold">Customer</p>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="">
-                    <i class="fa-regular fa-user fa-2xl" style="color: #ffffff;"></i>
-                </span>
-                <div class="ms-4">
-                    <?php
-                        $count = 0;
-
-                        if ($userType == '28') {
-                            // First: TCs directly referred by Master Franchisee
-                            $stmtDirect = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
-                            $stmtDirect->execute([$userId]);
-                            $directTCs = $stmtDirect->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($$directTCs as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of those TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-
-                            // Second: TCs referred through Sub Franchisees
-                            $stmt2 = $conn->prepare("SELECT sub_franchisee_id FROM `sub_franchisee` WHERE reference_no = ? AND user_type = '29'");
-                            $stmt2->execute([$userId]);
-                            $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($referrals as $referral) {
-                                $subFranchiseeId = $referral['sub_franchisee_id'];
-
-                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
-                                $stmt4->execute([$subFranchiseeId]);
-                                $tcList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($tcList as $tc) {
-                                    $tcId = $tc['ca_travelagency_id'];
-                                    //CU of those TC's
-                                    $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                    $stmt4->execute([$tcId]);
-                                    $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                    foreach ($cuList as $cu) {
-                                        $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                        $count++;
-                                    }
-                                }
-                            }
-                        } else if ($userType == '30') {
-                            
-                            //TCs referred through Sub Franchisees
-                            $stmt2 = $conn->prepare("SELECT sub_franchisee_id FROM `sub_franchisee` WHERE reference_no = ? AND user_type = '29'");
-                            $stmt2->execute([$userId]);
-                            $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($referrals as $referral) {
-                                $subFranchiseeId = $referral['sub_franchisee_id'];
-
-                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
-                                $stmt4->execute([$subFranchiseeId]);
-                                $tcList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($tcList as $tc) {
-                                    $tcId = $tc['ca_travelagency_id'];
-                                    //CU of those TC's
-                                    $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                    $stmt4->execute([$tcId]);
-                                    $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                    foreach ($cuList as $cu) {
-                                        $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                        $count++;
-                                    }
-                                }
-                            }
-                        }else{
-                            // First: TCs directly referred by Master Franchisee
-                            $stmtDirect = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
-                            $stmtDirect->execute([$userId]);
-                            $directTCs = $stmtDirect->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($directTCs as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of those TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-
-                            // Second: TCs referred through Sub Franchisees
-                            $stmt2 = $conn->prepare("SELECT corporate_agency_id FROM `corporate_agency` WHERE reference_no = ? AND user_type = '29'");
-                            $stmt2->execute([$userId]);
-                            $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($referrals as $referral) {
-                                $subFranchiseeId = $referral['corporate_agency_id'];
-
-                                $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency WHERE reference_no = ? AND status = '1'");
-                                $stmt4->execute([$subFranchiseeId]);
-                                $tcList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($tcList as $tc) {
-                                    $tcId = $tc['ca_travelagency_id'];
-                                    //CU of those TC's
-                                    $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                    $stmt4->execute([$tcId]);
-                                    $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                    foreach ($cuList as $cu) {
-                                        $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                        $count++;
-                                    }
-                                }
-                            }
-                        }
-
-
-                        echo '<h1 class="mb-0 text-white">' . $count . '</h1>';
-                    ?>
-                </div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <p class="text-white">This Month</p>
-                <?php
-                    $count = 0; // Initialize count
-
-                    if ($userType == '28') {
-                        // 1. Count TCs directly referred by Master Franchisee
-                        $stmtDirect = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency 
-                                                    WHERE reference_no = ? 
-                                                    AND YEAR(register_date) = ? 
-                                                    AND MONTH(register_date) = ? 
-                                                    AND status = '1'");
-                        $stmtDirect->execute([$userId, $DateYear, $DateMonth]);
-                        $directTCs = $stmtDirect->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($directTCs as $tc) {
-                            $tcId = $tc['ca_travelagency_id'];
-                            //CU of thoose TC's
-                            $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                            $stmt4->execute([$tcId]);
-                            $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($tcList as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of the TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-                        }
-
-                        // 2. Find Sub Franchisees under this Master Franchisee
-                        $stmt2 = $conn->prepare("SELECT sub_franchisee_id FROM sub_franchisee 
-                                                WHERE reference_no = ? AND user_type = '29'");
-                        $stmt2->execute([$userId]);
-                        $subFranchisees = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($subFranchisees as $referral) {
-                            $subFranchiseeId = $referral['sub_franchisee_id'];
-
-                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency 
-                                                    WHERE reference_no = ? 
-                                                    AND YEAR(register_date) = ? 
-                                                    AND MONTH(register_date) = ? 
-                                                    AND status = '1'");
-                            $stmt4->execute([$subFranchiseeId, $DateYear, $DateMonth]);
-                            $refTCs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($refTCs as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of those TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-                        }
-                    }if ($userType == '30') {
-                        
-                        // Find Sub Franchisees under this Master Franchisee
-                        $stmt2 = $conn->prepare("SELECT sub_franchisee_id FROM sub_franchisee 
-                                                WHERE reference_no = ? AND user_type = '29'");
-                        $stmt2->execute([$userId]);
-                        $subFranchisees = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($subFranchisees as $referral) {
-                            $subFranchiseeId = $referral['sub_franchisee_id'];
-
-                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency 
-                                                    WHERE reference_no = ? 
-                                                    AND YEAR(register_date) = ? 
-                                                    AND MONTH(register_date) = ? 
-                                                    AND status = '1'");
-                            $stmt4->execute([$subFranchiseeId, $DateYear, $DateMonth]);
-                            $refTCs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($refTCs as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of those TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-                        }
-                    } else {
-                        // 1. Count TCs directly referred by Master Franchisee
-                        $stmtDirect = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency 
-                                                    WHERE reference_no = ? 
-                                                    AND YEAR(register_date) = ? 
-                                                    AND MONTH(register_date) = ? 
-                                                    AND status = '1'");
-                        $stmtDirect->execute([$userId, $DateYear, $DateMonth]);
-                        $directTCs = $stmtDirect->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($directTCs as $tc) {
-                            $tcId = $tc['ca_travelagency_id'];
-                            //CU of thoose TC's
-                            $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                            $stmt4->execute([$tcId]);
-                            $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($tcList as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of the TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-                        }
-
-                        // 2. Find Sub Franchisees under this Master Franchisee
-                        $stmt2 = $conn->prepare("SELECT corporate_agency_id FROM corporate_agency 
-                                                WHERE reference_no = ? AND user_type = '29'");
-                        $stmt2->execute([$userId]);
-                        $subFranchisees = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($subFranchisees as $referral) {
-                            $subFranchiseeId = $referral['corporate_agency_id'];
-
-                            $stmt4 = $conn->prepare("SELECT ca_travelagency_id FROM ca_travelagency 
-                                                    WHERE reference_no = ? 
-                                                    AND YEAR(register_date) = ? 
-                                                    AND MONTH(register_date) = ? 
-                                                    AND status = '1'");
-                            $stmt4->execute([$subFranchiseeId, $DateYear, $DateMonth]);
-                            $refTCs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach ($refTCs as $tc) {
-                                $tcId = $tc['ca_travelagency_id'];
-                                //CU of those TC's
-                                $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                $stmt4->execute([$tcId]);
-                                $cuList = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-                                foreach ($cuList as $cu) {
-                                    $userTECHNO = $cu['ca_customer_id'] . ' ';
-                                    $count++;
-                                }
-                            }
-                        }
-                    }
-
-                    echo '<p class="text-white">' . $count . '</p>';
-
-                ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-lg-6 col-md-3 col-sm-12 col-12">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
             <div>
                 <p class="text-white fw-bold">Commission Earned</p>

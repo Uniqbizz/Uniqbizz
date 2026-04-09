@@ -137,6 +137,11 @@
                                 $tableId1 = 'ca_travelagency_id';
                                 $tableNameDesignation1 = 'Travel Agency';
                                 $tableColumn1 = 'reference_no';
+                                //I
+                                $tableName2 = 'sub_franchisee';
+                                $tableId2 = 'sub_franchisee_id';
+                                $tableNameDesignation2 = 'Franchisee';
+                                $tableColumn2 = 'reference_no';
                             }
                             //Franchisee (F->TC)
                             if ($userType == '29') {
@@ -150,6 +155,11 @@
                                 $tableId = 'sub_franchisee_id';
                                 $tableNameDesignation = 'Franchisee';
                                 $tableColumn = 'reference_no';
+                                //I
+                                $tableName1 = 'institution';
+                                $tableId1 = 'institution_id';
+                                $tableNameDesignation1 = 'Institution';
+                                $tableColumn1 = 'reference_no';
                             }
                             //Sponsor Franchisee (SF->F)
                             if ($userType == '31') {
@@ -196,13 +206,18 @@
                                 $selectSF->execute([$userId]);
                                 $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
                                 $countSF = $resultSF['total'];
+                                //get institution
+                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM institution WHERE reference_no=? AND status='1'");
+                                $selectI->execute([$userId]);
+                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                $countI = $resultI['total'];
                                 //get TC
                                 $selectTC=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
                                 $selectTC->execute([$userId]);
                                 $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
                                 $countTC = $resultTC['total'];
                                 
-                                if ($countSF>0 && $countTC>0) {
+                                if ($countSF>0 && $countTC>0 && $countI>0) {
                                     $sqlCandidates = "SELECT id, userid, firstname, lastname, profile_pic, desination FROM (
                                                         SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
                                                         FROM $tableName 
@@ -211,6 +226,60 @@
                                                         UNION
 
                                                         SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                        FROM $tableName1 
+                                                        WHERE $tableColumn1 = '$userId' AND status = '1'
+
+                                                        UNION
+
+                                                        SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation2' AS desination 
+                                                        FROM $tableName2 
+                                                        WHERE $tableColumn2 = '$userId' AND status = '1'
+                                                    ) AS combined
+                                                    ORDER BY id DESC
+                                                ";
+
+                                    $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
+                                }else if ($countSF>0){
+                                    $sqlCandidates="SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                        FROM $tableName 
+                                                        WHERE $tableColumn = '$userId' AND status = '1'";
+                                    $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
+                                }else if ($countI>0){
+                                    $sqlCandidates="SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation2' AS desination 
+                                                        FROM $tableName2 
+                                                        WHERE $tableColumn2 = '$userId' AND status = '1'";
+                                    $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
+                                }else if($countTC>0){
+                                    $sqlCandidates="SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                        FROM $tableName1 
+                                                        WHERE $tableColumn1 = '$userId' AND status = '1'";
+                                    $candidates = $conn->prepare($sqlCandidates);
+                                    $candidates->execute();
+                                }
+                            }else if ($userType=='30') {
+                                //get franchisee
+                                $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM sub_franchisee WHERE reference_no=? AND status='1'");
+                                $selectSF->execute([$userId]);
+                                $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
+                                $countSF = $resultSF['total'];
+                                //get institution
+                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM institution WHERE reference_no=? AND status='1'");
+                                $selectI->execute([$userId]);
+                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                $countI = $resultI['total'];
+                                
+                                if ($countSF>0 && $countI>0) {
+                                    $sqlCandidates = "SELECT id, userid, firstname, lastname, profile_pic, desination FROM (
+                                                        SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                        FROM $tableName 
+                                                        WHERE $tableColumn = '$userId' AND status = '1'
+
+                                                        UNION
+
+                                                        SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
                                                         FROM $tableName1 
                                                         WHERE $tableColumn1 = '$userId' AND status = '1'
                                                     ) AS combined
@@ -225,8 +294,8 @@
                                                         WHERE $tableColumn = '$userId' AND status = '1'";
                                     $candidates = $conn->prepare($sqlCandidates);
                                     $candidates->execute();
-                                }else if($countTC>0){
-                                    $sqlCandidates="SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                }else if ($countI>0){
+                                    $sqlCandidates="SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
                                                         FROM $tableName1 
                                                         WHERE $tableColumn1 = '$userId' AND status = '1'";
                                     $candidates = $conn->prepare($sqlCandidates);
@@ -479,13 +548,12 @@
                             $candidates->setFetchMode(PDO::FETCH_ASSOC);
                             if ($candidates->rowCount() > 0) {
                                 foreach (($candidates->fetchAll()) as $key => $row) {
-                                if ($userType == '28' || $userType =='25' || $userType =='31' || $userType == '26') {
+                                if ($userType == '28' || $userType =='25' || $userType =='31' || $userType == '26' || $userType == '28' || $userType == '30') {
                                     $selected_user =$row['userid'];
                                 }else{
                                     $selected_user = ($userType == '24') ? $row['employee_id'] ://BCM->BDM
                                                         (($userType == '16') ? $row['ca_travelagency_id'] : //BM/TE->TC
-                                                        (($userType == '30'|| $userType == '28') ? $row['sub_franchisee_id'] : //MF/SF->F
-                                                        ($userType == '32' ? $row['institution_branch_manager_id']:''))); //I->IBR
+                                                        ($userType == '32' ? $row['institution_branch_manager_id']:'')); //I->IBR
                                 }
                                     if ($userType == '24') {
                                         $fname = $row['name'];
@@ -501,7 +569,7 @@
                                             }
                                         }
                                     }
-                                    $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' || $userType == '26' )?$row['desination']:$tableNameDesignation;
+                                    $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' || $userType == '26' || $userType == '28' || $userType == '30' )?$row['desination']:$tableNameDesignation;
                                     if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31' || $userType == '32') {
                                         # code...
                                         echo '
@@ -516,7 +584,7 @@
                                                             <h5 class="fs-13 mb-1 text-truncate" >
                                                                 <span class="candidate-name" id="candidate-name">' . $fname . ' ' . $lname . '</span>
                                                             </h5>
-                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31' || $userType == '32' || $userType =='26') ? '' : 'd-none') . ' candidate-position" id="candidate-position">' . $tableNameDesignation . '</div>
+                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31' || $userType == '32' || $userType =='26' || $userType == '28' || $userType == '30') ? '' : 'd-none') . ' candidate-position" id="candidate-position">' . $tableNameDesignation . '</div>
                                                         </div>
                                                     </a>
                                                 </li>

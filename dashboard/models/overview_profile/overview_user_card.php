@@ -23,7 +23,7 @@
                         <p class="peraPadding"> Create Date: <span class="fw-bold"><?= $rdate; ?></span></p>
                     </div>
                     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                        <p>Commission Earned: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle"></span></p>
+                        <p>Commission Earned: <span class="fw-bold py-1 px-2 rounded-3 bg-success-subtle text-success-emphasis border-success-subtle" id="commissionTotal"></span></p>
                     </div>
                 </div>
             </div>

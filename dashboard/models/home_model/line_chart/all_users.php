@@ -154,27 +154,14 @@
                                 $tableId8 = 'ca_travelagency_id';
                                 $tableColumnName7 = 'reference_no';
                                 $tableColumnName8 = 'reference_no';
-                                //for direct MF
-                                //MF->F
-                                $tableName9 = 'master_franchisee'; //TC
-                                $tableId9 = 'master_franchisee_id'; //TC ID
-                                $tableNameDesignation5 = 'Master Franchisee';
-                                $tableName10 = 'sub_franchisee_id';
-                                $tableId10 = 'sub_franchisee_id_id';
-                                $tableColumnName9 = 'reference_no';
-                                $tableColumnName10 = 'reference_no';
-                                //Mf->TC
-                                $tableName11 = 'ca_travelagency';
-                                $tableId11 = 'ca_travelagency_id';
-                                $tableColumnName11 = 'reference_no';
-                                //for direct SF
-                                $tableName12 = 'sponsor_franchisee'; //TC
-                                $tableId12 = 'sponsor_franchisee_id'; //TC ID
-                                $tableNameDesignation6 = 'Sponsor Franchisee';
-                                $tableName13 = 'sub_franchisee';
-                                $tableId13 = 'sub_franchisee_id';
-                                $tableColumnName12 = 'reference_no';
-                                $tableColumnName13 = 'reference_no';
+                                //for I
+                                $tableName5 = 'institution'; //I
+                                $tableId5 = 'institution_id'; //I
+                                $tableNameDesignation3 = 'Institution';
+                                $tableName6 = 'institution_branch_manager';//IBR
+                                $tableId6 = 'institution_branch_manager_id';//IBR
+                                $tableColumnName5 = 'reference_no';
+                                $tableColumnName6 = 'reference_no';
                                 
                             }
                             // Business Mentor
@@ -195,7 +182,22 @@
                                 $tableId4 = 'ca_customer_id';
                                 $tableColumnName1 = 'reference_no';
                                 $tableColumnName3 = 'ta_reference_no';
-                                
+                                //for I
+                                $tableName5 = 'institution'; //I
+                                $tableId5 = 'institution_id'; //I
+                                $tableNameDesignation2 = 'Institution';
+                                $tableName6 = 'institution_branch_manager';//IBR
+                                $tableId6 = 'institution_branch_manager_id';//IBR
+                                $tableColumnName5 = 'reference_no';
+                                $tableColumnName6 = 'reference_no';
+                                //franchisee
+                                $tableName7 = 'sub_franchisee'; //BDM
+                                $tableId7 = 'sub_franchisee_id'; //BDM ID
+                                $tableNameDesignation3 = 'Franchisee';
+                                $tableName8 = 'ca_travelagency';
+                                $tableId8 = 'ca_travelagency_id';
+                                $tableColumnName7 = 'reference_no';
+                                $tableColumnName8 = 'reference_no';
                             }
                             // Master Franchisee
                             if ($userType == '28') {
@@ -215,6 +217,14 @@
                                 $tableId4 = 'ca_customer_id';
                                 $tableColumnName3 = 'reference_no';
                                 $tableColumnName4 = 'ta_reference_no';
+                                //for I
+                                $tableName5 = 'institution'; //I
+                                $tableId5 = 'institution_id'; //I
+                                $tableNameDesignation3 = 'Institution';
+                                $tableName6 = 'institution_branch_manager';//IBR
+                                $tableId6 = 'institution_branch_manager_id';//IBR
+                                $tableColumnName5 = 'reference_no';
+                                $tableColumnName6 = 'reference_no';
                             }
                             // Franchisee(sub_franchisee)
                             if ($userType == '29') {
@@ -235,6 +245,14 @@
                                 $tableId2 = 'ca_travelagency_id';
                                 $tableColumnName = 'reference_no';
                                 $tableColumnName2 = 'reference_no';
+                                //institution
+                                $tableName3 = 'institution'; //I
+                                $tableId3 = 'institution_id'; //I
+                                $tableNameDesignation2 = 'Institution';
+                                $tableName4 = 'institution_branch_manager';//IBR
+                                $tableId4 = 'institution_branch_manager_id';//IBR
+                                $tableColumnName2 = 'reference_no';
+                                $tableColumnName4 = 'reference_no';
                             }
                             // Relationship Manager
                             if ($userType == '31') {
@@ -302,11 +320,51 @@
                                 $selectTC->execute([$userId]);
                                 $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
                                 $countTC = $resultTC['total'];
-                                if($countSF>0 && $countTC>0){
+                                //get I
+                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
+                                $selectI->execute([$userId]);
+                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                $countI = $resultTI['total'];
+                                if($countSF>0 && $countTC>0 && $countI>0){
                                     $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
                                                                     SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
                                                                     UNION
                                                                     SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT id,Institution_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1'
+                                                                    
+                                                                    )AS combined
+                                                                    ORDER BY id DESC
+                                                                    limit 5");
+                                    $stmt2->execute([$userId, $userId, $user]);
+                                }else if($countSF>0){
+                                    $stmt2=$conn->prepare("SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                    $stmt2->execute([$userId]);
+                                }else if($countTC>0){
+                                    $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                    $stmt2->execute([$userId]);
+                                }else if($countI>0){
+                                    $stmt2=$conn->prepare("SELECT id,institution_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                    $stmt2->execute([$userId]);
+                                }
+                            }
+                            elseif($userType == '30'){
+                                //get franchisee
+                                $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM sub_franchisee WHERE reference_no=? AND status='1'");
+                                $selectSF->execute([$userId]);
+                                $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
+                                $countSF = $resultSF['total'];
+                                //get I
+                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
+                                $selectI->execute([$userId]);
+                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                $countI = $resultI['total'];
+                                if($countSF>0 && $countI>0){
+                                    $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
+                                                                    SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT id,Institution_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                    
                                                                     )AS combined
                                                                     ORDER BY id DESC
                                                                     limit 5");
@@ -314,36 +372,56 @@
                                 }else if($countSF>0){
                                     $stmt2=$conn->prepare("SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                     $stmt2->execute([$userId]);
-                                }else if($countTC>0){
-                                    $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                }else if($countI>0){
+                                    $stmt2=$conn->prepare("SELECT id,institution_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                     $stmt2->execute([$userId]);
                                 }
                             }
                             else if($userType == '26'){
                                 //get techno enterprise
-                                $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
-                                $selectSF->execute([$userId]);
-                                $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
-                                $countSF = $resultSF['total'];
+                                $selectTE=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
+                                $selectTE->execute([$userId]);
+                                $resultTE = $selectTE->fetch(PDO::FETCH_ASSOC);
+                                $countTE = $resultTE['total'];
+                                //get Institution
+                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
+                                $selectI->execute([$userId]);
+                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                $countI = $resultI['total'];
+                                //get franchisee
+                                $selectF=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
+                                $selectF->execute([$userId]);
+                                $resultF = $selectF->fetch(PDO::FETCH_ASSOC);
+                                $countF = $resultF['total'];
                                 //get TC
                                 $selectTC=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
                                 $selectTC->execute([$userId]);
                                 $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
                                 $countTC = $resultTC['total'];
-                                if($countSF>0 && $countTC>0){
+                                if($countTE>0 && $countTC>0 && $countF>0 && $countI>0){
                                     $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
                                                                     SELECT id,corporate_agency_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
                                                                     UNION
                                                                     SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT id,institution_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName7 WHERE reference_no=? AND status='1'
                                                                     )AS combined
                                                                     ORDER BY id DESC
                                                                     limit 5");
-                                    $stmt2->execute([$userId, $userId]);
-                                }else if($countSF>0){
+                                    $stmt2->execute([$userId, $userId,$userId, $userId]);
+                                }else if($countTE>0){
                                     $stmt2=$conn->prepare("SELECT id,corporate_agency_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                     $stmt2->execute([$userId]);
                                 }else if($countTC>0){
                                     $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                    $stmt2->execute([$userId]);
+                                }else if($countI>0){
+                                    $stmt2=$conn->prepare("SELECT id,corporate_agency_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                    $stmt2->execute([$userId]);
+                                }else if($countF>0){
+                                    $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName7 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                     $stmt2->execute([$userId]);
                                 }
                             }else if($userType == '25'){
@@ -399,30 +477,6 @@
                                                 'F' AS type
                                             FROM sub_franchisee f
                                             WHERE f.reference_no = :userId AND f.status = '1'
-
-                                            UNION ALL
-
-                                            -- MF
-                                            SELECT mf.id,
-                                                mf.master_franchisee_id AS user_id,
-                                                mf.firstname,
-                                                mf.lastname,
-                                                mf.register_date,
-                                                'MF' AS type
-                                            FROM master_franchisee mf
-                                            WHERE mf.reference_no = :userId AND mf.status = '1'
-
-                                            UNION ALL
-
-                                            -- SF
-                                            SELECT sf.id,
-                                                sf.sponsor_franchisee_id AS user_id,
-                                                sf.firstname,
-                                                sf.lastname,
-                                                sf.register_date,
-                                                'SF' AS type
-                                            FROM sponsor_franchisee sf
-                                            WHERE sf.reference_no = :userId AND sf.status = '1'
 
                                             UNION ALL
 
@@ -599,7 +653,106 @@
                                                 $inactiveCount++; // Increment count for each ca_travelagency_id
                                             } //CATA foreach ends
                                         } //CATA if loop ends
+                                    }else if (substr($id,0,1)== 'I') {
+                                        // Total Count Loop End $count
+                                        $stmt4 = $conn->prepare("SELECT $tableId6 FROM $tableName6 WHERE $tableColumnName6 = ? AND status='1'");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $count++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+                                        // Active Count Loop End $activeCount
+                                        $stmt4 = $conn->prepare("SELECT $tableId6 FROM $tableName6 WHERE $tableColumnName6 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $activeCount++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+
+                                        // Inactive Count Loop End $inactiveCount
+                                        $stmt4 = $conn->prepare("SELECT $tableId6 FROM $tableName6 WHERE $tableColumnName6 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $inactiveCount++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
                                     }else if (substr($id,0,2)== 'TA') {
+                                        // Total Count Loop End $count
+                                        $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $count++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+                                        // Active Count Loop End $activeCount
+                                        $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $activeCount++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+
+                                        // Inactive Count Loop End $inactiveCount
+                                        $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $inactiveCount++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+                                    }
+
+                                }else if ($userType == '30') {
+                                    if (substr($id,0,1)== 'F') {
+                                        // Total Count Loop End $count
+                                        $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1'");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $count++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+                                        // Active Count Loop End $activeCount
+                                        $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $activeCount++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+
+                                        // Inactive Count Loop End $inactiveCount
+                                        $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                        $stmt4->execute([$id]);
+                                        $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                        if ($stmt4->rowCount() > 0) {
+                                            foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                $inactiveCount++; // Increment count for each ca_travelagency_id
+                                            } //CATA foreach ends
+                                        } //CATA if loop ends
+                                    }else if (substr($id,0,1)== 'I') {
                                         // Total Count Loop End $count
                                         $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'");
                                         $stmt4->execute([$id]);
