@@ -84,11 +84,11 @@
                                                             <?php 
                                                                 if ($userType == '32'){
                                                             ?>
-                                                                <option value="institution_branch_manager" selected disabled>Institution Branch Manager</option>
+                                                                <option value="institution_branch_manager" selected>Institution Branch Manager</option>
                                                             <?php 
                                                                 } else {
                                                             ?>
-                                                                    <option value="travel_consultant" selected disabled>Travel Consultant</option>
+                                                                    <option value="travel_consultant" selected>Travel Consultant</option>
                                                             <?php
                                                                 }
                                                             ?>
