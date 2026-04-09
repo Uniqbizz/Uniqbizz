@@ -1,7 +1,7 @@
 <?php 
     if($userType == '28' || $userType == '30'){ //MF/SF
         $userIdCommi = 'master_franchisee';
-        $amtCal = 'commision_mf';
+        $amtCal = 'commission_mf';
     }
     $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
     $nextPayout -> execute();

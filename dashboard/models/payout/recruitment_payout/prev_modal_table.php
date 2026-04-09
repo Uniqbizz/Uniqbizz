@@ -19,7 +19,7 @@
                 AND cap.techno_enterprise = ca.techno_enterprise
                 AND YEAR(cap.date) = '".$prevDateYear."'
                 AND MONTH(cap.date) = '".$prevDateMonth."'
-            WHERE ca.$columnDesignation = '".$user_id."' 
+            WHERE ca.$columnDesignation = '".$userId."' 
             AND YEAR(ca.created_date) = '".$prevDateYear."' 
             AND MONTH(ca.created_date) = '".$prevDateMonth."'";
     $stmt = $conn -> prepare($sql);

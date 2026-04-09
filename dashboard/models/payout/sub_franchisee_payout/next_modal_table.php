@@ -17,7 +17,7 @@
             if($userType == '28' || $userType=='30'){
                 $id = $row['master_franchisee'];
                 $message = $row['message_mf'];
-                $amt = $row['commision_mf'];
+                $amt = $row['commission_mf'];
                 $status = $row['status_mf'];
                 $tds = $amt * $tdsPercentage;
                 $total = $amt - $tds;

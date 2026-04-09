@@ -2,7 +2,7 @@
 
     if($userType == '28' || $userType == '30'){ //MF/SF
         $userIdCommi = 'master_franchisee';
-        $amtCal = 'commision_mf';
+        $amtCal = 'commission_mf';
     }
 
     $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");

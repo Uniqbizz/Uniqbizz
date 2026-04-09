@@ -1,7 +1,7 @@
 <?php 
     if($userType == '28' || $userType == '30'){ //MF/SF
         $userIdCommi = 'master_franchisee';
-        $amtCal = 'commision_mf';
+        $amtCal = 'commission_mf';
     }
 
     $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_mf=1 ";
