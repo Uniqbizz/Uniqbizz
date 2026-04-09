@@ -4,7 +4,7 @@ $today = date('Y-m-d H:i:s' );
 
 require "../../connect.php";
 
-$id= $_POST["id"];
+$id= $_POST["user_id"];
 $action= $_POST["action"];
 $refid= $_POST["refid"];
 $user_type="11";
@@ -22,12 +22,12 @@ if($action == 'pending'){
 	$status= '0';
 	$operation = "deleted";
 }else if($action == 'registered') {
-	$tc_id = $_POST["fid"]; //set ca_travelagency_id
+	$tc_id = $_POST["user_id"]; //set ca_travelagency_id
     $identifier_name = $identifier_name_val;
 	$status= '3';
 	$operation = "deactivated";
 } else if($action == 'deactivate') {
-	$tc_id = $_POST["fid"]; //set ca_travelagency_id
+	$tc_id = $_POST["user_id"]; //set ca_travelagency_id
     $identifier_name = $identifier_name_val;
 	$status= '1';					// activate user
 	$today = null;
@@ -59,14 +59,14 @@ $result=  $stmt->execute(array(
 	':id' => $id	
 ));
 
-if(isset($_POST["fid"])){
+if(isset($_POST["user_id"])){
 
 	$sql2 = "UPDATE login SET status=:status WHERE user_id=:ca_travelagency_id and user_type_id=:user_type";
 	$stmt2 = $conn->prepare($sql2);
 	$result2=  $stmt2->execute(array(
 		':status' => $status,
 		':user_type' => $user_type,
-		':ca_travelagency_id' => $id		
+		':ca_travelagency_id' => $tc_id		
 	));
 
 	if ($result2) {
@@ -74,7 +74,7 @@ if(isset($_POST["fid"])){
 		$stmt3 =$conn->prepare($sql3);
 
 		$result3=$stmt3->execute(array(
-			':user_id' => $id,
+			':user_id' => $tc_id,
 			':title' => $title,
 			':message' => $message,
 			':message2' =>$message2,

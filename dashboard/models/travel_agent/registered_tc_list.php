@@ -153,7 +153,7 @@
         }
     }else if($userType == "25"){
         //direct TC with BDM Ref
-        $stmt4 = $conn->prepare("SELECT ca_travelagency_id,date_of_birth,register_date,reference_no,firstname,lastname,contact_no,status
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id,date_of_birth,register_date,reference_no,firstname,lastname,contact_no,status,user_type
                                      FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
         $stmt4->execute([$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -166,7 +166,7 @@
 
             echo'<tr>
                 <td>
-                    <p>'.$userCATA['ca_travelagency_id'].'</p>
+                    <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['ca_travelagency_id'].'</p>
                     <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                 </td>
                 <td>
@@ -206,10 +206,10 @@
                 $userCAID = $userCA['suser_id'];
                 // echo $userCA;
 
-                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
+                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date,user_type
                                         FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
                                         UNION ALL
-                                        SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
+                                        SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date,user_type
                                         FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
                 $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -222,7 +222,7 @@
                     $datev= $dt->format('d-m-Y'); 
                     echo'<tr>
                         <td>
-                            <p>'.$userCATA['tc_id'].'</p>
+                            <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['tc_id'].'</p>
                             <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                         </td>
                         <td>
@@ -241,7 +241,7 @@
             }
             
             //direct TC with BM/MF Ref
-            $stmt4 = $conn->prepare("SELECT ca_travelagency_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date,user_type
                                         FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')");
             $stmt4->execute([$bm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -254,7 +254,7 @@
                 
                 echo'<tr>
                     <td>
-                        <p>'.$userCATA['ca_travelagency_id'].'</p>
+                        <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['ca_travelagency_id'].'</p>
                         <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                     </td>
                     <td>
@@ -285,10 +285,10 @@
             $userCAID = $userCA['suser_id'];
             // echo $userCA;
 
-            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
+            $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date,user_type
                                     FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
                                     UNION ALL
-                                    SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date
+                                    SELECT institution_branch_manager_id AS tc_id,firstname,lastname,registrant, reference_no,contact_no,status,date_of_birth,register_date,user_type
                                     FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
             $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -301,7 +301,7 @@
 
                 echo'<tr>
                     <td>
-                        <p>'.$userCATA['tc_id'].'</p>
+                        <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['tc_id'].'</p>
                         <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                     </td>
                     <td>
@@ -322,14 +322,14 @@
         
     }
     else if($userType == "16" || $userType == "26" || $userType == "29" || $userType == "28" || $userType == "30" || $userType == '32'){
-        if(in_array($userType, ["28","29"])){
+        if(in_array($userType, ["28","29","30",26])){
             // Create a function to print the CA Travel Agency Row (to avoid duplicate code)
             function showCaTravelAgencyRow($userCATA, $conn,$userId,$userType){
                 $bdate = (new DateTime($userCATA['date_of_birth']))->format('d-m-Y');
                 $datev = (new DateTime($userCATA['register_date']))->format('d-m-Y');
                 $message=$userCATA['user_type'] == 11 ? 'ca_travelagency' : ($userCATA['user_type'] == 33 ? 'institution_branch_manager' : '');
                 echo '<tr>
-                        <td><p>'.$userCATA['user_id'].'</p><p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p></td>
+                        <td><p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['user_id'].'</p><p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p></td>
                         <td><p>'.$userCATA['reference_no'].'</p><p>'.$userCATA['registrant'].'</p></td>
                         <td>'.$userCATA['contact_no'].'</td>
                         <td>'.$datev.'</td>';
@@ -337,6 +337,7 @@
                 if($userCATA['status'] == '1'){
                     echo '<td><span class="badge bg-success">Active</span></td>';
                     if (substr($userCATA['reference_no'], 0, 2) === 'MF' || 
+                        substr($userCATA['reference_no'], 0, 2) === 'SF' ||
                         substr($userCATA['reference_no'], 0, 1) === 'F' || 
                         substr($userCATA['reference_no'], 0, 1) === 'I'){
                         echo '<td>
@@ -374,7 +375,7 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li>
-                                                <a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["ca_travelagency_id"].'","'.$userCATA["reference_no"].'","'.$userCATA["country"].'","'.$userCATA["state"].'","'.$userCATA["city"].'","'.$message.'")\'>
+                                                <a class="dropdown-item edit-item-btn" onclick=\'overviewPage("'.$userCATA["user_id"].'","'.$userCATA["reference_no"].'","'.$userCATA["country"].'","'.$userCATA["state"].'","'.$userCATA["city"].'","'.$message.'")\'>
                                                     <i class="ri-eye-fill align-bottom me-2 text-muted"></i> 
                                                     Overview
                                                 </a>
@@ -406,17 +407,23 @@
                 echo '</tr>';
             }
             // Fetch sub_franchisee referrals
-            $stmt2 = $conn->prepare("SELECT * FROM `sub_franchisee` WHERE reference_no = ?");
-            $stmt2->execute([$userId]);
+            $stmt2 = $conn->prepare("SELECT sub_franchisee_id as suser_id FROM `sub_franchisee` WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT institution_id as suser_id FROM `institution` WHERE reference_no = ?
+                                     UNION ALL
+                                     SELECT corporate_agency_id as suser_id FROM `corporate_agency` WHERE reference_no = ?");
+            $stmt2->execute([$userId,$userId,$userId]);
             $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
             foreach($referrals as $referral){
-                $userCA = $referral['sub_franchisee_id'];
+                $userCA = $referral['suser_id'];
 
-                $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,contact_no,status,user_type
+                $stmt4 = $conn->prepare("SELECT id,ca_travelagency_id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,
+                                        contact_no,status,user_type,register_date,country,state,city
                                         FROM ca_travelagency WHERE reference_no = ? AND (status = '1' OR status = '3')
                                         UNION ALL
-                                        SELECT institution_branch_manager_id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,contact_no,status,user_type
+                                        SELECT id,institution_branch_manager_id AS user_id,date_of_birth,added_on,registrant,reference_no,lastname,firstname,
+                                        contact_no,status,user_type,register_date,country,state,city
                                         FROM institution_branch_manager WHERE reference_no=? AND (status ='1' OR status='3')");
                 $stmt4->execute([$userCA,$userCA]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
@@ -471,7 +478,7 @@
                     }
                     echo'<tr>
                         <td>
-                            <p>'.$row['ca_travelagency_id'].'</p>
+                            <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$row['ca_travelagency_id'].'</p>
                             <p>'.$row['firstname'].' '.$lastName.'</p>
                         </td>';
                         if(!empty($row['alloted_check'])){
@@ -569,16 +576,16 @@
     }else if($userType == "31"){
         
         //direct TC with RM Ref
-        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS ca_travelagency_id,date_of_birth,register_date,firstname,lastname,contact_no,status
+        $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS ca_travelagency_id,date_of_birth,register_date,firstname,lastname,contact_no,status,user_type
                          FROM `ca_travelagency` WHERE reference_no = ? AND (status = '1' OR status = '3')
                          UNION ALL
-                         SELECT institution_branch_manager_id AS ca_travelagency_id,date_of_birth,register_date,firstname,lastname,contact_no,status
+                         SELECT institution_branch_manager_id AS ca_travelagency_id,date_of_birth,register_date,firstname,lastname,contact_no,status,user_type
                          FROM `institution_branch_manager` WHERE reference_no = ?' AND (status = '1' OR status = '3')");
         $stmt4->execute([$userId,$userId]);
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
-            $userTA = $userCATA['id'];
+            $userTA = $userCATA['ca_travelagency_id'];
             //echo $userCA.'=>'.$userTA.'</br>';
 
             $bd= new DateTime($userCATA['date_of_birth']);
@@ -588,7 +595,7 @@
 
             echo'<tr>
                 <td>
-                    <p>'.$userCATA['ca_travelagency_id'].'</p>
+                    <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['ca_travelagency_id'].'</p>
                     <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                 </td>
                 <td>
@@ -630,10 +637,10 @@
                 // echo $userCA;
 
                 $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id,date_of_birth,register_date,firstname,lastname,reference_no,
-                                         registrant,contact_no,status FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
+                                         registrant,contact_no,status,user_type FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
                                          UNION ALL
                                          SELECT institution_branch_manager_id AS user_id,date_of_birth,register_date,firstname,lastname,reference_no,
-                                         registrant,contact_no,status FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
+                                         registrant,contact_no,status,user_type FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
                 $stmt4->execute([$userCA['suser_id'],$userCA['suser_id']]);
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -645,7 +652,7 @@
 
                     echo'<tr>
                         <td>
-                            <p>'.$userCATA['user_id'].'</p>
+                            <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['user_id'].'</p>
                             <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                         </td>
                         <td>
@@ -665,10 +672,10 @@
             
             //direct TC with SF/MF Ref
             $stmt4 = $conn->prepare("SELECT ca_travelagency_id AS user_id,date_of_birth,register_date,firstname,lastname,reference_no,
-                                    registrant,contact_no,status FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
+                                    registrant,contact_no,status,user_type FROM ca_travelagency WHERE reference_no = ? AND  (status = '1' OR status = '3')
                                     UNION ALL
                                     SELECT institution_branch_manager_id AS user_id,date_of_birth,register_date,firstname,lastname,reference_no,
-                                    registrant,contact_no,status FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
+                                    registrant,contact_no,status,user_type FROM institution_branch_manager WHERE reference_no = ? AND  (status = '1' OR status = '3')");
             $stmt4->execute([$bm_id,$bm_id]);
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
@@ -680,7 +687,7 @@
                 
                 echo'<tr>
                     <td>
-                        <p>'.$userCATA['ca_travelagency_id'].'</p>
+                        <p><span class="badge bg-secondary lable-width">' . strtoupper($userCATA['user_type'] == '11'?'tc':($userCATA['user_type'] == '33'?'i':'')) . '</span>&nbsp;'.$userCATA['ca_travelagency_id'].'</p>
                         <p>'.$userCATA['firstname'].' '.$userCATA['lastname'].'</p>
                     </td>
                     <td>

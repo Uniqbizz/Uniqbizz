@@ -3,8 +3,6 @@
     include 'get_upper_channel.php';
     if($userType == "24"){
 
-        $hasData = false; //  ADD THIS
-
         $stmt = $conn -> prepare("SELECT employee_id FROM `employees` WHERE reporting_manager = ? AND user_type = '25' ");
         $stmt -> execute([$userId]);
         $userBDMS = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -20,7 +18,6 @@
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
-                    $hasData = true; //  MARK
 
                     $bd= new DateTime($userCATA['date_of_birth']);
                     $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
@@ -76,7 +73,6 @@
                         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                         foreach ($userCATAs as $userCATA) {
-                            $hasData = true; //  MARK
 
                             $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
                             $ref = get_reference($conn, $userCATA['reference_no']); //  FIXED
@@ -108,7 +104,6 @@
                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($userCATAs as $userCATA) {
-                        $hasData = true; //  MARK
 
                         $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
                         $ref = get_reference($conn, $userCATA['reference_no']); //  FIXED
@@ -152,7 +147,6 @@
                     $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($userCATAs as $userCATA) {
-                        $hasData = true; //  MARK
 
                         $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
                         $ref = get_reference($conn, $userCATA['reference_no']); //  FIXED
@@ -188,7 +182,6 @@
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
-            $hasData = true; //  MARK
 
             $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
             $ref = get_reference($conn, $userCATA['reference_no']); //  FIX
@@ -242,7 +235,6 @@
                 $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($userCATAs as $userCATA) {
-                    $hasData = true; //  MARK
 
                     $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
 
@@ -272,7 +264,6 @@
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $hasData = true; //  MARK
 
                 $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
 
@@ -314,7 +305,6 @@
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-                $hasData = true; //  MARK
 
                 $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
 
@@ -344,7 +334,6 @@
         $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($userCATAs as $userCATA) {
-            $hasData = true; //  MARK
 
             $datev= (new DateTime($userCATA['added_on']))->format('d-m-Y'); 
 
@@ -421,8 +410,6 @@
 
         foreach ($userCATAs as $userCATA) {
 
-            $hasData = true; //  DATA FOUND
-
             $datev = !empty($userCATA['added_on']) 
                 ? (new DateTime($userCATA['added_on']))->format('d-m-Y') 
                 : '';
@@ -488,8 +475,6 @@
 
                 foreach ($userCATAs as $userCATA) {
 
-                    $hasData = true; //  DATA FOUND
-
                     $datev = !empty($userCATA['added_on']) 
                         ? (new DateTime($userCATA['added_on']))->format('d-m-Y') 
                         : '';
@@ -517,8 +502,6 @@
             $userCATAs = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($userCATAs as $userCATA) {
-
-                $hasData = true; //  DATA FOUND
 
                 $datev = !empty($userCATA['added_on']) 
                     ? (new DateTime($userCATA['added_on']))->format('d-m-Y') 
