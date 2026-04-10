@@ -330,7 +330,9 @@
                  INNER JOIN ca_customer on ca_customer.ta_reference_no = institution_branch_manager.institution_branch_manager_id and ca_customer.status=1
                  WHERE institution_branch_manager.status=1 and ca_customer.ca_customer_id=:user_id";
         $stmt0 = $conn->prepare($sql0);
-        $stmt0->execute([':userId' => $userId]);
+        
+                        
+        $stmt0->execute([':user_id' => $userId]);
         $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
         $customer_fil = " AND b.customer_id='" . $userId . "'";
     }

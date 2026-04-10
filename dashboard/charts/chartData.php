@@ -10,48 +10,150 @@ $current_month = $get_data['current_month'];
 $user_id = $get_data['user_id'];
 $user_type = $get_data['user_type'];
 
-function monthlyChartData($conn, $reference_no, $get_year, $current_year, $current_month, $user_type,$user_id){
+function monthlyChartData($conn, $reference_no, $get_year, $current_year, $current_month, $user_type, $user_id){
     $data = array_fill(0, 12, 0);
 
-    $tableMap = [
-        '16'  => 'corporate_agency',
-        '10' => 'ca_customer',
-        '11' => 'ca_travelagency',
-        '33' => 'Institution_branch_manager'
-    ];
+    try {
 
-    $columnMap = [
-        '11' => 'ta_reference_no'
-    ];
+        // =========================
+        // 🎯 TC (11) → CU
+        // =========================
+        if ($user_type == '11') {
 
-    if (array_key_exists($user_type, $tableMap)) {
-        $table = $tableMap[$user_type];
-        $refCol = $columnMap[$user_type] ?? 'reference_no';
-        if($user_type == '16'){
-            $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
-                FROM $table 
-                LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $user_id . "'
-                WHERE ($refCol = :reference_no OR tm.te_id = '" . $user_id . "') AND status = '1'";
-        }else{
-            $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
-                    FROM $table 
-                    WHERE $refCol = :reference_no AND status = '1'";
-        }
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([':reference_no' => $reference_no]);
+            $sql = "
+                SELECT 
+                    MONTH(register_date) AS m,
+                    COUNT(*) AS total
+                FROM ca_customer
+                WHERE ta_reference_no = :user_id
+                AND status = '1'
+                AND YEAR(register_date) = :get_year
+                GROUP BY MONTH(register_date)
+            ";
 
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            if ($row['start_year'] == $get_year) {
-                $data[$row['start_month'] - 1] += 1;
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
             }
+
+            return [$data];
         }
 
-        if ($current_year == $get_year) {
-            array_splice($data, $current_month);
+        // =========================
+        // 🎯 TE (16) → TC → CU
+        // =========================
+        elseif ($user_type == '16') {
+
+            $sql = "
+                SELECT 
+                    MONTH(c.register_date) AS m,
+                    COUNT(*) AS total
+                FROM ca_customer c
+
+                INNER JOIN ca_travelagency tc 
+                    ON c.ta_reference_no = tc.ca_travelagency_id
+                    AND tc.status = '1'
+
+                INNER JOIN tc_mapping tm 
+                    ON tm.tc_id = tc.ca_travelagency_id
+                    AND tm.te_id = :user_id
+
+                WHERE c.status = '1'
+                AND YEAR(c.register_date) = :get_year
+                GROUP BY MONTH(c.register_date)
+            ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
+            }
+
+            return [$data]; // only CU for TE chart (as per your labelMap)
         }
+
+        // =========================
+        // 🎯 IBR (33) → CU
+        // =========================
+        elseif ($user_type == '33') {
+
+            $sql = "
+                SELECT 
+                    MONTH(register_date) AS m,
+                    COUNT(*) AS total
+                FROM ca_customer
+                WHERE ta_reference_no = :user_id
+                AND status = '1'
+                AND YEAR(register_date) = :get_year
+                GROUP BY MONTH(register_date)
+            ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
+            }
+
+            return [$data];
+        }
+
+        // =========================
+        // 🎯 DEFAULT (fallback)
+        // =========================
+        else {
+
+            $tableMap = [
+                '10' => 'ca_customer',
+                '11' => 'ca_travelagency',
+                '16' => 'corporate_agency',
+                '33' => 'institution_branch_manager'
+            ];
+
+            if (!isset($tableMap[$user_type])) {
+                return [$data];
+            }
+
+            $table = $tableMap[$user_type];
+
+            $sql = "
+                SELECT 
+                    MONTH(register_date) AS m,
+                    COUNT(*) AS total
+                FROM $table
+                WHERE status = '1'
+                AND YEAR(register_date) = :get_year
+                GROUP BY MONTH(register_date)
+            ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
+            }
+
+            return [$data];
+        }
+
+    } catch (Exception $e) {
+        error_log("Chart Error: " . $e->getMessage());
+        return [$data];
     }
-
-    return $data;
 }
 
 // Special case for BCM → return 3 separate arrays
@@ -411,12 +513,12 @@ if ($user_type == '24') {
                         ibr.reference_no = :ref
                         OR ibr.reference_no IN (
                             SELECT i.institution_id 
-                            FROM institution bm 
+                            FROM institution i 
                             WHERE i.reference_no=:ref AND i.status='1'
                         )
                         
                     )
-                    GROUP BY YEAR(tc.register_date), MONTH(tc.register_date)
+                    GROUP BY YEAR(ibr.register_date), MONTH(ibr.register_date)
 
                     UNION ALL
 

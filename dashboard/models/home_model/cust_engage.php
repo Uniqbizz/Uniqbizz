@@ -107,6 +107,14 @@
                                 $tableId14 = 'institution_branch_manager_id';
                                 $tableColumnName13 = 'reference_no';
                                 $tableColumnName14 = 'reference_no';
+                                //I through BM
+                                $tableName15 = 'business_mentor'; //TE
+                                $tableId15 = 'business_mentor_id'; //TE ID
+                                $tableNameDesignation7 = 'Business Mentor';
+                                $tableName16 = 'institution';
+                                $tableId16 = 'institution_id';
+                                $tableColumn15 = 'reference_no';
+                                $tableColumn16 = 'reference_no';
                             }
                             //Business Mentor (BM->TC)
                             if ($userType == '26') {
@@ -601,15 +609,21 @@
 
                                         echo '
                                                 <li>
-                                                    <a href="javascript:void(0);" class="d-flex align-items-center py-2">
+                                                    <a href="javascript:void(0);" class="d-flex align-items-center py-2 candidate-item">
                                                         <div class="flex-shrink-0 me-2">
                                                             <div class="avatar-xs">
-                                                                <img src="../../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" id="candidate-img" style="height: 35px; width: 35px;">
+                                                                <img src="../../uploading/'.$row['profile_pic'].'" 
+                                                                    class="img-fluid rounded-circle candidate-img"
+                                                                    style="height: 35px; width: 35px;">
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h5 class="fs-13 mb-1 text-truncate" ><span class="candidate-name" id="candidate-name">' . $fname . ' ' . $lname . '</span></h5>
-                                                            <div class="d-none candidate-position" id="candidate-position">' . $tableNameDesignation . '</div>
+                                                            <h5 class="fs-13 mb-1 text-truncate">
+                                                                <span class="candidate-name">'. $fname . ' ' . $lname.'</span>
+                                                            </h5>
+                                                            <div class="d-none candidate-position">
+                                                                <?php echo $tableNameDesignation; ?>
+                                                            </div>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -626,7 +640,7 @@
             </div>
         </div>
         <?php
-            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30' || $userType =='32' || $userType =='33') {
+            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30' || $userType =='32') {
         ?>
         <!-- show table only for user type 25,24,26 -->
         

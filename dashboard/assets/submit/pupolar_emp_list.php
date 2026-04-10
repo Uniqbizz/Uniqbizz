@@ -284,6 +284,19 @@ try {
                 // F -> CU
                 fetchCustomerCounts($conn, $fId, $counts);
             }
+            // ---- I counts (under BM) ----
+            $counts['pendingI']   += getCount($conn, "SELECT count(*) as cnt FROM institution WHERE reference_no = ? AND status = '2'", [$bmId]);
+            $counts['registeredI']+= getCount($conn, "SELECT count(*) as cnt FROM institution WHERE reference_no = ? AND status = '1'", [$bmId]);
+            $counts['deletedI']   += getCount($conn, "SELECT count(*) as cnt FROM institution WHERE reference_no = ? AND (status = '0' OR status = '3')", [$bmId]);
+
+            $sqlis = "SELECT * FROM institution WHERE reference_no = ?";
+            $is = $conn->prepare($sqlis);
+            $is->execute([$bmId]);
+            foreach ($is->fetchAll(PDO::FETCH_ASSOC) as $i) {
+                $iId = $i['institution_id'];
+                // F -> CU
+                fetchCustomerCounts($conn, $iId, $counts);
+            }
 
     }
 

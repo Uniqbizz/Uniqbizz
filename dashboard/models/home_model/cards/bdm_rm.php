@@ -165,7 +165,7 @@
         }else{
     ?>
     <!-- BM -->
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
             <div>
                 <p class="text-white fw-bold">Business Mentor</p>
@@ -209,7 +209,7 @@
         </div>
     </div>
     <!-- MF -->
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
             <div>
                 <p class="text-white fw-bold">Master Franchisee</p>
@@ -253,7 +253,7 @@
         </div>
     </div>
     <!-- SF -->
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
             <div>
                 <p class="text-white fw-bold">Sponsor Franchisee</p>
@@ -309,7 +309,7 @@
         </div>
     </div>
     <!-- F -->
-    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
         <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
             <div>
                 <p class="text-white fw-bold">Franchisee</p>
@@ -858,6 +858,9 @@
                                     ON ibm_from_bm.reference_no = i_from_bm.institution_id
                                     AND ibm_from_bm.status = '1'
 
+                                --  Customer JOIN (MUST come before using cu)
+                                JOIN ca_customer AS cu 
+                                    ON cu.status=1
                                 --  IMPORTANT: BOTH TC + IBR (parallel level)
                                 LEFT JOIN ca_travelagency AS tc 
                                     ON tc.ca_travelagency_id = cu.ta_reference_no
@@ -867,12 +870,7 @@
                                     ON ibm.institution_branch_manager_id = cu.ta_reference_no
                                     AND ibm.status = 1
 
-                                --  Customer JOIN (MUST come before using cu)
-                                JOIN ca_customer AS cu 
-                                    ON (
-                                        cu.ta_reference_no = tc.ca_travelagency_id
-                                        OR cu.ta_reference_no = ibm.institution_branch_manager_id
-                                    )
+                                
 
                                 WHERE bdm.user_type = 25
                                 AND bdm.employee_id = :bdm_id
@@ -965,7 +963,9 @@
                                 LEFT JOIN institution_branch_manager AS ibm_from_bm
                                     ON ibm_from_bm.reference_no = i_from_bm.institution_id
                                     AND ibm_from_bm.status = '1'
-
+                                --  Customer JOIN (MUST come before using cu)
+                                JOIN ca_customer AS cu 
+                                    ON cu.status=1
                                 --  IMPORTANT: BOTH TC + IBR (parallel level)
                                 LEFT JOIN ca_travelagency AS tc 
                                     ON tc.ca_travelagency_id = cu.ta_reference_no
@@ -974,13 +974,6 @@
                                 LEFT JOIN institution_branch_manager AS ibm
                                     ON ibm.institution_branch_manager_id = cu.ta_reference_no
                                     AND ibm.status = 1
-
-                                --  Customer JOIN (MUST come before using cu)
-                                JOIN ca_customer AS cu 
-                                    ON (
-                                        cu.ta_reference_no = tc.ca_travelagency_id
-                                        OR cu.ta_reference_no = ibm.institution_branch_manager_id
-                                    )
 
                                 WHERE bdm.user_type = 25
                                 AND bdm.employee_id = :bdm_id

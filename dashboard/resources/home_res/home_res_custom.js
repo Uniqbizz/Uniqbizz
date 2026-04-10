@@ -6,8 +6,7 @@ var getCurrentYear = currentDate.getFullYear();
 var getCurrentMonth = currentDate.getMonth() + 1;
 // console.log(getCurrentMonth);
 var userType, monthYear;
-// get month for input tag
-var monthControl = document.querySelector('#month_year');
+
 $(document).ready(function(){
     $("#top-users").DataTable({
         language: {
@@ -89,27 +88,31 @@ async function getMonthlyUserData(get_year) {
 
         const MONTHS = 12;
 
-        const hasAnyData = data.some(arr => 
+        const normalizedData = Array.isArray(data[0]) && Array.isArray(data[0][0])
+            ? data[0]
+            : data;
+
+        const hasAnyData = normalizedData.some(arr =>
             Array.isArray(arr) && arr.some(v => Number(v) > 0)
         );
 
-        const datasets = data.map((arr, i) => {
-            const safeData = Array.isArray(arr) ? arr.slice(0, MONTHS) : [];
+        const datasets = normalizedData.map((arr, i) => {
+            const safeData = Array.isArray(arr) ? arr.slice(0, 12) : [];
 
-            while (safeData.length < MONTHS) {
-                safeData.push(0);   //  force 12 months so chart renders
+            while (safeData.length < 12) {
+                safeData.push(0);
             }
 
             return {
-            label: labels[i] || `Series ${i + 1}`,
-            data: safeData,
-            borderColor: colors[i % colors.length],
-            backgroundColor: hexToRgba(colors[i % colors.length], 0.4),
-            pointBackgroundColor: colors[i % colors.length],
-            fill: true,
-            tension: 0.4,
-            pointRadius: 3,
-            spanGaps: false
+                label: labels[i] || `Series ${i + 1}`,
+                data: safeData,
+                borderColor: colors[i % colors.length],
+                backgroundColor: hexToRgba(colors[i % colors.length], 0.4),
+                pointBackgroundColor: colors[i % colors.length],
+                fill: true,
+                tension: 0.4,
+                pointRadius: 3,
+                spanGaps: false
             };
         });
 
@@ -238,6 +241,12 @@ function showCountlist(userType, userId) {
                                     <td>${data.deletedI}</td>
                                 </tr>
                                 <tr>
+                                    <th>Franchisee</th>
+                                    <td>${data.pendingF}</td>
+                                    <td>${data.registeredF}</td>
+                                    <td>${data.deletedF}</td>
+                                </tr>
+                                <tr>
                                     <th>Travel Consultant</th>
                                     <td>${data.pendingTC}</td>
                                     <td>${data.registeredTC}</td>
@@ -253,16 +262,16 @@ function showCountlist(userType, userId) {
                         } else if (prefix2 === 'MF' || prefix2 === 'SF') {
                             tableBody.append(`
                                 <tr>
-                                    <th>Franchisee</th>
-                                    <td>${data.pendingF}</td>
-                                    <td>${data.registeredF}</td>
-                                    <td>${data.deletedF}</td>
-                                </tr>
-                                <tr>
                                     <th>Institution</th>
                                     <td>${data.pendingI}</td>
                                     <td>${data.registeredI}</td>
                                     <td>${data.deletedI}</td>
+                                </tr>
+                                <tr>
+                                    <th>Franchisee</th>
+                                    <td>${data.pendingF}</td>
+                                    <td>${data.registeredF}</td>
+                                    <td>${data.deletedF}</td>
                                 </tr>
                                 <tr>
                                     <th>Travel Consultant</th>

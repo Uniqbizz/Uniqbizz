@@ -716,9 +716,14 @@ if ($userType == '29') {
 
     <script src="../assets/js/js-confetti.js"></script>
     <script src="../resources/home_res/home_res_custom.js"></script>
+    <?php 
+        if ($_SESSION['user_type_id_value'] != 10) {
+    ?>
     <script>
         $(function() {
             // get min and max month for input tag
+            // get month for input tag
+            var monthControl = document.querySelector('#month_year');
             const date = new Date()
             const month = ("0" + (date.getMonth() + 1)).slice(-2)
             const year = date.getFullYear()
@@ -741,6 +746,10 @@ if ($userType == '29') {
             // monthYear = monthControl.value;
         });
     </script>
+    <?php
+        }
+    ?>
+    
     <?php 
         if ($userType == 10) {
 
