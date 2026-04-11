@@ -589,17 +589,27 @@
                                         # code...
                                         echo '
                                                 <li id="list-item-' . $selected_user . '">
-                                                    <a class="d-flex align-items-center py-2" style="cursor: grab;" id="candidate-img" onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
+                                                    <a class="d-flex align-items-center py-2 candidate-item" 
+                                                    style="cursor: grab;" 
+                                                    onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
+
                                                         <div class="flex-shrink-0 me-2">
                                                             <div class="avatar-xs">
-                                                                <img src="../../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
+                                                                <img src="../../uploading/' . $row['profile_pic'] . '" 
+                                                                    alt="" 
+                                                                    class="img-fluid rounded-circle candidate-img" 
+                                                                    style="height: 35px; width: 35px;">
                                                             </div>
                                                         </div>
+
                                                         <div class="flex-grow-1">
-                                                            <h5 class="fs-13 mb-1 text-truncate" >
-                                                                <span class="candidate-name" id="candidate-name">' . $fname . ' ' . $lname . '</span>
+                                                            <h5 class="fs-13 mb-1 text-truncate">
+                                                                <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
                                                             </h5>
-                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31' || $userType == '32' || $userType =='26' || $userType == '28' || $userType == '30') ? '' : 'd-none') . ' candidate-position" id="candidate-position">' . $tableNameDesignation . '</div>
+
+                                                            <div class="candidate-position">
+                                                                ' . $tableNameDesignation . '
+                                                            </div>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -621,8 +631,8 @@
                                                             <h5 class="fs-13 mb-1 text-truncate">
                                                                 <span class="candidate-name">'. $fname . ' ' . $lname.'</span>
                                                             </h5>
-                                                            <div class="d-none candidate-position">
-                                                                <?php echo $tableNameDesignation; ?>
+                                                            <div class="candidate-position">
+                                                                '.$tableNameDesignation.'
                                                             </div>
                                                         </div>
                                                     </a>
