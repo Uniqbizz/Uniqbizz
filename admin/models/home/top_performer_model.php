@@ -61,13 +61,10 @@
     if(!empty($month) && !empty($year)){
         $filter = " AND MONTH($smallPrefix.register_date) = '$month' AND YEAR($smallPrefix.register_date) = '$year' ";
         $filterRef = " AND MONTH(register_date) = '$month' AND YEAR(register_date) = '$year' ";
-
     }else{
         $filter = "";
         $filterRef = "";
     }
-
-    
 
     if($user == 'bm' || $user == 'mf' || $user == 'sf'){
         $stmt = $conn->prepare("
@@ -81,7 +78,7 @@
                 $smallPrefix.status,
 
                 COUNT(ref.user_id) AS total_references,
-                SUM(ref.amount) AS total_revenue
+                COALESCE(SUM(ref.amount), 0) AS total_revenue
 
             FROM $tableName $smallPrefix
 
@@ -148,7 +145,7 @@
                 $smallPrefix.status,
 
                 COUNT(ref.user_id) AS total_references,
-                SUM(ref.amount) AS total_revenue
+                COALESCE(SUM(ref.amount), 0) AS total_revenue
 
             FROM $tableName $smallPrefix
 
@@ -193,7 +190,7 @@
                 $smallPrefix.status,
 
                 COUNT(ref.user_id) AS total_references,
-                SUM(ref.paid_amount) AS total_revenue
+                COALESCE(SUM(ref.paid_amount), 0) AS total_revenue
 
             FROM $tableName $smallPrefix
 
@@ -238,13 +235,13 @@
                 $smallPrefix.status,
 
                 COUNT(ref.user_id) AS total_references,
-                SUM(ref.paid_amount) AS total_revenue
+                COALESCE(SUM(ref.paid_amount), 0) AS total_revenue
 
             FROM $tableName $smallPrefix
 
             LEFT JOIN (
 
-                /* travel agency */
+                /* customer */
                 SELECT 
                     ca_customer_id AS user_id,
                     reference_no,

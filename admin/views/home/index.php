@@ -256,6 +256,24 @@ require '../../test_data/lastLogin.php';
                 font-size: 11px !important;
             }
             /* Latest transaction section */
+            /* Revenue generated section */
+            .dotlottie-player2 {
+                width: 220px; 
+                height: 100px; 
+                position: absolute; 
+                top: -210px;
+                right: -20px;
+            }
+            /* Revenue generated section */
+            
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            th, td {
+                white-space: nowrap;
+            }
 
             @media (max-width: 1154px){
                 .revenueCardViewButton {
@@ -264,6 +282,13 @@ require '../../test_data/lastLogin.php';
                 }
                 .commissionAmount {
                     font-size: 20px !important;
+                }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -200px;
+                    right: -50px;
                 }
             }
             @media (max-width: 1110px){
@@ -280,6 +305,13 @@ require '../../test_data/lastLogin.php';
                     position: absolute;
                     top: 90px;
                 }
+                .dotlottie-player2 {
+                    width: 190px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -180px;
+                    right: -50px;
+                }
             }
             @media (max-width: 992px){
                 .revenueCardViewButton {
@@ -289,6 +321,13 @@ require '../../test_data/lastLogin.php';
                 .flex-fill img {
                     width: 140px !important;
                     height: 100px !important;
+                }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -210px;
+                    right: -50px;
                 }
             }
             @media (max-width: 854px){
@@ -313,6 +352,22 @@ require '../../test_data/lastLogin.php';
                     position: absolute;
                     top: 60px;
                 }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -210px;
+                    right: 0px;
+                }
+            }
+            @media (max-width: 602px){
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -210px;
+                    right: -35px;
+                }
             }
             @media (max-width: 575px){
                 .dotlottie-player {
@@ -335,6 +390,13 @@ require '../../test_data/lastLogin.php';
                 }
                 .flex-fill {
                    height: 100px !important;
+                }
+                .dotlottie-player2 {
+                    width: 220px; 
+                    height: 100px; 
+                    position: absolute; 
+                    top: -125px;
+                    left: -35px;
                 }
             }
             

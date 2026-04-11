@@ -196,6 +196,19 @@
                             borderColor:'#fff',
                             borderWidth:2
                         },
+                        label: {
+                            show: false
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: 16,
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
                         data:chartData
                     }
                 ]
