@@ -879,7 +879,7 @@
                                                                 }
                                                                 
                                                             }
-                                                            else if($userType == "28" || $userTYpe == "30"){
+                                                            else if($userType == "28" || $userType == "30"){
                                                                 
                                                                 //Direct F
                                                                 $stmt4 = $conn->prepare("SELECT DISTINCT sub_franchisee_id,id,date_of_birth,country,state,city,user_type, firstname, lastname, reference_no, registrant, amount, contact_no, register_date, status, register_by FROM sub_franchisee WHERE reference_no = ? AND (status = '1' OR status = '3')");

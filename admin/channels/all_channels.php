@@ -120,10 +120,14 @@ $date = date('Y');
                                             <option value="bcm">Business Channel manager</option>
                                             <option value="bdm">Business Development manager</option>
                                             <option value="business_mentor">Business Mentor</option>
+                                            <option value="master_franchisee">Master Franchisee</option>
+                                            <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                             <option value="corporate_agency">Techno Enterprise</option>
-                                            <option value="ca_travelagency">Travel Agent</option>
+                                            <option value="sub_franchisee">Franchisee</option>
+                                            <option value="institution">Institution</option>
+                                            <option value="institution_branch_manager">Institution Branch Manager</option>
+                                            <option value="ca_travelagency">Travel Consultant</option>
                                             <option value="ca_customer">Customer</option>
-                                            <!-- <option value="business_trainee">Business Trainee</option> -->
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-12">
@@ -298,45 +302,45 @@ $date = date('Y');
 
         //get levels
         $('#user_id_name').on('change', function() {
-            designation = $('#designation').val();
-            var user_type='';
-            if (designation == 'bcm'){
-                user_type=24;
-            }
-            if (designation == 'bdm'){
-                user_type=25;
-            }
-            if (designation == 'business_mentor'){
-                user_type=26;
-            }
-            if (designation == 'corporate_agency'){
-                user_type=16;
-            }
-            if (designation == 'ca_travelagency'){
-                user_type=11;
-            }
-            if (designation == 'ca_customer'){
-                user_type=10;
-            }
-            user_id = $('#user_id_name').val();
+
+            const designation = $('#designation').val();
+
+            const userTypeMap = {
+                bcm: 24,
+                bdm: 25,
+                business_mentor: 26,
+                master_franchisee: 28,
+                sponsor_franchisee: 30,
+                corporate_agency: 16,
+                sub_franchisee: 29,
+                ca_travelagency: 11,
+                institution: 32,
+                institution_branch_manager: 33,
+                ca_customer: 10
+            };
+
+            const user_type = userTypeMap[designation] || '';
+
+            const user_id = $('#user_id_name').val();
+
             console.log(user_id);
 
             $.ajax({
                 type: 'POST',
-                url: 'get_channels',
+                url: 'get_channels.php',
                 data: {
                     user_id: user_id,
                     user_role: designation,
-                    user_type:user_type
+                    user_type: user_type
                 },
                 success: function(res) {
                     $("#accordian_container").html(res);
                 },
                 error: function(err) {
                     console.log(err);
-                },
+                }
             });
-            
+
         });
 
         //-------------------- accordian start --------------------

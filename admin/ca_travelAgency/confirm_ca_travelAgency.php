@@ -303,6 +303,28 @@ if ($user_type_id == '11') {
 							$commision_bm = $bm_commi;
 	
 						}
+						// done by savio 11/04/2026
+						if($ref_id == "BM"){
+							$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$Bm_id."'");
+							$sql11->execute();
+							$sql11->setFetchMode(PDO::FETCH_ASSOC);
+							if($sql11->rowCount()>0){
+								foreach(($sql11->fetchAll()) as $key11 => $row11){
+									$BmId = $row11['business_mentor_id'];
+									$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+									$BdmId = $row11['reference_no'];//not needed
+									$BdmName = $row11['registrant'];//not needed
+								}
+							}
+							if($amount == "FOC"){
+								$bm_commi = '0'; 
+							}else{
+								$bm_commi = '300'; 
+							}
+							$message_bm = "Business Mentor - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-. With Reference of Franchisee ".$te_name." ".$te_id.".";
+							$commision_bm = $bm_commi;
+	
+						}
 						//bdm
 						if($ref_id == "BH"){
 							$sql11 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$Bm_id."'");
@@ -365,7 +387,7 @@ if ($user_type_id == '11') {
 						$message_bm = "Master Franchisee - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on recruting Travel Consultant . Name of the Travel Consultant - " .$name." ".$uid. ". Recruitment Fee - Rs.".$amount."/-.";
 						$commision_bm = $bm_commi;
 	
-						$message_te = "Direct Travel Consultant RecruitmentThrough Master Franchisee";
+						$message_te = "Direct Travel Consultant Recruitment Through Master Franchisee";
 						$commision_te = $te_commi;
 	
 						$message_ca_ta = "Travel Consultant - "  .$name." ".$uid. " has join with reference of Master Franchisee " .$BmName." ".$BmId.". Recruitment Fee - Rs.".$amount."/-";

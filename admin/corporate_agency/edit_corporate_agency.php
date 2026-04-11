@@ -276,6 +276,17 @@ if($user_type == 'te'){
                     $reference_no_lname = $business_development_manager['lastname'];
                     // $business_trainees_reference_no = $business_trainee['reference_no'];
                 }
+            } else if ($reference_id == "BM") {
+                // business development manger name
+                $business_development_manager = $conn->prepare("SELECT firstname, lastname FROM business_mentor where business_mentor_id='" . $reference_no . "'");
+                $business_development_manager->execute();
+                $business_development_manager->setFetchMode(PDO::FETCH_ASSOC);
+                if ($business_development_manager->rowCount() > 0) {
+                    $business_development_manager = $business_development_manager->fetch();
+                    $reference_no_fname = $business_development_manager['firstname'];
+                    $reference_no_lname = $business_development_manager['lastname'];
+                    // $business_trainees_reference_no = $business_trainee['reference_no'];
+                }
             }
         }
     }

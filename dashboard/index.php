@@ -3234,7 +3234,7 @@ if ($userType == '29') {
                                                     </span>
                                                     <div class="ms-4">
                                                         <?php
-                                                            $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '16' AND status = '1'";
+                                                            $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '29' AND status = '1'";
                                                             $stmt3 = $conn->prepare($sql3);
                                                             $stmt3->execute();
                                                             $stmt3->setFetchMode(PDO::FETCH_ASSOC);
@@ -3251,7 +3251,7 @@ if ($userType == '29') {
                                                 <div class="d-flex justify-content-between">
                                                     <p class="text-white">This Month</p>
                                                     <?php
-                                                        $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '16' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                                                        $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '29' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
                                                         $stmt3 = $conn->prepare($sql3);
                                                         $stmt3->execute();
                                                         $stmt3->setFetchMode(PDO::FETCH_ASSOC);
@@ -5502,7 +5502,7 @@ if ($userType == '29') {
                                                                     $selected_user =$row['userid'];
                                                                 }else{
                                                                     $selected_user = ($userType == '24') ? $row['employee_id'] :
-                                                                                     (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] :
+                                                                                     (($userType == '26' || $userType == '16' || $userType == '29') ? $row['ca_travelagency_id'] :
                                                                                      (($userType == '30') ? $row['sub_franchisee_id'] : ''));
 
 
@@ -5526,40 +5526,65 @@ if ($userType == '29') {
                                                                     if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31') {
                                                                         # code...
                                                                        echo '
-                                                                                <li id="list-item-' . $selected_user . '">
-                                                                                    <a class="d-flex align-items-center py-2" style="cursor: grab;" onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
-                                                                                        <div class="flex-shrink-0 me-2">
-                                                                                            <div class="avatar-xs">
-                                                                                                <img src="../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="flex-grow-1">
-                                                                                            <h5 class="fs-13 mb-1 text-truncate">
-                                                                                                <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
-                                                                                            </h5>
-                                                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31') ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
-                                                                                        </div>
-                                                                                    </a>
-                                                                                </li>
-                                                                            ';
+                                                                            <li id="list-item-' . $selected_user . '">
 
-                                                                    }else{
+                                                                                <a class="d-flex align-items-center py-2 candidate-item"
+                                                                                style="cursor: grab;"
+                                                                                onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
+
+                                                                                    <div class="flex-shrink-0 me-2">
+                                                                                        <div class="avatar-xs">
+                                                                                            <img src="../../uploading/' . $row['profile_pic'] . '"
+                                                                                                alt=""
+                                                                                                class="img-fluid rounded-circle candidate-img"
+                                                                                                style="height: 35px; width: 35px;">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="flex-grow-1">
+                                                                                        <h5 class="fs-13 mb-1 text-truncate">
+                                                                                            <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
+                                                                                        </h5>
+
+                                                                                        <div class="candidate-position">
+                                                                                            ' . $tableNameDesignation . '
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </a>
+
+                                                                            </li>
+                                                                        ';
+
+                                                                    } else {
 
                                                                         echo '
-                                                                                <li>
-                                                                                    <a href="javascript:void(0);" class="d-flex align-items-center py-2">
-                                                                                        <div class="flex-shrink-0 me-2">
-                                                                                            <div class="avatar-xs">
-                                                                                                <img src="../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
-                                                                                            </div>
+                                                                            <li>
+
+                                                                                <a href="javascript:void(0);" class="d-flex align-items-center py-2 candidate-item">
+
+                                                                                    <div class="flex-shrink-0 me-2">
+                                                                                        <div class="avatar-xs">
+                                                                                            <img src="../../uploading/' . $row['profile_pic'] . '"
+                                                                                                class="img-fluid rounded-circle candidate-img"
+                                                                                                style="height: 35px; width: 35px;">
                                                                                         </div>
-                                                                                        <div class="flex-grow-1">
-                                                                                            <h5 class="fs-13 mb-1 text-truncate"><span class="candidate-name">' . $fname . ' ' . $lname . '</span></h5>
-                                                                                            <div class="d-none candidate-position">' . $tableNameDesignation . '</div>
+                                                                                    </div>
+
+                                                                                    <div class="flex-grow-1">
+                                                                                        <h5 class="fs-13 mb-1 text-truncate">
+                                                                                            <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
+                                                                                        </h5>
+
+                                                                                        <div class="candidate-position">
+                                                                                            ' . $tableNameDesignation . '
                                                                                         </div>
-                                                                                    </a>
-                                                                                </li>
-                                                                            ';
+                                                                                    </div>
+
+                                                                                </a>
+
+                                                                            </li>
+                                                                        ';
                                                                     }
                                                                     
                                                                 }

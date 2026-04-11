@@ -392,6 +392,36 @@ if ($result) {
 						$bm_commi = $commissionRates[$customer_type]['sf'] ?? 0;
 
 						$franchisee_ref = "SF";
+					} 
+					//BM ref chain BM -> F -> TC -> CU by PN 11/04/2026
+					else if($f_ref == "BM"){
+						//MF details
+						$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$Bm_Id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['business_mentor_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+						$commissionRates = [
+							'Prime' => ['tc' => 800, 'f' => 400, 'bm' => 120],
+							'Premium' => ['tc' => 1500, 'f' => 750, 'bm' => 225],
+							'Premium Plus' => ['tc' => 1500, 'f' => 750, 'bm' => 225],
+							'Premium Select' => ['tc' => 1000, 'f' => 500, 'bm' => 150],
+							'Premium Select Lite' => ['tc' => 1000, 'f' => 500, 'bm' => 150],
+							'Neo Select' => ['tc' => 1000, 'f' => 500, 'bm' => 150],
+							'Neo Select Ultra' => ['tc' => 1000, 'f' => 500, 'bm' => 150]
+						];
+						
+						$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
+						$te_commi = $commissionRates[$customer_type]['f'] ?? 0;
+						$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0;
+
+						$franchisee_ref = "BM";
 					}
 					//check if BH 
 					if ($f_ref == "BH") {
@@ -521,7 +551,7 @@ if ($result) {
 			
 			
 		}else{
-			//free customer	
+			//free customer	non complementary(with payout entry as paid Zero)
 			if ($complemetory == 2) {
 				if ($reference_id == "TE" || $reference_id == "CA") {
 		
@@ -704,6 +734,27 @@ if ($result) {
 						$bm_commi = 0;
 
 						$franchisee_ref = "SF";
+					}
+					// Bm ref chain BM -> F -> TC -> CU by SV 11/04/2026
+					else if($f_ref == "BM"){
+						//MF details
+						$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$Bm_Id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['business_mentor_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+						
+						$tc_commi = 0;
+						$te_commi = 0;
+						$bm_commi = 0;
+
+						$franchisee_ref = "BM";
 					}
 					//check if BH 
 					if ($f_ref == "BH") {
@@ -2833,3 +2884,4 @@ if ($result) {
 } else {
 	echo 0;
 }
+?>
