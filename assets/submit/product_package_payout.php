@@ -5,6 +5,16 @@
     // json Decoding, true -> for getting data in associative manner
     $mydata = json_decode($data, true);
     // print_r($mydata);
+
+    // $mydata =[
+    //     'cuID'              =>  'CU260050',
+    //     'userID'            =>  'TA260158',
+    //     'packageID'         =>  '317',
+    //     'no_of_adult'       =>  '2',
+    //     'no_of_child'       =>  '2',
+    //     'tour_start_date'   =>  '2026-04-18',
+    //     'book_id'           =>  '69'
+    // ];
     
     $customer_id = $mydata['cuID'];
     $travel_agenct_id = $mydata['userID'];
@@ -109,7 +119,10 @@
         $cuName2[] = $ca_ta_ref_name; // value not pushing in array
 
         // corporate_agency travel_agent
-        $sql4 = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$ca_ta_ref."' AND status= '1' ");
+        //chaged on 18-04-2026 by PN
+        $sql4 = $conn -> prepare("SELECT reference_no,registrant FROM ca_travelagency WHERE ca_travelagency_id = '".$ca_ta_ref."' AND status= '1'
+                                  UNION ALL
+                                  SELECT reference_no,registrant FROM institution_branch_manager WHERE institution_branch_manager_id = '".$ca_ta_ref."' AND status='1'");
         $sql4 -> execute();
         $sql4 -> setFetchMode(PDO::FETCH_ASSOC);
         if( $sql4 -> rowCount()>0 ){
@@ -122,11 +135,15 @@
         }
         
         // sub string and identify user TE/CA/F/MF 
-        $ca_ref_id =  substr($ca_ref, 0,1) == 'F'? substr($ca_ref,0,1)
+        $ca_ref_id =  substr($ca_ref, 0,1) == 'F' || substr($ca_ref, 0,1) == 'I'? substr($ca_ref,0,1)
                       : substr($ca_ref,0,2);
         // corporate_agency / Techno Enterprise / Franchisee / Master Franchisee
         if ($ca_ref_id == 'F') {
             $sql5 = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$ca_ref."' AND status= '1' ");
+        }
+        //added on 18-04-2026 by PN
+        if ($ca_ref_id == 'I') {
+            $sql5 = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$ca_ref."' AND status= '1' ");
         }elseif ($ca_ref_id == 'TE' || $ca_ref_id == 'CA') {
             $sql5 = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca_ref."' AND status= '1' ");
         }elseif ($ca_ref_id == 'MF') {
@@ -134,7 +151,12 @@
         }elseif ($ca_ref_id == 'BM') {
             $sql5 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$ca_ref."' AND status= '1' ");
         }
-        if ($ca_ref_id == 'F' || $ca_ref_id == 'TE' || $ca_ref_id == 'CA' || $ca_ref_id == 'MF' || $ca_ref_id == 'BM') {
+        //added on 18-04-2026 by PN
+        elseif ($ca_ref_id == 'BH') {
+            $sql5 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$ca_ref."' AND status= '1' ");
+        }
+        //chaged on 18-04-2026 by PN
+        if ($ca_ref_id == 'F' || $ca_ref_id == 'I' || $ca_ref_id == 'TE' || $ca_ref_id == 'CA' || $ca_ref_id == 'MF' || $ca_ref_id == 'BM' || $ca_ref_id == 'BH') {
             $sql5 -> execute();
             $sql5 -> setFetchMode(PDO::FETCH_ASSOC);
             if( $sql5 -> rowCount()>0 ){
@@ -163,7 +185,11 @@
         }elseif ($bm_ref_id == 'BM') {
             $sql6 = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$bm_ref."' AND status= '1' ");
         }
-        if ($bm_ref_id == 'MF' || $bm_ref_id == 'SF'|| $bm_ref_id == 'BM') {
+        //added on 18-04-2026 by PN BDM->TE->TC-CU
+        elseif ($bm_ref_id == 'BH') {
+            $sql6 = $conn -> prepare("SELECT * FROM emplyoyees WHERE employee_id = '".$bm_ref."' AND status= '1' AND user_type='25'");
+        }
+        if ($bm_ref_id == 'MF' || $bm_ref_id == 'SF'|| $bm_ref_id == 'BM' || $bm_ref_id == 'BH') {
             $sql6 -> execute();
             $sql6 -> setFetchMode(PDO::FETCH_ASSOC);
             if( $sql6 -> rowCount()>0 ){
@@ -179,28 +205,51 @@
             $cuIds2[] = $bdm_ref; 
             $cuName2[] = $bdm_name; 
         }
-        
+        //added on 18-04-2026 by PN BM level if BH (BDM) is found BDM->TE/F/I->TC/IBR->CU
+        if ($bm_ref_id == 'BH') {
+            $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bm_ref_id."' AND user_type = '25' AND status= '1' ");
+            $sql7 -> execute();
+            $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
+            if( $sql7 -> rowCount()>0 ){
+                foreach( ($sql7 -> fetchAll()) as $key => $row ){
+                    $bcm_ref = $row['reporting_manager'];
 
-        // Business Development manager
-        $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
-        $sql7 -> execute();
-        $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
-        if( $sql7 -> rowCount()>0 ){
-            foreach( ($sql7 -> fetchAll()) as $key => $row ){
-                $bcm_ref = $row['reporting_manager'];
-
-                $bcm_name ='';
-                $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
-                $sqlBchName -> execute();
-                $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
-                if( $sqlBchName -> rowCount()>0 ){
-                    foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
-                        $bcm_name = $row['name'];
+                    $bcm_name ='';
+                    $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
+                    $sqlBchName -> execute();
+                    $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
+                    if( $sqlBchName -> rowCount()>0 ){
+                        foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
+                            $bcm_name = $row['name'];
+                        }
                     }
-                }
 
-                $cuIds2[] = $bcm_ref; 
-                $cuName2[] = $bcm_name;
+                    $cuIds2[] = $bcm_ref; 
+                    $cuName2[] = $bcm_name;
+                }
+            }
+        }else{
+            // Business Development manager
+            $sql7 = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bdm_ref."' AND user_type = '25' AND status= '1' ");
+            $sql7 -> execute();
+            $sql7 -> setFetchMode(PDO::FETCH_ASSOC);
+            if( $sql7 -> rowCount()>0 ){
+                foreach( ($sql7 -> fetchAll()) as $key => $row ){
+                    $bcm_ref = $row['reporting_manager'];
+    
+                    $bcm_name ='';
+                    $sqlBchName = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bcm_ref."' AND user_type = '24' AND status= '1' ");
+                    $sqlBchName -> execute();
+                    $sqlBchName -> setFetchMode(PDO::FETCH_ASSOC);  
+                    if( $sqlBchName -> rowCount()>0 ){
+                        foreach( ($sqlBchName -> fetchAll()) as $key => $row ){
+                            $bcm_name = $row['name'];
+                        }
+                    }
+    
+                    $cuIds2[] = $bcm_ref; 
+                    $cuName2[] = $bcm_name;
+                }
             }
         }
 
@@ -269,36 +318,95 @@
     }
 
     $ta = $cuIds2[0];
-    $ta_message = 'Travel consultant '. $cuIds2[0].' ('.$cuName2[0].') Has Earned Rs.'.$ta_commi.' X '.$total_passenger.' =  '.$total_passenger*$ta_commi.'/-';
-    $ta_amt = $total_passenger*$ta_commi;
+    $ta_str=substr($ta,0,2);
+    //chaged on 18-04-2026 by PN added IBR logic
+    $ta_role=[
+        'TA' => 'Travel Consultant ',
+        'IB' => 'Institution Branch Manager '
+    ];
+    $ta_mess_title_name=$ta_role[$ta_str];
+    if($ta_str == 'TA'){
+        $ta_message = $ta_mess_title_name. $cuIds2[0].' ('.$cuName2[0].') Has Earned Rs.'.$ta_commi.' X '.$total_passenger.' =  '.$total_passenger*$ta_commi.'/-';
+        $ta_amt = $total_passenger*$ta_commi;
+    }elseif ($ta_str == 'IBR') {
+        $ta_message = "Not Applicable";
+        $ta_amt = 0;
+    }
+    
 
     $te = $cuIds2[1];
-    $te_message = 'Techno Enterprise '. $cuIds2[1].' ('.$cuName2[1].') Has Earned Rs.'.$te_commi.' X '.$total_passenger.' =  '.$total_passenger*$te_commi.'/-';
-    $te_amt = $total_passenger*$te_commi;
+    //added on 18-04-2026 by PN
+    //find te level user if F->franchisee is te/ca->Techno Enterprise if I-> Institution
+    $te_str=substr($te,0,1) == 'F' || substr($te,0,1) == 'I' ? substr($te,0,1) : substr($te,0,2);
+    $te_roles=[
+        'TE' => 'Techno Enterprise ',
+        'CA' => 'Techno Enterprise ',
+        'F'  => 'Franchisee ',
+        'I'  => 'Institution ',
+        'BH'  => 'Business Development Manager '
+    ];
+    $te_mess_title_name=$te_roles[$te_str];
+    //variable percetange for new regime franchisee (registraion after 2026-01-01), also check for upgarde status and get the latest approved entries commission 
+    if ($te_str == 'F') {
+        $stmtf = $conn->prepare("SELECT register_date,sub_franchisee_id,current_commission_per,upgrade_status FROM sub_franchisee WHERE sub_franchisee_id='".$te."' AND status=1");
+        $stmtf = $conn->exicute();
+        $sqlf -> setFetchMode(PDO::FETCH_ASSOC);
+        if ($sqlf ->rowCount()>0) {
+            foreach ($sqlf as $key => $row) {
+                // Convert VARCHAR date to proper date for comparison
+                if (strtotime($row['register_date']) >= strtotime('2026-01-01')) {
+                    if ($row['upgrade_status'] == 2) {
+                        $stmtfup=$conn->prepare("SELECT new_commission_per FROM sub_franchisee_upgrade WHERE sub_franchisee_id ='".$te."' AND  upgrade_status='1'
+                                                ORDER BY id DESC LIMIT 1");
+                        $stmtfup = $conn->exicute();
+                        $sqlfup -> setFetchMode(PDO::FETCH_ASSOC);
+                        if ($sqlf ->rowCount()>0) {
+                            foreach ($sqlf as $key => $row) {
+                                $te_commi=$ta_commi*(int($row['new_commission_per'])/100);
+                            }
+                        }else{
+                            $te_commi=$ta_commi*(int($row['current_commission_per'])/100);
+                        }
+                    }else{
+                            $te_commi=$ta_commi*(int($row['current_commission_per'])/100);
+                    }
+                } 
+            }
+        }
+        $bm_commi=$te_commi*0.3;
+        $te_message = $te_mess_title_name. $cuIds2[1].' ('.$cuName2[1].') Has Earned Rs.'.$te_commi.' X '.$total_passenger.' =  '.$total_passenger*$te_commi.'/-';
+        $te_amt = $total_passenger*$te_commi;
+    }
+    //added 0n 18-04-2026 by PN if BH (BDM) is found for TE level the entry show be Not Applicable and commission should be 0
+    elseif ($te_str == 'BH') {
+        $te_message = 'Not Applicable';
+        $te_amt = $total_passenger*$te_commi;
+    }else{
+        $te_message = $te_mess_title_name. $cuIds2[1].' ('.$cuName2[1].') Has Earned Rs.'.$te_commi.' X '.$total_passenger.' =  '.$total_passenger*$te_commi.'/-';
+        $te_amt = $total_passenger*$te_commi;
+    }
 
     $bm = $cuIds2[2];
-    $bm_message = 'Business Mentor '. $cuIds2[2].' ('.$cuName2[2].') Has Earned Rs.'.$bm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bm_commi.'/-';
+    //added on 18-04-2026 by PN all BM level user maping and payout correction
+    $bm_str = substr($bm,0,2);
+    $bm_role=[
+        'BM' => 'Business Mentor ',
+        'MF' => 'Master Franchisee ',
+        'SF' => 'Sponsor Franchisee ',
+        'BH' => 'Business Development Manager '
+    ];
+    $bm_mess_title_name= $bm_role[$bm_str]; 
+    $bm_message = $bm_mess_title_name. $cuIds2[2].' ('.$cuName2[2].') Has Earned Rs.'.$bm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bm_commi.'/-';
     $bm_amt = $total_passenger*$bm_commi;
 
-    $bdm = $cuIds2[3];
-    $bdm_message = 'Business Development Manager '. $cuIds2[3].' ('.$cuName2[3].') Has Earned Rs.'.$bdm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bdm_commi.'/-';
-    $bdm_amt = $total_passenger*$bdm_commi;
+    // $bdm = $cuIds2[3];
+    // $bdm_message = 'Business Development Manager '. $cuIds2[3].' ('.$cuName2[3].') Has Earned Rs.'.$bdm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bdm_commi.'/-';
+    // $bdm_amt = $total_passenger*$bdm_commi;
 
-    $bcm = $cuIds2[4];
-    $bcm_message = 'Business Channel Manager '. $cuIds2[4].' ('.$cuName2[4].') Has Earned Rs.'.$bcm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bcm_commi.'/-';
-    $bcm_amt = $total_passenger*$bcm_commi;
+    // $bcm = $cuIds2[4];
+    // $bcm_message = 'Business Channel Manager '. $cuIds2[4].' ('.$cuName2[4].') Has Earned Rs.'.$bcm_commi.' X '.$total_passenger.' =  '.$total_passenger*$bcm_commi.'/-';
+    // $bcm_amt = $total_passenger*$bcm_commi;
 
-    // Create an associative array with all the messages
-    // $messages = [
-    //     'cu_level_1_message' => $cu_level_1_message ?? '',
-    //     'cu_level_2_message' => $cu_level_2_message ?? '',
-    //     'cu_level_3_message' => $cu_level_3_message ?? '',
-    //     'CA_Travel_agency_message' => $CA_Travel_agency_message ?? '',
-    //     'techno_enterprise_message' => $techno_enterprise_message ?? '',
-    //     'business_mentor_message' => $business_mentor_message ?? '',
-    //     'business_development_manager_message' => $business_development_manager_message ?? '',
-    //     'business_channel_manager_message' => $business_channel_manager_message ?? '',
-    // ];
     // Encode the messages array as JSON
     // echo json_encode($messages);
     //cu = "customer", ta = "travel associate", te = "techno enterprise", bm = "business mentor", bdm = "business development manager", bcm = "business channel manager"
@@ -338,50 +446,6 @@
         ':start_date' => $start_date,
         ':end_date' => $end_date
     ));
-
-    // if($result){
-
-        // $sql11 = $conn->prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$business_consultant."'");
-        // $sql11->execute();
-        // $sql11->setFetchMode(PDO::FETCH_ASSOC);
-        // if($sql11->rowCount()>0){
-        //     foreach(($sql11->fetchAll()) as $key11 => $row11){
-        //         $BcId = $row11['business_consultant_id'];
-        //         $BcName = $row11['firstname']. ' ' .$row11['lastname'];
-        //         $BcRef = $row11['reference_no'];
-        //     }
-        // }
-        // $sql12 = $conn->prepare("SELECT * FROM channel_business_director WHERE channel_business_director_id = '".$BcRef."'");
-        // $sql12->execute();
-        // $sql12->setFetchMode(PDO::FETCH_ASSOC);
-        // if($sql12->rowCount()>0){
-        //     foreach(($sql12->fetchAll()) as $key12 => $row12){
-        //         $cbd_id = $row12['channel_business_director_id'];
-        //         $cbd_name = $row12['firstname']. ' ' .$row12['lastname'];
-        //     }
-        // }
-        // $stmt1 = $conn -> prepare(" SELECT name FROM package WHERE id = '".$mydata['packageID']."' ");
-        // $stmt1 -> execute();
-        // $pkgName = $stmt1 -> fetch();
-        // $packageName = $pkgName['name'];
-
-        // $message_cbd = "CBD - ".$cbd_name." ".$cbd_id." earned 75/- of BC - ".$BcName." ".$BcId." on selling ".$packageName." Package to Customer. Corporate Agency -> " .$corporate_agency." . Travel Agency -> ".$CA_Travel_agency. ".";
-		// $payout_type = "Product Payout";
-        // $cbdCommiAmt = "75";
-
-        // $insertCBDPaySQL = " INSERT INTO cbd_payout (cbd_id, cbd_name, payout_type, user_id, user_name, message, amount, status) VALUES (:cbd_id, :cbd_name, :payout_type, :user_id, :user_name, :message, :amount, :status) ";
-        // $insertCBDPay = $conn -> prepare($insertCBDPaySQL);
-        // $result2 = $insertCBDPay -> execute( array(
-        //     ':cbd_id' => $cbd_id,
-        //     ':cbd_name' => $cbd_name,
-        //     ':payout_type' => $payout_type,
-        //     ':user_id' => $BcId, 
-        //     ':user_name' => $BcName, 
-        //     ':message' => $message_cbd, 
-        //     ':amount' => $cbdCommiAmt, 
-        //     ':status' => '2'
-        // ));
-    // }
 
     if($result){
         echo 1;
