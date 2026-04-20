@@ -118,6 +118,7 @@
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="">--Select Designation--</option>
+                                                            <option value="business_mentor">Business Mentor</option>
                                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                             <option value="business_development_manager">Business Development Manager </option>

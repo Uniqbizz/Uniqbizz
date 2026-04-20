@@ -121,7 +121,7 @@
 
                                                                             if($userType == '28' || $userType == '30'){ //MF/SF
                                                                                 $userIdCommi = 'master_franchisee';
-                                                                                $amtCal = 'commision_mf';
+                                                                                $amtCal = 'commission_mf';
                                                                             }
 
                                                                             $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
@@ -151,7 +151,7 @@
                                                                         <?php 
                                                                             if($userType == '28' || $userType == '30'){ //MF/SF
                                                                                 $userIdCommi = 'master_franchisee';
-                                                                                $amtCal = 'commision_mf';
+                                                                                $amtCal = 'commission_mf';
                                                                             }
                                                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                                                             $nextPayout -> execute();
@@ -192,7 +192,7 @@
                                                                     <?php 
                                                                         if($userType == '28' || $userType == '30'){ //MF/SF
                                                                             $userIdCommi = 'master_franchisee';
-                                                                            $amtCal = 'commision_mf';
+                                                                            $amtCal = 'commission_mf';
                                                                         }
 
                                                                         $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_mf=1 ";
@@ -263,7 +263,7 @@
                                                                                         if($userType == '28' || $userType=='30'){
                                                                                             $id = $row['master_franchisee'];
                                                                                             $message = $row['message_mf'];
-                                                                                            $amt = $row['commision_mf'];
+                                                                                            $amt = $row['commission_mf'];
                                                                                             $status = $row['status_mf'];
                                                                                             $tds = $amt * $tdsPercentage;
                                                                                             $total = $amt - $tds;
@@ -336,7 +336,7 @@
 
                                             if($userType == '28' || $userType == '30'){ //MF/SF
                                                 $userIdCommi = 'master_franchisee';
-                                                $amtCal = 'commision_mf';
+                                                $amtCal = 'commission_mf';
                                             }
 
                                             $previousPayout = $conn -> prepare("SELECT SUM(($amtCal)) as previousPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ");
@@ -417,7 +417,7 @@
                                                             if($userType == '28' || $userType=='30'){
                                                                 $id = $row['master_franchisee'];
                                                                 $message = $row['message_mf'];
-                                                                $amt = $row['commision_mf'];
+                                                                $amt = $row['commission_mf'];
                                                                 $status = $row['status_mf'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
@@ -477,7 +477,7 @@
                                         <?php 
                                             if($userType == '28' || $userType == '30'){ //MF/SF
                                                 $userIdCommi = 'master_franchisee';
-                                                $amtCal = 'commision_mf';
+                                                $amtCal = 'commission_mf';
                                             }
                                             $nextPayout = $conn -> prepare("SELECT SUM(($amtCal)) as nextPayout FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ");
                                             $nextPayout -> execute();
@@ -554,7 +554,7 @@
                                                             if($userType == '28' || $userType=='30'){
                                                                 $id = $row['master_franchisee'];
                                                                 $message = $row['message_mf'];
-                                                                $amt = $row['commision_mf'];
+                                                                $amt = $row['commission_mf'];
                                                                 $status = $row['status_mf'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
@@ -616,7 +616,7 @@
                                         <?php 
                                             if($userType == '28' || $userType == '30'){ //MF/SF
                                                 $userIdCommi = 'master_franchisee';
-                                                $amtCal = 'commision_mf';
+                                                $amtCal = 'commission_mf';
                                             }
                                             $totalPayout = "SELECT SUM($amtCal) as total_payable FROM sub_franchisee_payout WHERE $userIdCommi = '".$userId."' AND status_mf=1 ";
                                             $Payout = $conn -> prepare($totalPayout);
@@ -693,7 +693,7 @@
                                                             if($userType == '28' || $userType=='30'){
                                                                 $id = $row['master_franchisee'];
                                                                 $message = $row['message_mf'];
-                                                                $amt = $row['commision_mf'];
+                                                                $amt = $row['commission_mf'];
                                                                 $status = $row['status_mf'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;

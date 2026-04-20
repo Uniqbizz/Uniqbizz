@@ -65,6 +65,8 @@ require '../connect.php';
                                     SELECT employee_id,name AS name FROM employees WHERE status=1
                                 )as all_users
                                 ORDER BY id");
+    }else if($table == "institution"){
+        $user = $conn->prepare("SELECT * FROM institution WHERE status = '1' ORDER BY institution_id");
     }
 
     $user->execute();
@@ -112,6 +114,8 @@ require '../connect.php';
             echo '<option value="">--Select Customer ID & Name--</option>';
         }else if ($table == "BM_BDM_MF_SF_RM") {
             echo '<option value="">--Select User ID & Name--</option>';
+        }else if ( $table == "institution" ) {
+            echo '<option value="">--Select Institution ID & Name--</option>';
         }
         
         foreach ($user_data as $key => $value) {
@@ -153,6 +157,8 @@ require '../connect.php';
                 echo '<option value="'.$value['ca_customer_id'].'">'.$value['ca_customer_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ($table == "BM_BDM_MF_SF_RM") {
                 echo '<option value="'.$value['id'].'">'.$value['id'].' - '.$value['name'].'</option>';
+            }else if ( $table == "institution" ) {
+                echo '<option value="'.$value['institution_id'].'">'.$value['institution_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }
         }
         

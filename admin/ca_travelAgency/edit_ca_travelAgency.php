@@ -14,18 +14,29 @@
     $country_id = $_GET['ncy'];
     $state_id = $_GET['mst'];
     $city_id = $_GET['hct'];
-
+    $user_type = $_GET['usertype'];
     $editfor = $_GET['editfor'];
-
-    if($editfor == 'pending'){
-        // $identifier_id= $_POST["vkvbvjfgfikix"];
-        $identifier_name = 'id=';
-    }else if($editfor == 'registered') {
-        // $identifier_id= $_POST["vkvbvjfgfikix"];
-        $identifier_name = 'ca_travelagency_id=';
+    if($user_type == '11'){
+        if($editfor == 'pending'){
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'id=';
+        }else if($editfor == 'registered') {
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'ca_travelagency_id=';
+        }
+    
+        $stmt = $conn->prepare("SELECT * FROM `ca_travelagency` where ca_travelagency_id='".$id."' OR id = '".$id."'");
+    }elseif ($user_type == '33') {
+        if($editfor == 'pending'){
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'id=';
+        }else if($editfor == 'registered') {
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'institution_branch_manager_id=';
+        }
+    
+        $stmt = $conn->prepare("SELECT * FROM `institution_branch_manager` where institution_branch_manager_id='".$id."' OR id = '".$id."'");
     }
-
-    $stmt = $conn->prepare("SELECT * FROM `ca_travelagency` where ca_travelagency_id='".$id."' OR id = '".$id."'");
     $stmt->execute();
     // set the resulting array to associative
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -96,7 +107,7 @@
                 $city_name = $city['city_name'];
             }
 
-            $reference_id = (substr($reference_no, 0, 1) === 'F') 
+            $reference_id = (substr($reference_no, 0, 1) === 'F' || substr($reference_no, 0, 1) === 'I' ) 
 							? substr($reference_no, 0, 1) 
 							: substr($reference_no, 0, 2);
             if($reference_id == "BM"){
@@ -135,6 +146,16 @@
             }else if($reference_id == "F"){
                 // corporate agency name
                 $corporate_agencys = $conn->prepare("SELECT firstname, lastname FROM sub_franchisee where sub_franchisee_id='".$reference_no."'");
+                $corporate_agencys ->execute();
+                $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
+                if(  $corporate_agencys->rowCount()>0 ){
+                    $corporate_agencys = $corporate_agencys->fetch();
+                    $reference_no_fname = $corporate_agencys['firstname'];
+                    $reference_no_lname = $corporate_agencys['lastname'];
+                }
+            }else if($reference_id == "I"){
+                // corporate agency name
+                $corporate_agencys = $conn->prepare("SELECT firstname, lastname FROM institution where institution_id='".$reference_no."'");
                 $corporate_agencys ->execute();
                 $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
                 if(  $corporate_agencys->rowCount()>0 ){
@@ -631,6 +652,7 @@
                                             <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>">
                                             <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>">
                                             <input type="hidden" id="id" name="id" value="<?php echo $id;?>">
+                                            <input type="hidden" id="registered" name="registered" value="<?php echo $user_type; ?>">
 
                                             <div class="submit-section d-flex justify-content-center mb-4">
                                                 <button type="submit" class="btn btn-primary px-5 py-2" id="edit_ca_travelagency">Submit</button>

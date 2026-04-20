@@ -283,19 +283,19 @@ if ($user_type_id == '16') {
 						':status' => '2'
 					));
 
-					$message = "BDM - " . $bdm_name . " " . $bdm_id . " earned " . $bdmCommiAmt . "/-  on recruiting Techno Enterprise through BM - " . $BM_name . " " . $BM_id . " . Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " $convertedMark. ";
+					// $message = "BDM - " . $bdm_name . " " . $bdm_id . " earned " . $bdmCommiAmt . "/-  on recruiting Techno Enterprise through BM - " . $BM_name . " " . $BM_id . " . Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " $convertedMark. ";
 
-					$insertCALSql = "INSERT INTO `goa_bdm_payout` (bdm_id, message, business_package, business_package_amount, comm_amt, techno_enterprise, status) VALUES (:bdm_id, :message, :business_package, :business_package_amount, :comm_amt, :techno_enterprise, :status) ";
-					$insertCAL = $conn->prepare($insertCALSql);
-					$result4 = $insertCAL->execute(array(
-						':bdm_id' => $bdm_id,
-						':message' => $message,
-						':business_package' => $business_package,
-						':business_package_amount' => $amount,
-						':comm_amt' => $bdmCommiAmt,
-						':techno_enterprise' => $uid,
-						':status' => '2'
-					));
+					// $insertCALSql = "INSERT INTO `goa_bdm_payout` (bdm_id, message, business_package, business_package_amount, comm_amt, techno_enterprise, status) VALUES (:bdm_id, :message, :business_package, :business_package_amount, :comm_amt, :techno_enterprise, :status) ";
+					// $insertCAL = $conn->prepare($insertCALSql);
+					// $result4 = $insertCAL->execute(array(
+					// 	':bdm_id' => $bdm_id,
+					// 	':message' => $message,
+					// 	':business_package' => $business_package,
+					// 	':business_package_amount' => $amount,
+					// 	':comm_amt' => $bdmCommiAmt,
+					// 	':techno_enterprise' => $uid,
+					// 	':status' => '2'
+					// ));
 				} else if ($reference_id == "BM") { // slab logic no long required
 					// $message = "BM - " . $BM_name . " " . $BM_id . " earned " . $bmCommiAmt . "/- on recruting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " . ";
 					// $id = $BM_id;
@@ -738,6 +738,22 @@ if ($user_type_id == '16') {
 		}
 	}
 	//---------------------------------------------------
+	//Business Mentor edited on 11-04-2026 by PN
+	if ($reference_id == 'BM') {
+
+		$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");
+		$sql11->execute();
+		$sql11->setFetchMode(PDO::FETCH_ASSOC);
+		if ($sql11->rowCount() > 0) {
+			foreach (($sql11->fetchAll()) as $key11 => $row11) {
+				$Sf_id = $row11['business_mentor_id'];
+				$Sf_name = $row11['firstname'] .' '. $row11['lastname'] ;
+				$bdm_id = $row11['reference_no'];
+				$bdm_name = $row11['registrant'];
+			}
+		}
+	}
+	//---------------------------------------------------
 
 	//Zonal Manager removed from system 26-07-2025
 	// if ($reference_id == 'ZM') {
@@ -901,6 +917,31 @@ if ($user_type_id == '16') {
 					}
 				}
 			}
+			// BM Referral edited on 11-04-2026 by PN
+			elseif (strpos($reference_no, 'BM') === 0) {
+				$master_franchisee = $reference_no;
+
+				// Get SF name
+				$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM business_mentor WHERE business_mentor_id = :sf_id");
+				$stmt->execute([':sf_id' => $master_franchisee]);
+				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+				$mfCommiAmt = $amount * 0.05; //25000
+				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+				$message_mf = "Business Mentor(BM) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid). Franchisee Amount: Rs $amount /-";
+				$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Franchisee and paid Rs $amount /-";
+				if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+					$ref_manager = $sf['reference_no'];
+
+					// Get ref name
+					$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+					$stmt2->execute([':employee_id' => $ref_manager]);
+					$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+					$refCommiAmt = $amount * 0.025; //12500
+					$ref_name = $ref ? $ref['name'] : '';
+					$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+					$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Franchisee.Franchisee Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
+				}
+			}
 			//-------------------------------------------------------
 			// Direct ZM Referral
 			// elseif (strpos($reference_no, 'ZM') === 0) {
@@ -991,7 +1032,7 @@ if ($user_type_id == '16') {
 
 			$stmt = $conn->prepare($sql);
 			$inserted = $stmt->execute([
-				':zonal_manager'     => $ref_manager,
+				':zonal_manager'     => $ref_manager ?? 'NA',
 				':message_zm'        => $message_ref,
 				':commission_zm'      => $refCommiAmt,
 				':master_franchisee' => $master_franchisee,
@@ -1422,7 +1463,31 @@ if ($user_type_id == '16') {
 			// 	$mfCommiAmt = 0;
 			// 	$message_sf=$name . '(' . $uid . ') was on-boarded via '. $zm_name .'('.$zonal_manager.') as a Franchisee and paid Rs.' . $amount . '/-';
 			// }
+			// BM Referral edited on 18-04-2026 by PN
+			elseif (strpos($reference_no, 'BM') === 0) {
+				$master_franchisee = $reference_no;
 
+				// Get SF name
+				$stmt = $conn->prepare("SELECT firstname, lastname,reference_no FROM business_mentor WHERE business_mentor_id = :sf_id");
+				$stmt->execute([':sf_id' => $master_franchisee]);
+				$sf = $stmt->fetch(PDO::FETCH_ASSOC);
+				$mfCommiAmt = $amount * 0.05; //25000
+				$sf_name = $sf ? $sf['firstname'].' '.$sf['lastname'] : '';
+				$message_mf = "Business Mentor(BM) $sf_name ($master_franchisee) earned Rs $mfCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid). Institution Amount: Rs $amount /-";
+				$message_sf="$name ($uid) was on-boarded via $sf_name ($master_franchisee) as a Institution and paid Rs $amount /-";
+				if (!empty($sf['reference_no']) && $sf['reference_no'] !== 'Not Applicable' && $sf['reference_no'] !== 'NA') {
+					$ref_manager = $sf['reference_no'];
+
+					// Get ref name
+					$stmt2 = $conn->prepare("SELECT name,user_type FROM employees WHERE employee_id = :employee_id");
+					$stmt2->execute([':employee_id' => $ref_manager]);
+					$ref = $stmt2->fetch(PDO::FETCH_ASSOC);
+					$refCommiAmt = $amount * 0.025; //12500
+					$ref_name = $ref ? $ref['name'] : '';
+					$ref_designation=$ref['user_type'] == '24'?'BCM':($ref['user_type'] == '25'?'BDM':($ref['user_type'] == '31'?'RM':'unknonwn'));
+					$message_ref = "$ref_designation-$ref_name ($ref_manager) earned Rs $refCommiAmt/- on registering Institution.Institution Name - $name (ID:$uid) via $sf_name ($master_franchisee)";
+				}
+			}
 			// SF Referral edited on 15-10-2025 by SV
 			elseif (strpos($reference_no, 'SF') === 0) {
 				$master_franchisee = $reference_no;
