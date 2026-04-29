@@ -55,8 +55,8 @@ if ($bc_str == 'SF') {
         }
     }  
 }
-if($user_id == "BH"){
-    $bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$userId."' AND user_type = '25' AND status = 1");
+if($bc_str == "BH"){
+    $bcNames = $conn -> prepare("SELECT * FROM employees WHERE employee_id = '".$bc."' AND user_type = '25' AND status = 1");
     $bcNames -> execute();
     $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
     if($bcNames -> rowCount()>0){
