@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-between">
             <h2 class="fs-4 p-3 px-2">Upcoming Birthdays</h2>
             <div class="mt-2 me-2">
-                <a href="../../upcoming_birthday/upcoming_birthday.php"><button class="cpn_btn box-btn">View More</button></a>
+                <a href="../upcoming_birthday/upcoming_birthday.php"><button class="cpn_btn box-btn">View More</button></a>
             </div>
         </div>
         <div class="row mx-0">
