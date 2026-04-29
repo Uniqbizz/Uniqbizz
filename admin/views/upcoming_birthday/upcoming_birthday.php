@@ -15,29 +15,29 @@
         <title>Upcoming Birthdays | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <link rel="shortcut icon" href="../../assets/images/fav.png">
 
         <!-- bootstrap-datepicker css -->
-        <link href="../assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+        <link href="../../assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
 
         <!-- DataTables -->
-        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Responsive datatable examples -->
-        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+        <link href="../../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
         <!-- Loading Screen and Images size css  -->
-        <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <link href="../../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
+        <!-- <script src="../../assets/js/plugin.js"></script> -->
 
     </head>
 
@@ -51,10 +51,10 @@
             
             <?php 
                 // top header logo, hamberger menu, fullscreen icon, profile
-                include_once '../header.php';
+                include_once '../../header.php';
 
                 // sidebar navigation menu 
-                include_once '../sidebar.php';
+                include_once '../../sidebar.php';
             ?>
 
             
@@ -141,7 +141,7 @@
                                                             $fullname = $row['firstname'].' '.$row['lastname'];
                                                             $designation = $row['designation'];
                                                             $profile_pic = $row['profile_pic'];
-                                                            $imgPath = '../../uploading/'.$profile_pic;
+                                                            $imgPath = '../../../uploading/'.$profile_pic;
 
                                                             $today = date("Y-m-d");
                                                             $dob = $row['date_of_birth'];
@@ -189,7 +189,7 @@
                 </div> <!-- End Page-content -->
 
                 
-                <?php include_once "../footer.php" ?>
+                <?php include_once "../../footer.php" ?>
             </div>
             <!-- end main content-->
 
@@ -206,24 +206,24 @@
         <!--end back-to-top-->
 
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/jquery/jquery.min.js"></script>
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <script src="../../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../../assets/libs/node-waves/waves.min.js"></script>
         <!-- bootstrap-datepicker js -->
-        <script src="../assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="../../assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
         <!-- Required datatable js -->
-        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
         
         <!-- Responsive examples -->
-        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="../../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         
         <!-- App js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="../../assets/js/app.js"></script>
 
         <script>
             var mybutton = document.getElementById("back-to-top");
