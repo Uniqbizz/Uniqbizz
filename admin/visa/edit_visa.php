@@ -90,7 +90,7 @@
                                                         <input type="text" class="form-control" id="title" placeholder="Enter Title">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-12">
+                                                <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Visa Type<span class="text-danger">*</span></label>
                                                         <select id="designation" class="form-select">
@@ -100,7 +100,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-6 col-sm-12">
+                                                <div class="form-group col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Visa Category<span class="text-danger">*</span></label>
                                                         <select id="user_id_name" class="form-select">
