@@ -1,4 +1,7 @@
 <?php
+
+    // code used in book-tickets.php From line 539 - 1005
+
     require '../../connect.php';
     // get Row data
     $data = stripslashes(file_get_contents("php://input"));
@@ -27,87 +30,6 @@
     $cuIds = [];
     $cuName = [];
     
-    //new
-    $sql1 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$customer_id."' AND status= '1' ");
-    $sql1 -> execute();
-    $sql1 -> setFetchMode(PDO::FETCH_ASSOC);
-    if( $sql1 -> rowCount()>0 ){
-        foreach( ($sql1 -> fetchAll()) as $key => $row ){
-            $cu_ref1 = $row['reference_no'];
-            $cu_ref1_name = $row['registrant'];
-            $cuIds[] = $cu_ref1;
-            $cuName[] = $cu_ref1_name;
-
-            if(!$cu_ref1){
-                $ca_ta_ref = $row['ta_reference_no'];
-                $ca_ta_ref_name = $row['ta_reference_name'];
-                levelConti($ca_ta_ref,$ca_ta_ref_name);
-            }else{
-                // corporate_agency customer level 1
-                $sql2 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$cu_ref1."' AND status= '1' ");
-                $sql2 -> execute();
-                $sql2 -> setFetchMode(PDO::FETCH_ASSOC);
-                if( $sql2 -> rowCount()>0 ){
-                    foreach( ($sql2 -> fetchAll()) as $key => $row ){
-                        $cu_ref2 = $row['reference_no'];
-                        $cu_ref2_name = $row['registrant'];
-                        $cuIds[] = $cu_ref2;
-                        $cuName[] = $cu_ref2_name;
-
-                        if(!$cu_ref2){
-                            $ca_ta_ref = $row['ta_reference_no'];
-                            $ca_ta_ref_name = $row['ta_reference_name'];
-                            levelConti($ca_ta_ref,$ca_ta_ref_name);
-                        }else{
-                            // corporate_agency customer level 2
-                            $sql3 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$cu_ref2."' AND status= '1' ");
-                            $sql3 -> execute();
-                            $sql3 -> setFetchMode(PDO::FETCH_ASSOC);
-                            if( $sql3 -> rowCount()>0 ){
-                                foreach( ($sql3 -> fetchAll()) as $key => $row ){
-                                    $cu_ref3 = $row['reference_no'];
-                                    $cu_ref3_name = $row['registrant'];
-                                    $cuIds[] = $cu_ref3; 
-                                    $cuName[] = $cu_ref3_name;
-
-                                    if(!$cu_ref3){
-                                        $ca_ta_ref = $row['ta_reference_no'];
-                                        $ca_ta_ref_name = $row['ta_reference_name'];
-                                        levelConti($ca_ta_ref,$ca_ta_ref_name);
-
-                                    }else{
-                                        $ca_ta_ref = $row['ta_reference_no'];
-                                        $ca_ta_ref_name = $row['ta_reference_name'];
-                                        levelConti($ca_ta_ref,$ca_ta_ref_name);
-
-                                        // corporate_agency customer level 3
-                                        // $sql4 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$cu_ref3."' AND status= '1' ");
-                                        // $sql4 -> execute();
-                                        // $sql4 -> setFetchMode(PDO::FETCH_ASSOC);
-                                        // if( $sql4 -> rowCount()>0 ){
-                                        //     foreach( ($sql4 -> fetchAll()) as $key => $row ){
-                                        //         $cu_ref4 = $row['reference_no'];
-
-                                        //         if(!$cu_ref4){
-                                        //             $ca_ta_ref = $row['ta_reference_no'];
-                                        //             levelConti($ca_ta_ref);
-                                        //         }else{
-                                        //             $ca_ta_ref = $row['ta_reference_no'];
-                                        //             levelConti($ca_ta_ref);
-                                        //         }
-                                        //     }
-                                        // }
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     function levelConti($ca_ta_ref,$ca_ta_ref_name){
         
         global $conn;
@@ -256,6 +178,87 @@
         // return $cuIds2 ;
         // return $cuName2 ;
         return array($cuIds2,$cuName2);
+    }
+
+    //new
+    $sql1 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$customer_id."' AND status= '1' ");
+    $sql1 -> execute();
+    $sql1 -> setFetchMode(PDO::FETCH_ASSOC);
+    if( $sql1 -> rowCount()>0 ){
+        foreach( ($sql1 -> fetchAll()) as $key => $row ){
+            $cu_ref1 = $row['reference_no'];
+            $cu_ref1_name = $row['registrant'];
+            $cuIds[] = $cu_ref1;
+            $cuName[] = $cu_ref1_name;
+
+            if(!$cu_ref1){
+                $ca_ta_ref = $row['ta_reference_no'];
+                $ca_ta_ref_name = $row['ta_reference_name'];
+                levelConti($ca_ta_ref,$ca_ta_ref_name);
+            }else{
+                // corporate_agency customer level 1
+                $sql2 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$cu_ref1."' AND status= '1' ");
+                $sql2 -> execute();
+                $sql2 -> setFetchMode(PDO::FETCH_ASSOC);
+                if( $sql2 -> rowCount()>0 ){
+                    foreach( ($sql2 -> fetchAll()) as $key => $row ){
+                        $cu_ref2 = $row['reference_no'];
+                        $cu_ref2_name = $row['registrant'];
+                        $cuIds[] = $cu_ref2;
+                        $cuName[] = $cu_ref2_name;
+
+                        if(!$cu_ref2){
+                            $ca_ta_ref = $row['ta_reference_no'];
+                            $ca_ta_ref_name = $row['ta_reference_name'];
+                            levelConti($ca_ta_ref,$ca_ta_ref_name);
+                        }else{
+                            // corporate_agency customer level 2
+                            $sql3 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$cu_ref2."' AND status= '1' ");
+                            $sql3 -> execute();
+                            $sql3 -> setFetchMode(PDO::FETCH_ASSOC);
+                            if( $sql3 -> rowCount()>0 ){
+                                foreach( ($sql3 -> fetchAll()) as $key => $row ){
+                                    $cu_ref3 = $row['reference_no'];
+                                    $cu_ref3_name = $row['registrant'];
+                                    $cuIds[] = $cu_ref3; 
+                                    $cuName[] = $cu_ref3_name;
+
+                                    if(!$cu_ref3){
+                                        $ca_ta_ref = $row['ta_reference_no'];
+                                        $ca_ta_ref_name = $row['ta_reference_name'];
+                                        levelConti($ca_ta_ref,$ca_ta_ref_name);
+
+                                    }else{
+                                        $ca_ta_ref = $row['ta_reference_no'];
+                                        $ca_ta_ref_name = $row['ta_reference_name'];
+                                        levelConti($ca_ta_ref,$ca_ta_ref_name);
+
+                                        // corporate_agency customer level 3
+                                        // $sql4 = $conn -> prepare("SELECT * FROM ca_customer WHERE ca_customer_id = '".$cu_ref3."' AND status= '1' ");
+                                        // $sql4 -> execute();
+                                        // $sql4 -> setFetchMode(PDO::FETCH_ASSOC);
+                                        // if( $sql4 -> rowCount()>0 ){
+                                        //     foreach( ($sql4 -> fetchAll()) as $key => $row ){
+                                        //         $cu_ref4 = $row['reference_no'];
+
+                                        //         if(!$cu_ref4){
+                                        //             $ca_ta_ref = $row['ta_reference_no'];
+                                        //             levelConti($ca_ta_ref);
+                                        //         }else{
+                                        //             $ca_ta_ref = $row['ta_reference_no'];
+                                        //             levelConti($ca_ta_ref);
+                                        //         }
+                                        //     }
+                                        // }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     list($cuIds2,$cuName2) = levelConti($ca_ta_ref,$ca_ta_ref_name);

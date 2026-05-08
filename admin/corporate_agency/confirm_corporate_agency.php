@@ -754,21 +754,6 @@ if ($user_type_id == '16') {
 		}
 	}
 	//---------------------------------------------------
-
-	//Zonal Manager removed from system 26-07-2025
-	// if ($reference_id == 'ZM') {
-
-	// 	$sql11 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $reference_no . "'");
-	// 	$sql11->execute();
-	// 	$sql11->setFetchMode(PDO::FETCH_ASSOC);
-	// 	if ($sql11->rowCount() > 0) {
-	// 		foreach (($sql11->fetchAll()) as $key11 => $row11) {
-	// 			$Zm_id = $row11['zonal_manager_id'];
-	// 			$Zm_name = $row11['name'];
-	// 		}
-	// 	}
-	// }
-
 	//BDM/BCM/RM added on 15-10-2025 by SV
 	if ($reference_id == 'BH') {
 
@@ -1295,7 +1280,21 @@ if ($user_type_id == '16') {
 		}
 	}
 	//---------------------------------------------------
+	//Business Mentor edited on 11-04-2026 by PN
+	if ($reference_id == 'BM') {
 
+		$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '" . $reference_no . "'");
+		$sql11->execute();
+		$sql11->setFetchMode(PDO::FETCH_ASSOC);
+		if ($sql11->rowCount() > 0) {
+			foreach (($sql11->fetchAll()) as $key11 => $row11) {
+				$Sf_id = $row11['business_mentor_id'];
+				$Sf_name = $row11['firstname'] .' '. $row11['lastname'] ;
+				$bdm_id = $row11['reference_no'];
+				$bdm_name = $row11['registrant'];
+			}
+		}
+	}
 	//Zonal Manager removed from system 26-07-2025
 	// if ($reference_id == 'ZM') {
 
