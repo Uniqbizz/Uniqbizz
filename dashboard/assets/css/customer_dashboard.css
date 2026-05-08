@@ -1,0 +1,100 @@
+.insta-icon {
+    width: 30px;
+    height: 30px;
+}
+.footer {
+    height:0px !important;
+    background-color: transparent !important;
+}
+.footer .footer-container {
+    background-color: #fff;
+    padding: 10px !important;
+    margin: 0px !important;
+}
+.policy-link a {
+    color: #98a6ad
+}
+/* card icon */
+.icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.selected-li {
+    border-left: 4px solid #0d6efd; /* Bootstrap primary blue */
+    background-color: #f0f8ff; /* optional: light background */
+    padding-left: 12px; /* left padding */
+}
+.active-highlight {
+    background-color: #d8ecff !important; /*Light blue */
+    border-left: 4px solid #0d6efd;  /*Optional: adds a blue border */
+    border-radius: 5px;
+    padding: 5px;
+}
+/* sidebar start */
+/* Sidebar spacing */
+.nav-item {
+    margin: 6px 10px;
+}
+
+/* Base link style */
+.nav-item .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 14px !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #6c757d !important;
+    text-decoration: none !important;
+    transition: all 0.25s ease !important;
+}
+
+/* Icon */
+.nav-item .nav-link i {
+    font-size: 18px;
+    transition: 0.25s;
+}
+
+/* Hover state */
+.nav-item .nav-link:hover {
+    background: #4b38b3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+}
+
+/* Active state (IMPORTANT FIX) */
+.nav-item.active .nav-link {
+    background: #4b38b3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+}
+
+/* Icon color on hover + active */
+.nav-item .nav-link:hover i,
+.nav-item.active .nav-link i {
+    color: #fff;
+}
+
+/* OPTIONAL: only if you KEEP span */
+.nav-item .nav-link:hover span,
+.nav-item.active .nav-link span {
+    color: #fff;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .navbar-nav .nav-item:hover>a.menu-link {
+    position: relative;
+    width: calc(200px + var(--vz-vertical-menu-width-sm));
+    -webkit-transition: none;
+    transition: none;
+    background: #4b38b3 !important;
+}
+/* sidebar end */
+
+@media screen and (max-width: 767px) {
+    .comp_name {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+}
