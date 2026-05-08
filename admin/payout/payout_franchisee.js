@@ -8,7 +8,13 @@ $(document).ready(function(){
     });
     $("#previous_payout_table").DataTable();
     $("#next_payout_table").DataTable();
-    $("#total_payout_table").DataTable();
+    $("#total_payout_table").DataTable({
+        order: [
+            [0, 'desc'], 
+            [1, 'desc']
+        ], 
+        // Assuming 'id' is the first column and 'timestamp_column' is the second column
+    });
    
 });
 
@@ -294,15 +300,25 @@ $('#user_id_nameTotal').on('change', function(){
     // year_split = $("#nextYear").val() ? '' : '';
     // month_split = $("#nextMonth").val() ? '' : '';
     TotalPayoutFilter = "TotalPayoutFilter";
+    let totalDateValue = $('#totalDate1').text().trim(); // get the span text
+    let dateObj = new Date(totalDateValue);
+    let year_split = '';
+    let month_split = '';
+    // Check if the date is valid
+    if (!isNaN(dateObj.getTime())) {
+        month_split = dateObj.getMonth() + 1; // months are 0-based
+        year_split = dateObj.getFullYear();
+        // console.log("Month:", month, "Year:", year);
+    } 
 
     dataString={
             cap_id,
             designation,
-            TotalPayoutFilter
-            // year_split,
-            // month_split
+            TotalPayoutFilter,
+            year_split,
+            month_split
     }
-    // console.log(dataString);
+    console.log(dataString);
     $.ajax({
         type: 'POST',
         url: 'forms/sub_franchisee/sub_franchisee_payout_filter.php',
@@ -319,7 +335,7 @@ $('#user_id_nameTotal').on('change', function(){
 // Total payout filter option select display name and amout below 
 $('#user_id_nameTotal').on('change', function(){
     cap_id = $(this).val();
-    let totalDateValue = $('#totalDate').text().trim(); // get the span text
+    let totalDateValue = $('#totalDate1').text().trim(); // get the span text
     let dateObj = new Date(totalDateValue);
     let year_split = '';
     let month_split = '';

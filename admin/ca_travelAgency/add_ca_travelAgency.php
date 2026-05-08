@@ -90,7 +90,7 @@
                                                     <div class="input-block mb-3 form-check">
                                                         <input class="form-check-input" type="checkbox" id="is_complementary">
                                                         <label class="form-check-label" for="is_complementary">
-                                                            Complementary
+                                                            Complimentary
                                                         </label>
                                                     </div>
                                                 </div>

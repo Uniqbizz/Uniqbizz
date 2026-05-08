@@ -464,7 +464,7 @@ if ($result) {
 					//for sponser franchisee seperate message similar to MF
 					$commision_bm = $bm_commi;
 		
-					$message_te = "Franchiee - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
+					$message_te = "Franchisee - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
 					$commision_te = $te_commi;
 		
 					$message_tc = "TC - ".$tc_name." ".$tc_id." earned Rs.".$tc_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-";
@@ -789,7 +789,7 @@ if ($result) {
 					//for sponser franchisee seperate message similar to MF
 					$commision_bm = $bm_commi;
 		
-					$message_te = "Franchiee - ".$te_name." ".$te_id." earned nothing on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
+					$message_te = "Franchisee - ".$te_name." ".$te_id." earned nothing on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
 					$commision_te = $te_commi;
 		
 					$message_tc = "TC - ".$tc_name." ".$tc_id." earned nothing on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-";

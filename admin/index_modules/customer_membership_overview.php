@@ -30,7 +30,7 @@
                         $premium_select_customers = $row['premium_select_customers'] ?? 0;
                         $premium_select_lite_customers = $row['premium_select_lite_customers'] ?? 0;
                         $neo_select_customers = $row['neo_select_customers'] ?? 0;
-                        $neo_select_ultra_customers = $row['premium_select_lite_customers'] ?? 0;
+                        $neo_select_ultra_customers = $row['neo_select_ultra_customers'] ?? 0;
 
                         // get custommer count base on membership selected and if complimentary
                         $stmt2 = $conn->prepare("
