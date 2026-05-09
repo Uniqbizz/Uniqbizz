@@ -13,6 +13,12 @@ $data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
 $data7->execute();
 $data7->setFetchMode(PDO::FETCH_ASSOC);
 $product_payout_data = $data7->fetchAll();
+
+//product payout commission new added on 09 may 2026
+$data8 = $conn->prepare("SELECT * FROM `product_commission_te_chain` WHERE status = 1");
+$data8->execute();
+$data8->setFetchMode(PDO::FETCH_ASSOC);
+$product_payout_data_new = $data8->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -493,19 +499,25 @@ $product_payout_data = $data7->fetchAll();
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_company" name="company_share" value="" placeholder="Company Share" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <input  type="number" id="mp_company" name="company_share" value="" 
+                                                                        placeholder="Company Share" class="form-control" 
+                                                                        onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="mp_company" class="required">Company </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ca_ta" name="ca_ta_share" value="" placeholder="Travel Agency share" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
+                                                                <input  type="number" id="mp_ca_ta" name="ca_ta_share" value="" 
+                                                                        placeholder="Travel Agency share" class="form-control" 
+                                                                        onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
                                                                 <label for="mp_franchise">Travel Consultant</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
+                                                                <input  type="number" id="mp_customer" name="customer_share" value="" 
+                                                                        placeholder="Customer Share" class="form-control" 
+                                                                        onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
                                                                 <label for="mp_customer" class="required">Customer (L1 + L2 + L3)</label>
                                                                 <input type="hidden" id="l2_cust_comm" value="" />
                                                                 <input type="hidden" id="l3_cust_comm" value="" />
@@ -513,7 +525,9 @@ $product_payout_data = $data7->fetchAll();
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" placeholder="L1 Customer" class="form-control" onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" 
+                                                                       placeholder="L1 Customer" class="form-control" 
+                                                                       onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="l1_cust_comm" class="required">L1 Customer</label>
                                                             </div>
                                                         </div>
@@ -539,6 +553,90 @@ $product_payout_data = $data7->fetchAll();
                                                                 <label for="mp_bcm_ins">Incentive </label>
                                                             </div>
                                                         </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!-- added new markuplogic onn 09 May 2026 by SV -->
+                                                <div class="col-md-12">
+                                                    <h4 class="pt-3 ps-3 fw-bolder" id="new_mark_up_title">New Mark-Up Price Distribution Total(0)</h4>
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_company" name="new_company_share" value="" placeholder="Company Share" class="form-control" 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
+                                                                <label for="new_mp_company" class="required">New Company </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_ca_ta" name="new_ca_ta_share" value="" placeholder="Travel Agency share" class="form-control" 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
+                                                                <label for="new_mp_ca_ta">New Travel Consultant</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_customer" name="new_customer_share" value="" placeholder="Customer Share" class="form-control" readonly 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="new_mp_customer" class="required">New Customer (L1 + L2)</label>
+                                                                <input type="hidden" id="new_l2_cust_comm" value=""/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_l1_cust_comm" name="new_l1_cust_comm" value="" placeholder="L1 Customer" class="form-control" 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="new_l1_cust_comm" class="required">new L1 Customer</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
+                                                            <label for="ca_div">new Techno Enterprise (Total:0)</label>
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="new_mp_ca_comm" name="new_ca_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
+                                                                <label for="new_mp_ca_comm">Commision </label>
+                                                            </div>
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="new_mp_ca_ins" name="new_ca_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
+                                                                <label for="new_mp_ca_ins">Incentive </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="ete_div">
+                                                            <label for="ete_div">Exicutive Techno Enterprise (Total:0)</label>
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="mp_ete_comm" name="ete_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
+                                                                <label for="mp_ete_comm">Commision </label>
+                                                            </div>
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="mp_ete_ins" name="ete_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
+                                                                <label for="mp_ete_ins">Incentive </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="ste_div">
+                                                           <label for="ste_div">Super Techno Enterprise (Total:0)</label>
+                                                           <div class="form-floating mb-3">
+                                                               <input type="number" id="mp_ste_comm" name="ste_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
+                                                               <label for="mp_ste_comm">Commision </label>
+                                                           </div>
+                                                           <div class="form-floating mb-3">
+                                                               <input type="number" id="mp_ste_ins" name="ste_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
+                                                               <label for="mp_ste_ins">Incentive </label>
+                                                           </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="cte_div">
+                                                           <label for="cte_div">Chief Techno Enterprise (Total:0)</label>
+                                                           <div class="form-floating mb-3">
+                                                               <input type="number" id="mp_cte_comm" name="cte_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
+                                                               <label for="mp_cte_comm">Commision </label>
+                                                           </div>
+                                                           <div class="form-floating mb-3">
+                                                               <input type="number" id="mp_cte_ins" name="cte_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
+                                                               <label for="mp_cte_ins">Incentive </label>
+                                                           </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="row">
                                                         <div class="col-md-6 col-sm-2 mt-3">
                                                             <div class="form-floating mb-3"><!-- added on 23 Jan 2025 SV-->
                                                                 <input type="number" value="" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
@@ -551,28 +649,6 @@ $product_payout_data = $data7->fetchAll();
                                                                 <label for="mrp_per_child">Total Price Per Child</label>
                                                             </div>
                                                         </div>
-                                                        <!--<div class="col-md-6 col-sm-2 mt-3" id="bdm_div">-->
-                                                        <!--    <label for="bdm_div">Business Development Manager</label>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bdm_comm" name="bdm_share_comm" value="" placeholder="Commision" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bdm_comm">Commision </label>-->
-                                                        <!--    </div>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bdm_ins" name="bdm_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bdm_ins">Incentive </label>-->
-                                                        <!--    </div>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="col-md-6 col-sm-2 mt-3" id="bcm_div">-->
-                                                        <!--    <label for="bcm_div">Business Channel Manager</label>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bcm_comm" name="bcm_share_comm" value="" placeholder="Commision" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bcm_comm">Commision </label>-->
-                                                        <!--    </div>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bcm_ins" name="bcm_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bcm_ins">Incentive </label>-->
-                                                        <!--    </div>-->
-                                                        <!--</div>-->
                                                     </div>
                                                 </div>
                                                 <!-- cancelation policy 23 jan 2025 SV-->

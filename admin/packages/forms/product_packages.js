@@ -6,7 +6,7 @@ $.ajax({
     dataType: 'json',       // expecting JSON from PHP
     success: function(response) {
         payoutData1 = response;
-        console.log('Payout Data1:', payoutData1);
+        // console.log('Payout Data1:', payoutData1);
     },
     error: function(xhr, status, error) {
         console.error('AJAX Error:', error);
@@ -175,6 +175,13 @@ var regexExp = /[^a-zA-Z0-9 ]/;		// letters, number, space
 var regexExp_alphanumeric = /[^a-zA-Z0-9]/;		// letters, number
 var regexExp_numeric = /[^0-9]/;			// number
 var total_mark_up=0;
+let text = document.getElementById('mark_up_title').textContent;
+let text2 = document.getElementById('new_mark_up_title').textContent;
+
+// Extract first number (integer or decimal)
+let mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
+let newmark_up_title = parseFloat(text2.match(/[\d.]+/)?.[0]) || 0;
+
 // form 1
 $('#name').on('keyup', function () {
 	var nameID = document.getElementById("name");
@@ -751,47 +758,65 @@ function itineraryFormNext(e) {
 }
 function pricingFormNext(e) {
 	e.preventDefault();
-
+	
 	var netPriceAdult = $("#netPriceAdult").val();
 	var netPriceChild = $("#netPriceChild").val();
 	var nGst = $("#nGst").val();
 	var ta = $("#mp_ca_ta").val();
 	var company = $('#mp_company').val();
-	var cus = $('#mp_customer').val(),L1_customer_share=$('#l1_cust_comm').val(), policy_1 = $('#can_per_1').val(), policy_2 = $('#can_per_2').val(), policy_3 = $('#can_per_3').val();
+	var cus = $('#mp_customer').val();
+	var L1_customer_share=$('#l1_cust_comm').val();
+	//new markup variables dded on 09 may 2026 by SV
+	var newta = $("#new_mp_ca_ta").val();
+	var newcus = $('#mp_customer').val();
+	var newL1_customer_share=$('#new_l1_cust_comm').val();
+	//--------------
+	var policy_1 = $('#can_per_1').val(), policy_2 = $('#can_per_2').val(), policy_3 = $('#can_per_3').val();
 	var add_adult_p=$('#add_adult_price').val();
 	//commented on 25 jan 2025 by sv
 	// var markup = $("#markup").val();
 	// var mpGst = $("#mpGst").val();
 	// var markup_loading_price = $("#markup_loading_price").val();
-	if (netPriceAdult == "" || netPriceChild == "" || nGst == "" || ta == "" || company == "" || L1_customer_share=="" || policy_1 == '' || policy_2 == '' || policy_3 == ''
-		|| netPriceAdult == 0 || netPriceChild == 0 || nGst == 0 || ta == 0 || company == 0 || cus == 0 || add_adult_p == '' || add_adult_p == 0) {
+	if (netPriceAdult == "" || netPriceChild == "" || nGst == "" || ta == "" 
+		|| company == "" || L1_customer_share=="" || policy_1 == '' || policy_2 == '' || policy_3 == ''
+		|| netPriceAdult == 0 || netPriceChild == 0 || nGst == 0 || ta == 0 || company == 0 
+		|| add_adult_p == '' || add_adult_p == 0 || newta == "" || newta == 0 || newL1_customer_share == "" || newL1_customer_share == 0) {
+			
 		if (netPriceAdult == 0) {
+			console.log('1');
 			alert("Please enter Net Price Per Adult !");
 		} else if ((netPriceChild == "" || netPriceChild == 0) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
+			console.log('2');
 			alert("Please enter Net Price Per Child !");
 		} else if (nGst == "" || nGst == 0) {
+			console.log('3');
 			alert("Please Enter GST for Net Price !");
 		}
 		else if (ta == "" || ta == 0) {
+			console.log('4');
 			alert("Please enter Travel Agent value !");
 		}
 		else if (company == "" || company == 0) {
+			console.log('5');
 			alert("Please enter Company value !");
 		} else if (L1_customer_share=="" || L1_customer_share==0) {
+			console.log('6');
 			alert("Please enter L1 Customer value !");
 		} else if (add_adult_p == "" || add_adult_p == 0) {
+			console.log('7');
 			alert("Please enter Additional Adult Price !");
 		} else if (policy_1 == '' || policy_2 == '' || policy_3 == '') {
+			console.log('8');
 			alert("Please fill all cancellation fields");
 		}
-		//commented on 25 jan 2025 by sv
-		// } else if (markup == "") {
-		// 	alert("Mark-up Price cannot be empty !");
-		// } else if (mpGst == "") {
-		// 	alert("Please Enter GST for Mark-Up Price !");
-		// } else if (markup_loading_price == "") {
-		// 	alert("Mark-up Loading cannot be empty !");
-		// }
+		//new markup validation add on 09 may 2026 by SV
+		else if (newta == "" || newta == 0) {
+			console.log('9');
+			alert("Please enter New Travel Agent value !");
+		}else if (newL1_customer_share=="" || newL1_customer_share==0) {
+			console.log('10');
+			alert("Please enter new L1 Customer value !");
+		}
 	} else if (isValid_c1 == false) {
 		alert("Please enter valid Price for Adult ! ");
 	} else if ((isValid_c2 == false) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
@@ -800,15 +825,8 @@ function pricingFormNext(e) {
 		alert("Please enter valid Value for Net GST !");
 	}
 
-	//commented on 25 jan 2025 by sv
-	// else if (isValid_c4 == false) {
-	// 	alert("Please enter valid Price for Markup ! ");
-	// } else if (isValid_c5 == false) {
-	// 	alert("Please enter valid Price for Markup Loading !");
-	// } else if (isValid_c6 == false) {
-	// 	alert("Please enter valid Value for Markup GST !");
 	else {
-		// console.log('Pricing Form Clicked');
+		console.log('Pricing Form Completed');
 		pricingformHide("none");
 		pictureformHide("block");
 
@@ -827,12 +845,20 @@ var netTotal, markupTotal, GSTofNetTotal, GSTofMarkUpTotal, finalPriceWithGST = 
 
 //for keeping 2 decimals without rounding added on 25-Jan-2025 by SV
 function truncateToTwoDecimals(num) {
-	// return Math.trunc(num * 100) / 100;
-	return Math.ceil(num);
+    let decimal = num % 1;
+
+    // if only 1 decimal place or whole number
+    if (Number(decimal.toFixed(1)) === decimal) {
+        return Math.round(num);
+    }
+
+    // keep only 1 decimal place and round it
+    return Math.round(num * 10) / 10;
 }
+
 //all cal fuction by SV
 function calculatePackagePrice(payoutData) {
-    console.log("calculatePackagePrice called");
+    // console.log("calculatePackagePrice called");
 
     // --------------------------
     // 1️⃣ Prepare Inputs
@@ -840,6 +866,10 @@ function calculatePackagePrice(payoutData) {
     let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
     let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
     let netGst = parseFloat(document.getElementById('nGst').value) || 0;
+	let text = document.getElementById('mark_up_title').textContent;
+
+	// Extract first number (integer or decimal)
+	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
     let ta_mark_up = parseFloat(document.getElementById("mp_ca_ta").value) || 0;
     let company_share = parseFloat(document.getElementById("mp_company").value) || 0;
@@ -948,7 +978,7 @@ function calculatePackagePrice(payoutData) {
     $('#bcm_div label[for="bcm_div"]').html('Business Channel Manager (Total: ' + bcm_mark_up + ')');
     $('#bdm_div label[for="bdm_div"]').html('Business Development Manager (Total: ' + bdm_mark_up + ')');
     $('#bm_div label[for="bm_div"]').html('Business Consultant/Mentor (Total: ' + bm_mark_up + ')');
-    $('#ca_div label[for="ca_div"]').html('Corporate Agency (Total: ' + ca_mark_up + ')');
+    $('#ca_div label[for="ca_div"]').html('Techno Enterprise (Total: ' + ca_mark_up + ')');
 
     $('#mp_bcm_comm').val(bcm_mark_up_comm);
     $('#mp_bcm_ins').val(bcm_mark_up_ins);
@@ -965,16 +995,16 @@ function calculatePackagePrice(payoutData) {
     // --------------------------
     // 7️⃣ Debug Data
     // --------------------------
-    console.log([
-        { label: "TA Mark Up", value: ta_mark_up },
-        { label: "Company Share", value: company_share },
-        { label: "Customer Share", value: customer_share },
-        { label: "CA Mark Up", value: ca_mark_up },
-        { label: "BM Mark Up", value: bm_mark_up },
-        { label: "BDM Mark Up", value: bdm_mark_up },
-        { label: "BCM Mark Up", value: bcm_mark_up },
-        { label: "Total Mark Up", value: total_mark_up }
-    ]);
+    // console.log([
+    //     { label: "TA Mark Up", value: ta_mark_up },
+    //     { label: "Company Share", value: company_share },
+    //     { label: "Customer Share", value: customer_share },
+    //     { label: "CA Mark Up", value: ca_mark_up },
+    //     { label: "BM Mark Up", value: bm_mark_up },
+    //     { label: "BDM Mark Up", value: bdm_mark_up },
+    //     { label: "BCM Mark Up", value: bcm_mark_up },
+    //     { label: "Total Mark Up", value: total_mark_up }
+    // ]);
 
     return {
         total_mark_up,
@@ -986,356 +1016,168 @@ function calculatePackagePrice(payoutData) {
         bcm_mark_up
     };
 }
+//new calulation funtion for new markup structure
+function calculatePackagePriceNew(payoutData) {
+    // console.log("calculatePackagePriceNew called");
 
-//end
-// Auto package price functions
-// function getNetPrice() {
-// 	netPriceAdult = document.getElementById('netPriceAdult').value;
-// 	totalNetPriceAdult = document.getElementById('totalNetPriceAdult');
-// 	netPriceChild = document.getElementById('netPriceChild').value;
-// 	totalNetPriceChild = document.getElementById('totalNetPriceChild');
-// 	netGst = document.getElementById('nGst').value;
-// 	//comemted on 25 jan 2025 by sv
-// 	// if (netPriceChild == "") {
-// 	// 	netPriceChild = 0;
-// 	// 	document.getElementById('netPriceChild').value = 0;
-// 	// }
-// 	netPriceAdult = parseInt(netPriceAdult, 10);
-// 	netPriceChild = parseInt(netPriceChild, 10);
+    // --------------------------
+    // 1️⃣ Prepare Inputs
+    // --------------------------
+    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
+    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
+    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
+	//prev markup total
+	let text = document.getElementById('mark_up_title').textContent;
 
-// 	// GST of Adult + Child
-// 	GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-// 	GSTofNetPriceChild = netPriceChild * netGst / 100;
+	// Extract first number (integer or decimal)
+	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
-// 	netTotal = netPriceAdult + netPriceChild;
-// 	GSTofNetTotal = GSTofNetPriceAdult + GSTofNetPriceChild;
-// 	// adult + GST , child + GST
-// 	netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-// 	netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
-// 	// assign value to input fields
-// 	totalNetPriceAdult.value = truncateToTwoDecimals(netPriceAdultWithGST);
-// 	totalNetPriceChild.value = truncateToTwoDecimals(netPriceChildWithGST);
-// 	// Total Net Price
-// 	finalNetPriceWithGST = netPriceAdultWithGST + netPriceChildWithGST;
-// 	// console.log('finalNetPriceWithGST Total = ' +finalNetPriceWithGST);
-
-// 	getFinalPrice();
-// }
-// function getMarkupPrice() { //changed on 23 Jan 2025 SV
-// 	markUpPrice = document.getElementById('markup').value;
-// 	loadingPrice = document.getElementById('markup_loading_price').value;
-// 	markupGst = document.getElementById('mpGst').value;
-// 	markupTotal = document.getElementById('totalMarkupPrice');
-
-// 	markUpPrice = parseInt(markUpPrice, 10);
-// 	loadingPrice = parseInt(loadingPrice, 10);
-// 	markupPrice_LoadingPrice = markUpPrice + loadingPrice;
-// 	// markup + loading * GST
-// 	GSTofMarkUpTotal = markupPrice_LoadingPrice * markupGst / 100;
-// 	// Total Markup Price
-// 	finalMarkupPriceWithGST = markupPrice_LoadingPrice + GSTofMarkUpTotal;
-
-// 	markupTotal.value = finalMarkupPriceWithGST;
-// 	// console.log('MarkupPrice Total = ' +finalMarkupPriceWithGST);
-
-// 	getFinalPrice();
-// 	//commented on 25 jan 2025 by sv
-// 	//getMarkUpDistribution();
-// }
-// function getFinalPrice() {//changed on 23 Jan 2025 SV
-// 	getMarkUpDistribution(payoutData1)
-// 	var ta_mark_up = parseFloat(document.getElementById("mp_ca_ta").value) || 0;
-// 	var company_share = parseFloat(document.getElementById("mp_company").value) || 0;
-// 	var customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-
-// 	//for net adult and child price with gst
-// 	netPriceAdult = document.getElementById('netPriceAdult').value;
-// 	totalNetPriceAdult = document.getElementById('totalNetPriceAdult');
-// 	netPriceChild = document.getElementById('netPriceChild').value;
-// 	totalNetPriceChild = document.getElementById('totalNetPriceChild');
-// 	netGst = document.getElementById('nGst').value;
-// 	netPriceAdult = parseInt(netPriceAdult, 10);
-// 	netPriceChild = parseInt(netPriceChild, 10);
-
-// 	// GST of Adult + Child
-// 	GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-// 	GSTofNetPriceChild = netPriceChild * netGst / 100;
-
-// 	netTotal = netPriceAdult + netPriceChild;
-// 	GSTofNetTotal = GSTofNetPriceAdult + GSTofNetPriceChild;
-// 	// adult + GST , child + GST
-// 	netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-// 	netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
-// 	// assign value to input fields
-// 	totalNetPriceAdult.value = truncateToTwoDecimals(netPriceAdultWithGST);
-// 	totalNetPriceChild.value = truncateToTwoDecimals(netPriceChildWithGST);
-// 	// Total Net Price
-// 	finalNetPriceWithGST = netPriceAdultWithGST + netPriceChildWithGST;
-// 	//end
-
-// 	// Round the final values to 2 decimal places
-// 	ca_mark_up = truncateToTwoDecimals(ca_mark_up);
-// 	bm_mark_up = truncateToTwoDecimals(bm_mark_up);
-// 	var company_share = $('#mp_company').val(); // new
-// 	var customer_share = $('#mp_customer').val();
-// 	total_mark_up=parseFloat(ca_mark_up) +
-// 		parseFloat(bm_mark_up) +
-// 		parseFloat(ta_mark_up) +
-// 		parseFloat(customer_share) +
-// 		parseFloat(company_share);
-
-// 	var total_adult_price =
-// 		netPriceAdultWithGST +
-// 		parseFloat(ca_mark_up) +
-// 		parseFloat(bm_mark_up) +
-// 		parseFloat(ta_mark_up) +
-// 		parseFloat(customer_share) +
-// 		parseFloat(company_share);
-
-// 	var total_child_price =
-// 		netPriceChildWithGST +
-// 		parseFloat(ca_mark_up) +
-// 		parseFloat(bm_mark_up) +
-// 		parseFloat(ta_mark_up) +
-// 		parseFloat(customer_share) +
-// 		parseFloat(company_share);
-// 	total_adult_price = truncateToTwoDecimals(total_adult_price);
-// 	total_child_price = truncateToTwoDecimals(total_child_price);
-// 	total_mark_up = truncateToTwoDecimals(total_mark_up);
-// 	total_mark_up = isNaN(total_mark_up) ? 0 : total_mark_up;
-// 	document.getElementById("mrp_per_adult").value = total_adult_price;
-// 	document.getElementById("mrp_per_child").value = total_child_price;
-// 	console.log('in getFinalPrice');
-// 	 console.log([
-// 					{ label: "TA Mark Up", value: ta_mark_up },
-// 					{ label: "Company Share", value: company_share },
-// 					{ label: "Customer Share", value: customer_share },
-// 					{ label: "CA Mark Up", value: ca_mark_up },
-// 					{ label: "BM Mark Up", value: bm_mark_up },
-// 					{ label: "BDM Mark Up", value: bdm_mark_up },
-// 					{ label: "BCM Mark Up", value: bcm_mark_up },
-// 					{ label: "Total Mark Up", value: total_mark_up }
-// 				]);
-// 	$('#mark_up_title').html('Mark-Up Price Distribution (Total: ' + total_mark_up + ')');
-// }
-
-// function finalfill() {//added on 23 Jan 2025 SV
-// 	console.log("finalfill");
-// 	var company_share = $("#mp_company").val()
-// 	var customer_share = $("#mp_customer").val()
-// 	console.log('company_share = ' + company_share);
-// 	console.log('customer_share = ' + customer_share);
-// 	if (company_share > 0 || customer_share > 0) {
-// 		console.log("finalfill");
-// 		getFinalPrice()
-// 	}
-// }
-// function customerShare() {
-// 	// customer calculation
-// 	var L1_customer_share=parseFloat($('#l1_cust_comm').val())//200
-// 	var L2_customer_share = parseFloat(L1_customer_share * 0.5);//100
-// 	var L3_customer_share = parseFloat(L2_customer_share * 0.5);//50
-// 	var customer_share = L1_customer_share+L2_customer_share+L3_customer_share;
-// 	$('#mp_customer').val(customer_share);
-// 	$('#l2_cust_comm').val(L2_customer_share);
-// 	$('#l3_cust_comm').val(L3_customer_share);
-// 	finalfill()
+    let newta_mark_up = parseFloat($("#new_mp_ca_ta").val()) || 0;
+    let company_share = parseFloat($("#new_mp_company").val()) || 0;
+    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
+	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#new_l1_cust_comm').val())) || 0;
+	let l2_cust_comm=l1_cust_comm * 0.5;
 	
-// }
-// function getMarkUpDistribution(payoutData) {// //changed on 23 Jan 2025 SV
+    let customer_share =(l1_cust_comm+l2_cust_comm) ;
 
-// 	var ta_mark_up = document.getElementById("mp_ca_ta").value;
+    // --------------------------
+    // 2️⃣ GST Calculations
+    // --------------------------
+    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
+    let GSTofNetPriceChild = netPriceChild * netGst / 100;
 
-// 	const roleMap = {};
-// 	payoutData.forEach(entry => {
-// 		roleMap[entry.role] = entry;
-// 	});
+    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
+    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
 
-// 	//let ta_mark_up = document.getElementById("mp_ca_ta").value;
-// 	//TE comission structure
-// 	let ca_ovr_per = roleMap['TE']?.overall_percentage || 0;
-// 	let ca_com_per = roleMap['TE']?.comm_percentage || 0;
-// 	let ca_ins_per = roleMap['TE']?.ins_percentage || 0;
-// 	//BM comission structure
-// 	let bm_ovr_per = roleMap['BM']?.overall_percentage || 0;
-// 	let bm_com_per = roleMap['BM']?.comm_percentage || 0;
-// 	let bm_ins_per = roleMap['BM']?.ins_percentage || 0;
-// 	//BDM comission structure
-// 	let bdm_ovr_per = roleMap['BDM']?.overall_percentage || 0;
-// 	let bdm_com_per = roleMap['BDM']?.comm_percentage || 0;
-// 	let bdm_ins_per = roleMap['BDM']?.ins_percentage || 0;
-// 	//BCM comission structure
-// 	let bcm_ovr_per = roleMap['BCM']?.overall_percentage || 0;
-// 	let bcm_com_per = roleMap['BCM']?.comm_percentage || 0;
-// 	let bcm_ins_per = roleMap['BCM']?.ins_percentage || 0;
-// 	ca_mark_up = ta_mark_up * (ca_ovr_per / 100);
-// 	ca_mark_up_comm = ca_mark_up * (ca_com_per / 100);
-// 	ca_mark_up_ins = ca_mark_up * (ca_ins_per / 100);
+    // Assign back to fields
+    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
+    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
 
-// 	// BM calculation
-// 	bm_mark_up = ca_mark_up_comm * (bm_ovr_per / 100);
-// 	bm_mark_up_comm = bm_mark_up * (bm_com_per / 100);
-// 	bm_mark_up_ins = bm_mark_up * (bm_ins_per / 100);
+    // --------------------------
+    // 3️⃣ Role-wise Markup Calculation (from payoutData)
+    // --------------------------
+    const roleMap = {};
+    payoutData.forEach(entry => {
+        roleMap[entry.role] = entry;
+    });
 
-// 	// BDM calculation
-// 	bdm_mark_up      = (bm_mark_up_comm * (bdm_ovr_per / 100)) || 0;
-// 	bdm_mark_up_comm = (bdm_mark_up * (bdm_com_per / 100)) || 0;
-// 	bdm_mark_up_ins  = (bdm_mark_up * (bdm_ins_per / 100)) || 0;
+    // TE
+    let ca_ovr_per = roleMap['TE']?.overall_percentage || 0;
+    let ca_com_per = roleMap['TE']?.comm_percentage || 0;
+    let ca_ins_per = roleMap['TE']?.ins_percentage || 0;
 
-// 	// BCM calculation
-// 	bcm_mark_up      = (bdm_mark_up_comm * (bcm_ovr_per / 100)) || 0;
-// 	bcm_mark_up_comm = (bcm_mark_up * (bcm_com_per / 100)) || 0;
-// 	bcm_mark_up_ins  = (bcm_mark_up * (bcm_ins_per / 100)) || 0;
+    // ETE
+    let ete_ovr_per = roleMap['ETE']?.overall_percentage || 0;
+    let ete_com_per = roleMap['ETE']?.comm_percentage || 0;
+    let ete_ins_per = roleMap['ETE']?.ins_percentage || 0;
 
+    // STE
+    let ste_ovr_per = roleMap['STE']?.overall_percentage || 0;
+    let ste_com_per = roleMap['STE']?.comm_percentage || 0;
+    let ste_ins_per = roleMap['STE']?.ins_percentage || 0;
+
+    // CTE
+    let cte_ovr_per = roleMap['CTE']?.overall_percentage || 0;
+    let cte_com_per = roleMap['CTE']?.comm_percentage || 0;
+    let cte_ins_per = roleMap['CTE']?.ins_percentage || 0;
+
+    // --------------------------
+    // 4️⃣ Commission Distribution
+    // --------------------------
+    let ca_mark_up_comm = (newta_mark_up * (ca_ovr_per / 100)) * (ca_com_per / 100);
+    let ca_mark_up_ins = (newta_mark_up * (ca_ovr_per / 100)) * (ca_ins_per / 100);
+    let ca_mark_up = ca_mark_up_comm + ca_mark_up_ins;
+
+    let ete_mark_up_comm = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_com_per / 100);
+    let ete_mark_up_ins = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_ins_per / 100);
+    let ete_mark_up = ete_mark_up_comm + ete_mark_up_ins;
+
+    let ste_mark_up_comm = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_com_per / 100));
+    let ste_mark_up_ins = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_ins_per / 100));
+    let ste_mark_up = ste_mark_up_comm + ste_mark_up_ins;
+
+    let cte_mark_up_comm = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_com_per / 100));
+    let cte_mark_up_ins = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_ins_per / 100));
+    let cte_mark_up = cte_mark_up_comm + cte_mark_up_ins;
+
+    // Round to 2 decimals
+    ca_mark_up = truncateToTwoDecimals(ca_mark_up);
+    ete_mark_up = truncateToTwoDecimals(ete_mark_up);
+    // ste_mark_up = truncateToTwoDecimals(ste_mark_up);
+    // cte_mark_up = truncateToTwoDecimals(cte_mark_up);
+
+ 
+
+	//---------------------------
+	//  Calulate compony value prev marup total -(tc+cutomer+te+ete+ste+cte+coupon) -- coupon is not defined as of now
+	//---------------------------
+	// console.log('markup title:'+mark_up_title);
 	
+	company_share =truncateToTwoDecimals(mark_up_title-(
+		parseFloat(cte_mark_up) +
+        parseFloat(ste_mark_up) +
+        parseFloat(ete_mark_up) +
+		parseFloat(ca_mark_up) +
+        parseFloat(newta_mark_up) +
+        parseFloat(customer_share))) 
+   	// --------------------------
+    // 5️⃣ Totals
+    // --------------------------
+    newtotal_mark_up = truncateToTwoDecimals(
+        parseFloat(cte_mark_up) +
+        parseFloat(ste_mark_up) +
+        parseFloat(ete_mark_up) +
+        parseFloat(ca_mark_up) +
+        parseFloat(newta_mark_up) +
+        parseFloat(customer_share) +
+        parseFloat(company_share)
+    );
 
-// 	// keep last values to 2 decimal places
-// 	ca_mark_up_comm = truncateToTwoDecimals(ca_mark_up_comm);
-// 	ca_mark_up_ins = truncateToTwoDecimals(ca_mark_up_ins);
-// 	ca_mark_up = truncateToTwoDecimals(ca_mark_up_comm + ca_mark_up_ins);
+    // --------------------------
+    // 6️⃣ Update UI
+    // --------------------------
+    
+    document.getElementById("new_mp_company").value = company_share;
+	newmark_up_title=newtotal_mark_up;
+    $('#new_mark_up_title').html('New Mark-Up Price Distribution (Total: ' + newtotal_mark_up + ')');
+    $('#cte_div label[for="cte_div"]').html('Cheif Techno Enterprise (Total: ' + cte_mark_up + ')');
+    $('#ste_div label[for="ste_div"]').html('Super Techno Enterprise (Total: ' + ste_mark_up + ')');
+    $('#ete_div label[for="ete_div"]').html('Executive Techno Enterprise (Total: ' + ete_mark_up + ')');
+    $('#new_ca_div label[for="new_ca_div"]').html('New Techno Enterprise (Total: ' + ca_mark_up + ')');
 
-// 	//bm_mark_up = truncateToTwoDecimals(bm_mark_up);
-// 	bm_mark_up_comm = truncateToTwoDecimals(bm_mark_up_comm);
-// 	bm_mark_up_ins = truncateToTwoDecimals(bm_mark_up_ins);
-// 	bm_mark_up = truncateToTwoDecimals(bm_mark_up_comm + bm_mark_up_ins);
+    $('#mp_cte_comm').val(cte_mark_up_comm);
+    $('#mp_cte_ins').val(cte_mark_up_ins);
+    $('#mp_ste_comm').val(ste_mark_up_comm);
+    $('#mp_ste_ins').val(ste_mark_up_ins);
+    $('#mp_ete_comm').val(ete_mark_up_comm);
+    $('#mp_ete_ins').val(ete_mark_up_ins);
+    $('#new_mp_ca_comm').val(ca_mark_up_comm);
+    $('#new_mp_ca_ins').val(ca_mark_up_ins);
+    $('#new_mp_customer').val(customer_share);
+    $('#new_l2_cust_comm').val(l2_cust_comm);
 
-// 	// bdm_mark_up = truncateToTwoDecimals(bdm_mark_up);
-// 	bdm_mark_up_comm = truncateToTwoDecimals(bdm_mark_up_comm);
-// 	bdm_mark_up_ins = truncateToTwoDecimals(bdm_mark_up_ins);
-// 	bdm_mark_up = truncateToTwoDecimals(bdm_mark_up_comm + bdm_mark_up_ins);
+    // --------------------------
+    // 7️⃣ Debug Data
+    // --------------------------
+    // console.log([
+    //     { label: "New TA Mark Up", value: newta_mark_up },
+    //     { label: "Company Share", value: company_share },
+    //     { label: "Customer Share", value: customer_share },
+    //     { label: "TE Mark Up", value: ca_mark_up },
+    //     { label: "ETE Mark Up", value: ete_mark_up },
+    //     { label: "STE Mark Up", value: ste_mark_up },
+    //     { label: "CTE Mark Up", value: cte_mark_up },
+    //     { label: "New Total Mark Up", value: newtotal_mark_up }
+    // ]);
 
-// 	// bcm_mark_up = truncateToTwoDecimals(bcm_mark_up);
-// 	bcm_mark_up_comm = truncateToTwoDecimals(bcm_mark_up_comm);
-// 	bcm_mark_up_ins = truncateToTwoDecimals(bcm_mark_up_ins);
-// 	bcm_mark_up = truncateToTwoDecimals(bcm_mark_up_comm + bcm_mark_up_ins);
-
-// 	//to show total
-// 	$('#bcm_div label[for="bcm_div"]').html('Business Channel Manager (Total: ' + bcm_mark_up + ')');
-// 	$('#bdm_div label[for="bdm_div"]').html('Business Development Manager (Total: ' + bdm_mark_up + ')');
-// 	$('#bm_div label[for="bm_div"]').html('Business Consultant/Mentor (Total: ' + bm_mark_up + ')');
-// 	$('#ca_div label[for="ca_div"]').html('Coporate Agency (Total: ' + ca_mark_up + ')');
-
-// 	$('#mp_bcm_comm').val(bcm_mark_up_comm);
-// 	$('#mp_bcm_ins').val(bcm_mark_up_ins);
-// 	$('#mp_bdm_comm').val(bdm_mark_up_comm);
-// 	$('#mp_bdm_ins').val(bdm_mark_up_ins);
-// 	$('#mp_bm_comm').val(bm_mark_up_comm);
-// 	$('#mp_bm_ins').val(bm_mark_up_ins);
-// 	$('#mp_ca_comm').val(ca_mark_up_comm);
-// 	$('#mp_ca_ins').val(ca_mark_up_ins);
-
-// 	var ta_mark_up = parseFloat(document.getElementById("mp_ca_ta").value) || 0;
-// 	var company_share = parseFloat(document.getElementById("mp_company").value) || 0;
-// 	var customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
-
-// 	//for net adult and child price with gst
-// 	netPriceAdult = document.getElementById('netPriceAdult').value;
-// 	totalNetPriceAdult = document.getElementById('totalNetPriceAdult');
-// 	netPriceChild = document.getElementById('netPriceChild').value;
-// 	totalNetPriceChild = document.getElementById('totalNetPriceChild');
-// 	netGst = document.getElementById('nGst').value;
-// 	netPriceAdult = parseInt(netPriceAdult, 10);
-// 	netPriceChild = parseInt(netPriceChild, 10);
-
-// 	// GST of Adult + Child
-// 	GSTofNetPriceAdult = netPriceAdult * netGst / 100;
-// 	GSTofNetPriceChild = netPriceChild * netGst / 100;
-
-// 	netTotal = netPriceAdult + netPriceChild;
-// 	GSTofNetTotal = GSTofNetPriceAdult + GSTofNetPriceChild;
-// 	// adult + GST , child + GST
-// 	netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
-// 	netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
-// 	// assign value to input fields
-// 	totalNetPriceAdult.value = truncateToTwoDecimals(netPriceAdultWithGST);
-// 	totalNetPriceChild.value = truncateToTwoDecimals(netPriceChildWithGST);
-// 	// Total Net Price
-// 	finalNetPriceWithGST = netPriceAdultWithGST + netPriceChildWithGST;
-// 	//end
-
-// 	// Round the final values to 2 decimal places
-// 	ca_mark_up = truncateToTwoDecimals(ca_mark_up);
-// 	bm_mark_up = truncateToTwoDecimals(bm_mark_up);
-// 	total_mark_up=parseFloat(ca_mark_up) +
-// 		parseFloat(bm_mark_up) +
-// 		parseFloat(ta_mark_up) +
-// 		parseFloat(customer_share) +
-// 		parseFloat(company_share);
-
-// 	var total_adult_price =
-// 		netPriceAdultWithGST +
-// 		parseFloat(ca_mark_up) +
-// 		parseFloat(bm_mark_up) +
-// 		parseFloat(ta_mark_up) +
-// 		parseFloat(customer_share) +
-// 		parseFloat(company_share);
-
-// 	var total_child_price =
-// 		netPriceChildWithGST +
-// 		parseFloat(ca_mark_up) +
-// 		parseFloat(bm_mark_up) +
-// 		parseFloat(ta_mark_up) +
-// 		parseFloat(customer_share) +
-// 		parseFloat(company_share);
-// 	total_adult_price = truncateToTwoDecimals(total_adult_price);
-// 	total_child_price = truncateToTwoDecimals(total_child_price);
-// 	total_mark_up = truncateToTwoDecimals(total_mark_up);
-// 	total_mark_up = isNaN(total_mark_up) ? 0 : total_mark_up;
-// 	//commented on 25 jan by sv
-// 	// console.log('mrp_per_adult = ' + total_adult_price);
-// 	// console.log('mrp_per_child = ' + total_child_price);
-// 	// console.log('company_share = ' + company_share);
-// 	// console.log('customer_share = ' + customer_share);
-// 	document.getElementById("mrp_per_adult").value = total_adult_price;
-// 	document.getElementById("mrp_per_child").value = total_child_price;
-// 	console.log('in getFinalPrice');
-// 	 console.log([
-// 					{ label: "TA Mark Up", value: ta_mark_up },
-// 					{ label: "Company Share", value: company_share },
-// 					{ label: "Customer Share", value: customer_share },
-// 					{ label: "CA Mark Up", value: ca_mark_up },
-// 					{ label: "BM Mark Up", value: bm_mark_up },
-// 					{ label: "BDM Mark Up", value: bdm_mark_up },
-// 					{ label: "BCM Mark Up", value: bcm_mark_up },
-// 					{ label: "Total Mark Up", value: total_mark_up }
-// 				]);
-// 	$('#mark_up_title').html('Mark-Up Price Distribution (Total: ' + total_mark_up + ')');
-	
-	
-
-// 	//for cheking data
-// 	var data = {
-// 		bcm: {
-// 			bcm_mark_up: bcm_mark_up,
-// 			commission: bcm_mark_up_comm,
-// 			incentives: bcm_mark_up_ins
-// 		},
-// 		bdm: {
-// 			bdm_mark_up: bdm_mark_up,
-// 			commission: bdm_mark_up_comm,
-// 			incentives: bdm_mark_up_ins
-// 		},
-// 		bm: {
-// 			bm_mark_up: bm_mark_up,
-// 			commission: bm_mark_up_comm,
-// 			incentives: bm_mark_up_ins
-// 		},
-// 		ca: {
-// 			ca_mark_up: ca_mark_up,
-// 			commission: ca_mark_up_comm,
-// 			incentives: ca_mark_up_ins
-// 		},
-// 		// cu: {
-// 		// 	customer_share: customer_share,
-// 		// 	prime_customer_share: prime_customer_share,
-// 		// 	L1_customer_share: L1_customer_share,
-// 		// 	L2_customer_share: L2_customer_share
-// 		// }
-// 	};
-// 	console.log('data', data);
-// 	//customerShare()
-// 	//getFinalPrice()
-// }
+    return {
+        newtotal_mark_up,
+        ca_mark_up,
+        ete_mark_up,
+    	ste_mark_up,
+        cte_mark_up
+    };
+}
 
 
 
@@ -1400,6 +1242,16 @@ function submit_form_data(e) {
 		var bm_mark_up_ins = parseFloat($('#mp_bm_ins').val());
 		var ca_mark_up_comm = parseFloat($('#mp_ca_comm').val());
 		var ca_mark_up_ins = parseFloat($('#mp_ca_ins').val());
+		var te_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
+		var te_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
+		var cte_mark_up_comm = parseFloat($('#mp_cte_comm').val());
+		var cte_mark_up_ins = parseFloat($('#mp_cte_ins').val());
+		var ste_mark_up_comm = parseFloat($('#mp_ste_comm').val());
+		var ste_mark_up_ins = parseFloat($('#mp_ste_ins').val());
+		var ete_mark_up_comm = parseFloat($('#mp_ete_comm').val());
+		var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
+		var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
+		var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
 		var inclusion, exclusion, remark;
 		var temp_inclusion = $('#inclusion').val();
 		if (temp_inclusion) {
@@ -1430,6 +1282,9 @@ function submit_form_data(e) {
 		var ta_mark_up = parseFloat($("#mp_ca_ta").val());
 		var company_share = parseFloat($("#mp_company").val());
 		var customer_share = parseFloat($("#mp_customer").val());
+		var newta_mark_up = parseFloat($("#new_mp_ca_ta").val());
+		var newcompany_share = parseFloat($("#new_mp_company").val());
+		var newcustomer_share = parseFloat($("#new_mp_customer").val());
 		
 		// CA calculation
 		var ca_mark_up = ca_mark_up_ins + ca_mark_up_comm;
@@ -1439,11 +1294,22 @@ function submit_form_data(e) {
 		var bdm_mark_up = bdm_mark_up_ins + bdm_mark_up_comm;
 		// BCM calculation
 		var bcm_mark_up = bcm_mark_up_ins + bcm_mark_up_comm;
+
+		// New TE calculation
+		var te_mark_up = te_mark_up_ins + te_mark_up_comm;
+		// ETE calculation
+		var ete_mark_up = ete_mark_up_ins + ete_mark_up_comm;
+		// STE calculation
+		var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
+		// CTE calculation
+		var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
 		//var details_of_day = document.getElementsByName('days[]');
 		//addition adult price
 		var add_adult_price=$('#add_adult_price').val();
 		var L1_customer_share = $('#l1_cust_comm').val();
         var L2_customer_share = $('#l2_cust_comm').val();
+		var newL1_customer_share = $('#new_l1_cust_comm').val();
+        var newL2_customer_share = $('#new_l2_cust_comm').val();
         var L3_customer_share = $('#l3_cust_comm').val();
 		//cancel policy
 		var policy_1 = $('#can_per_1').val();
@@ -1502,14 +1368,32 @@ function submit_form_data(e) {
 			bcm_mark_up: bcm_mark_up,
 			bcm_mark_up_comm: bcm_mark_up_comm,
 			bcm_mark_up_ins: bcm_mark_up_ins,
+			newta_mark_up: newta_mark_up,
+			te_mark_up: te_mark_up,
+			te_mark_up_comm: te_mark_up_comm,
+			te_mark_up_ins: te_mark_up_ins,
+			ete_mark_up: ete_mark_up,
+			ete_mark_up_comm: ete_mark_up_comm,
+			ete_mark_up_ins: ete_mark_up_ins,
+			ste_mark_up: ste_mark_up,
+			ste_mark_up_comm: ste_mark_up_comm,
+			ste_mark_up_ins: ste_mark_up_ins,
+			cte_mark_up: cte_mark_up,
+			cte_mark_up_comm: cte_mark_up_comm,
+			cte_mark_up_ins: cte_mark_up_ins,
 			total_package_price_per_adult: total_package_price_per_adult,
 			total_package_price_per_child: total_package_price_per_child,
 			company_share: company_share,
 			customer_share: customer_share,
+			newcompany_share: newcompany_share,
+			newcustomer_share: newcustomer_share,
 			L1_customer_share: L1_customer_share,
 			L2_customer_share: L2_customer_share,
+			newL1_customer_share: newL1_customer_share,
+			newL2_customer_share: newL2_customer_share,
 			L3_customer_share: L3_customer_share,
-			total_mark_up:total_mark_up,
+			total_mark_up:mark_up_title,
+			newtotal_mark_up:newmark_up_title,
 			add_adult_price:add_adult_price,
 			policy_1: policy_1,
 			policy_2: policy_2,
@@ -1608,6 +1492,16 @@ function update_form_data(e) {
 	var bm_mark_up_ins = parseFloat($('#mp_bm_ins').val());
 	var ca_mark_up_comm = parseFloat($('#mp_ca_comm').val());
 	var ca_mark_up_ins = parseFloat($('#mp_ca_ins').val());
+	var te_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
+	var te_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
+	var cte_mark_up_comm = parseFloat($('#mp_cte_comm').val());
+	var cte_mark_up_ins = parseFloat($('#mp_cte_ins').val());
+	var ste_mark_up_comm = parseFloat($('#mp_ste_comm').val());
+	var ste_mark_up_ins = parseFloat($('#mp_ste_ins').val());
+	var ete_mark_up_comm = parseFloat($('#mp_ete_comm').val());
+	var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
+	var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
+	var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
 	var inclusion, exclusion, remark;
 	var temp_inclusion = $('#inclusion').val();
 	if (temp_inclusion) {
@@ -1638,6 +1532,9 @@ function update_form_data(e) {
 	var ta_mark_up = parseFloat($("#mp_ca_ta").val());
 	var company_share = parseFloat($("#mp_company").val());
 	var customer_share = parseFloat($("#mp_customer").val());
+	var newta_mark_up = parseFloat($("#new_mp_ca_ta").val());
+	var newcompany_share = parseFloat($("#new_mp_company").val());
+	var newcustomer_share = parseFloat($("#new_mp_customer").val());
 	// CA calculation
 	var ca_mark_up = ca_mark_up_ins + ca_mark_up_comm;
 	// BM calculation
@@ -1646,11 +1543,22 @@ function update_form_data(e) {
 	var bdm_mark_up = bdm_mark_up_ins + bdm_mark_up_comm;
 	// BCM calculation
 	var bcm_mark_up = bcm_mark_up_ins + bcm_mark_up_comm;
+
+	// New TE calculation
+	var te_mark_up = te_mark_up_ins + te_mark_up_comm;
+	// ETE calculation
+	var ete_mark_up = ete_mark_up_ins + ete_mark_up_comm;
+	// STE calculation
+	var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
+	// CTE calculation
+	var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
 	//var details_of_day = document.getElementsByName('days[]');
 	//addition adult price
 	var add_adult_price=$('#add_adult_price').val();
 	var L1_customer_share = $('#l1_cust_comm').val();
     var L2_customer_share = $('#l2_cust_comm').val();
+	var newL1_customer_share = $('#new_l1_cust_comm').val();
+	var newL2_customer_share = $('#new_l2_cust_comm').val();
     var L3_customer_share = $('#l3_cust_comm').val();
 	//cancel policy
 	var policy_1 = $('#can_per_1').val();
@@ -1713,14 +1621,32 @@ function update_form_data(e) {
 		bcm_mark_up: bcm_mark_up,
 		bcm_mark_up_comm: bcm_mark_up_comm,
 		bcm_mark_up_ins: bcm_mark_up_ins,
+		newta_mark_up: newta_mark_up,
+		te_mark_up: te_mark_up,
+		te_mark_up_comm: te_mark_up_comm,
+		te_mark_up_ins: te_mark_up_ins,
+		ete_mark_up: ete_mark_up,
+		ete_mark_up_comm: ete_mark_up_comm,
+		ete_mark_up_ins: ete_mark_up_ins,
+		ste_mark_up: ste_mark_up,
+		ste_mark_up_comm: ste_mark_up_comm,
+		ste_mark_up_ins: ste_mark_up_ins,
+		cte_mark_up: cte_mark_up,
+		cte_mark_up_comm: cte_mark_up_comm,
+		cte_mark_up_ins: cte_mark_up_ins,
 		total_package_price_per_adult: total_package_price_per_adult,
 		total_package_price_per_child: total_package_price_per_child,
 		company_share: company_share,
 		customer_share: customer_share,
+		newcompany_share: newcompany_share,
+		newcustomer_share: newcustomer_share,
 		L1_customer_share: L1_customer_share,
 		L2_customer_share: L2_customer_share,
+		newL1_customer_share: newL1_customer_share,
+		newL2_customer_share: newL2_customer_share,
 		L3_customer_share: L3_customer_share,
-		total_mark_up:total_mark_up,
+		total_mark_up:mark_up_title,
+		newtotal_mark_up:newmark_up_title,
 		add_adult_price:add_adult_price,
 		policy_1: policy_1,
 		policy_2: policy_2,

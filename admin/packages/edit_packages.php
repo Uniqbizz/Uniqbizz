@@ -59,14 +59,38 @@ if (!$markup_dist_price) {
         'total_mark_up'=>0
     );
 }
-
+//new marup distribution te chain add on 09 may 2026 by SV
+$data9 = $conn->prepare("SELECT * FROM `package_pricing_markup_te_chain` WHERE package_id = $id");
+$data9->execute();
+$markup_dist_price_new = $data9->fetch();
+if (!$markup_dist_price_new) {
+    $markup_dist_price_new = array(
+        'company' => 0,
+        'ta_markup' => 0,
+        'customer' => 0,
+        'te_direct_commission' => 0,
+        'te_incentive' => 0,
+        'ete_direct_commission' => 0,
+        'ete_incentive' => 0,
+        'ste_direct_commission' => 0,
+        'ste_incentive' => 0,
+        'te_mark_up_total' => 0,
+        'ete_mark_up_total' => 0,
+        'ste_mark_up_total' => 0,
+        'cte_mark_up_total' => 0,
+        'cte_incentive' => 0,
+        'cte_direct_commission' => 0,
+        'prime_customer'=>0,
+        'total_mark_up'=>0
+    );
+}
 //new cancelation policy on 25-Jan-2025 by sv
 $data6 = $conn->prepare("SELECT * FROM `cancel_policy` WHERE package_id = $id");
 $data6->execute();
 $cancel_policy = $data6->fetch();
 
 // package_to_category_occupancy 
-$pkg_to_cat_occupancy;
+$pkg_to_cat_occupancy='';
 $data10 = $conn->prepare("SELECT occupancy_id FROM package_to_category_occupancy WHERE package_id = $id");
 $data10->execute();
 $data10->setFetchMode(PDO::FETCH_ASSOC);
@@ -77,7 +101,7 @@ if ($data10->rowCount() > 0) {
 }
 
 //  package_to_category_vehicle
-$pkg_to_cat_vehicle;
+$pkg_to_cat_vehicle='';
 $data9 = $conn->prepare("SELECT vehicle_id FROM package_to_category_vehicle WHERE package_id = $id");
 $data9->execute();
 $data9->setFetchMode(PDO::FETCH_ASSOC);
@@ -88,7 +112,7 @@ if ($data9->rowCount() > 0) {
 }
 
 // package_trip_days 
-$dayData;
+$dayData='';
 $data4 = $conn->prepare("SELECT * FROM package_trip_days WHERE package_id = $id");
 $data4->execute();
 $data4->setFetchMode(PDO::FETCH_ASSOC);
@@ -103,6 +127,12 @@ $data7 = $conn->prepare("SELECT * FROM `product_commission` WHERE status = 1");
 $data7->execute();
 $data7->setFetchMode(PDO::FETCH_ASSOC);
 $product_payout_data = $data7->fetchAll();
+
+//product payout commission //not in use now
+$data8 = $conn->prepare("SELECT * FROM `product_commission_te_chain` WHERE status = 1");
+$data8->execute();
+$data8->setFetchMode(PDO::FETCH_ASSOC);
+$product_payout_data_new = $data8->fetchAll();
 //$ta_value = (float)$markup_dist_price['ta_markup'];
 //$prime_ovr_per = 0;
 
@@ -124,6 +154,8 @@ $product_payout_data = $data7->fetchAll();
 $L1_value= $markup_dist_price['prime_customer'];
 $L2_value = $L1_value * 0.5;
 $L3_value = $L2_value * 0.5;
+$new_L1_value= $markup_dist_price_new['prime_customer'];
+$new_L2_value = $new_L1_value * 0.5;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -670,7 +702,7 @@ $L3_value = $L2_value * 0.5;
 
                                                 <!-- updatde markuplogic in 23 Jan 2025 by SV -->
                                                 <div class="col-md-12">
-                                                    <h4 class="pt-3 ps-3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(<?=$markup_dist_price['total_mark_up']?>)</h4>
+                                                    <h4 class="pt-3 ps-3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(:<?=$markup_dist_price['total_mark_up']?>)</h4>
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
@@ -720,6 +752,124 @@ $L3_value = $L2_value * 0.5;
                                                                 <label for="mp_bcm_ins">Incentive </label>
                                                             </div>
                                                         </div>
+                                                        
+                                                        <!--<div class="col-md-6 col-sm-2 mt-3" id="bdm_div">-->
+                                                        <!--    <label for="bdm_div">Business Development Manager<?php // echo '(Total:' . (float)$markup_dist_price['bdm_mark_up_total'] . ')' ?></label>-->
+                                                        <!--    <div class="form-floating mb-3">-->
+                                                        <!--        <input type="number" id="mp_bdm_comm" name="bdm_share_comm" value="<?php //echo (float)$markup_dist_price['bdm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
+                                                        <!--        <label for="mp_bdm_comm">Commision </label>-->
+                                                        <!--    </div>-->
+                                                        <!--    <div class="form-floating mb-3">-->
+                                                        <!--        <input type="number" id="mp_bdm_ins" name="bdm_share_ins" value="<?php //echo (float)$markup_dist_price['bdm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
+                                                        <!--        <label for="mp_bdm_ins">Incentive </label>-->
+                                                        <!--    </div>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="col-md-6 col-sm-2 mt-3" id="bcm_div">-->
+                                                        <!--    <label for="bcm_div">Business Channel Manager<?php //echo '(Total:' . (float)$markup_dist_price['bcm_mark_up_total'] . ')' ?></label>-->
+                                                        <!--    <div class="form-floating mb-3">-->
+                                                        <!--        <input type="number" id="mp_bcm_comm" name="bcm_share_comm" value="<?php //echo (float)$markup_dist_price['bcm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
+                                                        <!--        <label for="mp_bcm_comm">Commision </label>-->
+                                                        <!--    </div>-->
+                                                        <!--    <div class="form-floating mb-3">-->
+                                                        <!--        <input type="number" id="mp_bcm_ins" name="bcm_share_ins" value="<?php //echo (float)$markup_dist_price['bcm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
+                                                        <!--        <label for="mp_bcm_ins">Incentive </label>-->
+                                                        <!--    </div>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                                <!-- added new markuplogic onn 09 May 2026 by SV -->
+                                                <div class="col-md-12">
+                                                    <h4 class="pt-3 ps-3 fw-bolder" id="new_mark_up_title">New Mark-Up Price Distribution Total(<?=$markup_dist_price_new['total_mark_up']?>)</h4>
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_company" name="new_company_share" value="<?php echo (float)$markup_dist_price_new['company'] ?>" 
+                                                                        placeholder="Company Share" class="form-control" 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
+                                                                <label for="new_mp_company" class="required">New Company </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_ca_ta" name="new_ca_ta_share" value="<?php echo (float)$markup_dist_price_new['ta_markup'] ?>" 
+                                                                        placeholder="Travel Agency share" class="form-control" 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
+                                                                <label for="new_mp_ca_ta">New Travel Consultant</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_customer" name="new_customer_share" value="<?php echo (float)$markup_dist_price_new['customer'] ?>" 
+                                                                        placeholder="Customer Share" class="form-control" readonly 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="new_mp_customer" class="required">New Customer (L1 + L2)</label>
+                                                                <input type="hidden" id="new_l2_cust_comm" value="<?=$new_L2_value?>"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_l1_cust_comm" name="new_l1_cust_comm" value="<?=$new_L1_value?>" 
+                                                                        placeholder="L1 Customer" class="form-control" 
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="new_l1_cust_comm" class="required">new L1 Customer</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
+                                                            <label for="new_ca_div">new Techno Enterprise <?php echo '(Total:' . (float)$markup_dist_price_new['te_mark_up_total'] . ')' ?></label>
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_ca_comm" name="new_ca_share_comm" value="<?php echo (float)$markup_dist_price_new['te_direct_commission'] ?>" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                                <label for="new_mp_ca_comm">Commision </label>
+                                                            </div>
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_ca_ins" name="new_ca_share_ins" value="<?php echo (float)$markup_dist_price_new['te_incentive'] ?>" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                                <label for="new_mp_ca_ins">Incentive </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="ete_div">
+                                                            <label for="ete_div">Exicutive Techno Enterprise <?php echo '(Total:' . (float)$markup_dist_price_new['ete_mark_up_total'] . ')' ?></label>
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="mp_ete_comm" name="ete_share_comm" value="<?php echo (float)$markup_dist_price_new['ete_direct_commission'] ?>" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                                <label for="mp_ete_comm">Commision </label>
+                                                            </div>
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="mp_ete_ins" name="ete_share_ins" value="<?php echo (float)$markup_dist_price_new['ete_incentive'] ?>" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                                <label for="mp_ete_ins">Incentive </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="ste_div">
+                                                           <label for="ste_div">Super Techno Enterprise <?php echo '(Total:' . (float)$markup_dist_price_new['ste_mark_up_total'] . ')' ?></label>
+                                                           <div class="form-floating mb-3">
+                                                               <input   type="number" id="mp_ste_comm" name="ste_share_comm" value="<?php echo (float)$markup_dist_price_new['ste_direct_commission'] ?>" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                               <label for="mp_ste_comm">Commision </label>
+                                                           </div>
+                                                           <div class="form-floating mb-3">
+                                                               <input   type="number" id="mp_ste_ins" name="ste_share_ins" value="<?php echo (float)$markup_dist_price_new['ste_incentive'] ?>" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                               <label for="mp_ste_ins">Incentive </label>
+                                                           </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="cte_div">
+                                                           <label for="cte_div">Chief Techno Enterprise <?php echo '(Total:' . (float)$markup_dist_price_new['cte_mark_up_total'] . ')' ?></label>
+                                                           <div class="form-floating mb-3">
+                                                               <input   type="number" id="mp_cte_comm" name="cte_share_comm" value="<?php echo (float)$markup_dist_price_new['cte_direct_commission'] ?>" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                               <label for="mp_cte_comm">Commision </label>
+                                                           </div>
+                                                           <div class="form-floating mb-3">
+                                                               <input   type="number" id="mp_cte_ins" name="cte_share_ins" value="<?php echo (float)$markup_dist_price_new['cte_incentive'] ?>" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                               <label for="mp_cte_ins">Incentive </label>
+                                                           </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-">
+                                                    <div class="row">
                                                         <div class="col-md-6 col-sm-2 mt-3">
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" value="<?php echo (float)$amount['total_package_price_per_adult'] ?>" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
@@ -732,31 +882,8 @@ $L3_value = $L2_value * 0.5;
                                                                 <label for="mrp_per_child">Total Price Per Child</label>
                                                             </div>
                                                         </div>
-                                                        <!--<div class="col-md-6 col-sm-2 mt-3" id="bdm_div">-->
-                                                        <!--    <label for="bdm_div">Business Development Manager<?php echo '(Total:' . (float)$markup_dist_price['bdm_mark_up_total'] . ')' ?></label>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bdm_comm" name="bdm_share_comm" value="<?php echo (float)$markup_dist_price['bdm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bdm_comm">Commision </label>-->
-                                                        <!--    </div>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bdm_ins" name="bdm_share_ins" value="<?php echo (float)$markup_dist_price['bdm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bdm_ins">Incentive </label>-->
-                                                        <!--    </div>-->
-                                                        <!--</div>-->
-                                                        <!--<div class="col-md-6 col-sm-2 mt-3" id="bcm_div">-->
-                                                        <!--    <label for="bcm_div">Business Channel Manager<?php echo '(Total:' . (float)$markup_dist_price['bcm_mark_up_total'] . ')' ?></label>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bcm_comm" name="bcm_share_comm" value="<?php echo (float)$markup_dist_price['bcm_direct_commission'] ?>" placeholder="Commision" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bcm_comm">Commision </label>-->
-                                                        <!--    </div>-->
-                                                        <!--    <div class="form-floating mb-3">-->
-                                                        <!--        <input type="number" id="mp_bcm_ins" name="bcm_share_ins" value="<?php echo (float)$markup_dist_price['bcm_incentive'] ?>" placeholder="Incentive" class="form-control" readOnly>-->
-                                                        <!--        <label for="mp_bcm_ins">Incentive </label>-->
-                                                        <!--    </div>-->
-                                                        <!--</div>-->
                                                     </div>
                                                 </div>
-
                                                 <div class="col-md-12">
                                                     <h4 class="pt-3 ps-3 fw-bolder">Cancellation Policy</h4>
                                                     <div class="form-group row">
@@ -971,7 +1098,7 @@ $L3_value = $L2_value * 0.5;
             var wrapper = $(".input_fields_wrap"); // 🔹 Make sure this exists in your HTML
             var x = 1;
 
-            console.log(daysJSON);
+            // console.log(daysJSON);
 
             if (daysJSON !== null) {
                 daysJSON.forEach(day => {
