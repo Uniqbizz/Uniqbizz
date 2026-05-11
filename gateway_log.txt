@@ -103,3 +103,14 @@ Array
 )
 
 
+2026-05-11 07:26:27
+Array
+(
+    [status] => AUTHORIZING
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 28
+    [signature] => 6y9KDMuAwWuBFCmgg8dHwYt1DSxDkAps2OJq2HabVzU=
+    [order_id] => ORD_1778221458_7611
+)
+
+

@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
+	<title>Add Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee </h4>
+								<h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE</h4>
 							</div>
 						</div>
 					</div>
@@ -84,7 +84,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
+										<h3>Add Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE</h3>
 										<div class="row">
 											<!-- Personal Details -->
 
@@ -96,6 +96,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 														<option value="business_mentor">Business Mentor</option>
 														<option value="master_franchisee">Master Franchisee</option>
 														<option value="sponsor_franchisee">Sponsor Franchisee</option>
+														<option value="executive_techno_enterprise">Executive Techno Enterprise</option>
 													</select>
 												</div>
 											</div>
@@ -105,11 +106,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<select id="designation1" class="form-select" disabled>
 														<option value="NA">--Select Designation--</option>
 														<option value="business_development_manager">Business Development Manager</option>
-														
 													</select>
 													<select id="designation2" class="form-select d-none">
 														<option value="NA">--Select Designation--</option>
-														<option value="zonal_manager">Zonal Manager</option>
+														<option value="super_techno_enterprise">Super Techno Enterprise</option>
 													</select>
 												</div>
 											</div>
@@ -522,6 +522,13 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 				$('#designation2').prop('disabled',true);
 				$('#payment_fee').addClass('d-none');
 				$('#payment_fee2').removeClass('d-none');
+			}else if(register_type == 'executive_techno_enterprise'){
+				$('#designation1').addClass('d-none');
+				$('#designation2').prop('disabled',false);
+				$('#designation2').removeClass('d-none');
+				$('#payment_fee').prop('disabled',true);
+				$('#payment_fee2').addClass('d-none');
+				$('#payment_fee').removeClass('d-none');
 			}
 		});
 		
