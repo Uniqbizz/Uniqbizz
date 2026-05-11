@@ -217,7 +217,51 @@
                 }
             });
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
+                const sidebar = document.querySelector(".navbar-menu");
+                const hamburger = document.getElementById("topnav-hamburger-icon");
+                const overlay = document.querySelector(".vertical-overlay");
+
+                /* DEFAULT DESKTOP */
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove("sidebar-hidden");
+                }
+
+                hamburger.addEventListener("click", function () {
+
+                    /* BELOW 1024 */
+                    if (window.innerWidth <= 1024) {
+
+                        sidebar.classList.toggle("sidebar-mobile-show");
+
+                        /* OVERLAY ONLY BELOW 768 */
+                        if (window.innerWidth <= 768) {
+                            overlay.classList.toggle("active");
+                        }
+
+                    } else {
+
+                        /* DESKTOP */
+                        sidebar.classList.toggle("sidebar-hidden");
+                    }
+                });
+
+                /* CLOSE ONLY MOBILE */
+                if (window.innerWidth <= 768) {
+
+                    overlay.addEventListener("click", function () {
+
+                        sidebar.classList.remove("sidebar-mobile-show");
+                        overlay.classList.remove("active");
+
+                    });
+                }
+
+            });
+
+        </script>
 
         <!-- dialer logic -->
     </body>

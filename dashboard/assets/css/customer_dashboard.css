@@ -85,16 +85,211 @@
 }
 :is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .navbar-nav .nav-item:hover>a.menu-link {
     position: relative;
-    width: calc(200px + var(--vz-vertical-menu-width-sm));
+    width: calc(190px + var(--vz-vertical-menu-width-sm));
     -webkit-transition: none;
     transition: none;
     background: #4b38b3 !important;
 }
-/* sidebar end */
+.sidebarImage {
+    width: stretch !important;
+    margin: 6px !important;
+}
+.sidebarImageCard {
+   position: relative; 
+}
 
-@media screen and (max-width: 767px) {
+.exploreBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.exploreBtn i {
+    font-size: 18px !important;
+    padding-left: 10px;
+}
+.exploreBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.exploreCard {
+    position: absolute;
+    bottom: 290px;
+    padding: 0px 20px;
+    z-index: 999;
+}
+.logoutBtn {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.logoutBtn i {
+    font-size: 18px !important;
+}
+.logoutBtn:hover {
+    background-color: #35239a;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .sidebarImage {
+    display: none !important;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .exploreCard {
+    display: none !important;
+}
+/* :is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .simplebar-mask {
+    overflow: visible !important;
+} */
+
+/* =========================================
+   DEFAULT DESKTOP
+========================================= */
+
+.navbar-menu {
+    position: fixed !important;
+
+    left: 0 !important;
+
+    height: calc(100vh - 90px) !important;
+
+    transition: all 0.3s ease !important;
+
+    z-index: 9999 !important;
+}
+
+/* SCROLL */
+#scrollbar {
+
+    height: 100% !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* HIDE SIDEBAR */
+.navbar-menu.sidebar-hidden {
+    transform: translateX(-120%) !important;
+}
+
+
+/* =========================================
+   TABLET + SMALL LAPTOP (1024px)
+========================================= */
+/* =========================================
+   FIX CONTENT PUSHING
+========================================= */
+
+@media (max-width: 1024px) {
+
+    /* SIDEBAR FLOATING */
+    .navbar-menu {
+
+        position: fixed !important;
+
+        left: 15px !important;
+
+        width: 280px !important;
+        height: calc(100vh - 100px) !important;
+
+        z-index: 99999 !important;
+
+        transform: translateX(-120%) !important;
+
+        transition: transform 0.3s ease !important;
+
+        background: #f5f5f7 !important;
+
+        border-radius: 24px !important;
+
+        box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+
+        overflow: hidden !important;
+    }
+
+    /* SHOW SIDEBAR */
+    .navbar-menu.sidebar-mobile-show {
+        transform: translateX(0) !important;
+    }
+
+    /* VERY IMPORTANT */
+    .main-content,
+    .page-content,
+    .app-content,
+    #layout-wrapper {
+
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+
+        transform: none !important;
+
+        width: 100% !important;
+    }
+
+    /* REMOVE TEMPLATE SIDEBAR SPACE */
+    body[data-sidebar-size="sm"] .main-content,
+    body[data-sidebar-size="sm-hover"] .main-content {
+
+        margin-left: 0 !important;
+    }
+
+    /* REMOVE AUTO PUSH */
+    .vertical-overlay {
+        pointer-events: none;
+    }
+}
+
+/* =========================================
+   ONLY MOBILE (768px)
+========================================= */
+
+@media (max-width: 768px) {
     .comp_name {
         display: flex !important;
         justify-content: space-between !important;
     }
+    /* OVERLAY ONLY MOBILE */
+    .vertical-overlay {
+
+        position: fixed !important;
+
+        inset: 0 !important;
+
+        background: rgba(0,0,0,0.45) !important;
+
+        backdrop-filter: blur(3px) !important;
+
+        opacity: 0 !important;
+        visibility: hidden !important;
+
+        transition: 0.3s ease !important;
+
+        z-index: 9990 !important;
+    }
+
+    .vertical-overlay.active {
+
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
 }
+
+/* REMOVE OVERLAY ABOVE 768 */
+@media (min-width: 769px) {
+
+    .vertical-overlay {
+        display: none !important;
+    }
+}
+/* sidebar end */
