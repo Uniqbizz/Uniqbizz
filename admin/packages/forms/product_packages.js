@@ -175,12 +175,67 @@ var regexExp = /[^a-zA-Z0-9 ]/;		// letters, number, space
 var regexExp_alphanumeric = /[^a-zA-Z0-9]/;		// letters, number
 var regexExp_numeric = /[^0-9]/;			// number
 var total_mark_up=0;
-let text = document.getElementById('mark_up_title').textContent;
-let text2 = document.getElementById('new_mark_up_title').textContent;
+let mark_up_title = newmark_up_title = coupon_title = newcoupon_title = insmark_up_title = inscoupon_title = 0;
+function getMarkupValues() {
 
-// Extract first number (integer or decimal)
-let mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
-let newmark_up_title = parseFloat(text2.match(/[\d.]+/)?.[0]) || 0;
+    let text = $('#mark_up_title').text();
+    let text2 = $('#new_mark_up_title').text();
+    let text3 = $('#cup_title').text();
+    let text4 = $('#newcup_title').text();
+	let text5 = $('#ins_mark_up_title').text();
+	let text6 = $('#inscup_title').text();
+
+    mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
+    newmark_up_title = parseFloat(text2.match(/[\d.]+/)?.[0]) || 0;
+    coupon_title = parseFloat(text3.match(/[\d.]+/)?.[0]) || 0;
+    newcoupon_title = parseFloat(text4.match(/[\d.]+/)?.[0]) || 0;
+    insmark_up_title = parseFloat(text3.match(/[\d.]+/)?.[0]) || 0;
+    inscoupon_title = parseFloat(text4.match(/[\d.]+/)?.[0]) || 0;
+
+	//equate the old markup with new on change
+	insmark_up_title = newmark_up_title = mark_up_title 
+
+    console.log({
+        mark_up_title,
+        newmark_up_title,
+		insmark_up_title,
+        coupon_title,
+        newcoupon_title,
+		inscoupon_title
+    });
+}
+
+
+// observe text changes in spans/divs/labels
+const observer = new MutationObserver(function (mutations) {
+    getMarkupValues();
+});
+
+
+// target elements
+[
+    '#mark_up_title',
+    '#new_mark_up_title',
+    '#cup_title',
+    '#newcup_title',
+	'#ins_mark_up_title',
+	'#inscup_title'
+].forEach(selector => {
+
+    let target = document.querySelector(selector);
+
+    if (target) {
+        observer.observe(target, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
+    }
+});
+
+
+// initial load
+getMarkupValues();
 
 // form 1
 $('#name').on('keyup', function () {
@@ -859,7 +914,7 @@ function truncateToTwoDecimals(num) {
 //all cal fuction by SV
 function calculatePackagePrice(payoutData) {
     // console.log("calculatePackagePrice called");
-
+	getMarkupValues();
     // --------------------------
     // 1️⃣ Prepare Inputs
     // --------------------------
@@ -867,7 +922,10 @@ function calculatePackagePrice(payoutData) {
     let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
     let netGst = parseFloat(document.getElementById('nGst').value) || 0;
 	let text = document.getElementById('mark_up_title').textContent;
-
+	//added on 11-05-2026 by SV -- coupon amount on change logic
+	coupon_title = $("#coupon_total").val();
+		
+	$('#cup_title').html('Coupon (Total: ' + coupon_title + ')');
 	// Extract first number (integer or decimal)
 	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
@@ -955,7 +1013,8 @@ function calculatePackagePrice(payoutData) {
         parseFloat(bm_mark_up) +
         parseFloat(ta_mark_up) +
         parseFloat(customer_share) +
-        parseFloat(company_share)
+        parseFloat(company_share)+
+		parseFloat(coupon_title)
     );
 
     total_adult_price = truncateToTwoDecimals(
@@ -1016,10 +1075,10 @@ function calculatePackagePrice(payoutData) {
         bcm_mark_up
     };
 }
-//new calulation funtion for new markup structure
+//new cheif techno calulation funtion for new markup structure
 function calculatePackagePriceNew(payoutData) {
     // console.log("calculatePackagePriceNew called");
-
+	getMarkupValues();
     // --------------------------
     // 1️⃣ Prepare Inputs
     // --------------------------
@@ -1028,7 +1087,9 @@ function calculatePackagePriceNew(payoutData) {
     let netGst = parseFloat(document.getElementById('nGst').value) || 0;
 	//prev markup total
 	let text = document.getElementById('mark_up_title').textContent;
-
+	//coupon on change added on 11-05-2026 by SV
+	newcoupon_title = $("#newcoupon_total").val();
+	$('#newcup_title').html('Coupon (Total: ' + newcoupon_title + ')');
 	// Extract first number (integer or decimal)
 	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
 
@@ -1090,15 +1151,18 @@ function calculatePackagePriceNew(payoutData) {
 
     let ete_mark_up_comm = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_com_per / 100);
     let ete_mark_up_ins = (ca_mark_up_comm * (ete_ovr_per / 100)) * (ete_ins_per / 100);
-    let ete_mark_up = ete_mark_up_comm + ete_mark_up_ins;
+    // let ete_mark_up = ete_mark_up_comm + ete_mark_up_ins;
+    let ete_mark_up = ca_mark_up_comm * (ete_ovr_per / 100);
 
     let ste_mark_up_comm = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_com_per / 100));
     let ste_mark_up_ins = truncateToTwoDecimals((ete_mark_up_comm * (ste_ovr_per / 100)) * (ste_ins_per / 100));
-    let ste_mark_up = ste_mark_up_comm + ste_mark_up_ins;
+    // let ste_mark_up = ste_mark_up_comm + ste_mark_up_ins;
+    let ste_mark_up = truncateToTwoDecimals(ete_mark_up_comm * (ste_ovr_per / 100));
 
     let cte_mark_up_comm = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_com_per / 100));
     let cte_mark_up_ins = truncateToTwoDecimals((ste_mark_up_comm * (cte_ovr_per / 100)) * (cte_ins_per / 100));
-    let cte_mark_up = cte_mark_up_comm + cte_mark_up_ins;
+    // let cte_mark_up = cte_mark_up_comm + cte_mark_up_ins;
+    let cte_mark_up = truncateToTwoDecimals(ste_mark_up_comm * (cte_ovr_per / 100));
 
     // Round to 2 decimals
     ca_mark_up = truncateToTwoDecimals(ca_mark_up);
@@ -1119,7 +1183,8 @@ function calculatePackagePriceNew(payoutData) {
         parseFloat(ete_mark_up) +
 		parseFloat(ca_mark_up) +
         parseFloat(newta_mark_up) +
-        parseFloat(customer_share))) 
+        parseFloat(customer_share)+
+		parseFloat(newcoupon_title))) 
    	// --------------------------
     // 5️⃣ Totals
     // --------------------------
@@ -1130,7 +1195,8 @@ function calculatePackagePriceNew(payoutData) {
         parseFloat(ca_mark_up) +
         parseFloat(newta_mark_up) +
         parseFloat(customer_share) +
-        parseFloat(company_share)
+        parseFloat(company_share)+
+		parseFloat(newcoupon_title)
     );
 
     // --------------------------
@@ -1139,22 +1205,28 @@ function calculatePackagePriceNew(payoutData) {
     
     document.getElementById("new_mp_company").value = company_share;
 	newmark_up_title=newtotal_mark_up;
-    $('#new_mark_up_title').html('New Mark-Up Price Distribution (Total: ' + newtotal_mark_up + ')');
-    $('#cte_div label[for="cte_div"]').html('Cheif Techno Enterprise (Total: ' + cte_mark_up + ')');
+    $('#new_mark_up_title').html('Chief Techno Mark-Up Price Distribution (Total: ' + newtotal_mark_up + ')');
+    $('#cte_div label[for="cte_div"]').html('Chief Techno Enterprise (Total: ' + cte_mark_up + ')');
     $('#ste_div label[for="ste_div"]').html('Super Techno Enterprise (Total: ' + ste_mark_up + ')');
     $('#ete_div label[for="ete_div"]').html('Executive Techno Enterprise (Total: ' + ete_mark_up + ')');
-    $('#new_ca_div label[for="new_ca_div"]').html('New Techno Enterprise (Total: ' + ca_mark_up + ')');
+    $('#new_ca_div label[for="new_ca_div"]').html('Techno Enterprise (Total: ' + ca_mark_up + ')');
 
-    $('#mp_cte_comm').val(cte_mark_up_comm);
+    $('#mp_cte_comm').val(cte_mark_up_comm); 
     $('#mp_cte_ins').val(cte_mark_up_ins);
-    $('#mp_ste_comm').val(ste_mark_up_comm);
+    $('#mp_ste_comm').val(ste_mark_up_comm); 
     $('#mp_ste_ins').val(ste_mark_up_ins);
-    $('#mp_ete_comm').val(ete_mark_up_comm);
+    $('#mp_ete_comm').val(ete_mark_up_comm); 
     $('#mp_ete_ins').val(ete_mark_up_ins);
-    $('#new_mp_ca_comm').val(ca_mark_up_comm);
+    $('#new_mp_ca_comm').val(ca_mark_up_comm); 
     $('#new_mp_ca_ins').val(ca_mark_up_ins);
     $('#new_mp_customer').val(customer_share);
     $('#new_l2_cust_comm').val(l2_cust_comm);
+
+	//commission + incentive
+	$('#ete_total').val(ete_mark_up);
+	$('#ste_total').val(ste_mark_up);
+	$('#cte_total').val(cte_mark_up);
+
 
     // --------------------------
     // 7️⃣ Debug Data
@@ -1178,6 +1250,129 @@ function calculatePackagePriceNew(payoutData) {
         cte_mark_up
     };
 }
+
+//new institution calulation funtion for new markup structure
+function calculatePackagePriceIns(payoutData) {
+    // console.log("calculatePackagePriceNew called");
+	getMarkupValues();
+    // --------------------------
+    // 1️⃣ Prepare Inputs
+    // --------------------------
+    let netPriceAdult = parseInt(document.getElementById('netPriceAdult').value, 10) || 0;
+    let netPriceChild = parseInt(document.getElementById('netPriceChild').value, 10) || 0;
+    let netGst = parseFloat(document.getElementById('nGst').value) || 0;
+	
+	//prev markup total
+	let text = document.getElementById('mark_up_title').textContent;
+	mark_up_title = parseFloat(text.match(/[\d.]+/)?.[0]) || 0;
+
+	//coupon on change added on 11-05-2026 by SV
+	inscoupon_title = $("#inscoupon_total").val();
+	$('#inscup_title').html('Coupon (Total: ' + inscoupon_title + ')');
+	// Extract first number (integer or decimal)
+
+    let ins_mark_up = parseFloat($("#ins_mp_ca_ta").val()) || 0;
+    let company_share = parseFloat($("#ins_mp_company").val()) || 0;
+    // let customer_share = parseFloat(document.getElementById("mp_customer").value) || 0;
+	let l1_cust_comm=truncateToTwoDecimals(parseFloat($('#ins_l1_cust_comm').val())) || 0;
+	let l2_cust_comm=l1_cust_comm * 0.5;
+	
+    let customer_share =(l1_cust_comm+l2_cust_comm) ;
+
+    // --------------------------
+    // 2️⃣ GST Calculations
+    // --------------------------
+    let GSTofNetPriceAdult = netPriceAdult * netGst / 100;
+    let GSTofNetPriceChild = netPriceChild * netGst / 100;
+
+    let netPriceAdultWithGST = netPriceAdult + GSTofNetPriceAdult;
+    let netPriceChildWithGST = netPriceChild + GSTofNetPriceChild;
+
+    // Assign back to fields
+    document.getElementById('totalNetPriceAdult').value = truncateToTwoDecimals(netPriceAdultWithGST);
+    document.getElementById('totalNetPriceChild').value = truncateToTwoDecimals(netPriceChildWithGST);
+
+    // --------------------------
+    // 3️⃣ Role-wise Markup Calculation (from payoutData)
+    // --------------------------
+    const roleMap = {};
+    payoutData.forEach(entry => {
+        roleMap[entry.role] = entry;
+    });
+
+    // TE
+    let bm_ovr_per = roleMap['BM']?.overall_percentage || 0;
+    let bm_com_per = roleMap['BM']?.comm_percentage || 0;
+    let bm_ins_per = roleMap['BM']?.ins_percentage || 0;
+
+    // --------------------------
+    // 4️⃣ Commission Distribution
+    // --------------------------
+
+    let bm_mark_up_comm = truncateToTwoDecimals((ins_mark_up * (bm_ovr_per / 100)) * (bm_com_per / 100));
+    let bm_mark_up_ins = truncateToTwoDecimals((ins_mark_up * (bm_ovr_per / 100)) * (bm_ins_per / 100));
+    // let bm_mark_up = bm_mark_up_comm + bm_mark_up_ins;
+    let bm_mark_up = truncateToTwoDecimals(ins_mark_up * (bm_ovr_per / 100)); 
+
+	//---------------------------
+	//  Calulate compony value prev marup total -(tc+cutomer+te+ete+ste+cte+coupon) -- coupon is not defined as of now
+	//---------------------------
+	// console.log('markup title:'+mark_up_title);
+	
+	company_share =truncateToTwoDecimals(mark_up_title-(
+		parseFloat(bm_mark_up) +
+        parseFloat(ins_mark_up) +
+        parseFloat(customer_share)+
+		parseFloat(newcoupon_title))) 
+   	// --------------------------
+    // 5️⃣ Totals
+    // --------------------------
+    instotal_mark_up = truncateToTwoDecimals(
+        parseFloat(bm_mark_up) +
+        parseFloat(ins_mark_up) +
+        parseFloat(customer_share) +
+        parseFloat(company_share)+
+		parseFloat(newcoupon_title)
+    );
+
+    // --------------------------
+    // 6️⃣ Update UI
+    // --------------------------
+    
+    document.getElementById("ins_mp_company").value = company_share;
+	insmark_up_title=instotal_mark_up;
+    $('#ins_mark_up_title').html('Institution Mark-Up Price Distribution (Total: ' + instotal_mark_up + ')');
+    $('#bm_mf_sf_div label[for="bm_mf_sf_div"]').html('BM | MF | SF (Total: ' + bm_mark_up + ')');
+
+    $('#ins_bm_mf_sf_comm').val(bm_mark_up_comm); 
+    $('#ins_bm_mf_sf_ins').val(bm_mark_up_ins);
+    $('#ins_mp_customer').val(customer_share);
+    $('#ins_l2_cust_comm').val(l2_cust_comm);
+
+	//commission + incentive
+	$('#bm_mf_sf_total').val(bm_mark_up);
+
+
+    // --------------------------
+    // 7️⃣ Debug Data
+    // --------------------------
+    // console.log([
+    //     { label: "New TA Mark Up", value: newta_mark_up },
+    //     { label: "Company Share", value: company_share },
+    //     { label: "Customer Share", value: customer_share },
+    //     { label: "TE Mark Up", value: ca_mark_up },
+    //     { label: "ETE Mark Up", value: ete_mark_up },
+    //     { label: "STE Mark Up", value: ste_mark_up },
+    //     { label: "CTE Mark Up", value: cte_mark_up },
+    //     { label: "New Total Mark Up", value: newtotal_mark_up }
+    // ]);
+
+    return {
+        instotal_mark_up,
+        bm_mark_up
+    };
+}
+
 
 
 
@@ -1368,6 +1563,7 @@ function submit_form_data(e) {
 			bcm_mark_up: bcm_mark_up,
 			bcm_mark_up_comm: bcm_mark_up_comm,
 			bcm_mark_up_ins: bcm_mark_up_ins,
+			coupon_amt:coupon_title,
 			newta_mark_up: newta_mark_up,
 			te_mark_up: te_mark_up,
 			te_mark_up_comm: te_mark_up_comm,
@@ -1381,6 +1577,7 @@ function submit_form_data(e) {
 			cte_mark_up: cte_mark_up,
 			cte_mark_up_comm: cte_mark_up_comm,
 			cte_mark_up_ins: cte_mark_up_ins,
+			newcoupon_amt:newcoupon_title,
 			total_package_price_per_adult: total_package_price_per_adult,
 			total_package_price_per_child: total_package_price_per_child,
 			company_share: company_share,
@@ -1621,6 +1818,7 @@ function update_form_data(e) {
 		bcm_mark_up: bcm_mark_up,
 		bcm_mark_up_comm: bcm_mark_up_comm,
 		bcm_mark_up_ins: bcm_mark_up_ins,
+		coupon_amt:coupon_title,
 		newta_mark_up: newta_mark_up,
 		te_mark_up: te_mark_up,
 		te_mark_up_comm: te_mark_up_comm,
@@ -1634,6 +1832,7 @@ function update_form_data(e) {
 		cte_mark_up: cte_mark_up,
 		cte_mark_up_comm: cte_mark_up_comm,
 		cte_mark_up_ins: cte_mark_up_ins,
+		newcoupon_amt:newcoupon_title,
 		total_package_price_per_adult: total_package_price_per_adult,
 		total_package_price_per_child: total_package_price_per_child,
 		company_share: company_share,
