@@ -458,7 +458,7 @@ $('#upload_file61').change(function () {
             }else{
                 
                 $("#preview61").show();
-                $("#img_pre61").attr("src","../../../uploading/"+data);
+                $("#img_pre61").attr("src","../../uploading/"+data);
                 $("#img_path61").val(data);
             }
         }

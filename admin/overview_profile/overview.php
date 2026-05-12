@@ -9831,9 +9831,10 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null" selected disabled>--Select Payment Fee--</option>
-                                                            <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
+                                                            <!-- <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                             <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
-                                                            <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
+                                                            <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option> -->
+                                                            <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -10273,11 +10274,11 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             let payment_label = payment_text.includes(":")
                 ? payment_text.split(":")[0].trim()
                 : payment_text;
-            let allowed_labels = ["Prime", "Premium", "Premium Plus"];
+            let allowed_labels = ["Prime", "Premium", "Premium Plus", "Neo Select"];
             let comp_check=$('#comp_chek option:selected').val();
 
             if (!allowed_labels.includes(payment_label)) {
-                alert("Please select a valid Payment Type: Prime, Premium, or Premium Plus.");
+                alert("Please select a valid Payment Type");
                 return;
             }
             var payment_proof;

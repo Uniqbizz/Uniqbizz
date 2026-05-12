@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 
 $identifier_id = $_POST['id'];
 $uid = $identifier_id;
-//$customer_type = $_POST['customer_type'];
+$customer_type = $_POST['customer_type'];
 $payment_label = $_POST['payment_label'];
 $chequeNo = $_POST['cheque_no'];
 $chequeDate = $_POST['cheque_date'] ?? null;;
