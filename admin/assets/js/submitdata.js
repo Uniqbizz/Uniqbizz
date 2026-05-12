@@ -2038,6 +2038,7 @@ $("#addBusinessMentor").on("click", function (e) {
     var url = register_as == 'business_mentor' ? 'addBusinessMentorData.php' 
             : register_as == 'master_franchisee' ? 'addMasterFranchiseeData.php' 
             : register_as == 'sponsor_franchisee' ? 'addSponsorFranchiseeData.php' 
+            : register_as == 'executive_techno_enterprise' ? 'addExecutiveTechnoEnterpriseData.php' 
             : '';
     // console.log('Add customer button clicked');
 
@@ -2298,6 +2299,7 @@ $("#editBuisnessMentor").on("click", function (e) {
     var url = register_as == 'bm' ? 'editBusinessMentorData.php' 
             : register_as == 'mf' ? 'editMasterFranchiseeData.php' 
             : register_as == 'sf' ? 'editSponsorFranchiseeData.php' 
+            : register_as == 'ete' ? 'editExecutiveTechnoEnterpriseData.php' 
             : '';
     // console.log('Add customer button clicked');
 

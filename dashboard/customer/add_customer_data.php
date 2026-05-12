@@ -310,7 +310,7 @@ if ($result2) {
         $stmt1 = $conn->prepare($sql2);
         $stmt1->execute();
         $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-        $cp_parts = divideAmount('15000');
+        $cp_parts = divideAmount('15000',500);
         $payment_id = generatePaymentID();
         // Define the SQL query once
         $sqlInsertCoupon = "

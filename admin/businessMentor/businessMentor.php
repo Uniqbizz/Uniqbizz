@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE</h4>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                             <div class="col-sm-12">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Business Mentor / Master Franchisee / Sponsor Franchisee List</h4>
+                                                        <h4>Pending Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -143,6 +143,8 @@
                                                             SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'MF' AS user_type FROM master_franchisee WHERE status IN ('0', '2')
                                                             UNION ALL
                                                             SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('0', '2')
+                                                            UNION ALL
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'ETE' AS user_type FROM executive_techno_enterprise WHERE status IN ('0', '2')
                                                             ORDER BY id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -167,6 +169,9 @@
                                                                         break;
                                                                     case 'SF':
                                                                         $label = '<span class="badge bg-info me-1">SF</span>';
+                                                                        break;
+                                                                    case 'ETE':
+                                                                        $label = '<span class="badge bg-warning me-1">ETE</span>';
                                                                         break;
                                                                     default:
                                                                         $label = '';
@@ -235,7 +240,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Business Mentor / Master Franchisee / Sponsor Franchisee List</h4>
+                                                        <h4>Registered Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -250,7 +255,7 @@
                                                             <option value="BM">Business Mentor</option>
                                                             <option value="MF">Master Franchisee</option>
                                                             <option value="SF">Sponsor Franchisee</option>
-                                                            
+                                                            <option value="ETE">Executive Techno Enterprise</option>
                                                         </select>
                                                         
                                                     </div>
@@ -325,6 +330,8 @@
                                                             SELECT master_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'MF' AS user_type FROM master_franchisee WHERE status IN ('1')
                                                             UNION ALL
                                                             SELECT sponsor_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('1')
+                                                            UNION ALL
+                                                            SELECT executive_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'ETE' AS user_type FROM executive_techno_enterprise WHERE status IN ('1')
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -352,7 +359,8 @@
                                                                 $label = $row['user_type'] === 'BM'
                                                                     ? '<span class="badge bg-primary me-1">BM</span>'
                                                                     : ($row['user_type'] === 'MF' ? '<span class="badge bg-success me-1">MF</span>'
-                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
+                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' 
+                                                                    : ($row['user_type'] === 'ETE' ? '<span class="badge bg-info me-1">ETE</span>' : '')));
 
                                                             echo '<tr>
                                                                     <td>' . $row['user_id'] . '</td>
@@ -375,7 +383,7 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'MF' ? 'master_franchisee' : (strtolower($row['user_type']) == 'BM' ? 'business_mentor' : (strtolower($row['user_type']) == 'SF' ? 'sponsor_franchisee' : ''))) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("' . $row["user_id"] . '","' .$row["reference_no"] . '","' .$row["country"] . '","' .$row["state"] . '","' .$row["city"] . '","' .(strtolower($row['user_type']) == 'MF' ? 'master_franchisee' : (strtolower($row['user_type']) == 'BM' ? 'business_mentor' : (strtolower($row['user_type']) == 'SF' ? 'sponsor_franchisee' : (strtolower($row['user_type']) == 'ETE' ? 'Executive Techno Enterprise' : '')))) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
                                                                                 <li><a href="#" onclick=\'editfuncCust("' . $row["user_id"] . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' . $row["zone"] . '","' . $row["branch"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' . $row["id"] . '","' . $row["user_id"] . '","registered","' . strtolower($row['user_type']) . '")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
@@ -410,7 +418,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Business Mentor / Master Franchisee / Sponsor Franchisee List</h4>
+                                                        <h4>Deleted Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,6 +448,8 @@
                                                             SELECT *, 'MF' AS user_type FROM master_franchisee WHERE status IN ('3')
                                                             UNION ALL
                                                             SELECT *, 'SF' AS user_type FROM sponsor_franchisee WHERE status IN ('3')
+                                                            UNION ALL
+                                                            SELECT *, 'ETE' AS user_type FROM executive_techno_enterprise WHERE status IN ('3')
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -467,7 +477,8 @@
                                                                 $label = $row['user_type'] === 'BM'
                                                                     ? '<span class="badge bg-primary me-1">BM</span>'
                                                                     : ($row['user_type'] === 'MF' ? '<span class="badge bg-success me-1">MF</span>'
-                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' : ''));
+                                                                    : ($row['user_type'] === 'SF' ? '<span class="badge bg-info me-1">SF</span>' 
+                                                                    : ($row['user_type'] === 'ETE' ? '<span class="badge bg-info me-1">ETE</span>' : '')));
 
                                                             echo '<tr>
                                                                     <td>' . $row['business_mentor_id'] . '</td>
@@ -740,7 +751,7 @@
 
             function overviewPage(id,ref,cut,st,ct,message){
 
-                var designation = message == 'business_mentor'?'Business Mentor':(message == 'master_franchisee'?'Master Franchisee':'');
+                var designation = message == 'business_mentor'?'Business Mentor':(message == 'master_franchisee'?'Master Franchisee':(message == 'sponsor_franchisee'?'Sponsor Franchisee':(message == 'executive_techno_enterprise'?'Executive Techno Enterprise' :'')));
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
             
