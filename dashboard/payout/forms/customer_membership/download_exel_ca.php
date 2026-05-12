@@ -65,9 +65,12 @@ if($payoutmessage == 'PreviousPayout'){
                 }else if($user_id_str == "F"){
                     $output .= '<th class="mobile_view">Franchisee</th>
                     <th class="mobile_view">Franchisee Name</th>';
+                }else if($user_id_str == "F"){
+                    $output .= '<th class="mobile_view">Institution</th>
+                    <th class="mobile_view">Institution Name</th>';
                 }else if($user_id_str == "TA"){
                     $output .= '<th class="mobile_view">Travel Agency</th>
-                    <th class="mobile_view">Franchisee Name</th>';
+                    <th class="mobile_view">Travel Agency Name</th>';
                 }
 
                 $output .= '<th ><span class="long-name">Payout Details</th>
@@ -127,7 +130,7 @@ if($payoutmessage == 'PreviousPayout'){
                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
-                }else if($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
+                }else if($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F" || $user_id_str == "I"){
 
                     $CA_Commi = $row2['commision_te'];
 
@@ -140,6 +143,8 @@ if($payoutmessage == 'PreviousPayout'){
                         $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
                     }else if($user_id_str == "F"){
                         $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                    }else if($user_id_str == "I"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution` where institution_id='".$row2['techno_enterprise']."'");
                     }
                     $sql2->execute();
                     $sql2->setFetchMode(PDO::FETCH_ASSOC);
@@ -267,6 +272,9 @@ if($payoutmessage == 'NextPayout'){
                 }else if($user_id_str == "F"){
                     $output .= '<th class="mobile_view">Franchisee</th>
                     <th class="mobile_view">Franchisee Name</th>';
+                }else if($user_id_str == "I"){
+                    $output .= '<th class="mobile_view">Institution</th>
+                    <th class="mobile_view">Institution Name</th>';
                 }else if($user_id_str == "TA"){
                     $output .= '<th class="mobile_view">Travel Agency</th>
                     <th class="mobile_view">Travel Agency Name</th>';
@@ -330,7 +338,7 @@ if($payoutmessage == 'NextPayout'){
                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
-                }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
+                }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F" || $user_id_str == "I"){
 
                     $CA_Commi = $row2['commision_te'];
 
@@ -344,6 +352,9 @@ if($payoutmessage == 'NextPayout'){
                         $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
                     }else if($user_id_str == "F"){
                         $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                    }
+                    else if($user_id_str == "I"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution` where institution_id='".$row2['techno_enterprise']."'");
                     }
                     $sql2->execute();
                     $sql2->setFetchMode(PDO::FETCH_ASSOC);
@@ -471,6 +482,9 @@ if($payoutmessage == 'TotalPayout'){
                 }else if($user_id_str == "F"){
                     $output .= '<th class="mobile_view">Franchisee</th>
                     <th class="mobile_view">Franchisee Name</th>';
+                }else if($user_id_str == "I"){
+                    $output .= '<th class="mobile_view">Institution</th>
+                    <th class="mobile_view">Institution Name</th>';
                 }else if($user_id_str == "TA"){
                     $output .= '<th class="mobile_view">Travel Agency</th>
                     <th class="mobile_view">Travel Agency Name</th>';
@@ -534,7 +548,7 @@ if($payoutmessage == 'TotalPayout'){
                                        <td style="text-align:center;">'.$row2["paydate"].'</td>';
                         }
                     $output .='</tr>';
-                }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F"){
+                }elseif($user_id_str == "TE" || $user_id_str == "CA"|| $user_id_str == "F" || $user_id_str == "I"){
 
                     $CA_Commi = $row2['commision_te'];
 
@@ -548,6 +562,8 @@ if($payoutmessage == 'TotalPayout'){
                         $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
                     }else if($user_id_str == "F"){
                         $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                    }else if($user_id_str == "I"){
+                        $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution` where institution_id='".$row2['techno_enterprise']."'");
                     }
                     $sql2->execute();
                     $sql2->setFetchMode(PDO::FETCH_ASSOC);
@@ -664,12 +680,12 @@ if($payoutmessage == 'allPayout'){
         <table border="1" style="text-align:center">
             <tr>
                 <th >Date</th>';
-                if ($user_id_str == 'BM'|| $user_id_str == 'TE' || $user_id_str == 'CA') {
+                if ($user_id_str == 'BM'|| $user_id_str == 'TE' || $user_id_str == 'CA' ) {
                     $output.='<th class="mobile_view">Business Consultant</th>
                     <th class="mobile_view">Business Consultant Name</th>
                     <th class="mobile_view">Corporate Agency</th>
                     <th class="mobile_view">Corporate Agency Name</th>';
-                }else if($user_id_str == 'F'|| $user_id_str == 'SF' || $user_id_str == 'MF'){
+                }else if($user_id_str == 'F'|| $user_id_str == 'SF' || $user_id_str == 'MF' || $user_id_str == 'I'){
                     $output.='<th class="mobile_view">Ref Id</th>
                     <th class="mobile_view">Ref Name</th>
                     <th class="mobile_view">Franchisee</th>
@@ -732,6 +748,8 @@ if($payoutmessage == 'allPayout'){
                     $sql2= $conn->prepare("SELECT firstname,lastname FROM `corporate_agency` where corporate_agency_id='".$row2['techno_enterprise']."'");
                 }else if($user_id_str == "F"){
                     $sql2= $conn->prepare("SELECT firstname,lastname FROM `sub_franchisee` where sub_franchisee_id='".$row2['techno_enterprise']."'");
+                }else if($user_id_str == "I"){
+                    $sql2= $conn->prepare("SELECT firstname,lastname FROM `institution` where institution_id='".$row2['techno_enterprise']."'");
                 }
                 $sql2->execute();
                 $sql2->setFetchMode(PDO::FETCH_ASSOC);

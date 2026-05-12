@@ -152,6 +152,13 @@ $prevDateYear = date('Y');  //Year in number form.
 <body>
     <div id="layout-wrapper">
         <?php
+            // top header logo, hamberger menu, fullscreen icon, profile
+            include_once 'header.php';
+
+            // sidebar navigation menu 
+            include_once 'sidebar.php';
+        ?>
+        <?php
             $pending_booking_count = 0;
             $completed_booking_count = 0;
             $pending_payment_amt = 0;
@@ -600,7 +607,24 @@ $prevDateYear = date('Y');  //Year in number form.
                                 SELECT ca.ca_travelagency_id FROM ca_travelagency ca
                                 WHERE ca.status = 1 AND ca.reference_no = '$userId'
                             )";
-                    } elseif ($userType == '11') { // TC
+                    } elseif ($userType == '32') { // TE/F
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            SELECT ca.institution_branch_manager_id
+                                            FROM institution_branch_manager ca
+                                            WHERE ca.status = 1
+                                            AND ca.reference_no = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                SELECT ca.institution_branch_manager_id FROM institution_branch_manager ca
+                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                            )";
+                    } elseif ($userType == '11' || $userType == '33') { // TC/IBR
                         $filter = " CROSS JOIN (
                                         SELECT
                                             MAX(date) AS max_b_date,
