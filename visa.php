@@ -675,7 +675,7 @@
                     country: "Australia",
                     image: "assets/images/visa/visa-package-img1.jpg",
                     processing: "(15 - 30) Days",
-                    link: "#"
+                    link: "visa-details.php"
                 },
                 {
                     country: "Canada",
