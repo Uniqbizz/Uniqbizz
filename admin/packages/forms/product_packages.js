@@ -825,6 +825,10 @@ function pricingFormNext(e) {
 	var newta = $("#new_mp_ca_ta").val();
 	var newcus = $('#mp_customer').val();
 	var newL1_customer_share=$('#new_l1_cust_comm').val();
+	// ins markup validation add on 12-05-2026 by SV
+	var ins_mp_ca_ta = $("#ins_mp_ca_ta").val();
+	var inscus = $('#ins_mp_customer').val();
+	var insL1_customer_share=$('#ins_l1_cust_comm').val();
 	//--------------
 	var policy_1 = $('#can_per_1').val(), policy_2 = $('#can_per_2').val(), policy_3 = $('#can_per_3').val();
 	var add_adult_p=$('#add_adult_price').val();
@@ -835,42 +839,39 @@ function pricingFormNext(e) {
 	if (netPriceAdult == "" || netPriceChild == "" || nGst == "" || ta == "" 
 		|| company == "" || L1_customer_share=="" || policy_1 == '' || policy_2 == '' || policy_3 == ''
 		|| netPriceAdult == 0 || netPriceChild == 0 || nGst == 0 || ta == 0 || company == 0 
-		|| add_adult_p == '' || add_adult_p == 0 || newta == "" || newta == 0 || newL1_customer_share == "" || newL1_customer_share == 0) {
+		|| add_adult_p == '' || add_adult_p == 0 || newta == "" || newta == 0 || newL1_customer_share == "" || newL1_customer_share == 0
+		|| ins_mp_ca_ta == "" || ins_mp_ca_ta == 0 || insL1_customer_share == "" || insL1_customer_share == 0) {
 			
 		if (netPriceAdult == 0) {
-			console.log('1');
 			alert("Please enter Net Price Per Adult !");
 		} else if ((netPriceChild == "" || netPriceChild == 0) && (packageTypeValue == "stag" || packageTypeValue == "family")) {
-			console.log('2');
 			alert("Please enter Net Price Per Child !");
 		} else if (nGst == "" || nGst == 0) {
-			console.log('3');
 			alert("Please Enter GST for Net Price !");
 		}
 		else if (ta == "" || ta == 0) {
-			console.log('4');
 			alert("Please enter Travel Agent value !");
 		}
 		else if (company == "" || company == 0) {
-			console.log('5');
 			alert("Please enter Company value !");
 		} else if (L1_customer_share=="" || L1_customer_share==0) {
-			console.log('6');
 			alert("Please enter L1 Customer value !");
 		} else if (add_adult_p == "" || add_adult_p == 0) {
-			console.log('7');
 			alert("Please enter Additional Adult Price !");
 		} else if (policy_1 == '' || policy_2 == '' || policy_3 == '') {
-			console.log('8');
 			alert("Please fill all cancellation fields");
 		}
-		//new markup validation add on 09 may 2026 by SV
+		//new chief techno markup validation add on 09 may 2026 by SV
 		else if (newta == "" || newta == 0) {
-			console.log('9');
-			alert("Please enter New Travel Agent value !");
+			alert("Please enter chief techno Travel Agent value !");
 		}else if (newL1_customer_share=="" || newL1_customer_share==0) {
-			console.log('10');
-			alert("Please enter new L1 Customer value !");
+			alert("Please enter chief techno L1 Customer value !");
+		}
+		//new institution markup validation add on 09 may 2026 by SV
+		else if (ins_mp_ca_ta == "" || ins_mp_ca_ta == 0) {
+			alert("Please enter Instituion value !");
+		}else if (insL1_customer_share=="" || insL1_customer_share==0) {
+			alert("Please enter Instituion L1 Customer value !");
 		}
 	} else if (isValid_c1 == false) {
 		alert("Please enter valid Price for Adult ! ");
@@ -1323,7 +1324,7 @@ function calculatePackagePriceIns(payoutData) {
 		parseFloat(bm_mark_up) +
         parseFloat(ins_mark_up) +
         parseFloat(customer_share)+
-		parseFloat(newcoupon_title))) 
+		parseFloat(inscoupon_title))) 
    	// --------------------------
     // 5️⃣ Totals
     // --------------------------
@@ -1332,7 +1333,7 @@ function calculatePackagePriceIns(payoutData) {
         parseFloat(ins_mark_up) +
         parseFloat(customer_share) +
         parseFloat(company_share)+
-		parseFloat(newcoupon_title)
+		parseFloat(inscoupon_title)
     );
 
     // --------------------------
@@ -1447,6 +1448,13 @@ function submit_form_data(e) {
 		var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
 		var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
 		var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
+		var ins_bm_mf_sf_comm = parseFloat($('#ins_bm_mf_sf_comm').val());
+		var ins_bm_mf_sf_ins = parseFloat($('#ins_bm_mf_sf_ins').val());
+		var ins_mp_company = parseFloat($('#ins_mp_company').val());
+		var ins_mp_ca_ta = parseFloat($('#ins_mp_ca_ta').val());
+		var ins_mp_customer = parseFloat($('#ins_mp_customer').val());
+		var ins_l1_cust_comm = parseFloat($('#ins_l1_cust_comm').val());
+		var ins_l2_cust_comm = parseFloat($('#ins_l2_cust_comm').val());
 		var inclusion, exclusion, remark;
 		var temp_inclusion = $('#inclusion').val();
 		if (temp_inclusion) {
@@ -1498,6 +1506,9 @@ function submit_form_data(e) {
 		var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
 		// CTE calculation
 		var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
+		//institution markup
+		// BM | MF | SF calculation
+		var ins_bm_mf_sf_total = ins_bm_mf_sf_comm + ins_bm_mf_sf_ins;
 		//var details_of_day = document.getElementsByName('days[]');
 		//addition adult price
 		var add_adult_price=$('#add_adult_price').val();
@@ -1578,6 +1589,16 @@ function submit_form_data(e) {
 			cte_mark_up_comm: cte_mark_up_comm,
 			cte_mark_up_ins: cte_mark_up_ins,
 			newcoupon_amt:newcoupon_title,
+			ins_bm_mf_sf_comm:ins_bm_mf_sf_comm,
+			ins_bm_mf_sf_ins:ins_bm_mf_sf_ins,
+			ins_bm_mf_sf_total:ins_bm_mf_sf_total,
+			ins_l1_cust_comm:ins_l1_cust_comm,
+			ins_l2_cust_comm:ins_l2_cust_comm,
+			ins_mp_ca_ta:ins_mp_ca_ta,
+			ins_mp_company:ins_mp_company,
+			ins_mp_customer:ins_mp_customer,
+			inscoupon_title:inscoupon_title,
+			insmark_up_title:insmark_up_title,
 			total_package_price_per_adult: total_package_price_per_adult,
 			total_package_price_per_child: total_package_price_per_child,
 			company_share: company_share,
@@ -1699,6 +1720,13 @@ function update_form_data(e) {
 	var ete_mark_up_ins = parseFloat($('#mp_ete_ins').val());
 	var newca_mark_up_comm = parseFloat($('#new_mp_ca_comm').val());
 	var newca_mark_up_ins = parseFloat($('#new_mp_ca_ins').val());
+	var ins_bm_mf_sf_comm = parseFloat($('#ins_bm_mf_sf_comm').val());
+	var ins_bm_mf_sf_ins = parseFloat($('#ins_bm_mf_sf_ins').val());
+	var ins_mp_company = parseFloat($('#ins_mp_company').val());
+	var ins_mp_ca_ta = parseFloat($('#ins_mp_ca_ta').val());
+	var ins_mp_customer = parseFloat($('#ins_mp_customer').val());
+	var ins_l1_cust_comm = parseFloat($('#ins_l1_cust_comm').val());
+	var ins_l2_cust_comm = parseFloat($('#ins_l2_cust_comm').val());
 	var inclusion, exclusion, remark;
 	var temp_inclusion = $('#inclusion').val();
 	if (temp_inclusion) {
@@ -1749,6 +1777,10 @@ function update_form_data(e) {
 	var ste_mark_up = ste_mark_up_ins + ste_mark_up_comm;
 	// CTE calculation
 	var cte_mark_up = cte_mark_up_ins + cte_mark_up_comm;
+
+	//institution markup
+	// BM | MF | SF calculation
+	var ins_bm_mf_sf_total = ins_bm_mf_sf_comm + ins_bm_mf_sf_ins;
 	//var details_of_day = document.getElementsByName('days[]');
 	//addition adult price
 	var add_adult_price=$('#add_adult_price').val();
@@ -1833,6 +1865,16 @@ function update_form_data(e) {
 		cte_mark_up_comm: cte_mark_up_comm,
 		cte_mark_up_ins: cte_mark_up_ins,
 		newcoupon_amt:newcoupon_title,
+		ins_bm_mf_sf_comm:ins_bm_mf_sf_comm,
+		ins_bm_mf_sf_ins:ins_bm_mf_sf_ins,
+		ins_bm_mf_sf_total:ins_bm_mf_sf_total,
+		ins_l1_cust_comm:ins_l1_cust_comm,
+		ins_l2_cust_comm:ins_l2_cust_comm,
+		ins_mp_ca_ta:ins_mp_ca_ta,
+		ins_mp_company:ins_mp_company,
+		ins_mp_customer:ins_mp_customer,
+		inscoupon_title:inscoupon_title,
+		insmark_up_title:insmark_up_title,
 		total_package_price_per_adult: total_package_price_per_adult,
 		total_package_price_per_child: total_package_price_per_child,
 		company_share: company_share,

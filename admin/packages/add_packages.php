@@ -19,6 +19,12 @@ $data8 = $conn->prepare("SELECT * FROM `product_commission_te_chain` WHERE statu
 $data8->execute();
 $data8->setFetchMode(PDO::FETCH_ASSOC);
 $product_payout_data_new = $data8->fetchAll();
+
+//product payout commission new added on 12 may 2026
+$data9 = $conn->prepare("SELECT * FROM `product_commission_institution` WHERE status = 1");
+$data9->execute();
+$data9->setFetchMode(PDO::FETCH_ASSOC);
+$product_payout_data_ins = $data9->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -493,46 +499,43 @@ $product_payout_data_new = $data8->fetchAll();
                                                         </div>
                                                     </div>    
                                                 </div>
+                                                <!-- updatde markuplogic in 23 Jan 2025 by SV -->
                                                 <div class="col-md-12">
-                                                    <h4 class="pt-3 ps3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution</h4>
-
+                                                    <h4 class="pt-3 ps-3 fw-bolder" id="mark_up_title">Mark-Up Price Distribution Total(:0)</h4>
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="mp_company" name="company_share" value="" 
-                                                                        placeholder="Company Share" class="form-control" 
-                                                                        onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <input type="number" id="mp_company" name="company_share" value="" placeholder="Company Share" 
+                                                                class="form-control pending-input" oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="mp_company" class="required">Company </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="mp_ca_ta" name="ca_ta_share" value="" 
-                                                                        placeholder="Travel Agency share" class="form-control" 
-                                                                        onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
+                                                                <input type="number" id="mp_ca_ta" name="ca_ta_share" value="" placeholder="Travel Agency share" 
+                                                                class="form-control pending-input" oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
                                                                 <label for="mp_franchise">Travel Consultant</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="mp_customer" name="customer_share" value="" 
-                                                                        placeholder="Customer Share" class="form-control" 
-                                                                        onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
+                                                                <input type="number" id="mp_customer" name="customer_share" value="" placeholder="Customer Share" class="form-control" readonly 
+                                                                oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="mp_customer" class="required">Customer (L1 + L2 + L3)</label>
-                                                                <input type="hidden" id="l2_cust_comm" value="" />
-                                                                <input type="hidden" id="l3_cust_comm" value="" />
+                                                                <input type="hidden" id="l2_cust_comm" value=""/>
+                                                                <input type="hidden" id="l3_cust_comm" value=""/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" 
-                                                                       placeholder="L1 Customer" class="form-control" 
-                                                                       onchange='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <input type="number" id="l1_cust_comm" name="l1_cust_comm" value="" placeholder="L1 Customer" 
+                                                                class="form-control pending-input" 
+                                                                oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="l1_cust_comm" class="required">L1 Customer</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="ca_div">
-                                                            <label for="ca_div">Techno Enterprise</label>
+                                                            <label for="ca_div">Techno Enterprise (Total:0)</label>
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="mp_ca_comm" name="ca_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
                                                                 <label for="mp_ca_comm">Commision </label>
@@ -543,7 +546,7 @@ $product_payout_data_new = $data8->fetchAll();
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="bm_div">
-                                                            <label for="bm_div">Business Consultant/Mentor</label>
+                                                            <label for="bm_div">Business Consultant/Mentor (Total:0)</label>
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="mp_bm_comm" name="bm_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
                                                                 <label for="mp_bm_comm">Commision </label>
@@ -553,98 +556,187 @@ $product_payout_data_new = $data8->fetchAll();
                                                                 <label for="mp_bcm_ins">Incentive </label>
                                                             </div>
                                                         </div>
-                                                        
+                                                        <!-- added on 11-05-2026 by SV -->
+                                                        <div class="col-md-12 col-sm-2 mt-3" id="cup_div">
+                                                           <label for="cup_div" id="cup_title">Coupon (Total:0)</label>
+                                                           <div class="form-floating mb-3">
+                                                                <input type="number" id="coupon_total" name="coupon_total" value="" 
+                                                                        placeholder="Coupon Amount" class="form-control pending-input"
+                                                                        oninput='calculatePackagePrice(<?= json_encode($product_payout_data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="coupon_total">Coupon Amount</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!-- added new markuplogic onn 09 May 2026 by SV -->
                                                 <div class="col-md-12">
-                                                    <h4 class="pt-3 ps-3 fw-bolder" id="new_mark_up_title">New Mark-Up Price Distribution Total(0)</h4>
+                                                    <h4 class="pt-3 ps-3 fw-bolder" id="new_mark_up_title">Cheif Techno Mark-Up Price Distribution Total(:0)</h4>
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_mp_company" name="new_company_share" value="" placeholder="Company Share" class="form-control" 
+                                                                <input  type="number" id="new_mp_company" name="new_company_share" value="" 
+                                                                        placeholder="Company Share" class="form-control" 
                                                                         oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
-                                                                <label for="new_mp_company" class="required">New Company </label>
+                                                                <label for="new_mp_company" class="required">Company </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_mp_ca_ta" name="new_ca_ta_share" value="" placeholder="Travel Agency share" class="form-control" 
+                                                                <input type="number" id="new_mp_ca_ta" name="new_ca_ta_share" value="" 
+                                                                        placeholder="Travel Agency share" class="form-control pending-input" 
                                                                         oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
-                                                                <label for="new_mp_ca_ta">New Travel Consultant</label>
+                                                                <label for="new_mp_ca_ta">Travel Consultant</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_mp_customer" name="new_customer_share" value="" placeholder="Customer Share" class="form-control" readonly 
+                                                                <input type="number" id="new_mp_customer" name="new_customer_share" value="" 
+                                                                        placeholder="Customer Share" class="form-control" readonly 
                                                                         oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="new_mp_customer" class="required">New Customer (L1 + L2)</label>
+                                                                <label for="new_mp_customer" class="required">Customer (L1 + L2)</label>
                                                                 <input type="hidden" id="new_l2_cust_comm" value=""/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
-                                                                <input  type="number" id="new_l1_cust_comm" name="new_l1_cust_comm" value="" placeholder="L1 Customer" class="form-control" 
+                                                                <input type="number" id="new_l1_cust_comm" name="new_l1_cust_comm" value="" 
+                                                                        placeholder="L1 Customer" class="form-control pending-input" 
                                                                         oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
-                                                                <label for="new_l1_cust_comm" class="required">new L1 Customer</label>
+                                                                <label for="new_l1_cust_comm" class="required">L1 Customer</label>
+                                                            </div>
+                                                        </div>
+                                                        <label for="new_ca_div">Techno Enterprise (Total:0)</label>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="new_mp_ca_comm" name="new_ca_share_comm" value="" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                                <label for="new_mp_ca_comm">Commision </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="new_ca_div">
-                                                            <label for="ca_div">new Techno Enterprise (Total:0)</label>
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="new_mp_ca_comm" name="new_ca_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                                <label for="new_mp_ca_comm">Commision </label>
-                                                            </div>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="new_mp_ca_ins" name="new_ca_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
+                                                                <input  type="number" id="new_mp_ca_ins" name="new_ca_share_ins" value="" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
                                                                 <label for="new_mp_ca_ins">Incentive </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="ete_div">
-                                                            <label for="ete_div">Exicutive Techno Enterprise (Total:0)</label>
+                                                            <label for="ete_div">Executive Techno Enterprise (Total:0)</label>
                                                             <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ete_comm" name="ete_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                                <label for="mp_ete_comm">Commision </label>
-                                                            </div>
-                                                            <div class="form-floating mb-3">
-                                                                <input type="number" id="mp_ete_ins" name="ete_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                                <label for="mp_ete_ins">Incentive </label>
+                                                                <input  type="number" id="ete_total" name="ete_total" value="" 
+                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
+                                                                <label for="ete_total">Commision + Incentive</label>
+                                                                <input  type="hidden" id="mp_ete_comm" name="ete_share_comm" value="" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                                <input  type="hidden" id="mp_ete_ins" name="ete_share_ins" value="" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="ste_div">
                                                            <label for="ste_div">Super Techno Enterprise (Total:0)</label>
                                                            <div class="form-floating mb-3">
-                                                               <input type="number" id="mp_ste_comm" name="ste_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                               <label for="mp_ste_comm">Commision </label>
-                                                           </div>
-                                                           <div class="form-floating mb-3">
-                                                               <input type="number" id="mp_ste_ins" name="ste_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                               <label for="mp_ste_ins">Incentive </label>
-                                                           </div>
+                                                                <input  type="number" id="ste_total" name="ste_total" value="" 
+                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
+                                                                <label for="ste_total">Commision + Incentive</label>
+                                                                <input   type="hidden" id="mp_ste_comm" name="ste_share_comm" value="" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                                <input   type="hidden" id="mp_ste_ins" name="ste_share_ins" value="" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3" id="cte_div">
                                                            <label for="cte_div">Chief Techno Enterprise (Total:0)</label>
                                                            <div class="form-floating mb-3">
-                                                               <input type="number" id="mp_cte_comm" name="cte_share_comm" value="" placeholder="Commision" class="form-control" readOnly>
-                                                               <label for="mp_cte_comm">Commision </label>
-                                                           </div>
+                                                                <input  type="number" id="cte_total" name="cte_total" value="" 
+                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
+                                                                <label for="cte_total">Commision + Incentive</label>
+                                                                <input   type="hidden" id="mp_cte_ins" name="cte_share_ins" value="" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                                <input   type="hidden" id="mp_cte_comm" name="cte_share_comm" value="" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="newcup_div">
+                                                           <label for="newcup_div" id="newcup_title">Coupon (Total:0)</label>
                                                            <div class="form-floating mb-3">
-                                                               <input type="number" id="mp_cte_ins" name="cte_share_ins" value="" placeholder="Incentive" class="form-control" readOnly>
-                                                               <label for="mp_cte_ins">Incentive </label>
-                                                           </div>
+                                                                <input type="number" id="newcoupon_total" name="newcoupon_total" value="" 
+                                                                        placeholder="Coupon Amount" class="form-control pending-input"  
+                                                                        oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="newcoupon_total">Coupon Amount</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- added new institution markuplogic onn 11 May 2026 by SV -->
+                                                <div class="col-md-12">
+                                                    <h4 class="pt-3 ps-3 fw-bolder" id="ins_mark_up_title">Institution Mark-Up Price Distribution Total(:0)</h4>
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="ins_mp_company" name="ins_company_share" value="" 
+                                                                        placeholder="Company Share" class="form-control" 
+                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' readonly>
+                                                                <label for="ins_mp_company" class="required">Company </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="ins_mp_ca_ta" name="ins_ca_ta_share" value="" 
+                                                                        placeholder="Institution share" class="form-control pending-input" 
+                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' />
+                                                                <label for="ins_mp_ca_ta">Institution</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="ins_mp_customer" name="ins_customer_share" value="" 
+                                                                        placeholder="Customer Share" class="form-control" readonly 
+                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="ins_mp_customer" class="required">Customer (L1 + L2)</label>
+                                                                <input type="hidden" id="ins_l2_cust_comm" value=""/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 mt-3">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" id="ins_l1_cust_comm" name="ins_l1_cust_comm" value="" 
+                                                                        placeholder="L1 Customer" class="form-control pending-input" 
+                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="ins_l1_cust_comm" class="required">L1 Customer</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="bm_mf_sf_div">
+                                                            <label for="bm_mf_sf_div">BM | MF | SF (Total:0)</label>
+                                                            <div class="form-floating mb-3">
+                                                                <input  type="number" id="bm_mf_sf_total" name="bm_mf_sf_total" value="" 
+                                                                        placeholder="Commision + Incentive" class="form-control" readOnly>
+                                                                <label for="bm_mf_sf_total">Commision + Incentive</label>
+                                                                <input  type="hidden" id="ins_bm_mf_sf_comm" name="bm_mf_sf_share_comm" value="" 
+                                                                        placeholder="Commision" class="form-control" readOnly>
+                                                                <input  type="hidden" id="ins_bm_mf_sf_ins" name="bm_mf_sf_share_ins" value="" 
+                                                                        placeholder="Incentive" class="form-control" readOnly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-2 mt-3" id="inscup_div">
+                                                           <label for="inscup_div" id="inscup_title">Coupon (Total:0)</label>
+                                                           <div class="form-floating mb-3">
+                                                                <input type="number" id="inscoupon_total" name="inscoupon_total" value="" 
+                                                                        placeholder="Coupon Amount" class="form-control pending-input"  
+                                                                        oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
+                                                                <label for="inscoupon_total">Coupon Amount</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-6 col-sm-2 mt-3">
-                                                            <div class="form-floating mb-3"><!-- added on 23 Jan 2025 SV-->
+                                                            <div class="form-floating mb-3">
                                                                 <input type="number" value="" id="mrp_per_adult" placeholder="Total Price Per Adult" class="form-control" readOnly>
                                                                 <label for="mrp_per_adult">Total Price Per Adult</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-sm-2 mt-3">
-                                                            <div class="form-floating mb-3" id="total_child_price">
+                                                            <div class="form-floating mb-3">
                                                                 <input type="number" value="" id="mrp_per_child" placeholder="Total Price Per Child" class="form-control" readOnly>
                                                                 <label for="mrp_per_child">Total Price Per Child</label>
                                                             </div>

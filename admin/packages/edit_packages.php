@@ -832,7 +832,7 @@ $ins_L2_value = $ins_L1_value * 0.5;
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="new_mp_customer" name="new_customer_share" value="<?php echo (float)$markup_dist_price_new['customer'] ?>" 
-                                                                        placeholder="Customer Share" class="form-control pending-input" readonly 
+                                                                        placeholder="Customer Share" class="form-control" readonly 
                                                                         oninput='calculatePackagePriceNew(<?= json_encode($product_payout_data_new, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="new_mp_customer" class="required">Customer (L1 + L2)</label>
                                                                 <input type="hidden" id="new_l2_cust_comm" value="<?=$new_L2_value?>"/>
@@ -931,7 +931,7 @@ $ins_L2_value = $ins_L1_value * 0.5;
                                                         <div class="col-md-3 col-sm-3 mt-3">
                                                             <div class="form-floating mb-3">
                                                                 <input type="number" id="ins_mp_customer" name="ins_customer_share" value="<?php echo (float)$markup_dist_price_ins['customer'] ?>" 
-                                                                        placeholder="Customer Share" class="form-control pending-input" readonly 
+                                                                        placeholder="Customer Share" class="form-control" readonly 
                                                                         oninput='calculatePackagePriceIns(<?= json_encode($product_payout_data_ins, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                                                                 <label for="ins_mp_customer" class="required">Customer (L1 + L2)</label>
                                                                 <input type="hidden" id="ins_l2_cust_comm" value="<?=$ins_L2_value?>"/>
@@ -968,7 +968,7 @@ $ins_L2_value = $ins_L1_value * 0.5;
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-">
+                                                <div class="col-md-12">
                                                     <div class="row">
                                                         <div class="col-md-6 col-sm-2 mt-3">
                                                             <div class="form-floating mb-3">

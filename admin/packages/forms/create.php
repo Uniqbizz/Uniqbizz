@@ -12,7 +12,7 @@ $today = date('Y-m-d H:i:s');
 // declare variables
     $result_4 = '';
     $get_itinerary_id = 0;
-    $get_id;
+    $get_id='';
 
 
 // insert package data
@@ -243,7 +243,60 @@ $today = date('Y-m-d H:i:s');
         ]);
        
     }
+//new institution markup distribution 09-05-2026 by sv
+    if ($mydata['ins_mp_ca_ta'])
+    {
+        $sql_9 = 'SELECT * FROM package_pricing_markup_institution WHERE package_id=:package_id';
+        $statement_9 = $conn->prepare($sql_9);
+        $statement_9->execute([':package_id' => $get_id]);
+        $result_9 = $statement_9->fetch(PDO::FETCH_ASSOC);
 
+        if($result_9 == null){
+
+            // INSERT  package_pricing_markup_institution
+            $sql_8 = 'INSERT INTO package_pricing_markup_institution (
+                package_id, company, customer, ins_markup, bm_mark_up_total,
+                bm_direct_commission, bm_incentive, prime_customer,
+                L1_customer, total_mark_up, coupon_amount
+            ) VALUES (
+                :package_id, :company, :customer, :ins_markup,
+                :bm_mark_up_total, :bm_direct_commission, :bm_incentive,
+                :prime_customer, :L1_customer, :total_mark_up, :coupon_amount
+            )';
+
+        } else {
+
+            // UPDATE  package_pricing_markup_institution
+            $sql_8 = 'UPDATE package_pricing_markup_institution SET
+                company=:company,
+                customer=:customer,
+                ins_markup=:ins_markup,
+                bm_mark_up_total=:bm_mark_up_total,
+                bm_direct_commission=:bm_direct_commission,
+                bm_incentive=:bm_incentive,
+                prime_customer=:prime_customer,
+                L1_customer=:L1_customer,
+                total_mark_up=:total_mark_up,
+                coupon_amount=:coupon_amount
+                WHERE package_id=:package_id';
+        }
+
+        $statement_8 = $conn->prepare($sql_8);
+
+        $result_8 = $statement_8->execute([
+            ':package_id' => $get_id,
+            ':company' => $mydata['ins_mp_company'],
+            ':customer' => $mydata['ins_mp_customer'],
+            ':ins_markup' => $mydata['ins_mp_ca_ta'],
+            ':bm_mark_up_total' => $mydata['ins_bm_mf_sf_total'],
+            ':bm_direct_commission' => $mydata['ins_bm_mf_sf_comm'],
+            ':bm_incentive' => $mydata['ins_bm_mf_sf_ins'],
+            ':prime_customer' => $mydata['ins_l1_cust_comm'],
+            ':L1_customer' => $mydata['ins_l2_cust_comm'],
+            ':total_mark_up' => $mydata['insmark_up_title'],
+            ':coupon_amount'=> $mydata['inscoupon_title']
+        ]);
+    }
 //    cancel policy insert added on 24-01-2025 by sv
     if ( $mydata['policy_1'] )
     {
