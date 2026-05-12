@@ -44,13 +44,13 @@
                                 </a>
                             </li>
                     <?php
-                        }else if($userType == "16" || $userType == "29"){
+                        }else if($userType == "16" || $userType == "29" || $userType == "32"){
                     ?>
                         
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_travel_agent.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_travel_agent.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-travel-agent">Travel Consultant</span>
+                                <i class="ri-contacts-line"></i> <span data-key="t-travel-agent"> <?= $userType == "32" ? 'Institution Branch Manager':'Travel Consultant' ?></span>
                             </a>
                         </li>
                         <li class="nav-item <?php if ($first_part=="view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">
@@ -60,14 +60,18 @@
                         </li>
                         
                     <?php  
-                        }else if($userType == "11"){
+                        }else if($userType == "11" || $userType == "33"){
+                            if($userType == "11"){
+                    ?>
+                                <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
+                                    <a class="nav-link menu-link" href="markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                        <i class="ri-contacts-line"></i> <span data-key="t-markup">Markup</span>
+                                    </a>
+                                </li>
+                    <?php
+                            }
                     ?>
                         
-                        <li class="nav-item <?php if ($first_part=="markup.php") {echo "actives"; } else  {echo "noactive";}?>">
-                            <a class="nav-link menu-link" href="markup.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="ri-contacts-line"></i> <span data-key="t-markup">Markup</span>
-                            </a>
-                        </li>
                         <li class="nav-item <?php if ($first_part=="view_customer.php") {echo "actives"; } else  {echo "noactive";}?>">
                             <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-contacts-line"></i> <span data-key="t-customer">Customer</span>
@@ -84,7 +88,7 @@
                     <?php } ?>   
 
                     <?php  
-                         if($userType != "18" && $userType != "19" && $userType !="24" && $userType !="25" && $userType!='31'){
+                         if($userType != "18" && $userType != "19" && $userType !="24" && $userType !="25" && $userType!='31' && $userType!='33'){
                     ?>
                         <li class="nav-item">  <!--payout -->
                             <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
@@ -93,7 +97,7 @@
                             <div class="collapse menu-dropdown" id="sidebarMultilevel">
                                 <ul class="nav nav-sm flex-column">
                                     <?php 
-                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="31"){ 
+                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "10" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="31" || $userType =="32"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="product_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="product_payout.php" class="nav-link menu-link">
@@ -102,7 +106,7 @@
                                         </li>
                                     <?php
                                         }
-                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30"){ 
+                                        if($userType == "26" || $userType == "16" || $userType == "11" || $userType == "28" || $userType == "29" || $userType =="30" || $userType =="32"){ 
                                     ?>
                                         <li class="nav-item  <?php if ($first_part=="customer_recruitment_payout.php") {echo "actives"; } else  {echo "noactive";}?>">
                                             <a href="customer_recruitment_payout.php" class="nav-link menu-link">

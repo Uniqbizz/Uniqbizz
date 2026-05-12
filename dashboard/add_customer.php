@@ -153,7 +153,7 @@ if ($userType == 10) {
                                                             <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
                                                         </div>
                                                     </div>
-                                                <?php } else if ($userType == '11') { ?>
+                                                <?php } else if ($userType == '11' || $userType == "33") { ?>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
@@ -347,7 +347,7 @@ if ($userType == 10) {
                                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
                                                     </div>
                                                 </div>
-                                                <?php if ($userType == 11 || $userType == 10) { ?>
+                                                <?php if ($userType == 11 || $userType == 10 || $userType == 33) { ?>
 
                                                 
                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">

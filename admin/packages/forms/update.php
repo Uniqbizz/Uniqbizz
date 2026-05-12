@@ -169,65 +169,212 @@ if ($mydata['ta_mark_up']) {
     $statement_9 = $conn->prepare($sql_9);  
     $statement_9->execute([':package_id' => $get_id]);
     $result_9 = $statement_9->fetch(PDO::FETCH_ASSOC);
+
     if($result_9 == null){
-        $sql_8 = 'INSERT INTO package_pricing_markup (package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission, ca_incentive, bm_mark_up_total, bm_direct_commission, bm_incentive, bdm_mark_up_total, bdm_direct_commission, bdm_incentive, bcm_mark_up_total, bcm_direct_commission, bcm_incentive, prime_customer, L1_customer, L2_customer,total_mark_up) 
-        VALUES(:package_id, :company, :customer, :ta_markup, :ca_mark_up_total, :ca_direct_commission, :ca_incentive, :bm_mark_up_total, :bm_direct_commission, :bm_incentive, :bdm_mark_up_total, :bdm_direct_commission, :bdm_incentive, :bcm_mark_up_total, :bcm_direct_commission, :bcm_incentive, :prime_customer, :L1_customer, :L2_customer,:total_mark_up)';
-        $statement_8 = $conn->prepare($sql_8);
-        $result_8 = $statement_8->execute([
-            ':package_id' => $get_id,
-            ':company' => $mydata['company_share'],
-            ':customer' => $mydata['customer_share'],
-            ':ta_markup' => $mydata['ta_mark_up'],
-            ':ca_mark_up_total' => $mydata['ca_mark_up'],
-            ':ca_direct_commission' => $mydata['ca_mark_up_comm'],
-            ':ca_incentive' => $mydata['ca_mark_up_ins'],
-            ':bm_mark_up_total' => $mydata['bm_mark_up'],
-            ':bm_direct_commission' => $mydata['bm_mark_up_comm'],
-            ':bm_incentive' => $mydata['bm_mark_up_ins'],
-            ':bdm_mark_up_total' => $mydata['bdm_mark_up'] ?? 0,
-            ':bdm_direct_commission' => $mydata['bdm_mark_up_comm'] ?? 0,
-            ':bdm_incentive' => $mydata['bdm_mark_up_ins'] ?? 0,
-            ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
-            ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
-            ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['L1_customer_share'],
-            ':L1_customer' => $mydata['L2_customer_share'],
-            ':L2_customer' => $mydata['L3_customer_share'],
-            ':total_mark_up' => $mydata['total_mark_up']
-        ]);
 
-    }else{
+        // INSERT package_pricing_markup
+        $sql_8 = 'INSERT INTO package_pricing_markup (
+            package_id, company, customer, ta_markup, ca_mark_up_total, ca_direct_commission,
+            ca_incentive, bm_mark_up_total, bm_direct_commission, bm_incentive,
+            bdm_mark_up_total, bdm_direct_commission, bdm_incentive,
+            bcm_mark_up_total, bcm_direct_commission, bcm_incentive,
+            prime_customer, L1_customer, L2_customer, total_mark_up, coupon_amount
+        ) VALUES (
+            :package_id, :company, :customer, :ta_markup, :ca_mark_up_total,
+            :ca_direct_commission, :ca_incentive, :bm_mark_up_total,
+            :bm_direct_commission, :bm_incentive, :bdm_mark_up_total,
+            :bdm_direct_commission, :bdm_incentive, :bcm_mark_up_total,
+            :bcm_direct_commission, :bcm_incentive, :prime_customer,
+            :L1_customer, :L2_customer, :total_mark_up, :coupon_amount
+        )';
 
-        $sql_8 = 'UPDATE package_pricing_markup set 
-                company=:company, customer=:customer, ta_markup=:ta_markup, ca_mark_up_total=:ca_mark_up_total, ca_direct_commission=:ca_direct_commission, ca_incentive=:ca_incentive,
-                bm_mark_up_total=:bm_mark_up_total, bm_direct_commission=:bm_direct_commission, bm_incentive=:bm_incentive, bdm_mark_up_total=:bdm_mark_up_total, bdm_direct_commission=:bdm_direct_commission,
-                bdm_incentive=:bdm_incentive, bcm_mark_up_total=:bcm_mark_up_total, bcm_direct_commission=:bcm_direct_commission, bcm_incentive=:bcm_incentive, prime_customer=:prime_customer, L1_customer=:L1_customer, L2_customer=:L2_customer, total_mark_up=:total_mark_up WHERE package_id=:package_id';
+    } else {
 
-        $statement_8 = $conn->prepare($sql_8);
-
-        $result_8 = $statement_8->execute([
-            ':package_id' => $get_id,
-            ':company' => $mydata['company_share'],
-            ':customer' => $mydata['customer_share'],
-            ':ta_markup' => $mydata['ta_mark_up'],
-            ':ca_mark_up_total' => $mydata['ca_mark_up'],
-            ':ca_direct_commission' => $mydata['ca_mark_up_comm'],
-            ':ca_incentive' => $mydata['ca_mark_up_ins'],
-            ':bm_mark_up_total' => $mydata['bm_mark_up'],
-            ':bm_direct_commission' => $mydata['bm_mark_up_comm'],
-            ':bm_incentive' => $mydata['bm_mark_up_ins'],
-            ':bdm_mark_up_total' => $mydata['bdm_mark_up'] ?? 0,
-            ':bdm_direct_commission' => $mydata['bdm_mark_up_comm'] ?? 0,
-            ':bdm_incentive' => $mydata['bdm_mark_up_ins'] ?? 0,
-            ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
-            ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
-            ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
-            ':prime_customer' => $mydata['L1_customer_share'],
-            ':L1_customer' => $mydata['L2_customer_share'],
-            ':L2_customer' => $mydata['L3_customer_share'],
-            ':total_mark_up' => $mydata['total_mark_up']
-        ]);
+        // UPDATE package_pricing_markup
+        $sql_8 = 'UPDATE package_pricing_markup SET 
+            company=:company,
+            customer=:customer,
+            ta_markup=:ta_markup,
+            ca_mark_up_total=:ca_mark_up_total,
+            ca_direct_commission=:ca_direct_commission,
+            ca_incentive=:ca_incentive,
+            bm_mark_up_total=:bm_mark_up_total,
+            bm_direct_commission=:bm_direct_commission,
+            bm_incentive=:bm_incentive,
+            bdm_mark_up_total=:bdm_mark_up_total,
+            bdm_direct_commission=:bdm_direct_commission,
+            bdm_incentive=:bdm_incentive,
+            bcm_mark_up_total=:bcm_mark_up_total,
+            bcm_direct_commission=:bcm_direct_commission,
+            bcm_incentive=:bcm_incentive,
+            prime_customer=:prime_customer,
+            L1_customer=:L1_customer,
+            L2_customer=:L2_customer,
+            total_mark_up=:total_mark_up,
+            coupon_amount=:coupon_amount
+            WHERE package_id=:package_id';
     }
+
+    $statement_8 = $conn->prepare($sql_8);
+
+    $result_8 = $statement_8->execute([
+        ':package_id' => $get_id,
+        ':company' => $mydata['company_share'],
+        ':customer' => $mydata['customer_share'],
+        ':ta_markup' => $mydata['ta_mark_up'],
+        ':ca_mark_up_total' => $mydata['ca_mark_up'],
+        ':ca_direct_commission' => $mydata['ca_mark_up_comm'],
+        ':ca_incentive' => $mydata['ca_mark_up_ins'],
+        ':bm_mark_up_total' => $mydata['bm_mark_up'],
+        ':bm_direct_commission' => $mydata['bm_mark_up_comm'],
+        ':bm_incentive' => $mydata['bm_mark_up_ins'],
+        ':bdm_mark_up_total' => $mydata['bdm_mark_up'] ?? 0,
+        ':bdm_direct_commission' => $mydata['bdm_mark_up_comm'] ?? 0,
+        ':bdm_incentive' => $mydata['bdm_mark_up_ins'] ?? 0,
+        ':bcm_mark_up_total' => $mydata['bcm_mark_up'] ?? 0,
+        ':bcm_direct_commission' => $mydata['bcm_mark_up_comm'] ?? 0,
+        ':bcm_incentive' => $mydata['bcm_mark_up_ins'] ?? 0,
+        ':prime_customer' => $mydata['L1_customer_share'],
+        ':L1_customer' => $mydata['L2_customer_share'],
+        ':L2_customer' => $mydata['L3_customer_share'],
+        ':total_mark_up' => $mydata['total_mark_up'],
+        ':coupon_amount'=>$mydata['coupon_amt']
+    ]);
+}
+
+
+//new chief markup distribution 09-05-2026 by sv
+if ($mydata['newta_mark_up'])
+{
+    $sql_9 = 'SELECT * FROM package_pricing_markup_te_chain WHERE package_id=:package_id';
+    $statement_9 = $conn->prepare($sql_9);
+    $statement_9->execute([':package_id' => $get_id]);
+    $result_9 = $statement_9->fetch(PDO::FETCH_ASSOC);
+
+    if($result_9 == null){
+
+        // INSERT package_pricing_markup_te_chain
+        $sql_8 = 'INSERT INTO package_pricing_markup_te_chain (
+            package_id, company, customer, ta_markup, te_mark_up_total,
+            te_direct_commission, te_incentive, ete_mark_up_total,
+            ete_direct_commission, ete_incentive, ste_mark_up_total,
+            ste_direct_commission, ste_incentive, cte_mark_up_total,
+            cte_direct_commission, cte_incentive, prime_customer,
+            L1_customer, total_mark_up, coupon_amount
+        ) VALUES (
+            :package_id, :company, :customer, :ta_markup,
+            :te_mark_up_total, :te_direct_commission, :te_incentive,
+            :ete_mark_up_total, :ete_direct_commission, :ete_incentive,
+            :ste_mark_up_total, :ste_direct_commission, :ste_incentive,
+            :cte_mark_up_total, :cte_direct_commission, :cte_incentive,
+            :prime_customer, :L1_customer, :total_mark_up, :coupon_amount
+        )';
+
+    } else {
+
+        // UPDATE package_pricing_markup_te_chain
+        $sql_8 = 'UPDATE package_pricing_markup_te_chain SET
+            company=:company,
+            customer=:customer,
+            ta_markup=:ta_markup,
+            te_mark_up_total=:te_mark_up_total,
+            te_direct_commission=:te_direct_commission,
+            te_incentive=:te_incentive,
+            ete_mark_up_total=:ete_mark_up_total,
+            ete_direct_commission=:ete_direct_commission,
+            ete_incentive=:ete_incentive,
+            ste_mark_up_total=:ste_mark_up_total,
+            ste_direct_commission=:ste_direct_commission,
+            ste_incentive=:ste_incentive,
+            cte_mark_up_total=:cte_mark_up_total,
+            cte_direct_commission=:cte_direct_commission,
+            cte_incentive=:cte_incentive,
+            prime_customer=:prime_customer,
+            L1_customer=:L1_customer,
+            total_mark_up=:total_mark_up,
+            coupon_amount=:coupon_amount
+            WHERE package_id=:package_id';
+    }
+
+    $statement_8 = $conn->prepare($sql_8);
+
+    $result_8 = $statement_8->execute([
+        ':package_id' => $get_id,
+        ':company' => $mydata['newcompany_share'],
+        ':customer' => $mydata['newcustomer_share'],
+        ':ta_markup' => $mydata['newta_mark_up'],
+        ':te_mark_up_total' => $mydata['te_mark_up'],
+        ':te_direct_commission' => $mydata['te_mark_up_comm'],
+        ':te_incentive' => $mydata['te_mark_up_ins'],
+        ':ete_mark_up_total' => $mydata['ete_mark_up'],
+        ':ete_direct_commission' => $mydata['ete_mark_up_comm'],
+        ':ete_incentive' => $mydata['ete_mark_up_ins'],
+        ':ste_mark_up_total' => $mydata['ste_mark_up'] ?? 0,
+        ':ste_direct_commission' => $mydata['ste_mark_up_comm'] ?? 0,
+        ':ste_incentive' => $mydata['ste_mark_up_ins'] ?? 0,
+        ':cte_mark_up_total' => $mydata['cte_mark_up'] ?? 0,
+        ':cte_direct_commission' => $mydata['cte_mark_up_comm'] ?? 0,
+        ':cte_incentive' => $mydata['cte_mark_up_ins'] ?? 0,
+        ':prime_customer' => $mydata['newL1_customer_share'],
+        ':L1_customer' => $mydata['newL2_customer_share'],
+        ':total_mark_up' => $mydata['newtotal_mark_up'],
+        ':coupon_amount'=> $mydata['newcoupon_amt']
+    ]);
+}
+
+//new institution markup distribution 09-05-2026 by sv
+if ($mydata['ins_mp_ca_ta'])
+{
+    $sql_9 = 'SELECT * FROM package_pricing_markup_institution WHERE package_id=:package_id';
+    $statement_9 = $conn->prepare($sql_9);
+    $statement_9->execute([':package_id' => $get_id]);
+    $result_9 = $statement_9->fetch(PDO::FETCH_ASSOC);
+
+    if($result_9 == null){
+
+        // INSERT  package_pricing_markup_institution
+        $sql_8 = 'INSERT INTO package_pricing_markup_institution (
+            package_id, company, customer, ins_markup, bm_mark_up_total,
+            bm_direct_commission, bm_incentive, prime_customer,
+            L1_customer, total_mark_up, coupon_amount
+        ) VALUES (
+            :package_id, :company, :customer, :ins_markup,
+            :bm_mark_up_total, :bm_direct_commission, :bm_incentive,
+            :prime_customer, :L1_customer, :total_mark_up, :coupon_amount
+        )';
+
+    } else {
+
+        // UPDATE  package_pricing_markup_institution
+        $sql_8 = 'UPDATE package_pricing_markup_institution SET
+            company=:company,
+            customer=:customer,
+            ins_markup=:ins_markup,
+            bm_mark_up_total=:bm_mark_up_total,
+            bm_direct_commission=:bm_direct_commission,
+            bm_incentive=:bm_incentive,
+            prime_customer=:prime_customer,
+            L1_customer=:L1_customer,
+            total_mark_up=:total_mark_up,
+            coupon_amount=:coupon_amount
+            WHERE package_id=:package_id';
+    }
+
+    $statement_8 = $conn->prepare($sql_8);
+
+    $result_8 = $statement_8->execute([
+        ':package_id' => $get_id,
+        ':company' => $mydata['ins_mp_company'],
+        ':customer' => $mydata['ins_mp_customer'],
+        ':ins_markup' => $mydata['ins_mp_ca_ta'],
+        ':bm_mark_up_total' => $mydata['ins_bm_mf_sf_total'],
+        ':bm_direct_commission' => $mydata['ins_bm_mf_sf_comm'],
+        ':bm_incentive' => $mydata['ins_bm_mf_sf_ins'],
+        ':prime_customer' => $mydata['ins_l1_cust_comm'],
+        ':L1_customer' => $mydata['ins_l2_cust_comm'],
+        ':total_mark_up' => $mydata['insmark_up_title'],
+        ':coupon_amount'=> $mydata['inscoupon_title']
+    ]);
 }
 
 //    cancel policy insert added on 24-01-2025 by sv

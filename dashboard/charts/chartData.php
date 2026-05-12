@@ -10,52 +10,150 @@ $current_month = $get_data['current_month'];
 $user_id = $get_data['user_id'];
 $user_type = $get_data['user_type'];
 
-function monthlyChartData($conn, $reference_no, $get_year, $current_year, $current_month, $user_type,$user_id){
+function monthlyChartData($conn, $reference_no, $get_year, $current_year, $current_month, $user_type, $user_id){
     $data = array_fill(0, 12, 0);
 
-    $tableMap = [
-        '3'  => 'corporate_agency',
-        '10' => 'ca_customer',
-        '11' => 'ca_customer',
-        '15' => 'ca_travelagency',
-        '18' => 'business_consultant',
-        '19' => 'business_operation_executive',
-        '20' => 'training_manager',
-        '21' => 'sales_executive'
-    ];
+    try {
 
-    $columnMap = [
-        '11' => 'ta_reference_no'
-    ];
+        // =========================
+        // 🎯 TC (11) → CU
+        // =========================
+        if ($user_type == '11') {
 
-    if (array_key_exists($user_type, $tableMap)) {
-        $table = $tableMap[$user_type];
-        $refCol = $columnMap[$user_type] ?? 'reference_no';
-        if($user_type == '16'){
-            $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
-                FROM $table 
-                LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $user_id . "'
-                WHERE ($refCol = :reference_no OR tm.te_id = '" . $user_id . "') AND status = '1'";
-        }else{
-            $sql = "SELECT MONTH(register_date) AS start_month, YEAR(register_date) AS start_year 
-                    FROM $table 
-                    WHERE $refCol = :reference_no AND status = '1'";
-        }
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([':reference_no' => $reference_no]);
+            $sql = "
+                SELECT 
+                    MONTH(register_date) AS m,
+                    COUNT(*) AS total
+                FROM ca_customer
+                WHERE ta_reference_no = :user_id
+                AND status = '1'
+                AND YEAR(register_date) = :get_year
+                GROUP BY MONTH(register_date)
+            ";
 
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            if ($row['start_year'] == $get_year) {
-                $data[$row['start_month'] - 1] += 1;
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
             }
+
+            return [$data];
         }
 
-        if ($current_year == $get_year) {
-            array_splice($data, $current_month);
+        // =========================
+        // 🎯 TE (16) → TC → CU
+        // =========================
+        elseif ($user_type == '16') {
+
+            $sql = "
+                SELECT 
+                    MONTH(c.register_date) AS m,
+                    COUNT(*) AS total
+                FROM ca_customer c
+
+                INNER JOIN ca_travelagency tc 
+                    ON c.ta_reference_no = tc.ca_travelagency_id
+                    AND tc.status = '1'
+
+                INNER JOIN tc_mapping tm 
+                    ON tm.tc_id = tc.ca_travelagency_id
+                    AND tm.te_id = :user_id
+
+                WHERE c.status = '1'
+                AND YEAR(c.register_date) = :get_year
+                GROUP BY MONTH(c.register_date)
+            ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
+            }
+
+            return [$data]; // only CU for TE chart (as per your labelMap)
         }
+
+        // =========================
+        // 🎯 IBR (33) → CU
+        // =========================
+        elseif ($user_type == '33') {
+
+            $sql = "
+                SELECT 
+                    MONTH(register_date) AS m,
+                    COUNT(*) AS total
+                FROM ca_customer
+                WHERE ta_reference_no = :user_id
+                AND status = '1'
+                AND YEAR(register_date) = :get_year
+                GROUP BY MONTH(register_date)
+            ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
+            }
+
+            return [$data];
+        }
+
+        // =========================
+        // 🎯 DEFAULT (fallback)
+        // =========================
+        else {
+
+            $tableMap = [
+                '10' => 'ca_customer',
+                '11' => 'ca_travelagency',
+                '16' => 'corporate_agency',
+                '33' => 'institution_branch_manager'
+            ];
+
+            if (!isset($tableMap[$user_type])) {
+                return [$data];
+            }
+
+            $table = $tableMap[$user_type];
+
+            $sql = "
+                SELECT 
+                    MONTH(register_date) AS m,
+                    COUNT(*) AS total
+                FROM $table
+                WHERE status = '1'
+                AND YEAR(register_date) = :get_year
+                GROUP BY MONTH(register_date)
+            ";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':get_year' => $get_year
+            ]);
+
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $data[$row['m'] - 1] = (int)$row['total'];
+            }
+
+            return [$data];
+        }
+
+    } catch (Exception $e) {
+        error_log("Chart Error: " . $e->getMessage());
+        return [$data];
     }
-
-    return $data;
 }
 
 // Special case for BCM → return 3 separate arrays
@@ -266,7 +364,7 @@ if ($user_type == '24') {
 } else if ($user_type == '25') {
     $months = 12;
     // Initialize arrays
-    $bm = $te = $f = $tc = $cu = $mf = $sf = array_fill(0, $months, 0);
+    $bm = $te = $f = $tc = $cu = $mf = $sf = $i = $ibr = array_fill(0, $months, 0);
 
     $sql = " SELECT user_type, y, m, SUM(cnt) AS cnt
                 FROM (
@@ -297,7 +395,7 @@ if ($user_type == '24') {
 
                     UNION ALL
 
-                    -- 3. Sub-Franchisees (F) via BDM → F, MF → F, SF → F
+                    -- 3. Sub-Franchisees (F) via BDM → F, MF → F, SF → F, BM -> F
                     SELECT 'F' AS user_type, YEAR(f.register_date) AS y, MONTH(f.register_date) AS m, COUNT(DISTINCT f.sub_franchisee_id) AS cnt
                     FROM sub_franchisee f
                     WHERE f.status='1'
@@ -314,17 +412,22 @@ if ($user_type == '24') {
                             FROM sponsor_franchisee sf 
                             WHERE sf.reference_no=:ref AND sf.status='1'
                         )
+                        OR f.reference_no IN (
+                            SELECT bm.business_mentor_id 
+                            FROM business_mentor bm 
+                            WHERE bm.reference_no=:ref AND bm.status='1'
+                        )
                     )
                     GROUP BY YEAR(f.register_date), MONTH(f.register_date)
 
                     UNION ALL
 
                     -- 4. Master Franchisee (MF)
-                    SELECT 'MF' AS user_type, YEAR(mf.register_date) AS y, MONTH(mf.register_date) AS m, COUNT(DISTINCT mf.master_franchisee_id) AS cnt
-                    FROM master_franchisee mf
-                    WHERE mf.reference_no=:ref AND mf.status='1'
-                    AND YEAR(mf.register_date)=:get_year
-                    GROUP BY YEAR(mf.register_date), MONTH(mf.register_date)
+                    SELECT 'I' AS user_type, YEAR(i.register_date) AS y, MONTH(i.register_date) AS m, COUNT(DISTINCT i.institution_id) AS cnt
+                    FROM institution i
+                    WHERE i.reference_no=:ref AND i.status='1'
+                    AND YEAR(i.register_date)=:get_year
+                    GROUP BY YEAR(i.register_date), MONTH(i.register_date)
 
                     UNION ALL
 
@@ -337,7 +440,16 @@ if ($user_type == '24') {
 
                     UNION ALL
 
-                    -- 6. TC from all paths
+                    -- 6. INSTITUTION (I)
+                    SELECT 'I' AS user_type, YEAR(i.register_date) AS y, MONTH(i.register_date) AS m, COUNT(DISTINCT i.institution_id) AS cnt
+                    FROM institution i
+                    WHERE i.reference_no=:ref AND i.status='1'
+                    AND YEAR(i.register_date)=:get_year
+                    GROUP BY YEAR(i.register_date), MONTH(i.register_date)
+
+                    UNION ALL
+
+                    -- 5. TC from all paths
                     SELECT 'TC' AS user_type, YEAR(tc.register_date) AS y, MONTH(tc.register_date) AS m, COUNT(DISTINCT tc.ca_travelagency_id) AS cnt
                     FROM ca_travelagency tc
                     WHERE tc.status='1'
@@ -392,25 +504,47 @@ if ($user_type == '24') {
 
                     UNION ALL
 
-                    -- 7. CU via all TCs
+                    -- 7. IBR from I
+                    SELECT 'IBR' AS user_type, YEAR(ibr.register_date) AS y, MONTH(ibr.register_date) AS m, COUNT(DISTINCT ibr.institution_branch_manager_id) AS cnt
+                    FROM institution_branch_manager ibr
+                    WHERE ibr.status='1'
+                    AND YEAR(ibr.register_date)=:get_year
+                    AND (
+                        ibr.reference_no = :ref
+                        OR ibr.reference_no IN (
+                            SELECT i.institution_id 
+                            FROM institution i 
+                            WHERE i.reference_no=:ref AND i.status='1'
+                        )
+                        
+                    )
+                    GROUP BY YEAR(ibr.register_date), MONTH(ibr.register_date)
+
+                    UNION ALL
+
+                    -- 8. CU via all TCs
                     SELECT 'CU' AS user_type, YEAR(c.register_date) AS y, MONTH(c.register_date) AS m, COUNT(DISTINCT c.ca_customer_id) AS cnt
                     FROM ca_customer c
-                    JOIN ca_travelagency tc ON c.ta_reference_no = tc.ca_travelagency_id
-                    WHERE c.status='1' AND tc.status='1'
+                    LEFT JOIN ca_travelagency tc 
+                    ON c.ta_reference_no = tc.ca_travelagency_id
+
+                    LEFT JOIN institution_branch_manager ibm
+                    ON c.ta_reference_no = ibm.institution_branch_manager_id
+                    WHERE c.status='1' AND ((tc.status = '1') OR (ibm.status = '1'))
                     AND YEAR(c.register_date)=:get_year
                     AND (
-                        tc.reference_no = :ref
-                        OR tc.reference_no IN (
+                        COALESCE(tc.reference_no, ibm.reference_no) = :ref
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT bm.business_mentor_id 
                             FROM business_mentor bm 
                             WHERE bm.reference_no=:ref AND bm.status='1'
                         )
-                        OR tc.reference_no IN (
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT te.corporate_agency_id 
                             FROM corporate_agency te 
                             WHERE te.reference_no=:ref AND te.status='1'
                         )
-                        OR tc.reference_no IN (
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT te.corporate_agency_id 
                             FROM corporate_agency te 
                             WHERE te.reference_no IN (
@@ -419,29 +553,40 @@ if ($user_type == '24') {
                                 WHERE bm.reference_no=:ref AND bm.status='1'
                             ) AND te.status='1'
                         )
-                        OR tc.reference_no IN (
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT mf.master_franchisee_id 
                             FROM master_franchisee mf 
                             WHERE mf.reference_no=:ref AND mf.status='1'
                         )
-                        OR tc.reference_no IN (
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT f.sub_franchisee_id 
                             FROM sub_franchisee f 
                             WHERE f.reference_no=:ref AND f.status='1'
                         )
-                        OR tc.reference_no IN (
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT f.sub_franchisee_id 
                             FROM sub_franchisee f 
                             JOIN master_franchisee mf 
                               ON f.reference_no=mf.master_franchisee_id 
                             WHERE mf.reference_no=:ref AND mf.status='1' AND f.status='1'
                         )
-                        OR tc.reference_no IN (
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
                             SELECT f.sub_franchisee_id 
                             FROM sub_franchisee f 
                             JOIN sponsor_franchisee sf 
                               ON f.reference_no=sf.sponsor_franchisee_id 
                             WHERE sf.reference_no=:ref AND sf.status='1' AND f.status='1'
+                        )
+                        OR COALESCE(tc.reference_no, ibm.reference_no) IN (
+                            SELECT ibm.institution_branch_manager_id
+                            FROM institution_branch_manager ibm
+                            WHERE ibm.reference_no IN (
+                                SELECT i.institution_id
+                                FROM institution i
+                                WHERE i.reference_no = :ref
+                                AND i.status = '1'
+                            )
+                            AND ibm.status = '1'
                         )
                     )
                     GROUP BY YEAR(c.register_date), MONTH(c.register_date)
@@ -462,6 +607,8 @@ if ($user_type == '24') {
             case 'F':  $f[$row['m']-1]  = (int)$row['cnt']; break;
             case 'MF': $mf[$row['m']-1] = (int)$row['cnt']; break;
             case 'SF': $sf[$row['m']-1] = (int)$row['cnt']; break;
+            case 'I': $i[$row['m']-1] = (int)$row['cnt']; break;
+            case 'IBR': $ibr[$row['m']-1] = (int)$row['cnt']; break;
             case 'TC': $tc[$row['m']-1] = (int)$row['cnt']; break;
             case 'CU': $cu[$row['m']-1] = (int)$row['cnt']; break;
         }
@@ -474,15 +621,20 @@ if ($user_type == '24') {
         array_splice($mf, $current_month);
         array_splice($sf, $current_month);
         array_splice($tc, $current_month);
+        array_splice($i, $current_month);
+        array_splice($ibr, $current_month);
         array_splice($cu, $current_month);
     }
 
-    echo json_encode([$bm, $mf, $sf, $te, $f, $tc, $cu]);
+    echo json_encode([$bm, $mf, $sf, $te, $f, $i, $tc, $ibr, $cu]);
 } else if ($user_type == '26') {
     // For BM->TC->CU / BM->TE->TC-CU
     $te = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
     $cu = array_fill(0, 12, 0);
+    $f = array_fill(0, 12, 0);
+    $i = array_fill(0, 12, 0);
+    $ibr = array_fill(0, 12, 0);
 
     //for BM -> TE only
     $sql = "SELECT corporate_agency_id, register_date FROM corporate_agency 
@@ -556,16 +708,111 @@ if ($user_type == '24') {
         }
     }
 
+    //for SF -> F only
+    $sql = "SELECT sub_franchisee_id, register_date FROM sub_franchisee 
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $fRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($fRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $f[$month - 1]++;
+        }
+    }
+    // Get TCs under those Fs
+    $IIds = array_column($IRows, 'sub_franchisee_id');
+    if (!empty($IIds)) {
+        $inClause = implode(',', array_fill(0, count($IIds), '?'));
+        $sql = "SELECT ca_travelagency_id,register_date FROM ca_travelagency 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($IIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['ca_travelagency_id'];
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $tc[$month - 1]++;
+            }
+            $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
+            }
+        }
+    }
+    //for I -> IBR only
+    $sql = "SELECT institution_id, register_date FROM institution 
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $ibrRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($ibrRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $i[$month - 1]++;
+        }
+    }
+    // Get IBRs under those Is
+    $ibrIds = array_column($ibrRows, 'institution_id');
+    if (!empty($ibrIds)) {
+        $inClause = implode(',', array_fill(0, count($ibrIds), '?'));
+        $sql = "SELECT institution_branch_manager_id,register_date FROM institution_branch_manager 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($ibrIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['institution_branch_manager_id'];
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $ibr[$month - 1]++;
+            }
+            $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
+            }
+        }
+    }
     if ($current_year == $get_year) {
         array_splice($te, $current_month);
         array_splice($tc, $current_month);
         array_splice($cu, $current_month);
+        array_splice($f, $current_month);
+        array_splice($i, $current_month);
+        array_splice($ibr, $current_month);
     }
 
-    echo json_encode([ $te,$tc,$cu ]);
+    echo json_encode([ $te, $f, $i, $tc, $ibr,$cu ]);
 } else if($user_type == '28'){
     $f = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
+    $i = array_fill(0, 12, 0);
+    $ibr = array_fill(0, 12, 0);
     $cu = array_fill(0, 12, 0);
 
     //for MF -> F only
@@ -641,16 +888,65 @@ if ($user_type == '24') {
             }
         }
     }
+    //for I -> IBR only
+    $sql = "SELECT institution_id, register_date FROM institution 
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $ibrRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($ibrRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $i[$month - 1]++;
+        }
+    }
+    // Get IBRs under those Is
+    $ibrIds = array_column($ibrRows, 'institution_id');
+    if (!empty($ibrIds)) {
+        $inClause = implode(',', array_fill(0, count($ibrIds), '?'));
+        $sql = "SELECT institution_branch_manager_id,register_date FROM institution_branch_manager 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($ibrIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['institution_branch_manager_id'];
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $ibr[$month - 1]++;
+            }
+            $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
+            }
+        }
+    }
 
     if ($current_year == $get_year) {
         array_splice($f, $current_month);
         array_splice($tc, $current_month);
+        array_splice($i, $current_month);
+        array_splice($ibr, $current_month);
         array_splice($cu, $current_month);
     }
-    echo json_encode([ $f, $tc, $cu ]);
+    echo json_encode([ $f, $i, $tc, $ibr, $cu ]);
 }else if($user_type == '30'){
     $f = array_fill(0, 12, 0);
     $tc = array_fill(0, 12, 0);
+    $i = array_fill(0, 12, 0);
+    $ibr = array_fill(0, 12, 0);
     $cu = array_fill(0, 12, 0);
 
     //for SF -> F only
@@ -698,12 +994,59 @@ if ($user_type == '24') {
             }
         }
     }
+    //for I -> IBR only
+    $sql = "SELECT institution_id, register_date FROM institution 
+            WHERE reference_no = :ref AND user_type = 29 AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    $iRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($iRows as $row) {
+        $date = $row['register_date'];
+        $year = date('Y', strtotime($date));
+        $month = date('n', strtotime($date)); // 1-based
+        if ($year == $get_year) {
+            $i[$month - 1]++;
+        }
+    }
+    // Get IBRs under those Is
+    $iIds = array_column($iRows, 'institution_id');
+    if (!empty($iIds)) {
+        $inClause = implode(',', array_fill(0, count($ibrIds), '?'));
+        $sql = "SELECT institution_branch_manager_id,register_date FROM institution_branch_manager 
+                WHERE reference_no IN ($inClause) AND status = '1'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($ibrIds);
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $tc_id=$row['institution_branch_manager_id'];
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $ibr[$month - 1]++;
+            }
+            $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->execute([':ref' => $tc_id]);
+            foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $year = date('Y', strtotime($row['register_date']));
+                $month = date('n', strtotime($row['register_date']));
+                if ($year == $get_year) {
+                    $cu[$month - 1]++;
+                }
+            }
+        }
+    }
     if ($current_year == $get_year) {
         array_splice($f, $current_month);
         array_splice($tc, $current_month);
+        array_splice($i, $current_month);
+        array_splice($ibr, $current_month);
         array_splice($cu, $current_month);
     }
-    echo json_encode([ $f, $tc, $cu ]);
+    echo json_encode([ $f, $i, $tc, $ibr, $cu ]);
 }else if ($user_type == '31') {
     // For RM → MF/SF → F-> TC
     $mf = array_fill(0, 12, 0);
@@ -855,7 +1198,60 @@ if ($user_type == '24') {
         array_splice($cu, $current_month);
     }
     echo json_encode([ $tc, $cu ]);
-} else {
+}else if($user_type == '32'){ //Institution
+    $ibr = array_fill(0, 12, 0);
+    $cu = array_fill(0, 12, 0);
+    
+    $sql = "SELECT institution_branch_manager_id,register_date FROM institution_branch_manager 
+            WHERE reference_no = :ref AND status = '1'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':ref' => $user_id]);
+
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $tc_id=$row['institution_branch_manager_id'];
+        $year = date('Y', strtotime($row['register_date']));
+        $month = date('n', strtotime($row['register_date']));
+        if ($year == $get_year) {
+            $ibr[$month - 1]++;
+        }
+        $sql1 = "SELECT register_date FROM ca_customer 
+            WHERE ta_reference_no = :ref AND status = '1'";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->execute([':ref' => $tc_id]);
+        foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $year = date('Y', strtotime($row['register_date']));
+            $month = date('n', strtotime($row['register_date']));
+            if ($year == $get_year) {
+                $cu[$month - 1]++;
+            }
+        }
+    }
+
+    if ($current_year == $get_year) {
+        array_splice($ibr, $current_month);
+        array_splice($cu, $current_month);
+    }
+    echo json_encode([ $ibr, $cu ]);
+}else if($user_type == '33'){ //Institution Branch Manager
+    $cu = array_fill(0, 12, 0);
+        
+    $sql1 = "SELECT register_date FROM ca_customer 
+        WHERE ta_reference_no = :ref AND status = '1'";
+    $stmt1 = $conn->prepare($sql1);
+    $stmt1->execute([':ref' => $user_id]);
+    foreach ($stmt1->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $year = date('Y', strtotime($row['register_date']));
+        $month = date('n', strtotime($row['register_date']));
+        if ($year == $get_year) {
+            $cu[$month - 1]++;
+        }
+    }
+
+    if ($current_year == $get_year) {
+        array_splice($cu, $current_month);
+    }
+    echo json_encode([ $cu ]);
+}  else {
     // fallback for other users
     $data = monthlyChartData($conn, $user_id, $get_year, $current_year, $current_month, $user_type,$user_id);
     echo json_encode([$data]);

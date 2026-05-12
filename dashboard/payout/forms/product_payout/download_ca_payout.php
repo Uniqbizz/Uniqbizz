@@ -10,6 +10,7 @@ $dateCA = $_GET['date'];
 $message = $_GET['message'];
 $message_status = $_GET['message_status'];
 $commission = $_GET['commission'];
+$paydate=$_GET['paydate']??'NA';
 
 //TDS calculation on commission Amount 
 $tds = 2;
@@ -18,17 +19,55 @@ $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$bc."' AND status = 1");
+$tableSearch = (substr($id , 0, 1) === 'F' || substr($id , 0, 1) === 'I') 
+    ? substr($id , 0, 1) 
+    : substr($id , 0, 2);
+if($tableSearch == "CA" || $tableSearch =="TE"){
+    $bcNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$id ."' AND status = 1");
+}elseif($tableSearch == "MF"){
+    $bcNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$id ."' AND status = 1");
+}elseif($tableSearch == "SF"){
+    $bcNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "F"){
+    $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "I"){
+    $bcNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "BM"){
+    $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "TA"){
+    $bcNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$id ."' AND status = 1");
+}else{
+    $bcNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$id ."' AND status = 1");
+}
 $bcNames -> execute();
 $bcNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($bcNames -> rowCount()>0){
     foreach(($bcNames -> fetchAll()) as $key => $row){
-        $bcfirstname = $row['firstname'];
-        $bclastname = $row['lastname'];
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
     }
-}  
+}
 
-$caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$ca."' AND status = 1");
+$tableSearch = (substr($id , 0, 1) === 'F' || substr($id , 0, 1) === 'I') 
+    ? substr($id , 0, 1) 
+    : substr($id , 0, 2);
+if($tableSearch == "CA" || $tableSearch =="TE"){
+    $caNames = $conn -> prepare("SELECT * FROM corporate_agency WHERE corporate_agency_id = '".$id ."' AND status = 1");
+}elseif($tableSearch == "MF"){
+    $caNames = $conn -> prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$id ."' AND status = 1");
+}elseif($tableSearch == "SF"){
+    $caNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "F"){
+    $caNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "I"){
+    $caNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "BM"){
+    $caNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$id ."' AND status = 1");
+}else if($tableSearch == "TA"){
+    $caNames = $conn -> prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$id ."' AND status = 1");
+}else{
+    $caNames = $conn -> prepare("SELECT * FROM business_consultant WHERE business_consultant_id = '".$id ."' AND status = 1");
+}
 $caNames -> execute();
 $caNames -> setFetchMode(PDO::FETCH_ASSOC);
 if($caNames -> rowCount()>0){
@@ -112,20 +151,25 @@ if($caNames -> rowCount()>0){
                                 <tbody>
                                     <tr>
                                         <td class="col-md-7 col-sm-7 left pt-3">
-                                            <h6 style="padding:2px 10px; font-weight: 700;">Name : <?php echo $bcfirstname .' '.$bclastname; ?></h6>
+                                            <h6 style="padding:2px 10px; font-weight: 700;">Name : <?php echo $firstname .' '.$lastname; ?></h6>
                                             <h6 style="padding:2px 10px; font-weight: 700;">User ID : <?php echo $bc; ?></h6>
                                             <h6 style="padding:2px 10px; font-weight: 700;">Month : <?php echo $date; ?></h6>
                                         </td>
                                         <td class="col-md-5 col-sm-5 pt-3">
-                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Corporate Agency </h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Designation : Business Consultent</h6>
-                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?php echo $message_status == 0 ? 'Pending' : 'Paid' ; ?></h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay For : Product Payout </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Pay date : <?=$paydate?> </h6>
+                                            <h6 style="padding:2px 0; font-weight: 700;">Payout status : <?=$message_status == 2 ? 'Pending' :($message_status == 1?'Paid':'')?></h6>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>  
                             <div class="col-md-12 col-sm-12" >
-                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; ">Corpoarte Agency Payout</h5>
+                                <h5  style="padding: 10px 5px;  margin:0px; font-weight: 700; "><?=($tableSearch == "CA" || $tableSearch == "TE") ? "Techno Enterprise" :
+                                                                                                    ($tableSearch == "F"  ? "Franchisee" :
+                                                                                                    ($tableSearch == "BM" ? "Business Mentor" :
+                                                                                                    ($tableSearch == "SF" ? "Sponsor Franchisee" :
+                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" :
+                                                                                                    ($tableSearch == "I" ? "Institution":"Travel Consultant")))));?> Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>
