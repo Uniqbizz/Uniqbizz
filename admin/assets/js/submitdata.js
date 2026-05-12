@@ -2299,6 +2299,7 @@ $("#editBuisnessMentor").on("click", function (e) {
     var url = register_as == 'bm' ? 'editBusinessMentorData.php' 
             : register_as == 'mf' ? 'editMasterFranchiseeData.php' 
             : register_as == 'sf' ? 'editSponsorFranchiseeData.php' 
+            : register_as == 'ete' ? 'editExecutiveTechnoEnterpriseData.php' 
             : '';
     // console.log('Add customer button clicked');
 

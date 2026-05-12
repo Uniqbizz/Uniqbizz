@@ -38,10 +38,10 @@
         if ($editfor == 'pending') {
             $identifier_name = 'id=';
         } else if ($editfor == 'registered') {
-            $identifier_name = $usertype == 'mf' ? 'master_franchisee_id=' :($usertype == 'bm' ? 'business_mentor_id=' : ($usertype == 'sf' ? 'sponsor_franchisee_id=' : ''));
+            $identifier_name = $usertype == 'mf' ? 'master_franchisee_id=' :($usertype == 'bm' ? 'business_mentor_id=' : ($usertype == 'sf' ? 'sponsor_franchisee_id=' : ($usertype == 'ete' ? 'executive_techno_enterprise_id=' :'')));
         }
 
-        $testValue = $usertype == 'bm' ? '26' : ($usertype == 'mf' ? '28' : ($usertype == 'sf' ? '30' : ''));
+        $testValue = $usertype == 'bm' ? '26' : ($usertype == 'mf' ? '28' : ($usertype == 'sf' ? '30' : ($usertype == 'ete' ? '34' : '')));
 
         if ($usertype == 'mf') {
             $stmt = $conn->prepare("SELECT * FROM `master_franchisee` WHERE master_franchisee_id='" . $id . "' OR id = '" . $id . "'");
@@ -49,6 +49,8 @@
             $stmt = $conn->prepare("SELECT * FROM `business_mentor` WHERE business_mentor_id='" . $id . "' OR id = '" . $id . "'");
         } else if($usertype == 'sf') {
             $stmt = $conn->prepare("SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id='" . $id . "' OR id = '" . $id . "'");
+        } else if($usertype == 'ete') {
+            $stmt = $conn->prepare("SELECT * FROM `executive_techno_enterprise` WHERE executive_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
         }
 
         $stmt->execute();
@@ -129,15 +131,23 @@
                     if ($usertype == 'mf') {
                         // Master Franchisee → Get reporting manager (Zonal Manager) from `zonal_manager` table
                         $stmt_manager = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :ref");
-                    } else {
+                    } elseif($usertype == 'bm') {
                         // Business Mentor → Get reporting manager (BDM/BCM) from `employees` table
                         $stmt_manager = $conn->prepare("SELECT name FROM employees WHERE employee_id = :ref");
+                    } elseif($usertype == 'ete') {
+                        // Business Mentor → Get reporting manager (BDM/BCM) from `super_techno_enterprise` table
+                        $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM super_techno_enterprise WHERE super_techno_enterprise_id = :ref");
                     }
 
                     $stmt_manager->execute([':ref' => $reference_no]);
 
                     if ($stmt_manager->rowCount() > 0) {
-                        $reference_no_fname = $stmt_manager->fetch()['name'];
+                        if ($usertype == 'mf' || $usertype == 'bm') {
+                            $reference_no_fname = $stmt_manager->fetch()['name'];
+                        } else {
+                            $manager = $stmt_manager->fetch(PDO::FETCH_ASSOC);
+                            $reference_no_fname = $manager['firstname'] . ' ' . $manager['lastname'];
+                        }
                     } else {
                         $reference_no_fname = "Unknown";
                     }
@@ -150,7 +160,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
+        <title>Edit Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -199,7 +209,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE</h4>
                                 </div>
                             </div>
                         </div>
@@ -210,7 +220,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
+                                            <h3>Edit Business Mentor / Master Franchisee / Sponsor Franchisee / Executive TE</h3>
                                             <div class="row">
                                                 <!-- Personal Details -->
 
@@ -747,6 +757,9 @@
                     // $('#designation2').prop('disabled',true);
                     $('#payment_fee').addClass('d-none');
                     $('#payment_fee2').removeClass('d-none');
+                }else if(registered == 'ete'){
+                    $('#payment_fee').removeClass('d-none');
+                    $('#payment_fee2').addClass('d-none');
                 }
                 
                 var paymentMode = $(".payment:checked").val();
