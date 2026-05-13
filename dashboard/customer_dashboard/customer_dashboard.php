@@ -69,10 +69,181 @@
             <?php include_once "customer_sidebar.php" ?>
             <!-- ============================================================== -->
             <!-- Start of Customer Dashboard here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid ps-0">
+                        <!-- Customer Dashboard Greeting Card -->
+                        <div class="card border rounded-4 shadow-sm overflow-hidden">
+                            <div class="greetingImageWrapper">
+                                <img src="../assets/images/greetingImage.png" alt="Package" class="greetingImage img-fluid w-100">
+                            </div>
+                            <div class="greetingCard">
+                                <h2 class="fw-bold text-white gap-3">
+                                    Good Morning, <span class="">Pratiksha</span>! &#128075;
+                                </h2>
+                                <p class="text-white fs-5">
+                                    Let's make today a day to remember.
+                                </p>
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="../../tour-list.php">
+                                        <div class="exploreBtn gap-3 px-2">
+                                            <i class="fa-solid fa-plane-departure d-flex align-items-center"></i>
+                                            <p class="fs-6 mb-0 fw-bolder">Explore Packages</p>
+                                        </div>
+                                    </a>
+                                    <a href="../../tour-list.php">
+                                        <div class="exploreBtn gap-3 px-2">
+                                            <i class="fa-solid fa-suitcase d-flex align-items-center"></i>
+                                            <p class="fs-6 mb-0 fw-bolder"> View My Trips</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 4 card section -->
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <div class="card1 border border-2 rounded-4 p-3">
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <div class="custIcon">
+                                            <i class="fa-regular fa-address-card "></i>
+                                        </div>
+                                        <p class="custID mb-0 fw-bold textColor fs-5">
+                                            Customer ID <br>
+                                            <span class="custID textColor fw-bolder fs-3">BZH1004587</span>
+                                        </p>
+                                    </div>
+                                    <div class="p-3 text-warning-emphasis bg-warning-subtle border border-2 border-warning-subtle rounded-4 d-flex gap-3 mt-3">
+                                        <i class="fa-solid fa-crown d-flex align-items-center" style="color: #ffc107;"></i>
+                                        <p class="fs-6 mb-0 fw-bolder">Premium Member</p>
+                                    </div>
+                                    <div class="mt-4">
+                                        <p class="fs-6 text-muted mb-1">Member Since</p>
+                                        <p class="fs-5 mb-3 fw-bolder textColor">12 May 2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-12 px-0">
+                                <div class="card2 border border-2 rounded-4 p-3">
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <i class="fa-solid fa-ticket fa-2xl" style="color: #056649;"></i>
+                                        <p class="mb-0 fw-bold textColor fs-5 custID">
+                                            Your Coupons
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-around gap-3 mt-3">
+                                        <div class="mt-3">
+                                            <p class="fs-6 text-muted mb-1">Total Vouchers</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor">10</p>
+                                        </div>
+                                        <div class="mt-3">
+                                            <p class="fs-6 text-muted mb-1">Active</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor">3</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-3 mb-4">
+                                        <a href="#">
+                                            <div class="linkBtn p-2 px-3 border border-primary border-2">
+                                                <p class="fs-6 mb-0 fw-bolder"> View Coupons</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                                <div class="border border-2 rounded-4">
+                                    <div>
+                                        <img src="../assets/images/complimentaryImage.png" alt="Package" class="complimentaryImage img-fluid w-100">
+                                    </div>
+                                    <div class="complimentaryCard p-3 pt-2 card3">
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <div class="compliBack">
+                                                <i class="fa-solid fa-gifts"></i>
+                                            </div>
+                                            <p class="mb-0 fw-bold textColor fs-5 custID">
+                                                Complimentary Europe Trip
+                                            </p>
+                                        </div>
+                                        <p class="fs-6 text-muted mt-2">Unlock in 6th Year</p>
+                                        <div class="d-flex gap-3 mt-3">
+                                            <div class="mb-3">
+                                                <!-- Years text -->
+                                                <p class="fs-5 mb-2">
+                                                    <span class="fs-5" id="completedYears">3</span>/<span id="totalYears">6</span>
+                                                    <span class="fs-6 text-muted">Years Completed</span>
+                                                </p>
 
+                                                <!-- Progress bar -->
+                                                <div class="progress border border-2">
+                                                    <div class="progress-bar bg-bar" id="yearProgressBar"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <p class="fs-6 mb-0 fw-bolder text-muted">Stay tuned! Keep <br> traveling to unlock</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 ps-0">
+                                <div class="card4 border border-2 rounded-4 p-3">
+                                    
+                                    <div class="d-flex gap-3 align-items-center mb-2">
+                                        <div class="custProfile">
+                                            <img src="../assets/images/users/avatar-8.jpg" alt="Package" class="profileImage img-fluid w-100">
+                                        </div>
+                                        <div class="">
+                                            <p class="text-muted mb-0">Your Travel Consultant</p>
+                                            <p class="mb-0 fw-bolder fs-4 textColor">
+                                                Rahul Mehta<br>
+                                                <span class="walletAmount fw-bold textColor fs-6">Senior Travel Consultant</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <i class="fa-solid fa-phone textColor"></i>
+                                        <p class="mb-0 textColor fs-6">
+                                            +91 9876543210
+                                        </p>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <i class="fa-regular fa-envelope textColor"></i>
+                                        <p class="mb-0 textColor fs-6">
+                                            rahul.mehta@bizzmirth.com
+                                        </p>
+                                    </div>
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <i class="fa-regular fa-clock textColor"></i>
+                                        <p class="mb-0 textColor fs-6">
+                                            Mon - Sat (10:00 AM -7:00 PM)
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-center gap-2 mt-3 mb-2">
+                                        <a href="#">
+                                            <div class="linkBtn gap-2 align-items-center border border-primary border-2">
+                                                <i class="fa-brands fa-whatsapp"></i>
+                                                <p class="fs-6 mb-0 fw-bolder pe-1">Chat on WhatsApp</p>
+                                            </div>
+                                        </a>
+                                        <a href="#">
+                                            <div class="linkBtn gap-2 align-items-center border border-primary border-2">
+                                                <i class="fa-regular fa-calendar"></i>
+                                                <p class="fs-6 mb-0 fw-bolder pe-1">Schedule a Call</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php include_once "customer_footer.php" ?>
+            </div>
+
+            <!-- end main content-->
             <!-- End of Customer Dashboard here -->
             <!-- ============================================================== -->
-            <?php include_once "customer_footer.php" ?>
         </div>
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
@@ -261,6 +432,17 @@
 
             });
 
+        </script>
+        <script>
+            // Get values directly from HTML
+            const completed = parseInt(document.getElementById("completedYears").innerText);
+            const total = parseInt(document.getElementById("totalYears").innerText);
+
+            // Calculate percentage
+            const percentage = (completed / total) * 100;
+
+            // Update progress bar
+            document.getElementById("yearProgressBar").style.width = percentage + "%";
         </script>
 
         <!-- dialer logic -->
