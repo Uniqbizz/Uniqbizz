@@ -2231,7 +2231,7 @@ if($user_type_id_value == '11'){
                                 },
                                 error: function(err) {
                                     console.log(err);
-                                    reject(err); // Reject the promise on error
+                                    // reject(err); // Reject the promise on error
                                 }
                             });
                         }

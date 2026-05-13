@@ -68,7 +68,7 @@
         $sql = $mfQuery . " ORDER BY id ASC";
     } elseif ($designation == "SF") {
         $sql = $sfQuery . " ORDER BY id ASC";
-    }  elseif ($designation == "ETE") {
+    } elseif ($designation == "ETE") {
         $sql = $eteQuery . " ORDER BY id ASC";
     } elseif ($designation == "All") {
         $sql = "
