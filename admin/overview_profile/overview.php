@@ -9806,10 +9806,33 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     <div class="pt-3 pb-2 col-md-5">
                                                         <div class="row">
                                                             <!-- Generate Coupons Button -->
-                                                            <div class="col-12 d-flex align-items-end justify-content-end">
-                                                                <button type="button" class="bg-success text-white border-0 rounded-3 fw-bold px-3 py-2" id="generate_coupons">
-                                                                    Generate Coupons
-                                                                </button>
+                                                            <div class="col-12">
+                                                                <div class="d-flex justify-content-end align-items-center gap-3 flex-wrap">
+
+                                                                    <!-- Checkbox Card -->
+                                                                    <div class="form-check d-flex align-items-center bg-light px-4 py-2 rounded-3 shadow-sm mb-0">
+                                                                        <input 
+                                                                            class="form-check-input me-2" 
+                                                                            type="checkbox" 
+                                                                            name="couponRegen" 
+                                                                            id="couponRegen"
+                                                                        >
+                                                                        <label class="form-check-label fw-semibold text-dark mb-0" for="couponRegen">
+                                                                            Regenerate Coupons
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <!-- Button -->
+                                                                    <button 
+                                                                        type="button" 
+                                                                        class="btn btn-success px-4 py-2 fw-bold rounded-3 shadow-sm"
+                                                                        id="generate_coupons"
+                                                                    >
+                                                                        <i class="fa-solid fa-arrows-spin"></i>
+                                                                        Generate Coupons
+                                                                    </button>
+
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -10276,6 +10299,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                 : payment_text;
             let allowed_labels = ["Prime", "Premium", "Premium Plus", "Neo Select"];
             let comp_check=$('#comp_chek option:selected').val();
+            let couponRegen = $('#couponRegen').is(':checked') ? 1 : 0;
 
             if (!allowed_labels.includes(payment_label)) {
                 alert("Please select a valid Payment Type");
@@ -10342,7 +10366,8 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                     payment_label: payment_label,
                     payment_fee:payment_fee,
                     paymentMode:paymentMode,
-                    comp_chek:comp_check
+                    comp_chek:comp_check,
+                    regen_check:couponRegen
                 }
             //console.log(data);
             
