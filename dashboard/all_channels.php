@@ -313,7 +313,7 @@
     //IBR(TC) login
     else if ($userType == '33') {
         //IBR(TC)
-        $sql0 = "SELECT institution_branch_manager.institution_branch_manager_id, institution_branch_manager.firstname, institution_branch_manager.lastname, institution_branch_manager.email, institution_branch_manager.contact_no FROM institution_branch_manager                                                        
+        $sql0 = "SELECT institution_branch_manager.institution_branch_manager_id AS tc_id, institution_branch_manager.firstname, institution_branch_manager.lastname, institution_branch_manager.email, institution_branch_manager.contact_no FROM institution_branch_manager                                                        
             WHERE institution_branch_manager.status=1 and institution_branch_manager_id='" . $userId . "'";
         $stmt0 = $conn->prepare($sql0);
         $stmt0->execute();
