@@ -355,12 +355,12 @@ if ($userType == 10) {
                                                         <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null">--Select Payment Fee--</option>
-                                                            <option value="FOC" selected>Free</option>
+                                                            <!-- <option value="FOC" selected>Free</option>
                                                             <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                             <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
                                                             <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
                                                             <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
-                                                            <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option>
+                                                            <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option> -->
                                                             <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                                         </select>
                                                     </div>

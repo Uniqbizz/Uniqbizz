@@ -136,8 +136,8 @@ if ($result) {
 			$ta_te_name = 'N/A';
 		}
 
-		//identify TC ref TE/BM/MF/F
-		$reference_id = (substr($ta_te_id, 0, 1) == 'F') 
+		//identify TC ref TE/BM/MF/F/I
+		$reference_id = (substr($ta_te_id, 0, 1) == 'F' || substr($ta_te_id, 0, 1) == 'I') 
 							? substr($ta_te_id, 0, 1) 
 							: substr($ta_te_id, 0, 2);
 		
@@ -519,7 +519,92 @@ if ($result) {
 					$message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
 					$ca_cu_amt_paid = $amount;
 				}
+				//added on 14-05-2026 by SV -- institution chain payout for holiday account payout
+				if ($reference_id == "I") {
+	
+					//get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
+					$sql10 = $conn->prepare("SELECT * FROM institution WHERE institution_id = '".$ta_te_id."'");
+					$sql10->execute();
+					$sql10->setFetchMode(PDO::FETCH_ASSOC);
+					if($sql10->rowCount()>0){
+						foreach(($sql10->fetchAll()) as $key10 => $row10){
+							$te_id = $row10['institution_id'];
+							$te_name = $row10['firstname']. ' ' .$row10['lastname'];
+							$BmId = $row10['reference_no'];
+							$BmName = $row10['registrant'];
+						}
+					}
+					//if Institution ref is a BM
+					if(substr($BmId,0,2) == 'BM'){
+						//bm details
+						$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$BmId."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['business_mentor_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+						
+						//bdm deatils
+						$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BdmId."'");
+						$sql12->execute();
+						$sql12->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql12->rowCount()>0){
+							foreach(($sql12->fetchAll()) as $key12 => $row12){
+								$BdmId = $row12['employee_id'];
+								$BdmName = $row12['name'];
+							}
+						}
+					}
+					//if Institution ref is BDM
+					else if(substr($BmId,0,2) == 'BH'){
+												
+						//bdm deatils
+						$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BmId."'");
+						$sql12->execute();
+						$sql12->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql12->rowCount()>0){
+							foreach(($sql12->fetchAll()) as $key12 => $row12){
+								$BmId = $row12['employee_id'];
+								$BmName = $row12['name'];
+							}
+						}
+					}
+					
 		
+					$commissionRates = [
+						'Neo Select' => ['ibr' => 500, 'i' => 3000, 'bm' => 150]
+					];
+
+					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
+					$te_commi = $commissionRates[$customer_type]['te'] ?? 0;
+					$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0; 
+					$bdm_commi = '0';  
+					
+					$message_bdm = "NA";
+					$commision_bdm = $bdm_commi;  
+					$bm_desig=substr($BmId,0,2) == 'BH'?'BH':(substr($BmId,0,2) == 'BM'?'BM':'NA');
+					
+					$message_bdm = "BDM - ".$BmName." ".$BdmId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Business Mentor ".$BmName." ".$BmId.".";
+					$commision_bdm = $bdm_commi;
+		
+					$message_bm = $bm_desig ." - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
+					$commision_bm = $bm_commi;
+		
+					$message_te = "TE - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
+					$commision_te = $te_commi;
+		
+					$message_tc = "TC - ".$tc_name." ".$tc_id." earned Rs.".$tc_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-";
+					$commision_tc = $tc_commi;
+		
+					$message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
+					$ca_cu_amt_paid = $amount;
+		
+				}
 				$insertCALSql = "INSERT INTO `ca_cu_payout` (business_development_manager, message_bdm, commision_bdm,business_mentor, message_bm, commision_bm, techno_enterprise, message_te, commision_te, travel_consultant, message_tc, commision_tc, customer, message_cu, cu_amount_paid, status) 
 								VALUES (:business_development_manager, :message_bdm, :commision_bdm,:business_mentor, :message_bm, :commision_bm,  :techno_enterprise, :message_te, :commision_te, :travel_consultant, :message_tc, :commision_tc, :customer, :message_cu, :cu_amount_paid, :status) ";
 				$insertCAL = $conn -> prepare($insertCALSql);

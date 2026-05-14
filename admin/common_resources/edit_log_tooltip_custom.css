@@ -1,0 +1,57 @@
+.edit-log-card{
+    width:450px;
+    font-size:13px;
+}
+
+.edit-log-title{
+    text-align:center;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.edit-log-grid{
+    display:grid;
+    grid-template-columns: 1fr 30px 1fr;
+    gap:10px;
+    align-items:start;
+}
+
+.edit-old .label,
+.edit-new .label{
+    font-size:11px;
+    color:#adb5bd;
+    margin-bottom:4px;
+}
+
+.edit-old .value{
+    background:#ffe9e9;
+    padding:6px;
+    border-radius:4px;
+    color:#dc3545;
+}
+
+.edit-new .value{
+    background:#e9f7ef;
+    padding:6px;
+    border-radius:4px;
+    color:#198754;
+}
+
+.edit-arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.edit-log-meta{
+    margin-top:8px;
+    font-size:11px;
+    display:flex;
+    justify-content:space-between;
+    color:#adb5bd;
+}
+.tooltip-inner{
+    max-width:500px !important;
+    text-align:left;
+}

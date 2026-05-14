@@ -5855,7 +5855,7 @@ if ($userType == '32') {
 
                                                                                         <div class="flex-shrink-0 me-2">
                                                                                             <div class="avatar-xs">
-                                                                                                <img src="../../uploading/' . $row['profile_pic'] . '" 
+                                                                                                <img src="../uploading/' . $row['profile_pic'] . '" 
                                                                                                     alt="" 
                                                                                                     class="img-fluid rounded-circle candidate-img" 
                                                                                                     style="height: 35px; width: 35px;">
@@ -5882,7 +5882,7 @@ if ($userType == '32') {
                                                                                     <a href="javascript:void(0);" class="d-flex align-items-center py-2 candidate-item">
                                                                                         <div class="flex-shrink-0 me-2">
                                                                                             <div class="avatar-xs">
-                                                                                                <img src="../../uploading/'.$row['profile_pic'].'" 
+                                                                                                <img src="../uploading/'.$row['profile_pic'].'" 
                                                                                                     class="img-fluid rounded-circle candidate-img"
                                                                                                     style="height: 35px; width: 35px;">
                                                                                             </div>
@@ -6123,7 +6123,7 @@ if ($userType == '32') {
                                         <div class="col-lg-6">
                                             <div class="card-body text-center">
                                                 <div class="avatar-md mb-4 mx-auto">
-                                                    <img src="../../uploading/select-user.png" alt="" id="candidate-img" class="img-thumbnail rounded-4 shadow-none" style="height: 80px; width: 80px;">
+                                                    <img src="../uploading/select-user.png" alt="" id="candidate-img" class="img-thumbnail rounded-4 shadow-none" style="height: 80px; width: 80px;">
                                                 </div>
 
                                                 <h5 id="candidate-name" class="mt-2">----</h5>

@@ -92,6 +92,12 @@
                     </a>
                 </li> -->
                 <li>
+                    <a href="super_techno/superTechno.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Super Techno Enterprise</span>
+                    </a>
+                </li>
+                <li>
                     <a href="businessMentor/businessMentor.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
                         <span key="t-contacts">BM / MF / SF</span>
@@ -167,6 +173,12 @@
                             </ul>
                         </li> -->
                     </ul>
+                </li>
+                <li>
+                    <a href="visa/visa.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Visa</span>
+                    </a>
                 </li>
                 <li>
                     <!-- <button class="text-center ms-3 mt-3"> -->
