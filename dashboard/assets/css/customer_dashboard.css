@@ -562,7 +562,29 @@ body {
     z-index: 1;
     pointer-events: none;
 }
+/* card section 3 */
+.membershipIcon {
+    font-size: 20px !important;
+    color: #0c82f5;
+    background: #d3e9ff;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+.membershipTitle {
+    font-size: 10px !important;
+}
+.membershipBold {
+    font-size: 12px !important;
+}
 
+.premiumIcon {
+    font-size: 9px;
+    color: #fff;
+    background: #5b5ff6;
+    border-radius: 6px;
+    padding: 8px;
+    width: 80px;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -588,6 +610,9 @@ body {
     .linkBtn p {
         font-size: 10px !important;
         padding-left: 10px;
+    }
+    .premiumCard h4 {
+        font-size: 16px !important;
     }
 }
 @media (min-width: 1025px) {
@@ -702,7 +727,16 @@ body {
     .searchBar {
         width: 100% !important;
     }
-    
+    .medal {
+        width: 200px !important;
+    }
+    .premiumCard {
+        padding: 0px 20px;
+        margin-bottom: 20px;
+    }
+    .premiumCard h4 {
+        font-size: 18px !important;
+    }
 }
 
 /* REMOVE OVERLAY ABOVE 768 */
@@ -719,6 +753,9 @@ body {
     .card4 {
         margin-left: 12px !important;
         margin-top: 12px !important;
+    }
+    .premiumCard h4 {
+        font-size: 14px !important;
     }
 }
 /* sidebar end */
