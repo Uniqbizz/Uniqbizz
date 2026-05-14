@@ -3,6 +3,8 @@
 //added logic for F->SF/MF and BM->TC/MF-TC
 //F == TE/CA
 require '../../connect.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // require 'config.php'; // must include PDO connection + HDFC constants
 // include '../send_sms_helper.php';
 // include '../../admin/assets/generate_invoice_number.php';
@@ -298,9 +300,9 @@ if ($pay_type == 1) {
 //2 part payment
 else if ($pay_type == 2) {
   # code...
-  $part_pay_1 = $gst_total / 2;
+  $part_pay_1 = $discount_price / 2;
   $part_pay_1_status = 1;
-  $part_pay_2 = $gst_total / 2;
+  $part_pay_2 = $discount_price / 2;
   $part_pay_2_status = 0;
   if ($coupon_code){
     $gst_total=$gst_total-$coupon_discount;
@@ -393,11 +395,11 @@ else if ($pay_type == 2) {
 else if ($pay_type == 3) {
   $gst_total=$gst_total-$coupon_discount;
   # code...
-  $part_pay_1 = $gst_total * 0.4;
+  $part_pay_1 = $discount_price * 0.4;
   $part_pay_1_status = 1;
-  $part_pay_2 = $gst_total * 0.3;
+  $part_pay_2 = $discount_price * 0.3;
   $part_pay_2_status = 0;
-  $part_pay_3 = $gst_total * 0.3;
+  $part_pay_3 = $discount_price * 0.3;
   $part_pay_3_status = 0;
   if ($coupon_code){
     $sql2 = 'INSERT INTO booking_direct_bill 
@@ -1015,23 +1017,122 @@ if ($result2) {
             ':end_date' => $end_date
         ));
         // echo 1;
+
         // passing it in json array as we need to pass invoice no value in 2nd ajax call for payment gateway  
-        $response = [
-            "status" => 1,
-            "invoice_no" => $invoice_no,
-            "booking_id" => $booking_id
-        ];
-        echo json_encode($response);
-        
-        }else{
-            // echo 0;
-            $response = [
-                "status" => 0,
-                // "invoice_no" => $invoice_no
-            ];
-            echo json_encode($response);
+
+        // make this pg code moduler later to use in TA part payment module (tour History Page TA login)
+
+       if ($resultFinal) {
+
+            // NEVER trust frontend amount
+            $pg_amount = (float)$amount;
+
+            // Input values
+            $pg_customer_id       = (string)($mydata['cuID'] ?? '');
+            $pg_fullname          = (string)($mydata['name'] ?? '');
+            $pg_travel_agency_id  = (string)($mydata['userID'] ?? '');
+            $pg_packageID         = (string)($mydata['packageID'] ?? '');
+            $pg_pay_type          = (string)($mydata['pay_type'] ?? '');
+            $pg_invoice_no        = $invoice_no;
+            $pg_booking_id        = $booking_id;
+            $pg_phone             = (string)($mydata['phone'] ?? '');
+            $pg_email             = (string)($mydata['email'] ?? '');
+
+            // Validation
+            if (
+                empty($pg_booking_id) ||
+                empty($pg_customer_id) ||
+                empty($pg_amount)
+            ) {
+
+                $response = [
+                    "status" => 0,
+                    "message" => "Required payment data missing"
+                ];
+
+            } else {
+
+                // Generate Order ID
+                $pg_order_id = uniqid('ORD_');
+
+                try {
+
+                    $stmt_pg = $conn->prepare("
+                        INSERT INTO pg_bookings (
+                            order_id,
+                            bookings_id,
+                            invoice_no,
+                            pay_type,
+                            package_id,
+                            travel_consultant_id,
+                            customer_id,
+                            name,
+                            email,
+                            phone,
+                            amount,
+                            status
+                        ) VALUES (
+                            :order_id,
+                            :bookings_id,
+                            :invoice_no,
+                            :pay_type,
+                            :package_id,
+                            :travel_consultant_id,
+                            :customer_id,
+                            :name,
+                            :email,
+                            :phone,
+                            :amount,
+                            'PENDING'
+                        )
+                    ");
+
+                    $pgInsert = $stmt_pg->execute([
+
+                        ':order_id'             => $pg_order_id,
+                        ':bookings_id'          => $pg_booking_id,
+                        ':invoice_no'           => $pg_invoice_no,
+                        ':pay_type'             => $pg_pay_type,
+                        ':package_id'           => $pg_packageID,
+                        ':travel_consultant_id' => $pg_travel_agency_id,
+                        ':customer_id'          => $pg_customer_id,
+                        ':name'                 => $pg_fullname,
+                        ':email'                => $pg_email,
+                        ':phone'                => $pg_phone,
+                        ':amount'               => $pg_amount
+                    ]);
+
+                    if ($pgInsert) {
+
+                        $response = [
+                            "status"      => 1,
+                            "invoice_no"  => $invoice_no,
+                            "booking_id"  => $booking_id,
+                            "order_id"    => $pg_order_id
+                        ];
+                        echo json_encode($response);
+                    } else {
+
+                        $response = [
+                            "status" => 0,
+                            "message" => "Failed to create payment booking"
+                        ];
+                        echo json_encode($response);
+                    }
+
+                } catch (PDOException $e) {
+
+                    $response = [
+                        "status" => 0,
+                        "message" => "Database error while creating payment booking",
+                        "error" => $e->getMessage()
+                    ];
+                    echo json_encode($response);
+                }
+            }
         }
     }
+  }
 
 }
 
