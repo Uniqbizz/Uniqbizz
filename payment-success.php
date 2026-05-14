@@ -3,6 +3,11 @@
 require 'connect.php';
 require 'assets/submit/config.php'; // HDFC credentials
 
+date_default_timezone_set('Asia/Calcutta');
+    
+$today = date('Y-m-d H:i:s');
+$today_date = date('j') . '-' . date('n') . '-' . date('Y');
+
 // echo "<h2>Payment Response</h2>";
 
 /**
@@ -197,6 +202,61 @@ if (!$pg_booking_update_stmt_status || !$booking_direct_bill_update_status) {
 // echo "<h3>Order ID: $order_id</h3>";
 // echo "<p>Thank you! Your booking is being processed.</p>";
 
+$page_title = "";
+$heading = "";
+$message = "";
+$icon_color = "";
+$icon_bg = "";
+$button_color = "";
+$svg_icon = "";
+
+if ($final_status === 'PAID') {
+
+    $page_title = "Payment Successful";
+    $heading = "Payment Successful!";
+    $message = "Your transaction was processed successfully.";
+    $icon_color = "#22c55e";
+    $icon_bg = "#f0fdf4";
+    $button_color = "#22c55e";
+
+    $svg_icon = '
+        <svg class="status-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+    ';
+
+} elseif ($final_status === 'PENDING') {
+
+    $page_title = "Payment Pending";
+    $heading = "Payment Pending";
+    $message = "Your payment is currently under processing. Please wait a few minutes and check your order history.";
+    $icon_color = "#f59e0b";
+    $icon_bg = "#fffbeb";
+    $button_color = "#f59e0b";
+
+    $svg_icon = '
+        <svg class="status-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"></path>
+            <circle cx="12" cy="12" r="9" stroke-width="2"></circle>
+        </svg>
+    ';
+
+} else {
+
+    $page_title = "Payment Failed";
+    $heading = "Payment Failed!";
+    $message = "Unfortunately your transaction could not be completed. ";
+    $icon_color = "#ef4444";
+    $icon_bg = "#fef2f2";
+    $button_color = "#ef4444";
+
+    $svg_icon = '
+        <svg class="status-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    ';
+}
+
 //convert long number to short number with 2 decimal points and currency indication
 function formatIndianCurrency($amount) {
     $amount = str_replace(',', '', $amount);
@@ -218,12 +278,17 @@ function formatIndianCurrency($amount) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful</title>
+    <title><?php echo $page_title; ?></title>
+
     <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
+
     <style>
+
         :root {
-            --primary: #4f46e5;
-            --success: #22c55e;
+            --primary: <?php echo $button_color; ?>;
+            --icon-bg: <?php echo $icon_bg; ?>;
+            --icon-color: <?php echo $icon_color; ?>;
+
             --text-main: #1f2937;
             --text-muted: #6b7280;
             --bg: #f9fafb;
@@ -237,132 +302,176 @@ function formatIndianCurrency($amount) {
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .card {
             background: white;
             padding: 2.5rem;
             border-radius: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             text-align: center;
-            max-width: 400px;
-            width: 90%;
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 420px;
+            width: 100%;
+            animation: slideUp 0.5s ease;
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .icon-container {
-            width: 80px;
-            height: 80px;
-            background: #f0fdf4;
+            width: 85px;
+            height: 85px;
+            background: var(--icon-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
+            color: var(--icon-color);
         }
 
-        .checkmark {
-            width: 40px;
-            height: 40px;
-            color: var(--success);
+        .status-icon {
+            width: 42px;
+            height: 42px;
         }
 
         h1 {
             color: var(--text-main);
-            font-size: 1.5rem;
-            margin: 0 0 0.5rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
         }
 
         p {
             color: var(--text-muted);
             line-height: 1.6;
-            margin: 0 0 2rem;
             font-size: 0.95rem;
+            margin-bottom: 2rem;
         }
 
         .details {
             background: #f8fafc;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
+            border: 1px solid #eef2f7;
+            border-radius: 1rem;
+            padding: 1.2rem;
             margin-bottom: 2rem;
             text-align: left;
-            border: 1px solid #f1f5f9;
         }
 
         .detail-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
+            margin-bottom: 0.9rem;
+            font-size: 0.92rem;
         }
 
-        .detail-row:last-child { margin-bottom: 0; }
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
 
-        .label { color: var(--text-muted); }
-        .value { color: var(--text-main); font-weight: 600; }
+        .label {
+            color: var(--text-muted);
+        }
+
+        .value {
+            color: var(--text-main);
+            font-weight: 600;
+            word-break: break-word;
+            text-align: right;
+        }
 
         .btn {
             display: block;
             background: var(--primary);
             color: white;
             text-decoration: none;
-            padding: 0.85rem 1.5rem;
-            border-radius: 0.75rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 0.8rem;
             font-weight: 600;
-            transition: all 0.2s;
-            margin-bottom: 0.75rem;
+            transition: 0.2s ease;
+            margin-bottom: 0.8rem;
         }
 
-        .btn:hover { 
-            filter: brightness(1.1);
+        .btn:hover {
+            opacity: 0.92;
             transform: translateY(-1px);
         }
 
         .btn-secondary {
             background: transparent;
-            color: var(--text-muted);
-            border: 1px solid #e2e8f0;
+            border: 1px solid #dbe3ea;
+            color: #374151;
         }
 
         .btn-secondary:hover {
             background: #f8fafc;
-            color: var(--text-main);
         }
+
     </style>
 </head>
+
 <body>
-    <div class="card">
-        <div class="icon-container">
-            <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-            </svg>
-        </div>
-        <h1>Payment Successful!</h1>
-        <p>Your transaction was processed successfully. A confirmation email has been sent to your inbox.</p>
-        
-        <div class="details">
-            <div class="detail-row">
-                <span class="label">Amount Paid</span>
-                <span class="value"><?php echo $amount; ?>/-</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Date</span>
-                <span class="value"><?php echo $date; ?></span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Order ID</span>
-                <span class="value"><?php echo $order_id; ?></span>
-            </div>
+
+<div class="card">
+
+    <div class="icon-container">
+        <?php echo $svg_icon; ?>
+    </div>
+
+    <h1><?php echo $heading; ?></h1>
+
+    <p><?php echo $message; ?></p>
+
+    <div class="details">
+
+        <div class="detail-row">
+            <span class="label">Amount</span>
+            <span class="value">₹<?php echo $amount; ?></span>
         </div>
 
-        <a href="dashboard/order_history.php" class="btn">View Order History</a>
-        <a href="index.php" class="btn btn-secondary">Back to Home</a>
+        <div class="detail-row">
+            <span class="label">Order ID</span>
+            <span class="value"><?php echo $order_id; ?></span>
+        </div>
+
+        <?php if ($payment_id) { ?>
+
+        <div class="detail-row">
+            <span class="label">Payment ID</span>
+            <span class="value"><?php echo $payment_id; ?></span>
+        </div>
+
+        <?php } ?>
+
+        <div class="detail-row">
+            <span class="label">Date</span>
+            <span class="value"><?php echo date('d M Y h:i A', strtotime($date)); ?></span>
+        </div>
+
+        <div class="detail-row">
+            <span class="label">Status</span>
+            <span class="value"><?php echo $final_status; ?></span>
+        </div>
+
     </div>
+
+    <a href="dashboard/order_history.php" class="btn">
+        View Order History
+    </a>
+
+    <a href="index.php" class="btn btn-secondary">
+        Back to Home
+    </a>
+
+</div>
+
 </body>
 </html>

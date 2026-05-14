@@ -1,6 +1,22 @@
 <?php        
 // making page separate for TA package part payment 
 
+    require '../../connect.php';
+    require 'config.php';
+    
+    date_default_timezone_set('Asia/Calcutta');
+    
+    $today = date('Y-m-d H:i:s');
+    $today_date = date('j') . '-' . date('n') . '-' . date('Y');
+    
+    header('Content-Type: application/json');
+    
+    // Get raw JSON
+    $secondData = stripslashes(file_get_contents("php://input"));
+    $mydata = json_decode($secondData, true);
+    
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
     // if ($resultFinal) {
 
@@ -21,18 +37,19 @@
     // }
 
     // NEVER trust frontend amount
-    $pg_amount = (float)$amount;
+    // $pg_amount = (float)$amount;
 
     // Input values
-    $pg_customer_id       = (string)($mydata['cuID'] ?? '');
-    $pg_fullname          = (string)($mydata['name'] ?? '');
-    $pg_travel_agency_id  = (string)($mydata['userID'] ?? '');
-    $pg_packageID         = (string)($mydata['packageID'] ?? '');
-    $pg_pay_type          = (string)($mydata['pay_type'] ?? '');
-    $pg_invoice_no        = $invoice_no;
-    $pg_booking_id        = $booking_id;
-    $pg_phone             = (string)($mydata['phone'] ?? '');
-    $pg_email             = (string)($mydata['email'] ?? '');
+    $pg_customer_id       = (string)($mydata['cuID']);
+    $pg_fullname          = (string)($mydata['name']);
+    $pg_travel_agency_id  = (string)($mydata['userID']);
+    $pg_packageID         = (string)($mydata['packageID']);
+    $pg_pay_type          = (string)($mydata['pay_type']);
+    $pg_invoice_no        = (string)($mydata['invoice_no']);
+    $pg_booking_id        = (string)($mydata['booking_id']);
+    $pg_phone             = (string)($mydata['phone']);
+    $pg_email             = (string)($mydata['email']);
+    $pg_amount             = (string)($mydata['paid_amount']);
 
     // Validation
     if (
@@ -102,9 +119,8 @@
 
                 $response = [
                     "status"      => 1,
-                    "invoice_no"  => $invoice_no,
-                    "booking_id"  => $booking_id,
-                    // "order_id"    => $pg_order_id
+                    "order_id"    => $pg_order_id,
+                    "message" => "Successfully create payment booking"
                 ];
                 echo json_encode($response);
             } else {
