@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- 4 card section -->
+                        <!-- card section 1 -->
                         <div class="row">
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                 <div class="card1 border border-2 rounded-4 p-3">
@@ -232,6 +232,121 @@
                                                 <p class="fs-6 mb-0 fw-bolder pe-1">Schedule a Call</p>
                                             </div>
                                         </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section 2 -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
+                                <div class="tripCard border border-2 rounded-4 p-3">
+                                    <!-- Background Icon -->
+                                    <i class="ri-briefcase-3-line brifeCase"></i>
+                                    <!-- Content Wrapper -->
+                                    <div class="tripContent">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <div class="tripIcon">
+                                                    <i class="ri-briefcase-3-line"></i>
+                                                </div>
+                                                <p class="mb-0 fw-bold text-black tripTitle">My Trips</p>
+                                            </div>
+                                            <div class="tripBtn">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                        <p class="my-3 fw-bold text-muted fs-6">
+                                            Upcoming Trips<br>
+                                            <span class="textColor fw-bolder fs-4">1</span>
+                                        </p>
+                                        <p class="mb-0 fw-bold text-muted fs-6">
+                                            Completed Trips<br>
+                                            <span class="textColor fw-bolder fs-4">3</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
+                                <div class="walletCard border border-2 rounded-4 p-3">
+                                    <!-- Background Icon -->
+                                    <i class="ri-wallet-fill walletCase"></i>
+                                    <!-- Content Wrapper -->
+                                    <div class="walletContent">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <div class="walletIcon1">
+                                                    <i class="ri-wallet-line"></i>
+                                                </div>
+                                                <p class="mb-0 fw-bold text-black walletTitle">Wallet Balance</p>
+                                            </div>
+                                            <div class="walletBtn">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                        <p class="my-3 fw-bold text-muted fs-6">
+                                            Booking Wallet<br>
+                                            <span class="greenText fw-bolder fs-4">&#8377; 2,500</span>
+                                        </p>
+                                        <p class="mb-0 fw-bold text-muted fs-6">
+                                            Redemption Wallet<br>
+                                            <span class="greenText fw-bolder fs-4">&#8377; 700</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
+                                <div class="couponCard border border-2 rounded-4 p-3">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-gift giftCase"></i>
+                                    <!-- Content Wrapper -->
+                                    <div class="couponContent">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <div class="couponIcon1">
+                                                    <i class="ri-gift-line"></i>
+                                                </div>
+                                                <p class="mb-0 fw-bold text-black couponTitle">Rewards & Coupons</p>
+                                            </div>
+                                            <div class="couponBtn">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                        <p class="my-3 fw-bold text-muted fs-6">
+                                            Active Coupons<br>
+                                            <span class="orangeText fw-bolder fs-4">3</span>
+                                        </p>
+                                        <p class="mb-0 fw-bold text-muted fs-6">
+                                            Expiring Soon<br>
+                                            <span class="orangeText fw-bolder fs-4">1</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
+                                <div class="referralCard border border-2 rounded-4 p-3">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-users referralCase"></i>
+                                    <!-- Content Wrapper -->
+                                    <div class="referralContent">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <div class="referralIcon">
+                                                    <i class="ri-group-line"></i>
+                                                </div>
+                                                <p class="mb-0 fw-bold text-black referralTitle">Referrals & Earnings</p>
+                                            </div>
+                                            <div class="referralBtn">
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                        <p class="my-3 fw-bold text-muted fs-6">
+                                            Total Earnings<br>
+                                            <span class="blueText fw-bolder fs-4">&#8377; 4,500</span>
+                                        </p>
+                                        <p class="mb-0 fw-bold text-muted fs-6">
+                                            Pending Earnings<br>
+                                            <span class="blueText fw-bolder fs-4">&#8377; 1,200</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
