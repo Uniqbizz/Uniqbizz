@@ -368,7 +368,7 @@
                                             <div>
                                                 <div class="d-flex justify-content-center align-items-center">
                                                     <div class="membershipIcon">
-                                                        <i class="ri-plane-line"></i>
+                                                        <i class="fa-solid fa-indian-rupee-sign"></i>
                                                     </div>
                                                 </div>
                                                 <div class="mt-4">
