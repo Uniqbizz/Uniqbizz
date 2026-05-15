@@ -10376,14 +10376,16 @@ $date = date('Y');
                 $("#onlineOpt").addClass("d-none");
             }
         });
-        $('#upgardeHistoryTable').DataTable({
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true,
-            lengthChange: true,
-            pageLength: 10
-        });
+
+        //cannot call Datatable() function for same id more then once
+        // $('#upgardeHistoryTable').DataTable({
+        //     paging: true,
+        //     searching: true,
+        //     ordering: true,
+        //     info: true,
+        //     lengthChange: true,
+        //     pageLength: 10
+        // });
         var acc = document.getElementsByClassName("accordion");
         var i;
 

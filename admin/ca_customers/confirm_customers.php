@@ -567,7 +567,7 @@ if ($result) {
 					//if institution ref is MF
                     if(substr($BmId,0,2) == 'MF'){
                         //MF details
-                        $sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_Id."'");
+                        $sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$BdmId."'");
                         $sql11->execute();
                         $sql11->setFetchMode(PDO::FETCH_ASSOC);
                         if($sql11->rowCount()>0){
@@ -580,7 +580,7 @@ if ($result) {
                         }
                     }else if(substr($BmId,0,2) == 'SF'){
                         //MF details
-                        $sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$Bm_Id."'");
+                        $sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$BdmId."'");
                         $sql11->execute();
                         $sql11->setFetchMode(PDO::FETCH_ASSOC);
                         if($sql11->rowCount()>0){
@@ -2978,7 +2978,7 @@ if ($result) {
 			$mail->CharSet = 'UTF-8';
 			// $mail->SMTPDebug = 2; 
 			$mail->Username = "support@uniqbizz.com";
-			$mail->Password = "support@uniqbizz";
+			$mail->Password = "NCaB6f^jkm^~";
 			$mail->SetFrom("support@uniqbizz.com");
 			$mail->Subject = $subject;
 			$mail->Body = $message3;

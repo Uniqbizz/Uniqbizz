@@ -301,6 +301,28 @@
                                                             <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="branch">
+                                                                <option value=""> ---- Select Branch ---- </option>
+                                                                <?php
+                                                                    require '../connect.php';
+                                                                    $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                    $stmt = $conn->prepare($sql);
+                                                                    $stmt->execute();
+                                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">Branch not available</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
@@ -311,8 +333,8 @@
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
                                                             <select class="form-select" id="payment_fee">
-                                                                <option value="null" selected>--Select Payment Fee--</option>
-                                                                <option value="FOC">Free</option>
+                                                                <option value="null" >--Select Payment Fee--</option>
+                                                                <option value="FOC" selected>Free</option>
                                                                 <option value="3000"><span>&#8377 </span>3000/-</option> 
                                                                 <option value="10000"><span>&#8377 </span>10,000/-</option>
                                                             </select>
@@ -496,6 +518,19 @@
         <script src="assets/js/app.js"></script>
 
         <script>
+
+            var register_type = $("#userType").val();
+            // console.log(register_type);
+            if (register_type === '16' || register_type === '30') {
+                // Enable payment fee
+                $('#payment_fee').prop('disabled',false);
+                $('#branch').prop('disabled', true);
+            } else if (register_type === '32') {
+                // Disable payment fee
+                $('#payment_fee').prop('disabled',true);
+                $('#branch').prop('disabled', false);
+            }
+            
             //select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();

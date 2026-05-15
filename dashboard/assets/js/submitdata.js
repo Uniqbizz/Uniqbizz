@@ -1569,6 +1569,7 @@ $('#add-travel-agent').click(function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
+    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
     //for Goa cutomers
     let payment_fee,
@@ -1641,6 +1642,7 @@ $('#add-travel-agent').click(function (e) {
         "&state=" + mystate +
         "&city=" + city +
         "&pincode=" + pin +
+        "&branch=" + branch +
         "&address=" + address +
         "&profile_pic=" + profile_pic +
         "&aadhar_card=" + aadhar_card +
@@ -1766,6 +1768,7 @@ $('#edit-travel-agent').click(function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
+    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
 
     var paymentMode = $(".payment:checked").val();
@@ -1819,6 +1822,7 @@ $('#edit-travel-agent').click(function (e) {
         "&state=" + mystate +
         "&city=" + city +
         "&pincode=" + pin +
+        "&branch=" + branch +
         "&address=" + address +
         "&profile_pic=" + profile_pic +
         "&aadhar_card=" + aadhar_card +

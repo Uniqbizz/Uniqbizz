@@ -47,6 +47,7 @@ $bank_name=$_POST['bankName'];
 $transaction_no=$_POST['transactionNo'];
 $address=$_POST['address'];
 $pincode=$_POST['pincode'];
+$branch=$_POST['branch'];
 $country=$_POST['country'];
 $state=$_POST['state'];
 $city=$_POST['city'];
@@ -79,6 +80,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
 		state=:state,
 		city=:city,
 		pincode=:pincode,
+		branch=:branch,
 		address=:address,
 		-- note=:note,
 		-- comp_check=:comp_check,
@@ -112,6 +114,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':state' => $state,
             ':city' => $city,
             ':pincode' => $pincode,
+			':branch' => $branch,
             ':address' => $address,
             // ':note' => $note,
         	// ':comp_check' => $comp_check,

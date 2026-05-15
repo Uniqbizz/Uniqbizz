@@ -28,6 +28,7 @@
     $transactionNo=$_POST['transactionNo'];
     $address=$_POST['address'];
     $pincode=$_POST['pincode'];
+    $branch=$_POST['branch'];
     $country=$_POST['country'];
     $state=$_POST['state'];
     $city=$_POST['city'];
@@ -49,8 +50,8 @@
     $fromWhom="1";
     $operation="Add";
 
-    $sql= "INSERT INTO `institution_branch_manager` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, address, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof, amount, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) 
-    VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode,:address, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook,:payment_proof, :amount, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :registrant,  :reference_no, :register_by, :status)";
+    $sql= "INSERT INTO `institution_branch_manager` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, country, state, city, pincode, branch, address, profile_pic, pan_card, aadhar_card, voting_card, passbook, payment_proof, amount, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) 
+    VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :country, :state, :city, :pincode, :branch, :address, :profile_pic ,:pan_card,:aadhar_card,:voting_card,:passbook,:payment_proof, :amount, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type, :registrant,  :reference_no, :register_by, :status)";
     $stmt3 =$conn->prepare($sql);
 
     $result2=$stmt3->execute(array(
@@ -65,6 +66,7 @@
         ':state' => $state,
         ':city' => $city,
         ':pincode' => $pincode,
+        ':branch' => $branch,
         ':address' => $address,  
         ':bdate' => $bdate,
         ':age' => $age,  

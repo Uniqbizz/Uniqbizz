@@ -3516,6 +3516,7 @@ $("#add_ca_travelagency").on("click", function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
+    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
     var payment_fee = $("#payment_fee").val().trim();
     if (payment_fee == "FOC") {
@@ -3647,6 +3648,8 @@ $("#add_ca_travelagency").on("click", function (e) {
             city +
             "&pincode=" +
             pin +
+            "&branch=" +
+            branch +
             "&address=" +
             address +
             "&profile_pic=" +
@@ -3737,6 +3740,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
+    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
     var payment_fee = $("#payment_fee").val().trim();
     if (payment_fee == "FOC") {
@@ -3884,6 +3888,8 @@ $("#edit_ca_travelagency").on("click", function (e) {
             city +
             "&pincode=" +
             pin +
+            "&branch=" +
+            branch +
             "&address=" +
             address +
             "&profile_pic=" +

@@ -167,6 +167,8 @@
                                                                 $rd= new DateTime($row['added_on']);
                                                                 $rdate= $rd->format('d-m-Y');
 
+                                                                $branch = $row['branch'] ?? 'NA';
+
                                                                 echo'<tr>
                                                                     <td>'.$row['id'].'</td>
                                                                     <td><span class="badge bg-secondary lable-width">'. strtoupper($row['user_type']).'</span>'.$row['firstname'].' '.$row['lastname'].'</td>
@@ -188,7 +190,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending","'.$row["user_type_val"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .$branch. '","pending","'.$row["user_type_val"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending","'.$row["user_type"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                     <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '","' .$row["reference_no"]. '","'.$row["comp_check"].'","'.$row["user_type"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
                                                                                 </ul>
@@ -218,7 +220,7 @@
 
                                                                                         <li>
                                                                                             <a href="#" 
-                                                                                                onclick=\'editfuncCust("' . $user_id_str . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . strtolower($row['user_type']) . '")\'
+                                                                                                onclick=\'editfuncCust("' . $user_id_str . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' .$branch. '","pending","' . strtolower($row['user_type']) . '")\'
                                                                                                 
                                                                                                 class="dropdown-item">
                                                                                                 <i class="mdi mdi-eye font-size-16 text-info me-1"></i> View Request
@@ -386,7 +388,8 @@
                                                                 $rdate_display = date("d-m-Y", strtotime($row['register_date']));
                                                                 $rdate_sort = date("Y-m-d", strtotime($row['register_date']));
 
-
+                                                                $branch = $row['branch'] ?? 'NA';
+                                                                
                                                                 $reference_no=(substr($row['reference_no'],0,1) == 'F' || substr($row['reference_no'],0,1) == 'I') ? substr($row['reference_no'],0,1):
                                                                             substr($row['reference_no'],0,2);
 
@@ -467,7 +470,7 @@
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
                                                                                 <li><a href="#" onclick=\'overviewPage("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .(strtolower($row['user_type']) == 'tc' ? 'ca_travelagency' : (strtolower($row['user_type']) == 'ibr' ? 'institution_branch_manager' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered","'.$row['user_type_val'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .$branch. '","registered","'.$row['user_type_val'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["user_id"]. '","registered","'.$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
                                                                         </div>
@@ -820,8 +823,8 @@
 
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-                window.location.href='edit_ca_travelAgency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+            function editfuncCust(id,refno,regby,cut,st,ct,br,editfor,usertype){ 
+                window.location.href='edit_ca_travelAgency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&branch='+br+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 

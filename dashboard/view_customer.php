@@ -1938,7 +1938,7 @@
                                                                             $bdate= $bd->format('d-m-Y');
                                                                             $dt= new DateTime($row['register_date']);
                                                                             $datev= $dt->format('d-m-Y'); 
-                                                                            $comp_chek = $userCACU['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
+                                                                            $comp_chek = $row['comp_chek'] == '1' ? 'complimentary' : 'Noncomplimentary'; 
                                                                             echo'<tr>
                                                                                 <td>
                                                                                     <p>'.$row['ca_customer_id'].'</p>

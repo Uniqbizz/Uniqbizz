@@ -258,6 +258,28 @@
                                                         <input type="text" class="form-control" id="pin" placeholder="Pincode" readonly >
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="branch">
+                                                            <option value=""> ---- Select Branch ---- </option>
+                                                            <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Branch not available</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
@@ -486,7 +508,7 @@
             $('#registered').on('change', function () {
 
                 var register_type = $(this).val();
-                console.log(register_type);
+                // console.log(register_type);
                 if (register_type === 'travel_consultant') {
                     // Show main designation
                     $('#designation').removeClass('d-none');
@@ -496,8 +518,8 @@
                     $('#payment_fee').prop('disabled',false);
                     $('.payment').prop('disabled', false);
                     $('#upload_file6').prop('disabled', false);
-                } 
-                else if (register_type === 'institution_branch_manager') {
+                    $('#branch').prop('disabled', true);
+                } else if (register_type === 'institution_branch_manager') {
                     // Hide main designation
                     $('#designation').addClass('d-none');
                     // Show institution designation
@@ -506,6 +528,8 @@
                     $('#payment_fee').prop('disabled',true);
                     $('.payment').prop('disabled', true);
                     $('#upload_file6').prop('disabled', true);
+                    $('#branch').prop('disabled', false);
+
                 }
             });
             
