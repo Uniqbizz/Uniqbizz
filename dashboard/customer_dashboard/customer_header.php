@@ -110,7 +110,7 @@
                 <!-- Customer -->
                 <?php if ($userType == '10'){?> 
                 <button type="button" class="btn shadow-none d-none d-md-inline-block">
-                    <a class="dropdown-item" href="view_cu_wallet.php">
+                    <a class="dropdown-item" href="customer_wallet.php">
                         <div class="d-flex gap-3">
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">

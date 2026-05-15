@@ -118,13 +118,16 @@ if ($result) {
 		$BdmId = 'N/A';
 		$BdmName = 'N/A';
 
-		//get the TC TE/BM who regitered this TC
-		$sqlta = $conn->prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_reference_no."'");
+		//get the TC/IBR TE/BM/MF/I who regitered this TC/I edited on 15-05-2026 by sv 
+		$sqlta = $conn->prepare("
+								SELECT ca_travelagency_id as user_id,firstname,lastname,reference_no,registrant FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_reference_no."'
+								UNION
+								SELECT institution_branch_manager_id as user_id,firstname,lastname,reference_no,registrant FROM institution_branch_manager WHERE institution_branch_manager_id = '".$ta_reference_no."'");
 		$sqlta->execute();
 		$sqlta->setFetchMode(PDO::FETCH_ASSOC);
 		if($sqlta->rowCount()>0){
 			foreach(($sqlta->fetchAll()) as $keyta => $rowta){
-				$tc_id = $rowta['ca_travelagency_id'];
+				$tc_id = $rowta['user_id'];
 				$tc_name = $rowta['firstname']. ' ' .$rowta['lastname'];
 				$ta_te_id = $rowta['reference_no'];
 				$ta_te_name = $rowta['registrant'];
@@ -557,6 +560,34 @@ if ($result) {
 							foreach(($sql12->fetchAll()) as $key12 => $row12){
 								$BdmId = $row12['employee_id'];
 								$BdmName = $row12['name'];
+							}
+						}
+					}
+					//if institution ref is MF
+					if($BmId == "MF"){
+						//MF details
+						$sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_Id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['master_franchisee_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+					}else if($BmId == "SF"){
+						//MF details
+						$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$Bm_Id."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+						if($sql11->rowCount()>0){
+							foreach(($sql11->fetchAll()) as $key11 => $row11){
+								$BmId = $row11['sponsor_franchisee_id'];
+								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
+								$BdmId = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
 							}
 						}
 					}

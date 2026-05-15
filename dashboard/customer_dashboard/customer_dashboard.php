@@ -1,5 +1,6 @@
 <?php
     include_once '../dashboard_user_details.php';
+    include 'customer_model.php';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -35,6 +36,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
     </head>
+
     <body class="twocolumn-panel">
         <!-- Begin page -->
         <div id="layout-wrapper">
@@ -80,7 +82,7 @@
                             </div>
                             <div class="greetingCard">
                                 <h2 class="fw-bold text-white gap-3">
-                                    Good Morning, <span class="">Pratiksha</span>! &#128075;
+                                    Good Morning, <span class=""><?= $firstname ?></span>! &#128075;
                                 </h2>
                                 <p class="text-white fs-5">
                                     Let's make today a day to remember.
@@ -111,16 +113,16 @@
                                         </div>
                                         <p class="custID mb-0 fw-bold textColor fs-5">
                                             Customer ID <br>
-                                            <span class="custID textColor fw-bolder fs-3">BZH1004587</span>
+                                            <span class="custID textColor fw-bolder fs-3"><?= $userId ?></span>
                                         </p>
                                     </div>
                                     <div class="p-3 text-warning-emphasis bg-warning-subtle border border-2 border-warning-subtle rounded-4 d-flex gap-3 mt-3">
                                         <i class="fa-solid fa-crown d-flex align-items-center" style="color: #ffc107;"></i>
-                                        <p class="fs-6 mb-0 fw-bolder">Premium Member</p>
+                                        <p class="fs-6 mb-0 fw-bolder"><?= $customer['customer_type'] ?></p>
                                     </div>
                                     <div class="mt-4">
                                         <p class="fs-6 text-muted mb-1">Member Since</p>
-                                        <p class="fs-5 mb-3 fw-bolder textColor">12 May 2024</p>
+                                        <p class="fs-5 mb-3 fw-bolder textColor"><?= $cust_regiter_date ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -135,11 +137,11 @@
                                     <div class="d-flex justify-content-around gap-3 mt-3">
                                         <div class="mt-3">
                                             <p class="fs-6 text-muted mb-1">Total Vouchers</p>
-                                            <p class="fs-4 mb-0 fw-bolder textColor">10</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor"><?= $couponData['coupon_total'] ?></p>
                                         </div>
                                         <div class="mt-3">
                                             <p class="fs-6 text-muted mb-1">Active</p>
-                                            <p class="fs-4 mb-0 fw-bolder textColor">3</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor"><?= $couponData['active_coupon_total'] ?></p>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
@@ -151,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+                            <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                 <div class="border border-2 rounded-4">
                                     <div>
                                         <img src="../assets/images/complimentaryImage.png" alt="Package" class="complimentaryImage img-fluid w-100">
@@ -167,15 +169,15 @@
                                         </div>
                                         <p class="fs-6 text-muted mt-2">Unlock in 6th Year</p>
                                         <div class="d-flex gap-3 mt-3">
-                                            <div class="mb-3">
+                                            <div class="mb-3"> -->
                                                 <!-- Years text -->
-                                                <p class="fs-5 mb-2">
+                                                <!-- <p class="fs-5 mb-2">
                                                     <span class="fs-5" id="completedYears">3</span>/<span id="totalYears">6</span>
                                                     <span class="fs-6 text-muted">Years Completed</span>
-                                                </p>
+                                                </p> -->
 
                                                 <!-- Progress bar -->
-                                                <div class="progress border border-2">
+                                                <!-- <div class="progress border border-2">
                                                     <div class="progress-bar bg-bar" id="yearProgressBar"></div>
                                                 </div>
                                             </div>
@@ -185,32 +187,53 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">   
+                                <div class="card2 border border-2 rounded-4 p-3">    
+                                    <div class="d-flex gap-3 align-items-center mt-3">
+                                        <i class="fa-solid fa-wallet fa-2xl" style="color: #056649;"></i>
+                                        <p class="custID mb-0 fw-bold textColor fs-5">Wallet Balance</h5>
+                                    </div>
+                                    <div class="d-flex justify-content-around gap-3 mt-3">
+                                        <div class="mt-3">
+                                            <p class="fs-4 mb-0 fw-bolder textColor">₹3,200.00</p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-3 mb-4">
+                                        <a href="#">
+                                            <div class="linkBtn p-2 px-3 border border-primary border-2">
+                                                <p class="fs-6 mb-0 fw-bolder"> View Wallets</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 ps-0">
                                 <div class="card4 border border-2 rounded-4 p-3">
                                     
                                     <div class="d-flex gap-3 align-items-center mb-2">
                                         <div class="custProfile">
-                                            <img src="../assets/images/users/avatar-8.jpg" alt="Package" class="profileImage img-fluid w-100">
+                                            <img src="../uploading/<?= $customerTa['profile_pic'] ?>" alt="Profile" class="profileImage img-fluid w-100">
                                         </div>
                                         <div class="">
                                             <p class="text-muted mb-0">Your Travel Consultant</p>
                                             <p class="mb-0 fw-bolder fs-4 textColor">
-                                                Rahul Mehta<br>
-                                                <span class="walletAmount fw-bold textColor fs-6">Senior Travel Consultant</span>
+                                                <?= $customerTa['firstname'] .' '. $customerTa['lastname']  ?><br>
+                                                <span class="walletAmount fw-bold textColor fs-6">Travel Consultant</span>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="d-flex gap-3 align-items-center">
                                         <i class="fa-solid fa-phone textColor"></i>
                                         <p class="mb-0 textColor fs-6">
-                                            +91 9876543210
+                                            +<?= $customerTa['country_code'].' '. $customerTa['contact_no'] ?>
                                         </p>
                                     </div>
                                     <div class="d-flex gap-3 align-items-center">
                                         <i class="fa-regular fa-envelope textColor"></i>
                                         <p class="mb-0 textColor fs-6">
-                                            rahul.mehta@bizzmirth.com
+                                            <?= $customerTa['email'] ?>
                                         </p>
                                     </div>
                                     <div class="d-flex gap-3 align-items-center">
@@ -237,13 +260,13 @@
                             </div>
                         </div>
                         <!-- card section 2 -->
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
-                                <div class="tripCard border border-2 rounded-4 p-3">
+                                <div class="tripCard border border-2 rounded-4 p-3"> -->
                                     <!-- Background Icon -->
-                                    <i class="ri-briefcase-3-line brifeCase"></i>
+                                    <!-- <i class="ri-briefcase-3-line brifeCase"></i> -->
                                     <!-- Content Wrapper -->
-                                    <div class="tripContent">
+                                    <!-- <div class="tripContent">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="d-flex gap-2 align-items-center">
                                                 <div class="tripIcon">
@@ -267,11 +290,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
-                                <div class="walletCard border border-2 rounded-4 p-3">
+                                <div class="walletCard border border-2 rounded-4 p-3"> -->
                                     <!-- Background Icon -->
-                                    <i class="ri-wallet-fill walletCase"></i>
+                                    <!-- <i class="ri-wallet-fill walletCase"></i> -->
                                     <!-- Content Wrapper -->
-                                    <div class="walletContent">
+                                    <!-- <div class="walletContent">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="d-flex gap-2 align-items-center">
                                                 <div class="walletIcon1">
@@ -295,11 +318,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
-                                <div class="couponCard border border-2 rounded-4 p-3">
+                                <div class="couponCard border border-2 rounded-4 p-3"> -->
                                     <!-- Background Icon -->
-                                    <i class="fa-solid fa-gift giftCase"></i>
+                                    <!-- <i class="fa-solid fa-gift giftCase"></i> -->
                                     <!-- Content Wrapper -->
-                                    <div class="couponContent">
+                                    <!-- <div class="couponContent">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="d-flex gap-2 align-items-center">
                                                 <div class="couponIcon1">
@@ -323,11 +346,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6 col-12 mt-2">
-                                <div class="referralCard border border-2 rounded-4 p-3">
+                                <div class="referralCard border border-2 rounded-4 p-3"> -->
                                     <!-- Background Icon -->
-                                    <i class="fa-solid fa-users referralCase"></i>
+                                    <!-- <i class="fa-solid fa-users referralCase"></i> -->
                                     <!-- Content Wrapper -->
-                                    <div class="referralContent">
+                                    <!-- <div class="referralContent">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div class="d-flex gap-2 align-items-center">
                                                 <div class="referralIcon">
@@ -348,6 +371,83 @@
                                             <span class="blueText fw-bolder fs-4">&#8377; 1,200</span>
                                         </p>
                                     </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="card border border-2 rounded-4 my-3">
+                            <div class="row">
+                                <div class="benefits-card">
+        
+                                    <h2 class="benefits-title">
+                                        <span>Neo Select</span> Membership Benefits
+                                    </h2>
+        
+                                    <div class="row align-items-center g-4">
+        
+                                        <div class="col-lg">
+                                            <div class="benefit-item">
+                                                <i class="fa-regular fa-money-bill-1 benefit-icon"></i>
+        
+                                                <div class="benefit-text">
+                                                    ₹15,000 <br>
+                                                    Coupon Benefits
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="col-lg">
+                                            <div class="benefit-item">
+                                                <i class="fa-regular fa-heart benefit-icon"></i>
+        
+                                                <div class="benefit-text">
+                                                    Loyalty Rewards <br>
+                                                    on Travel
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="col-lg">
+                                            <div class="benefit-item">
+                                                <i class="fa-solid fa-user-group benefit-icon"></i>
+        
+                                                <div class="benefit-text">
+                                                    Refer & Earn <br>
+                                                    Rewards
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="col-lg">
+                                            <div class="benefit-item">
+                                                <i class="fa-solid fa-tags benefit-icon"></i>
+        
+                                                <div class="benefit-text">
+                                                    Discounts on <br>
+                                                    Repeat Bookings
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="col-lg">
+                                            <div class="benefit-item border-0">
+                                                <i class="fa-solid fa-plane-departure benefit-icon"></i>
+        
+                                                <div class="benefit-text">
+                                                    Applicable on <br>
+                                                    Packages, Hotels, Flights & Events
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="col-lg-auto text-lg-end text-center">
+                                            <button class="btn benefit-btn">
+                                                View All Benefits
+                                                <i class="fa-solid fa-arrow-right ms-2"></i>
+                                            </button>
+                                        </div>
+        
+                                    </div>
+        
                                 </div>
                             </div>
                         </div>
