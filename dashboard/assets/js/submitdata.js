@@ -1620,6 +1620,10 @@ $('#add-travel-agent').click(function (e) {
     var testE = $('#testemail').val();
     var userId = $('#userId').val();
     var userType = $('#userType').val();
+    var url = userType == '16' ? 'travel_agent/add_travel_agent_data.php' 
+            : userType == '29' ? 'travel_agent/add_travel_agent_data.php' 
+            : userType == '32' ? 'travel_agent/add_institution_branch_manager_data.php' 
+            : '';
 
     var dataString = // "designation=" +designation+ 
         "user_id_name=" + user_id_name +
@@ -1721,7 +1725,7 @@ $('#add-travel-agent').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "travel_agent/add_travel_agent_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -1794,6 +1798,10 @@ $('#edit-travel-agent').click(function (e) {
     var testE = $('#testemail').val();
     var userId = $('#userId').val();
     var userType = $('#userType').val();
+    var url = userType == '16' ? 'travel_agent/edit_travel_agent_data.php' 
+            : userType == '29' ? 'travel_agent/edit_travel_agent_data.php' 
+            : userType == '32' ? 'travel_agent/edit_institution_branch_manager_data.php' 
+            : '';
 
     var dataString = "editfor=" + editfor +
         "&ref_id=" + ref_id +
@@ -1894,7 +1902,7 @@ $('#edit-travel-agent').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: "travel_agent/edit_travel_agent_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {

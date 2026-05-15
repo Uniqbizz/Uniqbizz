@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Admin Dashboard | Customer</title>
+        <title> Dashboard | Customer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/fav.png">
@@ -1250,7 +1250,7 @@
                                                                 <th data-ordering="false">Phone</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
-                                                                <?php if( $userType == "11" || $userType == "10"){ ?>
+                                                                <?php if( $userType == "11" || $userType == "10" || $userType == '33'){ ?>
                                                                     <th data-ordering="false">Action</th>
                                                                 <?php } ?>
                                                             </tr>
@@ -1896,7 +1896,7 @@
                                                                                 else{
                                                                                     echo'<td><span class="badge bg-success">Active</span></td>';
                                                                                 }
-                                                                                if($userType == '11'){
+                                                                                if($userType == '11' || $userType == '33'){
                                                                                     if($row['status'] == '1'){
                                                                                         echo'<td>
                                                                                             <div class="dropdown d-inline-block">

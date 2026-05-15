@@ -9804,14 +9804,14 @@ $date = date('Y');
                                             if($DBtable == 'sub_franchisee'){
                                                 $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
                                                                 payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
-                                                                approved_by,note,upgrade_status 
+                                                                approved_by,note,upgrade_status, 'SF' as user_type
                                                                 FROM sub_franchisee_upgrade
                                                                 WHERE sub_franchisee_id='".$id."'
                                                                 ORDER BY upgrade_request_date ASC ";
                                             }else if($DBtable == 'institution'){
                                                 $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
                                                                 payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
-                                                                approved_by,note,upgrade_status 
+                                                                approved_by,note,upgrade_status, 'I' as user_type
                                                                 FROM institution_upgrade
                                                                 WHERE institution_id='".$id."'
                                                                 ORDER BY upgrade_request_date ASC ";
@@ -9839,6 +9839,7 @@ $date = date('Y');
                                                     $aproved_by = $row['approved_by'];
                                                     $note = $row['note'];
                                                     $row_id=$row['id'];
+                                                    $user_type=$row['user_type'];
                                                     $rejection_reason = trim($row['rejection_reason'] ?? '');
 
                                                     if ($rejection_reason === '') {
@@ -9871,7 +9872,7 @@ $date = date('Y');
                                                                         <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                     </a>
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
+                                                                        <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '","' .$user_type. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
                                                                         <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
                                                                     </ul>
                                                                 </div>
@@ -10402,8 +10403,8 @@ $date = date('Y');
             window.location.href='../corporate_agency/upgrade_franchisee.php?id='+id+'&ref='+ref;
         }
         //franchisee upgrade History Details
-        function upgradeHistoryPage(id,ref){
-            window.location.href='../corporate_agency/upgrade_franchisee_history.php?id='+id+'&sub_f_id='+ref;
+        function upgradeHistoryPage(id,ref,userType){
+            window.location.href='upgrade_franchisee_history.php?id='+id+'&sub_f_id='+ref+'&user_type='+userType;
         }
 
 

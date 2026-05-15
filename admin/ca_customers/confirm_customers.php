@@ -119,12 +119,15 @@ if ($result) {
 		$BdmName = 'N/A';
 
 		//get the TC TE/BM who regitered this TC
-		$sqlta = $conn->prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_reference_no."'");
+		$sqlta = $conn->prepare("
+				SELECT ca_travelagency_id as user_id,firstname,lastname,reference_no,registrant FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_reference_no."'
+				UNION
+				SELECT institution_branch_manager_id as user_id,firstname,lastname,reference_no,registrant FROM institution_branch_manager WHERE institution_branch_manager_id = '".$ta_reference_no."'");
 		$sqlta->execute();
 		$sqlta->setFetchMode(PDO::FETCH_ASSOC);
 		if($sqlta->rowCount()>0){
 			foreach(($sqlta->fetchAll()) as $keyta => $rowta){
-				$tc_id = $rowta['ca_travelagency_id'];
+				$tc_id = $rowta['user_id'];
 				$tc_name = $rowta['firstname']. ' ' .$rowta['lastname'];
 				$ta_te_id = $rowta['reference_no'];
 				$ta_te_name = $rowta['registrant'];
@@ -560,6 +563,36 @@ if ($result) {
 							}
 						}
 					}
+
+					//if institution ref is MF
+                    if(substr($BmId,0,2) == 'MF'){
+                        //MF details
+                        $sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_Id."'");
+                        $sql11->execute();
+                        $sql11->setFetchMode(PDO::FETCH_ASSOC);
+                        if($sql11->rowCount()>0){
+                            foreach(($sql11->fetchAll()) as $key11 => $row11){
+                                $BmId = $row11['master_franchisee_id'];
+                                $BmName = $row11['firstname']. ' ' .$row11['lastname'];
+                                $BdmId = $row11['reference_no'];
+                                $BdmName = $row11['registrant'];
+                            }
+                        }
+                    }else if(substr($BmId,0,2) == 'SF'){
+                        //MF details
+                        $sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$Bm_Id."'");
+                        $sql11->execute();
+                        $sql11->setFetchMode(PDO::FETCH_ASSOC);
+                        if($sql11->rowCount()>0){
+                            foreach(($sql11->fetchAll()) as $key11 => $row11){
+                                $BmId = $row11['sponsor_franchisee_id'];
+                                $BmName = $row11['firstname']. ' ' .$row11['lastname'];
+                                $BdmId = $row11['reference_no'];
+                                $BdmName = $row11['registrant'];
+                            }
+                        }
+                    }
+
 					//if Institution ref is BDM
 					else if(substr($BmId,0,2) == 'BH'){
 												
@@ -580,8 +613,8 @@ if ($result) {
 						'Neo Select' => ['ibr' => 500, 'i' => 3000, 'bm' => 150]
 					];
 
-					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
-					$te_commi = $commissionRates[$customer_type]['te'] ?? 0;
+					$tc_commi = $commissionRates[$customer_type]['ibr'] ?? 0;
+					$te_commi = $commissionRates[$customer_type]['i'] ?? 0;
 					$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0; 
 					$bdm_commi = '0';  
 					

@@ -24,7 +24,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Add Travel Consultant | Admin Dashboard </title>
+        <title>Add Travel Consultant/ Institution Branch Manager | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant/ Institution Branch Manager</h4>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Add Travel Consultant Form</h3>
+                                            <h3>Add Travel Consultant / Institution Branch Manager Form</h3>
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 d-flex justify-content-end">
                                                     <div class="input-block mb-3 form-check">
@@ -486,30 +486,29 @@
             $('#registered').on('change', function () {
 
                 var register_type = $(this).val();
-
+                console.log(register_type);
                 if (register_type === 'travel_consultant') {
-
                     // Show main designation
-                    $('#designation')
-                        .removeClass('d-none');
-
+                    $('#designation').removeClass('d-none');
                     // Hide institution designation
-                    $('#designation2')
-                        .addClass('d-none');
-
+                    $('#designation2').addClass('d-none');
+                    // Enable payment fee
+                    $('#payment_fee').prop('disabled',false);
+                    $('.payment').prop('disabled', false);
+                    $('#upload_file6').prop('disabled', false);
                 } 
                 else if (register_type === 'institution_branch_manager') {
-
                     // Hide main designation
-                    $('#designation')
-                        .addClass('d-none');
-
+                    $('#designation').addClass('d-none');
                     // Show institution designation
-                    $('#designation2')
-                        .removeClass('d-none');
+                    $('#designation2').removeClass('d-none');
+                    // Disable payment fee
+                    $('#payment_fee').prop('disabled',true);
+                    $('.payment').prop('disabled', true);
+                    $('#upload_file6').prop('disabled', true);
                 }
             });
-
+            
             //select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();

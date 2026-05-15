@@ -186,7 +186,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Travel Agency | Admin Dashboard </title>
+        <title>Edit Travel Consultant/ Institution Branch Manager| Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -235,7 +235,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Travel Agency</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant/ Institution Branch Manager</h4>
                                 </div>
                             </div>
                         </div>
@@ -246,7 +246,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Travel Agency Form</h3>
+                                            <h3>Edit Travel Consultant / Institution Branch Manager Form</h3>
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 d-flex justify-content-end">
                                                     <div class="input-block mb-3 form-check">
