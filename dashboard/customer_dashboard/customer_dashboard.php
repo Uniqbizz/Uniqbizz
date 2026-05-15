@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="../assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
-
+        
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
@@ -791,6 +791,80 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- card section 5 -->
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-12">
+                                <div class="analyticsCard p-3 h-100">
+                                    <!-- Header -->
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                                        <h5 class="chartTitle fw-bolder mb-0">
+                                            Spending Overview
+                                            <span class="smallText">(All Time)</span>
+                                        </h5>
+                                        <select class="form-select yearSelect" id="yearFilter">
+                                            <option value="this">This Year</option>
+                                            <option value="last">Last Year</option>
+                                        </select>
+                                    </div>
+                                    <!-- Line Chart -->
+                                    <div class="chartWrapper">
+                                        <canvas id="spendingChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="analyticsCard p-3 h-100">
+                                    <!-- Header -->
+                                    <h5 class="chartTitle fw-bolder mb-4">
+                                        Trip Summary
+                                        <span class="smallText">(All Time)</span>
+                                    </h5>
+                                    <div class="row align-items-center g-4">
+                                        <!-- Donut Chart -->
+                                        <div class="col-md-5 text-center">
+                                            <div class="donutWrapper">
+                                                <canvas id="tripChart"></canvas>
+                                                <!-- Center Text -->
+                                                <div class="donutCenterText">
+                                                    <h2 class="fw-bolder mb-0">8</h2>
+                                                    <p class="smallText mb-0">Total Trips</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Legend -->
+                                        <div class="col-md-7">
+                                            <!-- Domestic -->
+                                            <div class="legendItem"onclick="tripAction(0, this)">
+                                                <div class="legendLeft">
+                                                    <span class="legendColor domestic"></span>
+                                                    Domestic Trips
+                                                </div>
+                                                <span>4 (50%)</span>
+                                            </div>
+
+                                            <!-- International -->
+                                            <div class="legendItem"onclick="tripAction(0, this)">
+                                                <div class="legendLeft">
+                                                    <span class="legendColor international"></span>
+                                                    International Trips
+                                                </div>
+                                                <span>3 (37.5%)</span>
+                                            </div>
+
+                                            <!-- Upcoming -->
+                                            <div class="legendItem mb-0"onclick="tripAction(0, this)">
+                                                <div class="legendLeft">
+                                                    <span class="legendColor upcoming"></span>
+                                                    Upcoming Trips
+                                                </div>
+                                                <span>1 (12.5%)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
@@ -856,8 +930,9 @@
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
-
-        <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+        <!-- Chart -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
 
 
         <!-- Dashboard init  popular candidates section js file-->
@@ -1115,6 +1190,160 @@
                 buildCarousel
             );
 
+        </script>
+
+       <script>
+            const spendingCtx = document
+                .getElementById("spendingChart")
+                .getContext("2d");
+            // Gradient Fill
+            const gradient = spendingCtx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, "rgba(91,95,246,0.35)");
+            gradient.addColorStop(1, "rgba(91,95,246,0)");
+
+            // Create Line Chart
+            const spendingChart = new Chart(spendingCtx, {
+                type: "line",
+                data: {
+                    labels: [
+                        "Jan", "Feb", "Mar", "Apr",
+                        "May", "Jun", "Jul", "Aug",
+                        "Sep", "Oct", "Nov", "Dec"
+                    ],
+                    datasets: [{
+                        label: "Spending",
+                        data: [
+                            10, 28, 22, 40,
+                            48, 38, 35, 50,
+                            65, 45, 63, 55
+                        ],
+                        borderColor: "#5b5ff6",
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: "#5b5ff6",
+                        pointBorderColor: "#ffffff",
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return "₹" + value + "K";
+                                }
+                            },
+                            grid: {
+                                color: "#f0f0f0"
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart Height
+            document.getElementById("spendingChart")
+                .parentNode.style.height = "300px";
+
+            // DONUT CHART
+            const tripCtx = document
+                .getElementById("tripChart")
+                .getContext("2d");
+
+            const tripChart = new Chart(tripCtx, {
+                type: "doughnut",
+                data: {
+                    labels: [
+                        "Domestic Trips",
+                        "International Trips",
+                        "Upcoming Trips"
+                    ],
+                    datasets: [{
+                        data: [4, 3, 1],
+                        backgroundColor: [
+                            "#5b5ff6",
+                            "#1e88ff",
+                            "#10c981"
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: "72%",
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // DONUT LEGEND TOGGLE
+            const originalData = [4, 3, 1];
+            function tripAction(index, element) {
+                const currentValue =
+                    tripChart.data.datasets[0].data[index];
+                // HIDE
+                if(currentValue !== 0) {
+                    tripChart.data.datasets[0].data[index] = 0;
+                    // ADD CUT EFFECT
+                    element.classList.add("inactiveLegend");
+                }
+                // SHOW AGAIN
+                else {
+                    tripChart.data.datasets[0].data[index] =
+                        originalData[index];
+
+                    // REMOVE CUT EFFECT
+                    element.classList.remove("inactiveLegend");
+                }
+                tripChart.update();
+            }
+
+            // YEAR FILTER
+
+            const yearFilter =
+                document.getElementById("yearFilter");
+            yearFilter.addEventListener("change", function () {
+                // THIS YEAR
+                if (this.value === "this") {
+                    spendingChart.data.datasets[0].data = [
+                        10, 28, 22, 40,
+                        48, 38, 35, 50,
+                        65, 45, 63, 55
+                    ];
+                }
+                // LAST YEAR
+                else {
+                    spendingChart.data.datasets[0].data = [
+                        15, 20, 30, 25,
+                        40, 42, 50, 55,
+                        48, 60, 70, 68
+
+                    ];
+                }
+                // Update Chart
+                spendingChart.update();
+            });
         </script>
         <!-- dialer logic -->
     </body>
