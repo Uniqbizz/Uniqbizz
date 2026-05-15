@@ -585,6 +585,109 @@ body {
     padding: 8px;
     width: 80px;
 }
+/* card section 4 */
+.confirmBtn {
+    background-color: #fff;
+    color:#38b34f;
+    border: 2px solid #38b34f;
+    width: 100px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.confirmBtn:hover {
+    background-color: #38b34f;
+    color:#fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.tripsImage {
+    width: 160px !important;
+    height: 160px !important;
+    border-radius: 15px;
+}
+.tripsImage1 {
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 12px;
+}
+.upcomingBtn {
+    background-color: #bbf5c6;
+    color: #38b34f;
+    width: 100px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.upcomingBtn:hover {
+    background-color: #38b34f;
+    color:#fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageImage {
+    width: 100% !important;
+    height: 160px !important;
+    border-radius: 12px;
+}
+.packageDetailBtn {
+    background-color: #d5d7fa;
+    color: #35239a;
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageDetailBtn:hover {
+    background-color: #35239a;
+    color:#fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageCard {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.heartIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.heartIcon i {
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+.heartIcon.active i {
+    color: #ff2e63;
+}
+.customIndicators {
+    position: relative;
+    margin-top: 20px;
+}
+
+.customIndicators button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+    border: none !important;
+    background: #d4d4d4 !important;
+    margin: 0 5px !important;
+    opacity: 1 !important;
+    transition: 0.3s ease;
+}
+
+.customIndicators button.active {
+    width: 30px !important;
+    border-radius: 20px !important;
+    background: #5b5ff6 !important;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -600,6 +703,9 @@ body {
     .linkBtn p {
         font-size: 12px !important;
         padding-left: 10px;
+    }
+    .exploreBtns {
+        display: block !important;
     }
 }
 @media (max-width: 1110px) {
@@ -688,10 +794,17 @@ body {
     .card4 {
         margin-left: 0px !important;
     }
+    .exploreBtns {
+        display: flex !important;
+    }
+
 }
 @media (max-width: 992px) {
     .card2 {
         margin-right: 12px !important;
+    }
+    .exploreBtns {
+        display: block !important;
     }
 }
 
@@ -737,6 +850,9 @@ body {
     .premiumCard h4 {
         font-size: 18px !important;
     }
+    .exploreBtns {
+        display: flex !important;
+    }
 }
 
 /* REMOVE OVERLAY ABOVE 768 */
@@ -756,6 +872,14 @@ body {
     }
     .premiumCard h4 {
         font-size: 14px !important;
+    }
+    .exploreBtns {
+        display: flex !important;
+    }
+}
+@media (max-width: 441px) {
+    .exploreBtns {
+        display: block !important;
     }
 }
 /* sidebar end */
