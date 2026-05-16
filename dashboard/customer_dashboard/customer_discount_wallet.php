@@ -35,6 +35,7 @@
 
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SZ4qk6V... (auto-generated)" crossorigin="anonymous" referrerpolicy="no-referrer">
         <link rel="stylesheet" href="../assets/css/customer_discount_wallet.css" />
     </head>
 
@@ -112,7 +113,7 @@
                                 </div>
 
                                 <p>Total Savings</p>
-                                <h2 class="purple-text">₹2,400</h2>
+                                <h2 class="purple-text mb-n3">₹2,400</h2>
 
                                 <div class="sub-data">
                                     <div>
@@ -137,7 +138,7 @@
                                 </div>
 
                                 <p>Available Balance</p>
-                                <h2 class="green-text">₹1,200</h2>
+                                <h2 class="green-text mb-n3">₹1,200</h2>
 
                                 <div class="sub-data">
                                     <div>
@@ -162,7 +163,7 @@
                                 </div>
 
                                 <p>Total Discounts Used</p>
-                                <h2 style="color:#2563eb;">6</h2>
+                                <h2 style="color:#2563eb;" class="mb-n3">6</h2>
 
                                 <div class="sub-data">
                                     <div>
@@ -187,7 +188,7 @@
                                 </div>
 
                                 <p>Total Expired</p>
-                                <h2 class="orange-text">₹400</h2>
+                                <h2 class="orange-text mb-n3">₹400</h2>
 
                                 <div class="sub-data">
                                     <div>

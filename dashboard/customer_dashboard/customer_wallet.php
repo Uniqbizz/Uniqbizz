@@ -157,9 +157,9 @@
                                                 ₹15,000
                                             </div>
 
-                                            <button class="btn wallet-btn">
+                                            <a href="customer_coupon_wallet_list.php" class="btn wallet-btn">
                                                 View Coupons
-                                            </button>
+                                            </a>
 
                                         </div>
 
@@ -217,10 +217,9 @@
                                             <div class="wallet-total green-title">
                                                 ₹3,500
                                             </div>
-
-                                            <button class="btn wallet-btn">
+                                            <a href="customer_layalty_coupon.php" class="btn wallet-btn">
                                                 View Loyalty Coupons
-                                            </button>
+                                            </a>
 
                                         </div>
 
@@ -260,10 +259,9 @@
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Withdrawable</div>
                                             <div class="wallet-total">₹1,800</div>
-
-                                            <button class="btn wallet-btn">
+                                            <a href="customer_reference_wallet.php" class="btn wallet-btn">
                                                 View Transactions
-                                            </button>
+                                            </a>
 
                                         </div>
 
@@ -301,10 +299,9 @@
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Usable Balance</div>
                                             <div class="wallet-total">₹1,200</div>
-
-                                            <button class="btn wallet-btn">
+                                            <a href="customer_discount_wallet.php" class="btn wallet-btn">
                                                 View Transactions
-                                            </button>
+                                            </a>
 
                                         </div>
 

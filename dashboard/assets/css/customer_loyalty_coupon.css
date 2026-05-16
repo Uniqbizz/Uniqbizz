@@ -1,29 +1,31 @@
-
-
 body{
     background:#f7f8fc;
     font-family:Arial,sans-serif;
 }
+
+/* =========================
+   PAGE
+========================= */
 
 .loyalty-page{
     padding:30px;
 }
 
 .loyalty-title{
-    font-size:42px;
+    font-size:14px;
     font-weight:700;
     color:#111827;
 }
 
 .loyalty-title-icon{
     color:#16a34a;
-    font-size:24px;
+    font-size:14px;
 }
 
 .loyalty-subtitle{
     color:#6b7280;
     margin-top:8px;
-    font-size:17px;
+    font-size:12px;
 }
 
 .loyalty-help-btn{
@@ -33,26 +35,94 @@ body{
     padding:12px 22px;
     border-radius:12px;
     font-weight:600;
+    transition:0.3s ease;
 }
 
+.loyalty-help-btn:hover{
+    background:#f0fdf4;
+}
+
+/* =========================
+   SUMMARY CARD
+========================= */
+
 .loyalty-summary-card{
-    background:#fff;
     border:1px solid #e8ebf3;
     border-radius:18px;
-    padding:28px;
+    padding:14px;
     height:100%;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    transition:0.3s ease;
 }
+
+.loyalty-summary-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* Gradient Backgrounds */
+
+.green-card{
+    background:linear-gradient(135deg,#ffffff 0%,#f0fdf4 100%);
+}
+
+.mint-card{
+    background:linear-gradient(135deg,#ffffff 0%,#ecfdf5 100%);
+}
+
+.yellow-card{
+    background:linear-gradient(135deg,#ffffff 0%,#fffbeb 100%);
+}
+
+.purple-card{
+    background:linear-gradient(135deg,#ffffff 0%,#f5f3ff 100%);
+}
+
+/* =========================
+   WATERMARK ICON
+========================= */
+
+.watermark-icon{
+    position:absolute;
+    right:-10px;
+    bottom:-10px;
+    font-size:90px;
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
+    -webkit-user-select:none;
+    color:rgba(0,0,0,0.05);
+}
+
+/* Keep content above watermark */
+
+.summary-icon,
+.summary-label,
+.summary-value,
+.summary-big-value,
+.summary-sub-value{
+    position:relative;
+    z-index:1;
+}
+
+/* =========================
+   MAIN ICON
+========================= */
 
 .summary-icon{
     width:62px;
     height:62px;
-    border-radius:50%;
+    border-radius:14px;
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:24px;
     margin-bottom:20px;
 }
+
+/* Icon Backgrounds */
 
 .green-bg{
     background:#dcfce7;
@@ -74,33 +144,42 @@ body{
     color:#6d4cff;
 }
 
+/* =========================
+   TEXT
+========================= */
+
 .summary-label{
     color:#4b5563;
     font-weight:600;
     margin-bottom:18px;
+    font-size:15px;
 }
 
 .summary-value{
-    font-size:50px;
+    font-size:24px;
     font-weight:700;
     color:#052e2b;
 }
 
 .summary-big-value{
-    font-size:42px;
+    font-size:28px;
     font-weight:700;
     color:#5b3df5;
 }
 
 .summary-sub-value{
     margin-top:8px;
-    font-size:22px;
+    font-size:18px;
     font-weight:700;
 }
 
 .green-text{
     color:#16a34a;
 }
+
+/* =========================
+   FEATURE STRIP
+========================= */
 
 .feature-strip{
     background:#fff;
@@ -119,12 +198,45 @@ body{
     margin-right:10px;
 }
 
+/* =========================
+   TABLE CARD
+========================= */
+
 .table-card{
     background:#fff;
     border-radius:18px;
     border:1px solid #e8ebf3;
     overflow:hidden;
+    position:relative;
 }
+
+/* Table Watermark */
+
+.table-watermark{
+    position:absolute;
+    right:-30px;
+    bottom:-20px;
+    font-size:180px;
+    color:rgba(22,163,74,0.04);
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
+    -webkit-user-select:none;
+    transform:rotate(-15deg);
+}
+
+/* Keep content above watermark */
+
+.tabs-wrapper,
+.filter-area,
+.table-responsive{
+    position:relative;
+    z-index:1;
+}
+
+/* =========================
+   TABS
+========================= */
 
 .tabs-wrapper{
     padding:24px 25px 0;
@@ -147,6 +259,11 @@ body{
     gap:10px;
     cursor:pointer;
     font-weight:600;
+    transition:0.3s ease;
+}
+
+.coupon-tab:hover{
+    transform:translateY(-1px);
 }
 
 .coupon-tab.active{
@@ -175,6 +292,10 @@ body{
     background:#fef2f2;
 }
 
+/* =========================
+   FILTER AREA
+========================= */
+
 .filter-area{
     padding:25px;
     border-bottom:1px solid #ececf4;
@@ -187,9 +308,18 @@ body{
     color:#6b7280;
 }
 
-.form-select{
+.form-select,
+.form-control{
     height:50px;
     border-radius:10px;
+    border:1px solid #dbe1ea;
+    box-shadow:none;
+}
+
+.form-select:focus,
+.form-control:focus{
+    border-color:#16a34a;
+    box-shadow:0 0 0 0.15rem rgba(22,163,74,0.15);
 }
 
 .download-btn{
@@ -198,18 +328,46 @@ body{
     padding:12px 18px;
     border-radius:12px;
     font-weight:600;
+    background:#fff;
+    transition:0.3s ease;
+}
+
+.download-btn:hover{
+    background:#f0fdf4;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.loyalty-table{
+    margin-bottom:0;
 }
 
 .loyalty-table th{
     background:#fafafa;
     padding:18px;
     font-size:14px;
+    font-weight:700;
+    color:#374151;
+    border-bottom:1px solid #ececf4;
 }
 
 .loyalty-table td{
     padding:18px;
     vertical-align:middle;
+    border-color:#f1f3f7;
 }
+
+.loyalty-table tbody tr{
+    transition:0.3s ease;
+}
+
+.loyalty-table tbody tr:hover{
+    background:#fafdfb;
+}
+
+/* Coupon Box */
 
 .coupon-box{
     border:2px solid #b7e4c7;
@@ -218,13 +376,18 @@ body{
     padding:14px;
     color:#15803d;
     font-weight:700;
+    background:#fff;
 }
 
 .coupon-price{
     color:#111827;
     font-weight:700;
-    font-size:22px;
+    font-size:14px;
 }
+
+/* =========================
+   STATUS BADGES
+========================= */
 
 .status-badge{
     padding:7px 14px;
@@ -254,19 +417,44 @@ body{
     font-weight:600;
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(max-width:768px){
 
     .loyalty-page{
         padding:20px;
     }
 
-    .loyalty-title{
-        font-size:30px;
+    .summary-value{
+        font-size:22px;
     }
 
-    .summary-value,
     .summary-big-value{
-        font-size:32px;
+        font-size:26px;
     }
 
+    .summary-icon{
+        width:55px;
+        height:55px;
+        font-size:20px;
+    }
+
+    .watermark-icon{
+        font-size:70px;
+    }
+
+    .table-watermark{
+        font-size:120px;
+    }
+
+    .coupon-tabs-nav{
+        gap:10px;
+    }
+
+    .coupon-tab{
+        width:100%;
+        justify-content:center;
+    }
 }

@@ -119,41 +119,43 @@
                                 <!-- TOTAL -->
 
                                 <div class="col-lg-3 col-md-6">
+                                    <div class="loyalty-summary-card green-card position-relative overflow-hidden">
 
-                                    <div class="loyalty-summary-card">
+                                        <!-- Watermark Icon -->
+                                        <div class="watermark-icon">
+                                            <i class="fa-solid fa-gift"></i>
+                                        </div>
 
+                                        <!-- Main Icon -->
                                         <div class="summary-icon green-bg">
                                             <i class="fa-solid fa-gift"></i>
                                         </div>
 
-                                        <div class="summary-label">
-                                            Total Loyalty Coupons
-                                        </div>
-
-                                        <div class="summary-value">
-                                            12
+                                        <!-- Content -->
+                                        <div class="summary-label d-flex justify-content-between align-items-center">
+                                            <span>Total Loyalty Coupons</span>
+                                            <span class="summary-value">12</span>
                                         </div>
 
                                     </div>
-
                                 </div>
 
                                 <!-- AVAILABLE -->
-
                                 <div class="col-lg-3 col-md-6">
+                                    <div class="loyalty-summary-card mint-card position-relative overflow-hidden">
 
-                                    <div class="loyalty-summary-card">
+                                        <!-- Watermark -->
+                                        <div class="watermark-icon mint-watermark">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
 
                                         <div class="summary-icon mint-bg">
                                             <i class="fa-solid fa-circle-check"></i>
                                         </div>
-
-                                        <div class="summary-label">
-                                            Available Coupons
-                                        </div>
-
-                                        <div class="summary-value">
-                                            7
+                                        <!-- Content -->
+                                        <div class="summary-label d-flex justify-content-between align-items-center mb-n3">
+                                            <span>Available Coupons</span>
+                                            <span class="summary-value">7</span>
                                         </div>
 
                                         <div class="summary-sub-value green-text">
@@ -161,25 +163,24 @@
                                         </div>
 
                                     </div>
-
                                 </div>
 
                                 <!-- USED -->
-
                                 <div class="col-lg-3 col-md-6">
+                                    <div class="loyalty-summary-card yellow-card position-relative overflow-hidden">
 
-                                    <div class="loyalty-summary-card">
+                                        <!-- Watermark -->
+                                        <div class="watermark-icon yellow-watermark">
+                                            <i class="fa-regular fa-clock"></i>
+                                        </div>
 
                                         <div class="summary-icon yellow-bg">
                                             <i class="fa-regular fa-clock"></i>
                                         </div>
-
-                                        <div class="summary-label">
-                                            Used / Expired Coupons
-                                        </div>
-
-                                        <div class="summary-value">
-                                            5
+                                        <!-- Content -->
+                                        <div class="summary-label d-flex justify-content-between align-items-center mb-n2">
+                                            <span>Used / Expired Coupons</span>
+                                            <span class="summary-value">5</span>
                                         </div>
 
                                         <div class="summary-sub-value">
@@ -187,14 +188,16 @@
                                         </div>
 
                                     </div>
-
                                 </div>
 
                                 <!-- TOTAL VALUE -->
-
                                 <div class="col-lg-3 col-md-6">
+                                    <div class="loyalty-summary-card purple-card position-relative overflow-hidden">
 
-                                    <div class="loyalty-summary-card">
+                                        <!-- Watermark -->
+                                        <div class="watermark-icon purple-watermark">
+                                            <i class="fa-regular fa-calendar-days"></i>
+                                        </div>
 
                                         <div class="summary-icon purple-bg">
                                             <i class="fa-regular fa-calendar-days"></i>
@@ -209,7 +212,6 @@
                                         </div>
 
                                     </div>
-
                                 </div>
 
                             </div>
@@ -247,11 +249,16 @@
 
                             <!-- TABLE CARD -->
 
-                            <div class="table-card mt-4">
+                            <div class="table-card mt-4 position-relative overflow-hidden">
+
+                                <!-- Watermark -->
+                                <div class="table-watermark">
+                                    <i class="fa-solid fa-ticket"></i>
+                                </div>
 
                                 <!-- TABS -->
 
-                                <div class="tabs-wrapper">
+                                <div class="tabs-wrapper py-2">
 
                                     <div class="coupon-tabs-nav">
 
