@@ -24,7 +24,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Add Travel Consultant | Admin Dashboard </title>
+        <title>Add Travel Consultant/ Institution Branch Manager | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant/ Institution Branch Manager</h4>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Add Travel Consultant Form</h3>
+                                            <h3>Add Travel Consultant / Institution Branch Manager Form</h3>
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 d-flex justify-content-end">
                                                     <div class="input-block mb-3 form-check">
@@ -256,6 +256,28 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="pin" placeholder="Pincode" readonly >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="branch">
+                                                            <option value=""> ---- Select Branch ---- </option>
+                                                            <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Branch not available</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-sm-12">
@@ -486,30 +508,31 @@
             $('#registered').on('change', function () {
 
                 var register_type = $(this).val();
-
+                // console.log(register_type);
                 if (register_type === 'travel_consultant') {
-
                     // Show main designation
-                    $('#designation')
-                        .removeClass('d-none');
-
+                    $('#designation').removeClass('d-none');
                     // Hide institution designation
-                    $('#designation2')
-                        .addClass('d-none');
-
-                } 
-                else if (register_type === 'institution_branch_manager') {
-
+                    $('#designation2').addClass('d-none');
+                    // Enable payment fee
+                    $('#payment_fee').prop('disabled',false);
+                    $('.payment').prop('disabled', false);
+                    $('#upload_file6').prop('disabled', false);
+                    $('#branch').prop('disabled', true);
+                } else if (register_type === 'institution_branch_manager') {
                     // Hide main designation
-                    $('#designation')
-                        .addClass('d-none');
-
+                    $('#designation').addClass('d-none');
                     // Show institution designation
-                    $('#designation2')
-                        .removeClass('d-none');
+                    $('#designation2').removeClass('d-none');
+                    // Disable payment fee
+                    $('#payment_fee').prop('disabled',true);
+                    $('.payment').prop('disabled', true);
+                    $('#upload_file6').prop('disabled', true);
+                    $('#branch').prop('disabled', false);
+
                 }
             });
-
+            
             //select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();

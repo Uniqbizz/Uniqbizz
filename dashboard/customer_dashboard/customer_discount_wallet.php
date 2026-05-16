@@ -115,17 +115,17 @@
                                 <p>Total Savings</p>
                                 <h2 class="purple-text mb-n3">₹2,400</h2>
 
-                                <div class="sub-data">
-                                    <div>
-                                        This Year
-                                        <strong>₹2,000</strong>
-                                    </div>
+                                <!--<div class="sub-data">-->
+                                <!--    <div>-->
+                                <!--        This Year-->
+                                <!--        <strong>₹2,000</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                        Last Year
-                                        <strong>₹400</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--        Last Year-->
+                                <!--        <strong>₹400</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
 
                             </div>
 
@@ -140,17 +140,17 @@
                                 <p>Available Balance</p>
                                 <h2 class="green-text mb-n3">₹1,200</h2>
 
-                                <div class="sub-data">
-                                    <div>
-                                        Used This Year
-                                        <strong>₹800</strong>
-                                    </div>
+                                <!--<div class="sub-data">-->
+                                <!--    <div>-->
+                                <!--        Used This Year-->
+                                <!--        <strong>₹800</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                        On Hold
-                                        <strong>₹400</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--        On Hold-->
+                                <!--        <strong>₹400</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
 
                             </div>
 
@@ -165,44 +165,44 @@
                                 <p>Total Discounts Used</p>
                                 <h2 style="color:#2563eb;" class="mb-n3">6</h2>
 
-                                <div class="sub-data">
-                                    <div>
-                                        Bookings
-                                        <strong>6</strong>
-                                    </div>
+                                <!--<div class="sub-data">-->
+                                <!--    <div>-->
+                                <!--        Bookings-->
+                                <!--        <strong>6</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                        Passengers
-                                        <strong>14</strong>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="stat-card">
-
-                                <div class="stat-top">
-                                    <div class="stat-icon orange">
-                                        <i class="fa-solid fa-calendar-xmark"></i>
-                                    </div>
-                                </div>
-
-                                <p>Total Expired</p>
-                                <h2 class="orange-text mb-n3">₹400</h2>
-
-                                <div class="sub-data">
-                                    <div>
-                                        This Year
-                                        <strong>₹400</strong>
-                                    </div>
-
-                                    <div>
-                                        Last Year
-                                        <strong>₹0</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--        Passengers-->
+                                <!--        <strong>14</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
 
                             </div>
+
+                            <!--<div class="stat-card">-->
+
+                            <!--    <div class="stat-top">-->
+                            <!--        <div class="stat-icon orange">-->
+                            <!--            <i class="fa-solid fa-calendar-xmark"></i>-->
+                            <!--        </div>-->
+                            <!--    </div>-->
+
+                            <!--    <p>Total Expired</p>-->
+                            <!--    <h2 class="orange-text mb-n3">₹400</h2>-->
+
+                            <!--    <div class="sub-data">-->
+                            <!--        <div>-->
+                            <!--            This Year-->
+                            <!--            <strong>₹400</strong>-->
+                            <!--        </div>-->
+
+                            <!--        <div>-->
+                            <!--            Last Year-->
+                            <!--            <strong>₹0</strong>-->
+                            <!--        </div>-->
+                            <!--    </div>-->
+
+                            <!--</div>-->
 
                         </div>
 
@@ -238,7 +238,7 @@
                                         <option value="all">All</option>
                                         <option value="earned">Earned</option>
                                         <option value="used">Used</option>
-                                        <option value="expired">Expired</option>
+                                        <!--<option value="expired">Expired</option>-->
                                     </select>
                                 </div>
 
@@ -249,7 +249,7 @@
                                         <option value="all">All</option>
                                         <option value="credited">Credited</option>
                                         <option value="used">Used</option>
-                                        <option value="expired">Expired</option>
+                                        <!--<option value="expired">Expired</option>-->
                                     </select>
                                 </div>
 
@@ -286,7 +286,7 @@
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Status</th>
-                                        <th>Balance</th>
+                                        <!--<th>Balance</th>-->
                                         <th></th>
                                     </tr>
 
@@ -320,7 +320,7 @@
                                             <span class="badge earned">Credited</span>
                                         </td>
 
-                                        <td><strong>₹1,200</strong></td>
+                                        <!--<td><strong>₹1,200</strong></td>-->
 
                                         <td>
                                             <i class="fa-solid fa-chevron-down"></i>
@@ -353,13 +353,19 @@
 
                                                     <div class="detail-item">
                                                         <span>Travel Date</span>
-                                                        <strong>10 May 2024</strong>
+                                                        <strong>10 May 2024 - 14 May 2024</strong>
+                                                    </div>
+                                                    
+                                                    <div class="detail-item">
+                                                        <span>Booking ID</span>
+                                                        <strong>BK2405182578</strong>
+                                                    </div>
+                                                    
+                                                      <div class="detail-item">
+                                                        <span>Booking Date</span>
+                                                        <strong>02 May 2024</strong>
                                                     </div>
 
-                                                    <div class="detail-item">
-                                                        <span>Passengers</span>
-                                                        <strong>3</strong>
-                                                    </div>
 
                                                 </div>
 
@@ -376,13 +382,18 @@
                                                     </div>
 
                                                     <div class="detail-item">
+                                                        <span>Passengers</span>
+                                                        <strong>3</strong>
+                                                    </div>
+
+                                                    <div class="detail-item">
                                                         <span>Per Pax Discount</span>
-                                                        <strong>₹167</strong>
+                                                        <strong>₹125</strong>
                                                     </div>
 
                                                     <div class="detail-item">
                                                         <span>Total Earned</span>
-                                                        <strong class="green-text">₹500</strong>
+                                                        <strong class="green-text">₹375</strong>
                                                     </div>
 
                                                 </div>
@@ -402,7 +413,7 @@
                                         <td><span class="badge used">Used</span></td>
                                         <td class="red-text"><strong>-₹700</strong></td>
                                         <td><span class="badge used">Used</span></td>
-                                        <td><strong>₹700</strong></td>
+                                        <!--<td><strong>₹700</strong></td>-->
                                         <td><i class="fa-solid fa-chevron-down"></i></td>
                                     </tr>
 
@@ -443,7 +454,7 @@
                                         <td><span class="badge earned">Earned</span></td>
                                         <td class="green-text"><strong>+₹800</strong></td>
                                         <td><span class="badge earned">Credited</span></td>
-                                        <td><strong>₹1,400</strong></td>
+                                        <!--<td><strong>₹1,400</strong></td>-->
                                         <td><i class="fa-solid fa-chevron-down"></i></td>
                                     </tr>
 
@@ -479,16 +490,16 @@
 
                                     <!-- EXTRA DATA -->
 
-                                    <tr class="transaction-row" data-type="expired" data-status="expired">
-                                        <td>18 Mar 2024<br><small>05:15 PM</small></td>
-                                        <td><strong>Discount Expired</strong></td>
-                                        <td><strong>Unused Wallet Bonus</strong></td>
-                                        <td><span class="badge expired">Expired</span></td>
-                                        <td class="orange-text"><strong>-₹200</strong></td>
-                                        <td><span class="badge expired">Expired</span></td>
-                                        <td><strong>₹300</strong></td>
-                                        <td><i class="fa-solid fa-chevron-down"></i></td>
-                                    </tr>
+                                    <!--<tr class="transaction-row" data-type="expired" data-status="expired">-->
+                                    <!--    <td>18 Mar 2024<br><small>05:15 PM</small></td>-->
+                                    <!--    <td><strong>Discount Expired</strong></td>-->
+                                    <!--    <td><strong>Unused Wallet Bonus</strong></td>-->
+                                    <!--    <td><span class="badge expired">Expired</span></td>-->
+                                    <!--    <td class="orange-text"><strong>-₹200</strong></td>-->
+                                    <!--    <td><span class="badge expired">Expired</span></td>-->
+                                        <!--<td><strong>₹300</strong></td>-->
+                                    <!--    <td><i class="fa-solid fa-chevron-down"></i></td>-->
+                                    <!--</tr>-->
 
                                     <tr class="details-row">
                                         <td colspan="8">

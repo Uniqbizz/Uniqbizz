@@ -30,8 +30,12 @@
     $cust_regiter_date=date('j F Y', strtotime($customer['register_date']));
 
     //customers tc
-    $sqlCustTa = $conn->prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = ?");
+    $sqlCustTa = $conn->prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = :userID
+                                    UNION
+                                SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = :userID
+    ");
 
-    $sqlCustTa->execute([$customer['ta_reference_no']]);
+    $sqlCustTa->execute([
+        ":userID" => $customer['ta_reference_no']]);
     $customerTa = $sqlCustTa->fetch(PDO::FETCH_ASSOC);
 ?>

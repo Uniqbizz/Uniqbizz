@@ -113,16 +113,27 @@ if ($result) {
 		$check_stmt->execute([':id' => $id]);
 		$count = $check_stmt->fetchColumn(); // Fetch count
 		//initialization
-		$BmId = 'N/A';
-		$BmName = 'N/A';
-		$BdmId = 'N/A';
-		$BdmName = 'N/A';
+		$te_id = 'N/A';
+		$te_name = 'N/A';
 
-		//get the TC/IBR TE/BM/MF/I who regitered this TC/I edited on 15-05-2026 by sv 
+		$message_bdm = 'N/A';
+		$message_bm = 'N/A';
+		$message_te = 'N/A';
+		$message_tc = 'N/A';
+		$message_ca_cu = 'N/A';
+
+		$commision_bdm = 0;
+		$commision_bm = 0;
+		$commision_te = 0;
+		$commision_tc = 0;
+
+		$ca_cu_amt_paid = 0;
+
+		//get the TC TE/BM who regitered this TC
 		$sqlta = $conn->prepare("
-								SELECT ca_travelagency_id as user_id,firstname,lastname,reference_no,registrant FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_reference_no."'
-								UNION
-								SELECT institution_branch_manager_id as user_id,firstname,lastname,reference_no,registrant FROM institution_branch_manager WHERE institution_branch_manager_id = '".$ta_reference_no."'");
+				SELECT ca_travelagency_id as user_id,firstname,lastname,reference_no,registrant FROM ca_travelagency WHERE ca_travelagency_id = '".$ta_reference_no."'
+				UNION
+				SELECT institution_branch_manager_id as user_id,firstname,lastname,reference_no,registrant FROM institution_branch_manager WHERE institution_branch_manager_id = '".$ta_reference_no."'");
 		$sqlta->execute();
 		$sqlta->setFetchMode(PDO::FETCH_ASSOC);
 		if($sqlta->rowCount()>0){
@@ -144,6 +155,24 @@ if ($result) {
 							? substr($ta_te_id, 0, 1) 
 							: substr($ta_te_id, 0, 2);
 		
+		// echo '<pre> Ta Te Id - '.$ta_te_id. '
+		// 			ref id - '.$reference_id.'	
+		// </pre>';
+		// exit;
+
+		// ####**** correct pre tag format ****####
+		// echo "<pre>";
+
+		// echo "tc_id = ".$tc_id."<br>";
+		// echo "tc_name = ".$tc_name."<br>";
+		// echo "ta_te_id = ".$ta_te_id."<br>";
+		// echo "ta_te_name = ".$ta_te_name."<br>";
+
+		// $reference_id = (substr($ta_te_id, 0, 1) == 'F' || substr($ta_te_id, 0, 1) == 'I') 
+		// 					? substr($ta_te_id, 0, 1) 
+		// 					: substr($ta_te_id, 0, 2);
+
+		// echo "reference_id = ".$reference_id."<br>";
 		// exit;
 
 		// Run update only if the ID exists
@@ -521,120 +550,210 @@ if ($result) {
 		
 					$message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
 					$ca_cu_amt_paid = $amount;
-				}
+				} else
 				//added on 14-05-2026 by SV -- institution chain payout for holiday account payout
 				if ($reference_id == "I") {
-	
-					//get corporate agencies/ techno enterprise reference number i.e Travel agent/business mentor to enter it in "payout statments" table
+
+					// get Institution details
 					$sql10 = $conn->prepare("SELECT * FROM institution WHERE institution_id = '".$ta_te_id."'");
 					$sql10->execute();
 					$sql10->setFetchMode(PDO::FETCH_ASSOC);
-					if($sql10->rowCount()>0){
-						foreach(($sql10->fetchAll()) as $key10 => $row10){
-							$te_id = $row10['institution_id'];
-							$te_name = $row10['firstname']. ' ' .$row10['lastname'];
-							$BmId = $row10['reference_no'];
-							$BmName = $row10['registrant'];
+
+					if($sql10->rowCount() > 0){
+						foreach(($sql10->fetchAll()) as $row10){
+
+							$te_id   = $row10['institution_id'];
+							$te_name = $row10['firstname'].' '.$row10['lastname'];
+
+							$BmId    = $row10['reference_no'];
+							$BmName  = $row10['registrant'];
 						}
 					}
-					//if Institution ref is a BM
+
+					/*
+					|--------------------------------------------------------------------------
+					| CHECK WHO REFERRED THE INSTITUTION
+					|--------------------------------------------------------------------------
+					*/
+
+					// Institution referred by BM
 					if(substr($BmId,0,2) == 'BM'){
-						//bm details
+
 						$sql11 = $conn->prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$BmId."'");
 						$sql11->execute();
 						$sql11->setFetchMode(PDO::FETCH_ASSOC);
-						if($sql11->rowCount()>0){
-							foreach(($sql11->fetchAll()) as $key11 => $row11){
-								$BmId = $row11['business_mentor_id'];
-								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
-								$BdmId = $row11['reference_no'];
+
+						if($sql11->rowCount() > 0){
+							foreach(($sql11->fetchAll()) as $row11){
+
+								$BmId   = $row11['business_mentor_id'];
+								$BmName = $row11['firstname'].' '.$row11['lastname'];
+
+								$BdmId   = $row11['reference_no'];
 								$BdmName = $row11['registrant'];
 							}
 						}
-						
-						//bdm deatils
+
+						// get BDM details
 						$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BdmId."'");
 						$sql12->execute();
 						$sql12->setFetchMode(PDO::FETCH_ASSOC);
-						if($sql12->rowCount()>0){
-							foreach(($sql12->fetchAll()) as $key12 => $row12){
-								$BdmId = $row12['employee_id'];
+
+						if($sql12->rowCount() > 0){
+							foreach(($sql12->fetchAll()) as $row12){
+
+								$BdmId   = $row12['employee_id'];
 								$BdmName = $row12['name'];
 							}
 						}
+
 					}
-					//if institution ref is MF
-					if($BmId == "MF"){
-						//MF details
-						$sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$Bm_Id."'");
+
+					// Institution referred by Master Franchisee
+					else if(substr($BmId,0,2) == 'MF'){
+
+						$sql11 = $conn->prepare("SELECT * FROM master_franchisee WHERE master_franchisee_id = '".$BmId."'");
 						$sql11->execute();
 						$sql11->setFetchMode(PDO::FETCH_ASSOC);
-						if($sql11->rowCount()>0){
-							foreach(($sql11->fetchAll()) as $key11 => $row11){
-								$BmId = $row11['master_franchisee_id'];
-								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
-								$BdmId = $row11['reference_no'];
-								$BdmName = $row11['registrant'];
-							}
-						}
-					}else if($BmId == "SF"){
-						//MF details
-						$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$Bm_Id."'");
-						$sql11->execute();
-						$sql11->setFetchMode(PDO::FETCH_ASSOC);
-						if($sql11->rowCount()>0){
-							foreach(($sql11->fetchAll()) as $key11 => $row11){
-								$BmId = $row11['sponsor_franchisee_id'];
-								$BmName = $row11['firstname']. ' ' .$row11['lastname'];
-								$BdmId = $row11['reference_no'];
+
+						if($sql11->rowCount() > 0){
+							foreach(($sql11->fetchAll()) as $row11){
+
+								$BmId   = $row11['master_franchisee_id'];
+								$BmName = $row11['firstname'].' '.$row11['lastname'];
+
+								$BdmId   = $row11['reference_no'];
 								$BdmName = $row11['registrant'];
 							}
 						}
 					}
-					//if Institution ref is BDM
+
+					// Institution referred by Sponsor Franchisee
+					else if(substr($BmId,0,2) == 'SF'){
+
+						$sql11 = $conn->prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$BmId."'");
+						$sql11->execute();
+						$sql11->setFetchMode(PDO::FETCH_ASSOC);
+
+						if($sql11->rowCount() > 0){
+							foreach(($sql11->fetchAll()) as $row11){
+
+								$BmId   = $row11['sponsor_franchisee_id'];
+								$BmName = $row11['firstname'].' '.$row11['lastname'];
+
+								$BdmId   = $row11['reference_no'];
+								$BdmName = $row11['registrant'];
+							}
+						}
+					}
+
+					// Institution referred directly by BDM
 					else if(substr($BmId,0,2) == 'BH'){
-												
-						//bdm deatils
+
 						$sql12 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '".$BmId."'");
 						$sql12->execute();
 						$sql12->setFetchMode(PDO::FETCH_ASSOC);
-						if($sql12->rowCount()>0){
-							foreach(($sql12->fetchAll()) as $key12 => $row12){
-								$BmId = $row12['employee_id'];
+
+						if($sql12->rowCount() > 0){
+							foreach(($sql12->fetchAll()) as $row12){
+
+								$BmId   = $row12['employee_id'];
 								$BmName = $row12['name'];
 							}
 						}
 					}
-					
-		
+
+					/*
+					|--------------------------------------------------------------------------
+					| COMMISSION
+					|--------------------------------------------------------------------------
+					*/
+
 					$commissionRates = [
-						'Neo Select' => ['ibr' => 500, 'i' => 3000, 'bm' => 150]
+						'Neo Select' => [
+							'ibr' => 500,
+							'i'   => 3000,
+							'bm'  => 150
+						]
 					];
 
-					$tc_commi = $commissionRates[$customer_type]['tc'] ?? 0;
-					$te_commi = $commissionRates[$customer_type]['te'] ?? 0;
-					$bm_commi = $commissionRates[$customer_type]['bm'] ?? 0; 
-					$bdm_commi = '0';  
-					
-					$message_bdm = "NA";
-					$commision_bdm = $bdm_commi;  
-					$bm_desig=substr($BmId,0,2) == 'BH'?'BH':(substr($BmId,0,2) == 'BM'?'BM':'NA');
-					
-					$message_bdm = "BDM - ".$BmName." ".$BdmId." earned nothing on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Business Mentor ".$BmName." ".$BmId.".";
-					$commision_bdm = $bdm_commi;
-		
-					$message_bm = $bm_desig ." - ".$BmName." ".$BmId." earned Rs.".$bm_commi."/- on onboarding Customer . Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Techno Enterprise ".$te_name." ".$te_id.".";
+					$designation = [
+						"BM" => "BM",
+						"MF" => "MF",
+						"SF" => "SF",
+						"BH" => "BDM"
+					];
+
+					$bm_prefix = substr($BmId,0,2);
+					$bm_desig  = $designation[$bm_prefix] ?? "NA";
+
+					$tc_commi  = $commissionRates[$customer_type]['ibr'] ?? 0;
+					$te_commi  = $commissionRates[$customer_type]['i'] ?? 0;
+					$bm_commi  = $commissionRates[$customer_type]['bm'] ?? 0;
+					$bdm_commi = 0;
+
+					/*
+					|--------------------------------------------------------------------------
+					| PAYOUT MESSAGES
+					|--------------------------------------------------------------------------
+					*/
+
+					if ($bm_desig == "BM") {
+
+						$message_bdm =
+							"BDM - ".$BdmName." ".$BdmId.
+							" earned nothing on onboarding Customer. ".
+							"Name of the Customer - ".$name." ".$uid.
+							". Onboarding Fee - Rs.".$amount.
+							"/-. With Reference of Business Mentor ".
+							$BmName." ".$BmId.".";
+
+						$commision_bdm = $bdm_commi;
+
+					} else {
+
+						$message_bdm = "NA";
+						$commision_bdm = 0;
+					}
+
+					$message_bm =
+						$bm_desig." - ".$BmName." ".$BmId.
+						" earned Rs.".$bm_commi.
+						"/- on onboarding Customer. ".
+						"Name of the Customer - ".$name." ".$uid.
+						". Onboarding Fee - Rs.".$amount.
+						"/-. With Reference of Institution ".
+						$te_name." ".$te_id.".";
+
 					$commision_bm = $bm_commi;
-		
-					$message_te = "TE - ".$te_name." ".$te_id." earned Rs.".$te_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-. With Reference of Travel Consultant ".$tc_name." ".$tc_id.".";
+
+					$message_te =
+						"I - ".$te_name." ".$te_id.
+						" earned Rs.".$te_commi.
+						"/- on onboarding Customer. ".
+						"Name of the Customer - ".$name." ".$uid.
+						". Onboarding Fee - Rs.".$amount.
+						"/-. With Reference of Travel Consultant ".
+						$tc_name." ".$tc_id.".";
+
 					$commision_te = $te_commi;
-		
-					$message_tc = "TC - ".$tc_name." ".$tc_id." earned Rs.".$tc_commi."/- on onboarding Customer. Name of the Customer - " .$name." ".$uid. ". Onboarding Fee - Rs.".$amount."/-";
+
+					$message_tc =
+						"IBR - ".$tc_name." ".$tc_id.
+						" earned Rs.".$tc_commi.
+						"/- on onboarding Customer. ".
+						"Name of the Customer - ".$name." ".$uid.
+						". Onboarding Fee - Rs.".$amount."/-";
+
 					$commision_tc = $tc_commi;
-		
-					$message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
+
+					$message_ca_cu =
+						"Customer - ".$name." ".$uid.
+						" has onboarded with reference of Travel Consultant ".
+						$tc_name." ".$tc_id.
+						". Onboarding Fee - Rs.".$amount."/-";
+
 					$ca_cu_amt_paid = $amount;
-		
 				}
 				$insertCALSql = "INSERT INTO `ca_cu_payout` (business_development_manager, message_bdm, commision_bdm,business_mentor, message_bm, commision_bm, techno_enterprise, message_te, commision_te, travel_consultant, message_tc, commision_tc, customer, message_cu, cu_amount_paid, status) 
 								VALUES (:business_development_manager, :message_bdm, :commision_bdm,:business_mentor, :message_bm, :commision_bm,  :techno_enterprise, :message_te, :commision_te, :travel_consultant, :message_tc, :commision_tc, :customer, :message_cu, :cu_amount_paid, :status) ";
@@ -2976,7 +3095,7 @@ if ($result) {
 			$mail->CharSet = 'UTF-8';
 			// $mail->SMTPDebug = 2; 
 			$mail->Username = "support@uniqbizz.com";
-			$mail->Password = "support@uniqbizz";
+			$mail->Password = "NCaB6f^jkm^~";
 			$mail->SetFrom("support@uniqbizz.com");
 			$mail->Subject = $subject;
 			$mail->Body = $message3;

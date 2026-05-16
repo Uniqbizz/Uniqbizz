@@ -108,20 +108,37 @@ function userLogin(){
           type: "POST",
           url: "login_data/submit_data.php",
           data: datastring,
-            success: function (res) {
-              console.log(res);
-              if (res==1) {
+          dataType: "json",
 
-                // alert("login ");
-                // window.open("index2.php");
-                // alert();
-                location.href = "dashboard/index.php";
+          success: function (res) {
+
+              console.log(res);
+
+              if (res.status == 1) {
+
+                  if (res.user_type == "10" && res.user_id == "CU260053") {
+
+                      location.href = "dashboard/customer_dashboard/customer_dashboard.php";
+
+                  } else {
+
+                      location.href = "dashboard/index.php";
+
+                  }
+
+              } else {
+
+                  alert("username and password not correct");
+
               }
-              else{
-                alert("username and password not correct");
-              }
-            },
-          });
+          },
+
+          error: function(xhr, status, error) {
+
+              console.log(xhr.responseText);
+
+          }
+        });
       }
 }
 

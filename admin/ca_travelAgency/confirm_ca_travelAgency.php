@@ -930,7 +930,7 @@ if ($user_type_id == '11') {
 						$mail->CharSet = 'UTF-8';
 						// $mail->SMTPDebug = 2; 
 						$mail->Username = "support@uniqbizz.com";
-						$mail->Password = "support@uniqbizz";
+						$mail->Password = "NCaB6f^jkm^~";
 						$mail->SetFrom("support@uniqbizz.com");
 						$mail->Subject = $subject;
 						$mail->Body =$message3;

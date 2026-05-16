@@ -106,17 +106,17 @@
                                     <h2>₹4,100</h2>
                                 </div>
 
-                                <div class="card-footer-data">
-                                    <div>
-                                    <span>This Year</span>
-                                    <strong>₹3,400</strong>
-                                    </div>
+                                <!--<div class="card-footer-data">-->
+                                <!--    <div>-->
+                                <!--    <span>This Year</span>-->
+                                <!--    <strong>₹3,400</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                    <span>Last Year</span>
-                                    <strong>₹700</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--    <span>Last Year</span>-->
+                                <!--    <strong>₹700</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                                 </div>
 
 
@@ -130,17 +130,17 @@
                                     <h2>₹2,300</h2>
                                 </div>
 
-                                <div class="card-footer-data">
-                                    <div>
-                                    <span>Withdrawable</span>
-                                    <strong>₹1,800</strong>
-                                    </div>
+                                <!--<div class="card-footer-data">-->
+                                <!--    <div>-->
+                                <!--    <span>Withdrawable</span>-->
+                                <!--    <strong>₹1,800</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                    <span>On Hold</span>
-                                    <strong>₹500</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--    <span>On Hold</span>-->
+                                <!--    <strong>₹500</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                                 </div>
 
 
@@ -154,17 +154,17 @@
                                     <h2>8</h2>
                                 </div>
 
-                                <div class="card-footer-data">
-                                    <div>
-                                    <span>Active Referrals</span>
-                                    <strong>6</strong>
-                                    </div>
+                                <!--<div class="card-footer-data">-->
+                                <!--    <div>-->
+                                <!--    <span>Active Referrals</span>-->
+                                <!--    <strong>6</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                    <span>Completed Trips</span>
-                                    <strong>10</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--    <span>Completed Trips</span>-->
+                                <!--    <strong>10</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                                 </div>
 
 
@@ -178,17 +178,17 @@
                                     <h2>₹1,800</h2>
                                 </div>
 
-                                <div class="card-footer-data">
-                                    <div>
-                                    <span>This Year</span>
-                                    <strong>₹1,300</strong>
-                                    </div>
+                                <!--<div class="card-footer-data">-->
+                                <!--    <div>-->
+                                <!--    <span>This Year</span>-->
+                                <!--    <strong>₹1,300</strong>-->
+                                <!--    </div>-->
 
-                                    <div>
-                                    <span>Last Year</span>
-                                    <strong>₹500</strong>
-                                    </div>
-                                </div>
+                                <!--    <div>-->
+                                <!--    <span>Last Year</span>-->
+                                <!--    <strong>₹500</strong>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                                 </div>
 
                             </div>
@@ -227,19 +227,15 @@
                                                 <option value="all">All</option>
 
                                                 <option value="membership activation bonus">
-                                                    Membership Activation Bonus
+                                                    Holiday Account Activation
                                                 </option>
 
                                                 <option value="trip completed bonus">
-                                                    Trip Completed Bonus
+                                                    Trip Completed 
                                                 </option>
 
                                                 <option value="withdrawal request">
                                                     Withdrawal Request
-                                                </option>
-
-                                                <option value="refund">
-                                                    Refund
                                                 </option>
 
                                                 <option value="pending clearance">
@@ -376,7 +372,7 @@
                                                 <th>Per Pax Benefit</th>
                                                 <th>Amount</th>
                                                 <th>Status</th>
-                                                <th>Balance</th>
+                                                <!--<th>Balance</th>-->
                                                 <th>Action</th>
 
                                             </tr>
@@ -409,7 +405,7 @@
 
                                                 <td>
                                                     Rahul Sharma<br>
-                                                    <small>(NS240501278)</small>
+                                                    <small>(CU2500089)</small>
                                                 </td>
 
                                                 <td>
@@ -431,9 +427,9 @@
                                                     </span>
                                                 </td>
 
-                                                <td class="fw-bold">
-                                                    ₹2,300
-                                                </td>
+                                                <!--<td class="fw-bold">-->
+                                                <!--    ₹2,300-->
+                                                <!--</td>-->
 
                                                 <td>
 
@@ -472,6 +468,10 @@
                                                                         Trip Details
 
                                                                     </h5>
+                                                                    <div class="mb-2">
+                                                                        <strong>Tour Name:</strong>
+                                                                        Kerala Backwaters
+                                                                    </div>
 
                                                                     <div class="mb-2">
                                                                         <strong>Destination:</strong>
@@ -486,6 +486,11 @@
                                                                     <div class="mb-2">
                                                                         <strong>Booking ID:</strong>
                                                                         BK24051278
+                                                                    </div>
+                                                                    
+                                                                    <div class="mb-2">
+                                                                        <strong>Booking Date:</strong>
+                                                                        02 May 2024
                                                                     </div>
 
                                                                 </div>
@@ -537,6 +542,11 @@
                                                                                 <td>8</td>
                                                                                 <td>₹500</td>
                                                                             </tr>
+                                                                            
+                                                                             <tr>
+                                                                                <td colspan="2">Total Amount Earned</td>
+                                                                                <td>₹1,500</td>
+                                                                            </tr>
 
                                                                         </tbody>
 
@@ -575,7 +585,8 @@
                                                 </td>
 
                                                 <td>
-                                                    Neha Kapoor
+                                                    Neha Kapoor<br>
+                                                    <small>(CU2500089)</small>
                                                 </td>
 
                                                 <td>-</td>
@@ -594,7 +605,7 @@
                                                     </span>
                                                 </td>
 
-                                                <td>₹800</td>
+                                                <!--<td>₹800</td>-->
 
                                                 <td>
 
@@ -648,7 +659,7 @@
                                                     </span>
                                                 </td>
 
-                                                <td>₹1,200</td>
+                                                <!--<td>₹1,200</td>-->
 
                                                 <td>
 
@@ -664,55 +675,7 @@
 
                                             <!-- ROW 4 -->
 
-                                            <tr
-                                                data-transaction="pending clearance"
-                                                data-status="pending"
-                                                data-date="2024-04-30"
-                                            >
-
-                                                <td>
-                                                    <strong>30 Apr 2024</strong><br>
-                                                    11:20 AM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Pending Clearance</strong><br>
-                                                    Verification Pending
-                                                </td>
-
-                                                <td>
-                                                    Rohit Jain
-                                                </td>
-
-                                                <td>-</td>
-
-                                                <td>-</td>
-
-                                                <td>₹1,000</td>
-
-                                                <td class="text-warning fw-bold">
-                                                    ₹1,000
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-warning text-dark">
-                                                        Pending
-                                                    </span>
-                                                </td>
-
-                                                <td>₹1,200</td>
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-clock"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
+                                            
 
                                             <!-- ROW 5 -->
 
@@ -750,7 +713,7 @@
                                                     </span>
                                                 </td>
 
-                                                <td>₹2,200</td>
+                                                <!--<td>₹2,200</td>-->
 
                                                 <td>
 
@@ -804,7 +767,7 @@
                                                     </span>
                                                 </td>
 
-                                                <td>₹4,000</td>
+                                                <!--<td>₹4,000</td>-->
 
                                                 <td>
 
@@ -820,109 +783,11 @@
 
                                             <!-- ROW 7 -->
 
-                                            <tr
-                                                data-transaction="trip bonus reversal"
-                                                data-status="cancelled"
-                                                data-date="2024-04-18"
-                                            >
-
-                                                <td>
-                                                    <strong>18 Apr 2024</strong><br>
-                                                    03:00 PM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Trip Bonus Reversal</strong><br>
-                                                    Booking Cancelled
-                                                </td>
-
-                                                <td>
-                                                    Pooja Mehta
-                                                </td>
-
-                                                <td>
-                                                    Manali Getaway
-                                                </td>
-
-                                                <td>3</td>
-
-                                                <td>₹500</td>
-
-                                                <td class="text-danger fw-bold">
-                                                    -₹1,500
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-danger">
-                                                        Cancelled
-                                                    </span>
-                                                </td>
-
-                                                <td>₹3,400</td>
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-ban"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
+                                            
 
                                             <!-- ROW 8 -->
 
-                                            <tr
-                                                data-transaction="membership activation bonus"
-                                                data-status="rejected"
-                                                data-date="2024-04-16"
-                                            >
-
-                                                <td>
-                                                    <strong>16 Apr 2024</strong><br>
-                                                    12:40 PM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Membership Activation Bonus</strong><br>
-                                                    KYC Rejected
-                                                </td>
-
-                                                <td>
-                                                    Vikram Patel
-                                                </td>
-
-                                                <td>-</td>
-
-                                                <td>-</td>
-
-                                                <td>₹1,000</td>
-
-                                                <td class="text-danger fw-bold">
-                                                    ₹0
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-dark">
-                                                        Rejected
-                                                    </span>
-                                                </td>
-
-                                                <td>₹2,400</td>
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-xmark"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
+                                          
 
                                         </tbody>
 
@@ -961,8 +826,8 @@
                                 </div>
 
                                 <div>
-                                    <h4>₹500 Per Passenger on Trip Completion</h4>
-                                    <p>Earn ₹500 for each passenger when your referred customer completes a trip.</p>
+                                    <h4>Earn on Trip Completion</h4>
+                                    <p>Earn commission for each passenger when your referred customer completes a trip.</p>
                                 </div>
                             </div>
 

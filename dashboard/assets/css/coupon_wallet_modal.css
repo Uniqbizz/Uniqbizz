@@ -75,7 +75,7 @@
 }
 
 .coupon-left h1{
-    font-size:58px;
+    font-size:22px;
     line-height:1.1;
     margin-bottom:20px;
     color:#141433;
@@ -86,7 +86,7 @@
 }
 
 .coupon-left p{
-    font-size:18px;
+    font-size:14px;
     line-height:1.8;
     color:#666;
     max-width:650px;
@@ -135,7 +135,7 @@
 
 .coupon-usage-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(144px,1fr));
     gap:20px;
 }
 
@@ -156,7 +156,7 @@
 }
 
 .usage-card h4{
-    font-size:17px;
+    font-size:14px;
     line-height:1.5;
 }
 
@@ -223,7 +223,7 @@
 }
 
 .discount-box h4{
-    font-size:28px;
+    font-size:22px;
     margin-bottom:10px;
 }
 

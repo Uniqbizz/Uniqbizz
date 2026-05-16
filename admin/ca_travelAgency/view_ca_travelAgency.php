@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Travel Consultant View | Admin Dashboard </title>
+        <title>Travel Consultant View / Institution Branch Manager | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -98,7 +98,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant / Institution Branch Manager</h4>
                                     </div>
 
                                 </div>
@@ -114,7 +114,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Travel Consultant List</h4>
+                                                        <h4>Pending Travel Consultant / Institution Branch Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,9 +167,11 @@
                                                                 $rd= new DateTime($row['added_on']);
                                                                 $rdate= $rd->format('d-m-Y');
 
+                                                                $branch = $row['branch'] ?? 'NA';
+
                                                                 echo'<tr>
                                                                     <td>'.$row['id'].'</td>
-                                                                    <td>'.$row['firstname'].' '.$row['lastname'].'</td>
+                                                                    <td><span class="badge bg-secondary lable-width">'. strtoupper($row['user_type']).'</span>'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                     <td><p class="mb-1">'.$row['reference_no'].'</p>
                                                                         <p class="mb-0">'.$row['registrant'].'</p>
                                                                     </td>
@@ -188,7 +190,7 @@
                                                                                     <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                                 </a>
                                                                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-end-1">
-                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","pending","'.$row["user_type_val"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                    <li><a href="#" onclick=\'editfuncCust("' .$row["id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .$branch. '","pending","'.$row["user_type_val"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                     <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","","pending","'.$row["user_type"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                                     <li><a href="#" onclick=\'confirmfunc("' .$row["id"]. '","' .$row["email"]. '","' .$row["reference_no"]. '","'.$row["comp_check"].'","'.$row["user_type"].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm</a></li>
                                                                                 </ul>
@@ -218,7 +220,7 @@
 
                                                                                         <li>
                                                                                             <a href="#" 
-                                                                                                onclick=\'editfuncCust("' . $user_id_str . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","pending","' . strtolower($row['user_type']) . '")\'
+                                                                                                onclick=\'editfuncCust("' . $user_id_str . '","' . $row["reference_no"] . '","' . $row["register_by"] . '","' . $row["country"] . '","' . $row["state"] . '","' . $row["city"] . '","' .$branch. '","pending","' . strtolower($row['user_type']) . '")\'
                                                                                                 
                                                                                                 class="dropdown-item">
                                                                                                 <i class="mdi mdi-eye font-size-16 text-info me-1"></i> View Request
@@ -261,7 +263,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Travel Consultant List</h4>
+                                                        <h4>Registered Travel Consultant / Institution Branch Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -349,7 +351,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Travel Consultant Id</th>
+                                                        <th>TC/IBR Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Referal Ref ID/ Name</th>
@@ -386,7 +388,8 @@
                                                                 $rdate_display = date("d-m-Y", strtotime($row['register_date']));
                                                                 $rdate_sort = date("Y-m-d", strtotime($row['register_date']));
 
-
+                                                                $branch = $row['branch'] ?? 'NA';
+                                                                
                                                                 $reference_no=(substr($row['reference_no'],0,1) == 'F' || substr($row['reference_no'],0,1) == 'I') ? substr($row['reference_no'],0,1):
                                                                             substr($row['reference_no'],0,2);
 
@@ -444,7 +447,7 @@
 
 
                                                                 echo'<tr>
-                                                                    <td>'.$row['user_id'].'</td>
+                                                                    <td><span class="badge bg-success lable-width">'. strtoupper($row['user_type']).'</span>'.$row['user_id'].'</td>
                                                                     <td>'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                     <td><p class="mb-1">'.$row['reference_no'].'</p>
                                                                         <p class="mb-0">'.$row['registrant'].'</p>
@@ -466,8 +469,8 @@
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                             </a>
                                                                             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-right-2">
-                                                                                <li><a href="#" onclick=\'overviewPage("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","ca_travelagency")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
-                                                                                <li><a href="#" onclick=\'editfuncCust("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","registered","'.$row['user_type_val'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
+                                                                                <li><a href="#" onclick=\'overviewPage("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .(strtolower($row['user_type']) == 'tc' ? 'ca_travelagency' : (strtolower($row['user_type']) == 'ibr' ? 'institution_branch_manager' : '')) .'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-eye font-size-16 text-info me-1"></i> View</a></li>
+                                                                                <li><a href="#" onclick=\'editfuncCust("'.$row["user_id"]. '","' .$row["reference_no"]. '","' .$row["register_by"]. '","' .$row["country"]. '","' .$row["state"]. '","' .$row["city"]. '","' .$branch. '","registered","'.$row['user_type_val'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit</a></li>
                                                                                 <li><a href="#" onclick=\'deletefunc("' .$row["id"]. '","'.$row["user_id"]. '","registered","'.$row['user_type'].'")\' class="dropdown-item" data-bs-toggle="modal" ><i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete</a></li>
                                                                             </ul>
                                                                         </div>
@@ -499,7 +502,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Travel Consultant List</h4>
+                                                        <h4>Deleted Travel Consultant / Institution Branch Manager List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -510,7 +513,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedTravelAgentList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Travel Consultant Id</th>
+                                                        <th>TC/IBR Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Referal Ref ID/ Name</th>
@@ -609,7 +612,7 @@
 
 
                                                             echo'<tr>
-                                                                    <td>'.$row['user_id'].'</td>
+                                                                    <td><span class="badge bg-danger lable-width">'. strtoupper($row['user_type']).'</span>'.$row['user_id'].'</td>
                                                                     <td>'.$row['firstname'].' '.$row['lastname'].'</td>
                                                                     <td><p class="mb-1">'.$row['reference_no'].'</p>
                                                                         <p class="mb-0">'.$row['registrant'].'</p>
@@ -820,8 +823,8 @@
 
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-                window.location.href='edit_ca_travelAgency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+            function editfuncCust(id,refno,regby,cut,st,ct,br,editfor,usertype){ 
+                window.location.href='edit_ca_travelAgency.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&branch='+br+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 

@@ -109,7 +109,7 @@
                     <li>
                         <a href="../businessMentor/businessMentor.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">BM / MF / SF</span>
+                            <span key="t-contacts">BM / MF / SF / ETE</span>
                         </a>
                     </li>
                     <li>
@@ -121,7 +121,7 @@
                     <li>
                         <a href="../ca_travelAgency/view_ca_travelAgency.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">Travel Consultant</span>
+                            <span key="t-contacts">TC / IBR</span>
                         </a>
                     </li>
                     <li>

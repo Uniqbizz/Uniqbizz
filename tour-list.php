@@ -4,6 +4,7 @@ session_start();
 if (isset($_SESSION['user_type_id_value'])) {
     $user_type = $_SESSION["user_type_id_value"];
     $user_id = $_SESSION["user_id"];
+    $username2 = $_SESSION["username2"];
 } else {
     $user_type = 0;
     $user_id = 0;

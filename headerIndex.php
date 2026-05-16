@@ -273,7 +273,10 @@
                                             <li>
                                                 <div class="sign-btn d-none">
                                                     <?php 
-                                                        if(isset($_SESSION['username2'])){
+                                                        if(isset($_SESSION['username2']) && isset($_SESSION['user_id']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_id'] == "CU260053" && $_SESSION['user_type_id_value'] == "10"){
+                                                            echo '<a href="dashboard/customer_dashboard/customer_dashboard.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
+                                                            <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
+                                                        }else if(isset($_SESSION['username2'])){
                                                             echo '<a href="dashboard/" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
                                                             <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
                                                         }else{
@@ -332,11 +335,14 @@
                                 <div class="d-flex gap-10 align-items-center">
                                     <div class="sign-btn d-flex gap-10">
                                         <?php 
-                                            if(isset($_SESSION['username2'])){
-                                                echo '<a href="dashboard/" class="btn btn-outline-light radius-30 text-white fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
-                                                <a href="login.php" class="btn btn-outline-light radius-30 text-white my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
+                                            if(isset($_SESSION['username2']) && isset($_SESSION['user_id']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_id'] == "CU260053" && $_SESSION['user_type_id_value'] == "10"){
+                                                echo '<a href="dashboard/customer_dashboard/customer_dashboard.php" class="btn-secondary-sm">Dashboard</a>
+                                                <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
+                                            } else if(isset($_SESSION['username2'])){
+                                                echo '<a href="dashboard/" class="btn-secondary-sm">Dashboard</a>
+                                                <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
                                             }else{
-                                                echo'<a href="login.php" class="btn btn-outline-light radius-30 text-white fw-bolder d-flex justify-content-center align-items-center" style="width:80px; height:40px;">Log In</a>';
+                                                echo'<a href="login.php" class="btn-secondary-sm">Log In</a>';
                                             }
                                         ?>
                                     </div>

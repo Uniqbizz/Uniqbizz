@@ -21,11 +21,17 @@ if ($userType == 10) {
     $tcId = $tc['ta_reference_no'];
     $customer_type = $tc['customer_type'];
 
-
-    $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
-    $stmt12->execute();
-    $tcName = $stmt12->fetch();
-    $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+    if(substr($tcId,0,2) == 'TA'){
+        $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
+        $stmt12->execute();
+        $tcName = $stmt12->fetch();
+        $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+    }else if(substr($tcId,0,2) == 'IB'){
+        $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $tcId . "' ");
+        $stmt12->execute();
+        $tcName = $stmt12->fetch();
+        $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+    }
 
 }
 ?>

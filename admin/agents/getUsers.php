@@ -1,6 +1,7 @@
 
 <?php
 //For Multiple designation add form get name ref:corporate partner 
+// use else if condition format if userType define in this file and DB table not present then it will attach error message with output 15-05-2026
 require '../connect.php';
 
 $user_id = $_POST["user_id_name"]; 

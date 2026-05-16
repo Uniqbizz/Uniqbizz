@@ -227,23 +227,23 @@
 
                                         <button class="coupon-tab active" data-filter="all">
                                             <span class="tab-title">All Coupons</span>
-                                            <span class="tab-count">13</span>
+                                            <span class="tab-count">30</span>
                                         </button>
 
                                         <button class="coupon-tab available-tab" data-filter="available">
                                             <span class="tab-title">Available</span>
-                                            <span class="tab-count">6</span>
+                                            <span class="tab-count">18</span>
                                         </button>
 
                                         <button class="coupon-tab used-tab" data-filter="used">
                                             <span class="tab-title">Used</span>
-                                            <span class="tab-count">4</span>
+                                            <span class="tab-count">12</span>
                                         </button>
 
-                                        <button class="coupon-tab expired-tab" data-filter="expired">
-                                            <span class="tab-title">Expired</span>
-                                            <span class="tab-count">3</span>
-                                        </button>
+                                        <!--<button class="coupon-tab expired-tab" data-filter="expired">-->
+                                        <!--    <span class="tab-title">Expired</span>-->
+                                        <!--    <span class="tab-count">3</span>-->
+                                        <!--</button>-->
 
                                     </div>
 
@@ -264,7 +264,7 @@
                                                 <th>Value</th>
                                                 <th>Status</th>
                                                 <th>Credited On</th>
-                                                <th>Applied On</th>
+                                                <th>Applicable On</th>
                                                 <th>Used On</th>
                                             </tr>
 
@@ -293,7 +293,7 @@
 
                                                 <td>
                                                     30 Jun 2025
-                                                    <div class="days-left">40 Days Left</div>
+                                                    <!--<div class="days-left">40 Days Left</div>-->
                                                 </td>
 
                                                 <td>
@@ -305,6 +305,16 @@
                                                     <div class="applicable-item">
                                                         <i class="fa-solid fa-mountain"></i>
                                                         Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
                                                     </div>
                                                 </td>
 
@@ -332,11 +342,21 @@
                                                 </td>
 
                                                 <td>
-                                                    18 Jul 2025
-                                                    <div class="days-left">58 Days Left</div>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">58 Days Left</div>-->
                                                 </td>
 
                                                 <td>
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
                                                     <div class="applicable-item">
                                                         <i class="fa-solid fa-plane"></i>
                                                         Flights
@@ -344,7 +364,7 @@
 
                                                     <div class="applicable-item">
                                                         <i class="fa-solid fa-hotel"></i>
-                                                        Hotels
+                                                        Hotel
                                                     </div>
                                                 </td>
 
@@ -359,11 +379,11 @@
                                                 <td>
                                                     <div class="coupon-box">
                                                         NSC25050003
-                                                        <div>₹1,000</div>
+                                                        <div>₹500</div>
                                                     </div>
                                                 </td>
 
-                                                <td class="coupon-price">₹1,000</td>
+                                                <td class="coupon-price">₹500</td>
 
                                                 <td>
                                                     <span class="status-badge status-available">
@@ -372,20 +392,30 @@
                                                 </td>
 
                                                 <td>
-                                                    25 Aug 2025
-                                                    <div class="days-left">96 Days Left</div>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">96 Days Left</div>-->
                                                 </td>
 
                                                 <td>
 
                                                     <div class="applicable-item">
-                                                        <i class="fa-solid fa-calendar-days"></i>
-                                                        Events
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
                                                     </div>
 
                                                     <div class="applicable-item">
-                                                        <i class="fa-solid fa-ship"></i>
-                                                        Cruise Packages
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
                                                     </div>
 
                                                 </td>
@@ -414,7 +444,7 @@
                                                 </td>
 
                                                 <td>
-                                                    25 May 2025
+                                                    25 Aug 2025
                                                     <div class="text-muted">Expired After Use</div>
                                                 </td>
 
@@ -432,7 +462,136 @@
                                                 </td>
 
                                                 <td>
-                                                    26 May 2025
+                                                    25 Aug 2025
+                                                    <div class="text-muted">
+                                                        04:45 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050005
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    25 Aug 2025
+                                                    <div class="text-muted">Expired After Use</div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-umbrella-beach"></i>
+                                                        Goa Beach Escape
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240518
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    25 Aug 2025
+                                                    <div class="text-muted">
+                                                        04:45 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050006
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    25 Aug 2025
+                                                    <div class="text-muted">Expired After Use</div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-umbrella-beach"></i>
+                                                        Goa Beach Escape
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240518
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    25 Aug 2025
+                                                    <div class="text-muted">
+                                                        04:45 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050007
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    25 Aug 2025
+                                                    <div class="text-muted">Expired After Use</div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-umbrella-beach"></i>
+                                                        Goa Beach Escape
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240518
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    25 Aug 2025
                                                     <div class="text-muted">
                                                         04:45 PM
                                                     </div>
@@ -446,12 +605,12 @@
 
                                                 <td>
                                                     <div class="coupon-box">
-                                                        NSC25050005
-                                                        <div>₹750</div>
+                                                        NSC25050008
+                                                        <div>₹500</div>
                                                     </div>
                                                 </td>
 
-                                                <td class="coupon-price">₹750</td>
+                                                <td class="coupon-price">₹500</td>
 
                                                 <td>
                                                     <span class="status-badge status-used">
@@ -460,7 +619,7 @@
                                                 </td>
 
                                                 <td>
-                                                    15 Apr 2025
+                                                    15 Sept 2025
                                                     <div class="text-muted">
                                                         Expired After Use
                                                     </div>
@@ -480,7 +639,52 @@
                                                 </td>
 
                                                 <td>
-                                                    21 Apr 2025
+                                                    15 Sept 2025
+                                                    <div class="text-muted">
+                                                        08:20 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                             <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050009
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    15 Sept 2025
+                                                    <div class="text-muted">
+                                                        Expired After Use
+                                                    </div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-tree"></i>
+                                                        Kerala Retreat
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240411
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    15 Sept 2025
                                                     <div class="text-muted">
                                                         08:20 PM
                                                     </div>
@@ -488,18 +692,111 @@
 
                                             </tr>
 
+ <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050010
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    15 Sept 2025
+                                                    <div class="text-muted">
+                                                        Expired After Use
+                                                    </div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-tree"></i>
+                                                        Kerala Retreat
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240411
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    15 Sept 2025
+                                                    <div class="text-muted">
+                                                        08:20 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+ <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050011
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    15 Sept 2025
+                                                    <div class="text-muted">
+                                                        Expired After Use
+                                                    </div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-tree"></i>
+                                                        Kerala Retreat
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240411
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    15 Sept 2025
+                                                    <div class="text-muted">
+                                                        08:20 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+
                                             <!-- AVAILABLE -->
 
                                             <tr data-status="available">
 
                                                 <td>
                                                     <div class="coupon-box">
-                                                        NSC25050006
-                                                        <div>₹2,000</div>
+                                                        NSC250500012
+                                                        <div>₹500</div>
                                                     </div>
                                                 </td>
 
-                                                <td class="coupon-price">₹2,000</td>
+                                                <td class="coupon-price">₹500</td>
 
                                                 <td>
                                                     <span class="status-badge status-available">
@@ -508,15 +805,30 @@
                                                 </td>
 
                                                 <td>
-                                                    10 Sep 2025
-                                                    <div class="days-left">112 Days Left</div>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">112 Days Left</div>-->
                                                 </td>
 
                                                 <td>
 
                                                     <div class="applicable-item">
-                                                        <i class="fa-solid fa-earth-asia"></i>
-                                                        International Packages
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
                                                     </div>
 
                                                 </td>
@@ -531,12 +843,12 @@
 
                                                 <td>
                                                     <div class="coupon-box">
-                                                        NSC25050007
-                                                        <div>₹1,500</div>
+                                                        NSC25050013
+                                                        <div>₹500</div>
                                                     </div>
                                                 </td>
 
-                                                <td class="coupon-price">₹1,500</td>
+                                                <td class="coupon-price">₹500</td>
 
                                                 <td>
                                                     <span class="status-badge status-used">
@@ -545,7 +857,7 @@
                                                 </td>
 
                                                 <td>
-                                                    12 Mar 2025
+                                                    12 Mar 2026
                                                     <div class="text-muted">
                                                         Expired After Use
                                                     </div>
@@ -565,63 +877,23 @@
                                                 </td>
 
                                                 <td>
-                                                    23 Mar 2025
+                                                    12 Mar 2026
                                                     <div class="text-muted">
                                                         10:05 AM
                                                     </div>
                                                 </td>
 
                                             </tr>
-
-                                            <!-- AVAILABLE -->
-
-                                            <tr data-status="available">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        NSC25050008
-                                                        <div>₹300</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹300</td>
-
-                                                <td>
-                                                    <span class="status-badge status-available">
-                                                        Available
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    14 Oct 2025
-                                                    <div class="days-left">146 Days Left</div>
-                                                </td>
-
-                                                <td>
-
-                                                    <div class="applicable-item">
-                                                        <i class="fa-solid fa-bus"></i>
-                                                        Bus Packages
-                                                    </div>
-
-                                                </td>
-
-                                                <td class="text-muted">—</td>
-
-                                            </tr>
-
-                                            <!-- USED -->
-
                                             <tr data-status="used">
 
                                                 <td>
                                                     <div class="coupon-box">
-                                                        NSC25050009
-                                                        <div>₹900</div>
+                                                        NSC25050014
+                                                        <div>₹500</div>
                                                     </div>
                                                 </td>
 
-                                                <td class="coupon-price">₹900</td>
+                                                <td class="coupon-price">₹500</td>
 
                                                 <td>
                                                     <span class="status-badge status-used">
@@ -630,7 +902,57 @@
                                                 </td>
 
                                                 <td>
-                                                    28 Feb 2025
+                                                    12 Mar 2026
+                                                    <div class="text-muted">
+                                                        Expired After Use
+                                                    </div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-snowflake"></i>
+                                                        Kashmir Winter Tour
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240303
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    12 Mar 2026
+                                                    <div class="text-muted">
+                                                        10:05 AM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            
+
+                                            <!-- USED -->
+
+                                            <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050015
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    28 Feb 2026
                                                     <div class="text-muted">
                                                         Expired After Use
                                                     </div>
@@ -650,7 +972,52 @@
                                                 </td>
 
                                                 <td>
-                                                    02 Mar 2025
+                                                    28 Feb 2026
+                                                    <div class="text-muted">
+                                                        07:40 PM
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr data-status="used">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050016
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-used">
+                                                        Used
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    28 Feb 2026
+                                                    <div class="text-muted">
+                                                        Expired After Use
+                                                    </div>
+                                                </td>
+
+                                                <td>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-city"></i>
+                                                        Dubai Escape
+                                                    </div>
+
+                                                    <small class="text-muted">
+                                                        Booking ID: BK240225
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+                                                    28 Feb 2026
                                                     <div class="text-muted">
                                                         07:40 PM
                                                     </div>
@@ -664,7 +1031,7 @@
 
                                                 <td>
                                                     <div class="coupon-box">
-                                                        NSC25050010
+                                                        NSC25050017
                                                         <div>₹500</div>
                                                     </div>
                                                 </td>
@@ -678,15 +1045,30 @@
                                                 </td>
 
                                                 <td>
-                                                    30 Dec 2025
-                                                    <div class="days-left">190 Days Left</div>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
                                                 </td>
 
                                                 <td>
 
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
                                                     <div class="applicable-item">
-                                                        <i class="fa-solid fa-person-hiking"></i>
-                                                        Adventure Tours
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
                                                     </div>
 
                                                 </td>
@@ -695,12 +1077,12 @@
 
                                             </tr>
                                             <!-- EXPIRED -->
-
-                                            <tr data-status="expired">
+                                            
+                                            <tr data-status="available">
 
                                                 <td>
                                                     <div class="coupon-box">
-                                                        NSC25050011
+                                                        NSC25050018
                                                         <div>₹500</div>
                                                     </div>
                                                 </td>
@@ -708,124 +1090,676 @@
                                                 <td class="coupon-price">₹500</td>
 
                                                 <td>
-                                                    <span class="status-badge status-expired">
-                                                        Expired
+                                                    <span class="status-badge status-available">
+                                                        Available
                                                     </span>
                                                 </td>
 
                                                 <td>
-                                                    10 Jan 2025
-
-                                                    <div class="text-danger small fw-semibold">
-                                                        Expired 45 Days Ago
-                                                    </div>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
                                                 </td>
 
                                                 <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
 
                                                     <div class="applicable-item">
-                                                        <i class="fa-solid fa-umbrella-beach"></i>
-                                                        Beach Packages
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
                                                     </div>
-
-                                                </td>
-
-                                                <td class="text-muted">
-                                                    Not Used
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- EXPIRED -->
-
-                                            <tr data-status="expired">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        NSC25050012
-                                                        <div>₹1,000</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹1,000</td>
-
-                                                <td>
-                                                    <span class="status-badge status-expired">
-                                                        Expired
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    22 Feb 2025
-
-                                                    <div class="text-danger small fw-semibold">
-                                                        Expired 12 Days Ago
-                                                    </div>
-                                                </td>
-
-                                                <td>
-
+                                                    
                                                     <div class="applicable-item">
-                                                        <i class="fa-solid fa-plane-departure"></i>
-                                                        International Flights
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
                                                     </div>
-
-                                                </td>
-
-                                                <td class="text-muted">
-                                                    Not Used
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- EXPIRED -->
-
-                                            <tr data-status="expired">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        NSC25050013
-                                                        <div>₹750</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹750</td>
-
-                                                <td>
-                                                    <span class="status-badge status-expired">
-                                                        Expired
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    05 Mar 2025
-
-                                                    <div class="text-danger small fw-semibold">
-                                                        Expired 5 Days Ago
-                                                    </div>
-                                                </td>
-
-                                                <td>
 
                                                     <div class="applicable-item">
                                                         <i class="fa-solid fa-hotel"></i>
-                                                        Hotel Bookings
+                                                        Hotel
                                                     </div>
 
                                                 </td>
 
-                                                <td class="text-muted">
-                                                    Not Used
-                                                </td>
+                                                <td class="text-muted">—</td>
 
                                             </tr>
+                                            
+                                            <tr data-status="available">
 
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050019
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050020
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050021
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050022
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050023
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050024
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050025
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050026
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050027
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050028
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050029
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            <tr data-status="available">
+
+                                                <td>
+                                                    <div class="coupon-box">
+                                                        NSC25050030
+                                                        <div>₹500</div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="coupon-price">₹500</td>
+
+                                                <td>
+                                                    <span class="status-badge status-available">
+                                                        Available
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    30 Jun 2025
+                                                    <!--<div class="days-left">190 Days Left</div>-->
+                                                </td>
+
+                                                <td>
+
+                                                   <div class="applicable-item">
+                                                        <i class="fa-solid fa-gift"></i>
+                                                        Holiday Packages
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-mountain"></i>
+                                                        Weekend Escapes
+                                                    </div>
+                                                    
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-plane"></i>
+                                                        Flights
+                                                    </div>
+
+                                                    <div class="applicable-item">
+                                                        <i class="fa-solid fa-hotel"></i>
+                                                        Hotel
+                                                    </div>
+
+                                                </td>
+
+                                                <td class="text-muted">—</td>
+
+                                            </tr>
+                                            
+                                            
                                         </tbody>
 
                                     </table>
 
                                 </div>
-
+                                <!-- PAGINATION -->
+                                <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+                                
+                                    <div class="text-muted">
+                                        Showing
+                                        <span id="showingCount">1</span>
+                                        to
+                                        <span id="showingEnd">5</span>
+                                        of
+                                        <span id="totalCoupons">0</span>
+                                    </div>
+                                
+                                    <div class="d-flex gap-2 align-items-center">
+                                
+                                        <button id="prevPage"
+                                            class="btn btn-sm btn-outline-primary">
+                                            Previous
+                                        </button>
+                                
+                                        <span id="pageNumbers"
+                                            class="d-flex gap-1">
+                                        </span>
+                                
+                                        <button id="nextPage"
+                                            class="btn btn-sm btn-outline-primary">
+                                            Next
+                                        </button>
+                                
+                                    </div>
+                                
+                                </div>
                             </div>
 
                             <!-- IMPORTANT -->
@@ -873,7 +1807,7 @@
                                             <i class="fa-solid fa-ban"></i>
 
                                             <div>
-                                                Expired coupons cannot be reactivated or refunded.
+                                                Used coupons cannot be reactivated or used again.
                                             </div>
 
                                         </div>
@@ -1101,47 +2035,239 @@
             JS FILTER
             ========================= -->
 
-            <script>
+            <!--<script>-->
 
-                const tabs = document.querySelectorAll('.coupon-tab');
-                const rows = document.querySelectorAll('#couponTableBody tr');
+            <!--    const tabs = document.querySelectorAll('.coupon-tab');-->
+            <!--    const rows = document.querySelectorAll('#couponTableBody tr');-->
 
-                tabs.forEach(tab => {
+            <!--    tabs.forEach(tab => {-->
 
-                    tab.addEventListener('click', function () {
+            <!--        tab.addEventListener('click', function () {-->
 
                         // REMOVE ACTIVE CLASS
-                        tabs.forEach(btn => {
-                            btn.classList.remove('active');
-                        });
+            <!--            tabs.forEach(btn => {-->
+            <!--                btn.classList.remove('active');-->
+            <!--            });-->
 
                         // ADD ACTIVE CLASS
-                        this.classList.add('active');
+            <!--            this.classList.add('active');-->
 
                         // GET FILTER VALUE
-                        const filter = this.dataset.filter;
+            <!--            const filter = this.dataset.filter;-->
 
                         // FILTER TABLE ROWS
-                        rows.forEach(row => {
+            <!--            rows.forEach(row => {-->
 
-                            const status = row.dataset.status;
+            <!--                const status = row.dataset.status;-->
 
-                            if(filter === 'all' || status === filter){
+            <!--                if(filter === 'all' || status === filter){-->
 
-                                row.style.display = 'table-row';
+            <!--                    row.style.display = 'table-row';-->
 
-                            }else{
+            <!--                }else{-->
 
-                                row.style.display = 'none';
+            <!--                    row.style.display = 'none';-->
 
-                            }
+            <!--                }-->
 
+            <!--            });-->
+
+            <!--        });-->
+
+            <!--    });-->
+
+            <!--</script>-->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                
+                    const tabs = document.querySelectorAll('.coupon-tab');
+                    const allRows = Array.from(
+                        document.querySelectorAll('#couponTableBody tr')
+                    );
+                
+                    const rowsPerPage = 10;
+                
+                    let currentPage = 1;
+                    let currentFilter = 'all';
+                    let filteredRows = [...allRows];
+                
+                    const prevBtn = document.getElementById('prevPage');
+                    const nextBtn = document.getElementById('nextPage');
+                    const pageNumbers = document.getElementById('pageNumbers');
+                
+                    const showingCount = document.getElementById('showingCount');
+                    const showingEnd = document.getElementById('showingEnd');
+                    const totalCoupons = document.getElementById('totalCoupons');
+                
+                    function updateTable() {
+                
+                        allRows.forEach(row => {
+                            row.style.display = 'none';
                         });
-
+                
+                        const start =
+                            (currentPage - 1) * rowsPerPage;
+                
+                        const end =
+                            start + rowsPerPage;
+                
+                        const visibleRows =
+                            filteredRows.slice(start, end);
+                
+                        visibleRows.forEach(row => {
+                            row.style.display = 'table-row';
+                        });
+                
+                        updatePaginationInfo();
+                    }
+                
+                    function updatePaginationInfo() {
+                
+                        const totalPages =
+                            Math.ceil(
+                                filteredRows.length / rowsPerPage
+                            );
+                
+                        pageNumbers.innerHTML = '';
+                
+                        for (
+                            let i = 1;
+                            i <= totalPages;
+                            i++
+                        ) {
+                
+                            const btn =
+                                document.createElement('button');
+                
+                            btn.textContent = i;
+                
+                            btn.className =
+                                i === currentPage
+                                ? 'btn btn-sm btn-primary'
+                                : 'btn btn-sm btn-outline-primary';
+                
+                            btn.addEventListener(
+                                'click',
+                                function () {
+                                    currentPage = i;
+                                    updateTable();
+                                }
+                            );
+                
+                            pageNumbers.appendChild(btn);
+                        }
+                
+                        prevBtn.disabled =
+                            currentPage === 1;
+                
+                        nextBtn.disabled =
+                            currentPage === totalPages ||
+                            totalPages === 0;
+                
+                        const startNum =
+                            filteredRows.length === 0
+                            ? 0
+                            : ((currentPage - 1)
+                                * rowsPerPage) + 1;
+                
+                        const endNum =
+                            Math.min(
+                                currentPage * rowsPerPage,
+                                filteredRows.length
+                            );
+                
+                        showingCount.textContent =
+                            startNum;
+                
+                        showingEnd.textContent =
+                            endNum;
+                
+                        totalCoupons.textContent =
+                            filteredRows.length;
+                    }
+                
+                    function applyFilter(filter) {
+                
+                        currentFilter = filter;
+                        currentPage = 1;
+                
+                        filteredRows =
+                            allRows.filter(row => {
+                
+                                const status =
+                                    row.dataset.status;
+                
+                                return (
+                                    filter === 'all'
+                                    ||
+                                    status === filter
+                                );
+                            });
+                
+                        updateTable();
+                    }
+                
+                    tabs.forEach(tab => {
+                
+                        tab.addEventListener(
+                            'click',
+                            function () {
+                
+                                tabs.forEach(btn => {
+                                    btn.classList.remove(
+                                        'active'
+                                    );
+                                });
+                
+                                this.classList.add(
+                                    'active'
+                                );
+                
+                                const filter =
+                                    this.dataset.filter;
+                
+                                applyFilter(filter);
+                            }
+                        );
+                
                     });
-
+                
+                    prevBtn.addEventListener(
+                        'click',
+                        function () {
+                
+                            if (
+                                currentPage > 1
+                            ) {
+                                currentPage--;
+                                updateTable();
+                            }
+                        }
+                    );
+                
+                    nextBtn.addEventListener(
+                        'click',
+                        function () {
+                
+                            const totalPages =
+                                Math.ceil(
+                                    filteredRows.length /
+                                    rowsPerPage
+                                );
+                
+                            if (
+                                currentPage <
+                                totalPages
+                            ) {
+                                currentPage++;
+                                updateTable();
+                            }
+                        }
+                    );
+                
+                    applyFilter('all');
+                
                 });
-
-            </script>
+                </script>
     </body>
 </html>

@@ -134,7 +134,7 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center">
                                             <span>Total Loyalty Coupons</span>
-                                            <span class="summary-value">12</span>
+                                            <span class="summary-value">5</span>
                                         </div>
 
                                     </div>
@@ -155,11 +155,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n3">
                                             <span>Available Coupons</span>
-                                            <span class="summary-value">7</span>
+                                            <span class="summary-value">3</span>
                                         </div>
 
                                         <div class="summary-sub-value green-text">
-                                            Value ₹3,500
+                                            Value ₹1,500
                                         </div>
 
                                     </div>
@@ -180,11 +180,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n2">
                                             <span>Used / Expired Coupons</span>
-                                            <span class="summary-value">5</span>
+                                            <span class="summary-value">2</span>
                                         </div>
 
                                         <div class="summary-sub-value">
-                                            Value ₹2,500
+                                            Value ₹1,000
                                         </div>
 
                                     </div>
@@ -208,7 +208,7 @@
                                         </div>
 
                                         <div class="summary-big-value">
-                                            ₹6,000
+                                            ₹2,500
                                         </div>
 
                                     </div>
@@ -264,22 +264,22 @@
 
                                         <button class="coupon-tab active" data-filter="all">
                                             All Loyalty Coupons
-                                            <span class="tab-count">12</span>
+                                            <span class="tab-count">5</span>
                                         </button>
 
                                         <button class="coupon-tab available-tab" data-filter="available">
                                             Available
-                                            <span class="tab-count">7</span>
+                                            <span class="tab-count">3</span>
                                         </button>
 
                                         <button class="coupon-tab used-tab" data-filter="used">
                                             Used
-                                            <span class="tab-count">5</span>
+                                            <span class="tab-count">1</span>
                                         </button>
 
                                         <button class="coupon-tab expired-tab" data-filter="expired">
                                             Expired
-                                            <span class="tab-count">2</span>
+                                            <span class="tab-count">1</span>
                                         </button>
 
                                     </div>
@@ -381,18 +381,18 @@
                                                 </td>
 
                                                 <td>
-                                                    28 May 2025
+                                                    28 May 2026
                                                     <div class="days-left">
-                                                        35 Days Left
+                                                        9 Days Left
                                                     </div>
                                                 </td>
 
-                                                <td>28 May 2024</td>
+                                                <td>28 May 2025</td>
 
                                                 <td>
                                                     Bali Bliss Trip
                                                     <div class="small text-muted">
-                                                        2 Passengers
+                                                        3 Passengers
                                                     </div>
                                                 </td>
 
@@ -420,16 +420,16 @@
                                                 </td>
 
                                                 <td>
-                                                    18 Jun 2025
+                                                    28 May 2026
                                                     <div class="days-left">
-                                                        53 Days Left
+                                                        9 Days Left
                                                     </div>
                                                 </td>
 
-                                                <td>15 Jun 2024</td>
+                                                <td>28 May 2025</td>
 
                                                 <td>
-                                                    Kerala Backwaters
+                                                    Bali Bliss Trip
                                                     <div class="small text-muted">
                                                         3 Passengers
                                                     </div>
@@ -438,10 +438,8 @@
                                                 <td class="text-muted">—</td>
 
                                             </tr>
-
-                                            <!-- USED -->
-
-                                            <tr data-status="used">
+                                            
+                                            <tr data-status="available">
 
                                                 <td>
                                                     <div class="coupon-box">
@@ -453,36 +451,31 @@
                                                 <td class="coupon-price">₹500</td>
 
                                                 <td>
-                                                    <span class="status-badge status-used">
-                                                        Used
+                                                    <span class="status-badge status-available">
+                                                        Available
                                                     </span>
                                                 </td>
 
                                                 <td>
-                                                    30 Apr 2025
-                                                    <div class="text-danger small">
-                                                        Expired
+                                                    28 May 2026
+                                                    <div class="days-left">
+                                                        9 Days Left
                                                     </div>
                                                 </td>
 
-                                                <td>30 Apr 2024</td>
-
-                                                <td>
-                                                    Goa Beach Escape
-                                                    <div class="small text-muted">
-                                                        2 Passengers
-                                                    </div>
-                                                </td>
+                                                <td>28 May 2025</td>
 
                                                 <td>
-                                                    10 May 2025
+                                                    Bali Bliss Trip
                                                     <div class="small text-muted">
-                                                        BK250101234
+                                                        3 Passengers
                                                     </div>
                                                 </td>
+
+                                                <td class="text-muted">—</td>
 
                                             </tr>
-
+                                            
                                             <!-- USED -->
 
                                             <tr data-status="used">
@@ -503,30 +496,31 @@
                                                 </td>
 
                                                 <td>
-                                                    05 May 2025
-                                                    <div class="text-danger small">
-                                                        Expired
+                                                    18 Jun 2025
+                                                    <div class=" text-danger">
+                                                        used
                                                     </div>
                                                 </td>
 
-                                                <td>05 May 2024</td>
+                                                <td>15 Jun 2026</td>
 
                                                 <td>
-                                                    Dubai Extravaganza
+                                                    Goa Beach Escape
                                                     <div class="small text-muted">
                                                         2 Passengers
                                                     </div>
                                                 </td>
 
                                                 <td>
-                                                    18 May 2025
+                                                    10 May 2025
                                                     <div class="small text-muted">
-                                                        BK250184456
+                                                        BK250101234
                                                     </div>
                                                 </td>
 
                                             </tr>
 
+                                           
                                             <!-- EXPIRED -->
 
                                             <tr data-status="expired">
@@ -549,18 +543,13 @@
                                                 <td>
                                                     12 Jan 2025
                                                     <div class="text-danger small">
-                                                        Expired 60 Days Ago
+                                                        Expired 70 Weeks Ago
                                                     </div>
                                                 </td>
 
                                                 <td>12 Jan 2024</td>
 
-                                                <td>
-                                                    Himachal Explorer
-                                                    <div class="small text-muted">
-                                                        2 Passengers
-                                                    </div>
-                                                </td>
+                                                <td class>—</td>
 
                                                 <td class="text-muted">
                                                     Not Used
@@ -568,55 +557,51 @@
 
                                             </tr>
 
-                                            <!-- EXPIRED -->
 
-                                            <tr data-status="expired">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        LOY25050006
-                                                        <div>₹500</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹500</td>
-
-                                                <td>
-                                                    <span class="status-badge status-expired">
-                                                        Expired
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    01 Feb 2025
-                                                    <div class="text-danger small">
-                                                        Expired 40 Days Ago
-                                                    </div>
-                                                </td>
-
-                                                <td>01 Feb 2024</td>
-
-                                                <td>
-                                                    Andaman Paradise
-                                                    <div class="small text-muted">
-                                                        3 Passengers
-                                                    </div>
-                                                </td>
-
-                                                <td class="text-muted">
-                                                    Not Used
-                                                </td>
-
-                                            </tr>
 
                                         </tbody>
 
                                     </table>
 
                                 </div>
-
+                                <div class="mt-3">
+                                    <div class="neo-info-strip-wrapper">
+                                    <!-- TOP LEFT HEADING -->
+                                    <div class="neo-info-strip-heading">
+                                        Important Information
+                                    </div>
+                                    <div class="neo-info-strip">
+                                        <div class="neo-info-item">
+                                            <div class="neo-info-icon">
+                                                <i class="fa-solid fa-ticket"></i>
+                                            </div>
+                                            <p>
+                                                Loyalty coupons are credited after the successful completion of your trip.
+                                            </p>
+                                        </div>
+                                        <div class="neo-info-divider"></div>
+                                        <div class="neo-info-item">
+                                            <div class="neo-info-icon">
+                                                <i class="fa-solid fa-calendar-days"></i>
+                                            </div>
+                                            <p>
+                                                Each loyalty coupon is valid for12 months from the date of credit.
+                                            </p>
+                                        </div>
+                                        <div class="neo-info-divider"></div>
+                                        <div class="neo-info-item">
+                                            <div class="neo-info-icon">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </div>
+                                            <p>
+                                                These coupons cannot be exchanged for cash or transferred.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
-
+                            
                         </div>
                     </div>
                 </div>
