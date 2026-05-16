@@ -1007,6 +1007,47 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- card section 7 -->
+                        <div class="p-3 border border-2 rounded-4 mt-3">
+                            <h4 class="textColor fw-bolder text-center">Why Premium Members Love Us</h4>
+                            <div class="row d-flex justify-content-around">
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons1.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons2.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons3.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons4.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons5.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
