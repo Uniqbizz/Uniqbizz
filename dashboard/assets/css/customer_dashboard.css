@@ -865,6 +865,34 @@ body {
     width: 50px;
     height: 50px;
 }
+/* card section 8 */
+.supportImagePosition {
+    position: relative;
+}
+.supportImage {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    object-fit: fill;
+}
+.supportDetails {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 999;
+}
+.supportBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.supportBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -1066,6 +1094,19 @@ body {
         display: none !important;
     }
 }
+@media (max-width: 660px) {
+    .supportDetails h3 {
+        font-size: 18px !important;
+    }
+    .supportDetails p {
+        font-size: 14px !important;
+    }
+    .supportBtn {
+        padding: 8px !important;
+        width: 150px !important;
+    }
+}
+
 @media (max-width: 575px) {
     .card2 {
         margin-left: 12px !important;
