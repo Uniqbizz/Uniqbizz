@@ -16,17 +16,17 @@
             <ul class="navbar-nav" id="navbar-nav" >
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <li class="nav-item active">
-                    <a class="nav-link menu-link" href="customer_dashboard.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="fa-regular fa-house d-flex"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../../tour-list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-briefcase-4-line"></i> <span data-key="t-home">Explore Packages</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-calendar-check-line"></i> <span data-key="t-home">My Bookings</span>
                     </a>
                 </li>
@@ -36,18 +36,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="customer_wallet.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-wallet-line"></i> <span data-key="t-home">Wallet</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-gift-line"></i> <span data-key="t-home">Rewards & Coupons</span>
                     </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-vip-crown-2-line"></i> <span data-key="t-home">Neo Select Memberships</span>
+                        <i class="ri-vip-crown-2-line"></i> <span data-key="t-home">Premium Memberships</span>
                     </a>
                 </li>
                 <li class="nav-item">

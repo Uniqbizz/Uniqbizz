@@ -1569,7 +1569,6 @@ $('#add-travel-agent').click(function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
-    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
     //for Goa cutomers
     let payment_fee,
@@ -1621,10 +1620,6 @@ $('#add-travel-agent').click(function (e) {
     var testE = $('#testemail').val();
     var userId = $('#userId').val();
     var userType = $('#userType').val();
-    var url = userType == '16' ? 'travel_agent/add_travel_agent_data.php' 
-            : userType == '29' ? 'travel_agent/add_travel_agent_data.php' 
-            : userType == '32' ? 'travel_agent/add_institution_branch_manager_data.php' 
-            : '';
 
     var dataString = // "designation=" +designation+ 
         "user_id_name=" + user_id_name +
@@ -1642,7 +1637,6 @@ $('#add-travel-agent').click(function (e) {
         "&state=" + mystate +
         "&city=" + city +
         "&pincode=" + pin +
-        "&branch=" + branch +
         "&address=" + address +
         "&profile_pic=" + profile_pic +
         "&aadhar_card=" + aadhar_card +
@@ -1727,7 +1721,7 @@ $('#add-travel-agent').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: url,
+            url: "travel_agent/add_travel_agent_data.php",
             data: dataString,
             cache: false,
             success: function (data) {
@@ -1768,7 +1762,6 @@ $('#edit-travel-agent').click(function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
-    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
 
     var paymentMode = $(".payment:checked").val();
@@ -1801,10 +1794,6 @@ $('#edit-travel-agent').click(function (e) {
     var testE = $('#testemail').val();
     var userId = $('#userId').val();
     var userType = $('#userType').val();
-    var url = userType == '16' ? 'travel_agent/edit_travel_agent_data.php' 
-            : userType == '29' ? 'travel_agent/edit_travel_agent_data.php' 
-            : userType == '32' ? 'travel_agent/edit_institution_branch_manager_data.php' 
-            : '';
 
     var dataString = "editfor=" + editfor +
         "&ref_id=" + ref_id +
@@ -1822,7 +1811,6 @@ $('#edit-travel-agent').click(function (e) {
         "&state=" + mystate +
         "&city=" + city +
         "&pincode=" + pin +
-        "&branch=" + branch +
         "&address=" + address +
         "&profile_pic=" + profile_pic +
         "&aadhar_card=" + aadhar_card +
@@ -1906,7 +1894,7 @@ $('#edit-travel-agent').click(function (e) {
         // console.log(dataString);
         $.ajax({
             type: "POST",
-            url: url,
+            url: "travel_agent/edit_travel_agent_data.php",
             data: dataString,
             cache: false,
             success: function (data) {

@@ -74,6 +74,7 @@
     font-size:22px;
     color:#444;
     transition:.3s;
+    z-index: 1;
 }
 
 .earn-close-btn:hover{
@@ -92,7 +93,7 @@
 }
 
 .earn-header-left h1{
-    font-size:64px;
+    font-size:34px;
     line-height:1.1;
     color:#171739;
     margin-bottom:18px;
@@ -103,7 +104,7 @@
 }
 
 .earn-header-left p{
-    font-size:20px;
+    font-size:18px;
     color:#666;
     line-height:1.8;
     max-width:550px;
@@ -158,7 +159,7 @@
 
 .earn-section-title h2{
     color:#4027db;
-    font-size:32px;
+    font-size:26px;
 }
 
 /* CARDS */
@@ -199,7 +200,7 @@
 }
 
 .earn-method-content h3{
-    font-size:32px;
+    font-size:22px;
     margin-bottom:12px;
 }
 
@@ -226,12 +227,12 @@
 }
 
 .earn-method-right h4{
-    font-size:44px;
+    font-size:24px;
     margin:8px 0;
 }
 
 .earn-method-right p{
-    font-size:22px;
+    font-size:18px;
 }
 
 /* COLORS */
@@ -330,7 +331,7 @@
 
 .earn-important-title h3{
     color:#5b3dff;
-    font-size:28px;
+    font-size:24px;
 }
 
 .earn-important-box ul{
@@ -339,7 +340,7 @@
 
 .earn-important-box li{
     margin-bottom:14px;
-    font-size:18px;
+    font-size:15px;
     line-height:1.8;
     color:#444;
 }
@@ -380,14 +381,14 @@
 
 .earn-support-left h3{
     color:#ff6b00;
-    font-size:30px;
+    font-size:22px;
     margin-bottom:10px;
 }
 
 .earn-support-left p{
     color:#555;
     line-height:1.8;
-    font-size:17px;
+    font-size:14px;
     max-width:600px;
 }
 
@@ -467,7 +468,7 @@
     }
 
     .earn-method-content p{
-        font-size:16px;
+        font-size:15px;
     }
 
     .earn-method-right h4{

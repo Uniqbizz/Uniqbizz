@@ -38,6 +38,8 @@
         <link rel="stylesheet" href="../assets/css/customer_wallet_custom.css" />
         <link rel="stylesheet" href="../assets/css/coupon_wallet_modal.css" />
         <link rel="stylesheet" href="../assets/css/earn_coupon_modal.css" />
+        <link rel="stylesheet" href="../assets/css/customer_reference_modal.css" />
+        <link rel="stylesheet" href="../assets/css/customer_discount_modal.css" />
     </head>
 
     <body class="twocolumn-panel">
@@ -654,7 +656,7 @@
                                                     Earn wallet balance by referring customers and their travel.
                                                 </div>
 
-                                                <a href="#" class="activity-link orange-text">
+                                                <a href="#" class="activity-link orange-text" id="openReferralModal">
                                                     How it Works?
                                                 </a>
 
@@ -817,8 +819,10 @@
                                                     Earn discount balance on repeat bookings by referrals.
                                                 </div>
 
-                                                <a href="#" class="activity-link blue-text">
-                                                    How it Works?
+                                                <a href="#"
+                                                    id="neoxdwOpenModalBtn"
+                                                    class="activity-link blue-text">
+                                                        How it Works?
                                                 </a>
 
                                             </div>
@@ -976,6 +980,8 @@
         <!-- modals -->
          <?= include 'coupon_wallet_model.php' ?>
          <?= include 'earn_coupon_modal.php' ?>
+         <?= include 'customer_discount_modal.php' ?>
+         <?= include 'customer_reference_modal.php' ?>
         <!--end back-to-top-->
         <!-- contact card pop up  start-->
         <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">

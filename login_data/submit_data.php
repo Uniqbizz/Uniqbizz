@@ -437,7 +437,14 @@ if($stmt->rowCount()>0){
 				setcookie('user2',''); // 86400 = 1 day
 				setcookie('pass',''); // 86400 = 1 day
 			}
-		echo '1';
+		// echo '1';
+		$response = [
+			"status" => 1,
+			"user_type" => $user_type,
+			"user_id" => $_SESSION["user_id"]
+		];
+
+		echo json_encode($response);
 	}else{
 		echo '0';
 	}
