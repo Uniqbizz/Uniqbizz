@@ -698,7 +698,7 @@ body {
 
 /* Title */
 .chartTitle {
-    color: #2c2c72;
+    color: #5b5ff6;
     font-size: 22px;
 }
 
@@ -782,6 +782,84 @@ body {
     text-decoration: line-through;
 }
 
+/* card section 6 */
+.membershipCard1 {
+    background-color: #f5f7ff;
+    border: 1px solid #e7ebfc;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipCard2 {
+    background-color: #f1fff5;
+    border: 1px solid #dffbe7;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipCard3 {
+    background-color: #f0f8ff;
+    border: 1px solid #ddedfa;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipCard4 {
+    background-color: #fff8f1;
+    border: 1px solid #f8eadb;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipOverviewIcon1 {
+    font-size: 18px !important;
+    color: #35239a;
+    background: #c8c1eb;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.membershipOverviewIcon2 {
+    font-size: 18px !important;
+    color: #2d950a;
+    background: #d0f3c3;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.membershipOverviewIcon3 {
+    font-size: 18px !important;
+    color: #0c82f5;
+    background: #d3e9ff;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.membershipOverviewIcon4 {
+    font-size: 18px !important;
+    color: #e7970e;
+    background: #f2d4a0;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.inviteBtn {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    border: 2px solid #4b38b3;
+    display: flex;
+    justify-content: center;
+}
+.inviteBtn:hover {
+    background-color: #fff;
+    color:#4b38b3;
+}
+.referralImage {
+    height: 125px;
+    width: 150px;
+    object-fit: cover;
+}
+.notificationIcon {
+    font-size: 12px !important;
+    color: #35239a;
+    background: #c8c1eb;
+    border-radius: 6px;
+    padding: 5px 10px;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */

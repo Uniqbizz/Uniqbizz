@@ -865,6 +865,148 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- card section 6 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+                                <div class="p-3 border border-2 rounded-4">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                                        <h5 class="chartTitle fw-bolder mb-0"> Membership Overview</h5>
+                                        <select class="form-select yearSelect" id="yearFilterMembership">
+                                            <option value="this">This Year</option>
+                                            <option value="last">Last Year</option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard1">
+                                                <p class="text-center textColor fw-bolder">Total Vouchers</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon1">
+                                                        10
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">1</p>
+                                                <p class="text-center textColor fw-bolder">Worth &#8377;30,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard2">
+                                                <p class="text-center textColor fw-bolder">Vouchers Used</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon2">
+                                                        <i class="ri-ticket-2-line"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">3</p>
+                                                <p class="text-center textColor fw-bolder">Worth &#8377;9,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard3">
+                                                <p class="text-center textColor fw-bolder">Vouchers Remaining</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon3">
+                                                        <i class="ri-ticket-2-line"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">7</p>
+                                                <p class="text-center textColor fw-bolder">Worth &#8377;21,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard4">
+                                                <p class="text-center textColor fw-bolder">Total Trips Completed</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon4">
+                                                        <i class="fa-solid fa-plane-arrival"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">2</p>
+                                                <p class="text-center textColor fw-bolder">(All Time)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="p-3 border border-2 rounded-4">
+                                            <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Earn With Referrals
+                                                <a href="#" class="fs-6">View All</a>
+                                            </h4>
+                                            <div class="d-flex">
+                                                <div class="referralDetail flex-grow-1">
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="my-3 fw-bold text-muted fs-6">Total Earnings<br>
+                                                            <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
+                                                        </p>
+                                                        <p class="my-3 fw-bold text-muted fs-6">Total Earnings<br>
+                                                            <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
+                                                        </p>
+                                                    </div>
+                                                    <a href="#">
+                                                        <div class="inviteBtn gap-3 px-2">
+                                                            <p class="fs-6 mb-0 fw-bolder">Invite Friends & Earn</p>
+                                                            <i class="ri-stackshare-line d-flex align-items-center"></i>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <img src="../assets/images/referralImage.png" alt="Referral Image" class="referralImage">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <div class="p-3 border border-2 rounded-4">
+                                            <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Notifications & Alerts
+                                                <a href="#" class="fs-6">View All</a>
+                                            </h4>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
@@ -1191,8 +1333,7 @@
             );
 
         </script>
-
-       <script>
+        <script>
             const spendingCtx = document
                 .getElementById("spendingChart")
                 .getContext("2d");
