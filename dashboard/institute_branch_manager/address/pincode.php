@@ -1,5 +1,5 @@
 <?php
-require '../connect.php';
+require '../../connect.php';
 
 if(!empty($_POST["city_id"])){ 
     // Fetch city data based on the specific state

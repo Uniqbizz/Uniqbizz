@@ -1,6 +1,6 @@
 <?php
 // session_start();
-require '../connect.php';
+require '../../connect.php';
 $current_year = date('Y');
 
 $cu_ref_id = $_POST['cu_ref_id'];

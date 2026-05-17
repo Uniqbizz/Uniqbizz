@@ -1,6 +1,6 @@
 <?php 
 // Include the database config file 
-require '../connect.php';
+require '../../connect.php';
  
 if(!empty($_POST["country_id"])){ 
     // Fetch state data based on the specific country 

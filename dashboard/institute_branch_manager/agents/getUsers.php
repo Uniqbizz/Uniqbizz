@@ -1,7 +1,7 @@
 
 <?php
 //For Multiple designation add form get name ref:corporate partner 
-require '../connect.php';
+require '../../connect.php';
 
 $user_id = $_POST["user_id_name"]; 
 $userType = $_POST["designation"]; 
