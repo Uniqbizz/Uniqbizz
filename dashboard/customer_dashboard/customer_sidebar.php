@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="order_history.php#user_table1_length" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-wallet-line"></i> <span data-key="t-home">Upcoming Trips</span>
                     </a>
                 </li>
@@ -41,34 +41,33 @@
                     </a>
                 </li>
                 <!-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="../#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-gift-line"></i> <span data-key="t-home">Rewards & Coupons</span>
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-vip-crown-2-line"></i> <span data-key="t-home">Neo Select Memberships</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-group-line"></i> <span data-key="t-home">Refer & Earn</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Consultant</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-customer-service-2-line"></i> <span data-key="t-home">Support</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($first_part=="../index.php") ? "active" : ""; ?>">
-                    <a class="nav-link menu-link" href="../index.php">
-                        <i class="ri-settings-3-line"></i>
-                        <span>Settings</span>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#">
+                        <i class="ri-settings-3-line"></i><span>Settings</span>
                     </a>
                 </li>
                 <img src="../assets/images/sidebarImage.png" alt="Package" class="sidebarImage">

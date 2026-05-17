@@ -116,7 +116,7 @@ function userLogin(){
 
               if (res.status == 1) {
 
-                  if (res.user_type == "10" && res.user_id == "CU260053") {
+                  if (res.user_type == "10" && res.user_id == "CU260052") {
 
                       location.href = "dashboard/customer_dashboard/customer_dashboard.php";
 

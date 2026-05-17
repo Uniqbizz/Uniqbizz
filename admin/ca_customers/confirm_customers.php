@@ -550,9 +550,9 @@ if ($result) {
 		
 					$message_ca_cu = "Customer - "  .$name." ".$uid. " has onboarded with reference of Travel Consultant " .$tc_name." ".$tc_id.". Onboarding Fee - Rs.".$amount."/-";
 					$ca_cu_amt_paid = $amount;
-				} else
+				} 
 				//added on 14-05-2026 by SV -- institution chain payout for holiday account payout
-				if ($reference_id == "I") {
+				else if ($reference_id == "I") {
 
 					// get Institution details
 					$sql10 = $conn->prepare("SELECT * FROM institution WHERE institution_id = '".$ta_te_id."'");
@@ -754,6 +754,8 @@ if ($result) {
 						". Onboarding Fee - Rs.".$amount."/-";
 
 					$ca_cu_amt_paid = $amount;
+					// DEBUG OUTPUT
+
 				}
 				$insertCALSql = "INSERT INTO `ca_cu_payout` (business_development_manager, message_bdm, commision_bdm,business_mentor, message_bm, commision_bm, techno_enterprise, message_te, commision_te, travel_consultant, message_tc, commision_tc, customer, message_cu, cu_amount_paid, status) 
 								VALUES (:business_development_manager, :message_bdm, :commision_bdm,:business_mentor, :message_bm, :commision_bm,  :techno_enterprise, :message_te, :commision_te, :travel_consultant, :message_tc, :commision_tc, :customer, :message_cu, :cu_amount_paid, :status) ";
