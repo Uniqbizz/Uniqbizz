@@ -375,84 +375,84 @@
                             </div>
                         </div> -->
                         <div class="card border border-2 rounded-4 my-3">
-                            <div class="row">
-                                <div class="benefits-card">
-        
-                                    <h2 class="benefits-title">
-                                        <span>Neo Select</span> Membership Benefits
-                                    </h2>
-        
-                                    <div class="row align-items-center g-4">
-        
-                                        <div class="col-lg">
-                                            <div class="benefit-item">
-                                                <i class="fa-regular fa-money-bill-1 benefit-icon"></i>
-        
-                                                <div class="benefit-text">
-                                                    ₹15,000 <br>
-                                                    Coupon Benefits
-                                                </div>
+                            <div class="benefits-card">
+    
+                                <h2 class="benefits-title fs-4">
+                                    <span>Neo Select</span> Membership Benefits
+                                </h2>
+    
+                                <div class="row align-items-center g-4">
+    
+                                    <div class="col-lg">
+                                        <div class="benefit-item">
+                                            <i class="fa-regular fa-money-bill-1 benefit-icon"></i>
+    
+                                            <div class="benefit-text">
+                                                ₹15,000 <br>
+                                                Coupon Benefits
                                             </div>
                                         </div>
-        
-                                        <div class="col-lg">
-                                            <div class="benefit-item">
-                                                <i class="fa-regular fa-heart benefit-icon"></i>
-        
-                                                <div class="benefit-text">
-                                                    Loyalty Rewards <br>
-                                                    on Travel
-                                                </div>
-                                            </div>
-                                        </div>
-        
-                                        <div class="col-lg">
-                                            <div class="benefit-item">
-                                                <i class="fa-solid fa-user-group benefit-icon"></i>
-        
-                                                <div class="benefit-text">
-                                                    Refer & Earn <br>
-                                                    Rewards
-                                                </div>
-                                            </div>
-                                        </div>
-        
-                                        <div class="col-lg">
-                                            <div class="benefit-item">
-                                                <i class="fa-solid fa-tags benefit-icon"></i>
-        
-                                                <div class="benefit-text">
-                                                    Discounts on <br>
-                                                    Repeat Bookings
-                                                </div>
-                                            </div>
-                                        </div>
-        
-                                        <div class="col-lg">
-                                            <div class="benefit-item border-0">
-                                                <i class="fa-solid fa-plane-departure benefit-icon"></i>
-        
-                                                <div class="benefit-text">
-                                                    Applicable on <br>
-                                                    Packages, Hotels, Flights & Events
-                                                </div>
-                                            </div>
-                                        </div>
-        
-                                        <div class="col-lg-auto text-lg-end text-center">
-                                            <button class="btn benefit-btn">
-                                                View All Benefits
-                                                <i class="fa-solid fa-arrow-right ms-2"></i>
-                                            </button>
-                                        </div>
-        
                                     </div>
-        
+    
+                                    <div class="col-lg">
+                                        <div class="benefit-item">
+                                            <i class="fa-regular fa-heart benefit-icon"></i>
+    
+                                            <div class="benefit-text">
+                                                Loyalty Rewards <br>
+                                                on Travel
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-lg">
+                                        <div class="benefit-item">
+                                            <i class="fa-solid fa-user-group benefit-icon"></i>
+    
+                                            <div class="benefit-text">
+                                                Refer & Earn <br>
+                                                Rewards
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-lg">
+                                        <div class="benefit-item">
+                                            <i class="fa-solid fa-tags benefit-icon"></i>
+    
+                                            <div class="benefit-text">
+                                                Discounts on <br>
+                                                Repeat Bookings
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-lg">
+                                        <div class="benefit-item border-0">
+                                            <i class="fa-solid fa-plane-departure benefit-icon"></i>
+    
+                                            <div class="benefit-text">
+                                                Applicable on <br>
+                                                Packages, Hotels, Flights & Events
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-lg-auto text-lg-end text-center">
+                                        <button class="btn benefit-btn">
+                                            View All Benefits
+                                            <i class="fa-solid fa-arrow-right ms-2"></i>
+                                        </button>
+                                    </div>
+    
                                 </div>
+    
                             </div>
+                            <!-- <div class="row">
+                            </div> -->
                         </div>
                         <!-- card section 3 -->
-                        <div class="card border border-2 rounded-4 my-3">
+                        <!-- <div class="card border border-2 rounded-4 my-3">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                                     <img src="../assets/images/medal.png" alt="Medal" class="img-fluid w-100 medal">
@@ -526,7 +526,613 @@
                                     </a>
                                 </div>
                             </div>
+                        </div> -->
+                        <!-- end card section 3 -->
+                        <!-- card section 4 -->
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 p-3 border border-1">
+                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Upcoming Trips
+                                        <a href="#" class="fs-6">View All</a>
+                                    </h4>
+                                    <hr>
+                                    <div class="d-flex gap-2">
+                                        <div class="">
+                                            <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage">
+                                        </div>
+                                        <div class="tripDetails">
+                                            <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                            <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                            <a href="#">
+                                                <div class="confirmBtn p-1 mb-3">
+                                                    <p class="fs-6 mb-0 fw-bolder">Confirmed</p>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-between gap-2 exploreBtns">
+                                                <a href="#">
+                                                    <div class="exploreBtn p-2 border border-primary border-2 mb-2">
+                                                        <p class="fs-6 mb-0 fw-bolder">View Itinerary</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#">
+                                                    <div class="exploreBtn p-2 border border-primary border-2 mb-2">
+                                                        <p class="fs-6 mb-0 fw-bolder">Make Payment</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3">
+                                        <div class="">
+                                            <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
+                                        </div>
+                                        <div class="tripDetails">
+                                            <h6 class="text-dark fw-bolder">Bali Bliss</h6>
+                                            <div class="d-flex gap-3">
+                                                <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                                <a href="#">
+                                                    <div class="upcomingBtn p-1 mb-3">
+                                                        <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <hr class="mt-0">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3">
+                                        <div class="">
+                                            <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
+                                        </div>
+                                        <div class="tripDetails">
+                                            <h6 class="text-dark fw-bolder">Bali Bliss</h6>
+                                            <div class="d-flex gap-3">
+                                                <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                                <a href="#">
+                                                    <div class="upcomingBtn p-1 mb-3">
+                                                        <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 p-3 border border-1">
+                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Book Your Next Trip
+                                        <a href="#" class="fs-6">View All Packages</a>
+                                    </h4>
+                                    <hr>
+                                    <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
+                                        <!-- Dynamic Slides -->
+                                        <div class="carousel-inner" id="carouselInner"></div>
+                                        <!-- Indicators -->
+                                        <div class="carousel-indicators customIndicators" id="carouselIndicators"></div>
+                                    </div>
+                                    <!-- ALL 12 CARDS -->
+                                    <div id="allCards" class="d-none">
+                                        <!-- CARD 1 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 2 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 3 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 4 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 5 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 6 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 7 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 8 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 9 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 10 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 11 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 12 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <!-- end card section 4 -->
+                        <!-- card section 5 -->
+                         <div class="vzx7-coupon-dashboard-wrapper">
+
+                            <!-- LEFT CARD -->
+                            <div class="vzx7-summary-main-card">
+
+                                <div class="vzx7-card-topbar">
+                                    <h3>Coupon Summary</h3>
+                                    <a href="#">View All</a>
+                                </div>
+
+                                <div class="vzx7-coupon-mini-grid">
+
+                                    <div class="vzx7-mini-box vzx7-blue-box">
+                                        <h5>Total Coupons</h5>
+                                        <h2>30</h2>
+                                    </div>
+
+                                    <div class="vzx7-mini-box vzx7-green-box">
+                                        <h5>Used Coupons</h5>
+                                        <h2>12</h2>
+                                    </div>
+
+                                    <div class="vzx7-mini-box vzx7-yellow-box">
+                                        <h5>Available Coupons</h5>
+                                        <h2>18</h2>
+                                    </div>
+
+                                    <div class="vzx7-mini-box vzx7-red-box">
+                                        <h5>Expired Coupons</h5>
+                                        <h2>0</h2>
+                                    </div>
+
+                                </div>
+
+                                <div class="vzx7-coupon-footer">
+                                    <span>Total Coupon Value</span>
+                                </div>
+                                <h2>₹15,000</h2>
+
+                            </div>
+
+                            <!-- MIDDLE CARD -->
+                            <div class="vzx7-loyalty-main-card">
+
+                                <div>
+
+                                    <div class="vzx7-loyalty-icon">
+                                        <i class="fa-solid fa-gift"></i>
+                                    </div>
+
+                                    <h3>Loyalty Rewards</h3>
+                                    <div class="vzx7-loyalty-left">
+
+                                        <div class="vzx7-loyalty-content-row">
+
+                                            <!-- TEXT -->
+                                            <p class="text-muted fs-6">
+                                                After completing trips, earn Loyalty Coupons
+                                                worth ₹500 per travelled passenger.
+                                            </p>
+
+                                            <!-- IMAGE -->
+                                            <div class="vzx7-loyalty-image">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png" alt="">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="vzx7-progress-area">
+
+                                        <div class="vzx7-progress-title">
+                                            0 Loyalty Coupons Earned
+                                        </div>
+
+                                        <div class="vzx7-progress-track">
+                                            <div class="vzx7-progress-fill"></div>
+                                        </div>
+
+                                        <div class="vzx7-progress-footer">
+                                            <span>0 Next Reward Start Travelling!</span>
+                                            <!-- <span>
+                                                
+                                            </span> -->
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                
+
+                            </div>
+
+                            <!-- RIGHT CARD -->
+                            <div class="vzx7-refer-main-card">
+
+                                <div class="vzx7-refer-top">
+
+                                    <div>
+
+                                        <div class="vzx7-refer-icon">
+                                            <i class="fa-solid fa-gifts"></i>
+                                        </div>
+
+                                        <h3>Refer & Earn</h3>
+
+                                    </div>
+
+                                    <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="">
+
+                                </div>
+
+                                <div class="vzx7-earnings-row">
+
+                                    <div>
+                                        <h5>Total Earnings</h5>
+                                        <h2>₹4,500</h2>
+                                    </div>
+
+                                    <div>
+                                        <h5>Pending Earnings</h5>
+                                        <h2>₹1,200</h2>
+                                    </div>
+
+                                </div>
+
+                                <button class="vzx7-invite-btn">
+
+                                    <i class="fa-solid fa-user-plus"></i>
+
+                                    Invite Friends & Earn
+
+                                    <i class="fa-solid fa-share-nodes"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- end card section 5 -->
+                        <!-- card section 6 -->
+                        <div class="nxv9-info-support-wrapper mt-4">
+
+                            <!-- LEFT INFO BOX -->
+                            <div class="nxv9-important-info-card">
+
+                                <h2>Important Information</h2>
+
+                                <div class="nxv9-info-grid">
+
+                                    <!-- ITEM 1 -->
+                                    <div class="nxv9-info-item">
+
+                                        <div class="nxv9-info-icon">
+                                            <i class="fa-solid fa-plane-departure"></i>
+                                        </div>
+
+                                        <p>
+                                            1 Coupon per
+                                            passenger per booking
+                                        </p>
+
+                                    </div>
+
+                                    <!-- ITEM 2 -->
+                                    <div class="nxv9-info-item">
+
+                                        <div class="nxv9-info-icon">
+                                            <i class="fa-solid fa-percent"></i>
+                                        </div>
+
+                                        <p>
+                                            Coupons applicable on
+                                            packages, events &
+                                            weekend escapes
+                                        </p>
+
+                                    </div>
+
+                                    <!-- ITEM 3 -->
+                                    <div class="nxv9-info-item">
+
+                                        <div class="nxv9-info-icon">
+                                            <i class="fa-solid fa-clock-rotate-left"></i>
+                                        </div>
+
+                                        <p>
+                                            Loyalty coupons valid
+                                            for 12 months
+                                        </p>
+
+                                    </div>
+
+                                    <!-- ITEM 4 -->
+                                    <div class="nxv9-info-item">
+
+                                        <div class="nxv9-info-icon">
+                                            <i class="fa-solid fa-users"></i>
+                                        </div>
+
+                                        <p>
+                                            Referral rewards
+                                            subject to company
+                                            policy
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- RIGHT SUPPORT BOX -->
+                            <div class="nxv9-support-help-card">
+
+                                <div class="nxv9-support-content">
+
+                                    <h2>Need Help Planning?</h2>
+
+                                    <p>
+                                        Our travel experts are here for you.
+                                    </p>
+
+                                    <button class="nxv9-support-btn">
+                                        Contact Support
+                                    </button>
+
+                                </div>
+
+                                <div class="nxv9-support-icon">
+                                    <i class="fa-light fa-headset"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- end card section 6 -->
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
@@ -725,6 +1331,64 @@
 
         </script>
         <script>
+            // // Get values directly from HTML
+            // const completed = parseInt(document.getElementById("completedYears").innerText);
+            // const total = parseInt(document.getElementById("totalYears").innerText);
+
+            // // Calculate percentage
+            // const percentage = (completed / total) * 100;
+
+            // // Update progress bar
+            // document.getElementById("yearProgressBar").style.width = percentage + "%";
+        </script>
+
+        <!-- dialer logic -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const sidebar = document.querySelector(".navbar-menu");
+                const hamburger = document.getElementById("topnav-hamburger-icon");
+                const overlay = document.querySelector(".vertical-overlay");
+
+                /* DEFAULT DESKTOP */
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove("sidebar-hidden");
+                }
+
+                hamburger.addEventListener("click", function () {
+
+                    /* BELOW 1024 */
+                    if (window.innerWidth <= 1024) {
+
+                        sidebar.classList.toggle("sidebar-mobile-show");
+
+                        /* OVERLAY ONLY BELOW 768 */
+                        if (window.innerWidth <= 768) {
+                            overlay.classList.toggle("active");
+                        }
+
+                    } else {
+
+                        /* DESKTOP */
+                        sidebar.classList.toggle("sidebar-hidden");
+                    }
+                });
+
+                /* CLOSE ONLY MOBILE */
+                if (window.innerWidth <= 768) {
+
+                    overlay.addEventListener("click", function () {
+
+                        sidebar.classList.remove("sidebar-mobile-show");
+                        overlay.classList.remove("active");
+
+                    });
+                }
+
+            });
+
+        </script>
+        <script>
             // Get values directly from HTML
             const completed = parseInt(document.getElementById("completedYears").innerText);
             const total = parseInt(document.getElementById("totalYears").innerText);
@@ -735,7 +1399,275 @@
             // Update progress bar
             document.getElementById("yearProgressBar").style.width = percentage + "%";
         </script>
+        <script>
+            function toggleWishlist(button) {
 
-        <!-- dialer logic -->
+                button.classList.toggle("active");
+
+                const icon = button.querySelector("i");
+
+                if (button.classList.contains("active")) {
+                    icon.classList.remove("fa-regular");
+                    icon.classList.add("fa-solid");
+                } else {
+                    icon.classList.remove("fa-solid");
+                    icon.classList.add("fa-regular");
+                }
+            }
+        </script>
+        <script>
+            function buildCarousel() {
+                const carouselInner = document.getElementById("carouselInner");
+                const indicators = document.getElementById("carouselIndicators");
+                const cards = document.querySelectorAll(".package-card");
+                carouselInner.innerHTML = "";
+                indicators.innerHTML = "";
+                let cardsPerSlide = 3;
+                // xl
+                if (window.innerWidth >= 1280) {
+                    cardsPerSlide = 3;
+                }
+                // lg
+                else if (window.innerWidth >= 992) {
+                    cardsPerSlide = 2;
+                }
+
+                // md
+                else if (window.innerWidth >= 768) {
+                    cardsPerSlide = 2;
+                }
+
+                // sm
+                else if (window.innerWidth >=575 ) {
+                    cardsPerSlide = 2;
+                }
+                else {
+                    cardsPerSlide = 1;
+                }
+
+                // CREATE SLIDES
+                for (let i = 0; i < cards.length; i += cardsPerSlide) {
+                    // Slide
+                    const carouselItem = document.createElement("div");
+                    carouselItem.classList.add("carousel-item");
+                    if (i === 0) {
+                        carouselItem.classList.add("active");
+                    }
+
+                    // Row
+                    const row = document.createElement("div");
+                    row.classList.add("row", "g-3");
+
+                    // ADD CARDS
+                    for (
+                        let j = i;
+                        j < i + cardsPerSlide && j < cards.length;
+                        j++
+                    ) {
+
+                        const col = document.createElement("div");
+
+                        // Dynamic bootstrap columns
+                        if (cardsPerSlide === 3) {
+                            col.className =
+                                "col-lg-4 col-md-6 col-sm-6 col-12";
+                        }
+                        else if (cardsPerSlide === 2) {
+                            col.className =
+                                "col-md-6 col-sm-6 col-12";
+                        }
+                        else {
+                            col.className =
+                                "col-12";
+                        }
+
+                        col.innerHTML = cards[j].innerHTML;
+                        row.appendChild(col);
+                    }
+                    carouselItem.appendChild(row);
+                    carouselInner.appendChild(carouselItem);
+
+                    // INDICATORS
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.setAttribute(
+                        "data-bs-target",
+                        "#packageCarousel"
+                    );
+
+                    button.setAttribute(
+                        "data-bs-slide-to",
+                        i / cardsPerSlide
+                    );
+                    if (i === 0) {
+                        button.classList.add("active");
+                    }
+                    indicators.appendChild(button);
+                }
+            }
+
+            // Initial Load
+            buildCarousel();
+
+            // Rebuild on Resize
+            window.addEventListener(
+                "resize",
+                buildCarousel
+            );
+
+        </script>
+        <script>
+            const spendingCtx = document
+                .getElementById("spendingChart")
+                .getContext("2d");
+            // Gradient Fill
+            const gradient = spendingCtx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, "rgba(91,95,246,0.35)");
+            gradient.addColorStop(1, "rgba(91,95,246,0)");
+
+            // Create Line Chart
+            const spendingChart = new Chart(spendingCtx, {
+                type: "line",
+                data: {
+                    labels: [
+                        "Jan", "Feb", "Mar", "Apr",
+                        "May", "Jun", "Jul", "Aug",
+                        "Sep", "Oct", "Nov", "Dec"
+                    ],
+                    datasets: [{
+                        label: "Spending",
+                        data: [
+                            10, 28, 22, 40,
+                            48, 38, 35, 50,
+                            65, 45, 63, 55
+                        ],
+                        borderColor: "#5b5ff6",
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: "#5b5ff6",
+                        pointBorderColor: "#ffffff",
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return "₹" + value + "K";
+                                }
+                            },
+                            grid: {
+                                color: "#f0f0f0"
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart Height
+            document.getElementById("spendingChart")
+                .parentNode.style.height = "300px";
+
+            // DONUT CHART
+            const tripCtx = document
+                .getElementById("tripChart")
+                .getContext("2d");
+
+            const tripChart = new Chart(tripCtx, {
+                type: "doughnut",
+                data: {
+                    labels: [
+                        "Domestic Trips",
+                        "International Trips",
+                        "Upcoming Trips"
+                    ],
+                    datasets: [{
+                        data: [4, 3, 1],
+                        backgroundColor: [
+                            "#5b5ff6",
+                            "#1e88ff",
+                            "#10c981"
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: "72%",
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // DONUT LEGEND TOGGLE
+            const originalData = [4, 3, 1];
+            function tripAction(index, element) {
+                const currentValue =
+                    tripChart.data.datasets[0].data[index];
+                // HIDE
+                if(currentValue !== 0) {
+                    tripChart.data.datasets[0].data[index] = 0;
+                    // ADD CUT EFFECT
+                    element.classList.add("inactiveLegend");
+                }
+                // SHOW AGAIN
+                else {
+                    tripChart.data.datasets[0].data[index] =
+                        originalData[index];
+
+                    // REMOVE CUT EFFECT
+                    element.classList.remove("inactiveLegend");
+                }
+                tripChart.update();
+            }
+
+            // YEAR FILTER
+
+            const yearFilter =
+                document.getElementById("yearFilter");
+            yearFilter.addEventListener("change", function () {
+                // THIS YEAR
+                if (this.value === "this") {
+                    spendingChart.data.datasets[0].data = [
+                        10, 28, 22, 40,
+                        48, 38, 35, 50,
+                        65, 45, 63, 55
+                    ];
+                }
+                // LAST YEAR
+                else {
+                    spendingChart.data.datasets[0].data = [
+                        15, 20, 30, 25,
+                        40, 42, 50, 55,
+                        48, 60, 70, 68
+
+                    ];
+                }
+                // Update Chart
+                spendingChart.update();
+            });
+        </script>
     </body>
 </html>
