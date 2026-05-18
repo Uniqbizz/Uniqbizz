@@ -80,7 +80,7 @@
                         <!-- Customer Dashboard Greeting Card -->
                         <div class="card border rounded-4 shadow-sm overflow-hidden">
                             <div class="greetingImageWrapper">
-                                <img src="../assets/images/greetingImage.png" alt="Package" class="greetingImage img-fluid w-100">
+                                <img src="assets/images/greetingImage.png" alt="Package" class="greetingImage img-fluid w-100">
                             </div>
                             <div class="greetingCard">
                                 <h2 class="fw-bold text-white gap-3">
@@ -158,7 +158,7 @@
                             <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                 <div class="border border-2 rounded-4">
                                     <div>
-                                        <img src="../assets/images/complimentaryImage.png" alt="Package" class="complimentaryImage img-fluid w-100">
+                                        <img src="assets/images/complimentaryImage.png" alt="Package" class="complimentaryImage img-fluid w-100">
                                     </div>
                                     <div class="complimentaryCard p-3 pt-2 card3">
                                         <div class="d-flex gap-3 align-items-center">
@@ -457,7 +457,7 @@
                         <!-- <div class="card border border-2 rounded-4 my-3">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-                                    <img src="../assets/images/medal.png" alt="Medal" class="img-fluid w-100 medal">
+                                    <img src="assets/images/medal.png" alt="Medal" class="img-fluid w-100 medal">
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 premiumCard">
                                     <h4 class="textColor fw-bolder my-4 d-flex">Premium Customer Membership 

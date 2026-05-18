@@ -567,8 +567,8 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
                     <head>
                         <title>Invoice</title>
                         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-                        <link rel="stylesheet" href="../assets/css/icons.min.css">
-                        <link rel="stylesheet" href="../assets/css/app.min.css">
+                        <link rel="stylesheet" href="assets/css/icons.min.css">
+                        <link rel="stylesheet" href="assets/css/app.min.css">
                     </head>
                     <body>
                         ${divToPrint.outerHTML}

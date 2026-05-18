@@ -77,15 +77,15 @@ if ($data9->rowCount() > 0) {
 <head>
     <!-- Title -->
     <title>Book Tour </title>
-    <link rel="icon" type="image/x-icon" sizes="20x20" href="../assets/images/icon/fav.png">
+    <link rel="icon" type="image/x-icon" sizes="20x20" href="assets/images/icon/fav.png">
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap-5.3.0.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-5.3.0.min.css">
     <!-- Fonts & icon -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/remixicon.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/remixicon.css">
     <!-- Plugin -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/plugin.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/plugin.css">
     <!-- Main CSS -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/main-style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main-style.css">
 </head>
 
 <body>
@@ -306,8 +306,8 @@ if ($data9->rowCount() > 0) {
             </div>
         </section>
     </main>
-    <script src="../assets/libs/jquery/jquery.min.js"></script>
-    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/jquery/jquery.min.js"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>
         window.print();
         window.onafterprint = function() {

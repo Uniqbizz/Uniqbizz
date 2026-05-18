@@ -1,5 +1,5 @@
 <?php
-    include_once '../dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
     include 'customer_model.php';
 ?>
 <!doctype html>
@@ -9,26 +9,26 @@
         <title>Dashboard | Uniqbizz</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <link rel="shortcut icon" href="assets/images/fav.png">
 
         <!-- jsvectormap css -->
-        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
         <!--Swiper slider css-->
-        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Layout config Js -->
-        <script src="../assets/js/layout.js"></script>
+        <script src="assets/js/layout.js"></script>
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
-        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
-        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <link rel="stylesheet" href="assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
 
@@ -479,32 +479,32 @@
         <!-- contact card pop up end-->
 
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
-        <script src="../assets/libs/feather-icons/feather.min.js"></script>
-        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/node-waves/waves.min.js"></script>
+        <script src="assets/libs/feather-icons/feather.min.js"></script>
+        <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
 
         <!-- !-- materialdesign remix icon js- -->
-        <script src="../assets/js/pages/remix-icons-listing.js"></script>
+        <script src="assets/js/pages/remix-icons-listing.js"></script>
 
         <!-- Vector map-->
-        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
+        <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
 
         <!--Swiper slider js-->
-        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
         <!-- App js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="assets/js/app.js"></script>
 
-        <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+        <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
+        <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
-        <script src="../assets/js/js-confetti.js"></script>
+        <script src="assets/js/js-confetti.js"></script>
 
         <!-- <script>
             var userType= document.getElementById("user_type").value;

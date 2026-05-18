@@ -17,15 +17,27 @@
     $couponData = $sqlCoupons->fetch(PDO::FETCH_ASSOC);
     //coupons
     $sqlCoupons = $conn->prepare("
-        SELECT 
-            *,
-            COUNT(id) AS coupon_total,
-            SUM(CASE WHEN usage_status = 0 THEN 1 ELSE 0 END) AS active_coupon_total
-        FROM cu_coupons
-        WHERE user_id = ?
-    ");
+    SELECT 
+        *,
+        (
+            SELECT COUNT(*)
+            FROM cu_coupons
+            WHERE user_id = :user_id
+        ) AS coupon_total,
 
-    $sqlCoupons->execute([$userId]);
+        (
+            SELECT COUNT(*)
+            FROM cu_coupons
+            WHERE user_id = :user_id
+            AND usage_status = 0
+        ) AS active_coupon_total
+
+    FROM cu_coupons
+
+    WHERE user_id = :user_id
+");
+
+    $sqlCoupons->execute([":user_id" => $userId]);
 
     $couponData = $sqlCoupons->fetch(PDO::FETCH_ASSOC);
     $cust_regiter_date=date('j M Y', strtotime($customer['register_date']));

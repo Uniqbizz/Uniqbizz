@@ -1,5 +1,5 @@
 <?php
-include_once '../dashboard_user_details.php';
+include_once 'dashboard_user_details.php';
 include 'customer_model.php';
 
 // get current date to show next payout amount  and pass it in sql @ line 129
