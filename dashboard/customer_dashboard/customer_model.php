@@ -18,6 +18,7 @@
     //coupons
     $sqlCoupons = $conn->prepare("
         SELECT 
+            *,
             COUNT(id) AS coupon_total,
             SUM(CASE WHEN usage_status = 0 THEN 1 ELSE 0 END) AS active_coupon_total
         FROM cu_coupons
@@ -27,7 +28,8 @@
     $sqlCoupons->execute([$userId]);
 
     $couponData = $sqlCoupons->fetch(PDO::FETCH_ASSOC);
-    $cust_regiter_date=date('j F Y', strtotime($customer['register_date']));
+    $cust_regiter_date=date('j M Y', strtotime($customer['register_date']));
+    $expiry_date = date('j M Y', strtotime($couponData['expiry_date']));
 
     //customers tc
     $sqlCustTa = $conn->prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = :userID

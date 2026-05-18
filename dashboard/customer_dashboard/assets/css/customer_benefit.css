@@ -1,0 +1,543 @@
+/* =========================================
+   PAGE WRAPPER
+========================================= */
+
+.zmx9-membership-page-wrapper{
+    width:100%;
+    padding:35px;
+    background:#f8f9ff;
+    font-family:Arial,sans-serif;
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.zmx9-membership-hero-section{
+    background:#fff;
+    border-radius:28px;
+    padding:26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:40px;
+    margin-bottom:28px;
+    border:1px solid #ececff;
+}
+
+.zmx9-hero-left-content{
+    flex:1;
+}
+
+.zmx9-hero-left-content h1{
+    margin:0 0 22px;
+    font-size:22px;
+    font-weight:900;
+    color:#000000;
+    line-height:1.1;
+}
+
+.zmx9-active-member-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#e8f8ec;
+    color:#15914f;
+    padding:6px 18px;
+    border-radius:12px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.zmx9-hero-left-content p{
+    margin:0 0 28px;
+    font-size:18px;
+    line-height:28px;
+    color:#494949;
+}
+
+/* BENEFITS */
+
+.zmx9-top-benefits-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.zmx9-top-benefit-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#40386e;
+    font-weight:700;
+}
+
+.zmx9-top-benefit-item i{
+    color:#6b46ff;
+}
+
+/* IMAGE */
+
+.zmx9-hero-right-image img{
+    width:277px;
+    max-width:100%;
+    display:block;
+}
+
+/* =========================================
+   INFO GRID
+========================================= */
+
+.zmx9-membership-info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-bottom:28px;
+}
+
+/* CARD */
+
+.zmx9-membership-info-card{
+    background:#f6edff;
+    border-radius:24px;
+    padding:19px;
+    border:1px solid #ececff;
+}
+
+/* HEADING */
+
+.zmx9-card-heading{
+    color:#3b3369;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:24px;
+}
+
+/* STATUS */
+
+.zmx9-status-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.zmx9-status-row h2{
+    margin:0 0 6px;
+    color:#16944d;
+    font-size:28px;
+    font-weight:900;
+}
+
+.zmx9-date-grid{
+    display:flex;
+    gap:22px;
+}
+
+.zmx9-date-grid span{
+    display:block;
+    color:#888;
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+.zmx9-date-grid strong{
+    font-size:18px;
+    color:#232323;
+}
+
+.zmx9-shield-icon{
+    width:62px;
+    height:55px;
+    border-radius:22px;
+    background:#fff4da;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.zmx9-shield-icon i{
+    font-size:42px;
+    color:#f1b12d;
+}
+
+/* MEMBERSHIP ID */
+
+.zmx9-membership-id{
+    margin:0 0 34px;
+    font-size:24px;
+    color:#2f2378;
+    font-weight:900;
+}
+
+/* BUTTON */
+
+.zmx9-primary-btn{
+    width:100%;
+    border:none;
+    background:linear-gradient(90deg,#5d32ff,#7c49ff);
+    color:#fff;
+    padding:18px;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    cursor:pointer;
+}
+
+/* BENEFIT CARD */
+
+.zmx9-benefit-card-style{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.zmx9-benefit-card-style img{
+    width:130px;
+}
+
+.zmx9-benefit-amount{
+    margin:0 0 10px;
+    font-size:33px;
+    font-weight:900;
+    color:#5c33ff;
+}
+
+.zmx9-small-text{
+    display:block;
+    margin-bottom:22px;
+    color:#777;
+}
+
+/* OUTLINE */
+
+.zmx9-outline-btn{
+    border:2px solid #6b46ff;
+    background:#fff;
+    color:#6b46ff;
+    padding:7px 14px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* =========================================
+   WHITE CARD
+========================================= */
+
+.zmx9-main-white-card{
+    background:#fff;
+    border-radius:28px;
+    padding:34px;
+    border:1px solid #ececff;
+}
+
+/* HEADING */
+
+.zmx9-section-heading{
+    margin-bottom:34px;
+}
+
+.zmx9-section-heading h2{
+    margin:0 0 10px;
+    font-size:28px;
+    color:#231b5d;
+    font-weight:900;
+}
+
+.zmx9-section-heading p{
+    margin:0;
+    color:#666;
+    font-size:14px;
+}
+
+/* FEATURES */
+
+.zmx9-benefit-feature-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:24px;
+}
+
+.zmx9-feature-box{
+    text-align:center;
+}
+
+.zmx9-feature-icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#f3efff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 20px;
+}
+
+.zmx9-feature-icon i{
+    font-size:34px;
+    color:#6b46ff;
+}
+
+.zmx9-feature-box h4{
+    margin:0 0 12px;
+    font-size:19px;
+    color:#24195d;
+}
+
+.zmx9-feature-box p{
+    margin:0;
+    font-size:13px;
+    line-height:20px;
+    color:#666;
+}
+
+/* BUTTON WRAP */
+
+.zmx9-view-benefit-btn-wrap{
+    text-align:center;
+    margin-top:40px;
+}
+
+/* BUTTON */
+
+.zmx9-outline-big-btn{
+    border:2px solid #6b46ff;
+    background:#fff;
+    color:#6b46ff;
+    padding:9px 14px;
+    border-radius:14px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.zmx9-membership-id-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.zmx9-membership-id-left{
+    flex:1;
+}
+
+.zmx9-membership-id-image{
+    flex-shrink:0;
+}
+
+.zmx9-membership-id-image img{
+    width:110px;
+    display:block;
+    object-fit:contain;
+}
+.svz-membership-highlight-wrapper{
+    width:100%;
+    padding:25px;
+    background:#ffffff;
+    border:1px solid #ececf3;
+    border-radius:28px;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+.svz-membership-highlight-card{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.svz-highlight-item{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:22px 18px;
+    border-radius:16px;
+    transition:0.3s ease;
+    cursor:pointer;
+}
+
+.svz-highlight-item:hover{
+    transform:translateY(-3px);
+}
+
+.svz-highlight-icon-box{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+}
+
+.svz-highlight-content h3{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+    line-height:1.1;
+}
+
+.svz-highlight-content p{
+    margin:4px 0 2px;
+    font-size:13px;
+    font-weight:600;
+    color:#202020;
+}
+
+.svz-highlight-content span{
+    font-size:13px;
+    color:#7a7a7a;
+    display:block;
+}
+
+/* GREEN */
+.svz-highlight-green{
+    background:#f4fbf6;
+}
+
+.svz-highlight-green .svz-highlight-icon-box{
+    background:#e4f6ea;
+    color:#1f9d57;
+}
+
+.svz-highlight-green h3{
+    color:#1f9d57;
+}
+
+/* BLUE */
+.svz-highlight-blue{
+    background:#f4f5ff;
+}
+
+.svz-highlight-blue .svz-highlight-icon-box{
+    background:#e8e9ff;
+    color:#4453ff;
+}
+
+.svz-highlight-blue h3{
+    color:#4453ff;
+}
+
+/* PINK */
+.svz-highlight-pink{
+    background:#fff5f8;
+}
+
+.svz-highlight-pink .svz-highlight-icon-box{
+    background:#ffe4ec;
+    color:#ff2f6d;
+}
+
+.svz-highlight-pink h3{
+    color:#ff2f6d;
+}
+
+/* PURPLE */
+.svz-highlight-purple{
+    background:#f7f4ff;
+}
+
+.svz-highlight-purple .svz-highlight-icon-box{
+    background:#eee8ff;
+    color:#7a4dff;
+}
+
+.svz-highlight-purple h3{
+    color:#7a4dff;
+}
+
+/* Responsive */
+@media(max-width:992px){
+
+    .svz-membership-highlight-card{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:576px){
+
+    .svz-membership-highlight-wrapper{
+        padding:15px;
+    }
+
+    .svz-membership-highlight-card{
+        grid-template-columns:1fr;
+    }
+
+    .svz-highlight-item{
+        padding:18px 15px;
+    }
+
+    .svz-highlight-content h3{
+        font-size:24px;
+    }
+
+}
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:1400px){
+
+    .zmx9-benefit-feature-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:1100px){
+
+    .zmx9-membership-info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .zmx9-membership-hero-section{
+        flex-direction:column;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .zmx9-membership-page-wrapper{
+        padding:20px;
+    }
+
+    .zmx9-hero-left-content h1{
+        font-size:42px;
+    }
+
+    .zmx9-hero-left-content p{
+        font-size:18px;
+        line-height:32px;
+    }
+
+    .zmx9-benefit-feature-grid{
+        grid-template-columns:1fr;
+    }
+
+    .zmx9-status-row{
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .zmx9-date-grid{
+        flex-direction:column;
+        gap:18px;
+    }
+
+    .zmx9-benefit-card-style{
+        flex-direction:column;
+        text-align:center;
+    }
+
+}

@@ -31,6 +31,8 @@
         <link rel="stylesheet" href="assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+        <!-- modal css -->
+        <link rel="stylesheet" href="assets/css/my_consultant_modal.css" />
 
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -439,10 +441,10 @@
                                     </div>
     
                                     <div class="col-lg-auto text-lg-end text-center">
-                                        <button class="btn benefit-btn">
+                                        <a href="customer_wallet.php" class="btn benefit-btn">
                                             View All Benefits
                                             <i class="fa-solid fa-arrow-right ms-2"></i>
-                                        </button>
+                                        </a>
                                     </div>
     
                                 </div>
@@ -1176,7 +1178,9 @@
                 </div>
             </div>
         </div>
-
+        <!-- Modals -->
+        <?php include 'my_consultant_modal.php' ?>
+        <!-- End Modals -->
         <!-- contact card pop up end-->
 
         <!-- JAVASCRIPT -->
@@ -1667,6 +1671,49 @@
                 }
                 // Update Chart
                 spendingChart.update();
+            });
+        </script>
+        <script>
+            //onclick my consultant from side bar
+            /* =========================================
+            OPEN MODAL FROM SIDEBAR MENU
+            ========================================= */
+
+            const qxz9Modal =
+            document.getElementById('qxz9ConsultantModal');
+
+            const qxz9OpenBtn =
+            document.getElementById('qxz9OpenConsultantModal');
+
+            const qxz9CloseBtn =
+            document.getElementById('qxz9CloseConsultantModal');
+
+            /* OPEN */
+
+            qxz9OpenBtn.addEventListener('click', function () {
+
+                qxz9Modal.classList.add('active');
+
+            });
+
+            /* CLOSE */
+
+            qxz9CloseBtn.addEventListener('click', function () {
+
+                qxz9Modal.classList.remove('active');
+
+            });
+
+            /* OUTSIDE CLICK CLOSE */
+
+            qxz9Modal.addEventListener('click', function (e) {
+
+                if (e.target === qxz9Modal) {
+
+                    qxz9Modal.classList.remove('active');
+
+                }
+
             });
         </script>
     </body>

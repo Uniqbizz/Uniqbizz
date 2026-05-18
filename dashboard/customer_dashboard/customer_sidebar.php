@@ -46,7 +46,7 @@
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="customer_benefit.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-vip-crown-2-line"></i> <span data-key="t-home">Neo Select Memberships</span>
                     </a>
                 </li>
@@ -56,8 +56,17 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Consultant</span>
+                    <a class="nav-link menu-link"
+                    href="javascript:void(0)"
+                    id="qxz9OpenConsultantModal"
+                    role="button">
+
+                        <i class="ri-user-shared-2-line"></i>
+
+                        <span data-key="t-home">
+                            My Consultant
+                        </span>
+
                     </a>
                 </li>
                 <li class="nav-item">

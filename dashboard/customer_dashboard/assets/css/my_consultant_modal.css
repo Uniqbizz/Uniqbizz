@@ -1,0 +1,335 @@
+/* =========================================
+   OPEN BUTTON
+========================================= */
+
+.qxz9-open-consultant-modal-btn{
+    border:none;
+    background:#4f46e5;
+    color:#fff;
+    padding:14px 24px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* =========================================
+   MODAL OVERLAY
+========================================= */
+
+.qxz9-consultant-modal-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.55);
+    z-index:99999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    backdrop-filter:blur(4px);
+}
+
+/* ACTIVE */
+
+.qxz9-consultant-modal-overlay.active{
+    display:flex;
+}
+
+/* =========================================
+   MODAL BOX
+========================================= */
+
+.qxz9-consultant-modal-box{
+    width:100%;
+    max-width:1180px;
+    background:#ffffff;
+    border-radius:22px;
+    padding:28px;
+    position:relative;
+    animation:qxz9ModalAnim 0.3s ease;
+}
+
+/* ANIMATION */
+
+@keyframes qxz9ModalAnim{
+
+    from{
+        transform:translateY(40px);
+        opacity:0;
+    }
+
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+
+}
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.qxz9-modal-close-btn{
+    position:absolute;
+    top:18px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#f3f4f6;
+    cursor:pointer;
+    font-size:18px;
+    color:#111;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.qxz9-modal-header{
+    margin-bottom:28px;
+}
+
+.qxz9-modal-header h2{
+    margin:0 0 10px;
+    font-size:40px;
+    font-weight:800;
+    color:#121212;
+}
+
+.qxz9-modal-header p{
+    margin:0;
+    color:#555;
+    font-size:18px;
+}
+
+/* =========================================
+   MAIN GRID
+========================================= */
+
+.qxz9-consultant-main-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:26px;
+}
+
+/* =========================================
+   LEFT CARD
+========================================= */
+
+.qxz9-consultant-profile-card{
+    border:1px solid #ececec;
+    border-radius:18px;
+    padding:28px;
+}
+
+/* PROFILE TOP */
+
+.qxz9-profile-top-section{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    margin-bottom:34px;
+}
+
+.qxz9-profile-image img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.qxz9-profile-details h3{
+    margin:0 0 10px;
+    font-size:34px;
+    font-weight:800;
+    color:#141414;
+}
+
+.qxz9-profile-details span{
+    display:block;
+    color:#555;
+    font-size:20px;
+    margin-bottom:18px;
+}
+
+/* RATING */
+
+.qxz9-rating-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#f4f0ff;
+    color:#4f46e5;
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:17px;
+}
+
+.qxz9-rating-badge i{
+    color:#fbbf24;
+}
+
+/* =========================================
+   CONTACT LIST
+========================================= */
+
+.qxz9-contact-list{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+.qxz9-contact-item{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    font-size:18px;
+    color:#303030;
+}
+
+.qxz9-contact-item i{
+    width:24px;
+    font-size:22px;
+    color:#4b5563;
+}
+
+/* =========================================
+   RIGHT CARD
+========================================= */
+
+.qxz9-consultant-benefit-card{
+    background:#faf8ff;
+    border:1px solid #ece8ff;
+    border-radius:18px;
+    padding:28px;
+}
+
+.qxz9-consultant-benefit-card h3{
+    margin:0 0 28px;
+    color:#4f46e5;
+    font-size:30px;
+    font-weight:800;
+}
+
+/* BENEFITS */
+
+.qxz9-benefit-list{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    margin-bottom:36px;
+}
+
+.qxz9-benefit-item{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    font-size:18px;
+    color:#2d2d2d;
+    line-height:30px;
+}
+
+.qxz9-benefit-item i{
+    color:#4f46e5;
+    margin-top:4px;
+    font-size:20px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.qxz9-action-btn-row{
+    display:flex;
+    gap:18px;
+}
+
+.qxz9-whatsapp-btn,
+.qxz9-call-btn{
+    flex:1;
+    border:none;
+    border-radius:14px;
+    padding:18px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+}
+
+/* WHATSAPP */
+
+.qxz9-whatsapp-btn{
+    background:#4f46e5;
+    color:#fff;
+}
+
+.qxz9-whatsapp-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* CALL */
+
+.qxz9-call-btn{
+    background:#fff;
+    border:2px solid #4f46e5;
+    color:#4f46e5;
+}
+
+.qxz9-call-btn:hover{
+    background:#f7f5ff;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:992px){
+
+    .qxz9-consultant-main-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .qxz9-modal-header h2{
+        font-size:30px;
+    }
+
+    .qxz9-profile-top-section{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .qxz9-action-btn-row{
+        flex-direction:column;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .qxz9-consultant-modal-box{
+        padding:20px;
+    }
+
+    .qxz9-profile-details h3{
+        font-size:28px;
+    }
+
+    .qxz9-consultant-benefit-card h3{
+        font-size:24px;
+    }
+
+}
