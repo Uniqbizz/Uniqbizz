@@ -118,7 +118,7 @@ if ($stmt->rowCount() > 0) {
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <?php include_once "customer_header.php"; ?>
+        <?php include_once "ibr_header.php"; ?>
         <!-- removeNotificationModal -->
         <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -145,7 +145,7 @@ if ($stmt->rowCount() > 0) {
         </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
 
-        <?php include_once "customer_sidebar.php"; ?>
+        <?php include_once "ibr_sidebar.php"; ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -594,7 +594,7 @@ if ($stmt->rowCount() > 0) {
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
-            <?php include_once "customer_footer.php" ?>
+            <?php include_once "ibr_footer.php" ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->
 

@@ -145,7 +145,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="#">
+                                        <a href="customer_coupon_wallet_list.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Coupons</p>
                                             </div>
@@ -201,7 +201,7 @@
                                         
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="#">
+                                        <a href="customer_wallet.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Wallets</p>
                                             </div>
@@ -533,7 +533,7 @@
                             <div class="col-lg-5 col-md-6 col-sm-12 col-12">
                                 <div class="card rounded-4 p-3 border border-1">
                                     <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Upcoming Trips
-                                        <a href="#" class="fs-6">View All</a>
+                                        <a href="order_history.php" class="fs-6">View All</a>
                                     </h4>
                                     <hr>
                                     <div class="d-flex gap-2">
@@ -601,7 +601,7 @@
                             <div class="col-lg-7 col-md-6 col-sm-12 col-12">
                                 <div class="card rounded-4 p-3 border border-1">
                                     <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Book Your Next Trip
-                                        <a href="#" class="fs-6">View All Packages</a>
+                                        <a href="../../tour-list.php" class="fs-6">View All Packages</a>
                                     </h4>
                                     <hr>
                                     <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
@@ -901,7 +901,7 @@
 
                                 <div class="vzx7-card-topbar">
                                     <h3>Coupon Summary</h3>
-                                    <a href="#">View All</a>
+                                    <a href="customer_coupon_wallet_list.php">View All</a>
                                 </div>
 
                                 <div class="vzx7-coupon-mini-grid">

@@ -38,6 +38,8 @@
         <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
     <body>
@@ -45,7 +47,7 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'customer_header.php'; ?>
+            <?php include_once 'ibr_header.php'; ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -73,7 +75,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
            
-            <?php include_once 'customer_sidebar.php'; ?>
+            <?php include_once 'ibr_sidebar.php'; ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -278,7 +280,7 @@
 
                 </div><!-- End Page-content -->
 
-                <?php include_once "customer_footer.php" ?>
+                <?php include_once "ibr_footer.php" ?>
                 
             </div><!-- end main content-->
         

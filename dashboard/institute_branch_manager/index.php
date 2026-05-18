@@ -51,7 +51,7 @@
     <body class="twocolumn-panel">
         <!-- Begin page -->
         <div id="layout-wrapper">
-            <?php include_once "customer_header.php" ?>
+            <?php include_once "ibr_header.php" ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -79,7 +79,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
 
-            <?php include_once "customer_sidebar.php" ?>
+            <?php include_once "ibr_sidebar.php" ?>
             <!-- ============================================================== -->
             <!-- Start of Customer Dashboard here -->
             <!-- ============================================================== -->
@@ -240,7 +240,7 @@
                                             <tr>
                                                 <th>Customer</th>
                                                 <th>Mobile</th>
-                                                <th>Branch</th>
+                                                <!--<th>Branch</th>-->
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -250,7 +250,7 @@
                                             <tr>
                                                 <td>Rahul Naik</td>
                                                 <td>98XXXXXX21</td>
-                                                <td>Panaji</td>
+                                                <!--<td>Panaji</td>-->
                                                 <td><span class="neo-status-active">Active</span></td>
                                                 <td>
                                                     <div class="neo-table-actions">
@@ -264,7 +264,7 @@
                                             <tr>
                                                 <td>Priya Dessai</td>
                                                 <td>99XXXXXX31</td>
-                                                <td>Margao</td>
+                                                <!--<td>Margao</td>-->
                                                 <td><span class="neo-status-active">Active</span></td>
                                                 <td>
                                                     <div class="neo-table-actions">
@@ -278,8 +278,8 @@
                                             <tr>
                                                 <td>Sneha Kamat</td>
                                                 <td>96XXXXXX12</td>
-                                                <td>Porvorim</td>
-                                                <td><span class="neo-status-interest">Interested</span></td>
+                                                <!--<td>Porvorim</td>-->
+                                                <td><span class="neo-status-interest">Deactivated</span></td>
                                                 <td>
                                                     <div class="neo-table-actions">
                                                         <i class="fa-solid fa-eye"></i>
@@ -542,7 +542,7 @@
 
 
                             <!-- QUICK ACTION -->
-                            <div class="neo-quick-action-panel">
+                            <!-- <div class="neo-quick-action-panel">
 
                                 <h3>Quick Actions</h3>
 
@@ -575,13 +575,13 @@
 
                                 </div>
 
-                            </div>
+                            </div> -->
 
                         </div>
 
                     </div>
                 </div>
-                <?php include_once "customer_footer.php" ?>
+                <?php include_once "ibr_footer.php" ?>
             </div>
 
             <!-- end main content-->

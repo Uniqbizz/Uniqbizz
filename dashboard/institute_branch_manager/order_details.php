@@ -180,10 +180,10 @@ if ($today > $endDate && $booking['status'] != '2' && $booking['status'] != '3')
         <div class="layout-wrapper">
             <?php
             // top header logo, hamberger menu, fullscreen icon, profile
-            include_once 'header.php';
+            include_once 'ibr_header.php';
 
             // sidebar navigation menu 
-            include_once 'sidebar.php';
+            include_once 'ibr_sidebar.php';
             ?>
             <div class="layout-wrapper">
                 <div class="main-content">

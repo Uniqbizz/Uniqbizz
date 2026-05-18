@@ -74,7 +74,7 @@ if ($userType == 10) {
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <?php include_once 'customer_header.php'; ?>
+        <?php include_once 'ibr_header.php'; ?>
 
         <!-- removeNotificationModal -->
         <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -102,7 +102,7 @@ if ($userType == 10) {
         </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
 
-        <?php include_once 'customer_sidebar.php'; ?>
+        <?php include_once 'ibr_sidebar.php'; ?>
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -522,7 +522,7 @@ if ($userType == 10) {
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
-            <?php include_once "customer_footer.php" ?>
+            <?php include_once "ibr_footer.php" ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->
 

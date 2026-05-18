@@ -52,14 +52,14 @@
                 </li> -->
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-group-line"></i> <span data-key="t-home">Refer & Earn</span>
+                        <i class="ri-group-line"></i> <span data-key="t-home">Holiday Account</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Consultant</span>
-                    </a>
-                </li>
+                <!--<li class="nav-item">-->
+                <!--    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">-->
+                <!--        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Consultant</span>-->
+                <!--    </a>-->
+                <!--</li>-->
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-customer-service-2-line"></i> <span data-key="t-home">Support</span>

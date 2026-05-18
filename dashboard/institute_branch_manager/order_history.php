@@ -180,10 +180,10 @@ $prevDateYear = date('Y');  //Year in number form.
     <div id="layout-wrapper">
         <?php
             // top header logo, hamberger menu, fullscreen icon, profile
-            include_once 'customer_header.php';
+            include_once 'ibr_header.php';
 
             // sidebar navigation menu 
-            include_once 'customer_sidebar.php';
+            include_once 'ibr_sidebar.php';
         ?>
         <?php
             $pending_booking_count = 0;
@@ -2121,7 +2121,7 @@ $prevDateYear = date('Y');  //Year in number form.
                         </div>
                     </div>
                 </div>
-                <?php include_once "customer_footer.php" ?>
+                <?php include_once "ibr_footer.php" ?>
             </div>
         </div>
         <!-- Payment Screen start -->
