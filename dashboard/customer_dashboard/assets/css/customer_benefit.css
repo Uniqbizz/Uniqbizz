@@ -453,7 +453,238 @@
 .svz-highlight-purple h3{
     color:#7a4dff;
 }
-
+.vxq-active-membership-shell{
+    width:100%;
+    min-height:120px;
+    border-radius:14px;
+    padding:22px 28px;
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:30px;
+    overflow:hidden;
+    position:relative;
+ 
+    background:
+    radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 45%),
+    linear-gradient(90deg,#4320d9 0%, #6535f5 50%, #5a2fe8 100%);
+ 
+    font-family:Arial, sans-serif;
+}
+ 
+/* subtle center glow */
+.vxq-active-membership-shell::before{
+    content:"";
+    position:absolute;
+    width:320px;
+    height:320px;
+    background:rgba(255,255,255,0.04);
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+ 
+/* LEFT */
+.vxq-active-membership-left{
+    position:relative;
+    z-index:2;
+    max-width:360px;
+}
+ 
+.vxq-active-membership-title{
+    margin:0 0 12px;
+    color:#ffffff;
+    font-size:36px;
+    font-weight:700;
+    line-height:1.1;
+}
+ 
+.vxq-active-membership-validity{
+    margin:0 0 12px;
+    color:#f3f1ff;
+    font-size:17px;
+    font-weight:600;
+}
+ 
+.vxq-active-membership-description{
+    margin:0;
+    color:#ece8ff;
+    font-size:16px;
+    line-height:1.7;
+    font-weight:400;
+}
+ 
+/* CENTER */
+.vxq-active-membership-middle{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+ 
+.vxq-calendar-card-box{
+    width:125px;
+    height:125px;
+    background:#ffffff;
+    border-radius:24px;
+    position:relative;
+    box-shadow:0 15px 30px rgba(0,0,0,0.12);
+}
+ 
+.vxq-calendar-top-pins{
+    position:absolute;
+    top:-10px;
+    width:100%;
+    display:flex;
+    justify-content:space-around;
+}
+ 
+.vxq-calendar-top-pins span{
+    width:14px;
+    height:24px;
+    border-radius:10px;
+    background:#d9d1ff;
+    border:3px solid #8d6eff;
+}
+ 
+.vxq-calendar-inner-content{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    position:relative;
+}
+ 
+.vxq-calendar-inner-content .fa-check{
+    font-size:44px;
+    color:#ff8b2c;
+    background:#fff4ea;
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+ 
+.vxq-calendar-inner-content .fa-circle-check{
+    position:absolute;
+    right:10px;
+    bottom:12px;
+    font-size:48px;
+    color:#ffb120;
+    background:#ffffff;
+    border-radius:50%;
+}
+ 
+/* RIGHT */
+.vxq-active-membership-right{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+ 
+.vxq-renew-price-wrap{
+    display:flex;
+    flex-direction:column;
+}
+ 
+.vxq-renew-label{
+    color:#f0ebff;
+    font-size:17px;
+    font-weight:500;
+    margin-bottom:8px;
+}
+ 
+.vxq-renew-price{
+    margin:0;
+    color:#ffffff;
+    font-size:58px;
+    font-weight:700;
+    line-height:1;
+}
+ 
+.vxq-renew-membership-btn{
+    background:#ffffff;
+    color:#4e2ce5;
+    text-decoration:none;
+    height:56px;
+    padding:0 30px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:16px;
+    font-weight:700;
+    transition:0.3s ease;
+    white-space:nowrap;
+}
+ 
+.vxq-renew-membership-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.18);
+}
+ 
+.vxq-renew-membership-btn i{
+    font-size:15px;
+}
+ 
+/* RESPONSIVE */
+@media(max-width:1100px){
+ 
+    .vxq-active-membership-shell{
+        flex-direction:column;
+        text-align:center;
+        padding:30px 20px;
+    }
+ 
+    .vxq-active-membership-right{
+        flex-direction:column;
+    }
+ 
+}
+ 
+@media(max-width:768px){
+ 
+    .vxq-active-membership-title{
+        font-size:28px;
+    }
+ 
+    .vxq-renew-price{
+        font-size:42px;
+    }
+ 
+    .vxq-calendar-card-box{
+        width:105px;
+        height:105px;
+    }
+ 
+}
+ 
+@media(max-width:480px){
+ 
+    .vxq-active-membership-shell{
+        border-radius:12px;
+        gap:20px;
+    }
+ 
+    .vxq-renew-membership-btn{
+        width:100%;
+        justify-content:center;
+    }
+ 
+    .vxq-active-membership-right{
+        width:100%;
+    }
+ 
+}
 /* Responsive */
 @media(max-width:992px){
 

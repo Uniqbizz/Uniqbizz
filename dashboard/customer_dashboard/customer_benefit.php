@@ -198,7 +198,47 @@
                                 </div>
 
                                 <!-- CARD 3 -->
-                                <div class="zmx9-membership-info-card zmx9-benefit-card-style">
+                                <div class="vxq-active-membership-shell">
+ 
+                                    <!-- Left Content -->
+                                    <div class="vxq-active-membership-left">
+                                    
+                                            <h2 class="vxq-active-membership-title">
+                                                Your Membership is Active!
+                                            </h2>
+                                            
+                                                    <p class="vxq-active-membership-validity">
+                                                        Valid till <?= $expiry_date ?>
+                                            </p>
+                                    
+                                            <p class="vxq-active-membership-description">
+                                                Renew now to continue enjoying uninterrupted
+                                                benefits and exclusive offers.
+                                            </p>
+                                    
+                                    </div>
+                                    
+                                    <!-- Center Icon -->
+                                    <div class="vxq-active-membership-middle">
+                                    
+                                        <div class="vxq-calendar-card-box">
+                                    
+                                           <div class="vxq-calendar-top-pins">
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                    
+                                            <div class="vxq-calendar-inner-content">
+                                                <i class="fa-solid fa-check"></i>
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </div>
+                                    
+                                        </div>
+                                    
+                                    </div>
+                                
+                                </div>
+                                <!-- <div class="zmx9-membership-info-card zmx9-benefit-card-style">
 
                                     <div>
 
@@ -226,7 +266,7 @@
 
                                     <img src="https://cdn-icons-png.flaticon.com/512/4213/4213958.png" alt="gift">
 
-                                </div>
+                                </div> -->
 
                             </div>
 
@@ -462,11 +502,11 @@
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="../assets/js/pages/dashboard-job.init.js"></script>
+        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
 
         <script src="../assets/js/js-confetti.js"></script>
 
-        <script>
+        <!-- <script>
             var userType= document.getElementById("user_type").value;
             function highlightSelected(id) {
                 // Remove highlight from all list items
@@ -495,7 +535,7 @@
                     selectedItem.classList.add('active-highlight');
                 }
             }
-        </script>
+        </script> -->
         
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -524,7 +564,7 @@
             });
         </script>
 
-        <script>
+        <!-- <script>
             var modal = document.getElementById('staticBackdrop');
 
             // Store the element that opened the modal
@@ -599,7 +639,7 @@
 
             // Update progress bar
             document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script>
+        </script> -->
 
         <!-- dialer logic -->
 

@@ -89,10 +89,12 @@
                                     </div>
                                 </div>
 
+                                
                                 <button class="btn help-btn">
                                     <i class="fa-regular fa-circle-play me-2"></i>
                                     How to Use Coupons
                                 </button>
+                                
 
                             </div>
 

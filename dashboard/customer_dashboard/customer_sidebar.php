@@ -1,3 +1,5 @@
+<!-- modal css -->
+<link rel="stylesheet" href="assets/css/my_consultant_modal.css" />
 <div class="app-menu navbar-menu rounded-4 bg-white" style="position: fixed; margin-top: 80px !important; width: 240px; padding-top: 0px !important; padding-bottom: 0px !important; margin-bottom: 10px !important;">
     <!-- LOGO -->
     <div class="navbar-brand-box">
@@ -103,6 +105,44 @@
 
     <div class="sidebar-background"></div>
 </div>
+<?php include 'my_consultant_modal.php' ?>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const qxz9Modal =
+    document.getElementById('qxz9ConsultantModal');
+
+    const qxz9OpenBtn =
+    document.getElementById('qxz9OpenConsultantModal');
+
+    const qxz9CloseBtn =
+    document.getElementById('qxz9CloseConsultantModal');
+
+    // Safety check
+    if (!qxz9Modal || !qxz9OpenBtn || !qxz9CloseBtn) {
+        console.log("Modal elements not found");
+        return;
+    }
+
+    /* OPEN */
+    qxz9OpenBtn.addEventListener('click', function () {
+        qxz9Modal.classList.add('active');
+    });
+
+    /* CLOSE */
+    qxz9CloseBtn.addEventListener('click', function () {
+        qxz9Modal.classList.remove('active');
+    });
+
+    /* OUTSIDE CLICK CLOSE */
+    qxz9Modal.addEventListener('click', function (e) {
+        if (e.target === qxz9Modal) {
+            qxz9Modal.classList.remove('active');
+        }
+    });
+
+});
+</script>
 <!-- Left Sidebar End -->
 
 <!-- vertical-overlay -->

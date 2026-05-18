@@ -1,5 +1,6 @@
 <?php
 include_once 'dashboard_user_details.php';
+include 'customer_model.php';
 
 $id = $_GET['id'];
 

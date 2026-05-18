@@ -78,7 +78,7 @@
 
                         <div>
                             <span>Earn up to</span>
-                            <h2>₹2,000</h2>
+                            <h2>₹1,000</h2>
                         </div>
 
                     </div>

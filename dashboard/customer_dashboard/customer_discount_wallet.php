@@ -113,7 +113,7 @@
                                 </div>
 
                                 <p>Total Savings</p>
-                                <h2 class="purple-text mb-n3">₹2,400</h2>
+                                <h2 class="purple-text mb-n3">₹1,875</h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -138,7 +138,7 @@
                                 </div>
 
                                 <p>Available Balance</p>
-                                <h2 class="green-text mb-n3">₹1,200</h2>
+                                <h2 class="green-text mb-n3">₹1,175</h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -163,7 +163,7 @@
                                 </div>
 
                                 <p>Total Discounts Used</p>
-                                <h2 style="color:#2563eb;" class="mb-n3">6</h2>
+                                <h2 style="color:#2563eb;" class="mb-n3">₹700</h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -314,7 +314,7 @@
                                             <span class="badge earned">Earned</span>
                                         </td>
 
-                                        <td class="green-text"><strong>+₹500</strong></td>
+                                        <td class="green-text"><strong>+₹375</strong></td>
 
                                         <td>
                                             <span class="badge earned">Credited</span>
@@ -340,6 +340,11 @@
                                                         <i class="fa-solid fa-suitcase"></i>
                                                         Trip Details
                                                     </h4>
+                                                    
+                                                    <div class="detail-item">
+                                                        <span>Customer Name</span>
+                                                        <strong>Mohit Naik (CU260053)</strong>
+                                                    </div>
 
                                                     <div class="detail-item">
                                                         <span>Tour Name</span>
@@ -417,34 +422,81 @@
                                         <td><i class="fa-solid fa-chevron-down"></i></td>
                                     </tr>
 
-                                    <tr class="details-row">
+                                     <tr class="details-row">
+
                                         <td colspan="8">
+
                                             <div class="details-content">
+
                                                 <div class="details-box">
-                                                    <h4>Usage Information</h4>
+
+                                                    <h4>
+                                                        <i class="fa-solid fa-suitcase"></i>
+                                                        Trip Details
+                                                    </h4>
+                                                    
+                                                    <!--<div class="detail-item">-->
+                                                    <!--    <span>Customer Name</span>-->
+                                                    <!--    <strong>Mohit Naik (CU260053)</strong>-->
+                                                    <!--</div>-->
+
                                                     <div class="detail-item">
-                                                        <span>Package</span>
+                                                        <span>Tour Name</span>
                                                         <strong>Goa Beach Escape</strong>
                                                     </div>
+
                                                     <div class="detail-item">
-                                                        <span>Passengers</span>
-                                                        <strong>2</strong>
+                                                        <span>Destination</span>
+                                                        <strong>Goa</strong>
                                                     </div>
+
+                                                    <div class="detail-item">
+                                                        <span>Travel Date</span>
+                                                        <strong>10 May 2025 - 14 May 2025</strong>
+                                                    </div>
+                                                    
+                                                    <div class="detail-item">
+                                                        <span>Booking ID</span>
+                                                        <strong>BK2405182999</strong>
+                                                    </div>
+                                                    
+                                                      <div class="detail-item">
+                                                        <span>Booking Date</span>
+                                                        <strong>02 May 2025</strong>
+                                                    </div>
+
+
                                                 </div>
 
                                                 <div class="details-box">
-                                                    <h4>Payment Info</h4>
+
+                                                    <h4>
+                                                        <i class="fa-solid fa-money-bill-wave"></i>
+                                                        Usage Details
+                                                    </h4>
+
                                                     <div class="detail-item">
-                                                        <span>Discount Applied</span>
-                                                        <strong class="red-text">₹700</strong>
+                                                        <span>Reason</span>
+                                                        <strong>Used on booking Goa Beach Escape Package</strong>
                                                     </div>
+
                                                     <div class="detail-item">
-                                                        <span>Status</span>
-                                                        <strong>Completed</strong>
+                                                        <span>Passengers</span>
+                                                        <strong>3</strong>
                                                     </div>
+
+                                                  
+                                                    <div class="detail-item">
+                                                        <span>Total Used</span>
+                                                        <strong class="green-text">₹700</strong>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
+
                                         </td>
+
                                     </tr>
 
                                     <tr class="transaction-row" data-type="earned" data-status="credited">

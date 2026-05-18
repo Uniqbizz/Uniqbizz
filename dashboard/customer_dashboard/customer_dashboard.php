@@ -32,7 +32,7 @@
         <!-- Customer Dashboard CSS -->
         <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
         <!-- modal css -->
-        <link rel="stylesheet" href="assets/css/my_consultant_modal.css" />
+        <!-- <link rel="stylesheet" href="assets/css/my_consultant_modal.css" /> -->
 
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -1179,7 +1179,7 @@
             </div>
         </div>
         <!-- Modals -->
-        <?php include 'my_consultant_modal.php' ?>
+        <?php //include 'my_consultant_modal.php' ?>
         <!-- End Modals -->
         <!-- contact card pop up end-->
 
@@ -1673,7 +1673,7 @@
                 spendingChart.update();
             });
         </script>
-        <script>
+        <!-- <script>
             //onclick my consultant from side bar
             /* =========================================
             OPEN MODAL FROM SIDEBAR MENU
@@ -1715,6 +1715,6 @@
                 }
 
             });
-        </script>
+        </script> -->
     </body>
 </html>
