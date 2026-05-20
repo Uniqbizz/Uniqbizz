@@ -1,0 +1,1513 @@
+body {
+    background-color: #fff !important;
+}
+.fs-6 {
+    font-size: 12px !important;
+}
+.insta-icon {
+    width: 30px;
+    height: 30px;
+}
+.footer {
+    height:0px !important;
+    background-color: transparent !important;
+}
+.footer .footer-container {
+    background-color: #fff;
+    padding: 10px !important;
+    margin: 0px !important;
+}
+.policy-link a {
+    color: #98a6ad
+}
+/* card icon */
+.icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.selected-li {
+    border-left: 4px solid #0d6efd; /* Bootstrap primary blue */
+    background-color: #f0f8ff; /* optional: light background */
+    padding-left: 12px; /* left padding */
+}
+.active-highlight {
+    background-color: #d8ecff !important; /*Light blue */
+    border-left: 4px solid #0d6efd;  /*Optional: adds a blue border */
+    border-radius: 5px;
+    padding: 5px;
+}
+/* sidebar start */
+/* Sidebar spacing */
+.nav-item {
+    margin: 6px 10px;
+}
+
+/* Base link style */
+.nav-item .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 14px !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #6c757d !important;
+    text-decoration: none !important;
+    transition: all 0.25s ease !important;
+}
+
+/* Icon */
+.nav-item .nav-link i {
+    font-size: 18px;
+    transition: 0.25s;
+}
+
+/* Hover state */
+.nav-item .nav-link:hover {
+    background: #4b38b3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+}
+
+/* Active state (IMPORTANT FIX) */
+.nav-item.active .nav-link {
+    background: #4b38b3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+}
+
+/* Icon color on hover + active */
+.nav-item .nav-link:hover i,
+.nav-item.active .nav-link i {
+    color: #fff;
+}
+
+/* OPTIONAL: only if you KEEP span */
+.nav-item .nav-link:hover span,
+.nav-item.active .nav-link span {
+    color: #fff;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .navbar-nav .nav-item:hover>a.menu-link {
+    position: relative;
+    width: calc(190px + var(--vz-vertical-menu-width-sm));
+    -webkit-transition: none;
+    transition: none;
+    background: #4b38b3 !important;
+}
+.sidebarImage {
+    width: stretch !important;
+    margin: 6px !important;
+}
+.sidebarImageCard {
+   position: relative; 
+}
+
+.exploreBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.exploreBtn i {
+    font-size: 18px !important;
+    padding-left: 10px;
+}
+.exploreBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.exploreCard {
+    position: absolute;
+    bottom: 290px;
+    padding: 0px 20px;
+    z-index: 999;
+}
+.logoutBtn {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.logoutBtn i {
+    font-size: 18px !important;
+}
+.logoutBtn:hover {
+    background-color: #35239a;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .sidebarImage {
+    display: none !important;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .exploreCard {
+    display: none !important;
+}
+/* :is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .simplebar-mask {
+    overflow: visible !important;
+} */
+
+/* =========================================
+   DEFAULT DESKTOP
+========================================= */
+
+.navbar-menu {
+    position: fixed !important;
+    left: 0 !important;
+    height: calc(100vh - 90px) !important;
+    transition: all 0.3s ease !important;
+    z-index: 9999 !important;
+}
+
+/* SCROLL */
+#scrollbar {
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* HIDE SIDEBAR */
+.navbar-menu.sidebar-hidden {
+    transform: translateX(-120%) !important;
+}
+
+/* header */
+.searchBar {
+    width: 35% !important;
+    position: relative;
+}
+.searchBar input{
+    border: 3px solid #a398df;
+    border-radius: 6px;
+}
+.searchBar i{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #35239a;
+    pointer-events: none;
+}
+
+.walletAmount {
+    color: #35239a;
+    font-weight: 600;
+}
+.walletIcon {
+    font-size: 20px !important;
+    color: #35239a;
+    background: #e1ddf9;
+    border-radius: 8px;
+    padding: 9px;
+}
+/* main dashboard */
+
+.greetingImageWrapper{
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.greetingImageWrapper::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(to right, rgb(5 44 130 / 97%), rgba(0, 23, 56, 73%), rgba(54, 39, 28, 0))
+}
+
+.greetingImage{
+    display: block;
+    position: relative;
+    height: 250px !important;
+    object-fit: cover;
+}
+.greetingCard {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    z-index: 999;
+}
+.custIcon {
+    font-size: 20px !important;
+    color: #35239a;
+    background: #e1ddf9;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+.textColor {
+    color: #35239a;
+}
+.card1 {
+    background: #f1f0ff;
+    border-radius: 16px;
+}
+.card2 {
+    background: #fbfbfb;
+    border-radius: 16px;
+}
+.card4 {
+    background: #f8f8f8;
+    border-radius: 16px;
+}
+.complimentaryImage {
+    border-radius: 15px;
+    height: 250px;
+    position: relative;
+}
+.complimentaryCard {
+    position: absolute;
+    top: 10px;
+}
+.compliBack {
+    font-size: 20px !important;
+    color: #e3670e;
+    background: #ffc9a2;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+.bg-bar {
+    background-color: #e3670e;
+}
+.profileImage {
+    width: 80px !important;
+    border-radius: 100%;
+}
+.linkBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.linkBtn i {
+    font-size: 18px !important;
+    padding-left: 10px;
+}
+.linkBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+/* =========================================
+   TRIP CARD
+========================================= */
+
+.tripCard {
+    background: #f5f7ff;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+}
+
+.tripContent {
+    position: relative;
+    z-index: 2;
+}
+
+.tripIcon {
+    font-size: 20px;
+    color: #fff;
+    background: #5b5ff6;
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.tripTitle {
+    font-size: 15px;
+}
+
+.tripBtn {
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    color: #5b5ff6;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.tripBtn:hover {
+    background-color: #5b5ff6;
+    color: #fff;
+}
+
+.tripBtn i {
+    font-size: 14px;
+}
+
+.textColor {
+    color: #5b5ff6;
+}
+
+.brifeCase {
+    position: absolute;
+    right: 10px;
+    bottom: -10px;
+    font-size: 100px;
+    color: #5b5ff6;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* =========================================
+   WALLET CARD
+========================================= */
+
+.walletCard {
+    background: #f1fff5;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+}
+
+.walletContent {
+    position: relative;
+    z-index: 2;
+}
+
+.walletIcon1 {
+    font-size: 20px;
+    color: #fff;
+    background: #14b85a;
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.walletTitle {
+    font-size: 15px;
+}
+
+.walletBtn {
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    color: #14b85a;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.walletBtn:hover {
+    background-color: #14b85a;
+    color: #fff;
+}
+
+.walletBtn i {
+    font-size: 14px;
+}
+
+.greenText {
+    color: #14b85a;
+}
+
+.walletCase {
+    position: absolute;
+    right: 10px;
+    bottom: -10px;
+    font-size: 100px;
+    color: #14b85a;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* =========================================
+   COUPON CARD
+========================================= */
+
+.couponCard {
+    background: #fff8f1;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+}
+
+.couponContent {
+    position: relative;
+    z-index: 2;
+}
+
+.couponIcon1 {
+    font-size: 20px;
+    color: #fff;
+    background: #ff9800;
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.couponTitle {
+    font-size: 15px;
+}
+
+.couponBtn {
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    color: #ff9800;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.couponBtn:hover {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+.couponBtn i {
+    font-size: 14px;
+}
+
+.orangeText {
+    color: #ff9800;
+}
+
+.giftCase {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    font-size: 100px;
+    color: #ff9800;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+/* =========================================
+   REFERRAL CARD
+========================================= */
+
+.referralCard {
+    background: #f0f8ff;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+}
+
+.referralContent {
+    position: relative;
+    z-index: 2;
+}
+
+.referralIcon {
+    font-size: 20px;
+    color: #fff;
+    background: #0c82f5;
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.referralTitle {
+    font-size: 15px;
+}
+
+.referralBtn {
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    color: #0c82f5;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.referralBtn:hover {
+    background-color: #0c82f5;
+    color: #fff;
+}
+
+.referralBtn i {
+    font-size: 14px;
+}
+
+.blueText {
+    color: #0c82f5;
+}
+
+.referralCase {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    font-size: 100px;
+    color: #0c82f5;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+/* card section 3 */
+.membershipIcon {
+    font-size: 20px !important;
+    color: #0c82f5;
+    background: #d3e9ff;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+.membershipTitle {
+    font-size: 10px !important;
+}
+.membershipBold {
+    font-size: 12px !important;
+}
+
+.premiumIcon {
+    font-size: 9px;
+    color: #fff;
+    background: #5b5ff6;
+    border-radius: 6px;
+    padding: 8px;
+    width: 80px;
+}
+/* ========================================
+    Neo Select
+/* ======================================== */
+.benefits-card{
+    background: linear-gradient(to right, #f5fbf8, #eef6f3);
+    border-radius: 18px;
+    padding: 22px 16px;
+    border: 1px solid #edf1ef;
+}
+
+.benefits-title{
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #111;
+}
+
+.benefits-title span{
+    color: #5b5ff6;
+}
+
+.benefit-item{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-right: 28px;
+    border-right: 1px solid #dfe8e4;
+    min-height: 60px;
+}
+
+.benefit-item:last-child{
+    border-right: none;
+}
+
+.benefit-icon{
+    font-size: 34px;
+    color: #5b5ff6;
+    min-width: 40px;
+}
+
+.benefit-text{
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.5;
+}
+
+.benefit-btn{
+    border: 2px solid #cfe5da;
+    background: #fff;
+    color: #5b5ff6;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 14px 28px;
+    transition: 0.3s ease;
+    white-space: nowrap;
+}
+
+.benefit-btn:hover{
+    background: #5b5ff6;
+    color: #fff;
+}
+
+/*START card section 4*/
+.confirmBtn {
+    background-color: #fff;
+    color:#38b34f;
+    border: 2px solid #38b34f;
+    width: 100px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.confirmBtn:hover {
+    background-color: #38b34f;
+    color:#fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.tripsImage {
+    width: 160px !important;
+    height: 160px !important;
+    border-radius: 15px;
+}
+.tripsImage1 {
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 12px;
+}
+.upcomingBtn {
+    background-color: #bbf5c6;
+    color: #38b34f;
+    width: 100px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.upcomingBtn:hover {
+    background-color: #38b34f;
+    color:#fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageImage {
+    width: 100% !important;
+    height: 160px !important;
+    border-radius: 12px;
+}
+.packageDetailBtn {
+    background-color: #d5d7fa;
+    color: #35239a;
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageDetailBtn:hover {
+    background-color: #35239a;
+    color:#fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageCard {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.heartIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.heartIcon i {
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+.heartIcon.active i {
+    color: #ff2e63;
+}
+.customIndicators {
+    position: relative;
+    margin-top: 20px;
+}
+
+.customIndicators button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+    border: none !important;
+    background: #d4d4d4 !important;
+    margin: 0 5px !important;
+    opacity: 1 !important;
+    transition: 0.3s ease;
+}
+
+.customIndicators button.active {
+    width: 30px !important;
+    border-radius: 20px !important;
+    background: #5b5ff6 !important;
+}
+/*card section 5*/
+/* =========================
+   MAIN WRAPPER
+========================= */
+
+.vzx7-coupon-dashboard-wrapper{
+    width:100%;
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:20px;
+    font-family:Arial, sans-serif;
+}
+
+/* =========================
+   COMMON CARD
+========================= */
+
+.vzx7-summary-main-card,
+.vzx7-loyalty-main-card,
+.vzx7-refer-main-card{
+    background:#ffffff;
+    border-radius:18px;
+    padding:22px;
+    border:1px solid #ececec;
+    box-shadow:0 2px 12px rgba(0,0,0,0.04);
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.vzx7-card-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.vzx7-card-topbar h3{
+    margin:0;
+    font-size:20px;
+    color:#5b5ff6;
+    font-weight:700;
+}
+
+.vzx7-card-topbar a{
+    text-decoration:none;
+    color:#5b5ff6;
+    font-size:14px;
+    font-weight:700;
+}
+
+/* =========================
+   MINI BOXES
+========================= */
+
+.vzx7-coupon-mini-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.vzx7-mini-box{
+    border-radius:14px;
+    padding:18px 12px;
+    text-align:center;
+    border:1px solid transparent;
+}
+
+.vzx7-mini-box h5{
+    margin:0 0 12px;
+    font-size:13px;
+    line-height:18px;
+    font-weight:700;
+}
+
+.vzx7-mini-box h2{
+    margin:0;
+    font-size:28px;
+    font-weight:800;
+}
+
+/* BLUE */
+
+.vzx7-blue-box{
+    background:#f2f6ff;
+    border-color:#dce5ff;
+}
+
+.vzx7-blue-box h5,
+.vzx7-blue-box h2{
+    color:#3557c7;
+}
+
+/* GREEN */
+
+.vzx7-green-box{
+    background:#eefcf5;
+    border-color:#ccf2df;
+}
+
+.vzx7-green-box h5,
+.vzx7-green-box h2{
+    color:#169160;
+}
+
+/* YELLOW */
+
+.vzx7-yellow-box{
+    background:#fff8e8;
+    border-color:#ffe4ab;
+}
+
+.vzx7-yellow-box h5,
+.vzx7-yellow-box h2{
+    color:#d18c00;
+}
+
+/* RED */
+
+.vzx7-red-box{
+    background:#fff2f2;
+    border-color:#ffd4d4;
+}
+
+.vzx7-red-box h5,
+.vzx7-red-box h2{
+    color:#dc3636;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.vzx7-coupon-footer{
+    margin-top:24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.vzx7-coupon-footer span{
+    font-size:16px;
+    font-weight:700;
+    color:#333;
+}
+
+.vzx7-coupon-footer h2{
+    margin:0;
+    font-size:34px;
+    font-weight:800;
+    color:#111;
+}
+
+/* =========================
+   LOYALTY CARD
+========================= */
+
+.vzx7-loyalty-main-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.vzx7-loyalty-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:#f3f5ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+}
+
+.vzx7-loyalty-icon i{
+    font-size:18px;
+    color:#4452c7;
+}
+
+.vzx7-loyalty-left h3{
+    margin:0 0 12px;
+    font-size:22px;
+    color:#111;
+}
+
+.vzx7-loyalty-left p{
+    margin:0 0 20px;
+    font-size:15px;
+    line-height:24px;
+    color:#666;
+}
+
+.vzx7-loyalty-image img{
+    width:90px;
+}
+
+.vzx7-progress-title{
+    font-size:14px;
+    font-weight:700;
+    color:#5b5ff6;
+    margin-bottom:10px;
+}
+
+.vzx7-progress-track{
+    width:100%;
+    height:7px;
+    background:#e8ebef;
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.vzx7-progress-fill{
+    width:0%;
+    height:100%;
+    background:#08916c;
+    border-radius:50px;
+}
+
+.vzx7-progress-footer{
+    margin-top:10px;
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    line-height:18px;
+    color:#666;
+}
+
+/* =========================
+   REFER CARD
+========================= */
+
+.vzx7-refer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:24px;
+}
+
+.vzx7-refer-top img{
+    width:95px;
+}
+
+.vzx7-refer-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:#f3f5ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+}
+
+.vzx7-refer-icon i{
+    font-size:18px;
+    color:#4452c7;
+}
+
+.vzx7-refer-top h3{
+    margin:0;
+    font-size:22px;
+    color:#111;
+}
+
+.vzx7-earnings-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:24px;
+}
+
+.vzx7-earnings-row h5{
+    margin:0 0 10px;
+    font-size:12px;
+    color:#666;
+}
+
+.vzx7-earnings-row h2{
+    margin:0;
+    font-size:24px;
+    font-weight:800;
+    color:#111;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.vzx7-invite-btn{
+    width:100%;
+    border:none;
+    border-radius:12px;
+    background:#5b5ff6;
+    color:#fff;
+    padding:15px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    transition:0.3s;
+}
+
+.vzx7-invite-btn:hover{
+    background:#5b5ff6;
+    transform:translateY(-2px);
+}
+.vzx7-loyalty-content-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.vzx7-loyalty-content-row p{
+    margin:0;
+    flex:1;
+    line-height:28px;
+}
+
+.vzx7-loyalty-image{
+    flex-shrink:0;
+}
+
+.vzx7-loyalty-image img{
+    width:90px;
+    display:block;
+}
+
+/* card section 6*/
+/* =========================
+   MAIN WRAPPER
+========================= */
+
+.nxv9-info-support-wrapper{
+    width:100%;
+    display:grid;
+    grid-template-columns:2.2fr 1fr;
+    gap:18px;
+}
+
+/* =========================
+   IMPORTANT INFO CARD
+========================= */
+
+.nxv9-important-info-card{
+    background:#fbf7f1;
+    border:1px solid #f2e8d9;
+    border-radius:18px;
+    padding:14px 14px;
+}
+
+.nxv9-important-info-card h2{
+    font-size:18px;
+    font-weight:800;
+    color:#161616;
+}
+
+/* =========================
+   INFO GRID
+========================= */
+
+.nxv9-info-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+}
+
+/* =========================
+   INFO ITEM
+========================= */
+
+.nxv9-info-item{
+    display:flex;
+    align-items:flex-start;
+    gap:5px;
+}
+
+.nxv9-info-icon{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fffaf2;
+    border:1px solid #f2dfbf;
+}
+
+.nxv9-info-icon i{
+    font-size:20px;
+    color:#b87518;
+}
+
+.nxv9-info-item p{
+    margin:0;
+    font-size:12px;
+    line-height:18px;
+    color:#2f2f2f;
+    font-weight:500;
+}
+
+/* =========================
+   SUPPORT CARD
+========================= */
+
+.nxv9-support-help-card{
+    background:linear-gradient(135deg,#5b5ff6,#5b5ff9);
+    border-radius:18px;
+    padding:28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    overflow:hidden;
+    position:relative;
+}
+
+/* =========================
+   SUPPORT CONTENT
+========================= */
+
+.nxv9-support-content{
+    position:relative;
+    z-index:2;
+}
+
+.nxv9-support-content h2{
+    margin:0 0 12px;
+    color:#fff;
+    font-size:18px;
+    font-weight:800;
+}
+
+.nxv9-support-content p{
+    margin:0 0 24px;
+    color:rgba(255,255,255,0.88);
+    font-size:13px;
+    line-height:24px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.nxv9-support-btn{
+    border:none;
+    background:#ffffff;
+    color:#5b5ff6;
+    padding:7px 16px;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.nxv9-support-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   HEADSET ICON
+========================= */
+
+.nxv9-support-icon{
+    position:relative;
+    z-index:1;
+}
+
+.nxv9-support-icon i{
+    font-size:95px;
+    color:rgba(255,255,255,0.85);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+
+    .nxv9-info-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:900px){
+
+    .nxv9-info-support-wrapper{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .nxv9-info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nxv9-support-help-card{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .nxv9-support-icon{
+        align-self:flex-end;
+    }
+
+    .nxv9-support-icon i{
+        font-size:75px;
+    }
+
+}
+/* end card section 6*/
+
+
+/* MOBILE */
+
+@media(max-width:576px){
+
+    .vzx7-loyalty-content-row{
+        align-items:flex-start;
+    }
+
+    .vzx7-loyalty-image img{
+        width:90px;
+    }
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .vzx7-coupon-dashboard-wrapper{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .vzx7-coupon-mini-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .vzx7-loyalty-main-card{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .vzx7-loyalty-image img{
+        width:90px;
+    }
+
+    .vzx7-earnings-row{
+        flex-direction:column;
+        gap:18px;
+    }
+
+}
+/* card section 4 END*/
+@media(max-width:991px){
+
+    .benefit-item{
+        border-right: none;
+        border-bottom: 1px solid #dfe8e4;
+        padding: 18px 0;
+    }
+
+    .benefit-item:last-child{
+        border-bottom: none;
+    }
+
+    .benefits-title{
+        font-size: 26px;
+    }
+}
+
+/* =========================================
+   TABLET + SMALL LAPTOP (1024px)
+========================================= */
+/* =========================================
+   FIX CONTENT PUSHING
+========================================= */
+
+@media (max-width: 1280px) {
+    .custID {
+        font-size: 15px !important;
+    }
+    
+    .linkBtn p {
+        font-size: 12px !important;
+        padding-left: 10px;
+    }
+}
+@media (max-width: 1110px) {
+    .custID {
+        font-size: 14px !important;
+    }
+    
+    .linkBtn p {
+        font-size: 10px !important;
+        padding-left: 10px;
+    }
+    .premiumCard h4 {
+        font-size: 16px !important;
+    }
+}
+@media (min-width: 1025px) {
+    #topnav-hamburger-icon {
+        display: none !important;
+    }
+}
+@media (max-width: 1024px) {
+    .page-content {
+        padding-left: 0px !important;
+    }
+    .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 0px !important;
+    }
+    /* SIDEBAR FLOATING */
+    .navbar-menu {
+        position: fixed !important;
+        left: 15px !important;
+        width: 280px !important;
+        height: calc(100vh - 100px) !important;
+        z-index: 99999 !important;
+        transform: translateX(-120%) !important;
+        transition: transform 0.3s ease !important;
+        background: #f5f5f7 !important;
+        border-radius: 24px !important;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+        overflow: hidden !important;
+    }
+
+    /* SHOW SIDEBAR */
+    .navbar-menu.sidebar-mobile-show {
+        transform: translateX(0) !important;
+    }
+
+    /* VERY IMPORTANT */
+    .main-content,
+    .page-content,
+    .app-content,
+    #layout-wrapper {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        transform: none !important;
+        width: 100% !important;
+    }
+
+    /* REMOVE TEMPLATE SIDEBAR SPACE */
+    body[data-sidebar-size="sm"] .main-content,
+    body[data-sidebar-size="sm-hover"] .main-content {
+        margin-left: 0 !important;
+    }
+
+    /* REMOVE AUTO PUSH */
+    .vertical-overlay {
+        pointer-events: none;
+    }
+    .exploreCard {
+        position: absolute;
+        bottom: 350px !important;
+        padding: 0px 20px;
+        z-index: 999;
+    }
+    .custID {
+        font-size: 18px !important;
+    }
+    .linkBtn p {
+        font-size: 13px !important;
+        padding-left: 10px;
+    }
+    .card1 {
+        margin-bottom: 12px !important;
+    }
+    .card4 {
+        margin-left: 0px !important;
+    }
+}
+@media (max-width: 992px) {
+    .card2 {
+        margin-right: 12px !important;
+    }
+}
+
+/* =========================================
+   ONLY MOBILE (768px)
+========================================= */
+
+@media (max-width: 768px) {
+    .comp_name {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+    /* OVERLAY ONLY MOBILE */
+    .vertical-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(0,0,0,0.45) !important;
+        backdrop-filter: blur(3px) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: 0.3s ease !important;
+        z-index: 9990 !important;
+    }
+
+    .vertical-overlay.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    /* HEADER */
+    #topnav-hamburger-icon {
+        margin-left: 0px !important;
+    }
+    .searchBar {
+        width: 100% !important;
+    }
+    .medal {
+        width: 200px !important;
+    }
+    .premiumCard {
+        padding: 0px 20px;
+        margin-bottom: 20px;
+    }
+    .premiumCard h4 {
+        font-size: 18px !important;
+    }
+}
+
+/* REMOVE OVERLAY ABOVE 768 */
+@media (min-width: 769px) {
+    .vertical-overlay {
+        display: none !important;
+    }
+}
+@media (max-width: 575px) {
+    .card2 {
+        margin-left: 12px !important;
+        margin-bottom: 12px !important;
+    }
+    .card4 {
+        margin-left: 12px !important;
+        margin-top: 12px !important;
+    }
+    .premiumCard h4 {
+        font-size: 14px !important;
+    }
+}
+/* sidebar end */

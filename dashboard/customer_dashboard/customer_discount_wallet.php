@@ -1,5 +1,5 @@
 <?php
-    include_once '../dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
     include 'customer_model.php';
 
 ?>
@@ -10,33 +10,33 @@
         <title>Dashboard | Uniqbizz</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <link rel="shortcut icon" href="assets/images/fav.png">
 
         <!-- jsvectormap css -->
-        <link href="../assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 
         <!--Swiper slider css-->
-        <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Layout config Js -->
-        <script src="../assets/js/layout.js"></script>
+        <script src="assets/js/layout.js"></script>
         <!-- Bootstrap Css -->
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="../assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css-->
-        <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
-        <link rel="stylesheet" href="../assets/css/custom.css" />
+        <link rel="stylesheet" href="assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
+        <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
 
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SZ4qk6V... (auto-generated)" crossorigin="anonymous" referrerpolicy="no-referrer">
-        <link rel="stylesheet" href="../assets/css/customer_discount_wallet.css" />
+        <link rel="stylesheet" href="assets/css/customer_discount_wallet.css" />
     </head>
 
     <body class="twocolumn-panel">
@@ -113,7 +113,7 @@
                                 </div>
 
                                 <p>Total Savings</p>
-                                <h2 class="purple-text mb-n3">₹2,400</h2>
+                                <h2 class="purple-text mb-n3">₹1,875</h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -138,7 +138,7 @@
                                 </div>
 
                                 <p>Available Balance</p>
-                                <h2 class="green-text mb-n3">₹1,200</h2>
+                                <h2 class="green-text mb-n3">₹1,175</h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -163,7 +163,7 @@
                                 </div>
 
                                 <p>Total Discounts Used</p>
-                                <h2 style="color:#2563eb;" class="mb-n3">6</h2>
+                                <h2 style="color:#2563eb;" class="mb-n3">₹700</h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -314,7 +314,7 @@
                                             <span class="badge earned">Earned</span>
                                         </td>
 
-                                        <td class="green-text"><strong>+₹500</strong></td>
+                                        <td class="green-text"><strong>+₹375</strong></td>
 
                                         <td>
                                             <span class="badge earned">Credited</span>
@@ -340,6 +340,11 @@
                                                         <i class="fa-solid fa-suitcase"></i>
                                                         Trip Details
                                                     </h4>
+                                                    
+                                                    <div class="detail-item">
+                                                        <span>Customer Name</span>
+                                                        <strong>Mohit Naik (CU260053)</strong>
+                                                    </div>
 
                                                     <div class="detail-item">
                                                         <span>Tour Name</span>
@@ -417,34 +422,81 @@
                                         <td><i class="fa-solid fa-chevron-down"></i></td>
                                     </tr>
 
-                                    <tr class="details-row">
+                                     <tr class="details-row">
+
                                         <td colspan="8">
+
                                             <div class="details-content">
+
                                                 <div class="details-box">
-                                                    <h4>Usage Information</h4>
+
+                                                    <h4>
+                                                        <i class="fa-solid fa-suitcase"></i>
+                                                        Trip Details
+                                                    </h4>
+                                                    
+                                                    <!--<div class="detail-item">-->
+                                                    <!--    <span>Customer Name</span>-->
+                                                    <!--    <strong>Mohit Naik (CU260053)</strong>-->
+                                                    <!--</div>-->
+
                                                     <div class="detail-item">
-                                                        <span>Package</span>
+                                                        <span>Tour Name</span>
                                                         <strong>Goa Beach Escape</strong>
                                                     </div>
+
                                                     <div class="detail-item">
-                                                        <span>Passengers</span>
-                                                        <strong>2</strong>
+                                                        <span>Destination</span>
+                                                        <strong>Goa</strong>
                                                     </div>
+
+                                                    <div class="detail-item">
+                                                        <span>Travel Date</span>
+                                                        <strong>10 May 2025 - 14 May 2025</strong>
+                                                    </div>
+                                                    
+                                                    <div class="detail-item">
+                                                        <span>Booking ID</span>
+                                                        <strong>BK2405182999</strong>
+                                                    </div>
+                                                    
+                                                      <div class="detail-item">
+                                                        <span>Booking Date</span>
+                                                        <strong>02 May 2025</strong>
+                                                    </div>
+
+
                                                 </div>
 
                                                 <div class="details-box">
-                                                    <h4>Payment Info</h4>
+
+                                                    <h4>
+                                                        <i class="fa-solid fa-money-bill-wave"></i>
+                                                        Usage Details
+                                                    </h4>
+
                                                     <div class="detail-item">
-                                                        <span>Discount Applied</span>
-                                                        <strong class="red-text">₹700</strong>
+                                                        <span>Reason</span>
+                                                        <strong>Used on booking Goa Beach Escape Package</strong>
                                                     </div>
+
                                                     <div class="detail-item">
-                                                        <span>Status</span>
-                                                        <strong>Completed</strong>
+                                                        <span>Passengers</span>
+                                                        <strong>3</strong>
                                                     </div>
+
+                                                  
+                                                    <div class="detail-item">
+                                                        <span>Total Used</span>
+                                                        <strong class="green-text">₹700</strong>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
+
                                         </td>
+
                                     </tr>
 
                                     <tr class="transaction-row" data-type="earned" data-status="credited">
@@ -628,32 +680,32 @@
         <!-- contact card pop up end-->
 
         <!-- JAVASCRIPT -->
-        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="../assets/libs/node-waves/waves.min.js"></script>
-        <script src="../assets/libs/feather-icons/feather.min.js"></script>
-        <script src="../assets/js/jquery/jquery-3.7.1.min.js"></script>
+        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="assets/libs/node-waves/waves.min.js"></script>
+        <script src="assets/libs/feather-icons/feather.min.js"></script>
+        <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
 
         <!-- !-- materialdesign remix icon js- -->
-        <script src="../assets/js/pages/remix-icons-listing.js"></script>
+        <script src="assets/js/pages/remix-icons-listing.js"></script>
 
         <!-- Vector map-->
-        <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
+        <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
 
         <!--Swiper slider js-->
-        <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
         <!-- App js -->
-        <script src="../assets/js/app.js"></script>
+        <script src="assets/js/app.js"></script>
 
-        <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+        <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="../assets/js/pages/dashboard-job.init.js"></script>
+        <script src="assets/js/pages/dashboard-job.init.js"></script>
 
-        <script src="../assets/js/js-confetti.js"></script>
+        <script src="assets/js/js-confetti.js"></script>
 
         <script>
             var userType= document.getElementById("user_type").value;

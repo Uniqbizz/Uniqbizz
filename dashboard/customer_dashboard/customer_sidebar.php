@@ -1,3 +1,5 @@
+<!-- modal css -->
+<link rel="stylesheet" href="assets/css/my_consultant_modal.css" />
 <div class="app-menu navbar-menu rounded-4 bg-white" style="position: fixed; margin-top: 80px !important; width: 240px; padding-top: 0px !important; padding-bottom: 0px !important; margin-bottom: 10px !important;">
     <!-- LOGO -->
     <div class="navbar-brand-box">
@@ -31,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="order_history.php#user_table1_length" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-wallet-line"></i> <span data-key="t-home">Upcoming Trips</span>
                     </a>
                 </li>
@@ -41,37 +43,45 @@
                     </a>
                 </li>
                 <!-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="../#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-gift-line"></i> <span data-key="t-home">Rewards & Coupons</span>
                     </a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="customer_benefit.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-vip-crown-2-line"></i> <span data-key="t-home">Neo Select Memberships</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="view_customer.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-group-line"></i> <span data-key="t-home">Refer & Earn</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">My Consultant</span>
+                    <a class="nav-link menu-link"
+                    href="javascript:void(0)"
+                    id="qxz9OpenConsultantModal"
+                    role="button">
+
+                        <i class="ri-user-shared-2-line"></i>
+
+                        <span data-key="t-home">
+                            My Consultant
+                        </span>
+
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-customer-service-2-line"></i> <span data-key="t-home">Support</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($first_part=="../index.php") ? "active" : ""; ?>">
-                    <a class="nav-link menu-link" href="../index.php">
-                        <i class="ri-settings-3-line"></i>
-                        <span>Settings</span>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#">
+                        <i class="ri-settings-3-line"></i><span>Settings</span>
                     </a>
                 </li>
-                <img src="../assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
+                <img src="assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
                 <div class="exploreCard">
                     <h3 class="fw-bold text-white">Dream. <br> <span class="text-warning">Explore.</span> <br> <span class="text-warning">Discover.</span></h3>
                     <p class="text-white">Your next adventure is just a click away.</p>
@@ -95,6 +105,44 @@
 
     <div class="sidebar-background"></div>
 </div>
+<?php include 'my_consultant_modal.php' ?>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const qxz9Modal =
+    document.getElementById('qxz9ConsultantModal');
+
+    const qxz9OpenBtn =
+    document.getElementById('qxz9OpenConsultantModal');
+
+    const qxz9CloseBtn =
+    document.getElementById('qxz9CloseConsultantModal');
+
+    // Safety check
+    if (!qxz9Modal || !qxz9OpenBtn || !qxz9CloseBtn) {
+        console.log("Modal elements not found");
+        return;
+    }
+
+    /* OPEN */
+    qxz9OpenBtn.addEventListener('click', function () {
+        qxz9Modal.classList.add('active');
+    });
+
+    /* CLOSE */
+    qxz9CloseBtn.addEventListener('click', function () {
+        qxz9Modal.classList.remove('active');
+    });
+
+    /* OUTSIDE CLICK CLOSE */
+    qxz9Modal.addEventListener('click', function (e) {
+        if (e.target === qxz9Modal) {
+            qxz9Modal.classList.remove('active');
+        }
+    });
+
+});
+</script>
 <!-- Left Sidebar End -->
 
 <!-- vertical-overlay -->

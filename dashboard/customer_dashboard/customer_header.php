@@ -1,5 +1,5 @@
 <?php
-    include_once '../dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
 ?>
 <header id="page-topbar" class="rounded-4" style="left: 0 !important;">
     <div class="layout-width">
@@ -8,20 +8,20 @@
                 <!-- LOGO -->
                 <div class="navbar-brand-box" class="rounded-4">
                     <!-- Light Logo-->
-                    <a href="index.php" class="logo logo-light">
+                    <a href="customer_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="../assets/images/fav.png" alt="" height="25">
+                            <img src="assets/images/fav.png" alt="" height="25">
                         </span>
                         <span class="logo-lg ms-5">
-                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
                 <!-- logo for mobile view  -->
                 <div class="com_logo">
-                    <a href="index.php" class="logo logo-light">
+                    <a href="customer_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>

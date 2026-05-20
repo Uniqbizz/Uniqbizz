@@ -172,40 +172,7 @@
 
             <!-- CARD 4 -->
 
-            <div class="earn-method-card blue-card">
-
-                <div class="earn-method-left">
-
-                    <div class="earn-method-icon blue-light">
-                        <i class="fa-solid fa-crown"></i>
-                    </div>
-
-                    <div class="earn-method-content">
-
-                        <h3>Membership Activation</h3>
-
-                        <p>
-                            Activate your Neo Select Membership successfully.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="earn-divider"></div>
-
-                <div class="earn-method-right">
-
-                    <small>Earn</small>
-
-                    <h4>2 Coupons</h4>
-
-                    <p>(₹1,000)</p>
-
-                </div>
-
-            </div>
-
+            
             <!-- CARD 5 -->
 
             <div class="earn-method-card pink-card">

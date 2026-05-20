@@ -152,7 +152,7 @@
                 <h3>What you earn?</h3>
 
                 <p>
-                    You earn a commission (cash) when your referred customer
+                    You earn a commission when your referred customer
                     completes their second eligible trip (repeat booking).
                     This amount is added to your Discount Wallet.
                 </p>
@@ -217,12 +217,12 @@
                         </span>
                     </div>
 
-                    <div class="neoxdw-bullet-row">
-                        <i class="fa-regular fa-circle-check"></i>
-                        <span>
-                            Valid for 12 months from the date of credit.
-                        </span>
-                    </div>
+                    <!--<div class="neoxdw-bullet-row">-->
+                    <!--    <i class="fa-regular fa-circle-check"></i>-->
+                    <!--    <span>-->
+                    <!--        Valid for 12 months from the date of credit.-->
+                    <!--    </span>-->
+                    <!--</div>-->
 
                 </div>
 
