@@ -58,6 +58,10 @@
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
     <style>
+        .fontSize {
+            font-size: 12px !important;
+            font-weight: 900 !important;
+        }
         .carousel-section {
             width: 350px !important;
             height: 400px !important;
@@ -107,6 +111,127 @@
             object-fit: fill !important;
         }
         /* testimonial end*/
+        /* <!-- Activity & Experiences Start --> */
+        .navMenu {
+            list-style: none;
+        }
+        .filter-btn {
+            border: 2px solid #e03d42;
+            background: #fff;
+            color: #e03d42;
+            padding: 8px 10px;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+        .filter-btn:hover {
+            background: #e03d42;
+            color: #fff;
+        }
+        .filter-btn.active {
+            background: #e03d42;
+            color: #fff;
+        }
+        .gallery-item {
+            transition: 0.4s ease;
+        }
+        .destinationImages {
+            width: 540px !important;
+            height: 400px !important;
+            object-fit: fill;
+            border-radius: 16px !important;
+        }
+        .borderLine {
+            border-left: 1px solid #bdbbbb !important;
+        }
+        
+        .destinationImages{
+            height: 420px;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        /* Thumbnail wrapper */
+        .thumbnailWrapper{
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Scroll container */
+        .thumbnailScroll{
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 5px;
+        }
+
+        .thumbnailScroll::-webkit-scrollbar{
+            display: none;
+        }
+
+        /* Thumbnail image */
+        .destinationUpcomingImages{
+            min-width: 90px;
+            width: 90px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        /* Active */
+        .destinationUpcomingImages.active-thumb{
+            border: 3px solid red;
+        }
+
+        /* Hover */
+        .destinationUpcomingImages:hover{
+            transform: scale(1.03);
+        }
+
+        /* More card */
+        .more-images-card{
+            min-width: 90px;
+            width: 90px;
+            height: 70px;
+            border-radius: 10px;
+            background: #f5f5f5;
+            border: 2px dashed red;
+            color: red;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* Mobile */
+        @media(max-width: 767px){
+
+            .destinationImages{
+                height: 260px;
+            }
+
+            .destinationUpcomingImages{
+                width: 75px;
+                min-width: 75px;
+                height: 60px;
+            }
+
+            .more-images-card{
+                width: 75px;
+                min-width: 75px;
+                height: 60px;
+            }
+
+        }
+        /* <!-- End of Activity & Experiences --> */
         @media screen and (max-width: 1184px) {
             .carousel-section {
                 width: 300px !important;
@@ -304,6 +429,12 @@
                 padding-right: 50px !important;
                 padding-left: 50px !important;
                 width: 100% !important;
+            }
+        }
+        @media screen and (max-width: 767px) {
+            .navMenu {
+                display: flex !important;
+                justify-content: center !important;
             }
         }
         @media screen and (max-width: 575px) {
@@ -901,7 +1032,215 @@
         </section>
         <!--/ End-of Destination -->
 
-         <!-- About Us area S t a r t -->
+        <!-- Activity & Experiences Start -->
+        <section class="destination-area ">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-7">
+                        <div class="section-title text-center mx-auto position-relative mb-4">
+                            <h4 class="title">
+                                Our Activities & Experiences
+                            </h4>
+                            <p class="text-muted">Real moments, partnerships & growth journey.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Navbar -->
+                <nav class="customNavbar mt-2 mb-4">
+                    <ul class="navMenu d-flex justify-content-around flex-wrap gap-3 ps-0 mb-0">
+                        <li>
+                            <button class="filter-btn active" data-filter="all">
+                                All
+                            </button>
+                        </li>
+                        <li>
+                            <button class="filter-btn" data-filter="travel">
+                                Travel Moments
+                            </button>
+                        </li>
+                        <li>
+                            <button class="filter-btn" data-filter="bank">
+                                Bank Tie-ups
+                            </button>
+                        </li>
+                        <li>
+                            <button class="filter-btn" data-filter="seminar">
+                                Seminars
+                            </button>
+                        </li>
+                        <li>
+                            <button class="filter-btn" data-filter="workshop">
+                                Workshops
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <!-- Cards -->
+                <div class="row g-4" id="galleryContainer">
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Goa Group Trip</h5>
+                                <p class="card-text fontSize"><span>20 Pax</span> | <span>May 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Dubai Tour</h5>
+                                <p class="card-text fontSize"><span>15 Pax</span> | <span>April 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item bank">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">VPK Bank Partnership</h5>
+                                <p class="card-text fontSize">MoU Signing Ceremony</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item seminar">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Business Seminar, Bhopal</h5>
+                                <p class="card-text fontSize">150+ Attendees</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item workshop">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Team Workshop</h5>
+                                <p class="card-text fontSize"><span>Team Training</span> | <span>2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Keralam Houseboat Trip</h5>
+                                <p class="card-text fontSize"><span>16 Pax</span> | <span>Feb 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item seminar">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">VPK Team Meeting</h5>
+                                <p class="card-text fontSize">Strategic Discussion</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item workshop">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Workshop Participation</h5>
+                                <p class="card-text fontSize"><span>Mumbai</span> | <span>Jan 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Start -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12">
+                                        <div id="destinationCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active">
+                                                    <img src="assets/images/destination/Goa.jpg" class="d-block w-100 destinationImages" alt="">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="assets/images/destination/Dubai.jpg" class="d-block w-100 destinationImages" alt="">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="assets/images/destination/Kerala.jpg" class="d-block w-100 destinationImages" alt="">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="assets/images/destination/Maldives1.jpg" class="d-block w-100 destinationImages" alt="">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="assets/images/destination/Almaty1.jpg" class="d-block w-100 destinationImages" alt="">
+                                                </div>
+                                                <div class="carousel-item">
+                                                    <img src="assets/images/destination/Thailand1.jpg" class="d-block w-100 destinationImages" alt="">
+                                                </div>
+                                            </div>
+
+                                            <!-- Controls -->
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#destinationCarousel" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon"></span>
+                                            </button>
+
+                                            <button class="carousel-control-next" type="button" data-bs-target="#destinationCarousel" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon"></span>
+                                            </button>
+                                        </div>
+                                        <!-- Thumbnails -->
+                                        <div class="thumbnailWrapper mt-3">
+                                            <div class="thumbnailScroll d-flex gap-2"
+                                                id="thumbnailContainer">
+
+                                                <!-- JS thumbnails -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12">
+                                        <div class="p-3 borderLine">
+                                            <h1 class="modal-title fs-4 fw-bolder" id="exampleModalLabel">Business Growth Seminar - Bhopal</h1>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="fontSize"><i class="fa-regular fa-calendar-days fa-xl me-2"></i>12 March 2025</p>
+                                                <p class="fontSize"><i class="fa-solid fa-location-dot fa-xl me-2"></i>Bhopal</p>
+                                                <p class="fontSize"><i class="fa-solid fa-user-group fa-xl me-2"></i>150+ Attendees</p>
+                                            </div>
+                                            <hr class="my-3 border border-2 border-black">
+                                            <p class="">
+                                                An interactive seminar focused on business expansion, travel consultancy opportunities, and digital income models
+                                                under Bizzmirth Holidays.
+                                            </p>
+                                            <hr class="my-3 border border-2 border-black">
+                                            <h1 class="modal-title fs-5 fw-bolder py-3" id="exampleModalLabel">Key Highlights</h1>
+                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Franchise Model Explained</p>
+                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Income Plan Breakdown</p>
+                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Live Q&A session</p>
+                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Networking Opportunity</p>
+                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>success Stories & Case Studies</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal End -->
+            </div>
+        </section>
+        <!-- End of Activity & Experiences -->
+
+        <!-- About Us area S t a r t -->
         <section class="about-area-two about-bg-before section-padding2 mt-4">
             <div class="container">
                 <div class="row align-items-center position-relative">
@@ -2430,6 +2769,127 @@
         });
     </script>
     <!-- Carousel section end -->
+    <!-- Activity & Experiences Start -->
+    <script>
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const galleryItems = document.querySelectorAll(".gallery-item");
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+
+                // Add active class to clicked button
+                button.classList.add("active");
+
+                const filterValue = button.getAttribute("data-filter");
+
+                galleryItems.forEach(item => {
+
+                    if (filterValue === "all") {
+                        item.style.display = "block";
+                    } 
+                    else if (item.classList.contains(filterValue)) {
+                        item.style.display = "block";
+                    } 
+                    else {
+                        item.style.display = "none";
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+    <script>
+        const carouselElement = document.querySelector('#destinationCarousel');
+
+        const carousel = new bootstrap.Carousel(carouselElement, {
+            interval: false
+        });
+
+        const carouselItems = document.querySelectorAll('#destinationCarousel .carousel-item');
+
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+
+        let expanded = false;
+
+        /* Create thumbnails */
+        function renderThumbnails(){
+
+            thumbnailContainer.innerHTML = "";
+
+            const totalImages = carouselItems.length;
+
+            // show only 4 initially
+            const visibleCount = expanded ? totalImages : 4;
+
+            carouselItems.forEach((item, index) => {
+
+                if(index < visibleCount){
+
+                    const image = item.querySelector("img");
+
+                    const thumb = document.createElement("img");
+
+                    thumb.src = image.src;
+
+                    thumb.classList.add("destinationUpcomingImages");
+
+                    // Active thumbnail
+                    if(item.classList.contains("active")){
+                        thumb.classList.add("active-thumb");
+                    }
+
+                    // Click thumbnail
+                    thumb.addEventListener("click", function(){
+
+                        carousel.to(index);
+
+                    });
+
+                    thumbnailContainer.appendChild(thumb);
+                }
+
+            });
+
+            // More count card
+            if(!expanded && totalImages > 4){
+
+                const remaining = totalImages - 4;
+
+                const moreCard = document.createElement("div");
+
+                moreCard.classList.add("more-images-card");
+
+                moreCard.innerHTML = `+${remaining}`;
+
+                moreCard.addEventListener("click", function(){
+
+                    expanded = true;
+
+                    renderThumbnails();
+
+                });
+
+                thumbnailContainer.appendChild(moreCard);
+            }
+        }
+
+        /* Update active thumbnail on slide */
+        carouselElement.addEventListener('slid.bs.carousel', function(){
+
+            renderThumbnails();
+
+        });
+
+        /* Initial load */
+        renderThumbnails();
+    </script>
+    <!-- End of Activity & Experiences -->
 </body>
 
 <!-- Mirrored from Bizzmirth Holidayso.vercel.app/template/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:52:47 GMT -->
