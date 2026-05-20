@@ -1,5 +1,10 @@
 <?php
-    include_once '../dashboard_user_details.php';
+    include 'customer_model.php';
+    include 'customer_mapping.php';
+    $base_url = "/ca.uniqbizz.com/dashboard/";
+    $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard";
+    $home_url = "/ca.uniqbizz.com/";
+    include_once(__DIR__ . '/../dashboard_user_details.php');
 ?>
 <header id="page-topbar" class="rounded-4" style="left: 0 !important;">
     <div class="layout-width">
@@ -10,10 +15,10 @@
                     <!-- Light Logo-->
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="../assets/images/fav.png" alt="" height="25">
+                            <img src="<?= $base_url ?>assets/images/fav.png" alt="" height="25">
                         </span>
                         <span class="logo-lg ms-5">
-                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="<?= $base_url ?>assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -21,7 +26,7 @@
                 <div class="com_logo">
                     <a href="index.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="../assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="<?= $base_url ?>assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -110,7 +115,7 @@
                 <!-- Customer -->
                 <?php if ($userType == '10'){?> 
                 <button type="button" class="btn shadow-none d-none d-md-inline-block">
-                    <a class="dropdown-item" href="view_cu_wallet.php">
+                    <a class="dropdown-item" href="<?= $base_url_cust.'/'. $folder_map[$customer['customer_type']] ?>customer_wallet.php">
                         <div class="d-flex gap-3">
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">
@@ -176,7 +181,7 @@
                             <div class="tab-pane fade show p-4" id="all-noti-tab" role="tabpanel">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="<?= $base_url ?>assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -187,7 +192,7 @@
                             <div class="tab-pane fade p-4" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="<?= $base_url ?>assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -197,7 +202,7 @@
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="<?= $base_url ?>assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -214,7 +219,7 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user bg-white">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?php echo '../uploading/' . $profile_pic; ?>" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="<?php echo $home_url.'uploading/' . $profile_pic; ?>" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $userFname . ' ' . $userLname; ?></span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo $designation; ?></span>
