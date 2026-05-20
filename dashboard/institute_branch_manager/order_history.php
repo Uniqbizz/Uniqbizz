@@ -2490,7 +2490,7 @@ $prevDateYear = date('Y');  //Year in number form.
                     $('a[href="#' + activeTabId + '"]').addClass("active");
                 },
                 error: function() {
-                    alert("Failed to load data. Please try again.");
+                    // alert("Failed to load data. Please try again.");
                 }
             });
         }

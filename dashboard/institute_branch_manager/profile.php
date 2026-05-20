@@ -449,7 +449,7 @@ if ($stmt->rowCount() > 0) {
                                             <div class="text-center">
                                                 <div class="profile-user position-relative d-inline-block mx-auto mb-4">
                                                     <?php if ($pan_card) {
-                                                        echo '<img id="img_pre3" src="../uploading/' . $pan_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
+                                                        echo '<img id="img_pre3" src="../../uploading/' . $pan_card . '" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
                                                     } else {
                                                         echo '<img id="img_pre3" src="../uploading/not_uploaded.png" class="avatar-xl img-thumbnail user-profile-image shadow" alt="user-pan-card">';
                                                     } ?>

@@ -115,7 +115,7 @@
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">
                                 Wallet Balance <br>
-                                <span class="walletAmount">&#8377; 3,200</span>
+                                <span class="walletAmount">&#8377; 21,500</span>
                             </p>
                         </div>
                     </a>
@@ -274,7 +274,7 @@
                                     <i class="bx bx-wallet walletIcon"></i>
                                     <p class="mb-0">
                                         Wallet Balance <br>
-                                        <span class="walletAmount">&#8377; 3,200</span>
+                                        <span class="walletAmount">&#8377; 21,500</span>
                                     </p>
                                 </div>
                             </a>

@@ -159,16 +159,16 @@
                                                                                     $previousPayout = $row['previousPayout'];
                                                                                     $previousPayoutTDS = $previousPayout * $tdsPercentage;
                                                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
-                                                                                    echo'<p class="fs-5 fw-bolder mt-n2">Rs. ' .round($TotalpreviousPayout). '/- <span class="badge bg-success font-size-10 fw-bold ms-4">Paid</span> </p>';
+                                                                                    echo'<p class="fs-5 fw-bolder mt-n2">Rs. ' .round($TotalpreviousPayout). '/- <span class="badge bg-warning font-size-10 fw-bold ms-4">Pending</span> </p>';
                                                                                 }
                                                                             }
                                                                         ?>
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#previousPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                                         </a>
-                                                                        <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                                                            <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                                                        </a>
+                                                                        <!--<a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">-->
+                                                                        <!--    <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>-->
+                                                                        <!--</a>-->
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-6 ">
@@ -190,9 +190,9 @@
                                                                         <a type="button" data-bs-toggle="modal" data-bs-target="#nextPayout" style=" cursor: pointer;">
                                                                             <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;">View Payout</p>
                                                                         </a>
-                                                                        <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                                                            <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                                                        </a>
+                                                                        <!--<a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">-->
+                                                                        <!--    <i class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%;"></i>-->
+                                                                        <!--</a>-->
                                                                     </div>
                                                                 </div>
                                                             </div>    
@@ -227,7 +227,7 @@
                                                                     <a type="button" data-bs-toggle="modal" data-bs-target="#totalPayout" style=" cursor: pointer;">
                                                                         <p class="mt-n2 mb-1 fw-bold p1" style="color: #0096FF;"> View Payout</p>
                                                                     </a>
-                                                                    <i onclick="totalPayoutExel();" class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%; cursor: pointer;"></i>
+                                                                    <!--<i onclick="totalPayoutExel();" class="bx bx-download download-icon1" style="font-size: 20px; color: black; margin-left: 20%; cursor: pointer;"></i>-->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -344,14 +344,14 @@
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalpreviousPayout). '/- </p>
                                                     <div>
-                                                        <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                        <span class="badge bg-warning font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Pending</span>';
                                                 }
                                             }
                                         ?>
                                         
-                                            <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                                <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                            </a>
+                                            <!--<a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $prevDateYear; ?>&payoutMonth=<?php echo $prevDateMonth; ?>&payoutmessage=PreviousPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">-->
+                                            <!--    <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>-->
+                                            <!--</a>-->
                                         </div>
                                     </div>
                                     
@@ -474,14 +474,14 @@
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                     echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .round($TotalNextPayout). '/- </p>
                                                     <div>
-                                                        <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
+                                                        <span class="badge bg-warning font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Pending</span>';
                                                 }
                                             }
                                         ?>
                                         
-                                            <a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">
-                                                <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>
-                                            </a>
+                                            <!--<a href="payout/forms/customer_membership/download_exel_ca.php?payoutYear=<?php echo $nextDateYear; ?>&payoutMonth=<?php echo $nextDateMonth; ?>&payoutmessage=NextPayout&user_id=<?php echo $userId; ?>&designation=<?php echo $columnDesignation ?>">-->
+                                            <!--    <i class="bx bx-download download-icon status1 paystatus" style="font-size: 20px; color: black; margin-left: 20%;"></i>-->
+                                            <!--</a>-->
                                         </div>
                                     </div>
                                     
@@ -606,7 +606,7 @@
                                                     $total_payable = $row["total_payable"] ?? '0';
                                                     echo'
                                                     <p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.$total_payable.'/- </p>
-                                                    <span class="badge bg-success font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>
+                                                    <span class="badge bg-warning font-size-10 fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Pending</span>
                                                     ';
                                                 }
                                             }

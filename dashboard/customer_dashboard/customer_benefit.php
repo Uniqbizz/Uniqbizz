@@ -159,7 +159,7 @@
 
                                                 <div>
                                                     <span>Valid Till</span>
-                                                    <strong><?= $expiry_date ?></strong>
+                                                    <strong> 11 April 2034</strong>
                                                 </div>
 
                                             </div>
@@ -208,7 +208,7 @@
                                             </h2>
                                             
                                                     <p class="vxq-active-membership-validity">
-                                                        Valid till <?= $expiry_date ?>
+                                                        Valid till 11 April 2034
                                             </p>
                                     
                                             <p class="vxq-active-membership-description">
@@ -305,7 +305,7 @@
                                         <h4>Priority Support</h4>
 
                                         <p>
-                                            Enjoy 24x7 priority support on all queries.
+                                            Priority support on all queries.
                                         </p>
                                     </div>
 
@@ -382,7 +382,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>₹18,750</h3>
+                                            <h3>₹21,500</h3>
                                             <p>Total Savings</p>
                                             <span>All time savings till date</span>
                                         </div>
@@ -395,7 +395,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>12</h3>
+                                            <h3>4</h3>
                                             <p>Trips Booked</p>
                                             <span>All trips booked till date</span>
                                         </div>
@@ -421,7 +421,7 @@
                                         </div>
 
                                         <div class="svz-highlight-content">
-                                            <h3>18</h3>
+                                            <h3>12</h3>
                                             <p>Coupons Unlocked</p>
                                             <span>Total coupons unlocked</span>
                                         </div>
