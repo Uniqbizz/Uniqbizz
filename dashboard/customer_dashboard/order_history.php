@@ -1,5 +1,5 @@
 <?php
-include_once 'dashboard_user_details.php';
+include_once '../dashboard_user_details.php';
 include 'customer_model.php';
 
 // get current date to show next payout amount  and pass it in sql @ line 129
@@ -2793,12 +2793,12 @@ $prevDateYear = date('Y');  //Year in number form.
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
-                            <img src="../${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
+                            <img src="../../${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
                         </div>
                         <div class="col-md-9 col-sm-9 col-9">
                             <div class="row">
                                 <div class="col-md-2 col-sm-2 col-2 d-flex align-items-center">
-                                    <img src="../uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
+                                    <img src="../../uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
                                 </div>
                                 <div class="col-md-10 col-sm-10 col-10">
                                     ${message}

@@ -1,6 +1,6 @@
 <?php
 require '../../connect.php';
-require '../../dashboard_user_details.php';
+require '../dashboard_user_details.php';
 header('Content-Type: application/json');
 
 try {

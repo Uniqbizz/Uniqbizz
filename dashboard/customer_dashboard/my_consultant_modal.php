@@ -14,7 +14,7 @@
         <!-- HEADER -->
         <div class="qxz9-modal-header">
 
-            <h2>My Consultant</h2>
+            <h2>My Branch Manager</h2>
 
             <p>
                 Your dedicated travel expert for all your travel needs.
@@ -39,7 +39,7 @@
                         <h3><?= $customerTa['firstname'] .' '. $customerTa['lastname']  ?></h3>
 
                         <span>
-                            Travel Consultant
+                            Branch Manager
                         </span>
 
                         <!-- <div class="qxz9-rating-badge">

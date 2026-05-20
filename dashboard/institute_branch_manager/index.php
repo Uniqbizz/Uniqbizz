@@ -100,7 +100,7 @@
                                         <div>
                                             <h4>Neo Select Enrollments</h4>
                                             <h2>48</h2>
-                                            <p>This Month</p>
+                                            <!--<p>This Month</p>-->
                                         </div>
                                     </div>
                                     <!-- NEW IMAGE SECTION -->
@@ -154,9 +154,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="neo-bottom-line-link">
-                                        Next Incentive Slab: 50 more to unlock ₹5,000 bonus
-                                    </div>
+                                    <!--<div class="neo-bottom-line-link">-->
+                                    <!--    Next Incentive Slab: 50 more to unlock ₹5,000 bonus-->
+                                    <!--</div>-->
                                 </div>
 
                                 <div class="neo-stat-card neo-purple-card neo-card-watermark neo-purple-watermark">
@@ -173,12 +173,12 @@
 
                                     <div class="neo-booking-mini-list">
                                         <div><span>Goa Packages</span> <strong>12</strong></div>
-                                        <div><span>Dubai</span> <strong>4</strong></div>
+                                        <!--<div><span>Dubai</span> <strong>4</strong></div>-->
                                         <div><span>Singapore</span> <strong>2</strong></div>
                                         <div><span>Others</span> <strong>0</strong></div>
                                     </div>
 
-                                    <a href="#" class="neo-view-link">View All Bookings <i class="fa-solid fa-arrow-right"></i></a>
+                                    <a href="order_history.php" class="neo-view-link">View All Bookings <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
 
                                 <!-- <div class="neo-stat-card neo-orange-card">
@@ -231,7 +231,7 @@
                                 <div class="neo-dashboard-panel">
                                     <div class="neo-panel-header">
                                         <h3>Recent Neo Select Customers</h3>
-                                        <a href="#">View All</a>
+                                        <a href="view_customer.php">View All</a>
                                     </div>
 
                                     <div class="neo-table-wrapper">

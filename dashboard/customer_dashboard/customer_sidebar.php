@@ -66,18 +66,18 @@
                         <i class="ri-user-shared-2-line"></i>
 
                         <span data-key="t-home">
-                            My Consultant
+                           My Branch Manager
                         </span>
 
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="#" role="button" aria-expanded="false" aria-controls="sidebarDashboards" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         <i class="ri-customer-service-2-line"></i> <span data-key="t-home">Support</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#">
+                    <a class="nav-link menu-link" href="reset_password.php">
                         <i class="ri-settings-3-line"></i><span>Settings</span>
                     </a>
                 </li>

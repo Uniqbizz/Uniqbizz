@@ -139,11 +139,11 @@
                                     <div class="d-flex justify-content-around gap-3 mt-3">
                                         <div class="mt-3">
                                             <p class="fs-6 text-muted mb-1">Total Vouchers</p>
-                                            <p class="fs-4 mb-0 fw-bolder textColor"><?= $couponData['coupon_total'] ?></p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor">30</p>
                                         </div>
                                         <div class="mt-3">
                                             <p class="fs-6 text-muted mb-1">Active</p>
-                                            <p class="fs-4 mb-0 fw-bolder textColor"><?= $couponData['active_coupon_total'] ?></p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor">18</p>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
@@ -158,7 +158,7 @@
                             <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
                                 <div class="border border-2 rounded-4">
                                     <div>
-                                        <img src="assets/images/complimentaryImage.png" alt="Package" class="complimentaryImage img-fluid w-100">
+                                        <img src="../assets/images/complimentaryImage.png" alt="Package" class="complimentaryImage img-fluid w-100">
                                     </div>
                                     <div class="complimentaryCard p-3 pt-2 card3">
                                         <div class="d-flex gap-3 align-items-center">
@@ -198,7 +198,7 @@
                                     </div>
                                     <div class="d-flex justify-content-around gap-3 mt-3">
                                         <div class="mt-3">
-                                            <p class="fs-4 mb-0 fw-bolder textColor">₹3,200.00</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor">₹21,500.00</p>
                                         </div>
                                         
                                     </div>
@@ -457,7 +457,7 @@
                         <!-- <div class="card border border-2 rounded-4 my-3">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-                                    <img src="assets/images/medal.png" alt="Medal" class="img-fluid w-100 medal">
+                                    <img src="../assets/images/medal.png" alt="Medal" class="img-fluid w-100 medal">
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 premiumCard">
                                     <h4 class="textColor fw-bolder my-4 d-flex">Premium Customer Membership 
@@ -544,7 +544,7 @@
                                         </div>
                                         <div class="tripDetails">
                                             <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                            <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                            <p class="text-muted fs-6">30 May 2026 - 09 June 2026 <br> 11N / 12D</p>
                                             <a href="#">
                                                 <div class="confirmBtn p-1 mb-3">
                                                     <p class="fs-6 mb-0 fw-bolder">Confirmed</p>
@@ -567,12 +567,12 @@
                                     </div>
                                     <div class="d-flex gap-3">
                                         <div class="">
-                                            <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
+                                            <img src="assets/images/packages/singapore.jpg" alt="TripsImage" class="tripsImage1">
                                         </div>
                                         <div class="tripDetails">
-                                            <h6 class="text-dark fw-bolder">Bali Bliss</h6>
+                                            <h6 class="text-dark fw-bolder">Singapore</h6>
                                             <div class="d-flex gap-3">
-                                                <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                                <p class="text-muted fs-6">12 August 2026 - 18 August 2026 <br> 6N / 7D</p>
                                                 <a href="#">
                                                     <div class="upcomingBtn p-1 mb-3">
                                                         <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
@@ -584,12 +584,12 @@
                                     </div>
                                     <div class="d-flex gap-3">
                                         <div class="">
-                                            <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
+                                            <img src="assets/images/packages/bali.jpg" alt="TripsImage" class="tripsImage1">
                                         </div>
                                         <div class="tripDetails">
                                             <h6 class="text-dark fw-bolder">Bali Bliss</h6>
                                             <div class="d-flex gap-3">
-                                                <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                                <p class="text-muted fs-6">12 Nov 2026 - 18 Nov 2026 <br> 6N / 7D</p>
                                                 <a href="#">
                                                     <div class="upcomingBtn p-1 mb-3">
                                                         <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
@@ -618,20 +618,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[0]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[0]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[0]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -641,20 +641,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[1]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[1]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[1]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -664,20 +664,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[2]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[2]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[2]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[2]['packid']?>">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -687,20 +687,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[3]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[3]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[3]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -710,20 +710,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[4]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[4]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[4]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -733,20 +733,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[5]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[5]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[5]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -756,20 +756,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[6]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[6]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[6]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -779,20 +779,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[7]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[7]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[7]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -802,20 +802,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[8]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[8]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[8]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -825,20 +825,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[9]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[9]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[9]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -848,20 +848,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[10]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
-                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[10]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[10]['duration']?>
+                                                        <!--<span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>-->
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -871,20 +871,20 @@
                                         <div class="package-card">
                                             <div class="card border border-1 rounded-4 mb-0">
                                                 <div class="packageCard">
-                                                    <img src="assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <img src="../../<?=$package_array[11]['image']?>" alt="TripsImage" class="packageImage">
                                                     <div class="heartIcon" onclick="toggleWishlist(this)">
                                                         <i class="fa-regular fa-heart"></i>
                                                     </div>
                                                 </div>
                                                 <div class="packageDetails p-3">
-                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
-                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                    <h6 class="text-dark fw-bolder"><?=$package_array[11]['packname']?></h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between"><?=$package_array[11]['duration']?>
                                                         <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
                                                     </p>
-                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
                                                         <div class="packageDetailBtn p-2 mb-0">
-                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                            <a href="../../tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -923,10 +923,10 @@
                                         <h2>18</h2>
                                     </div>
 
-                                    <div class="vzx7-mini-box vzx7-red-box">
-                                        <h5>Expired Coupons</h5>
-                                        <h2>0</h2>
-                                    </div>
+                                    <!--<div class="vzx7-mini-box vzx7-red-box">-->
+                                    <!--    <h5>Expired Coupons</h5>-->
+                                    <!--    <h2>0</h2>-->
+                                    <!--</div>-->
 
                                 </div>
 
@@ -968,15 +968,15 @@
                                     <div class="vzx7-progress-area">
 
                                         <div class="vzx7-progress-title">
-                                            0 Loyalty Coupons Earned
+                                            12 Loyalty Coupons Earned
                                         </div>
 
-                                        <div class="vzx7-progress-track">
-                                            <div class="vzx7-progress-fill"></div>
-                                        </div>
+                                        <!--<div class="vzx7-progress-track">-->
+                                        <!--    <div class="vzx7-progress-fill"></div>-->
+                                        <!--</div>-->
 
                                         <div class="vzx7-progress-footer">
-                                            <span>0 Next Reward Start Travelling!</span>
+                                            <!--<span>12 Next Reward Start Travelling!</span>-->
                                             <!-- <span>
                                                 
                                             </span> -->
@@ -1013,21 +1013,22 @@
 
                                     <div>
                                         <h5>Total Earnings</h5>
-                                        <h2>₹4,500</h2>
+                                        <h2>₹2,300</h2>
                                     </div>
 
-                                    <div>
-                                        <h5>Pending Earnings</h5>
-                                        <h2>₹1,200</h2>
-                                    </div>
+                                    <!--<div>-->
+                                    <!--    <h5>Pending Earnings</h5>-->
+                                    <!--    <h2>₹1,200</h2>-->
+                                    <!--</div>-->
 
                                 </div>
 
                                 <button class="vzx7-invite-btn">
+                                   
 
                                     <i class="fa-solid fa-user-plus"></i>
 
-                                    Invite Friends & Earn
+                                     <a href="view_customer.php">Invite Friends & Earn</a>
 
                                     <i class="fa-solid fa-share-nodes"></i>
 
@@ -1122,7 +1123,9 @@
                                     </p>
 
                                     <button class="nxv9-support-btn">
+                                        <a href="tel:8010892265" id="callBtn">
                                         Contact Support
+                                        </a>
                                     </button>
 
                                 </div>
