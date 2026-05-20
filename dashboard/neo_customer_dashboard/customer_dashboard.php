@@ -441,7 +441,7 @@
                                     </div>
     
                                     <div class="col-lg-auto text-lg-end text-center">
-                                        <a href="customer_wallet.php" class="btn benefit-btn">
+                                        <a href="customer_wallet.php" class="btn benefit-btn border-primary">
                                             View All Benefits
                                             <i class="fa-solid fa-arrow-right ms-2"></i>
                                         </a>
@@ -1028,7 +1028,7 @@
 
                                     <i class="fa-solid fa-user-plus"></i>
 
-                                     <a href="view_customer.php">Invite Friends & Earn</a>
+                                     <a href="view_customer.php" style="color: #ffff;">Invite Friends & Earn</a>
 
                                     <i class="fa-solid fa-share-nodes"></i>
 
