@@ -434,7 +434,7 @@ function formatIndianCurrency($amount) {
 
         <div class="detail-row">
             <span class="label">Amount</span>
-            <span class="value">₹<?php echo $amount; ?></span>
+            <span class="value">₹<?php echo $amount; ?>/-</span>
         </div>
 
         <div class="detail-row">
