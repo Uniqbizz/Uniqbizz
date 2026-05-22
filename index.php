@@ -228,6 +228,25 @@
             opacity: 1;
             border: 2px solid #e03d42;
         }
+        .newsImage {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+        .faIcon {
+            font-size: 50px;
+            color: #03730f;
+        }
+        .cardBackground {
+            background: #d4f5d8;
+            border-radius: 16px;
+        }
+        .newsDetails {
+            position: absolute;
+            bottom: 60px;
+            left: 160px;
+        }
         /* <!-- End of Activity & Experiences --> */
         @media screen and (max-width: 1184px) {
             .carousel-section {
@@ -271,6 +290,10 @@
                 right: 35px !important;
                 opacity: 1;
             }
+            .faIcon {
+                font-size: 45px;
+                color: #03730f;
+            }
         }
         @media screen and (max-width: 1100px) {
             .carousel-section {
@@ -300,6 +323,13 @@
                 position: absolute;
                 top: 290px;
                 right: 5px !important;
+            }
+        }
+        @media screen and (max-width: 1024px) {
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 100px;
             }
         }
         @media screen and (max-width: 992px) {
@@ -340,6 +370,11 @@
                 font-size: 14px !important;
                 padding-left: 50px !important;
                 width: 450px !important;
+            }
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 160px;
             }
         }
         @media screen and (max-width: 910px) {
@@ -448,6 +483,11 @@
                 min-width: 75px;
                 height: 60px;
             }
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 130px;
+            }
         }
         @media screen and (max-width: 575px) {
             .heroHeight {
@@ -483,6 +523,11 @@
             .sliderWidth {
                 width: 100%;
                 height: 276px !important;
+            }
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 60px;
             }
         }
         @media screen and (max-width: 400px) {
@@ -1243,12 +1288,59 @@
                     </div>
                 </div>
                 <!-- Modal End -->
+                <div class="my-5">
+                    <div class="cardBackground">
+                        <div class="row d-flex justify-content-around p-2">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-users d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">5000+</h2>
+                                    <p class="fontSize text-muted mb-0">Happy Travelers</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-calendar-days d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">50+</h2>
+                                    <p class="fontSize text-muted mb-0">Seminars Conducted</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-handshake d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">10+</h2>
+                                    <p class="fontSize text-muted mb-0">Corporate Tie-ups</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-graduation-cap d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">100+</h2>
+                                    <p class="fontSize text-muted mb-0">Workshops Attended</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <img src="assets/images/news/news1.jpg" class="newsImage" alt="">
+                        <div class="newsDetails">
+                            <h3 class="text-white fw-bolder">We Don't Just Plan Trips <br> We Create Experiences</h3>
+                            <div class="d-inline-block mt-4">
+                                <a href="about.php">
+                                    <div class="btn-primary-icon-sm rounded-2 py-2">
+                                        <p class="text-white">Know More</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <!-- End of Activity & Experiences -->
 
         <!-- About Us area S t a r t -->
-        <section class="about-area-two about-bg-before section-padding2 mt-4">
+        <!-- <section class="about-area-two about-bg-before section-padding2 mt-4">
             <div class="container">
                 <div class="row align-items-center position-relative">
                     <div class="col-lg-8">
@@ -1275,7 +1367,6 @@
                 <div class="about-banner-two">
                     <h4 class="watermark-text ">7+ years of experience</h4>
                     <div class="video-section">
-                        <!-- Video -->
                         <div class="hero-bg-video">
                             <video class="hero-slider-video video-cover radius-30" 
                                 poster="assets/images/gallery/about-curve-banner.png" loop autoplay muted>
@@ -1309,7 +1400,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
         <!--/ End-of About US-->
 
         <!-- Feature S t a r t -->
@@ -1317,7 +1408,7 @@
             <div class="container">
                 <div class="row justify-content-center position-relative z-10">
                     <div class="col-xl-7 col-lg-7">
-                        <div class="section-title mx-430 mx-auto text-center">
+                        <div class="section-title mx-430 mx-auto text-center pt-3">
                             <span class="highlights fancy-font font-400">Popular Packages</span>
                             <h4 class="title">
                                 Explore The Beautiful Places Around World
