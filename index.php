@@ -210,26 +210,23 @@
             cursor: pointer;
             flex-shrink: 0;
         }
-
-        /* Mobile */
-        @media(max-width: 767px){
-
-            .destinationImages{
-                height: 260px;
-            }
-
-            .destinationUpcomingImages{
-                width: 75px;
-                min-width: 75px;
-                height: 60px;
-            }
-
-            .more-images-card{
-                width: 75px;
-                min-width: 75px;
-                height: 60px;
-            }
-
+        .btnClose {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            z-index: 999;
+            background: #e03d42;
+            opacity: 1;
+            border-radius: 100%;
+            padding: 7px;
+            border: 2px solid #e03d42;
+        }
+        .btnClose:hover {
+            position: absolute;
+            background: #fff;
+            color: #e03d42;
+            opacity: 1;
+            border: 2px solid #e03d42;
         }
         /* <!-- End of Activity & Experiences --> */
         @media screen and (max-width: 1184px) {
@@ -435,6 +432,21 @@
             .navMenu {
                 display: flex !important;
                 justify-content: center !important;
+            }
+            .destinationImages{
+                height: 260px;
+            }
+
+            .destinationUpcomingImages{
+                width: 75px;
+                min-width: 75px;
+                height: 60px;
+            }
+
+            .more-images-card{
+                width: 75px;
+                min-width: 75px;
+                height: 60px;
             }
         }
         @media screen and (max-width: 575px) {
@@ -1156,10 +1168,9 @@
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
+                            <button type="button" class="btn-close btnClose" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa-solid fa-xmark d-flex justify-content-center"></i>
+                            </button>
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6 col-md-12">
@@ -1227,10 +1238,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
