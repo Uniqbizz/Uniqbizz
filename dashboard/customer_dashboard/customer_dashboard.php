@@ -3,7 +3,6 @@
     $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
     $home_url = "/ca.uniqbizz.com/";
     include_once(__DIR__ . '/../dashboard_user_details.php');
-    include 'customer_model.php';
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -89,13 +88,13 @@
                                     Let's make today a day to remember.
                                 </p>
                                 <div class="d-flex gap-3 mt-4">
-                                    <a href="$home_url tour-list.php">
+                                    <a href="<?= $home_url ?>tour-list.php">
                                         <div class="exploreBtn gap-3 px-2">
                                             <i class="fa-solid fa-plane-departure d-flex align-items-center"></i>
                                             <p class="fs-6 mb-0 fw-bolder">Explore Packages</p>
                                         </div>
                                     </a>
-                                    <a href="$home_url tour-list.php">
+                                    <a href="<?= $base_url ?>order_history.php">
                                         <div class="exploreBtn gap-3 px-2">
                                             <i class="fa-solid fa-suitcase d-flex align-items-center"></i>
                                             <p class="fs-6 mb-0 fw-bolder"> View My Trips</p>
@@ -146,7 +145,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="customer_coupon_wallet_list.php">
+                                        <a href="<?= $base_url_sidebar.$folder_map[$customer['customer_type']]?>customer_coupon_wallet_list.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Coupons</p>
                                             </div>
@@ -202,7 +201,7 @@
                                         
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="customer_wallet.php">
+                                        <a href="<?= $base_url_sidebar.$folder_map[$customer['customer_type']]?>customer_wallet.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Wallets</p>
                                             </div>
@@ -904,7 +903,7 @@
                                                             <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
                                                         </p>
                                                     </div>
-                                                    <a href="#">
+                                                    <a href="<?= $base_url?>view_customer.php">
                                                         <div class="inviteBtn gap-3 px-2">
                                                             <p class="fs-6 mb-0 fw-bolder">Invite Friends & Earn</p>
                                                             <i class="ri-stackshare-line d-flex align-items-center"></i>
@@ -1047,31 +1046,7 @@
         <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="ri-phone-fill"></i>
         </button>
-        <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
-            <div class="modal-dialog modal-sm me-4">
-                <div class="modal-content rounded-4 border-1">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <img src="<?= $base_url ?>assets/images/img-bot.png" alt="image-bot" class="mb-3">
-                        <h5 class="fw-bold" id="staticBackdropLabel">
-                            Hi, how can we help?
-                        </h5>
-                        <p class="text-muted px-1">
-                            Contact us if you need assistance.
-                            We will respond as soon as possible.
-                        </p>
-                        <div class="d-grid col-10 mx-auto">
-                            <a class="btn btn-primary rounded-3" href="tel:8010892265" id="callBtn">
-                                <i class="ri-phone-fill"></i>
-                                8010892265
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include (__DIR__ .'/../contact_modal.php') ?>
 
         <!-- contact card pop up end-->
 
@@ -1096,15 +1071,15 @@
         <script src="<?= $base_url ?>assets/js/app.js"></script>
         <!-- Chart -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- <script src="<?= $base_url ?>assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
+        <!-- <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="<?= $base_url ?>assets/js/pages/dashboard-job.init.js"></script>
+        <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
 
-        <script>
+        <!-- <script>
             var userType= document.getElementById("user_type").value;
             function highlightSelected(id) {
                 // Remove highlight from all list items
@@ -1133,7 +1108,7 @@
                     selectedItem.classList.add('active-highlight');
                 }
             }
-        </script>
+        </script> -->
         
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1182,7 +1157,7 @@
                 }
             });
         </script>
-        <script>
+        <!-- <script>
             document.addEventListener("DOMContentLoaded", function () {
 
                 const sidebar = document.querySelector(".navbar-menu");
@@ -1226,8 +1201,8 @@
 
             });
 
-        </script>
-        <script>
+        </script> -->
+        <!-- <script>
             // Get values directly from HTML
             const completed = parseInt(document.getElementById("completedYears").innerText);
             const total = parseInt(document.getElementById("totalYears").innerText);
@@ -1237,7 +1212,7 @@
 
             // Update progress bar
             document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script>
+        </script> -->
         <script>
             function toggleWishlist(button) {
 

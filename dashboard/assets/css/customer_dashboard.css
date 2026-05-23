@@ -168,7 +168,8 @@ body {
     left: 0 !important;
     height: calc(100vh - 90px) !important;
     transition: all 0.3s ease !important;
-    z-index: 9999 !important;
+    /* z-index: 9999 !important; */
+    z-index: 1;
 }
 
 /* SCROLL */

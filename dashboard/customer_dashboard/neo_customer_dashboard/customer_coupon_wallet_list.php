@@ -1842,31 +1842,7 @@
         <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="ri-phone-fill"></i>
         </button>
-        <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
-            <div class="modal-dialog modal-sm me-4">
-                <div class="modal-content rounded-4 border-1">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <img src="<?= $base_url ?>assets/images/img-bot.png" alt="image-bot" class="mb-3">
-                        <h5 class="fw-bold" id="staticBackdropLabel">
-                            Hi, how can we help?
-                        </h5>
-                        <p class="text-muted px-1">
-                            Contact us if you need assistance.
-                            We will respond as soon as possible.
-                        </p>
-                        <div class="d-grid col-10 mx-auto">
-                            <a class="btn btn-primary rounded-3" href="tel:8010892265" id="callBtn">
-                                <i class="ri-phone-fill"></i>
-                                8010892265
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include (__DIR__ .'/../../contact_modal.php') ?>
 
         <!-- contact card pop up end-->
 
@@ -1898,7 +1874,7 @@
 
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
 
-        <script>
+        <!-- <script>
             var userType= document.getElementById("user_type").value;
             function highlightSelected(id) {
                 // Remove highlight from all list items
@@ -1927,7 +1903,7 @@
                     selectedItem.classList.add('active-highlight');
                 }
             }
-        </script>
+        </script> -->
         
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1976,7 +1952,7 @@
                 }
             });
         </script>
-        <script>
+        <!-- <script>
             document.addEventListener("DOMContentLoaded", function () {
 
                 const sidebar = document.querySelector(".navbar-menu");
@@ -2031,7 +2007,7 @@
 
             // Update progress bar
             document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script>
+        </script> -->
 
         <!-- dialer logic -->
 
@@ -2082,197 +2058,197 @@
             <!--    });-->
 
             <!--</script>-->
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                
-                    const tabs = document.querySelectorAll('.coupon-tab');
-                    const allRows = Array.from(
-                        document.querySelectorAll('#couponTableBody tr')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        
+            const tabs = document.querySelectorAll('.coupon-tab');
+            const allRows = Array.from(
+                document.querySelectorAll('#couponTableBody tr')
+            );
+        
+            const rowsPerPage = 10;
+        
+            let currentPage = 1;
+            let currentFilter = 'all';
+            let filteredRows = [...allRows];
+        
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            const pageNumbers = document.getElementById('pageNumbers');
+        
+            const showingCount = document.getElementById('showingCount');
+            const showingEnd = document.getElementById('showingEnd');
+            const totalCoupons = document.getElementById('totalCoupons');
+        
+            function updateTable() {
+        
+                allRows.forEach(row => {
+                    row.style.display = 'none';
+                });
+        
+                const start =
+                    (currentPage - 1) * rowsPerPage;
+        
+                const end =
+                    start + rowsPerPage;
+        
+                const visibleRows =
+                    filteredRows.slice(start, end);
+        
+                visibleRows.forEach(row => {
+                    row.style.display = 'table-row';
+                });
+        
+                updatePaginationInfo();
+            }
+        
+            function updatePaginationInfo() {
+        
+                const totalPages =
+                    Math.ceil(
+                        filteredRows.length / rowsPerPage
                     );
-                
-                    const rowsPerPage = 10;
-                
-                    let currentPage = 1;
-                    let currentFilter = 'all';
-                    let filteredRows = [...allRows];
-                
-                    const prevBtn = document.getElementById('prevPage');
-                    const nextBtn = document.getElementById('nextPage');
-                    const pageNumbers = document.getElementById('pageNumbers');
-                
-                    const showingCount = document.getElementById('showingCount');
-                    const showingEnd = document.getElementById('showingEnd');
-                    const totalCoupons = document.getElementById('totalCoupons');
-                
-                    function updateTable() {
-                
-                        allRows.forEach(row => {
-                            row.style.display = 'none';
-                        });
-                
-                        const start =
-                            (currentPage - 1) * rowsPerPage;
-                
-                        const end =
-                            start + rowsPerPage;
-                
-                        const visibleRows =
-                            filteredRows.slice(start, end);
-                
-                        visibleRows.forEach(row => {
-                            row.style.display = 'table-row';
-                        });
-                
-                        updatePaginationInfo();
-                    }
-                
-                    function updatePaginationInfo() {
-                
-                        const totalPages =
-                            Math.ceil(
-                                filteredRows.length / rowsPerPage
-                            );
-                
-                        pageNumbers.innerHTML = '';
-                
-                        for (
-                            let i = 1;
-                            i <= totalPages;
-                            i++
-                        ) {
-                
-                            const btn =
-                                document.createElement('button');
-                
-                            btn.textContent = i;
-                
-                            btn.className =
-                                i === currentPage
-                                ? 'btn btn-sm btn-primary'
-                                : 'btn btn-sm btn-outline-primary';
-                
-                            btn.addEventListener(
-                                'click',
-                                function () {
-                                    currentPage = i;
-                                    updateTable();
-                                }
-                            );
-                
-                            pageNumbers.appendChild(btn);
+        
+                pageNumbers.innerHTML = '';
+        
+                for (
+                    let i = 1;
+                    i <= totalPages;
+                    i++
+                ) {
+        
+                    const btn =
+                        document.createElement('button');
+        
+                    btn.textContent = i;
+        
+                    btn.className =
+                        i === currentPage
+                        ? 'btn btn-sm btn-primary'
+                        : 'btn btn-sm btn-outline-primary';
+        
+                    btn.addEventListener(
+                        'click',
+                        function () {
+                            currentPage = i;
+                            updateTable();
                         }
-                
-                        prevBtn.disabled =
-                            currentPage === 1;
-                
-                        nextBtn.disabled =
-                            currentPage === totalPages ||
-                            totalPages === 0;
-                
-                        const startNum =
-                            filteredRows.length === 0
-                            ? 0
-                            : ((currentPage - 1)
-                                * rowsPerPage) + 1;
-                
-                        const endNum =
-                            Math.min(
-                                currentPage * rowsPerPage,
-                                filteredRows.length
+                    );
+        
+                    pageNumbers.appendChild(btn);
+                }
+        
+                prevBtn.disabled =
+                    currentPage === 1;
+        
+                nextBtn.disabled =
+                    currentPage === totalPages ||
+                    totalPages === 0;
+        
+                const startNum =
+                    filteredRows.length === 0
+                    ? 0
+                    : ((currentPage - 1)
+                        * rowsPerPage) + 1;
+        
+                const endNum =
+                    Math.min(
+                        currentPage * rowsPerPage,
+                        filteredRows.length
+                    );
+        
+                showingCount.textContent =
+                    startNum;
+        
+                showingEnd.textContent =
+                    endNum;
+        
+                totalCoupons.textContent =
+                    filteredRows.length;
+            }
+        
+            function applyFilter(filter) {
+        
+                currentFilter = filter;
+                currentPage = 1;
+        
+                filteredRows =
+                    allRows.filter(row => {
+        
+                        const status =
+                            row.dataset.status;
+        
+                        return (
+                            filter === 'all'
+                            ||
+                            status === filter
+                        );
+                    });
+        
+                updateTable();
+            }
+        
+            tabs.forEach(tab => {
+        
+                tab.addEventListener(
+                    'click',
+                    function () {
+        
+                        tabs.forEach(btn => {
+                            btn.classList.remove(
+                                'active'
                             );
-                
-                        showingCount.textContent =
-                            startNum;
-                
-                        showingEnd.textContent =
-                            endNum;
-                
-                        totalCoupons.textContent =
-                            filteredRows.length;
+                        });
+        
+                        this.classList.add(
+                            'active'
+                        );
+        
+                        const filter =
+                            this.dataset.filter;
+        
+                        applyFilter(filter);
                     }
-                
-                    function applyFilter(filter) {
-                
-                        currentFilter = filter;
-                        currentPage = 1;
-                
-                        filteredRows =
-                            allRows.filter(row => {
-                
-                                const status =
-                                    row.dataset.status;
-                
-                                return (
-                                    filter === 'all'
-                                    ||
-                                    status === filter
-                                );
-                            });
-                
+                );
+        
+            });
+        
+            prevBtn.addEventListener(
+                'click',
+                function () {
+        
+                    if (
+                        currentPage > 1
+                    ) {
+                        currentPage--;
                         updateTable();
                     }
-                
-                    tabs.forEach(tab => {
-                
-                        tab.addEventListener(
-                            'click',
-                            function () {
-                
-                                tabs.forEach(btn => {
-                                    btn.classList.remove(
-                                        'active'
-                                    );
-                                });
-                
-                                this.classList.add(
-                                    'active'
-                                );
-                
-                                const filter =
-                                    this.dataset.filter;
-                
-                                applyFilter(filter);
-                            }
+                }
+            );
+        
+            nextBtn.addEventListener(
+                'click',
+                function () {
+        
+                    const totalPages =
+                        Math.ceil(
+                            filteredRows.length /
+                            rowsPerPage
                         );
-                
-                    });
-                
-                    prevBtn.addEventListener(
-                        'click',
-                        function () {
-                
-                            if (
-                                currentPage > 1
-                            ) {
-                                currentPage--;
-                                updateTable();
-                            }
-                        }
-                    );
-                
-                    nextBtn.addEventListener(
-                        'click',
-                        function () {
-                
-                            const totalPages =
-                                Math.ceil(
-                                    filteredRows.length /
-                                    rowsPerPage
-                                );
-                
-                            if (
-                                currentPage <
-                                totalPages
-                            ) {
-                                currentPage++;
-                                updateTable();
-                            }
-                        }
-                    );
-                
-                    applyFilter('all');
-                
-                });
-                </script>
+        
+                    if (
+                        currentPage <
+                        totalPages
+                    ) {
+                        currentPage++;
+                        updateTable();
+                    }
+                }
+            );
+        
+            applyFilter('all');
+        
+        });
+    </script>
     </body>
 </html>
