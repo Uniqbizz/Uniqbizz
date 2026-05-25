@@ -74,7 +74,7 @@
                         <i class="ri-user-shared-2-line"></i>
 
                         <span data-key="t-home">
-                           My Branch Manager
+                           My <?= $customerTa['user_type'] == '11' ? 'Travel Consultant' : ($customerTa['user_type'] == '33' ? 'Branch Manager' : 'NA' ) ?> 
                         </span>
 
                     </a>

@@ -14,7 +14,7 @@
         <!-- HEADER -->
         <div class="qxz9-modal-header">
 
-            <h2>My Branch Manager</h2>
+            <h2>My <?= $customerTa['user_type'] == '11' ? 'Travel Consultant' : ($customerTa['user_type'] == '33' ? 'Branch Manager' : 'NA' ) ?></h2>
 
             <p>
                 Your dedicated travel expert for all your travel needs.

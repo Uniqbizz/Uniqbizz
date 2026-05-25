@@ -222,7 +222,7 @@
                                             <p class="text-muted mb-0">Your Travel Consultant</p>
                                             <p class="mb-0 fw-bolder fs-4 textColor">
                                                 <?= $customerTa['firstname'] .' '. $customerTa['lastname']  ?><br>
-                                                <span class="walletAmount fw-bold textColor fs-6">Travel Consultant</span>
+                                                <span class="walletAmount fw-bold textColor fs-6"><?= $customerTa['user_type'] == '11' ? 'Travel Consultant' : ($customerTa['user_type'] == '33' ? 'Branch Manager' : 'NA' ) ?></span>
                                             </p>
                                         </div>
                                     </div>

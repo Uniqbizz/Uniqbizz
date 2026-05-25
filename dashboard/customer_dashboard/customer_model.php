@@ -57,9 +57,9 @@
     $expiry_date = date('j M Y', strtotime($couponData['expiry_date']));
 
     //customers tc
-    $sqlCustTa = $conn->prepare("SELECT * FROM ca_travelagency WHERE ca_travelagency_id = :userID
+    $sqlCustTa = $conn->prepare("SELECT ca_travelagency_id AS user_id,email,contact_no,firstname,lastname,country_code,user_type,profile_pic FROM ca_travelagency WHERE ca_travelagency_id = :userID
                                     UNION
-                                SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = :userID
+                                SELECT institution_branch_manager_id AS user_id,email,contact_no,firstname,lastname,country_code,user_type,profile_pic FROM institution_branch_manager WHERE institution_branch_manager_id = :userID
     ");
 
     $sqlCustTa->execute([
