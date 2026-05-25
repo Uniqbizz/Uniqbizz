@@ -1,8 +1,8 @@
 <?php
-    include 'customer_model.php';
-    include 'customer_mapping.php';
+    include (__DIR__ .'/customer_model.php');
+    include (__DIR__ .'/customer_mapping.php');
     $base_url = "/ca.uniqbizz.com/dashboard/";
-    $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard";
+    $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
     $home_url = "/ca.uniqbizz.com/";
     include_once(__DIR__ . '/../dashboard_user_details.php');
 ?>
@@ -13,7 +13,7 @@
                 <!-- LOGO -->
                 <div class="navbar-brand-box" class="rounded-4">
                     <!-- Light Logo-->
-                    <a href="index.php" class="logo logo-light">
+                    <a href="<?= $base_url_cust?>customer_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="<?= $base_url ?>assets/images/fav.png" alt="" height="25">
                         </span>
@@ -24,7 +24,7 @@
                 </div>
                 <!-- logo for mobile view  -->
                 <div class="com_logo">
-                    <a href="index.php" class="logo logo-light">
+                    <a href="<?= $base_url_cust?>customer_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="<?= $base_url ?>assets/images/bizz_logo.png" alt="" height="50">
                         </span>
@@ -284,10 +284,9 @@
                                 </div>
                             </a>
                         </div>
-                        <a class="dropdown-item" href="profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="reset_password.php"><i class="fa-solid fa-key"></i></i> <span class="align-middle">Reset Password</span></a>
+                        <a class="dropdown-item" href="<?= $base_url ?>profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a class="dropdown-item" href="<?= $base_url ?>logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,20 @@
             FROM cu_coupons
             WHERE user_id = :user_id
             AND usage_status = 0
-        ) AS active_coupon_total
+        ) AS active_coupon_total,
+
+        (
+            SELECT COUNT(*)
+            FROM cu_coupons
+            WHERE user_id = :user_id
+            AND usage_status = 1
+        ) AS used_coupon_total,
+
+        (
+            SELECT COALESCE(SUM(coupon_amt), 0)
+            FROM cu_coupons
+            WHERE user_id = :user_id
+        ) AS coupon_total_value
 
     FROM cu_coupons
 
@@ -109,12 +122,24 @@
             "image"     => $packageImage['image'] ?? ''
         ];
     }
-    
-    // Output
-    // echo "<pre>";
-    // print_r($package_array);
-    // echo "</pre>";
-    
-    
+
+    //customer total ref amount
+    $sqlRefTotal = $conn->prepare("
+        SELECT 
+            COALESCE(SUM(referral_amount), 0) AS total_referral_earning
+        FROM customer_reference_payout
+        WHERE customer_id = :user_id
+    ");
+
+    $sqlRefTotal->execute([
+        ":user_id" => $userId
+    ]);
+
+    $refTotal = $sqlRefTotal->fetch(PDO::FETCH_ASSOC);
+
+    // ACCESS VALUE
+    $totalReferralAmount =
+        $refTotal['total_referral_earning'];
+       
     
 ?>

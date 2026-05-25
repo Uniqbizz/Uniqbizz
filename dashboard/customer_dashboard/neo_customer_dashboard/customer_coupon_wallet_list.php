@@ -1,6 +1,6 @@
 <?php
-    include_once '../../dashboard_user_details.php';
-    include '../customer_model.php';
+    include_once (__DIR__ .'/../../dashboard_user_details.php');
+    include (__DIR__ .'/../customer_model.php');
     $base_url = "/ca.uniqbizz.com/dashboard/";
     $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
     $home_url = "/ca.uniqbizz.com/";
@@ -113,7 +113,7 @@
 
                                             <div class="coupon-ticket">
 
-                                                <div class="ticket-count">30</div>
+                                                <div class="ticket-count"><?= $couponData['coupon_total'] ?></div>
 
                                                 <div class="ticket-label">
                                                     COUPONS
@@ -134,7 +134,7 @@
                                                     </div>
 
                                                     <div class="stat-value">
-                                                        30
+                                                        <?= $couponData['coupon_total'] ?>
                                                     </div>
 
                                                 </div>
@@ -146,7 +146,7 @@
                                                     </div>
 
                                                     <div class="stat-value">
-                                                        12
+                                                        <?= $couponData['used_coupon_total'] ?>
                                                     </div>
 
                                                 </div>
@@ -158,7 +158,7 @@
                                                     </div>
 
                                                     <div class="stat-value green">
-                                                        18
+                                                        <?= $couponData['active_coupon_total'] ?>
                                                     </div>
 
                                                 </div>
@@ -170,7 +170,7 @@
                                                     </div>
 
                                                     <div class="stat-value purple">
-                                                        ₹15,000
+                                                        ₹<?= $couponData['coupon_total_value'] ?>
                                                     </div>
 
                                                 </div>

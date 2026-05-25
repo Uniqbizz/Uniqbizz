@@ -3,6 +3,8 @@
     $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
     $home_url = "/ca.uniqbizz.com/";
     include_once(__DIR__ . '/../dashboard_user_details.php');
+    include (__DIR__ .'/customer_model.php');
+    include (__DIR__ .'/customer_mapping.php');
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -484,7 +486,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[0]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[0]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -507,7 +509,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[1]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[1]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -530,8 +532,8 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[2]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[2]['packid']?>">View Details</a>
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[2]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -553,7 +555,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[3]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[3]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -576,8 +578,8 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[4]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[4]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -599,7 +601,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[5]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[5]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -622,7 +624,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[6]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[6]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -645,7 +647,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[7]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[7]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -668,8 +670,8 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[8]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
-                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
+                                                            <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[8]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -691,7 +693,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[9]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[9]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -714,7 +716,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[10]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[10]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -737,7 +739,7 @@
                                                     </p>
                                                     <p class="mb-3 fw-bolder textColor fs-5">&#8377;<?=$package_array[11]['price']?><span class="fs-6 text-muted fw-normal">/person</span></p>
                                                     <a href="#">
-                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                        <div class="packageDetailBtn p-2 mb-0 ">
                                                             <a href="<?= $home_url ?> tour-details.php?pacId=<?=$package_array[11]['packid']?>" class="fs-6 mb-0 fw-bolder">View Details</a>
                                                         </div>
                                                     </a>
@@ -751,77 +753,121 @@
                         <!-- end card section 4 -->
                         <!-- card section 5 -->
                         <div class="row g-3">
+
                             <div class="col-lg-6 col-12">
                                 <div class="analyticsCard p-3 h-100">
+
                                     <!-- Header -->
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
                                         <h5 class="chartTitle fw-bolder mb-0">
                                             Spending Overview
-                                            <span class="smallText">(All Time)</span>
+                                            <!-- <span class="smallText">(All Time)</span> -->
                                         </h5>
+
                                         <select class="form-select yearSelect" id="yearFilter">
                                             <option value="this">This Year</option>
                                             <option value="last">Last Year</option>
                                         </select>
                                     </div>
+
                                     <!-- Line Chart -->
                                     <div class="chartWrapper">
                                         <canvas id="spendingChart"></canvas>
                                     </div>
+
                                 </div>
                             </div>
+
                             <div class="col-lg-6 col-12">
                                 <div class="analyticsCard p-3 h-100">
+
                                     <!-- Header -->
                                     <h5 class="chartTitle fw-bolder mb-4">
                                         Trip Summary
                                         <span class="smallText">(All Time)</span>
                                     </h5>
+
                                     <div class="row align-items-center g-4">
+
                                         <!-- Donut Chart -->
                                         <div class="col-md-5 text-center">
+
                                             <div class="donutWrapper">
+
                                                 <canvas id="tripChart"></canvas>
+
                                                 <!-- Center Text -->
                                                 <div class="donutCenterText">
-                                                    <h2 class="fw-bolder mb-0">8</h2>
-                                                    <p class="smallText mb-0">Total Trips</p>
+
+                                                    <h2 class="fw-bolder mb-0" id="totalTripsCount">
+                                                        0
+                                                    </h2>
+
+                                                    <p class="smallText mb-0">
+                                                        Total Trips
+                                                    </p>
+
                                                 </div>
+
                                             </div>
+
                                         </div>
 
                                         <!-- Legend -->
                                         <div class="col-md-7">
+
                                             <!-- Domestic -->
-                                            <div class="legendItem"onclick="tripAction(0, this)">
+                                            <div class="legendItem"
+                                                onclick="tripAction(0, this)">
+
                                                 <div class="legendLeft">
                                                     <span class="legendColor domestic"></span>
                                                     Domestic Trips
                                                 </div>
-                                                <span>4 (50%)</span>
+
+                                                <span id="domesticTripText">
+                                                    0 (0%)
+                                                </span>
+
                                             </div>
 
                                             <!-- International -->
-                                            <div class="legendItem"onclick="tripAction(0, this)">
+                                            <div class="legendItem"
+                                                onclick="tripAction(1, this)">
+
                                                 <div class="legendLeft">
                                                     <span class="legendColor international"></span>
                                                     International Trips
                                                 </div>
-                                                <span>3 (37.5%)</span>
+
+                                                <span id="internationalTripText">
+                                                    0 (0%)
+                                                </span>
+
                                             </div>
 
                                             <!-- Upcoming -->
-                                            <div class="legendItem mb-0"onclick="tripAction(0, this)">
+                                            <div class="legendItem mb-0"
+                                                onclick="tripAction(2, this)">
+
                                                 <div class="legendLeft">
                                                     <span class="legendColor upcoming"></span>
                                                     Upcoming Trips
                                                 </div>
-                                                <span>1 (12.5%)</span>
+
+                                                <span id="upcomingTripText">
+                                                    0 (0%)
+                                                </span>
+
                                             </div>
+
                                         </div>
+
                                     </div>
+
                                 </div>
                             </div>
+
                         </div>
                         <!-- card section 6 -->
                         <div class="row">
@@ -829,10 +875,6 @@
                                 <div class="p-3 border border-2 rounded-4">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
                                         <h5 class="chartTitle fw-bolder mb-0"> Membership Overview</h5>
-                                        <select class="form-select yearSelect" id="yearFilterMembership">
-                                            <option value="this">This Year</option>
-                                            <option value="last">Last Year</option>
-                                        </select>
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
@@ -840,11 +882,11 @@
                                                 <p class="text-center textColor fw-bolder">Total Vouchers</p>
                                                 <div class="d-flex justify-content-center align-items-center mb-2">
                                                     <div class="membershipOverviewIcon1">
-                                                        10
+                                                        <?= $couponData['coupon_total'] ?>
                                                     </div>
                                                 </div>
-                                                <p class="text-center textColor fw-bolder">1</p>
-                                                <p class="text-center textColor fw-bolder">Worth &#8377;30,000</p>
+                                                <p class="text-center textColor fw-bolder" id="totalVoucherCount">0</p>
+                                                <p class="text-center textColor fw-bolder" id="totalVoucherWorth">Worth &#8377;0</p>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
@@ -855,8 +897,8 @@
                                                         <i class="ri-ticket-2-line"></i>
                                                     </div>
                                                 </div>
-                                                <p class="text-center textColor fw-bolder">3</p>
-                                                <p class="text-center textColor fw-bolder">Worth &#8377;9,000</p>
+                                                <p class="text-center textColor fw-bolder" id="usedVoucherCount">0</p>
+                                                <p class="text-center textColor fw-bolder" id="usedVoucherWorth">Worth &#8377;0</p>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
@@ -867,8 +909,8 @@
                                                         <i class="ri-ticket-2-line"></i>
                                                     </div>
                                                 </div>
-                                                <p class="text-center textColor fw-bolder">7</p>
-                                                <p class="text-center textColor fw-bolder">Worth &#8377;21,000</p>
+                                                <p class="text-center textColor fw-bolder" id="activeVoucherCount">0</p>
+                                                <p class="text-center textColor fw-bolder" id="activeVoucherWorth">Worth &#8377;0</p>
                                             </div>
                                         </div>
                                         <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
@@ -879,7 +921,7 @@
                                                         <i class="fa-solid fa-plane-arrival"></i>
                                                     </div>
                                                 </div>
-                                                <p class="text-center textColor fw-bolder">2</p>
+                                                <p class="text-center textColor fw-bolder" id="totalTripsCompleted">0</p>
                                                 <p class="text-center textColor fw-bolder">(All Time)</p>
                                             </div>
                                         </div>
@@ -891,16 +933,13 @@
                                     <div class="col-lg-12">
                                         <div class="p-3 border border-2 rounded-4">
                                             <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Earn With Referrals
-                                                <a href="#" class="fs-6">View All</a>
+                                                <a href="<?= $base_url?>view_customer.php" class="fs-6">View All</a>
                                             </h4>
                                             <div class="d-flex">
                                                 <div class="referralDetail flex-grow-1">
                                                     <div class="d-flex justify-content-between">
                                                         <p class="my-3 fw-bold text-muted fs-6">Total Earnings<br>
-                                                            <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
-                                                        </p>
-                                                        <p class="my-3 fw-bold text-muted fs-6">Total Earnings<br>
-                                                            <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
+                                                            <span class="textColor fw-bolder fs-4">&#8377;<?= $totalReferralAmount?></span>
                                                         </p>
                                                     </div>
                                                     <a href="<?= $base_url?>view_customer.php">
@@ -1330,7 +1369,7 @@
             );
 
         </script>
-        <script>
+        <!-- <script>
             const spendingCtx = document
                 .getElementById("spendingChart")
                 .getContext("2d");
@@ -1482,7 +1521,497 @@
                 // Update Chart
                 spendingChart.update();
             });
+        </script> -->
+        <script>
+
+            // =========================
+            // SPENDING CHART
+            // =========================
+
+            const spendingCtx = document
+                .getElementById("spendingChart")
+                .getContext("2d");
+
+            // Gradient Fill
+            const gradient =
+                spendingCtx.createLinearGradient(0, 0, 0, 300);
+
+            gradient.addColorStop(0, "rgba(91,95,246,0.35)");
+            gradient.addColorStop(1, "rgba(91,95,246,0)");
+
+            // Create Line Chart
+            const spendingChart = new Chart(spendingCtx, {
+
+                type: "line",
+
+                data: {
+
+                    labels: [
+                        "Jan", "Feb", "Mar", "Apr",
+                        "May", "Jun", "Jul", "Aug",
+                        "Sep", "Oct", "Nov", "Dec"
+                    ],
+
+                    datasets: [{
+                        label: "Spending",
+
+                        data: [
+                            0, 0, 0, 0,
+                            0, 0, 0, 0,
+                            0, 0, 0, 0
+                        ],
+
+                        borderColor: "#5b5ff6",
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: "#5b5ff6",
+                        pointBorderColor: "#ffffff",
+                        pointBorderWidth: 2
+                    }]
+                },
+
+                options: {
+
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+
+                    scales: {
+
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+                                callback: function(value) {
+                                    return "₹" + value;
+                                }
+                            },
+
+                            grid: {
+                                color: "#f0f0f0"
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart Height
+            document.getElementById("spendingChart")
+                .parentNode.style.height = "300px";
+
+
+            // =========================
+            // DONUT CHART
+            // =========================
+
+            const tripCtx = document
+                .getElementById("tripChart")
+                .getContext("2d");
+
+            const tripChart = new Chart(tripCtx, {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: [
+                        "Domestic Trips",
+                        "International Trips",
+                        "Upcoming Trips"
+                    ],
+
+                    datasets: [{
+
+                        data: [0, 0, 0],
+
+                        backgroundColor: [
+                            "#5b5ff6",
+                            "#1e88ff",
+                            "#10c981"
+                        ],
+
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    cutout: "72%",
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+
+            // =========================
+            // ORIGINAL DONUT DATA
+            // =========================
+
+            const originalData = [0, 0, 0];
+
+
+            // =========================
+            // TRIP SUMMARY AJAX
+            // =========================
+
+            $.ajax({
+
+                url: "ajax/trip_summary.php",
+
+                type: "GET",
+
+                dataType: "json",
+
+                success: function(response) {
+
+                    if(response.status && response.data) {
+
+                        const domesticTrip =
+                            parseInt(response.data.domestic_trip) || 0;
+
+                        const internationalTrip =
+                            parseInt(response.data.international_trip) || 0;
+
+                        const upcomingTrip =
+                            parseInt(response.data.upcoming_trip) || 0;
+
+                        let bookingData = [
+                            domesticTrip,
+                            internationalTrip,
+                            upcomingTrip
+                        ];
+
+                        // TOTAL
+                        const totalTrips =
+                            domesticTrip +
+                            internationalTrip +
+                            upcomingTrip;
+
+                        // UPDATE CENTER TOTAL
+                        document.getElementById("totalTripsCount")
+                            .innerText = totalTrips;
+
+                        // PERCENTAGES
+                        const domesticPercent =
+                            totalTrips > 0
+                            ? ((domesticTrip / totalTrips) * 100).toFixed(1)
+                            : 0;
+
+                        const internationalPercent =
+                            totalTrips > 0
+                            ? ((internationalTrip / totalTrips) * 100).toFixed(1)
+                            : 0;
+
+                        const upcomingPercent =
+                            totalTrips > 0
+                            ? ((upcomingTrip / totalTrips) * 100).toFixed(1)
+                            : 0;
+
+                        // UPDATE LEGEND TEXT
+                        document.getElementById("domesticTripText")
+                            .innerText =
+                            `${domesticTrip} (${domesticPercent}%)`;
+
+                        document.getElementById("internationalTripText")
+                            .innerText =
+                            `${internationalTrip} (${internationalPercent}%)`;
+
+                        document.getElementById("upcomingTripText")
+                            .innerText =
+                            `${upcomingTrip} (${upcomingPercent}%)`;
+
+                        // IF NO TRIPS
+                        if(totalTrips === 0) {
+
+                            bookingData = [100];
+
+                            tripChart.data.labels = [
+                                "No Trips"
+                            ];
+
+                            tripChart.data.datasets[0]
+                                .backgroundColor = [
+                                    "#5b5ff6"
+                                ];
+                        }
+
+                        // NORMAL DATA
+                        else {
+
+                            tripChart.data.labels = [
+                                "Domestic Trips",
+                                "International Trips",
+                                "Upcoming Trips"
+                            ];
+
+                            tripChart.data.datasets[0]
+                                .backgroundColor = [
+                                    "#5b5ff6",
+                                    "#1e88ff",
+                                    "#10c981"
+                                ];
+                        }
+
+                        // UPDATE DONUT
+                        tripChart.data.datasets[0].data =
+                            bookingData;
+
+                        // STORE ORIGINAL
+                        originalData[0] = domesticTrip;
+                        originalData[1] = internationalTrip;
+                        originalData[2] = upcomingTrip;
+
+                        tripChart.update();
+                    }
+                },
+
+                error: function() {
+
+                    // FALLBACK DONUT
+                    tripChart.data.labels = [
+                        "No Trips"
+                    ];
+
+                    tripChart.data.datasets[0].data = [100];
+
+                    tripChart.data.datasets[0]
+                        .backgroundColor = [
+                            "#5b5ff6"
+                        ];
+
+                    document.getElementById("totalTripsCount")
+                        .innerText = 0;
+
+                    document.getElementById("domesticTripText")
+                        .innerText = "0 (0%)";
+
+                    document.getElementById("internationalTripText")
+                        .innerText = "0 (0%)";
+
+                    document.getElementById("upcomingTripText")
+                        .innerText = "0 (0%)";
+
+                    tripChart.update();
+                }
+            });
+
+
+            // =========================
+            // DONUT LEGEND TOGGLE
+            // =========================
+
+            function tripAction(index, element) {
+
+                const currentValue =
+                    tripChart.data.datasets[0].data[index];
+
+                // HIDE
+                if(currentValue !== 0) {
+
+                    tripChart.data.datasets[0].data[index] = 0;
+
+                    element.classList.add("inactiveLegend");
+                }
+
+                // SHOW AGAIN
+                else {
+
+                    tripChart.data.datasets[0].data[index] =
+                        originalData[index] || 0;
+
+                    element.classList.remove("inactiveLegend");
+                }
+
+                tripChart.update();
+            }
+
+
+            // =========================
+            // SPENDING AJAX
+            // =========================
+
+            let yearlySpendingData = {};
+
+            // SPENDING AJAX
+            $.ajax({
+
+                url: "ajax/referral_summary.php",
+
+                type: "GET",
+
+                dataType: "json",
+
+                success: function(response) {
+
+                    if(response.status && response.data) {
+
+                        // DEFAULT 12 MONTH DATA
+                        let monthData = [
+                            0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0
+                        ];
+
+                        // SINGLE OBJECT RESPONSE
+                        const monthIndex =
+                            parseInt(response.data.month_number) - 1;
+
+                        monthData[monthIndex] =
+                            parseFloat(response.data.total_amount);
+
+                        // UPDATE CHART
+                        spendingChart.data.datasets[0].data =
+                            monthData;
+
+                        spendingChart.update();
+
+                        // ADD YEAR TO DROPDOWN
+                        $("#yearFilter").html(`
+                            <option value="${response.data.year}">
+                                ${response.data.year}
+                            </option>
+                        `);
+                    }
+                }
+            });
+
+
+            // =========================
+            // UPDATE SPENDING CHART
+            // =========================
+
+            function updateSpendingChart(selectedYear){
+
+                // DEFAULT 12 MONTHS
+                let monthData = [
+                    0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0
+                ];
+
+                // CHECK YEAR
+                if(yearlySpendingData[selectedYear]){
+
+                    yearlySpendingData[selectedYear]
+                        .forEach(function(item){
+
+                            const monthIndex =
+                                parseInt(item.month_number) - 1;
+
+                            monthData[monthIndex] =
+                                parseFloat(item.total_amount);
+                        });
+                }
+
+                // UPDATE CHART
+                spendingChart.data.datasets[0].data =
+                    monthData;
+
+                spendingChart.update();
+            }
+
+
+            // =========================
+            // YEAR FILTER
+            // =========================
+
+            $("#yearFilter").on("change", function () {
+
+                updateSpendingChart(this.value);
+            });
+
         </script>
+        <!-- membership overview ajax -->
+        <script>
+
+            // MEMBER OVERVIEW AJAX
+            $.ajax({
+
+                url: "ajax/member_overview.php",
+
+                type: "GET",
+
+                dataType: "json",
+
+                success: function(response) {
+
+                    if(response.status && response.data) {
+
+                        const data = response.data;
+
+                        // VALUES
+                        const totalVoucher =
+                            parseInt(data.coupon_total) || 0;
+
+                        const activeVoucher =
+                            parseInt(data.active_coupon_total) || 0;
+
+                        const usedVoucher =
+                            parseInt(data.used_coupon_total) || 0;
+
+                        const totalVoucherWorth =
+                            parseFloat(data.coupon_total_value) || 0;
+
+                        const activeVoucherWorth =
+                            parseFloat(data.active_coupon_value) || 0;
+
+                        const usedVoucherWorth =
+                            parseFloat(data.used_coupon_value) || 0;
+
+                        const totalTrips =
+                            parseInt(data.total_trips) || 0;
+
+                        // UPDATE TOTAL VOUCHERS
+                        $("#totalVoucherCount")
+                            .text(totalVoucher);
+
+                        $("#totalVoucherWorth")
+                            .html(`Worth &#8377;${totalVoucherWorth}`);
+
+                        // UPDATE USED VOUCHERS
+                        $("#usedVoucherCount")
+                            .text(usedVoucher);
+
+                        $("#usedVoucherWorth")
+                            .html(`Worth &#8377;${usedVoucherWorth}`);
+
+                        // UPDATE ACTIVE VOUCHERS
+                        $("#activeVoucherCount")
+                            .text(activeVoucher);
+
+                        $("#activeVoucherWorth")
+                            .html(`Worth &#8377;${activeVoucherWorth}`);
+
+                        // UPDATE TRIPS
+                        $("#totalTripsCompleted")
+                            .text(totalTrips);
+                    }
+                }
+            });
+
+        </script>
+        <!-- membership overview ajax -->
         <!-- dialer logic -->
     </body>
 </html>

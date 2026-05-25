@@ -2,8 +2,8 @@
     $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
     $base_url_asset = "/ca.uniqbizz.com/dashboard/";
     $home_url = "/ca.uniqbizz.com/";
-    include 'customer_model.php';
-    include 'customer_mapping.php';
+    include (__DIR__ .'/customer_model.php');
+    include (__DIR__ .'/customer_mapping.php');
     $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!-- modal css -->

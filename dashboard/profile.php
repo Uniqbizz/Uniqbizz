@@ -248,7 +248,7 @@
                                     <div class="card-header">
                                         <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                                             <li class="nav-item">
-                                                <a class="nav-link menu-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
+                                                <a class="nav-link menu-link profile-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
                                                     <i class="fas fa-home"></i>
                                                     <span>Personal Details</span> 
                                                 </a>
@@ -258,7 +258,7 @@
                                             ?>
 
                                             <li class="nav-item">
-                                                <a class="nav-link menu-link" data-bs-toggle="tab" href="#coupons" role="tab">
+                                                <a class="nav-link menu-link profile-link" data-bs-toggle="tab" href="#coupons" role="tab">
                                                     <i class="far fa-user"></i>
                                                     <span>Coupons</span> 
                                                 </a>
@@ -267,7 +267,7 @@
                                                 }
                                             ?>
                                             <li class="nav-item">
-                                                <a class="nav-link menu-link" data-bs-toggle="tab" href="#changePassword" role="tab">
+                                                <a class="nav-link menu-link profile-link" data-bs-toggle="tab" href="#changePassword" role="tab">
                                                     <i class="far fa-user"></i>
                                                     <span>Change Password</span> 
                                                 </a>
