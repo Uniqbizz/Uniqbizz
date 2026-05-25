@@ -344,7 +344,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 										</div>
 										<input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addBusinessMentor">Submit</button>
+											<button type="submit" class="btn btn-primary px-5 py-2" id="addSuperTechnoEnterprise">Submit</button>
 										</div>
 									</form>
 								</div>
@@ -427,8 +427,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		// fetch User based on selected designation
 		$('#user_id_name').on('change', function() {
 			var user_id_name = $(this).val();
-			var designation = 'ca_franchisee';
-
+			var designation = $('#designation').val();
 			$.ajax({
 				type: 'POST',
 				url: '../agents/getUsers.php',

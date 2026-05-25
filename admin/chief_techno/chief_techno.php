@@ -14,7 +14,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Super Techo Enterprise | Admin Dashboard </title>
+        <title>Chief Techo Enterprise | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Super Techo Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Chief Techo Enterprise</h4>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                             <div class="col-sm-12">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Pending Super Techo Enterprise List</h4>
+                                                        <h4>Pending Chief Techo Enterprise List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,7 +138,7 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'STE' AS user_type FROM super_techno_enterprise WHERE status IN ('0', '2')
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch,'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('0', '2')
                                                             ORDER BY id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -155,8 +155,8 @@
 
                                                                 // $label = $row['user_type'] == 'BM' ? '<span class="badge bg-primary me-1">BM</span>' : '<span class="badge bg-success me-1">MF</span>';
                                                                 switch ($row['user_type']) {
-                                                                    case 'STE':
-                                                                        $label = '<span class="badge bg-primary me-1">STE</span>';
+                                                                    case 'CTE':
+                                                                        $label = '<span class="badge bg-primary me-1">CTE</span>';
                                                                         break;
                                                                     default:
                                                                         $label = '';
@@ -272,7 +272,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Registered Super Techo Enterprise List</h4>
+                                                        <h4>Registered Chief Techo Enterprise List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -345,7 +345,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>STE Id</th>
+                                                        <th>CTE Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -359,9 +359,9 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT super_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,
+                                                            SELECT chief_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,
                                                             email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 
-                                                            'STE' AS user_type FROM super_techno_enterprise WHERE status IN ('1')
+                                                            'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('1')
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -386,8 +386,8 @@
                                                                     $branch = $branchData['branch_name'];
                                                                 }
 
-                                                                $label = $row['user_type'] === 'STE'
-                                                                    ? '<span class="badge bg-primary me-1">STE</span>':'NA';
+                                                                $label = $row['user_type'] === 'CTE'
+                                                                    ? '<span class="badge bg-primary me-1">CTE</span>':'NA';
 
                                                             echo '<tr>
                                                                     <td>' . $row['user_id'] . '</td>
@@ -418,8 +418,8 @@
                                                                                             "' . $row["country"] . '",
                                                                                             "' . $row["state"] . '",
                                                                                             "' . $row["city"] . '",
-                                                                                            "' . (strtolower($row["user_type"]) == "ste" 
-                                                                                                    ? "super_techno_enterprise" 
+                                                                                            "' . (strtolower($row["user_type"]) == "cte" 
+                                                                                                    ? "chief_techno_enterprise" 
                                                                                                     : "NA") . '"
                                                                                         )\' 
                                                                                         class="dropdown-item" 
@@ -487,7 +487,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Super Techo Enterprise List</h4>
+                                                        <h4>Deleted Chief Techo Enterprise List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -498,7 +498,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>STE Id</th>
+                                                        <th>CTE Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -512,7 +512,7 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT *, 'STE' AS user_type FROM super_techno_enterprise WHERE status IN ('3')
+                                                            SELECT *, 'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('3')
                                                             
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -538,11 +538,11 @@
                                                                     $branch = $branchData['branch_name'];
                                                                 }
 
-                                                                $label = $row['user_type'] === 'STE'
-                                                                    ? '<span class="badge bg-primary me-1">STE</span>':'NA';
+                                                                $label = $row['user_type'] === 'CTE'
+                                                                    ? '<span class="badge bg-primary me-1">CTE</span>':'NA';
 
                                                             echo '<tr>
-                                                                    <td>' . $row['super_techno_enterprise_id'] . '</td>
+                                                                    <td>' . $row['chief_techno_enterprise_id'] . '</td>
                                                                     <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
                                                                     <td><p class="mb-1">' . $row['reference_no'] . '</p>
                                                                         <p class="mb-0">' . $row['registrant'] . '</p>
@@ -566,7 +566,7 @@
                                                                                     <a href="#" 
                                                                                         onclick=\'deletefunc(
                                                                                                                 "' . $row["id"] . '",
-                                                                                                                "' . $row["business_mentor_id"] . '",
+                                                                                                                "' . $row["chief_techno_enterprise_id"] . '",
                                                                                                                 "deactivate","' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >
@@ -641,7 +641,7 @@
                         <p class="text-muted font-size-16 mb-4">Are you Sure You want to Add New User ?</p>
                         
                         <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="add-item"><a href="addSuperTechno.php"><span style="color: white;">Add Now</span></a></button>
+                            <button type="button" class="btn btn-success" id="add-item"><a href="add_chief_techno.php"><span style="color: white;">Add Now</span></a></button>
                             <button type="button" class="btn btn-secondary" id="close-newBusinessOperationExecutiveModal" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -763,7 +763,7 @@
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,zn,br,editfor,usertype){ 
-                window.location.href='editSuperTechno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor+'&usertype='+usertype;
+                window.location.href='edit_chief_techno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 
@@ -771,7 +771,7 @@
 
                 $.ajax({
                 type: "POST",
-                url: "deleteSuperTechno.php",
+                url: "delete_chief_techno.php",
                 data: dataString,
                 cache: false,
                     success:function(data){
@@ -802,7 +802,7 @@
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
-                    url: "confirmSuperTechno.php",
+                    url: "confirm_chief_techno.php",
                     data: dataString,
                     cache: false,
                     success:function(data){
@@ -822,7 +822,7 @@
 
             function overviewPage(id,ref,cut,st,ct,message){
 
-                var designation = message == 'super_techno_enterprise'?'Super Techno Enterprise':'';
+                var designation = message == 'chief_techno_enterprise'?'Chief Techno Enterprise':'';
                 window.location.href='../overview_profile/overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
             
@@ -857,7 +857,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: 'filterSte.php',
+                    url: 'filter_cte.php',
                     data: dataString,
                     cache: false,
                     success: function(data){

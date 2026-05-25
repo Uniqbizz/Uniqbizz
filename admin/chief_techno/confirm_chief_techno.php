@@ -13,12 +13,12 @@ $usertype = $_POST['usertype'];
 $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0, 8);
 $status = '1';
-$user_type_id = '35';
+$user_type_id = $usertype == 'cte' ? '34' : '';
 $register_by = '1';
 
 $subY = substr($todayYear, 2, 4);
-if ($user_type_id == '35') { //Business Mentor
-	$sql9 = $conn->prepare("SELECT * from super_techno_enterprise where id='" . $id . "' and status='2'");
+if ($user_type_id == '34') { //Business Mentor
+	$sql9 = $conn->prepare("SELECT * from chief_techno_enterprise where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
 	if ($sql9->rowCount() > 0) {
@@ -29,63 +29,63 @@ if ($user_type_id == '35') { //Business Mentor
 			$address = $row9['address'];
 			$country_code = $row9['country_code'];
 			$contact_no = $row9['contact_no'];
-			$reference_no = $row9['reference_no'];
-			$amount = $row9['paid_amount'];
+			// $reference_no = $row9['reference_no'];
+			// $amount = $row9['paid_amount'];
 		}
 	}
 
-	$sql10 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $reference_no . "' AND user_type = '36' AND status = '1' ");
-	$sql10->execute();
-	$sql10->setFetchMode(PDO::FETCH_ASSOC);
-	if ($sql10->rowCount() > 0) {
-		foreach (($sql10->fetchAll()) as $key10 => $row10) {
-			$bdm_id = $row10['chief_techno_enterprise_id'];
-			$bdm_name = $row10['name'];
-			// $bdm_ref = $row10['reporting_manager'];
-		}
-	}
+	// $sql10 = $conn->prepare("SELECT * FROM employees WHERE employee_id = '" . $reference_no . "' AND user_type = '25' AND status = '1' ");
+	// $sql10->execute();
+	// $sql10->setFetchMode(PDO::FETCH_ASSOC);
+	// if ($sql10->rowCount() > 0) {
+	// 	foreach (($sql10->fetchAll()) as $key10 => $row10) {
+	// 		$bdm_id = $row10['employee_id'];
+	// 		$bdm_name = $row10['name'];
+	// 		$bdm_ref = $row10['reporting_manager'];
+	// 	}
+	// }
 
 	// made changes in query to get id in order SFA230043 TC230010
-	$sql2 = $conn->prepare("SELECT distinct super_techno_enterprise_id,SUBSTRING(super_techno_enterprise_id,3,6) as tc_id from super_techno_enterprise where status='1' OR status='3' order by tc_id DESC limit 1");
+	$sql2 = $conn->prepare("SELECT distinct chief_techno_enterprise_id,SUBSTRING(chief_techno_enterprise_id,3,6) as cte_id from chief_techno_enterprise where status='1' OR status='3' order by cte_id DESC limit 1");
 
 	$sql2->execute();
 	$sql2->setFetchMode(PDO::FETCH_ASSOC);
 	if ($sql2->rowCount() > 0) {
 		foreach (($sql2->fetchAll()) as $key3 => $row3) {
-			$super_techno_enterprise_id = $row3["super_techno_enterprise_id"];
+			$chief_techno_enterprise_id = $row3["chief_techno_enterprise_id"];
 		}
-		if ($super_techno_enterprise_id == '') {
-			$uid = 'BM' . $subY . '0001';
+		if ($chief_techno_enterprise_id == '') {
+			$uid = 'CTE' . $subY . '0001';
 		} else {
-			$subV = substr($super_techno_enterprise_id, 2, 4);
+			$subV = substr($chief_techno_enterprise_id, 2, 4);
 			if ($subV == $subY) {
-				$super_techno_enterprise_id++;
-				$super_techno_enterprise_id = str_pad($super_techno_enterprise_id, 4, '0', STR_PAD_LEFT);
-				$uid = $super_techno_enterprise_id;
+				$chief_techno_enterprise_id++;
+				$chief_techno_enterprise_id = str_pad($chief_techno_enterprise_id, 4, '0', STR_PAD_LEFT);
+				$uid = $chief_techno_enterprise_id;
 			} else {
-				$super_techno_enterprise_id++;
-				$fid = substr($super_techno_enterprise_id, 4);
-				$newValue = 'BM' . $subY . $fid;
-				$Nsuper_techno_enterprise_id = str_pad($newValue, 4, '0', STR_PAD_LEFT);
-				$uid = $Nsuper_techno_enterprise_id;
+				$chief_techno_enterprise_id++;
+				$fid = substr($chief_techno_enterprise_id, 4);
+				$newValue = 'CTE' . $subY . $fid;
+				$Nchief_techno_enterprise_id = str_pad($newValue, 4, '0', STR_PAD_LEFT);
+				$uid = $Nchief_techno_enterprise_id;
 			}
 		}
 	} else {
-		$uid = 'BM' . $subY . '0001';
+		$uid = 'CTE' . $subY . '0001';
 	}
 
 	//log file
-	$title = "Confirm Super Techno Enterprise";
+	$title = "Confirm Chief Techno Enterprise";
 	$message = $uid . " has been approved";
 	$message2 = $uid . " has been approved";
 	$fromWhom = "1";
 	$operation = "Confirm";
 
-	$sql1 = "UPDATE super_techno_enterprise SET status=:status,super_techno_enterprise_id=:super_techno_enterprise_id,register_date=:register_date WHERE id=:id";
+	$sql1 = "UPDATE chief_techno_enterprise SET status=:status,chief_techno_enterprise_id=:chief_techno_enterprise_id,register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);
 	$result =  $stmt->execute(array(
 		':status' => $status,
-		':super_techno_enterprise_id' => $uid,
+		':chief_techno_enterprise_id' => $uid,
 		':register_date' => $register_Date,
 		// ':deleted_date' => $today,
 		':id' => $id
@@ -103,14 +103,14 @@ if ($user_type_id == '35') { //Business Mentor
 		));
 
 		if ($result2) {
-			$sql4 = "INSERT INTO logs (user_id,title,message,message2, reference_no, register_by, from_whom, operation) VALUES (:user_id,:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
+			$sql4 = "INSERT INTO logs (user_id,title,message,message2, register_by, from_whom, operation) VALUES (:user_id,:title ,:message, :message2, :register_by, :from_whom, :operation)";
 			$stmt4 = $conn->prepare($sql4);
 			$result3 = $stmt4->execute(array(
 				':user_id' => $uid,
 				':title' => $title,
 				':message' => $message,
 				':message2' => $message2,
-				':reference_no' => $reference_no,
+				// ':reference_no' => $reference_no,
 				':register_by' => $register_by,
 				':from_whom' => $fromWhom,
 				':operation' => $operation
@@ -154,7 +154,6 @@ if ($user_type_id == '35') { //Business Mentor
 				// 		':status' => '2'
 				// 	));
 				// }
-
 				$result4 = 'true';
 
 				if ($result4) {

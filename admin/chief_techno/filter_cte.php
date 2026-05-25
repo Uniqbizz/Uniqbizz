@@ -50,8 +50,8 @@
 
         // Base queries
         $bmQuery = "
-            SELECT super_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'STE' AS user_type 
-            FROM super_techno_enterprise 
+            SELECT chief_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'STE' AS user_type 
+            FROM chief_techno_enterprise 
             WHERE status = '1' $filter
         ";
 
@@ -92,8 +92,8 @@
                     $branch = $branchData['branch_name'];
                 }
 
-                $label = $row['user_type'] == 'STE'
-                    ? '<span class="badge bg-primary me-1">STE</span>':'NA';
+                $label = $row['user_type'] == 'CTE'
+                    ? '<span class="badge bg-primary me-1">CTE</span>':'NA';
 
             echo '<tr>
                     <td>' . $row['user_id'] . '</td>

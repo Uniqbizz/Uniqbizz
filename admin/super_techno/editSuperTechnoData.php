@@ -26,17 +26,17 @@ $state = $_POST['state'];
 $city = $_POST['city'];
 $zone = $_POST['zone'];
 $branch = $_POST['branch'];
-$payment_fee = $_POST['payment_fee'];
-$payment_proof = $_POST['payment_proof'];
-$payment_mode = $_POST['paymentMode'];
-$cheque_no = $_POST['chequeNo'];
-$cheque_date = $_POST['chequeDate'];
-$bank_name = $_POST['bankName'];
-$transaction_no = $_POST['transactionNo'];
+// $payment_fee = $_POST['payment_fee'];
+// $payment_proof = $_POST['payment_proof'];
+// $payment_mode = $_POST['paymentMode'];
+// $cheque_no = $_POST['chequeNo'];
+// $cheque_date = $_POST['chequeDate'];
+// $bank_name = $_POST['bankName'];
+// $transaction_no = $_POST['transactionNo'];
 $note = $_POST['note'];
 
 $user_type_id = '26';
-$title = "Business Mentor";
+$title = "Super Techno Enterprise";
 $fromWhom = "1";
 $register_by = "1";
 $operation = 'Update';
@@ -48,15 +48,15 @@ $age = $current_year - $birthYear[0];
 // Prepare the message and identifier name
 if ($editfor == 'pending') {
     $identifier_name = 'id=';
-    $message = "Updated Business Mentor details from the pending list";
+    $message = "Updated Super Techno Enterprise details from the pending list";
 } else {
-    $identifier_name = 'business_mentor_id=';
+    $identifier_name = 'super_techno_enterprise_id=';
     $message = "{$identifier_id} Details has been updated from the registered list";
 }
 
 if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gender != '' || $dob != '' || $address != '' || $profile_pic != '') {
     // SQL Update Query
-    $sql1 = "UPDATE business_mentor SET 
+    $sql1 = "UPDATE super_techno_enterprise SET 
         firstname = :firstname,
         lastname = :lastname,
         nominee_name = :nominee_name,
@@ -78,14 +78,7 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
         profile_pic = :profile_pic,
         pan_card = :pan_card,
         aadhar_card = :aadhar_card,
-        voting_card = :voting_card,
-        paid_amount = :paid_amount,
-        payment_mode = :payment_mode,
-        cheque_no = :cheque_no, 
-        cheque_date = :cheque_date,
-        bank_name = :bank_name,
-        transaction_no = :transaction_no,
-        payment_proof = :payment_proof
+        voting_card = :voting_card
     WHERE $identifier_name :identifier_id";
 
     // Execute Update Query
@@ -113,13 +106,6 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
         ':voting_card' => $voting_card,
-        ':paid_amount' => $payment_fee,
-        ':payment_mode' => $payment_mode,
-        ':cheque_no' => $cheque_no,
-        ':cheque_date' => $cheque_date,
-        ':bank_name' => $bank_name,
-        ':transaction_no' => $transaction_no,
-        ':payment_proof' => $payment_proof,
         ':identifier_id' => $identifier_id
     ]);
 

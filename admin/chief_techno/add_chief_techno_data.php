@@ -6,8 +6,8 @@
     // Email files
     include('../../e-mail/phpmailer_smtp/smtp/PHPMailerAutoload.php');
 
-    $user_id_name=$_POST['user_id_name'];
-    $registrant=$_POST['reference_name'];
+    // $user_id_name=$_POST['user_id_name'];
+    // $registrant=$_POST['reference_name'];
     $firstname=$_POST['firstname'];
     $lastname=$_POST['lastname'];
     $nominee_name=$_POST['nominee_name'];
@@ -29,16 +29,16 @@
     $city=$_POST['city'];
     $zone=$_POST['zone'];
     $branch=$_POST['branch'];
-    $payment_fee=$_POST['payment_fee'];
-    $payment_proof=$_POST['payment_proof'];
-    $payment_mode=$_POST['paymentMode'];
-    $cheque_no=$_POST['chequeNo'];
-    $cheque_date=$_POST['chequeDate'];
-    $bank_name=$_POST['bankName'];
-    $transaction_no=$_POST['transactionNo'];
+    // $payment_fee=$_POST['payment_fee'];
+    // $payment_proof=$_POST['payment_proof'];
+    // $payment_mode=$_POST['paymentMode'];
+    // $cheque_no=$_POST['chequeNo'];
+    // $cheque_date=$_POST['chequeDate'];
+    // $bank_name=$_POST['bankName'];
+    // $transaction_no=$_POST['transactionNo'];
 	$note = $_POST['note'];
 
-    $user_type="36";
+    $user_type="33";
     $register_by="1";
 	$status= '2';
 
@@ -48,18 +48,17 @@
     $age = $current_year - $birth_year;
 
     // data insertion for logs tables 
-    $title="Super Techo Enterprise";
-    $message="Added new Super Techo Enterprise by admin";
-    $message2="Added new Super Techo Enterprise by admin";
+    $title="Chief Techo Enterprise";
+    $message="Added new Chief Techo Enterprise by admin";
+    $message2="Added new Chief Techo Enterprise by admin";
     $fromWhom="1";
 	$operation="Add";
 
-    $sql= "INSERT INTO `super_techno_enterprise` ( 
+    $sql= "INSERT INTO `chief_techno_enterprise` ( 
 		firstname, 
 		lastname, 
 		nominee_name, 
 		nominee_relation,
-		paid_amount, 
 		email, 
 		country_code, 
 		contact_no , 
@@ -80,8 +79,6 @@
 		voting_card, 
 		bank_passbook, 
 		user_type, 
-		registrant, 
-		reference_no, 
 		register_by, 
 		status)
 	VALUES ( 
@@ -89,7 +86,6 @@
 		:lastname, 
 		:nominee_name, 
 		:nominee_relation,
-		:paid_amount, 
 		:email, 
 		:country_code, 
 		:contact_no, 
@@ -110,8 +106,6 @@
 		:voting_card,
 		:bank_passbook, 
 		:user_type,
-		:registrant,  
-		:reference_no, 
 		:register_by, 
 		:status)";
     $stmt3 =$conn->prepare($sql);
@@ -121,7 +115,7 @@
         ':lastname' => $lastname, 
         ':nominee_name' => $nominee_name,
         ':nominee_relation' => $nominee_relation,
-        ':paid_amount' => $payment_fee,
+        // ':paid_amount' => $payment_fee,
         ':email' => $email,
         ':country_code' => $country_code, 
         ':contact_no' => $phone_no,
@@ -142,8 +136,6 @@
         ':voting_card' => $voting_card,
         ':bank_passbook' => $passbook,  
         ':user_type' => $user_type,
-        ':registrant' =>$registrant,
-        ':reference_no' => $user_id_name,
         ':register_by' => $register_by,
         ':status' => $status
     ));
@@ -154,14 +146,14 @@
 
         if($result2){
 
-            $sql3= "INSERT INTO logs ( title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
+            $sql3= "INSERT INTO logs ( title,message,message2, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :register_by, :from_whom, :operation)";
             $stmt =$conn->prepare($sql3);
 
             $result3=$stmt->execute(array(
                 ':title' => $title,
                 ':message' => $message,
                 ':message2' =>$message2,
-                ':reference_no' => $user_id_name,
+                // ':reference_no' => $user_id_name,
                 ':register_by' => $register_by,
                 ':from_whom' => $fromWhom,
 				':operation' => $operation

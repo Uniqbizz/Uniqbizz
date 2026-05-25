@@ -6,10 +6,10 @@ require "../connect.php";
 
 $f_id = $_POST["refid"];
 $id = $_POST["id"];
-$usertype = $_POST['usertype']; // 'bm' or 'mf' or 'sf'
+$usertype = $_POST['usertype']; // 'cte' 
 
 // Determine user_type_id
-$user_type = $usertype == 'bm' ? "26" : ($usertype == 'mf' ? "28" : ($usertype == 'sf' ? "30" : ($usertype == 'ete' ? "34" : '' )));
+$user_type = "33";
 
 $status = '';
 $action = $_POST["action"];
@@ -32,7 +32,7 @@ if ($action == 'pending') {
 }
 
 // Prepare logs
-$title = $usertype == 'mf' ? "Master Franchisee" : ($usertype == 'bm' ? "Business Mentor" : ($usertype == 'sf' ? "Sponsor Franchisee" : ($usertype == 'ete' ? "Executive Techno Enterprise" : '')));
+$title = $usertype == "Chief Techno Enterprise";
 
 if ($ta_id == '') {
 	$message = "Deleted $title from $action list";
@@ -45,18 +45,7 @@ if ($ta_id == '') {
 $fromWhom = "1";
 $register_by = "1";
 
-// Choose table based on user type
-if ($usertype == 'bm') {
-	$sql1 = "UPDATE business_mentor SET status=:status, deleted_date=:deleted_date WHERE id=:id";
-} else if ($usertype == 'mf') {
-	$sql1 = "UPDATE master_franchisee SET status=:status, deleted_date=:deleted_date WHERE id=:id";
-} else if ($usertype == 'sf') {
-	$sql1 = "UPDATE sponsor_franchisee SET status=:status, deleted_date=:deleted_date WHERE id=:id";
-} else if ($usertype == 'ete') {
-	$sql1 = "UPDATE executive_techno_enterprise SET status=:status, deleted_date=:deleted_date WHERE id=:id";
-}
-
-
+$sql1 = "UPDATE chief_techno_enterprise SET status=:status, deleted_date=:deleted_date WHERE id=:id";
 $stmt = $conn->prepare($sql1);
 $result = $stmt->execute(array(
 	':status' => $status,

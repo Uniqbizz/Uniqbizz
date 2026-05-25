@@ -29,16 +29,16 @@
     $city=$_POST['city'];
     $zone=$_POST['zone'];
     $branch=$_POST['branch'];
-    $payment_fee=$_POST['payment_fee'];
-    $payment_proof=$_POST['payment_proof'];
-    $payment_mode=$_POST['paymentMode'];
-    $cheque_no=$_POST['chequeNo'];
-    $cheque_date=$_POST['chequeDate'];
-    $bank_name=$_POST['bankName'];
-    $transaction_no=$_POST['transactionNo'];
+    // $payment_fee=$_POST['payment_fee'];
+    // $payment_proof=$_POST['payment_proof'];
+    // $payment_mode=$_POST['paymentMode'];
+    // $cheque_no=$_POST['chequeNo'];
+    // $cheque_date=$_POST['chequeDate'];
+    // $bank_name=$_POST['bankName'];
+    // $transaction_no=$_POST['transactionNo'];
 	$note = $_POST['note'];
 
-    $user_type="36";
+    $user_type="35";
     $register_by="1";
 	$status= '2';
 
@@ -59,7 +59,6 @@
 		lastname, 
 		nominee_name, 
 		nominee_relation,
-		paid_amount, 
 		email, 
 		country_code, 
 		contact_no , 
@@ -89,7 +88,6 @@
 		:lastname, 
 		:nominee_name, 
 		:nominee_relation,
-		:paid_amount, 
 		:email, 
 		:country_code, 
 		:contact_no, 
@@ -121,7 +119,6 @@
         ':lastname' => $lastname, 
         ':nominee_name' => $nominee_name,
         ':nominee_relation' => $nominee_relation,
-        ':paid_amount' => $payment_fee,
         ':email' => $email,
         ':country_code' => $country_code, 
         ':contact_no' => $phone_no,

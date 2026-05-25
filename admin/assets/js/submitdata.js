@@ -2030,6 +2030,281 @@ $("#edit_employee").click(function (e) {
 });
 // @@@@****#### Employee End by admin @@@@****####
 
+// @@@@****#### chief Techno Enterprise Start by admin PN 25-05-2026 @@@@****####
+// Add Chief Techno Enterprise by admin
+$("#addChiefTechnoEnterprise").on("click", function (e) {
+    e.preventDefault();
+    // console.log('Add customer button clicked');
+
+    // var designation = $("#designation").val();
+    // var user_id_name = $("#user_id_name").val();
+    // var reference_name = $("#reference_name").val();
+
+    var firstname = $("#firstname").val().trim();
+    var lastname = $("#lastname").val().trim();
+
+    var nominee_name = $("#nominee_name").val().trim();
+    var nominee_relation = $("#nominee_relation").val().trim();
+
+    var email = $("#email").val().trim();
+    var dob = $("#dob").val().trim();
+
+    // var business_package = $("#business_package_amount").val();
+    // var gst_no = $("#gst_no").val();
+
+    var gender = $(".gender:checked").val();
+    var country_cd = $("#country_cd").val().trim();
+    var phone = $("#phone").val().trim();
+
+    var country = $("#country").val().trim();
+    var mystate = $("#mystate").val().trim();
+    var city = $("#city").val().trim();
+    var pin = $("#pin").val().trim();
+    var address = $("#address").val().trim();
+
+    var zone = $("#zone").val().trim();
+    var branch = $("#branch").val().trim();
+
+    var profile_pic = $(":hidden#img_path1").val().trim();
+    var aadhar_card = $(":hidden#img_path2").val().trim();
+    var pan_card = $(":hidden#img_path3").val().trim();
+    var passbook = $(":hidden#img_path4").val().trim();
+    var voting_card = $(":hidden#img_path5").val().trim();
+
+    // var testp= $('#testphone').val();
+    var testE = $("#testemail").val();
+
+    //if note is empty
+    var rawNote = $("#note").val();
+    var note = (typeof rawNote === "string") ? (rawNote === "" ? "" : rawNote.trim()) : "";
+
+    if (firstname.length <= 2) {
+        alert("Enter Proper First Name");
+    } else if (lastname.length <= 2) {
+        alert("Enter Proper Last Name");
+    } else if (testE == "1") {
+        alert("Email already exists");
+    } else if (zone === "") {
+        alert("Please Select zone");
+    } else if (branch === "") {
+        alert("Please Select branch");
+    } else {
+
+        var dataString =
+            // "designation=" +
+            // designation +
+            // "&user_id_name=" +
+            // user_id_name +
+            // "&reference_name=" +
+            // reference_name +
+            "firstname=" +
+            firstname +
+            "&lastname=" +
+            lastname +
+            "&nominee_name=" +
+            nominee_name +
+            "&nominee_relation=" +
+            nominee_relation +
+            "&email=" +
+            email +
+            "&dob=" +
+            dob +
+            //  "&amount=" +business_package+
+            //  "&gst_no=" +gst_no+
+            "&gender=" +
+            gender +
+            "&country_code=" +
+            country_cd +
+            "&phone=" +
+            phone +
+            "&country=" +
+            country +
+            "&state=" +
+            mystate +
+            "&city=" +
+            city +
+            "&pincode=" +
+            pin +
+            "&address=" +
+            address +
+            "&zone=" +
+            zone +
+            "&branch=" +
+            branch +
+            "&profile_pic=" +
+            profile_pic +
+            "&aadhar_card=" +
+            aadhar_card +
+            "&pan_card=" +
+            pan_card +
+            "&passbook=" +
+            passbook +
+            "&voting_card=" +
+            voting_card +
+            "&note=" +
+            note;
+            // console.log(dataString);
+
+        $("#addChiefTechnoEnterprise").attr("disabled", "disabled");
+        // console.log(dataString);
+        $("#loading-overlay").show(); //loading screen
+        $.ajax({
+            type: "POST",
+            url: "add_chief_techno_data.php",
+            data: dataString,
+            cache: false,
+            success: function (data) {
+                // console.log(data);
+                if (data == 1) {
+                    $("#loading-overlay").hide(); //loading screen
+                    alert("Added Successfuly");
+                    location.href = "chief_techno.php";
+                } else {
+                    $("#loading-overlay").hide(); //loading screen
+                    alert("Failed");
+                }
+            },
+        });
+    }
+});
+// Edit Chief Techno Enterprise by admin
+$("#editChiefTechnoEnterprise").on("click", function (e) {
+    e.preventDefault();
+    // console.log('Add customer button clicked');
+
+    // var designation = $("#designation").val();
+    // var user_id_name = $("#user_id_name").val();
+    // var reference_name = $("#reference_name").val();
+
+    var editfor = $("#editfor").val().trim(); //pending
+    // var ref_id = $("#ref_id").val().trim();
+    var id = $("#id").val().trim(); // 1
+
+    var firstname = $("#firstname").val().trim();
+    var lastname = $("#lastname").val().trim();
+
+    var nominee_name = $("#nominee_name").val().trim();
+    var nominee_relation = $("#nominee_relation").val().trim();
+
+    var email = $("#email").val().trim();
+    var dob = $("#dob").val().trim();
+
+    // var business_package = $("#business_package_amount").val();
+    // var gst_no = $("#gst_no").val();
+
+    var gender = $(".gender:checked").val();
+    var country_cd = $("#country_cd").val().trim();
+    var phone = $("#phone").val().trim();
+
+    var country = $("#country").val().trim();
+    var mystate = $("#mystate").val().trim();
+    var city = $("#city").val().trim();
+    var pin = $("#pin").val().trim();
+    var address = $("#address").val().trim();
+
+    var zone = $("#zone").val().trim();
+    var branch = $("#branch").val().trim();
+
+    var profile_pic = $(":hidden#img_path1").val().trim();
+    var aadhar_card = $(":hidden#img_path2").val().trim();
+    var pan_card = $(":hidden#img_path3").val().trim();
+    var passbook = $(":hidden#img_path4").val().trim();
+    var voting_card = $(":hidden#img_path5").val().trim();
+
+    //if note is empty
+    var rawNote = $("#note").val();
+    var note = (typeof rawNote === "string") ? (rawNote === "" ? "" : rawNote.trim()) : "";
+
+    var testE = $("#testemail").val();
+
+    if (firstname.length <= 2) {
+        alert("Enter Proper First Name");
+    } else if (lastname.length <= 2) {
+        alert("Enter Proper Last Name");
+    } else if (testE == "1") {
+        alert("Email already exists");
+    } else {
+
+        var dataString =
+            "editfor=" +
+            editfor +
+            // "&ref_id=" +
+            // ref_id +
+            "&id=" +
+            id +
+            "&firstname=" +
+            firstname +
+            "&lastname=" +
+            lastname +
+            "&nominee_name=" +
+            nominee_name +
+            "&nominee_relation=" +
+            nominee_relation +
+            "&email=" +
+            email +
+            "&dob=" +
+            dob +
+            //  "&amount="+business_package+
+            //  "&gst_no="+gst_no+
+            "&gender=" +
+            gender +
+            "&country_code=" +
+            country_cd +
+            "&phone=" +
+            phone +
+            "&country=" +
+            country +
+            "&state=" +
+            mystate +
+            "&city=" +
+            city +
+            "&pincode=" +
+            pin +
+            "&address=" +
+            address +
+            "&zone=" +
+            zone +
+            "&branch=" +
+            branch +
+            "&profile_pic=" +
+            profile_pic +
+            "&aadhar_card=" +
+            aadhar_card +
+            "&pan_card=" +
+            pan_card +
+            "&passbook=" +
+            passbook +
+            "&voting_card=" +
+            voting_card +
+            "&note=" +
+            note;
+            // console.log(dataString);
+
+        $("#editChiefTechnoEnterprise").attr("disabled", "disabled");
+        // console.log(dataString);
+        $("#loading-overlay").show(); //loading screen
+        $.ajax({
+            type: "POST",
+            url: "edit_chief_techno_data.php",
+            data: dataString,
+            cache: false,
+            success: function (data) {
+                console.log(data);
+                if (data == 1) {
+                    $("#loading-overlay").hide(); //loading screen
+                    alert("Edit Successfuly");
+                    location.href = "chief_techno.php";
+                } else {
+                    $("#loading-overlay").hide(); //loading screen
+                    alert("Failed");
+                }
+            },
+        });
+    }
+});
+// @@@@****#### chief Techno Enterprise End by admin PN 25-05-2026 @@@@****####
+
+
 // @@@@****#### Business Mentor start by admin @@@@****####
 // Add Business Mentor by admin
 $("#addBusinessMentor").on("click", function (e) {

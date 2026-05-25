@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Super Techo Enterprise | Admin Dashboard </title>
+	<title>Add Chief Techo Enterprise | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Super Techo Enterprise</h4>
+								<h4 class="mb-sm-0 font-size-18">Chief Techo Enterprise</h4>
 							</div>
 						</div>
 					</div>
@@ -84,10 +84,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Super Techo Enterprise</h3>
+										<h3>Add Chief Techo Enterprise</h3>
 										<div class="row">
 											<!-- Personal Details -->
-											<div class="col-md-4 col-sm-12">
+											<!-- <div class="col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
 													<select id="designation" class="form-select">
@@ -109,7 +109,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
 													<input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
 												</div>
-											</div>
+											</div> -->
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">First Name <span class="text-danger">*</span></label>
@@ -344,7 +344,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 										</div>
 										<input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addBusinessMentor">Submit</button>
+											<button type="submit" class="btn btn-primary px-5 py-2" id="addChiefTechnoEnterprise">Submit</button>
 										</div>
 									</form>
 								</div>
@@ -407,39 +407,39 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<script>
 		
 		//select Designation
-		$('#designation').on('change', function() {
-			var designation = $('#designation').val();
-			// console.log(designation);
-			$.ajax({
-				type: 'POST',
-				url: '../agents/get_user_Franchisee.php',
-				data: "designation=" + designation,
-				success: function(e) {
-					// console.log(e);
-					$('#user_id_name').html(e);
-				},
-				error: function(err) {
-					console.log(err);
-				},
-			});
-		});
+		// $('#designation').on('change', function() {
+		// 	var designation = $('#designation').val();
+		// 	// console.log(designation);
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: '../agents/get_user_Franchisee.php',
+		// 		data: "designation=" + designation,
+		// 		success: function(e) {
+		// 			// console.log(e);
+		// 			$('#user_id_name').html(e);
+		// 		},
+		// 		error: function(err) {
+		// 			console.log(err);
+		// 		},
+		// 	});
+		// });
 
-		// fetch User based on selected designation
-		$('#user_id_name').on('change', function() {
-			var user_id_name = $(this).val();
-			var designation = 'ca_franchisee';
+		// // fetch User based on selected designation
+		// $('#user_id_name').on('change', function() {
+		// 	var user_id_name = $(this).val();
+		// 	var designation = 'ca_franchisee';
 
-			$.ajax({
-				type: 'POST',
-				url: '../agents/getUsers.php',
-				data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-				success: function(response) {
-					$('#pin').html(response);
-					$('#reference_name').val(response);
-				}
-			});
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: '../agents/getUsers.php',
+		// 		data: 'user_id_name=' + user_id_name + '&designation=' + designation,
+		// 		success: function(response) {
+		// 			$('#pin').html(response);
+		// 			$('#reference_name').val(response);
+		// 		}
+		// 	});
 
-		});
+		// });
 
 		$('#country').on('change', function() {
 			var countryID = $(this).val();
