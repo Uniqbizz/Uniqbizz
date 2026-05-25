@@ -872,7 +872,7 @@ if ($result2) {
             if($ta_str == 'TA'){
                 $ta_message = $ta_mess_title_name. $cuIds2[0].' ('.$cuName2[0].') Has Earned Rs.'.$ta_commi.' X '.$total_passenger.' =  '.$total_passenger*$ta_commi.'/-';
                 $ta_amt = $total_passenger*$ta_commi;
-            }elseif ($ta_str == 'IBR') {
+            }elseif ($ta_str == 'IB') {
                 $ta_message = "Not Applicable";
                 $ta_amt = 0;
             }
