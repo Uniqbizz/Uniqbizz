@@ -17,38 +17,38 @@
     $couponData = $sqlCoupons->fetch(PDO::FETCH_ASSOC);
     //coupons
     $sqlCoupons = $conn->prepare("
-    SELECT 
-        *,
-        (
-            SELECT COUNT(*)
-            FROM cu_coupons
-            WHERE user_id = :user_id
-        ) AS coupon_total,
+        SELECT 
+            *,
+            (
+                SELECT COUNT(*)
+                FROM cu_coupons
+                WHERE user_id = :user_id
+            ) AS coupon_total,
 
-        (
-            SELECT COUNT(*)
-            FROM cu_coupons
-            WHERE user_id = :user_id
-            AND usage_status = 0
-        ) AS active_coupon_total,
+            (
+                SELECT COUNT(*)
+                FROM cu_coupons
+                WHERE user_id = :user_id
+                AND usage_status = 0
+            ) AS active_coupon_total,
 
-        (
-            SELECT COUNT(*)
-            FROM cu_coupons
-            WHERE user_id = :user_id
-            AND usage_status = 1
-        ) AS used_coupon_total,
+            (
+                SELECT COUNT(*)
+                FROM cu_coupons
+                WHERE user_id = :user_id
+                AND usage_status = 1
+            ) AS used_coupon_total,
 
-        (
-            SELECT COALESCE(SUM(coupon_amt), 0)
-            FROM cu_coupons
-            WHERE user_id = :user_id
-        ) AS coupon_total_value
+            (
+                SELECT COALESCE(SUM(coupon_amt), 0)
+                FROM cu_coupons
+                WHERE user_id = :user_id
+            ) AS coupon_total_value
 
-    FROM cu_coupons
+        FROM cu_coupons
 
-    WHERE user_id = :user_id
-");
+        WHERE user_id = :user_id
+    ");
 
     $sqlCoupons->execute([":user_id" => $userId]);
 

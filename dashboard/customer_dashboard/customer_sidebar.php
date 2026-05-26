@@ -88,7 +88,6 @@
                         <span>Settings</span>
                     </a>
                 </li>
-                dashboard\assets\images\sidebarImage.png
                 <img src="<?= $base_url?>assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
                 <div class="exploreCard">
                     <h3 class="fw-bold text-white">Dream. <br> <span class="text-warning">Explore.</span> <br> <span class="text-warning">Discover.</span></h3>

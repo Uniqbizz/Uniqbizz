@@ -138,7 +138,7 @@
 
                                                 <div>
                                                     <div class="wallet-stat-label">
-                                                        Total Coupons : <span class="wallet-stat text-dark">30</span>
+                                                        Total Coupons : <span class="wallet-stat text-dark"><?= $couponData['coupon_total'] ?></span>
                                                     </div>
                                                 </div>
 
@@ -146,7 +146,7 @@
                                             </div>
                                             <div>
                                                 <div class="wallet-stat-label">
-                                                    Available : <span class="wallet-stat text-dark">18</span>
+                                                    Available : <span class="wallet-stat text-dark"><?= $couponData['active_coupon_total'] ?></span>
                                                 </div>
                                             </div>
 
@@ -1242,7 +1242,7 @@
                                     // DESCRIPTION
                                     const description =
                                         isUsed
-                                        ? "Coupon Utilized"
+                                        ? `Coupon Utilized On Booking Of ${item.used_on}`
                                         : "Membership Activation Bonus";
 
                                     // SUBTEXT

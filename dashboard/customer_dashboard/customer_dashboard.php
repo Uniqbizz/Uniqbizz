@@ -147,7 +147,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="<?= $base_url_sidebar.$folder_map[$customer['customer_type']]?>customer_coupon_wallet_list.php">
+                                        <a href="<?= $base_url.$folder_map[$customer['customer_type']]?>customer_coupon_wallet_list.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Coupons</p>
                                             </div>
@@ -203,7 +203,7 @@
                                         
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="<?= $base_url_sidebar.$folder_map[$customer['customer_type']]?>customer_wallet.php">
+                                        <a href="<?= $base_url.$folder_map[$customer['customer_type']]?>customer_wallet.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Wallets</p>
                                             </div>
