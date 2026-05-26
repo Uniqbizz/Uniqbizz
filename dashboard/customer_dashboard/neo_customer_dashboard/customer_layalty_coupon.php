@@ -37,6 +37,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_loyalty_coupon.css" />
+        <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/earn_coupon_modal.css" />
     </head>
 
     <body class="twocolumn-panel">
@@ -106,7 +107,7 @@
 
                                 </div>
 
-                                <button class="btn loyalty-help-btn">
+                                <button class="btn loyalty-help-btn" id="openEarnCouponModal">
                                     <i class="fa-regular fa-circle-play me-2"></i>
                                     How Loyalty Coupons Work?
                                 </button>
@@ -624,6 +625,7 @@
             <i class="ri-phone-fill"></i>
         </button>
         <?php include (__DIR__ .'/../../contact_modal.php') ?>
+        <?= include (__DIR__ .'/earn_coupon_modal.php') ?>
 
         <!-- contact card pop up end-->
 

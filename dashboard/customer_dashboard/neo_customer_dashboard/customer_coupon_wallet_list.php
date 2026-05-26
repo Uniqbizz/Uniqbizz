@@ -37,6 +37,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_coupon_wallet.css" />
+        <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/coupon_wallet_modal.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
     </head>
 
@@ -92,7 +93,7 @@
                                 </div>
 
                                 
-                                <button class="btn help-btn">
+                                <button class="btn help-btn" id="openCouponModal">
                                     <i class="fa-regular fa-circle-play me-2"></i>
                                     How to Use Coupons
                                 </button>
@@ -390,6 +391,7 @@
             <i class="ri-phone-fill"></i>
         </button>
         <?php include (__DIR__ .'/../../contact_modal.php') ?>
+        <?= include (__DIR__ .'/coupon_wallet_model.php') ?>
 
         <!-- contact card pop up end-->
 
