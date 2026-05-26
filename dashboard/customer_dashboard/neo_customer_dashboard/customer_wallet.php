@@ -1,9 +1,7 @@
 <?php
     include_once (__DIR__ .'/../../dashboard_user_details.php');
     include (__DIR__ .'/../customer_model.php');
-    $base_url = "/ca.uniqbizz.com/dashboard/";
-    $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-    $home_url = "/ca.uniqbizz.com/";
+    include (__DIR__.'/../urls.php');
 
 ?>
 <!doctype html>
@@ -378,7 +376,7 @@
                                                             </tr>
                                                         </thead>
 
-                                                        <tbody>
+                                                        <tbody id="recentActivityBody" class="recentActivityTableBody" data-card-type="pcw">
                                                             <tr>
                                                                 <td>02 Jun 2024</td>
 
@@ -1156,6 +1154,162 @@
             // Update progress bar
             document.getElementById("yearProgressBar").style.width = percentage + "%";
         </script> -->
+        <script>
+            // RECENT ACTIVITY AJAX
+            $(".recentActivityTableBody").each(function(){
+
+                const tableBody =
+                    $(this);
+
+                const tableBodyId =
+                    tableBody.attr("id");
+
+                const cardType =
+                    tableBody.data("card-type");
+
+                $.ajax({
+
+                    url: "<?= $base_url_cust ?>ajax/recent_activity_card.php",
+
+                    type: "POST",
+
+                    data: {
+                        card_type: cardType
+                    },
+
+                    dataType: "json",
+
+                    success: function(response) {
+
+                        if(response.status && response.data) {
+
+                            const coupons =
+                                response.data.all_coupons;
+
+                            let html = "";
+
+                            // EMPTY
+                            if(coupons.length === 0) {
+
+                                html += `
+                                    <tr>
+                                        <td colspan="5"
+                                            class="text-center py-4 fw-bold text-muted">
+                                            No Recent Activity Found
+                                        </td>
+                                    </tr>
+                                `;
+                            }
+
+                            // LOOP
+                            else {
+
+                                coupons.forEach(function(item){
+
+                                    const isUsed =
+                                        parseInt(item.usage_status) === 1;
+
+                                    // DATE
+                                    const activityDate =
+                                        item.used_date ||
+                                        item.created_date;
+
+                                    const formattedDate =
+                                        new Date(activityDate)
+                                        .toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric"
+                                        });
+
+                                    // STATUS
+                                    const statusText =
+                                        isUsed
+                                        ? "Used"
+                                        : "Credited";
+
+                                    const statusClass =
+                                        isUsed
+                                        ? "debited"
+                                        : "credited";
+
+                                    // VALUE
+                                    const valuePrefix =
+                                        isUsed
+                                        ? "-"
+                                        : "+";
+
+                                    // DESCRIPTION
+                                    const description =
+                                        isUsed
+                                        ? "Coupon Utilized"
+                                        : "Membership Activation Bonus";
+
+                                    // SUBTEXT
+                                    const subText =
+                                        item.transaction_id
+                                        ? `Transaction ID: ${item.transaction_id}`
+                                        : "Coupon Credited";
+
+                                    html += `
+                                        <tr>
+
+                                            <td>
+                                                ${formattedDate}
+                                            </td>
+
+                                            <td>
+
+                                                <strong>
+                                                    ${description}
+                                                </strong>
+
+                                                <br>
+
+                                                <small class="text-muted">
+                                                    ${subText}
+                                                </small>
+
+                                            </td>
+
+                                            <td>
+
+                                                <span class="${statusClass}">
+                                                    ${statusText}
+                                                </span>
+
+                                            </td>
+
+                                            <td class="
+                                                ${isUsed
+                                                    ? 'text-danger'
+                                                    : 'text-success'}
+                                                fw-bold
+                                            ">
+                                                ${valuePrefix}1
+                                            </td>
+
+                                            <td class="
+                                                ${isUsed
+                                                    ? 'text-danger'
+                                                    : 'text-success'}
+                                                fw-bold
+                                            ">
+                                                ₹${item.coupon_amt}
+                                            </td>
+
+                                        </tr>
+                                    `;
+                                });
+                            }
+
+                            // APPEND TO CURRENT TABLE
+                            $("#" + tableBodyId).html(html);
+                        }
+                    }
+                });
+            });
+        </script>
 
         <!-- dialer logic -->
     </body>

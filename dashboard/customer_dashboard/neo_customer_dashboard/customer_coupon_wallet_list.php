@@ -39,6 +39,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_coupon_wallet.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
     </head>
 
     <body class="twocolumn-panel">
@@ -260,7 +261,7 @@
 
                                 <div class="table-responsive">
 
-                                    <table class="coupon-table">
+                                    <table class="coupon-table" id="couponTable">
 
                                         <thead>
 
@@ -269,7 +270,7 @@
                                                 <th>Value</th>
                                                 <th>Status</th>
                                                 <th>Credited On</th>
-                                                <th>Applicable On</th>
+                                                <th>Applicable/Applied On</th>
                                                 <th>Used On</th>
                                             </tr>
 
@@ -1873,7 +1874,7 @@
         <script src="<?= $base_url ?>assets/js/pages/dashboard-job.init.js"></script>
 
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
-
+        <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
         <!-- <script>
             var userType= document.getElementById("user_type").value;
             function highlightSelected(id) {
@@ -2058,7 +2059,7 @@
             <!--    });-->
 
             <!--</script>-->
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
         
             const tabs = document.querySelectorAll('.coupon-tab');
@@ -2248,6 +2249,364 @@
         
             applyFilter('all');
         
+        });
+    </script> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const tableBody =
+                document.getElementById('couponTableBody');
+
+            const tabs =
+                document.querySelectorAll('.coupon-tab');
+
+            const prevBtn =
+                document.getElementById('prevPage');
+
+            const nextBtn =
+                document.getElementById('nextPage');
+
+            const pageNumbers =
+                document.getElementById('pageNumbers');
+
+            const showingCount =
+                document.getElementById('showingCount');
+
+            const showingEnd =
+                document.getElementById('showingEnd');
+
+            const totalCoupons =
+                document.getElementById('totalCoupons');
+
+            let allCoupons = [];
+            let filteredCoupons = [];
+
+            let currentPage = 1;
+
+            const rowsPerPage = 10;
+
+            let currentFilter = 'all';
+
+            // =========================
+            // FETCH AJAX DATA
+            // =========================
+
+            fetch('<?= $base_url_cust?>ajax/coupon_table_list.php')
+
+                .then(response => response.json())
+
+                .then(result => {
+
+                    allCoupons = result.data;
+
+                    updateTabCounts();
+
+                    applyFilter('all');
+                });
+
+            // =========================
+            // RENDER TABLE
+            // =========================
+
+            function renderTable() {
+
+                tableBody.innerHTML = '';
+
+                const start =
+                    (currentPage - 1) * rowsPerPage;
+
+                const end =
+                    start + rowsPerPage;
+
+                const pageData =
+                    filteredCoupons.slice(start, end);
+
+                pageData.forEach(coupon => {
+
+                    const statusLower =
+                        coupon.status.toLowerCase();
+
+                    let applicableHtml = '';
+
+                    // =========================
+                    // AVAILABLE COUPONS
+                    // =========================
+
+                    if (statusLower === 'available') {
+
+                        applicableHtml = `
+                            <div class="applicable-item">
+                                <i class="fa-solid fa-gift"></i>
+                                Holiday Packages
+                            </div>
+
+                            <div class="applicable-item">
+                                <i class="fa-solid fa-mountain"></i>
+                                Weekend Escapes
+                            </div>
+
+                            <div class="applicable-item">
+                                <i class="fa-solid fa-plane"></i>
+                                Flights
+                            </div>
+
+                            <div class="applicable-item">
+                                <i class="fa-solid fa-hotel"></i>
+                                Hotel
+                            </div>
+                        `;
+
+                    } else {
+
+                        // =========================
+                        // USED COUPONS
+                        // =========================
+
+                        applicableHtml = `
+                            <div class="applicable-item">
+                                <i class="fa-solid fa-umbrella-beach"></i>
+                                ${coupon.used_on ?? 'Booking'}
+                            </div>
+
+                            <small class="text-muted">
+                                Booking ID:
+                                ${coupon.booking_id ?? '-'}
+                            </small>
+                        `;
+                    }
+
+                    const row = `
+                        <tr data-status="${statusLower}">
+
+                            <td>
+                                <div class="coupon-box">
+                                    ${coupon.code}
+                                    <div>
+                                        ₹${coupon.coupon_amt}
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="coupon-price">
+                                ₹${coupon.coupon_amt}
+                            </td>
+
+                            <td>
+                                <span class="
+                                    status-badge
+                                    ${statusLower === 'available'
+                                        ? 'status-available'
+                                        : 'status-used'}
+                                ">
+                                    ${coupon.status}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${coupon.created_date}
+                            </td>
+
+                            <td>
+                                ${applicableHtml}
+                            </td>
+
+                            <td class="
+                                ${statusLower === 'available'
+                                    ? 'text-muted'
+                                    : ''}
+                            ">
+                                ${statusLower === 'available'
+                                    ? '—'
+                                    : coupon.used_date}
+                            </td>
+
+                        </tr>
+                    `;
+
+                    tableBody.insertAdjacentHTML(
+                        'beforeend',
+                        row
+                    );
+
+                });
+
+                updatePagination();
+            }
+
+            // =========================
+            // FILTER
+            // =========================
+
+            function applyFilter(filter) {
+
+                currentFilter = filter;
+
+                currentPage = 1;
+
+                if (filter === 'all') {
+
+                    filteredCoupons = [...allCoupons];
+
+                } else {
+
+                    filteredCoupons =
+                        allCoupons.filter(coupon =>
+                            coupon.status.toLowerCase() === filter
+                        );
+                }
+
+                renderTable();
+            }
+
+            // =========================
+            // PAGINATION
+            // =========================
+
+            function updatePagination() {
+
+                const totalPages =
+                    Math.ceil(
+                        filteredCoupons.length / rowsPerPage
+                    );
+
+                pageNumbers.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+
+                    const btn =
+                        document.createElement('button');
+
+                    btn.textContent = i;
+
+                    btn.className =
+                        i === currentPage
+                        ? 'btn btn-sm btn-primary'
+                        : 'btn btn-sm btn-outline-primary';
+
+                    btn.addEventListener('click', function () {
+
+                        currentPage = i;
+
+                        renderTable();
+                    });
+
+                    pageNumbers.appendChild(btn);
+                }
+
+                prevBtn.disabled =
+                    currentPage === 1;
+
+                nextBtn.disabled =
+                    currentPage === totalPages;
+
+                const startNum =
+                    filteredCoupons.length === 0
+                    ? 0
+                    : ((currentPage - 1)
+                        * rowsPerPage) + 1;
+
+                const endNum =
+                    Math.min(
+                        currentPage * rowsPerPage,
+                        filteredCoupons.length
+                    );
+
+                showingCount.textContent =
+                    startNum;
+
+                showingEnd.textContent =
+                    endNum;
+
+                totalCoupons.textContent =
+                    filteredCoupons.length;
+            }
+
+            // =========================
+            // TAB COUNTS
+            // =========================
+
+            function updateTabCounts() {
+
+                const allCount =
+                    allCoupons.length;
+
+                const availableCount =
+                    allCoupons.filter(c =>
+                        c.status.toLowerCase() === 'available'
+                    ).length;
+
+                const usedCount =
+                    allCoupons.filter(c =>
+                        c.status.toLowerCase() === 'used'
+                    ).length;
+
+                document.querySelector(
+                    '[data-filter="all"] .tab-count'
+                ).textContent = allCount;
+
+                document.querySelector(
+                    '[data-filter="available"] .tab-count'
+                ).textContent = availableCount;
+
+                document.querySelector(
+                    '[data-filter="used"] .tab-count'
+                ).textContent = usedCount;
+            }
+
+            // =========================
+            // TAB EVENTS
+            // =========================
+
+            tabs.forEach(tab => {
+
+                tab.addEventListener('click', function () {
+
+                    tabs.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    this.classList.add('active');
+
+                    applyFilter(
+                        this.dataset.filter
+                    );
+                });
+
+            });
+
+            // =========================
+            // PREV BUTTON
+            // =========================
+
+            prevBtn.addEventListener('click', function () {
+
+                if (currentPage > 1) {
+
+                    currentPage--;
+
+                    renderTable();
+                }
+            });
+
+            // =========================
+            // NEXT BUTTON
+            // =========================
+
+            nextBtn.addEventListener('click', function () {
+
+                const totalPages =
+                    Math.ceil(
+                        filteredCoupons.length / rowsPerPage
+                    );
+
+                if (currentPage < totalPages) {
+
+                    currentPage++;
+
+                    renderTable();
+                }
+            });
+
         });
     </script>
     </body>

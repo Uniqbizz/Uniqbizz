@@ -1,7 +1,6 @@
 <?php
     $date = date('Y');
-    $base_url = "/ca.uniqbizz.com/dashboard/";
-    $home_url = "/ca.uniqbizz.com/";
+    include (__DIR__.'/urls.php');
 ?>
 
 <footer class="footer">
