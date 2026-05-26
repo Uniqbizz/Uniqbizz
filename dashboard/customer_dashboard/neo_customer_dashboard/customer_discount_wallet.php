@@ -678,10 +678,6 @@
 
         <script src="<?= $base_url ?>assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
-
-        <!-- Dashboard init  popular candidates section js file-->
-        <script src="<?= $base_url ?>assets/js/pages/dashboard-job.init.js"></script>
-
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
 
         <!-- <script>

@@ -137,11 +137,11 @@
                                     <div class="d-flex justify-content-around gap-3 mt-3">
                                         <div class="mt-3">
                                             <p class="fs-6 text-muted mb-1">Total Vouchers</p>
-                                            <p class="fs-4 mb-0 fw-bolder textColor">30</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor"><?= $couponData['coupon_total'] ?></p>
                                         </div>
                                         <div class="mt-3">
                                             <p class="fs-6 text-muted mb-1">Active</p>
-                                            <p class="fs-4 mb-0 fw-bolder textColor">18</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor"><?= $couponData['active_coupon_total'] ?></p>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
@@ -1110,9 +1110,6 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
 
-
-        <!-- Dashboard init  popular candidates section js file-->
-        <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
 
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
 
