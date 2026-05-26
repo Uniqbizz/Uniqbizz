@@ -1,9 +1,43 @@
 <?php
-    // $base_url = "/ca.uniqbizz.com/dashboard/";
-    // $base_url_cust = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-    // $home_url = "/ca.uniqbizz.com/";
-    //git urls
-    $base_url = "/git.uniqbizz.com/dashboard/";
-    $base_url_cust = "/git.uniqbizz.com/dashboard/customer_dashboard/";
-    $home_url = "/git.uniqbizz.com/";
+
+    // AUTO DETECT LOCAL / LIVE
+
+    $protocol =
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        ? "https://"
+        : "http://";
+
+    $domain =
+        $_SERVER['HTTP_HOST'];
+
+
+    // LOCALHOST
+    if(
+        strpos($domain, 'localhost') !== false
+    ){
+
+        $project_folder =
+            "/ca.uniqbizz.com";
+    }
+    else{
+
+        // LIVE SERVER
+        $project_folder = "";
+    }
+
+
+    // FINAL URLS
+    $home_url =
+        $protocol .
+        $domain .
+        $project_folder . "/";
+
+    $base_url =
+        $home_url .
+        "dashboard/";
+
+    $base_url_cust =
+        $home_url .
+        "dashboard/customer_dashboard/";
+
 ?>
