@@ -477,42 +477,7 @@
 
         <script src="<?= $base_url ?>assets/libs/chart.js/Chart-2.5.0.min.js"></script>
 
-
-        <!-- Dashboard init  popular candidates section js file-->
-        <!-- <script src="assets/js/pages/dashboard-job.init.js"></script> -->
-
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
-
-        <!-- <script>
-            var userType= document.getElementById("user_type").value;
-            function highlightSelected(id) {
-                // Remove highlight from all list items
-                document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
-                    el.classList.remove("selected-li");
-                });
-
-                // Add highlight to the selected one
-                const selected = document.getElementById(id);
-                if (selected) {
-                    selected.classList.add("selected-li");
-                }
-            }
-        </script>
-        
-        <script>
-            function highlightSelected(id) {
-                // Remove highlight from all items
-                document.querySelectorAll('li[id^="list-item-"]').forEach(function(el) {
-                    el.classList.remove('active-highlight');
-                });
-
-                // Add highlight to the clicked item
-                const selectedItem = document.getElementById(id);
-                if (selectedItem) {
-                    selectedItem.classList.add('active-highlight');
-                }
-            }
-        </script> -->
         
         <script>
             document.addEventListener("DOMContentLoaded", function () {

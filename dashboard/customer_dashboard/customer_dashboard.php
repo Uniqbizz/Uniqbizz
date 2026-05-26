@@ -145,7 +145,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="<?= $base_url.$folder_map[$customer['customer_type']]?>customer_coupon_wallet_list.php">
+                                        <a href="<?= $base_url_cust.$folder_map[$customer['customer_type']]?>customer_coupon_wallet_list.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Coupons</p>
                                             </div>
@@ -201,7 +201,7 @@
                                         
                                     </div>
                                     <div class="d-flex justify-content-center mt-3 mb-4">
-                                        <a href="<?= $base_url.$folder_map[$customer['customer_type']]?>customer_wallet.php">
+                                        <a href="<?= $base_url_cust.$folder_map[$customer['customer_type']]?>customer_wallet.php">
                                             <div class="linkBtn p-2 px-3 border border-primary border-2">
                                                 <p class="fs-6 mb-0 fw-bolder"> View Wallets</p>
                                             </div>
@@ -1112,37 +1112,6 @@
 
 
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
-
-        <!-- <script>
-            var userType= document.getElementById("user_type").value;
-            function highlightSelected(id) {
-                // Remove highlight from all list items
-                document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
-                    el.classList.remove("selected-li");
-                });
-
-                // Add highlight to the selected one
-                const selected = document.getElementById(id);
-                if (selected) {
-                    selected.classList.add("selected-li");
-                }
-            }
-        </script>
-        
-        <script>
-            function highlightSelected(id) {
-                // Remove highlight from all items
-                document.querySelectorAll('li[id^="list-item-"]').forEach(function(el) {
-                    el.classList.remove('active-highlight');
-                });
-
-                // Add highlight to the clicked item
-                const selectedItem = document.getElementById(id);
-                if (selectedItem) {
-                    selectedItem.classList.add('active-highlight');
-                }
-            }
-        </script> -->
         
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1191,62 +1160,7 @@
                 }
             });
         </script>
-        <!-- <script>
-            document.addEventListener("DOMContentLoaded", function () {
 
-                const sidebar = document.querySelector(".navbar-menu");
-                const hamburger = document.getElementById("topnav-hamburger-icon");
-                const overlay = document.querySelector(".vertical-overlay");
-
-                /* DEFAULT DESKTOP */
-                if (window.innerWidth > 1024) {
-                    sidebar.classList.remove("sidebar-hidden");
-                }
-
-                hamburger.addEventListener("click", function () {
-
-                    /* BELOW 1024 */
-                    if (window.innerWidth <= 1024) {
-
-                        sidebar.classList.toggle("sidebar-mobile-show");
-
-                        /* OVERLAY ONLY BELOW 768 */
-                        if (window.innerWidth <= 768) {
-                            overlay.classList.toggle("active");
-                        }
-
-                    } else {
-
-                        /* DESKTOP */
-                        sidebar.classList.toggle("sidebar-hidden");
-                    }
-                });
-
-                /* CLOSE ONLY MOBILE */
-                if (window.innerWidth <= 768) {
-
-                    overlay.addEventListener("click", function () {
-
-                        sidebar.classList.remove("sidebar-mobile-show");
-                        overlay.classList.remove("active");
-
-                    });
-                }
-
-            });
-
-        </script> -->
-        <!-- <script>
-            // Get values directly from HTML
-            const completed = parseInt(document.getElementById("completedYears").innerText);
-            const total = parseInt(document.getElementById("totalYears").innerText);
-
-            // Calculate percentage
-            const percentage = (completed / total) * 100;
-
-            // Update progress bar
-            document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script> -->
         <script>
             function toggleWishlist(button) {
 
@@ -1364,159 +1278,7 @@
             );
 
         </script>
-        <!-- <script>
-            const spendingCtx = document
-                .getElementById("spendingChart")
-                .getContext("2d");
-            // Gradient Fill
-            const gradient = spendingCtx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, "rgba(91,95,246,0.35)");
-            gradient.addColorStop(1, "rgba(91,95,246,0)");
 
-            // Create Line Chart
-            const spendingChart = new Chart(spendingCtx, {
-                type: "line",
-                data: {
-                    labels: [
-                        "Jan", "Feb", "Mar", "Apr",
-                        "May", "Jun", "Jul", "Aug",
-                        "Sep", "Oct", "Nov", "Dec"
-                    ],
-                    datasets: [{
-                        label: "Spending",
-                        data: [
-                            10, 28, 22, 40,
-                            48, 38, 35, 50,
-                            65, 45, 63, 55
-                        ],
-                        borderColor: "#5b5ff6",
-                        backgroundColor: gradient,
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: "#5b5ff6",
-                        pointBorderColor: "#ffffff",
-                        pointBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return "₹" + value + "K";
-                                }
-                            },
-                            grid: {
-                                color: "#f0f0f0"
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Chart Height
-            document.getElementById("spendingChart")
-                .parentNode.style.height = "300px";
-
-            // DONUT CHART
-            const tripCtx = document
-                .getElementById("tripChart")
-                .getContext("2d");
-
-            const tripChart = new Chart(tripCtx, {
-                type: "doughnut",
-                data: {
-                    labels: [
-                        "Domestic Trips",
-                        "International Trips",
-                        "Upcoming Trips"
-                    ],
-                    datasets: [{
-                        data: [4, 3, 1],
-                        backgroundColor: [
-                            "#5b5ff6",
-                            "#1e88ff",
-                            "#10c981"
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    cutout: "72%",
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            // DONUT LEGEND TOGGLE
-            const originalData = [4, 3, 1];
-            function tripAction(index, element) {
-                const currentValue =
-                    tripChart.data.datasets[0].data[index];
-                // HIDE
-                if(currentValue !== 0) {
-                    tripChart.data.datasets[0].data[index] = 0;
-                    // ADD CUT EFFECT
-                    element.classList.add("inactiveLegend");
-                }
-                // SHOW AGAIN
-                else {
-                    tripChart.data.datasets[0].data[index] =
-                        originalData[index];
-
-                    // REMOVE CUT EFFECT
-                    element.classList.remove("inactiveLegend");
-                }
-                tripChart.update();
-            }
-
-            // YEAR FILTER
-
-            const yearFilter =
-                document.getElementById("yearFilter");
-            yearFilter.addEventListener("change", function () {
-                // THIS YEAR
-                if (this.value === "this") {
-                    spendingChart.data.datasets[0].data = [
-                        10, 28, 22, 40,
-                        48, 38, 35, 50,
-                        65, 45, 63, 55
-                    ];
-                }
-                // LAST YEAR
-                else {
-                    spendingChart.data.datasets[0].data = [
-                        15, 20, 30, 25,
-                        40, 42, 50, 55,
-                        48, 60, 70, 68
-
-                    ];
-                }
-                // Update Chart
-                spendingChart.update();
-            });
-        </script> -->
         <script>
 
             // =========================

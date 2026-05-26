@@ -650,37 +650,6 @@
 
 
         <script src="<?= $base_url ?>assets/js/js-confetti.js"></script>
-
-        <!-- <script>
-            var userType= document.getElementById("user_type").value;
-            function highlightSelected(id) {
-                // Remove highlight from all list items
-                document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
-                    el.classList.remove("selected-li");
-                });
-
-                // Add highlight to the selected one
-                const selected = document.getElementById(id);
-                if (selected) {
-                    selected.classList.add("selected-li");
-                }
-            }
-        </script>
-        
-        <script>
-            function highlightSelected(id) {
-                // Remove highlight from all items
-                document.querySelectorAll('li[id^="list-item-"]').forEach(function(el) {
-                    el.classList.remove('active-highlight');
-                });
-
-                // Add highlight to the clicked item
-                const selectedItem = document.getElementById(id);
-                if (selectedItem) {
-                    selectedItem.classList.add('active-highlight');
-                }
-            }
-        </script> -->
         
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -729,62 +698,6 @@
                 }
             });
         </script>
-        <!-- <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                const sidebar = document.querySelector(".navbar-menu");
-                const hamburger = document.getElementById("topnav-hamburger-icon");
-                const overlay = document.querySelector(".vertical-overlay");
-
-                /* DEFAULT DESKTOP */
-                if (window.innerWidth > 1024) {
-                    sidebar.classList.remove("sidebar-hidden");
-                }
-
-                hamburger.addEventListener("click", function () {
-
-                    /* BELOW 1024 */
-                    if (window.innerWidth <= 1024) {
-
-                        sidebar.classList.toggle("sidebar-mobile-show");
-
-                        /* OVERLAY ONLY BELOW 768 */
-                        if (window.innerWidth <= 768) {
-                            overlay.classList.toggle("active");
-                        }
-
-                    } else {
-
-                        /* DESKTOP */
-                        sidebar.classList.toggle("sidebar-hidden");
-                    }
-                });
-
-                /* CLOSE ONLY MOBILE */
-                if (window.innerWidth <= 768) {
-
-                    overlay.addEventListener("click", function () {
-
-                        sidebar.classList.remove("sidebar-mobile-show");
-                        overlay.classList.remove("active");
-
-                    });
-                }
-
-            });
-
-        </script>
-        <script>
-            // Get values directly from HTML
-            const completed = parseInt(document.getElementById("completedYears").innerText);
-            const total = parseInt(document.getElementById("totalYears").innerText);
-
-            // Calculate percentage
-            const percentage = (completed / total) * 100;
-
-            // Update progress bar
-            document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script> -->
 
         <!-- dialer logic -->
 
