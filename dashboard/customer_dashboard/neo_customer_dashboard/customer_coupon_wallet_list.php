@@ -2289,18 +2289,33 @@
             // FETCH AJAX DATA
             // =========================
 
-            fetch('<?= $base_url_cust?>ajax/coupon_table_list.php')
+            fetch('<?= $base_url_cust ?>ajax/coupon_table_list.php')
 
-                .then(response => response.json())
+            .then(response => response.text())
 
-                .then(result => {
+            .then(data => {
+
+                console.log(data);
+
+                try {
+
+                    const result = JSON.parse(data);
 
                     allCoupons = result.data;
 
                     updateTabCounts();
 
                     applyFilter('all');
-                });
+
+                }
+                catch(error){
+
+                    console.error(
+                        "Invalid JSON:",
+                        error
+                    );
+                }
+            });
 
             // =========================
             // RENDER TABLE

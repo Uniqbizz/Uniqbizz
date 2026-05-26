@@ -1,7 +1,7 @@
 <?php
     include_once(__DIR__ . '/../../dashboard_user_details.php');
     $coupon_card_type = $_POST['card_type'];
-
+    header('Content-Type: application/json');
     if($coupon_card_type == 'pcw'){
 
         /*
