@@ -135,7 +135,7 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center">
                                             <span>Total Loyalty Coupons</span>
-                                            <span class="summary-value">5</span>
+                                            <span class="summary-value"><?= $loyaltyCouponData['coupon_total'] ?></span>
                                         </div>
 
                                     </div>
@@ -156,11 +156,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n3">
                                             <span>Available Coupons</span>
-                                            <span class="summary-value">3</span>
+                                            <span class="summary-value"><?= $loyaltyCouponData['active_coupon_total'] ?></span>
                                         </div>
 
                                         <div class="summary-sub-value green-text">
-                                            Value ₹1,500
+                                            Value ₹<?= $loyaltyCouponData['active_total_value'] ?>
                                         </div>
 
                                     </div>
@@ -181,11 +181,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n2">
                                             <span>Used / Expired Coupons</span>
-                                            <span class="summary-value">2</span>
+                                            <span class="summary-value"><?= $loyaltyCouponData['used_coupon_total'] ?></span>
                                         </div>
 
                                         <div class="summary-sub-value">
-                                            Value ₹1,000
+                                            Value ₹<?= $loyaltyCouponData['used_total_value'] ?>
                                         </div>
 
                                     </div>
@@ -209,7 +209,7 @@
                                         </div>
 
                                         <div class="summary-big-value">
-                                            ₹2,500
+                                            ₹<?= $loyaltyCouponData['coupon_total_value'] ?>
                                         </div>
 
                                     </div>
@@ -393,7 +393,8 @@
                                                 <td>
                                                     Bali Bliss Trip
                                                     <div class="small text-muted">
-                                                        3 Passengers
+                                                        3 Passengers </br>
+                                                        Booking ID: Dummy_entry_1
                                                     </div>
                                                 </td>
 
@@ -708,39 +709,330 @@
 
         <script>
 
-            const tabs = document.querySelectorAll('.coupon-tab');
-            const rows = document.querySelectorAll('#loyaltyTableBody tr');
+            /*
+            LOYALTY COUPON TABLE AJAX
+            */
+            $.ajax({
 
-            tabs.forEach(tab => {
+                url: "<?= $base_url_cust ?>ajax/loyalty_coupon_table.php",
 
-                tab.addEventListener('click', function () {
+                type: "POST",
 
-                    tabs.forEach(btn => {
-                        btn.classList.remove('active');
+                dataType: "json",
+
+                success: function(response){
+
+                    let html = "";
+
+                    if(response.status && response.data.length > 0){
+
+                        response.data.forEach(function(item){
+
+                            /*
+                            DEFAULT STATUS
+                            */
+                            let statusText = "";
+                            let statusClass = "";
+                            let rowStatus = "";
+
+                            /*
+                            STATUS CHECK
+                            */
+                            if(parseInt(item.usage_status) === 1){
+
+                                statusText = "Used";
+                                statusClass = "status-used";
+                                rowStatus = "used";
+                            }
+                            else{
+
+                                statusText = "Available";
+                                statusClass = "status-available";
+                                rowStatus = "available";
+                            }
+
+                            /*
+                            DATE VALUES
+                            */
+                            const earnedFormatted =
+                                item.created_date_text || "-";
+
+                            const validFormatted =
+                                item.expiry_date_text || "-";
+
+                            /*
+                            EXPIRY CALCULATION
+                            */
+                            const today =
+                                new Date();
+
+                            const expiryDate =
+                                new Date(item.expiry_date);
+
+                            /*
+                            REMOVE TIME
+                            */
+                            today.setHours(0,0,0,0);
+                            expiryDate.setHours(0,0,0,0);
+
+                            const diffTime =
+                                expiryDate - today;
+
+                            const diffDays =
+                                Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                            /*
+                            VALID TEXT
+                            */
+                            let validText = "";
+
+                            /*
+                            EXPIRED
+                            */
+                            if(
+                                parseInt(item.usage_status) === 0 &&
+                                diffDays <= 0
+                            ){
+
+                                rowStatus = "expired";
+
+                                statusText = "Expired";
+
+                                statusClass = "status-expired";
+
+                                /*
+                                EXPIRED TODAY
+                                */
+                                if(diffDays === 0){
+
+                                    validText = `
+                                        <div class="text-danger small">
+                                            Expired Today
+                                        </div>
+                                    `;
+                                }
+
+                                /*
+                                EXPIRED BEFORE
+                                */
+                                else{
+
+                                    const expiredDays =
+                                        Math.abs(diffDays);
+
+                                    validText = `
+                                        <div class="text-danger small">
+                                            Expired ${expiredDays}
+                                            Day${expiredDays > 1 ? 's' : ''} Ago
+                                        </div>
+                                    `;
+                                }
+                            }
+
+                            /*
+                            USED
+                            */
+                            else if(rowStatus === "used"){
+
+                                validText = `
+                                    <div class="text-danger small">
+                                        Used
+                                    </div>
+                                `;
+                            }
+
+                            /*
+                            AVAILABLE
+                            */
+                            else{
+
+                                validText = `
+                                    <div class="days-left">
+                                        ${diffDays}
+                                        Day${diffDays > 1 ? 's' : ''} Left
+                                    </div>
+                                `;
+                            }
+
+                            /*
+                            USED DATE
+                            */
+                            let usedDateHtml = `
+                                <span class="text-muted">—</span>
+                            `;
+
+                            if(item.used_date){
+
+                                usedDateHtml = `
+
+                                    ${item.used_date_text}
+
+                                    ${
+                                        item.transaction_id &&
+                                        item.transaction_id !== '-'
+
+                                        ? `
+                                            <div class="small text-muted">
+                                                ${item.transaction_id}
+                                            </div>
+                                        `
+                                        : ''
+                                    }
+                                `;
+                            }
+
+                            /*
+                            EARNED FOR
+                            */
+                            let earnedFor =
+                                item.earned_for || "Membership Bonus";
+
+                            /*
+                            REMOVE DUPLICATE BOOKING ID
+                            */
+                            earnedFor =
+                                earnedFor
+                                .replace(/Booking ID:.*/gi, '')
+                                .trim();
+
+                            /*
+                            TABLE HTML
+                            */
+                            html += `
+
+                                <tr data-status="${rowStatus}">
+
+                                    <td>
+
+                                        <div class="coupon-box">
+
+                                            ${item.code}
+
+                                            <div>
+                                                ₹${item.coupon_amt}
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td class="coupon-price">
+                                        ₹${item.coupon_amt}
+                                    </td>
+
+                                    <td>
+
+                                        <span class="status-badge ${statusClass}">
+                                            ${statusText}
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        ${validFormatted}
+
+                                        ${validText}
+
+                                    </td>
+
+                                    <td>
+                                        ${earnedFormatted}
+                                    </td>
+
+                                    <td>
+
+                                        ${earnedFor}
+
+                                        ${
+                                            item.transaction_id &&
+                                            item.transaction_id !== '-'
+
+                                            ? `
+                                                <div class="small text-muted">
+                                                    Booking ID:
+                                                    ${item.transaction_id}
+                                                </div>
+                                            `
+                                            : ''
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        ${usedDateHtml}
+                                    </td>
+
+                                </tr>
+                            `;
+                        });
+                    }
+                    else{
+
+                        html = `
+
+                            <tr>
+
+                                <td colspan="7"
+                                    class="text-center py-4 text-muted fw-bold">
+
+                                    No Coupons Found
+
+                                </td>
+
+                            </tr>
+                        `;
+                    }
+
+                    /*
+                    APPEND TABLE
+                    */
+                    $("#loyaltyTableBody").html(html);
+
+                    /*
+                    FILTER TABS
+                    */
+                    const tabs =
+                        document.querySelectorAll('.coupon-tab');
+
+                    tabs.forEach(tab => {
+
+                        tab.addEventListener('click', function () {
+
+                            tabs.forEach(btn => {
+                                btn.classList.remove('active');
+                            });
+
+                            this.classList.add('active');
+
+                            const filter =
+                                this.dataset.filter;
+
+                            const rows =
+                                document.querySelectorAll('#loyaltyTableBody tr');
+
+                            rows.forEach(row => {
+
+                                const status =
+                                    row.dataset.status;
+
+                                if(
+                                    filter === 'all' ||
+                                    status === filter
+                                ){
+
+                                    row.style.display =
+                                        'table-row';
+                                }
+                                else{
+
+                                    row.style.display =
+                                        'none';
+                                }
+                            });
+                        });
                     });
-
-                    this.classList.add('active');
-
-                    const filter = this.dataset.filter;
-
-                    rows.forEach(row => {
-
-                        const status = row.dataset.status;
-
-                        if(filter === 'all' || status === filter){
-
-                            row.style.display = 'table-row';
-
-                        }else{
-
-                            row.style.display = 'none';
-
-                        }
-
-                    });
-
-                });
-
+                }
             });
 
         </script>

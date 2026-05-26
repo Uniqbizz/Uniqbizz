@@ -231,7 +231,6 @@ body{
 .filter-area,
 .table-responsive{
     position:relative;
-    z-index:1;
 }
 
 /* =========================

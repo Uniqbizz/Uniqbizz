@@ -157,7 +157,7 @@
                                             </div>
 
                                             <div class="wallet-total purple-title">
-                                                ₹15,000
+                                                ₹<?= $couponData['coupon_total_value'] ?>
                                             </div>
 
                                             <a href="customer_coupon_wallet_list.php" class="btn wallet-btn">
@@ -199,7 +199,7 @@
 
                                                 <div>
                                                     <div class="wallet-stat-label">
-                                                        Total Coupons : <span class="wallet-stat text-dark">12</span>
+                                                        Total Coupons : <span class="wallet-stat text-dark"><?= $loyaltyCouponData['coupon_total'] ?></span>
                                                     </div>
                                                 </div>
 
@@ -207,7 +207,7 @@
                                             </div>
                                             <div>
                                                 <div class="wallet-stat-label">
-                                                    Available : <span class="wallet-stat text-dark">7</span>
+                                                    Available : <span class="wallet-stat text-dark"><?= $loyaltyCouponData['active_coupon_total'] ?></span>
                                                 </div>
                                             </div>
 
@@ -218,7 +218,7 @@
                                             </div>
 
                                             <div class="wallet-total green-title">
-                                                ₹3,500
+                                                ₹<?= $loyaltyCouponData['coupon_total_value'] ?>
                                             </div>
                                             <a href="customer_layalty_coupon.php" class="btn wallet-btn">
                                                 View Loyalty Coupons
@@ -377,64 +377,6 @@
                                                         </thead>
 
                                                         <tbody id="recentActivityBody" class="recentActivityTableBody" data-card-type="pcw">
-                                                            <tr>
-                                                                <td>02 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Used on Maldives Paradise</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240601
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="debited">Used</span>
-                                                                </td>
-
-                                                                <td class="text-danger fw-bold">-4</td>
-
-                                                                <td class="text-danger fw-bold">₹2,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>25 May 2024</td>
-
-                                                                <td>
-                                                                    <strong>Used on Bali Bliss Trip</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240521
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="debited">Used</span>
-                                                                </td>
-
-                                                                <td class="text-danger fw-bold">-8</td>
-
-                                                                <td class="text-danger fw-bold">₹4,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>20 May 2024</td>
-
-                                                                <td>
-                                                                    <strong>Membership Activation Bonus</strong><br>
-                                                                    <small class="text-muted">
-                                                                        30 Coupons credited on membership activation
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Credited</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+30</td>
-
-                                                                <td class="text-success fw-bold">₹15,000</td>
-                                                            </tr>
-
-                                                            
-
-                                                            
 
                                                         </tbody>
 
@@ -537,61 +479,8 @@
                                                             </tr>
                                                         </thead>
 
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>22 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Used on Manali Getaway</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240622
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="debited">Used</span>
-                                                                </td>
-
-                                                                <td class="text-danger fw-bold">-2</td>
-
-                                                                <td class="text-danger fw-bold">₹1,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>15 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Loyalty Reward – Kerala Backwaters</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Trip completed for 3 passengers
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Expired</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+3</td>
-
-                                                                <td class="text-success fw-bold">₹1,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>28 May 2024</td>
-
-                                                                <td>
-                                                                    <strong>Loyalty Reward – Bali Bliss</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Trip completed for 4 passengers
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Credited</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+4</td>
-
-                                                                <td class="text-success fw-bold">₹2,000</td>
-                                                            </tr>
+                                                        <tbody id="loyatyActivityBody" class="recentActivityTableBody" data-card-type="lcw">
+                                                            
                                                         </tbody>
 
                                                     </table>
@@ -1149,17 +1038,49 @@
                                         ? "-"
                                         : "+";
 
-                                    // DESCRIPTION
-                                    const description =
-                                        isUsed
-                                        ? `Coupon Utilized On Booking Of ${item.used_on}`
-                                        : "Membership Activation Bonus";
+                                    /*
+                                    DESCRIPTION
+                                    */
+                                    let description = "";
+                                    let subText = "";
 
-                                    // SUBTEXT
-                                    const subText =
-                                        item.transaction_id
-                                        ? `Transaction ID: ${item.transaction_id}`
-                                        : "Coupon Credited";
+                                    // LCW CARD TYPE
+                                    if(cardType === "lcw") {
+
+                                        if(isUsed) {
+
+                                            description =
+                                                `Coupon Utilized On Booking Of ${item.used_on}`;
+
+                                            subText =
+                                                item.transaction_id
+                                                ? `Transaction ID: ${item.transaction_id}`
+                                                : "Coupon Utilized";
+                                        }
+
+                                        else {
+
+                                            description =
+                                                "Coupon Credited";
+
+                                            subText =
+                                                "Loyalty Coupon Added";
+                                        }
+                                    }
+
+                                    // OTHER CARD TYPES
+                                    else {
+
+                                        description =
+                                            isUsed
+                                            ? `Coupon Utilized On Booking Of ${item.used_on}`
+                                            : "Membership Activation Bonus";
+
+                                        subText =
+                                            item.transaction_id
+                                            ? `Transaction ID: ${item.transaction_id}`
+                                            : "Coupon Credited";
+                                    }
 
                                     html += `
                                         <tr>
@@ -1205,7 +1126,7 @@
                                                     : 'text-success'}
                                                 fw-bold
                                             ">
-                                                ₹${item.coupon_amt}
+                                                ₹${item.coupon_amt ?? 0}
                                             </td>
 
                                         </tr>

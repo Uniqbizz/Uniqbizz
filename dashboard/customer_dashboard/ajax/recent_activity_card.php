@@ -162,6 +162,107 @@
         ]);
     }elseif ($coupon_card_type == 'lcw') {
 
-    }
+        /*
+        GET LATEST COUPONS
+        USED + UNUSED
+        */
+        $sqlCoupons = $conn->prepare("
 
+            SELECT 
+                c.code,
+                c.coupon_amt,
+                c.usage_status,
+                c.created_date,
+                c.used_date,
+                c.user_id,
+                cu.used_on,
+                cu.transaction_id
+
+            FROM loyalty_coupon c
+
+            LEFT JOIN loyalty_coupon_utilization cu 
+                ON c.code = cu.coupon_code
+
+            WHERE c.user_id = :user_id
+
+            ORDER BY 
+                c.usage_status DESC,
+                CASE 
+                    WHEN c.usage_status = 1 THEN c.used_date
+                    ELSE c.created_date
+                END DESC
+
+            LIMIT 3
+        ");
+
+        $sqlCoupons->execute([
+            ":user_id" => $userId
+        ]);
+
+        $coupons = $sqlCoupons->fetchAll(PDO::FETCH_ASSOC);
+
+
+        /*
+        FINAL ARRAY
+        */
+        $allCoupons = [];
+
+
+        /*
+        FORMAT ENTRIES
+        */
+        foreach ($coupons as $coupon) {
+
+            // Entry type
+            $coupon['entry_type'] =
+                ($coupon['usage_status'] == 1)
+                ? 'used_coupon'
+                : 'credited';
+
+            $allCoupons[] = $coupon;
+        }
+
+
+        /*
+        IF TOTAL ENTRIES ARE LESS THAN 3
+        FILL REMAINING WITH PLACEHOLDER
+        */
+        while (count($allCoupons) < 3) {
+
+            $allCoupons[] = [
+
+                "code" => "Credited",
+
+                "coupon_amt" => null,
+
+                "usage_status" => 0,
+
+                "created_date" => date("Y-m-d H:i:s"),
+
+                "used_date" => null,
+
+                "user_id" => $userId,
+
+                "used_on" => null,
+
+                "transaction_id" => null,
+
+                "entry_type" => "credited"
+            ];
+        }
+
+
+        /*
+        FINAL RESPONSE
+        */
+        echo json_encode([
+
+            "status" => true,
+
+            "data" => [
+
+                "all_coupons" => $allCoupons
+            ]
+        ]);
+    }
 ?>

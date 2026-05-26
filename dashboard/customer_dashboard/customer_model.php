@@ -55,7 +55,57 @@
     $couponData = $sqlCoupons->fetch(PDO::FETCH_ASSOC);
     $cust_regiter_date=date('j M Y', strtotime($customer['register_date']));
     $expiry_date = date('j M Y', strtotime($couponData['expiry_date']));
+    //loyaty coupons
+    $sqlLoyaltyCoupons = $conn->prepare("
+        SELECT 
+            *,
+            (
+                SELECT COUNT(*)
+                FROM loyalty_coupon
+                WHERE user_id = :user_id
+            ) AS coupon_total,
 
+            (
+                SELECT COUNT(*)
+                FROM loyalty_coupon
+                WHERE user_id = :user_id
+                AND usage_status = 0
+            ) AS active_coupon_total,
+
+            (
+                SELECT COUNT(*)
+                FROM loyalty_coupon
+                WHERE user_id = :user_id
+                AND usage_status = 1
+            ) AS used_coupon_total,
+
+            (
+                SELECT COALESCE(SUM(coupon_amt), 0)
+                FROM loyalty_coupon
+                WHERE user_id = :user_id
+            ) AS coupon_total_value,
+            (
+                SELECT COALESCE(SUM(coupon_amt), 0)
+                FROM loyalty_coupon
+                WHERE user_id = :user_id
+                AND usage_status = 0
+            ) AS active_total_value,
+            (
+                SELECT COALESCE(SUM(coupon_amt), 0)
+                FROM loyalty_coupon
+                WHERE user_id = :user_id
+                AND usage_status = 1
+            ) AS used_total_value
+
+        FROM loyalty_coupon
+
+        WHERE user_id = :user_id
+    ");
+
+    $sqlLoyaltyCoupons->execute([":user_id" => $userId]);
+
+    $loyaltyCouponData = $sqlLoyaltyCoupons->fetch(PDO::FETCH_ASSOC);
+    $loyaltyexpiry_date = date('j M Y', strtotime($loyaltyCouponData['expiry_date']));
     //customers tc
     $sqlCustTa = $conn->prepare("SELECT ca_travelagency_id AS user_id,email,contact_no,firstname,lastname,country_code,user_type,profile_pic FROM ca_travelagency WHERE ca_travelagency_id = :userID
                                     UNION
