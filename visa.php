@@ -741,9 +741,9 @@
                         <div class="visaPackageImg">
                             <img src="${visa.image}" alt="${visa.country}">
                         </div>
-
-                        <div class="visaPackageContent card pt-18 pb-18 border-0 rounded-4">
-                            <a href="${visa.link}">
+                        <a href="${visa.link}">
+                            <div class="visaPackageContent card pt-18 pb-18 border-0 rounded-4">
+                            
                                 <h5 class="text-center fw-bold">
                                     ${visa.country}
                                 </h5>
@@ -752,8 +752,8 @@
                                     Processing Time -
                                     <strong class="text-tertiary">${visa.processing}</strong>
                                 </p>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
                 `;
 
