@@ -1102,36 +1102,40 @@
                         </div>
                     </div>
                 </div>
-                <!-- Navbar -->
-                <nav class="customNavbar mt-2 mb-4">
-                    <ul class="navMenu d-flex justify-content-around flex-wrap gap-3 ps-0 mb-0">
-                        <li>
-                            <button class="filter-btn active" data-filter="all">
-                                All
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="travel">
-                                Travel Moments
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="bank">
-                                Bank Tie-ups
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="seminar">
-                                Seminars
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="workshop">
-                                Workshops
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <!-- Navbar -->
+                        <nav class="customNavbar mt-2 mb-4">
+                            <ul class="navMenu d-flex justify-content-evenly flex-wrap gap-2 ps-0 mb-0">
+                                <li>
+                                    <button class="filter-btn active px-3" data-filter="all">
+                                        All
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="travel">
+                                        Travel Moments
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="bank">
+                                        Bank Tie-ups
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="seminar">
+                                        Seminars
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="workshop">
+                                        Workshops
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
                 
                 <!-- Cards -->
                 <div class="row g-4" id="galleryContainer">
