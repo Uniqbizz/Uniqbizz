@@ -17,7 +17,7 @@ $user_type_id = '35';
 $register_by = '1';
 
 $subY = substr($todayYear, 2, 4);
-if ($user_type_id == '35') { //Business Mentor
+if ($user_type_id == '35') { //Super Techno Enterprise
 	$sql9 = $conn->prepare("SELECT * from super_techno_enterprise where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
@@ -40,39 +40,46 @@ if ($user_type_id == '35') { //Business Mentor
 	if ($sql10->rowCount() > 0) {
 		foreach (($sql10->fetchAll()) as $key10 => $row10) {
 			$bdm_id = $row10['chief_techno_enterprise_id'];
-			$bdm_name = $row10['name'];
+			$bdm_name = $row10['firstname'];
 			// $bdm_ref = $row10['reporting_manager'];
 		}
 	}
 
-	// made changes in query to get id in order SFA230043 TC230010
-	$sql2 = $conn->prepare("SELECT distinct super_techno_enterprise_id,SUBSTRING(super_techno_enterprise_id,3,6) as tc_id from super_techno_enterprise where status='1' OR status='3' order by tc_id DESC limit 1");
-
+	// Fetch the highest numeric part from all master_franchisee_id, ignoring prefix
+	$sql2 = $conn->prepare("
+		SELECT super_techno_enterprise_id,
+			CAST(RIGHT(super_techno_enterprise_id, 5) AS UNSIGNED) AS numeric_part
+		FROM super_techno_enterprise
+		WHERE status = '1' OR status = '3'
+		ORDER BY numeric_part DESC
+		LIMIT 1
+	");
 	$sql2->execute();
 	$sql2->setFetchMode(PDO::FETCH_ASSOC);
-	if ($sql2->rowCount() > 0) {
-		foreach (($sql2->fetchAll()) as $key3 => $row3) {
-			$super_techno_enterprise_id = $row3["super_techno_enterprise_id"];
-		}
-		if ($super_techno_enterprise_id == '') {
-			$uid = 'BM' . $subY . '0001';
-		} else {
-			$subV = substr($super_techno_enterprise_id, 2, 4);
-			if ($subV == $subY) {
-				$super_techno_enterprise_id++;
-				$super_techno_enterprise_id = str_pad($super_techno_enterprise_id, 4, '0', STR_PAD_LEFT);
-				$uid = $super_techno_enterprise_id;
-			} else {
-				$super_techno_enterprise_id++;
-				$fid = substr($super_techno_enterprise_id, 4);
-				$newValue = 'BM' . $subY . $fid;
-				$Nsuper_techno_enterprise_id = str_pad($newValue, 4, '0', STR_PAD_LEFT);
-				$uid = $Nsuper_techno_enterprise_id;
-			}
-		}
+
+	// Get short name from states - no state sufix requires 12-05-2026
+	// $sql3 = $conn->prepare("SELECT short_name FROM `states` WHERE id = :state_id");
+	// $sql3->bindParam(':state_id', $state, PDO::PARAM_INT);
+	// $sql3->execute();
+	// $shortName = '';
+	// if ($row = $sql3->fetch()) {
+	// 	$shortName = $row['short_name']; // e.g., MP, GA, KA
+	// }
+
+	// Year suffix (last 2 digits of year)
+	$subY = date('y'); // e.g., 25 for 2025
+
+	// Generate the next numeric part
+	if ($row2 = $sql2->fetch()) {
+		$lastNumber = (int)$row2['numeric_part']; // e.g., 3
+		$nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT); // 00004
 	} else {
-		$uid = 'BM' . $subY . '0001';
+		$nextNumber = '00001';
 	}
+
+	// Final UID
+	// $uid = 'SF' . $shortName . $subY . $nextNumber;
+	$uid = 'STE' . $subY . $nextNumber;
 
 	//log file
 	$title = "Confirm Super Techno Enterprise";

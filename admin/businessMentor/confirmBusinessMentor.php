@@ -941,16 +941,16 @@ if ($user_type_id == '26') { //Business Mentor
 		}
 	}
 
-	// $sql10 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $reference_no . "' AND status = '1' ");
-	// $sql10->execute();
-	// $sql10->setFetchMode(PDO::FETCH_ASSOC);
-	// if ($sql10->rowCount() > 0) {
-	// 	foreach (($sql10->fetchAll()) as $key10 => $row10) {
-	// 		$bdm_id = $row10['zonal_manager_id'];
-	// 		$bdm_name = $row10['name'];
-	// 		//$bdm_ref = $row10['reporting_manager'];
-	// 	}
-	// }
+	$sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $reference_no . "' AND status = '1' ");
+	$sql10->execute();
+	$sql10->setFetchMode(PDO::FETCH_ASSOC);
+	if ($sql10->rowCount() > 0) {
+		foreach (($sql10->fetchAll()) as $key10 => $row10) {
+			$bdm_id = $row10['super_techno_enterprise_id'];
+			$bdm_name = $row10['firstname'].' '.$row10['lastname'];
+			//$bdm_ref = $row10['reporting_manager'];
+		}
+	}
 
 	// Fetch the highest numeric part from all master_franchisee_id, ignoring prefix
 	$sql2 = $conn->prepare("

@@ -13,11 +13,11 @@ $usertype = $_POST['usertype'];
 $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0, 8);
 $status = '1';
-$user_type_id = $usertype == 'cte' ? '34' : '';
+$user_type_id = $usertype == 'cte' ? '36' : '';
 $register_by = '1';
 
 $subY = substr($todayYear, 2, 4);
-if ($user_type_id == '34') { //Business Mentor
+if ($user_type_id == '36') { //Business Mentor
 	$sql9 = $conn->prepare("SELECT * from chief_techno_enterprise where id='" . $id . "' and status='2'");
 	$sql9->execute();
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
@@ -45,34 +45,41 @@ if ($user_type_id == '34') { //Business Mentor
 	// 	}
 	// }
 
-	// made changes in query to get id in order SFA230043 TC230010
-	$sql2 = $conn->prepare("SELECT distinct chief_techno_enterprise_id,SUBSTRING(chief_techno_enterprise_id,3,6) as cte_id from chief_techno_enterprise where status='1' OR status='3' order by cte_id DESC limit 1");
-
+	// Fetch the highest numeric part from all master_franchisee_id, ignoring prefix
+	$sql2 = $conn->prepare("
+		SELECT chief_techno_enterprise_id,
+			CAST(RIGHT(chief_techno_enterprise_id, 5) AS UNSIGNED) AS numeric_part
+		FROM chief_techno_enterprise
+		WHERE status = '1' OR status = '3'
+		ORDER BY numeric_part DESC
+		LIMIT 1
+	");
 	$sql2->execute();
 	$sql2->setFetchMode(PDO::FETCH_ASSOC);
-	if ($sql2->rowCount() > 0) {
-		foreach (($sql2->fetchAll()) as $key3 => $row3) {
-			$chief_techno_enterprise_id = $row3["chief_techno_enterprise_id"];
-		}
-		if ($chief_techno_enterprise_id == '') {
-			$uid = 'CTE' . $subY . '0001';
-		} else {
-			$subV = substr($chief_techno_enterprise_id, 2, 4);
-			if ($subV == $subY) {
-				$chief_techno_enterprise_id++;
-				$chief_techno_enterprise_id = str_pad($chief_techno_enterprise_id, 4, '0', STR_PAD_LEFT);
-				$uid = $chief_techno_enterprise_id;
-			} else {
-				$chief_techno_enterprise_id++;
-				$fid = substr($chief_techno_enterprise_id, 4);
-				$newValue = 'CTE' . $subY . $fid;
-				$Nchief_techno_enterprise_id = str_pad($newValue, 4, '0', STR_PAD_LEFT);
-				$uid = $Nchief_techno_enterprise_id;
-			}
-		}
+
+	// Get short name from states - no state sufix requires 12-05-2026
+	// $sql3 = $conn->prepare("SELECT short_name FROM `states` WHERE id = :state_id");
+	// $sql3->bindParam(':state_id', $state, PDO::PARAM_INT);
+	// $sql3->execute();
+	// $shortName = '';
+	// if ($row = $sql3->fetch()) {
+	// 	$shortName = $row['short_name']; // e.g., MP, GA, KA
+	// }
+
+	// Year suffix (last 2 digits of year)
+	$subY = date('y'); // e.g., 25 for 2025
+
+	// Generate the next numeric part
+	if ($row2 = $sql2->fetch()) {
+		$lastNumber = (int)$row2['numeric_part']; // e.g., 3
+		$nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT); // 00004
 	} else {
-		$uid = 'CTE' . $subY . '0001';
+		$nextNumber = '00001';
 	}
+
+	// Final UID
+	// $uid = 'SF' . $shortName . $subY . $nextNumber;
+	$uid = 'CTE' . $subY . $nextNumber;
 
 	//log file
 	$title = "Confirm Chief Techno Enterprise";

@@ -9,7 +9,7 @@ $id = $_POST["id"];
 $usertype = $_POST['usertype']; // 'cte' 
 
 // Determine user_type_id
-$user_type = "33";
+$user_type = "36";
 
 $status = '';
 $action = $_POST["action"];

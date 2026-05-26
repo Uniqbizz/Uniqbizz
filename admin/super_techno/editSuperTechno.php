@@ -377,27 +377,23 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6">
-                                                    <!-- <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="payFee">Payment Fee</label>
-                                                        <input type="text" value="₹ 12000/-" class="form-control" id="payFee" readonly />
-                                                    </div> -->
+                                                <!-- <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-													<label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
-													<select class="form-select" id="payment_fee" required disabled>
-														<option value="null" disabled>----Select Amount----</option>
-														<option value="FOC"<?=$paid_amount == 'FOC'?'selected':''?>>Free</option>
-														<option value="5000"<?=$paid_amount == '5000'?'selected':''?>>₹ 5000/-</option>
-														<option value="12000"<?=$paid_amount == '12000'?'selected':''?>>₹ 12000/-</option>
-													</select>
-                                                    <select class="form-select d-none" id="payment_fee2" required disabled>
-														<option value="FOC"<?=$paid_amount == 'FOC'?'selected':''?>>Free</option>
-                                                        <option value="100000" <?=$paid_amount == '100000'?'selected':''?>>₹ 1,00,000/-</option>
-                                                        <option value="200000" <?=$paid_amount == '200000'?'selected':''?>>₹ 2,00,000/-</option>
-                                                        <option value="300000" <?=$paid_amount == '300000'?'selected':''?>>₹ 3,00,000/-</option>
-														<option value="500000" <?=$paid_amount == '500000'?'selected':''?>>₹ 5,00,000/-</option>
-													</select>
-												</div>
+                                                        <label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="payment_fee" required disabled>
+                                                            <option value="null" disabled>----Select Amount----</option>
+                                                            <option value="FOC"<?=$paid_amount == 'FOC'?'selected':''?>>Free</option>
+                                                            <option value="5000"<?=$paid_amount == '5000'?'selected':''?>>₹ 5000/-</option>
+                                                            <option value="12000"<?=$paid_amount == '12000'?'selected':''?>>₹ 12000/-</option>
+                                                        </select>
+                                                        <select class="form-select d-none" id="payment_fee2" required disabled>
+                                                            <option value="FOC"<?=$paid_amount == 'FOC'?'selected':''?>>Free</option>
+                                                            <option value="100000" <?=$paid_amount == '100000'?'selected':''?>>₹ 1,00,000/-</option>
+                                                            <option value="200000" <?=$paid_amount == '200000'?'selected':''?>>₹ 2,00,000/-</option>
+                                                            <option value="300000" <?=$paid_amount == '300000'?'selected':''?>>₹ 3,00,000/-</option>
+                                                            <option value="500000" <?=$paid_amount == '500000'?'selected':''?>>₹ 5,00,000/-</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6 <?= $payment_mode == "FOC"?'d-none':''?>" id="paymentModeBlock">
                                                     <div class="input-block mb-3">
@@ -451,7 +447,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
 
                                                 <!-- Attachments -->
                                                 <h4 class="my-2">Attachments</h4>
@@ -650,7 +646,7 @@
                                             <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> <!-- Business mentor -->
 
                                             <div class="submit-section d-flex justify-content-center mb-4">
-                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editBuisnessMentor">Submit</button>
+                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editSuperTechnoEnterprise">Submit</button>
                                             </div>
                                         </form>
                                     </div>

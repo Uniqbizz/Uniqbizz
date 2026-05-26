@@ -41,7 +41,7 @@
             $identifier_name = 'chief_techno_enterprise_id=';
         }
 
-        $testValue = '33';
+        $testValue = '36';
 
         $stmt = $conn->prepare("SELECT * FROM `chief_techno_enterprise` WHERE chief_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
         $stmt->execute();

@@ -38,7 +38,7 @@
     // $transaction_no=$_POST['transactionNo'];
 	$note = $_POST['note'];
 
-    $user_type="33";
+    $user_type="36";
     $register_by="1";
 	$status= '2';
 

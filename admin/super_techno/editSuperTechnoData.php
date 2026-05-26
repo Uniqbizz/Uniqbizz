@@ -35,7 +35,7 @@ $branch = $_POST['branch'];
 // $transaction_no = $_POST['transactionNo'];
 $note = $_POST['note'];
 
-$user_type_id = '26';
+$user_type_id = '35';
 $title = "Super Techno Enterprise";
 $fromWhom = "1";
 $register_by = "1";

@@ -50,7 +50,7 @@
 
         // Base queries
         $bmQuery = "
-            SELECT chief_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'STE' AS user_type 
+            SELECT chief_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'CTE' AS user_type 
             FROM chief_techno_enterprise 
             WHERE status = '1' $filter
         ";
