@@ -155,7 +155,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="coupon_wallet.php">
+                                <a href="couponWallet.php">
                                     <div class="rounded-3 px-3 py-2 walletCard1">
                                         <div class="d-flex gap-2">
                                             <div class="walletIcon1">
