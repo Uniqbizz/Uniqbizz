@@ -1103,7 +1103,7 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
+                    <div class="col-xl-11">
                         <!-- Navbar -->
                         <nav class="customNavbar mt-2 mb-4">
                             <ul class="navMenu d-flex justify-content-evenly flex-wrap gap-2 ps-0 mb-0">
@@ -1124,12 +1124,12 @@
                                 </li>
                                 <li>
                                     <button class="filter-btn" data-filter="seminar">
-                                        Seminars
+                                        Seminars/Workshops
                                     </button>
                                 </li>
                                 <li>
                                     <button class="filter-btn" data-filter="workshop">
-                                        Workshops
+                                        Employee Engagement Activities
                                     </button>
                                 </li>
                             </ul>
