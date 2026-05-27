@@ -1,6 +1,6 @@
 <?php
     include_once (__DIR__ .'/../../dashboard_user_details.php');
-    include (__DIR__ .'/../customer_model.php');
+    include (__DIR__ . '/../customer_model.php');
     include (__DIR__.'/../urls.php');
 
 ?>
@@ -182,11 +182,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n2">
                                             <span>Used / Expired Coupons</span>
-                                            <span class="summary-value"><?= $loyaltyCouponData['used_coupon_total'] ?></span>
+                                            <span class="summary-value"><?= $loyaltyCouponData['used_coupon_total'] + $loyaltyCouponData['expired_coupon_total'] ?> </span>
                                         </div>
 
                                         <div class="summary-sub-value">
-                                            Value ₹<?= $loyaltyCouponData['used_total_value'] ?>
+                                            Value ₹<?= $loyaltyCouponData['used_total_value'] + $loyaltyCouponData['expired_total_value'] ?>
                                         </div>
 
                                     </div>
@@ -266,22 +266,22 @@
 
                                         <button class="coupon-tab active" data-filter="all">
                                             All Loyalty Coupons
-                                            <span class="tab-count">5</span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['coupon_total'] ?></span>
                                         </button>
 
                                         <button class="coupon-tab available-tab" data-filter="available">
                                             Available
-                                            <span class="tab-count">3</span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['active_coupon_total'] ?></span>
                                         </button>
 
                                         <button class="coupon-tab used-tab" data-filter="used">
                                             Used
-                                            <span class="tab-count">1</span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['used_coupon_total'] ?></span>
                                         </button>
 
                                         <button class="coupon-tab expired-tab" data-filter="expired">
                                             Expired
-                                            <span class="tab-count">1</span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['expired_coupon_total'] ?></span>
                                         </button>
 
                                     </div>
@@ -362,205 +362,6 @@
                                         </thead>
 
                                         <tbody id="loyaltyTableBody">
-
-                                            <!-- AVAILABLE -->
-
-                                            <tr data-status="available">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        LOY25050001
-                                                        <div>₹500</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹500</td>
-
-                                                <td>
-                                                    <span class="status-badge status-available">
-                                                        Available
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    28 May 2026
-                                                    <div class="days-left">
-                                                        9 Days Left
-                                                    </div>
-                                                </td>
-
-                                                <td>28 May 2025</td>
-
-                                                <td>
-                                                    Bali Bliss Trip
-                                                    <div class="small text-muted">
-                                                        3 Passengers </br>
-                                                        Booking ID: Dummy_entry_1
-                                                    </div>
-                                                </td>
-
-                                                <td class="text-muted">—</td>
-
-                                            </tr>
-
-                                            <!-- AVAILABLE -->
-
-                                            <tr data-status="available">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        LOY25050002
-                                                        <div>₹500</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹500</td>
-
-                                                <td>
-                                                    <span class="status-badge status-available">
-                                                        Available
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    28 May 2026
-                                                    <div class="days-left">
-                                                        9 Days Left
-                                                    </div>
-                                                </td>
-
-                                                <td>28 May 2025</td>
-
-                                                <td>
-                                                    Bali Bliss Trip
-                                                    <div class="small text-muted">
-                                                        3 Passengers
-                                                    </div>
-                                                </td>
-
-                                                <td class="text-muted">—</td>
-
-                                            </tr>
-                                            
-                                            <tr data-status="available">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        LOY25050003
-                                                        <div>₹500</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹500</td>
-
-                                                <td>
-                                                    <span class="status-badge status-available">
-                                                        Available
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    28 May 2026
-                                                    <div class="days-left">
-                                                        9 Days Left
-                                                    </div>
-                                                </td>
-
-                                                <td>28 May 2025</td>
-
-                                                <td>
-                                                    Bali Bliss Trip
-                                                    <div class="small text-muted">
-                                                        3 Passengers
-                                                    </div>
-                                                </td>
-
-                                                <td class="text-muted">—</td>
-
-                                            </tr>
-                                            
-                                            <!-- USED -->
-
-                                            <tr data-status="used">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        LOY25050004
-                                                        <div>₹500</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹500</td>
-
-                                                <td>
-                                                    <span class="status-badge status-used">
-                                                        Used
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    18 Jun 2025
-                                                    <div class=" text-danger">
-                                                        used
-                                                    </div>
-                                                </td>
-
-                                                <td>15 Jun 2026</td>
-
-                                                <td>
-                                                    Goa Beach Escape
-                                                    <div class="small text-muted">
-                                                        2 Passengers
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    10 May 2025
-                                                    <div class="small text-muted">
-                                                        BK250101234
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-
-                                           
-                                            <!-- EXPIRED -->
-
-                                            <tr data-status="expired">
-
-                                                <td>
-                                                    <div class="coupon-box">
-                                                        LOY25050005
-                                                        <div>₹500</div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="coupon-price">₹500</td>
-
-                                                <td>
-                                                    <span class="status-badge status-expired">
-                                                        Expired
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    12 Jan 2025
-                                                    <div class="text-danger small">
-                                                        Expired 70 Weeks Ago
-                                                    </div>
-                                                </td>
-
-                                                <td>12 Jan 2024</td>
-
-                                                <td class>—</td>
-
-                                                <td class="text-muted">
-                                                    Not Used
-                                                </td>
-
-                                            </tr>
-
-
 
                                         </tbody>
 

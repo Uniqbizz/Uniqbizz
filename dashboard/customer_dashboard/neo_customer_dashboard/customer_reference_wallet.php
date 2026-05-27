@@ -1,6 +1,6 @@
 <?php
     include_once (__DIR__ .'/../../dashboard_user_details.php');
-    include (__DIR__ .'../customer_model.php');
+    include (__DIR__ .'/../customer_model.php');
     include (__DIR__.'/../urls.php');
 
 ?>
@@ -104,7 +104,7 @@
 
                                 <div>
                                     <h4>Total Earnings</h4>
-                                    <h2>₹4,100</h2>
+                                    <h2>₹<?= $refWalletData['ref_total_earning'] ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -128,7 +128,7 @@
 
                                 <div>
                                     <h4>Available Balance</h4>
-                                    <h2>₹2,300</h2>
+                                    <h2>₹<?= $refWalletData['ref_total_earning'] - $refWalletEncashData['total_earning_echased']?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -152,7 +152,7 @@
 
                                 <div>
                                     <h4>Total Referrals</h4>
-                                    <h2>8</h2>
+                                    <h2><?= $refWalletData['ref_count'] ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -176,7 +176,7 @@
 
                                 <div>
                                     <h4>Total Withdrawn</h4>
-                                    <h2>₹1,800</h2>
+                                    <h2>₹<?= $refWalletEncashData['total_earning_echased'] ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
