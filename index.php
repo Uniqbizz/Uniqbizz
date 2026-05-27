@@ -247,6 +247,30 @@
             bottom: 60px;
             left: 160px;
         }
+        .viewBtn {
+            background-color: #e03d42;
+            border: 1px solid transparent;
+            padding: 2px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            border: 1px solid #e03d42;
+            color: #fff;
+        }   
+        .viewBtn:hover {
+            background-color: #fff;
+            border: 1px solid transparent;
+            padding: 2px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            border: 1px solid #e03d42;
+        } 
+        .viewBtn:hover p {
+            color: #e03d42 !important;
+        }
         /* <!-- End of Activity & Experiences --> */
         @media screen and (max-width: 1184px) {
             .carousel-section {
@@ -1128,7 +1152,7 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="filter-btn" data-filter="workshop">
+                                    <button class="filter-btn" data-filter="engagement">
                                         Employee Engagement Activities
                                     </button>
                                 </li>
@@ -1154,6 +1178,24 @@
                             <div class="card-body">
                                 <h5 class="card-title fw-bolder text-black mb-0 fs-6">Dubai Tour</h5>
                                 <p class="card-text fontSize"><span>15 Pax</span> | <span>April 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Manali Trip</h5>
+                                <p class="card-text fontSize"><span>15 Pax</span> | <span>April 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">UK Tour</h5>
+                                <p class="card-text fontSize"><span>21 Pax</span> | <span>April 2025</span></p>
                             </div>
                         </div>
                     </div>
@@ -1210,6 +1252,29 @@
                                 <p class="card-text fontSize"><span>Mumbai</span> | <span>Jan 2025</span></p>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item engagement">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Employee Engagement</h5>
+                                <p class="card-text fontSize"><span>Mapusa</span> | <span>June 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item engagement">
+                        <div class="card rounded-4">
+                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Employee Engagement Activity</h5>
+                                <p class="card-text fontSize"><span>Mumbai</span> | <span>July 2025</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4" id="viewMoreWrapper">
+                    <div class="viewBtn rounded-2 py-2">
+                        <p class="text-white mb-0">View More</p>
                     </div>
                 </div>
 
@@ -2873,39 +2938,125 @@
     <!-- Carousel section end -->
     <!-- Activity & Experiences Start -->
     <script>
+
         const filterButtons = document.querySelectorAll(".filter-btn");
         const galleryItems = document.querySelectorAll(".gallery-item");
 
-        filterButtons.forEach(button => {
+        const viewMoreBtn = document.querySelector(".viewBtn");
+        const viewMoreText = viewMoreBtn.querySelector("p");
+        const viewMoreWrapper = document.getElementById("viewMoreWrapper");
 
-            button.addEventListener("click", () => {
+        let currentFilter = "all";
+        let expanded = false;
 
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove("active"));
+        function updateGallery() {
 
-                // Add active class to clicked button
-                button.classList.add("active");
+            let filteredCards = [];
 
-                const filterValue = button.getAttribute("data-filter");
+            // STEP 1 → GET FILTERED CARDS
+            galleryItems.forEach(card => {
 
-                galleryItems.forEach(item => {
+                // HIDE EVERYTHING FIRST
+                card.style.display = "none";
 
-                    if (filterValue === "all") {
-                        item.style.display = "block";
-                    } 
-                    else if (item.classList.contains(filterValue)) {
-                        item.style.display = "block";
-                    } 
-                    else {
-                        item.style.display = "none";
+                // ALL
+                if (currentFilter === "all") {
+                    filteredCards.push(card);
+                }
+
+                // SEMINAR + WORKSHOP
+                else if (
+                    currentFilter === "seminar" &&
+                    (
+                        card.classList.contains("seminar") ||
+                        card.classList.contains("workshop")
+                    )
+                ) {
+                    filteredCards.push(card);
+                }
+
+                // OTHER FILTERS
+                else if (card.classList.contains(currentFilter)) {
+                    filteredCards.push(card);
+                }
+
+            });
+
+            // STEP 2 → SHOW ONLY 8 INITIALLY
+            if (!expanded) {
+
+                filteredCards.forEach((card, index) => {
+
+                    if (index < 8) {
+                        card.style.display = "";
                     }
 
                 });
 
+                viewMoreText.innerText = "View More";
+
+            }
+
+            // STEP 3 → SHOW ALL WHEN EXPANDED
+            else {
+
+                filteredCards.forEach(card => {
+                    card.style.display = "";
+                });
+
+                viewMoreText.innerText = "Hide Less";
+
+            }
+
+            // STEP 4 → HIDE BUTTON IF LESS THAN 8
+            if (filteredCards.length <= 8) {
+                viewMoreWrapper.style.display = "none";
+            } else {
+                viewMoreWrapper.style.display = "flex";
+            }
+
+        }
+
+        // FILTER BUTTON CLICK
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                // REMOVE ACTIVE
+                filterButtons.forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+                // ADD ACTIVE
+                button.classList.add("active");
+
+                // GET FILTER
+                currentFilter = button.getAttribute("data-filter");
+
+                // RESET VIEW
+                expanded = false;
+
+                // UPDATE
+                updateGallery();
+
             });
 
         });
+
+        // VIEW MORE / HIDE LESS
+        viewMoreBtn.addEventListener("click", () => {
+
+            expanded = !expanded;
+
+            updateGallery();
+
+        });
+
+        // INITIAL LOAD
+        updateGallery();
+
     </script>
+    
     <script>
         const carouselElement = document.querySelector('#destinationCarousel');
 
@@ -2917,7 +3068,7 @@
 
         const thumbnailContainer = document.getElementById('thumbnailContainer');
 
-        let expanded = false;
+        let thumbnailExpanded = false;
 
         /* Create thumbnails */
         function renderThumbnails(){
@@ -2927,7 +3078,7 @@
             const totalImages = carouselItems.length;
 
             // show only 4 initially
-            const visibleCount = expanded ? totalImages : 4;
+            const visibleCount = thumbnailExpanded ? totalImages : 4;
 
             carouselItems.forEach((item, index) => {
 
@@ -2959,7 +3110,7 @@
             });
 
             // More count card
-            if(!expanded && totalImages > 4){
+            if(!thumbnailExpanded && totalImages > 4){
 
                 const remaining = totalImages - 4;
 
@@ -2971,7 +3122,7 @@
 
                 moreCard.addEventListener("click", function(){
 
-                    expanded = true;
+                    thumbnailExpanded = true;
 
                     renderThumbnails();
 
