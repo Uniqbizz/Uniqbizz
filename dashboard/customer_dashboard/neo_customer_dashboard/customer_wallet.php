@@ -257,11 +257,11 @@
 
                                             <div class="wallet-stat-label">Wallet Balance</div>
                                             <div class="wallet-stat orange-title">
-                                                <span>₹2,300</span>
+                                                <span>₹<?= $refWalletData['ref_total_earning'] + $refWalletCurBalData['ref_booking_total'] ?></span>
                                             </div>
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Withdrawable</div>
-                                            <div class="wallet-total">₹1,800</div>
+                                            <div class="wallet-total">₹<?= $refWalletData['ref_total_earning'] + $refWalletCurBalData['ref_booking_total'] ?></div>
                                             <a href="customer_reference_wallet.php" class="btn wallet-btn">
                                                 View Transactions
                                             </a>
@@ -298,10 +298,10 @@
                                         <div class="position-relative z-1">
 
                                             <div class="wallet-stat-label">Wallet Balance</div>
-                                            <div class="wallet-stat blue-title">₹1,200</div>
+                                            <div class="wallet-stat blue-title">₹<?= $disWalletData['balance'] ?></div>
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Usable Balance</div>
-                                            <div class="wallet-total">₹1,200</div>
+                                            <div class="wallet-total">₹<?= $disWalletData['balance'] ?></div>
                                             <a href="customer_discount_wallet.php" class="btn wallet-btn">
                                                 View Transactions
                                             </a>
@@ -582,61 +582,8 @@
                                                             </tr>
                                                         </thead>
 
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>28 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Withdrawal Request</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Reference ID: WD240628
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="debited">Withdrawn</span>
-                                                                </td>
-
-                                                                <td class="text-danger fw-bold">-₹1,200</td>
-
-                                                                <td class="text-danger fw-bold">₹1,000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>05 Jun 2024</td>
-
-                                                                <td>
-                                                                    <strong>Referred Customer Trip Completed</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Booking ID: BK240605
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Credited</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+₹1,500</td>
-
-                                                                <td class="text-success fw-bold">₹2,500</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>18 May 2024</td>
-
-                                                                <td>
-                                                                    <strong>Direct Referral Bonus</strong><br>
-                                                                    <small class="text-muted">
-                                                                        Referral ID: REF240518
-                                                                    </small>
-                                                                </td>
-
-                                                                <td>
-                                                                    <span class="credited">Credited</span>
-                                                                </td>
-
-                                                                <td class="text-success fw-bold">+₹1,000</td>
-
-                                                                <td class="text-success fw-bold">₹3,500</td>
-                                                            </tr>
+                                                        <tbody id="refrenceActivityBody" class="recentActivityTableBody" data-card-type="rw">
+                                                            
                                                         </tbody>
 
                                                     </table>
@@ -747,7 +694,7 @@
                                                             </tr>
                                                         </thead>
 
-                                                        <tbody>
+                                                        <tbody id="discountActivityBody" class="recentActivityTableBody" data-card-type="dw">
                                                             <tr>
                                                                 <td>30 Jun 2024</td>
 
@@ -952,8 +899,9 @@
                 }
             });
         </script>
-
+        
         <script>
+
             // RECENT ACTIVITY AJAX
             $(".recentActivityTableBody").each(function(){
 
@@ -980,10 +928,321 @@
 
                     success: function(response) {
 
+                        console.log(cardType, response);
+
                         if(response.status && response.data) {
 
+                            /*
+                            =========================================
+                            REFERENCE WALLET
+                            =========================================
+                            */
+                            if(cardType === "rw"){
+
+                                let html = "";
+
+                                if(response.data.length === 0){
+
+                                    html += `
+                                        <tr>
+                                            <td colspan="5"
+                                                class="text-center py-4 fw-bold text-muted">
+                                                No Recent Activity Found
+                                            </td>
+                                        </tr>
+                                    `;
+                                }
+                                else{
+
+                                    response.data.forEach(function(item){
+
+                                        const isDebited =
+                                            item.entry_type === "Withdrawal Request";
+
+                                        const formattedDate =
+                                            item.created_date;
+
+                                        const statusText =
+                                            isDebited
+                                            ? "Withdrawn"
+                                            : "Credited";
+
+                                        const statusClass =
+                                            isDebited
+                                            ? "debited"
+                                            : "credited";
+
+                                        const amountPrefix =
+                                            isDebited
+                                            ? "-"
+                                            : "+";
+
+                                        const amountClass =
+                                            isDebited
+                                            ? "text-danger"
+                                            : "text-success";
+
+                                        let smallText = "";
+
+                                        /*
+                                        SMALL TEXT
+                                        */
+                                        if(item.entry_type === "Withdrawal Request"){
+
+                                            smallText = `
+                                                <small class="text-muted">
+                                                    Reference ID: ${item.reference_id}
+                                                </small>
+                                            `;
+                                        }
+                                        else if(item.entry_type === "Direct Referral Bonus"){
+
+                                            smallText = `
+                                                <small class="text-muted">
+                                                    Referral ID: ${item.reference_id}
+                                                </small>
+                                            `;
+                                        }
+                                        else{
+
+                                            smallText = `
+                                                <small class="text-muted">
+                                                    Booking ID: ${item.reference_id}
+                                                </small>
+                                            `;
+                                        }
+
+                                        html += `
+                                            <tr>
+
+                                                <td>
+
+                                                    <strong>
+                                                        ${formattedDate.split(' ').slice(0, 3).join(' ')}
+                                                    </strong>
+
+                                                    <br>
+
+                                                    <small class="text-muted">
+                                                        ${formattedDate.split(' ').slice(3).join(' ')}
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+
+                                                    <strong>
+                                                        ${item.entry_type}
+                                                    </strong>
+
+                                                    <br>
+
+                                                    ${smallText}
+
+                                                </td>
+
+                                                <td>
+
+                                                    <span class="${statusClass}">
+                                                        ${statusText}
+                                                    </span>
+
+                                                </td>
+
+                                                <td class="${amountClass} fw-bold">
+
+                                                    ${amountPrefix}₹${item.amount}
+
+                                                </td>
+
+                                                <td class="${amountClass} fw-bold">
+
+                                                    ₹${item.balance}
+
+                                                </td>
+
+                                            </tr>
+                                        `;
+                                    });
+                                }
+
+                                $("#" + tableBodyId).html(html);
+
+                                return;
+                            }
+
+                            /*
+                            =========================================
+                            DISCOUNT WALLET
+                            =========================================
+                            */
+                            if(cardType === "dw"){
+
+                                let html = "";
+
+                                if(response.data.length === 0){
+
+                                    html += `
+                                        <tr>
+                                            <td colspan="5"
+                                                class="text-center py-4 fw-bold text-muted">
+                                                No Recent Activity Found
+                                            </td>
+                                        </tr>
+                                    `;
+                                }
+                                else{
+
+                                    response.data.forEach(function(item){
+
+                                        /*
+                                        DEBIT OR CREDIT
+                                        */
+                                        const isDebited =
+                                            item.wallet_status === "Used";
+
+                                        /*
+                                        DATE
+                                        */
+                                        const formattedDate =
+                                            item.created_date_text;
+
+                                        /*
+                                        STATUS
+                                        */
+                                        const statusText =
+                                            isDebited
+                                            ? "Debited"
+                                            : item.wallet_status;
+
+                                        const statusClass =
+                                            isDebited
+                                            ? "debited"
+                                            : (
+                                                item.wallet_status === "Pending"
+                                                ? "pending"
+                                                : "credited"
+                                            );
+
+                                        /*
+                                        AMOUNT
+                                        */
+                                        const amountPrefix =
+                                            isDebited
+                                            ? "-"
+                                            : "+";
+
+                                        const amountClass =
+                                            isDebited
+                                            ? "text-danger"
+                                            : (
+                                                item.wallet_status === "Pending"
+                                                ? "text-warning"
+                                                : "text-success"
+                                            );
+
+                                        /*
+                                        DESCRIPTION
+                                        */
+                                        let description = "";
+                                        let smallText = "";
+
+                                        if(isDebited){
+
+                                            description =
+                                                `Used on ${item.message}`;
+
+                                            smallText =
+                                                item.transaction_id
+                                                ? `
+                                                    <small class="text-muted">
+                                                        Booking ID: ${item.transaction_id}
+                                                    </small>
+                                                `
+                                                : "";
+                                        }
+                                        else{
+
+                                            description =
+                                                item.message ||
+                                                "Repeat Booking by Referred Customer";
+
+                                            smallText =
+                                                item.transaction_id
+                                                ? `
+                                                    <small class="text-muted">
+                                                        Booking ID: ${item.transaction_id}
+                                                    </small>
+                                                `
+                                                : "";
+                                        }
+
+                                        html += `
+                                            <tr>
+
+                                                <td>
+
+                                                    <strong>
+                                                        ${formattedDate.split(' ').slice(0, 3).join(' ')}
+                                                    </strong>
+
+                                                    <br>
+
+                                                    <small class="text-muted">
+                                                        ${formattedDate.split(' ').slice(3).join(' ')}
+                                                    </small>
+
+                                                </td>
+
+                                                <td>
+
+                                                    <strong>
+                                                        ${description}
+                                                    </strong>
+
+                                                    <br>
+
+                                                    ${smallText}
+
+                                                </td>
+
+                                                <td>
+
+                                                    <span class="${statusClass}">
+                                                        ${statusText}
+                                                    </span>
+
+                                                </td>
+
+                                                <td class="${amountClass} fw-bold">
+
+                                                    ${amountPrefix}₹${item.amount}
+
+                                                </td>
+
+                                                <td class="${amountClass} fw-bold">
+
+                                                    ₹${item.balance}
+
+                                                </td>
+
+                                            </tr>
+                                        `;
+                                    });
+                                }
+
+                                $("#" + tableBodyId).html(html);
+
+                                return;
+                            }
+
+                            /*
+                            =========================================
+                            EXISTING COUPON LOGIC
+                            =========================================
+                            */
                             const coupons =
-                                response.data.all_coupons;
+                                response.data.all_coupons || [];
 
                             let html = "";
 
@@ -1140,6 +1399,7 @@
                     }
                 });
             });
+
         </script>
 
         <!-- dialer logic -->

@@ -264,5 +264,218 @@
                 "all_coupons" => $allCoupons
             ]
         ]);
+    }elseif ($coupon_card_type == 'rw'){
+        $sqlRefEntries = $conn->prepare("
+
+            SELECT 
+                ru.created_date,
+
+                CASE 
+                    WHEN ru.used_on IS NULL 
+                        OR ru.used_on = ''
+                    THEN ru.earned_on
+                    ELSE ru.used_on
+                END AS message,
+
+                CASE 
+                    WHEN ru.used_amount IS NULL
+                    THEN ru.earned_amount
+                    ELSE ru.used_amount
+                END AS amount,
+
+                ru.transaction_id AS enchased_id,
+                ru.balance,
+
+                CASE 
+                
+                    WHEN SUBSTRING(ru.transaction_id,1,2) = 'CU' THEN
+                        'Direct Referral Bonus'
+
+                    WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
+                        'Withdrawal Request'
+
+                    ELSE
+                        'Referred Customer Trip Completed'
+
+                END AS entry_type,
+
+                CASE 
+                
+                    WHEN SUBSTRING(ru.transaction_id,1,2) = 'CU' THEN
+                        (
+                            SELECT status 
+                            FROM customer_reference_payout 
+                            WHERE ru.transaction_id = refered_customer_id
+                            LIMIT 1
+                        )
+
+                    WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
+                        (
+                            SELECT status 
+                            FROM customer_reference_wallet_encashed 
+                            WHERE ru.transaction_id = transaction_id
+                            LIMIT 1
+                        )
+
+                    ELSE
+                        (
+                            SELECT cu1_status 
+                            FROM product_payout 
+                            WHERE ru.transaction_id = order_id
+                            LIMIT 1
+                        )
+
+                END AS status
+
+            FROM customer_reference_wallet_utilization ru
+
+            WHERE ru.customer_id = :user_id
+
+            ORDER BY ru.created_date DESC
+
+        ");
+
+        $sqlRefEntries->execute([
+            ":user_id" => $userId
+        ]);
+
+        $rows = $sqlRefEntries->fetchAll(PDO::FETCH_ASSOC);
+
+        $data = [];
+
+        foreach ($rows as $row) {
+
+            $data[] = [
+
+                "entry_type" => $row['entry_type'],
+
+                "created_date" => date(
+                    'd M Y h:i A',
+                    strtotime($row['created_date'])
+                ),
+
+                "message" => $row['message'],
+
+                "amount" => number_format(
+                    (float)$row['amount'],
+                    2
+                ),
+                "balance"=>$row['balance'],
+
+                "status" => $row['status'] ?? '-',
+
+                "reference_id" => $row['enchased_id'] ?? '-'
+            ];
+        }
+
+        echo json_encode([
+            "status" => true,
+            "data" => $data
+        ]);
+    }elseif ($coupon_card_type == 'dw') {
+
+        $sqlDiscountWallet = $conn->prepare("
+
+            SELECT 
+                cwu.*,
+
+                CASE 
+                    WHEN cwu.used_amount IS NOT NULL 
+                        AND cwu.used_amount != ''
+                    THEN cwu.used_amount
+
+                    ELSE cwu.earned_amount
+                END AS amount,
+
+                CASE 
+                    WHEN cwu.used_on IS NOT NULL 
+                        AND cwu.used_on != ''
+                    THEN cwu.used_on
+
+                    ELSE cwu.earned_on
+                END AS message,
+
+                CASE 
+
+                    WHEN cwu.used_on IS NOT NULL 
+                        AND cwu.used_on != ''
+                    THEN 'Used'
+
+                    WHEN cdw.status = 0
+                    THEN 'Pending'
+
+                    WHEN cdw.status = 1
+                    THEN 'Credited'
+
+                    ELSE 'Unknown'
+
+                END AS wallet_status
+
+            FROM customer_discount_wallet_utilization cwu
+
+            LEFT JOIN customer_discount_wallet cdw
+                ON cwu.transaction_id = cdw.id
+
+            WHERE cwu.customer_id = :user_id
+
+            ORDER BY cwu.created_date DESC
+        ");
+
+        $sqlDiscountWallet->execute([
+            ":user_id" => $userId
+        ]);
+
+        $discountWallet =
+            $sqlDiscountWallet->fetchAll(PDO::FETCH_ASSOC);
+
+        /*
+        FINAL ARRAY
+        */
+        $data = [];
+
+        foreach ($discountWallet as $row) {
+
+            $data[] = [
+
+                "id"                => $row['id'] ?? null,
+
+                "amount"            => $row['amount'],
+
+                "message"           => $row['message'],
+
+                "wallet_status"     => $row['wallet_status'],
+
+                "earned_amount"     => $row['earned_amount'],
+
+                "used_amount"       => $row['used_amount'],
+
+                "earned_on"         => $row['earned_on'],
+
+                "used_on"           => $row['used_on'],
+
+                "balance"           => $row['balance'],
+
+                "created_date"      => $row['created_date'],
+
+                "created_date_text" => date(
+                    "d M Y h:i A",
+                    strtotime($row['created_date'])
+                )
+            ];
+        }
+
+        echo json_encode([
+
+            "status" => true,
+
+            "data" => $data
+        ]);
+    }else {
+        echo json_encode([
+
+            "status" => false,
+
+            "data" => "Invalid Params"
+        ]);
     }
 ?>

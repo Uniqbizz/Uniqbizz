@@ -38,6 +38,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SZ4qk6V... (auto-generated)" crossorigin="anonymous" referrerpolicy="no-referrer">
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_discount_wallet.css" />
+        <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_discount_modal.css" />
     </head>
 
     <body class="twocolumn-panel">
@@ -95,7 +96,7 @@
 
                             </div>
 
-                            <button class="info-btn">
+                            <button class="info-btn" id="neoxdwOpenModalBtn">
                                 <i class="fa-solid fa-circle-info"></i>
                                 How Discount Wallet Works?
                             </button>
@@ -114,7 +115,7 @@
                                 </div>
 
                                 <p>Total Savings</p>
-                                <h2 class="purple-text mb-n3">₹1,875</h2>
+                                <h2 class="purple-text mb-n3">₹<?= $disWalletData['total_discount_earned'] ?></h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -139,7 +140,7 @@
                                 </div>
 
                                 <p>Available Balance</p>
-                                <h2 class="green-text mb-n3">₹1,175</h2>
+                                <h2 class="green-text mb-n3">₹<?= $disWalletData['balance'] ?></h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -164,7 +165,7 @@
                                 </div>
 
                                 <p>Total Discounts Used</p>
-                                <h2 style="color:#2563eb;" class="mb-n3">₹700</h2>
+                                <h2 style="color:#2563eb;" class="mb-n3">₹<?= $disWalletData['total_discount_used'] ?></h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -262,7 +263,7 @@
 
                             </div>
 
-                            <button class="download-btn">
+                            <button class="download-btn" id="downloadBtn">
                                 <i class="fa-solid fa-download"></i>
                                 Download Statement
                             </button>
@@ -276,7 +277,7 @@
                                 <h2>All Transactions (10)</h2>
                             </div>
 
-                            <table class="transaction-table">
+                            <table class="transaction-table" id="transactionTable">
 
                                 <thead>
 
@@ -295,290 +296,7 @@
 
                                 <tbody id="transactionBody">
 
-                                    <!-- ROW 1 -->
-
-                                    <tr class="transaction-row" data-type="earned" data-status="credited">
-
-                                        <td>18 May 2024<br><small>10:15 AM</small></td>
-
-                                        <td>
-                                            <strong>Discount Earned</strong><br>
-                                            <small>For repeat booking</small>
-                                        </td>
-
-                                        <td>
-                                            <strong>Kerala Backwaters</strong><br>
-                                            <small>Booking ID: BK2405182578</small>
-                                        </td>
-
-                                        <td>
-                                            <span class="badge earned">Earned</span>
-                                        </td>
-
-                                        <td class="green-text"><strong>+₹375</strong></td>
-
-                                        <td>
-                                            <span class="badge earned">Credited</span>
-                                        </td>
-
-                                        <!--<td><strong>₹1,200</strong></td>-->
-
-                                        <td>
-                                            <i class="fa-solid fa-chevron-down"></i>
-                                        </td>
-
-                                    </tr>
-
-                                    <tr class="details-row">
-
-                                        <td colspan="8">
-
-                                            <div class="details-content">
-
-                                                <div class="details-box">
-
-                                                    <h4>
-                                                        <i class="fa-solid fa-suitcase"></i>
-                                                        Trip Details
-                                                    </h4>
-                                                    
-                                                    <div class="detail-item">
-                                                        <span>Customer Name</span>
-                                                        <strong>Mohit Naik (CU260053)</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Tour Name</span>
-                                                        <strong>Kerala Backwaters</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Destination</span>
-                                                        <strong>Kochi, Alleppey</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Travel Date</span>
-                                                        <strong>10 May 2024 - 14 May 2024</strong>
-                                                    </div>
-                                                    
-                                                    <div class="detail-item">
-                                                        <span>Booking ID</span>
-                                                        <strong>BK2405182578</strong>
-                                                    </div>
-                                                    
-                                                      <div class="detail-item">
-                                                        <span>Booking Date</span>
-                                                        <strong>02 May 2024</strong>
-                                                    </div>
-
-
-                                                </div>
-
-                                                <div class="details-box">
-
-                                                    <h4>
-                                                        <i class="fa-solid fa-money-bill-wave"></i>
-                                                        Earning Details
-                                                    </h4>
-
-                                                    <div class="detail-item">
-                                                        <span>Reason</span>
-                                                        <strong>Repeat Booking Benefit</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Passengers</span>
-                                                        <strong>3</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Per Pax Discount</span>
-                                                        <strong>₹125</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Total Earned</span>
-                                                        <strong class="green-text">₹375</strong>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </td>
-
-                                    </tr>
-
-                                    <!-- MORE ROWS -->
-
-                                    <tr class="transaction-row" data-type="used" data-status="used">
-                                        <td>15 May 2024<br><small>09:20 AM</small></td>
-                                        <td><strong>Discount Used</strong></td>
-                                        <td><strong>Goa Beach Escape</strong></td>
-                                        <td><span class="badge used">Used</span></td>
-                                        <td class="red-text"><strong>-₹700</strong></td>
-                                        <td><span class="badge used">Used</span></td>
-                                        <!--<td><strong>₹700</strong></td>-->
-                                        <td><i class="fa-solid fa-chevron-down"></i></td>
-                                    </tr>
-
-                                     <tr class="details-row">
-
-                                        <td colspan="8">
-
-                                            <div class="details-content">
-
-                                                <div class="details-box">
-
-                                                    <h4>
-                                                        <i class="fa-solid fa-suitcase"></i>
-                                                        Trip Details
-                                                    </h4>
-                                                    
-                                                    <!--<div class="detail-item">-->
-                                                    <!--    <span>Customer Name</span>-->
-                                                    <!--    <strong>Mohit Naik (CU260053)</strong>-->
-                                                    <!--</div>-->
-
-                                                    <div class="detail-item">
-                                                        <span>Tour Name</span>
-                                                        <strong>Goa Beach Escape</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Destination</span>
-                                                        <strong>Goa</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Travel Date</span>
-                                                        <strong>10 May 2025 - 14 May 2025</strong>
-                                                    </div>
-                                                    
-                                                    <div class="detail-item">
-                                                        <span>Booking ID</span>
-                                                        <strong>BK2405182999</strong>
-                                                    </div>
-                                                    
-                                                      <div class="detail-item">
-                                                        <span>Booking Date</span>
-                                                        <strong>02 May 2025</strong>
-                                                    </div>
-
-
-                                                </div>
-
-                                                <div class="details-box">
-
-                                                    <h4>
-                                                        <i class="fa-solid fa-money-bill-wave"></i>
-                                                        Usage Details
-                                                    </h4>
-
-                                                    <div class="detail-item">
-                                                        <span>Reason</span>
-                                                        <strong>Used on booking Goa Beach Escape Package</strong>
-                                                    </div>
-
-                                                    <div class="detail-item">
-                                                        <span>Passengers</span>
-                                                        <strong>3</strong>
-                                                    </div>
-
-                                                  
-                                                    <div class="detail-item">
-                                                        <span>Total Used</span>
-                                                        <strong class="green-text">₹700</strong>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </td>
-
-                                    </tr>
-
-                                    <tr class="transaction-row" data-type="earned" data-status="credited">
-                                        <td>02 May 2024<br><small>04:45 PM</small></td>
-                                        <td><strong>Discount Earned</strong></td>
-                                        <td><strong>Dubai Extravaganza</strong></td>
-                                        <td><span class="badge earned">Earned</span></td>
-                                        <td class="green-text"><strong>+₹800</strong></td>
-                                        <td><span class="badge earned">Credited</span></td>
-                                        <!--<td><strong>₹1,400</strong></td>-->
-                                        <td><i class="fa-solid fa-chevron-down"></i></td>
-                                    </tr>
-
-                                    <tr class="details-row">
-                                        <td colspan="8">
-                                            <div class="details-content">
-                                                <div class="details-box">
-                                                    <h4>Tour Information</h4>
-                                                    <div class="detail-item">
-                                                        <span>Destination</span>
-                                                        <strong>Dubai</strong>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span>Booking ID</span>
-                                                        <strong>BK2405022091</strong>
-                                                    </div>
-                                                </div>
-
-                                                <div class="details-box">
-                                                    <h4>Reward Info</h4>
-                                                    <div class="detail-item">
-                                                        <span>Reward Type</span>
-                                                        <strong>Premium Member</strong>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span>Total Credit</span>
-                                                        <strong class="green-text">₹800</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <!-- EXTRA DATA -->
-
-                                    <!--<tr class="transaction-row" data-type="expired" data-status="expired">-->
-                                    <!--    <td>18 Mar 2024<br><small>05:15 PM</small></td>-->
-                                    <!--    <td><strong>Discount Expired</strong></td>-->
-                                    <!--    <td><strong>Unused Wallet Bonus</strong></td>-->
-                                    <!--    <td><span class="badge expired">Expired</span></td>-->
-                                    <!--    <td class="orange-text"><strong>-₹200</strong></td>-->
-                                    <!--    <td><span class="badge expired">Expired</span></td>-->
-                                        <!--<td><strong>₹300</strong></td>-->
-                                    <!--    <td><i class="fa-solid fa-chevron-down"></i></td>-->
-                                    <!--</tr>-->
-
-                                    <tr class="details-row">
-                                        <td colspan="8">
-                                            <div class="details-content">
-                                                <div class="details-box">
-                                                    <h4>Expiration Details</h4>
-                                                    <div class="detail-item">
-                                                        <span>Expiry Date</span>
-                                                        <strong>18 Mar 2024</strong>
-                                                    </div>
-                                                    <div class="detail-item">
-                                                        <span>Validity</span>
-                                                        <strong>12 Months</strong>
-                                                    </div>
-                                                </div>
-
-                                                <div class="details-box">
-                                                    <h4>Balance Impact</h4>
-                                                    <div class="detail-item">
-                                                        <span>Expired Amount</span>
-                                                        <strong class="orange-text">₹200</strong>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    
 
                                 </tbody>
 
@@ -653,6 +371,7 @@
             <i class="ri-phone-fill"></i>
         </button>
         <?php include (__DIR__ .'/../../contact_modal.php') ?>
+        <?= include 'customer_discount_modal.php' ?>
 
         <!-- contact card pop up end-->
 
@@ -732,7 +451,7 @@
         <!-- dialer logic -->
 
         <!-- table tabs -->
-        <script>
+        <!-- <script>
 
             // EXPANDABLE TABLE
 
@@ -831,7 +550,504 @@
 
             });
 
-        </script>
+        </script> -->
+        <script>
 
+            $.ajax({
+
+                url: "<?= $base_url_cust ?>ajax/discount_wallet_history.php",
+
+                type: "POST",
+
+                dataType: "json",
+
+                success: function(response){
+
+                    let html = "";
+
+                    if(response.status && response.data.length > 0){
+
+                        $(".table-header h2").html(
+                            `All Transactions (${response.data.length})`
+                        );
+
+                        response.data.forEach(function(item){
+
+                            /*
+                            DATE
+                            */
+                            const splitDate =
+                                item.created_date_text.split(' ');
+
+                            const dateText =
+                                splitDate.slice(0, 3).join(' ');
+
+                            const timeText =
+                                splitDate.slice(3).join(' ');
+
+                            /*
+                            TYPE
+                            */
+                            const isUsed =
+                                item.type === "used";
+
+                            const typeBadge =
+                                isUsed
+                                ? "used"
+                                : "earned";
+
+                            const amountClass =
+                                isUsed
+                                ? "red-text"
+                                : "green-text";
+
+                            const amountPrefix =
+                                isUsed
+                                ? "-"
+                                : "+";
+
+                            /*
+                            STATUS
+                            */
+                            let statusText = "";
+                            let statusBadge = "";
+
+                            if(isUsed){
+
+                                statusText = "Used";
+                                statusBadge = "used";
+
+                            }
+                            else{
+
+                                statusText = "Credited";
+                                statusBadge = "earned";
+                            }
+
+                            /*
+                            DESCRIPTION
+                            */
+                            const tripName =
+                                item.message || "-";
+
+                            html += `
+
+                                <tr class="transaction-row"
+                                    data-type="${item.type}"
+                                    data-status="${item.status}">
+
+                                    <td>
+                                        <strong>
+                                            ${dateText}
+                                        </strong>
+
+                                        <br>
+
+                                        <small>
+                                            ${timeText}
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        <strong>
+                                            ${item.description}
+                                        </strong>
+
+                                        <br>
+
+                                        <small>
+                                            ${tripName}
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        <strong>
+                                            ${tripName}
+                                        </strong>
+
+                                        <br>
+
+                                        <small>
+                                            Booking ID:
+                                            ${item.transaction_id}
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge ${typeBadge}">
+                                            ${isUsed ? 'Used' : 'Earned'}
+                                        </span>
+
+                                    </td>
+
+                                    <td class="${amountClass}">
+
+                                        <strong>
+                                            ${amountPrefix}₹${item.amount}
+                                        </strong>
+
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge ${statusBadge}">
+                                            ${statusText}
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <i class="fa-solid fa-chevron-down"></i>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class="details-row">
+
+                                    <td colspan="8">
+
+                                        <div class="details-content">
+
+                                            <div class="details-box">
+
+                                                <h4>
+
+                                                    <i class="fa-solid fa-suitcase"></i>
+
+                                                    Transaction Details
+
+                                                </h4>
+
+                                                <div class="detail-item">
+
+                                                    <span>
+                                                        Description
+                                                    </span>
+
+                                                    <strong>
+                                                        ${item.description}
+                                                    </strong>
+
+                                                </div>
+
+                                                <div class="detail-item">
+
+                                                    <span>
+                                                        Booking ID
+                                                    </span>
+
+                                                    <strong>
+                                                        ${item.transaction_id}
+                                                    </strong>
+
+                                                </div>
+
+                                                <div class="detail-item">
+
+                                                    <span>
+                                                        Created On
+                                                    </span>
+
+                                                    <strong>
+                                                        ${item.created_date_text}
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="details-box">
+
+                                                <h4>
+
+                                                    <i class="fa-solid fa-money-bill-wave"></i>
+
+                                                    Amount Details
+
+                                                </h4>
+
+                                                <div class="detail-item">
+
+                                                    <span>
+                                                        Transaction Amount
+                                                    </span>
+
+                                                    <strong class="${amountClass}">
+                                                        ₹${item.amount}
+                                                    </strong>
+
+                                                </div>
+
+                                                <div class="detail-item">
+
+                                                    <span>
+                                                        Wallet Balance
+                                                    </span>
+
+                                                    <strong>
+                                                        ₹${item.balance}
+                                                    </strong>
+
+                                                </div>
+
+                                                <div class="detail-item">
+
+                                                    <span>
+                                                        Status
+                                                    </span>
+
+                                                    <strong>
+                                                        ${statusText}
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            `;
+                        });
+                    }
+                    else{
+
+                        html = `
+
+                            <tr>
+
+                                <td colspan="7"
+                                    class="text-center py-5 fw-bold text-muted">
+
+                                    No Transactions Found
+
+                                </td>
+
+                            </tr>
+                        `;
+                    }
+
+                    $("#transactionBody").html(html);
+
+                    /*
+                    FILTERS
+                    */
+                    function applyFilters(){
+
+                        const typeFilter =
+                            $("#typeFilter").val();
+
+                        const statusFilter =
+                            $("#statusFilter").val();
+
+                        $(".transaction-row").each(function(){
+
+                            const row =
+                                $(this);
+
+                            const rowType =
+                                row.data("type");
+
+                            const rowStatus =
+                                row.data("status");
+
+                            const typeMatch =
+                                typeFilter === "all" ||
+                                rowType === typeFilter;
+
+                            const statusMatch =
+                                statusFilter === "all" ||
+                                rowStatus === statusFilter;
+
+                            if(typeMatch && statusMatch){
+
+                                row.show();
+                                row.next(".details-row").show();
+                            }
+                            else{
+
+                                row.hide();
+                                row.next(".details-row").hide();
+                            }
+                        });
+                    }
+
+                    $("#typeFilter, #statusFilter").on(
+                        "change",
+                        applyFilters
+                    );
+
+                    /*
+                    DETAILS TOGGLE
+                    */
+                    $(document).on(
+                        "click",
+                        ".transaction-row",
+                        function(){
+
+                            $(this)
+                            .next(".details-row")
+                            .toggle();
+                        }
+                    );
+
+                    /*
+                    INITIALLY HIDE DETAILS
+                    */
+                    $(".details-row").hide();
+                }
+            });
+
+        </script>
+        <!-- download logic -->
+        <script>
+
+            /*
+            DOWNLOAD TABLE CSV
+            */
+            function downloadFilteredTableCSV(tableId, fileName = "statement.csv") {
+
+                const table =
+                    document.getElementById(tableId);
+
+                if(!table){
+                    return;
+                }
+
+                let csv = [];
+
+                /*
+                UTF-8 BOM FOR ₹ SYMBOL SUPPORT
+                */
+                csv.push("\uFEFF");
+
+                /*
+                TABLE HEADERS
+                */
+                let headers = [];
+
+                table.querySelectorAll("thead th").forEach(function(th){
+
+                    let text =
+                        th.innerText
+                        .replace(/[\n\r]+/g, ' ')
+                        .replace(/,/g, ' ')
+                        .replace(/"/g, '')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    /*
+                    SKIP EMPTY HEADER
+                    */
+                    if(text !== ""){
+                        headers.push(`"${text}"`);
+                    }
+                });
+
+                csv.push(headers.join(","));
+
+                /*
+                ONLY MAIN TRANSACTION ROWS
+                */
+                const rows =
+                    table.querySelectorAll("tbody tr.transaction-row");
+
+                rows.forEach(function(row){
+
+                    /*
+                    SKIP FILTERED / HIDDEN ROWS
+                    */
+                    if(
+                        window.getComputedStyle(row).display === "none"
+                    ){
+                        return;
+                    }
+
+                    let rowData = [];
+
+                    row.querySelectorAll("td").forEach(function(td, index){
+
+                        /*
+                        SKIP LAST ICON COLUMN
+                        */
+                        if(index === row.cells.length - 1){
+                            return;
+                        }
+
+                        let text =
+                            td.innerText
+                            .replace(/[\n\r]+/g, ' ')
+                            .replace(/,/g, ' ')
+                            .replace(/"/g, '')
+                            .replace(/[^\x20-\x7E₹]/g, '')
+                            .replace(/\(-\)/g, '')
+                            .replace(/\(\+\)/g, '')
+                            .replace(/^\-\s*/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+                        rowData.push(`"${text}"`);
+                    });
+
+                    csv.push(rowData.join(","));
+                });
+
+                /*
+                FINAL CSV CONTENT
+                */
+                const csvContent =
+                    csv.join("\n");
+
+                /*
+                CREATE DOWNLOAD FILE
+                */
+                const blob =
+                    new Blob(
+                        [csvContent],
+                        {
+                            type: "text/csv;charset=utf-8;"
+                        }
+                    );
+
+                const link =
+                    document.createElement("a");
+
+                const url =
+                    URL.createObjectURL(blob);
+
+                link.setAttribute("href", url);
+
+                link.setAttribute("download", fileName);
+
+                document.body.appendChild(link);
+
+                link.click();
+
+                document.body.removeChild(link);
+            }
+
+            /*
+            DOWNLOAD BUTTON CLICK
+            */
+            $("#downloadBtn").on("click", function(){
+
+                downloadFilteredTableCSV(
+                    "transactionTable",
+                    "discount-wallet-statement.csv"
+                );
+            });
+
+        </script>
+        <!-- download logic -->
     </body>
 </html>

@@ -37,6 +37,7 @@
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_reference_wallet.css" />
+        <link rel="stylesheet" href="<?= $base_url ?>assets/css/neo_select/customer_reference_modal.css" />
     </head>
 
     <body class="twocolumn-panel">
@@ -87,7 +88,7 @@
                                 <p>View all transactions and earnings from your referred customers.</p>
                                 </div>
 
-                                <button class="benefit-btn">
+                                <button class="benefit-btn" id="openReferralModal">
                                 <i class="fa-regular fa-circle-question"></i>
                                 How Referral Benefits Work?
                                 </button>
@@ -104,7 +105,7 @@
 
                                 <div>
                                     <h4>Total Earnings</h4>
-                                    <h2>₹<?= $refWalletData['ref_total_earning'] ?></h2>
+                                    <h2>₹<?= $refWalletData['ref_total_earning'] + $refWalletCurBalData['ref_booking_total'] ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -128,7 +129,7 @@
 
                                 <div>
                                     <h4>Available Balance</h4>
-                                    <h2>₹<?= $refWalletData['ref_total_earning'] - $refWalletEncashData['total_earning_echased']?></h2>
+                                    <h2>₹<?= $refWalletCurBalData['balance']?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -350,7 +351,7 @@
                                 <div class="table-title d-flex justify-content-between align-items-center mb-4">
 
                                     <h3 class="mb-0">
-                                        All Transactions (8)
+                                        All Transactions (<span id="totalTransactions">0</span>)
                                     </h3>
 
                                 </div>
@@ -359,7 +360,7 @@
 
                                 <div class="table-responsive">
 
-                                    <table class="wallet-table table align-middle">
+                                    <table class="wallet-table table align-middle transaction-table" id="transactionTable">
 
                                         <thead>
 
@@ -382,413 +383,7 @@
 
                                         <tbody id="transactionTableBody">
 
-                                            <!-- ========================= -->
-                                            <!-- ROW 1 -->
-                                            <!-- ========================= -->
-
-                                            <tr
-                                                class="clickable-row"
-                                                data-target="details-1"
-                                                data-transaction="trip completed bonus"
-                                                data-status="credited"
-                                                data-date="2024-05-18"
-                                            >
-
-                                                <td>
-                                                    <strong>18 May 2024</strong><br>
-                                                    10:15 AM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Trip Completed Bonus</strong><br>
-                                                    Kerala Backwaters
-                                                </td>
-
-                                                <td>
-                                                    Rahul Sharma<br>
-                                                    <small>(CU2500089)</small>
-                                                </td>
-
-                                                <td>
-                                                    Kerala Backwaters<br>
-                                                    <small>BK24051278</small>
-                                                </td>
-
-                                                <td>3</td>
-
-                                                <td>₹500</td>
-
-                                                <td class="text-success fw-bold">
-                                                    +₹1,500
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-success">
-                                                        Credited
-                                                    </span>
-                                                </td>
-
-                                                <!--<td class="fw-bold">-->
-                                                <!--    ₹2,300-->
-                                                <!--</td>-->
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-chevron-down"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- DETAILS -->
-
-                                            <tr
-                                                class="details-row"
-                                                id="details-1"
-                                                style="display:none;"
-                                            >
-
-                                                <td colspan="10">
-
-                                                    <div class="details-wrapper p-4 bg-light rounded">
-
-                                                        <div class="row g-4">
-
-                                                            <div class="col-lg-6">
-
-                                                                <div class="detail-card">
-
-                                                                    <h5 class="mb-3">
-
-                                                                        <i class="fa-solid fa-suitcase me-2"></i>
-
-                                                                        Trip Details
-
-                                                                    </h5>
-                                                                    <div class="mb-2">
-                                                                        <strong>Tour Name:</strong>
-                                                                        Kerala Backwaters
-                                                                    </div>
-
-                                                                    <div class="mb-2">
-                                                                        <strong>Destination:</strong>
-                                                                        Kochi, Alleppey, Kumarakom
-                                                                    </div>
-
-                                                                    <div class="mb-2">
-                                                                        <strong>Travel Date:</strong>
-                                                                        10 May - 14 May 2024
-                                                                    </div>
-
-                                                                    <div class="mb-2">
-                                                                        <strong>Booking ID:</strong>
-                                                                        BK24051278
-                                                                    </div>
-                                                                    
-                                                                    <div class="mb-2">
-                                                                        <strong>Booking Date:</strong>
-                                                                        02 May 2024
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                            <div class="col-lg-6">
-
-                                                                <div class="detail-card">
-
-                                                                    <h5 class="mb-3">
-
-                                                                        <i class="fa-solid fa-users me-2"></i>
-
-                                                                        Passenger Details
-
-                                                                    </h5>
-
-                                                                    <table class="table table-bordered">
-
-                                                                        <thead>
-
-                                                                            <tr>
-
-                                                                                <th>Name</th>
-                                                                                <th>Age</th>
-                                                                                <th>Amount</th>
-
-                                                                            </tr>
-
-                                                                        </thead>
-
-                                                                        <tbody>
-
-                                                                            <tr>
-                                                                                <td>Rahul Sharma</td>
-                                                                                <td>34</td>
-                                                                                <td>₹500</td>
-                                                                            </tr>
-
-                                                                            <tr>
-                                                                                <td>Priya Sharma</td>
-                                                                                <td>31</td>
-                                                                                <td>₹500</td>
-                                                                            </tr>
-
-                                                                            <tr>
-                                                                                <td>Aarav Sharma</td>
-                                                                                <td>8</td>
-                                                                                <td>₹500</td>
-                                                                            </tr>
-                                                                            
-                                                                             <tr>
-                                                                                <td colspan="2">Total Amount Earned</td>
-                                                                                <td>₹1,500</td>
-                                                                            </tr>
-
-                                                                        </tbody>
-
-                                                                    </table>
-
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- ========================= -->
-                                            <!-- ROW 2 -->
-                                            <!-- ========================= -->
-
-                                            <tr
-                                                data-transaction="membership activation bonus"
-                                                data-status="credited"
-                                                data-date="2024-05-05"
-                                            >
-
-                                                <td>
-                                                    <strong>05 May 2024</strong><br>
-                                                    09:30 AM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Membership Activation Bonus</strong><br>
-                                                    Referred Customer Joined
-                                                </td>
-
-                                                <td>
-                                                    Neha Kapoor<br>
-                                                    <small>(CU2500089)</small>
-                                                </td>
-
-                                                <td>-</td>
-
-                                                <td>-</td>
-
-                                                <td>₹1,000</td>
-
-                                                <td class="text-success fw-bold">
-                                                    +₹1,000
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-success">
-                                                        Credited
-                                                    </span>
-                                                </td>
-
-                                                <!--<td>₹800</td>-->
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-minus"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- ROW 3 -->
-
-                                            <tr
-                                                data-transaction="refund"
-                                                data-status="processed"
-                                                data-date="2024-05-02"
-                                            >
-
-                                                <td>
-                                                    <strong>02 May 2024</strong><br>
-                                                    04:45 PM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Refund</strong><br>
-                                                    Trip Cancellation Refund
-                                                </td>
-
-                                                <td>
-                                                    Amit Verma
-                                                </td>
-
-                                                <td>
-                                                    Goa Beach Escape
-                                                </td>
-
-                                                <td>2</td>
-
-                                                <td>₹500</td>
-
-                                                <td class="text-danger fw-bold">
-                                                    -₹1,000
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-primary">
-                                                        Processed
-                                                    </span>
-                                                </td>
-
-                                                <!--<td>₹1,200</td>-->
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-minus"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- ROW 4 -->
-
                                             
-
-                                            <!-- ROW 5 -->
-
-                                            <tr
-                                                data-transaction="withdrawal request"
-                                                data-status="processed"
-                                                data-date="2024-04-28"
-                                            >
-
-                                                <td>
-                                                    <strong>28 Apr 2024</strong><br>
-                                                    06:10 PM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Withdrawal Request</strong><br>
-                                                    To Bank Account
-                                                </td>
-
-                                                <td>-</td>
-
-                                                <td>-</td>
-
-                                                <td>-</td>
-
-                                                <td>-</td>
-
-                                                <td class="text-danger fw-bold">
-                                                    -₹1,800
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-info">
-                                                        Processed
-                                                    </span>
-                                                </td>
-
-                                                <!--<td>₹2,200</td>-->
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-building-columns"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- ROW 6 -->
-
-                                            <tr
-                                                data-transaction="trip completed bonus"
-                                                data-status="credited"
-                                                data-date="2024-04-22"
-                                            >
-
-                                                <td>
-                                                    <strong>22 Apr 2024</strong><br>
-                                                    02:30 PM
-                                                </td>
-
-                                                <td>
-                                                    <strong>Trip Completed Bonus</strong><br>
-                                                    Dubai Extravaganza
-                                                </td>
-
-                                                <td>
-                                                    Sneha Iyer
-                                                </td>
-
-                                                <td>
-                                                    Dubai Extravaganza
-                                                </td>
-
-                                                <td>4</td>
-
-                                                <td>₹500</td>
-
-                                                <td class="text-success fw-bold">
-                                                    +₹2,000
-                                                </td>
-
-                                                <td>
-                                                    <span class="badge bg-success">
-                                                        Credited
-                                                    </span>
-                                                </td>
-
-                                                <!--<td>₹4,000</td>-->
-
-                                                <td>
-
-                                                    <button class="toggle-btn btn btn-sm btn-light">
-
-                                                        <i class="fa-solid fa-minus"></i>
-
-                                                    </button>
-
-                                                </td>
-
-                                            </tr>
-
-                                            <!-- ROW 7 -->
-
-                                            
-
-                                            <!-- ROW 8 -->
-
-                                          
 
                                         </tbody>
 
@@ -868,7 +463,7 @@
             <i class="ri-phone-fill"></i>
         </button>
         <?php include (__DIR__ .'/../../contact_modal.php') ?>
-
+        <?= include 'customer_reference_modal.php' ?>
         <!-- contact card pop up end-->
 
         <!-- JAVASCRIPT -->
@@ -946,7 +541,7 @@
         <!-- dialer logic -->
 
         <!-- table tabs -->
-        <script>
+        <!-- <script>
 
             document.addEventListener('DOMContentLoaded', function(){
 
@@ -1228,7 +823,714 @@
 
             });
 
-        </script>
+        </script> -->
+        <script>
 
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const tableBody =
+                    document.getElementById(
+                        "transactionTableBody"
+                    );
+
+                const totalTransactions =
+                    document.getElementById(
+                        "totalTransactions"
+                    );
+
+                const transactionFilter =
+                    document.getElementById(
+                        "transactionFilter"
+                    );
+
+                const statusFilter =
+                    document.getElementById(
+                        "statusFilter"
+                    );
+
+                const dateFilter =
+                    document.getElementById(
+                        "dateFilter"
+                    );
+
+                let allRows = [];
+
+                // =========================
+                // FETCH DATA
+                // =========================
+
+                fetch(
+                    "<?= $base_url_cust ?>ajax/reference_wallet_history.php"
+                )
+
+                .then(response => response.json())
+
+                .then(res => {
+
+                    if (!res.status) {
+                        return;
+                    }
+
+                    let html = '';
+
+                    res.data.forEach((row, index) => {
+
+                        const detailId =
+                            'details-' + index;
+
+                        const statusLower =
+                            (
+                                row.status || ''
+                            ).toLowerCase();
+
+                        const transactionLower =
+                            (
+                                row.entry_type || ''
+                            ).toLowerCase();
+
+                        const amount =
+                            parseFloat(
+                                row.amount.replace(/,/g,'')
+                            );
+
+                        const amountHtml =
+                            amount >= 0
+                            ?
+                            `<span class="text-success fw-bold">
+                                +₹${row.amount}
+                            </span>`
+                            :
+                            `<span class="text-danger fw-bold">
+                                ₹${row.amount}
+                            </span>`;
+
+                        let badgeClass =
+                            'bg-secondary';
+
+                        if (
+                            statusLower === 'credited'
+                        ) {
+                            badgeClass = 'bg-success';
+                        }
+
+                        if (
+                            statusLower === 'processed'
+                        ) {
+                            badgeClass = 'bg-info';
+                        }
+
+                        if (
+                            statusLower === 'pending'
+                        ) {
+                            badgeClass = 'bg-warning';
+                        }
+
+                        if (
+                            statusLower === 'cancelled'
+                            ||
+                            statusLower === 'rejected'
+                        ) {
+                            badgeClass = 'bg-danger';
+                        }
+
+                        const paxCount =
+                            row.members &&
+                            row.members.length > 0
+                            ? row.members.length
+                            : '-';
+
+                        const perPaxBenefit =
+                            paxCount !== '-'
+                            ?
+                            (
+                                amount / paxCount
+                            ).toFixed(2)
+                            :
+                            '-';
+
+                        let memberRows = '';
+
+                        if (
+                            row.members &&
+                            row.members.length > 0
+                        ) {
+
+                            row.members.forEach(member => {
+
+                                memberRows += `
+                                    <tr>
+                                        <td>${member.name}</td>
+                                        <td>${member.age}</td>
+                                        <td>${member.gender}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            memberRows += `
+                                <tr>
+                                    <td colspan="2">
+                                        Total Amount Earned
+                                    </td>
+
+                                    <td>
+                                        ₹${row.amount}
+                                    </td>
+                                </tr>
+                            `;
+                        }
+
+                        // =========================
+                        // ONLY TRIP COMPLETED BONUS
+                        // SHOULD EXPAND
+                        // =========================
+
+                        const isTripCompleted =
+                            transactionLower ===
+                            'trip completed bonus';
+
+                        html += `
+
+                        <!-- MAIN ROW -->
+
+                        <tr
+
+                            ${
+                                isTripCompleted
+                                ?
+                                `
+                                class="clickable-row transaction-row"
+                                data-target="${detailId}"
+                                `
+                                :
+                                'Class="transaction-row'
+                            }
+
+                            data-transaction="${transactionLower}"
+                            data-status="${statusLower}"
+                            data-date="${row.raw_date}"
+                        >
+
+                            <td>
+                                ${row.created_date}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    ${row.entry_type}
+                                </strong><br>
+
+                                ${row.message ?? '-'}
+                            </td>
+
+                            <td>
+                                ${row.booked_cust_name ?? '-'}<br>
+
+                                <small>
+                                    (${row.booked_cust_id ?? '-'})
+                                </small>
+                            </td>
+
+                            <td>
+                                ${row.trip_name ?? '-'}<br>
+
+                                <small>
+                                    ${row.reference_id ?? '-'}
+                                </small>
+                            </td>
+
+                            <td>
+                                ${paxCount}
+                            </td>
+
+                            <td>
+                                ${
+                                    perPaxBenefit !== '-'
+                                    ?
+                                    '₹' + perPaxBenefit
+                                    :
+                                    '-'
+                                }
+                            </td>
+
+                            <td>
+                                ${amountHtml}
+                            </td>
+
+                            <td>
+                                <span class="badge ${badgeClass}">
+                                    ${row.status ?? '-'}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                ${
+                                    isTripCompleted
+                                    ?
+                                    `
+                                    <button class="toggle-btn btn btn-sm btn-light">
+
+                                        <i class="fa-solid fa-chevron-down"></i>
+
+                                    </button>
+                                    `
+                                    :
+                                    `
+                                    <button class="toggle-btn btn btn-sm btn-light">
+
+                                        <i class="fa-solid fa-minus"></i>
+
+                                    </button>
+                                    `
+                                }
+
+                            </td>
+
+                        </tr>
+
+                        ${
+                            isTripCompleted
+                            ?
+                            `
+
+                            <!-- DETAILS ROW -->
+
+                            <tr
+                                class="details-row"
+                                id="${detailId}"
+                                style="display:none;"
+                            >
+
+                                <td colspan="10">
+
+                                    <div class="details-wrapper p-4 bg-light rounded">
+
+                                        <div class="row g-4">
+
+                                            <div class="col-lg-6">
+
+                                                <div class="detail-card">
+
+                                                    <h5 class="mb-3">
+
+                                                        <i class="fa-solid fa-suitcase me-2"></i>
+
+                                                        Trip Details
+
+                                                    </h5>
+
+                                                    <div class="mb-2">
+                                                        <strong>Tour Name:</strong>
+                                                        ${row.trip_name ?? '-'}
+                                                    </div>
+
+                                                    <div class="mb-2">
+                                                        <strong>Destination:</strong>
+                                                        ${row.trip_destination ?? '-'}
+                                                    </div>
+
+                                                    <div class="mb-2">
+                                                        <strong>Travel Date:</strong>
+                                                        ${row.trip_start_date ?? '-'}
+                                                    </div>
+
+                                                    <div class="mb-2">
+                                                        <strong>Booking ID:</strong>
+                                                        ${row.reference_id ?? '-'}
+                                                    </div>
+
+                                                    <div class="mb-2">
+                                                        <strong>Booking Date:</strong>
+                                                        ${row.booking_date ?? '-'}
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="detail-card">
+
+                                                    <h5 class="mb-3">
+
+                                                        <i class="fa-solid fa-users me-2"></i>
+
+                                                        Passenger Details
+
+                                                    </h5>
+
+                                                    <table class="table table-bordered">
+
+                                                        <thead>
+
+                                                            <tr>
+
+                                                                <th>Name</th>
+                                                                <th>Age</th>
+                                                                <th>Gender</th>
+
+                                                            </tr>
+
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            ${memberRows}
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            `
+                            :
+                            ''
+                        }
+
+                        `;
+                    });
+
+                    tableBody.innerHTML = html;
+
+                    totalTransactions.textContent =
+                        res.data.length;
+
+                    initFilters();
+                    initExpandableRows();
+
+                });
+
+                // =========================
+                // EXPANDABLE ROWS
+                // =========================
+
+                function initExpandableRows() {
+
+                    const clickableRows =
+                        document.querySelectorAll(
+                            '.clickable-row'
+                        );
+
+                    clickableRows.forEach(row => {
+
+                        row.addEventListener(
+                            'click',
+                            function () {
+
+                                const target =
+                                    row.dataset.target;
+
+                                const details =
+                                    document.getElementById(
+                                        target
+                                    );
+
+                                const icon =
+                                    row.querySelector(
+                                        '.toggle-btn i'
+                                    );
+
+                                if (
+                                    details.style.display
+                                    === 'table-row'
+                                ) {
+
+                                    details.style.display =
+                                        'none';
+
+                                    icon.classList.remove(
+                                        'fa-chevron-up'
+                                    );
+
+                                    icon.classList.add(
+                                        'fa-chevron-down'
+                                    );
+
+                                } else {
+
+                                    details.style.display =
+                                        'table-row';
+
+                                    icon.classList.remove(
+                                        'fa-chevron-down'
+                                    );
+
+                                    icon.classList.add(
+                                        'fa-chevron-up'
+                                    );
+                                }
+                            }
+                        );
+                    });
+                }
+
+                // =========================
+                // FILTERS
+                // =========================
+
+                function initFilters() {
+
+                    allRows =
+                        Array.from(
+                            document.querySelectorAll(
+                                '#transactionTableBody tr'
+                            )
+                        );
+
+                    transactionFilter.addEventListener(
+                        'change',
+                        applyFilters
+                    );
+
+                    statusFilter.addEventListener(
+                        'change',
+                        applyFilters
+                    );
+
+                    dateFilter.addEventListener(
+                        'change',
+                        applyFilters
+                    );
+                }
+
+                function applyFilters() {
+
+                    const transactionValue =
+                        transactionFilter.value.toLowerCase();
+
+                    const statusValue =
+                        statusFilter.value.toLowerCase();
+
+                    const dateValue =
+                        dateFilter.value;
+
+                    let visibleCount = 0;
+
+                    const mainRows =
+                        document.querySelectorAll(
+                            '#transactionTableBody tr[data-transaction]'
+                        );
+
+                    mainRows.forEach(row => {
+
+                        const detailsRow =
+                            row.dataset.target
+                            ?
+                            document.getElementById(
+                                row.dataset.target
+                            )
+                            :
+                            null;
+
+                        const transaction =
+                            row.dataset.transaction;
+
+                        const status =
+                            row.dataset.status;
+
+                        const rowDate =
+                            row.dataset.date;
+
+                        let show = true;
+
+                        if (
+                            transactionValue !== 'all'
+                            &&
+                            transaction !== transactionValue
+                        ) {
+                            show = false;
+                        }
+
+                        if (
+                            statusValue !== 'all'
+                            &&
+                            status !== statusValue
+                        ) {
+                            show = false;
+                        }
+
+                        if (
+                            dateValue
+                            &&
+                            rowDate !== dateValue
+                        ) {
+                            show = false;
+                        }
+
+                        row.style.display =
+                            show
+                            ? ''
+                            : 'none';
+
+                        if (detailsRow) {
+
+                            detailsRow.style.display =
+                                'none';
+                        }
+
+                        if (show) {
+                            visibleCount++;
+                        }
+                    });
+
+                    totalTransactions.textContent =
+                        visibleCount;
+                }
+
+            });
+
+        </script>
+        <!-- download logic -->
+        <script>
+
+            /*
+            DOWNLOAD TABLE CSV
+            */
+            function downloadFilteredTableCSV(tableId, fileName = "statement.csv") {
+
+                const table =
+                    document.getElementById(tableId);
+
+                if(!table){
+                    return;
+                }
+
+                let csv = [];
+
+                /*
+                UTF-8 BOM FOR ₹ SYMBOL SUPPORT
+                */
+                csv.push("\uFEFF");
+
+                /*
+                TABLE HEADERS
+                */
+                let headers = [];
+
+                table.querySelectorAll("thead th").forEach(function(th){
+
+                    let text =
+                        th.innerText
+                        .replace(/[\n\r]+/g, ' ')
+                        .replace(/,/g, ' ')
+                        .replace(/"/g, '')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    /*
+                    SKIP EMPTY HEADER
+                    */
+                    if(text !== ""){
+                        headers.push(`"${text}"`);
+                    }
+                });
+
+                csv.push(headers.join(","));
+
+                /*
+                ONLY MAIN TRANSACTION ROWS
+                */
+                const rows =
+                    table.querySelectorAll("tbody tr.transaction-row");
+
+                rows.forEach(function(row){
+
+                    /*
+                    SKIP FILTERED / HIDDEN ROWS
+                    */
+                    if(
+                        window.getComputedStyle(row).display === "none"
+                    ){
+                        return;
+                    }
+
+                    let rowData = [];
+
+                    row.querySelectorAll("td").forEach(function(td, index){
+
+                        /*
+                        SKIP LAST ICON COLUMN
+                        */
+                        if(index === row.cells.length - 1){
+                            return;
+                        }
+
+                        let text =
+                            td.innerText
+                            .replace(/[\n\r]+/g, ' ')
+                            .replace(/,/g, ' ')
+                            .replace(/"/g, '')
+                            .replace(/[^\x20-\x7E₹]/g, '')
+                            .replace(/\(-\)/g, '')
+                            .replace(/\(\+\)/g, '')
+                            .replace(/^\-\s*/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+                        rowData.push(`"${text}"`);
+                    });
+
+                    csv.push(rowData.join(","));
+                });
+
+                /*
+                FINAL CSV CONTENT
+                */
+                const csvContent =
+                    csv.join("\n");
+
+                /*
+                CREATE DOWNLOAD FILE
+                */
+                const blob =
+                    new Blob(
+                        [csvContent],
+                        {
+                            type: "text/csv;charset=utf-8;"
+                        }
+                    );
+
+                const link =
+                    document.createElement("a");
+
+                const url =
+                    URL.createObjectURL(blob);
+
+                link.setAttribute("href", url);
+
+                link.setAttribute("download", fileName);
+
+                document.body.appendChild(link);
+
+                link.click();
+
+                document.body.removeChild(link);
+            }
+
+            /*
+            DOWNLOAD BUTTON CLICK
+            */
+            $("#downloadBtn").on("click", function(){
+
+                downloadFilteredTableCSV(
+                    "transactionTable",
+                    "discount-wallet-statement.csv"
+                );
+            });
+
+        </script>
+        <!-- download logic -->
     </body>
 </html>

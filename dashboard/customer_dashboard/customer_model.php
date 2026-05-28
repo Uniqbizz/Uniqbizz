@@ -121,6 +121,39 @@
 
     $loyaltyCouponData = $sqlLoyaltyCoupons->fetch(PDO::FETCH_ASSOC);
     $loyaltyexpiry_date = date('j M Y', strtotime($loyaltyCouponData['expiry_date']));
+    //reference wallet utilization 
+    $sqlRefWalletCurBal = $conn->prepare("
+
+        SELECT 
+            balance,
+            created_date,
+
+            (
+                SELECT COALESCE(SUM(earned_amount), 0)
+
+                FROM customer_reference_wallet_utilization
+
+                WHERE customer_id = :user_id
+
+                AND transaction_id NOT LIKE 'CU%'
+
+                AND transaction_id NOT LIKE 'WD%'
+
+            ) AS ref_booking_total
+
+        FROM customer_reference_wallet_utilization
+
+        WHERE customer_id = :user_id
+
+        ORDER BY created_date DESC
+
+        LIMIT 1
+    ");
+
+    $sqlRefWalletCurBal->execute([":user_id" => $userId]);
+
+    $refWalletCurBalData = $sqlRefWalletCurBal->fetch(PDO::FETCH_ASSOC);
+    //
     //reference wallet
     $sqlRefWallet = $conn->prepare("
         SELECT 
@@ -163,8 +196,27 @@
     ");
 
     $sqlRefWalletEncash->execute([":user_id" => $userId]);
-
     $refWalletEncashData = $sqlRefWalletEncash->fetch(PDO::FETCH_ASSOC);
+    //discount wallet encashment
+    $sqlDisWallet = $conn->prepare("
+        SELECT balance,id,
+        (   SELECT COALESCE(SUM(earned_amount), 0)
+            FROM customer_discount_wallet_utilization
+            WHERE customer_id=:user_id
+        ) AS total_discount_earned,
+        (   SELECT COALESCE(SUM(used_amount), 0)
+            FROM customer_discount_wallet_utilization
+            WHERE customer_id=:user_id
+        ) AS total_discount_used
+        FROM customer_discount_wallet_utilization
+        WHERE customer_id=:user_id
+        ORDER BY id DESC
+        LIMIT 1
+    ");
+
+    $sqlDisWallet->execute([":user_id" => $userId]);
+
+    $disWalletData = $sqlDisWallet->fetch(PDO::FETCH_ASSOC);
     //customers tc
     $sqlCustTa = $conn->prepare("SELECT ca_travelagency_id AS user_id,email,contact_no,firstname,lastname,country_code,user_type,profile_pic FROM ca_travelagency WHERE ca_travelagency_id = :userID
                                     UNION

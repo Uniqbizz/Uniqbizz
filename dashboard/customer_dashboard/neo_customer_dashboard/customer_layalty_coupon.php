@@ -328,7 +328,7 @@
 
                                         <div class="col-lg-3 text-lg-end">
 
-                                            <button class="btn download-btn">
+                                            <button class="btn download-btn" id="downloadBtn">
                                                 <i class="fa-solid fa-download me-2"></i>
                                                 Download List
                                             </button>
@@ -343,7 +343,7 @@
 
                                 <div class="table-responsive">
 
-                                    <table class="table loyalty-table align-middle">
+                                    <table class="table loyalty-table align-middle transaction-table" id="transactionTable">
 
                                         <thead>
 
@@ -703,7 +703,7 @@
                             */
                             html += `
 
-                                <tr data-status="${rowStatus}">
+                                <tr Class="transaction-row data-status="${rowStatus}">
 
                                     <td>
 
@@ -748,13 +748,24 @@
                                         ${earnedFor}
 
                                         ${
-                                            item.transaction_id &&
-                                            item.transaction_id !== '-'
+                                            item.used_on &&
+                                            item.used_on !== '-'
 
                                             ? `
                                                 <div class="small text-muted">
-                                                    Booking ID:
-                                                    ${item.transaction_id}
+
+                                                    Used On:
+                                                    ${item.used_on}
+
+                                                    ${
+                                                        item.transaction_id &&
+                                                        item.transaction_id !== '-'
+
+                                                        ? `<br>Booking ID: ${item.transaction_id}`
+
+                                                        : ''
+                                                    }
+
                                                 </div>
                                             `
                                             : ''
@@ -839,5 +850,157 @@
             });
 
         </script>
+        <!-- download logic -->
+        <script>
+
+            /*
+            DOWNLOAD TABLE CSV
+            */
+            function downloadFilteredTableCSV(
+                tableId,
+                fileName = "statement.csv"
+            ) {
+
+                const table =
+                    document.getElementById(tableId);
+
+                if(!table){
+                    return;
+                }
+
+                let csv = [];
+
+                /*
+                UTF-8 BOM FOR ₹ SYMBOL SUPPORT
+                */
+                csv.push("\uFEFF");
+
+                /*
+                TABLE HEADERS
+                */
+                let headers = [];
+
+                table.querySelectorAll("thead th").forEach(function(th){
+
+                    let text =
+                        th.innerText
+                        .replace(/[\n\r]+/g, ' ')
+                        .replace(/,/g, ' ')
+                        .replace(/"/g, '')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    headers.push(`"${text}"`);
+                });
+
+                csv.push(headers.join(","));
+
+                /*
+                ONLY MAIN TRANSACTION ROWS
+                */
+                const rows =
+                    table.querySelectorAll(
+                        "tbody tr.transaction-row"
+                    );
+
+                rows.forEach(function(row){
+
+                    /*
+                    SKIP HIDDEN / FILTERED ROWS
+                    */
+                    if(
+                        window.getComputedStyle(row).display === "none"
+                    ){
+                        return;
+                    }
+
+                    let rowData = [];
+
+                    row.querySelectorAll("td").forEach(function(td){
+
+                        let text =
+                            td.innerText;
+
+                        /*
+                        CLEAN TEXT
+                        */
+                        text = text
+                            .replace(/[\n\r]+/g, ' ')
+                            .replace(/,/g, ' ')
+                            .replace(/"/g, '')
+                            .replace(/[^\x20-\x7E₹]/g, '')
+                            .replace(/\(-\)/g, '')
+                            .replace(/\(\+\)/g, '')
+                            .replace(/^\-\s*/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+                        /*
+                        REMOVE STANDALONE -
+                        */
+                        if(text === "-"){
+                            text = "";
+                        }
+
+                        /*
+                        REMOVE "- " BEFORE IDS
+                        */
+                        text = text
+                            .replace(/-\s*CU/gi, 'CU')
+                            .replace(/-\s*WD/gi, 'WD');
+
+                        rowData.push(`"${text}"`);
+                    });
+
+                    csv.push(rowData.join(","));
+                });
+
+                /*
+                FINAL CSV
+                */
+                const csvContent =
+                    csv.join("\n");
+
+                /*
+                CREATE FILE
+                */
+                const blob =
+                    new Blob(
+                        [csvContent],
+                        {
+                            type: "text/csv;charset=utf-8;"
+                        }
+                    );
+
+                const link =
+                    document.createElement("a");
+
+                const url =
+                    URL.createObjectURL(blob);
+
+                link.setAttribute("href", url);
+
+                link.setAttribute("download", fileName);
+
+                document.body.appendChild(link);
+
+                link.click();
+
+                document.body.removeChild(link);
+            }
+
+            /*
+            DOWNLOAD BUTTON
+            */
+            $("#downloadBtn").on("click", function(){
+
+                downloadFilteredTableCSV(
+                    "transactionTable",
+                    "discount-wallet-statement.csv"
+                );
+            });
+
+        </script>
+        <!-- download logic -->
     </body>
 </html>
