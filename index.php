@@ -3139,7 +3139,7 @@
                 galleryContainer.innerHTML += `
 
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item">
-                        <div class="card rounded-4 galleryCard"
+                        <div class="card rounded-4 galleryCard destination-banner"
                             data-index="${index}"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
