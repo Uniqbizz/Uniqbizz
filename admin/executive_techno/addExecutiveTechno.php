@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Business Mentor / Master Franchisee / Sponsor Franchisee | Admin Dashboard </title>
+	<title>Add Executive Techo Enterprise | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Business Mentor / Master Franchisee / Sponsor Franchisee</h4>
+								<h4 class="mb-sm-0 font-size-18">Executive Techo Enterprise</h4>
 							</div>
 						</div>
 					</div>
@@ -84,36 +84,19 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Business Mentor / Master Franchisee / Sponsor Franchisee</h3>
+										<h3>Add Executive Techo Enterprise</h3>
 										<div class="row">
 											<!-- Personal Details -->
-
-											<div class="col-md-3 col-sm-12">
-												<div class="input-block mb-3">
-													<label class="col-form-label">Register As<span class="text-danger">*</span></label>
-													<select id="registered" class="form-select">
-														<option value="">--Select--</option>
-														<option value="business_mentor">Business Mentor</option>
-														<option value="master_franchisee">Master Franchisee</option>
-														<option value="sponsor_franchisee">Sponsor Franchisee</option>
-														<!-- <option value="executive_techno_enterprise">Executive Techno Enterprise</option> -->
-													</select>
-												</div>
-											</div>
-											<div class="col-md-3 col-sm-12">
+											<div class="col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
-													<select id="designation1" class="form-select" disabled>
-														<option value="NA">--Select Designation--</option>
-														<option value="business_development_manager">Business Development Manager</option>
-													</select>
-													<!-- <select id="designation2" class="form-select d-none">
+													<select id="designation" class="form-select">
 														<option value="NA">--Select Designation--</option>
 														<option value="super_techno_enterprise">Super Techno Enterprise</option>
-													</select> -->
+													</select>
 												</div>
 											</div>
-											<div class="form-group col-md-3 col-sm-12">
+											<div class="form-group col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
 													<select id="user_id_name" class="form-select">
@@ -121,7 +104,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													</select>
 												</div>
 											</div>
-											<div class="col-md-3 col-sm-12">
+											<div class="col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
 													<input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
@@ -255,100 +238,38 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<input type="text" class="form-control" id="address" placeholder="Address">
 												</div>
 											</div>
-											<div class="col-md-6 col-sm-6">
+											<!-- <div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Zone <span class="text-danger">*</span></label>
-													<select class="form-select" id="zone">
-														<option value=""> ---- Select Zone ---- </option>
+													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
+													<select class="form-select" id="branch">
+														<option value=""> ---- Select Branch ---- </option>
 														<?php
-														require '../connect.php';
-														$sql = "SELECT * FROM `zone` WHERE status ='1' ";
-														$stmt = $conn->prepare($sql);
-														$stmt->execute();
-														$stmt->setFetchMode(PDO::FETCH_ASSOC);
-														if ($stmt->rowCount() > 0) {
-															foreach (($stmt->fetchAll()) as $key => $row) {
-																echo '
-																			<option value="' . $row['id'] . '">' . $row['zone_name'] . '</option>
-																		';
-															}
-														} else {
-															echo '<option value="">Department not available</option>';
-														}
+														// require '../connect.php';
+														// $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+														// $stmt = $conn->prepare($sql);
+														// $stmt->execute();
+														// $stmt->setFetchMode(PDO::FETCH_ASSOC);
+														// if ($stmt->rowCount() > 0) {
+														// 	foreach (($stmt->fetchAll()) as $key => $row) {
+														// 		echo '
+														// 					<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>
+														// 				';
+														// 	}
+														// } else {
+														// 	echo '<option value="">Department not available</option>';
+														// }
 														?>
 													</select>
 												</div>
-											</div>
-											<div class="col-md-6 col-sm-6">
+											</div> -->
+											<!-- <div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
 													<select class="form-select" id="branch">
 														<option value=""> ---- Select Zone First ---- </option>
 													</select>
 												</div>
-											</div>
-											<div class="col-md-6 col-sm-6">
-												<div class="input-block mb-3">
-													<label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
-													<select class="form-select" id="payment_fee" required>
-														<option value="null" disabled >----Select Amount----</option>
-														<option value="FOC">Free</option>
-														<option value="5000">₹ 5000/-</option>
-														<option value="12000">₹ 12000/-</option>
-													</select>
-													<select class="form-select d-none" id="payment_fee2">
-														<option value="FOC">Free</option>
-													    <option value="100000">₹ 1,00,000/-</option>
-													    <option value="200000">₹ 2,00,000/-</option>
-													    <option value="300000">₹ 3,00,000/-</option>
-														<option value="500000" selected>₹ 5,00,000/-</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-md-6 col-sm-6 d-none" id="paymentModeBlock">
-												<div class="input-block mb-3">
-													<label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
-													<div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
-														<label for="cashPayment" class="mb-0"><input type="radio" id="cashPayment" class="form-check-input payment me-3" name="payment" value="cash">Cash</label>
-														<label for="chequePayment" class="mb-0"><input type="radio" id="chequePayment" class="form-check-input payment me-3" name="payment" value="cheque">Cheque</label>
-														<label for="onlinePayment" class="mb-0"><input type="radio" id="onlinePayment" class="form-check-input payment me-3" name="payment" value="online">UPI/NEFT</label>
-													</div>
-												</div>
-											</div>
-											<div class="pb-3" id="paymentFields">
-												<div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
-													<div class="row d-flex justify-content-center">
-														<div class="col-md-4 py-1">
-															<div class="input-block">
-																<label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
-																<input type="text" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
-															</div>
-														</div>
-														<div class="col-md-4 py-1">
-															<div class="input-block">
-																<label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
-																<input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
-															</div>
-														</div>
-														<div class="col-md-4 py-1">
-															<div class="input-block">
-																<label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
-																<input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-12 col-sm-12 d-none" id="onlineOpt">
-													<div class="row d-flex justify-content-center">
-														<div class="col-md-8">
-															<div class="input-block">
-																<label class="col-form-label" for="transactionNo">Transaction No<span class="text-danger">*</span></label>
-																<input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+											</div> -->
 
 											<!-- Attachments -->
 											<h4 class="my-2">Attachments</h4>
@@ -412,18 +333,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													</div>
 												</div>
 											</div>
-											<div class="col-md-6 col-sm-6 d-none" id="payProof">
-												<div class="input-block mb-3">
-													<label class="col-form-label">Payment Proof</label>
-													<input class="form-control" type="file" name="file6" id="upload_file6">
-												</div>
-												<input type="hidden" id="img_path6" value="">
-												<div id="preview6" style="display: none;">
-													<div id="image_preview6">
-														<img alt="Preview" class="imgSize" id="img_pre6">
-													</div>
-												</div>
-											</div>
 
 											<div class="col-md-12 col-sm-12">
 												<div class="input-block mb-3">
@@ -433,9 +342,9 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											
 										</div>
-										<input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
+										<input type="hidden" id="testValue" name="testValue" value="36"> <!-- Business mentor -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addBusinessMentor">Submit</button>
+											<button type="submit" class="btn btn-primary px-5 py-2" id="addExecutiveTechnoEnterprise">Submit</button>
 										</div>
 									</form>
 								</div>
@@ -473,12 +382,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<!-- add data to database js file -->
 	<script type="text/javascript" src="../assets/js/submitdata.js"></script>
 
-	<!-- apexcharts -->
-	<!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
-
-	<!-- dashboard init -->
-	<!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
-
 	<!-- App js -->
 	<script src="../assets/js/app.js"></script>
 
@@ -502,55 +405,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 	<!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
 	<script>
-		//select register
-		$('#registered').on('change',function(){
-			var register_type = $(this).val();
-			if(register_type == 'business_mentor'){
-				$('#designation1').prop('disabled',false);
-				$('#designation1').removeClass('d-none');
-				$('#designation2').addClass('d-none');
-				$('#payment_fee').prop('disabled',false);
-				$('#payment_fee2').addClass('d-none');
-				$('#payment_fee').removeClass('d-none');
-			}else if(register_type == 'master_franchisee'){
-				$('#designation1').prop('disabled',true);
-				$('#designation2').prop('disabled',true);
-				$('#payment_fee').addClass('d-none');
-				$('#payment_fee2').removeClass('d-none');
-			}else if(register_type == 'sponsor_franchisee'){
-				$('#designation1').prop('disabled',true);
-				$('#designation2').prop('disabled',true);
-				$('#payment_fee').addClass('d-none');
-				$('#payment_fee2').removeClass('d-none');
-			}else if(register_type == 'executive_techno_enterprise'){
-				$('#designation1').addClass('d-none');
-				$('#designation2').prop('disabled',false);
-				$('#designation2').removeClass('d-none');
-				$('#payment_fee').prop('disabled',true);
-				$('#payment_fee2').addClass('d-none');
-				$('#payment_fee').removeClass('d-none');
-			}
-		});
 		
 		//select Designation
-		$('#designation1').on('change', function() {
-			var designation = $('#designation1').val();
-			// console.log(designation);
-			$.ajax({
-				type: 'POST',
-				url: '../agents/get_user_Franchisee.php',
-				data: "designation=" + designation,
-				success: function(e) {
-					// console.log(e);
-					$('#user_id_name').html(e);
-				},
-				error: function(err) {
-					console.log(err);
-				},
-			});
-		});
-		$('#designation2').on('change', function() {
-			var designation = $('#designation2').val();
+		$('#designation').on('change', function() {
+			var designation = $('#designation').val();
 			// console.log(designation);
 			$.ajax({
 				type: 'POST',
@@ -569,18 +427,12 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		// fetch User based on selected designation
 		$('#user_id_name').on('change', function() {
 			var user_id_name = $(this).val();
-			var designation = 'ca_franchisee';
-			// console.log(user_id_name);
-
-			// var designation = 'travel_agent';
-			// console.log(designation);
-
+			var designation = $('#designation').val();
 			$.ajax({
 				type: 'POST',
 				url: '../agents/getUsers.php',
 				data: 'user_id_name=' + user_id_name + '&designation=' + designation,
 				success: function(response) {
-					// console.log(response);
 					$('#pin').html(response);
 					$('#reference_name').val(response);
 				}
@@ -608,7 +460,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		});
 
 		$('#mystate').on('change', function() {
-			// alert();
 			var stateID = $(this).val();
 			if (stateID) {
 				$.ajax({
@@ -633,7 +484,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					url: '../address/pincode.php',
 					data: 'city_id=' + cityID,
 					success: function(response) {
-						// $('#pin').html(response);
 						$('#pin').val(response);
 					}
 				});
@@ -644,117 +494,19 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		});
 
 		// on zone change get branch associated with that zone
-		$('#zone').on('change', function() {
-			var zone_id = $(this).val();
-			$.ajax({
-				url: '../assets/get_data/get_branch.php',
-				type: 'POST',
-				data: {
-					zone_id: zone_id
-				},
-				success: function(data) {
-					$('#branch').html(data);
-				}
-			});
-		});
-
-		// $('#payment_fee').on('click', function() {
-		// 	var paymentFee = $(this).val();
-
-		// 	if(paymentFee == "FOC" ){
-		// 		$("#paymentModeBlock").addClass("d-none");
-		// 	}else{
-		// 		$("#paymentModeBlock").removeClass("d-none");
-		// 	}
+		// $('#zone').on('change', function() {
+		// 	var zone_id = $(this).val();
+		// 	$.ajax({
+		// 		url: '../assets/get_data/get_branch.php',
+		// 		type: 'POST',
+		// 		data: {
+		// 			zone_id: zone_id
+		// 		},
+		// 		success: function(data) {
+		// 			$('#branch').html(data);
+		// 		}
+		// 	});
 		// });
-
-		// $('#payment_fee2').on('click', function() {
-		// 	var paymentFee = $(this).val();
-
-		// 	if(paymentFee == "FOC" ){
-		// 		$("#paymentModeBlock").addClass("d-none");
-		// 	}else{
-		// 		$("#paymentModeBlock").removeClass("d-none");
-		// 	}
-		// });
-		
-		//to hide show payment sections
-		$('#payment_fee').on('change', function(){
-			var paytype=$('#payment_fee').val();
-			if (paytype !='FOC') {
-				$('#paymentModeBlock').removeClass("d-none"); 
-				$('#payProof').removeClass("d-none"); 
-			}else {
-				$('#paymentModeBlock').addClass("d-none"); 
-				$('#payProof').addClass("d-none"); 
-			}
-		});
-
-		$('#payment_fee2').on('change', function(){
-			var paytype=$(this).val();
-			if (paytype !='FOC') {
-				$('#paymentModeBlock').removeClass("d-none"); 
-				$('#payProof').removeClass("d-none"); 
-			}else {
-				$('#paymentModeBlock').addClass("d-none"); 
-				$('#payProof').addClass("d-none"); 
-			}
-		});
-
-		$('#registered').on('change', function(){
-			var registeredAs = $('#registered').val();
-			if(registeredAs == 'sponsor_franchisee'){
-				var paytype=$('#payment_fee2').val();
-				if (paytype !='FOC') {
-					$('#paymentModeBlock').removeClass("d-none"); 
-					$('#payProof').removeClass("d-none"); 
-				}else {
-					$('#paymentModeBlock').addClass("d-none"); 
-					$('#payProof').addClass("d-none"); 
-				}
-			}else if(registeredAs == 'master_franchisee'){
-				var paytype=$('#payment_fee2').val();
-				if (paytype !='FOC') {
-					$('#paymentModeBlock').removeClass("d-none"); 
-					$('#payProof').removeClass("d-none"); 
-				}else {
-					$('#paymentModeBlock').addClass("d-none"); 
-					$('#payProof').addClass("d-none"); 
-				}
-			}else if(registeredAs == 'business_mentor'){
-				var paytype=$('#payment_fee').val();
-				if (paytype !='FOC') {
-					$('#paymentModeBlock').removeClass("d-none"); 
-					$('#payProof').removeClass("d-none"); 
-				}else {
-					$('#paymentModeBlock').addClass("d-none"); 
-					$('#payProof').addClass("d-none"); 
-				}
-			}
-		});
-		//payment details
-		$('#paymentMode').on('click', function() {
-			var paymentMode = $(".payment:checked").val();
-			// console.log(paymentMode);
-			if (paymentMode == "cheque") {
-				$("#chequeOpt").removeClass("d-none");
-				$("#onlineOpt").addClass("d-none");
-				$("#transactionNo").val("");
-			} else if (paymentMode == "online") {
-				$("#onlineOpt").removeClass("d-none");
-				$("#chequeOpt").addClass("d-none");
-				$("#chequeNo").val("");
-				$("#chequeDate").val("");
-				$("#bankName").val("");
-			} else {
-				$("#chequeOpt").addClass("d-none");
-				$("#onlineOpt").addClass("d-none");
-				$("#chequeNo").val("");
-				$("#chequeDate").val("");
-				$("#bankName").val("");
-				$("#transactionNo").val("");
-			}
-		});
 	</script>
 </body>
 

@@ -27,8 +27,8 @@
     $country=$_POST['country'];
     $state=$_POST['state'];
     $city=$_POST['city'];
-    $zone=$_POST['zone'];
-    $branch=$_POST['branch'];
+    // $zone=$_POST['zone'];
+    // $branch=$_POST['branch'];
     // $payment_fee=$_POST['payment_fee'];
     // $payment_proof=$_POST['payment_proof'];
     // $payment_mode=$_POST['paymentMode'];
@@ -69,9 +69,7 @@
 		state, 
 		city, 
 		pincode, 
-		address, 
-		zone, 
-		branch, 
+		address,  
 		note,
 		profile_pic,
 		pan_card, 
@@ -99,8 +97,6 @@
 		:city, 
 		:pincode,
 		:address, 
-		:zone, 
-		:branch, 
 		:note,
 		:profile_pic,
 		:pan_card,
@@ -127,8 +123,8 @@
         ':city' => $city,
         ':pincode' => $pincode,
         ':address' => $address,  
-        ':zone' => $zone,
-        ':branch' => $branch,
+        // ':zone' => $zone,
+        // ':branch' => $branch,
         ':bdate' => $bdate,
         ':age' => $age,  
         ':gender' => $gender,

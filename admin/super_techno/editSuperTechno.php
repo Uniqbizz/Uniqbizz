@@ -30,8 +30,8 @@
         $country_id = $_GET['ncy'];
         $state_id = $_GET['mst'];
         $city_id = $_GET['hct'];
-        $zone_id = $_GET['zone'];
-        $branch_id = $_GET['branch'];
+        // $zone_id = $_GET['zone'];
+        // $branch_id = $_GET['branch'];
         $editfor = $_GET['editfor'];
         $usertype = $_GET['usertype']; // 'mf' for master franchisee, 'bm' for business mentor
 
@@ -64,8 +64,8 @@
                 $state = $row['state'];
                 $city = $row['city'];
                 $address = $row['address'];
-                $zone = $row['zone'];
-                $branch = $row['branch'];
+                // $zone = $row['zone'];
+                // $branch = $row['branch'];
                 $profile_pic = $row['profile_pic'];
                 // $payment_mode = $row['payment_mode'];
                 // $payment_proof = $row['payment_proof'];
@@ -102,18 +102,18 @@
                 }
 
                 // Get zone name
-                $zones = $conn->prepare("SELECT zone_name FROM zone WHERE id='$zone' AND status='1'");
-                $zones->execute();
-                if ($zones->rowCount() > 0) {
-                    $zone_name = $zones->fetch()['zone_name'];
-                }
+                // $zones = $conn->prepare("SELECT zone_name FROM zone WHERE id='$zone' AND status='1'");
+                // $zones->execute();
+                // if ($zones->rowCount() > 0) {
+                //     $zone_name = $zones->fetch()['zone_name'];
+                // }
 
                 // Get branch name
-                $branchs = $conn->prepare("SELECT branch_name FROM branch WHERE id='$branch' AND status='1'");
-                $branchs->execute();
-                if ($branchs->rowCount() > 0) {
-                    $branch_name = $branchs->fetch()['branch_name'];
-                }
+                // $branchs = $conn->prepare("SELECT branch_name FROM branch WHERE id='$branch' AND status='1'");
+                // $branchs->execute();
+                // if ($branchs->rowCount() > 0) {
+                //     $branch_name = $branchs->fetch()['branch_name'];
+                // }
 
                 // Get reporting manager (BM or ZM)
                 if ($reference_no == "Not Applicable") {
@@ -343,32 +343,32 @@
                                                         <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Address" readonly >
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6">
+                                                <!-- <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label">Zone <span class="text-danger">*</span></label>
-                                                        <select class="form-select" id="zone">
-                                                            <option value="<?php echo $zone_id;?>"><?php echo $zone_name.' (Already Selected)' ; ?></option>
-                                                            <option value=""> ---- Select Zone ---- </option>
+                                                        <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="branch">
+                                                            <option value="<?php echo $branch_id;?>"><?php echo $branch_name.' (Already Selected)' ; ?></option>
+                                                            <option value=""> ---- Select Branch ---- </option>
                                                             <?php
-                                                                require '../connect.php';
-                                                                $sql = "SELECT * FROM `zone` WHERE status ='1' ";
-                                                                $stmt = $conn->prepare($sql);
-                                                                $stmt -> execute();
-                                                                $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                if($stmt-> rowCount()>0 ){
-                                                                    foreach( ($stmt -> fetchAll()) as $key => $row ){
-                                                                        echo'
-                                                                            <option value="'.$row['id'].'">'.$row['zone_name'].'</option>
-                                                                        ';
-                                                                    }
-                                                                }else{
-                                                                    echo '<option value="">Department not available</option>'; 
-                                                                }
+                                                                // require '../connect.php';
+                                                                // $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                // $stmt = $conn->prepare($sql);
+                                                                // $stmt -> execute();
+                                                                // $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                // if($stmt-> rowCount()>0 ){
+                                                                //     foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                //         echo'
+                                                                //             <option value="'.$row['id'].'">'.$row['branch_name'].'</option>
+                                                                //         ';
+                                                                //     }
+                                                                // }else{
+                                                                //     echo '<option value="">Department not available</option>'; 
+                                                                // }
                                                             ?>
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6">
+                                                </div> -->
+                                                <!-- <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Branch <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="branch">
@@ -376,7 +376,7 @@
                                                             <option value=""> ---- Select Zone First ---- </option>
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <!-- <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
@@ -856,19 +856,19 @@
                 }
             });
             // on zone change get branch associated with that zone
-            $('#zone').on('change', function() {
-                var zone_id = $(this).val();
-                $.ajax({
-                    url: '../assets/get_data/get_branch.php',
-                    type: 'POST',
-                    data: {
-                        zone_id: zone_id
-                    },
-                    success: function(data) {
-                        $('#branch').html(data);
-                    }
-                });
-            });
+            // $('#zone').on('change', function() {
+            //     var zone_id = $(this).val();
+            //     $.ajax({
+            //         url: '../assets/get_data/get_branch.php',
+            //         type: 'POST',
+            //         data: {
+            //             zone_id: zone_id
+            //         },
+            //         success: function(data) {
+            //             $('#branch').html(data);
+            //         }
+            //     });
+            // });
             //to hide show payment sections
             $('#payment_fee').on('change', function(){
                 var paytype=$('#payment_fee').val();

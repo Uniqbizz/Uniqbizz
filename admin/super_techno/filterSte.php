@@ -34,10 +34,31 @@
             $fromDateObj = DateTime::createFromFormat('d-m-Y', $from);
             $toDateObj   = DateTime::createFromFormat('d-m-Y', $to);
 
+            //changed on 28-05-2026 by SV 
             if ($fromDateObj && $toDateObj) {
-                $conditions[] = "register_date BETWEEN :from AND :to";
-                $params[':from'] = $fromDateObj->format('Y-m-d');
-                $params[':to']   = $toDateObj->format('Y-m-d');
+
+                // Same date
+                if ($fromDateObj->format('Y-m-d') == $toDateObj->format('Y-m-d')) {
+
+                    $conditions[] = "register_date >= :from_start 
+                                    AND register_date < :from_end";
+
+                    $params[':from_start'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+
+                    $nextDay = clone $fromDateObj;
+                    $nextDay->modify('+1 day');
+
+                    $params[':from_end'] = $nextDay->format('Y-m-d') . ' 00:00:00';
+
+                } 
+                // Different dates
+                else {
+
+                    $conditions[] = "register_date BETWEEN :from AND :to";
+
+                    $params[':from'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+                    $params[':to']   = $toDateObj->format('Y-m-d') . ' 23:59:59';
+                }
             }
         }
 
@@ -50,7 +71,7 @@
 
         // Base queries
         $bmQuery = "
-            SELECT super_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 'STE' AS user_type 
+            SELECT super_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,contact_no,register_by,id, 'STE' AS user_type 
             FROM super_techno_enterprise 
             WHERE status = '1' $filter
         ";
@@ -142,7 +163,6 @@
                                                                 "' . $row["country"] . '",
                                                                 "' . $row["state"] . '",
                                                                 "' . $row["city"] . '",
-                                                                "' . $row["zone"] . '",
                                                                 "' . $row["branch"] . '",
                                                                 "registered",
                                                                 "' . strtolower($row['user_type']) . '")\' 

@@ -30,19 +30,20 @@
         $country_id = $_GET['ncy'];
         $state_id = $_GET['mst'];
         $city_id = $_GET['hct'];
+        // $zone_id = $_GET['zone'];
         // $branch_id = $_GET['branch'];
         $editfor = $_GET['editfor'];
-        $usertype = $_GET['usertype']; // 'cte' for chief techno enterprise
+        $usertype = $_GET['usertype']; // 'mf' for master franchisee, 'bm' for business mentor
 
         if ($editfor == 'pending') {
             $identifier_name = 'id=';
         } else if ($editfor == 'registered') {
-            $identifier_name = 'chief_techno_enterprise_id=';
+            $identifier_name = 'executive_techno_enterprise_id=';
         }
 
-        $testValue = '36';
+        $testValue = '35';
 
-        $stmt = $conn->prepare("SELECT * FROM `chief_techno_enterprise` WHERE chief_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
+        $stmt = $conn->prepare("SELECT * FROM `executive_techno_enterprise` WHERE executive_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -56,13 +57,14 @@
                 $email = $row['email'];
                 $contact_no = $row['contact_no'];
                 // $paid_amount = $row['paid_amount'];
-                // $reference_no = $row['reference_no'];
+                $reference_no = $row['reference_no'];
                 $date_of_birth = $row['date_of_birth'];
                 $gender = $row['gender'];
                 $country = $row['country'];
                 $state = $row['state'];
                 $city = $row['city'];
                 $address = $row['address'];
+                // $zone = $row['zone'];
                 // $branch = $row['branch'];
                 $profile_pic = $row['profile_pic'];
                 // $payment_mode = $row['payment_mode'];
@@ -114,33 +116,19 @@
                 // }
 
                 // Get reporting manager (BM or ZM)
-                // if ($reference_no == "Not Applicable") {
-                //     $reference_no_fname = "Not Applicable";
-                // } else {
-                //     if ($usertype == 'mf') {
-                //         // Master Franchisee → Get reporting manager (Zonal Manager) from `zonal_manager` table
-                //         $stmt_manager = $conn->prepare("SELECT name FROM zonal_manager WHERE zonal_manager_id = :ref");
-                //     } elseif($usertype == 'bm') {
-                //         // Business Mentor → Get reporting manager (BDM/BCM) from `employees` table
-                //         $stmt_manager = $conn->prepare("SELECT name FROM employees WHERE employee_id = :ref");
-                //     } elseif($usertype == 'ete') {
-                //         // Business Mentor → Get reporting manager (BDM/BCM) from `super_techno_enterprise` table
-                //         $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM super_techno_enterprise WHERE super_techno_enterprise_id = :ref");
-                //     }
+                if ($reference_no == "Not Applicable") {
+                    $reference_no_fname = "Not Applicable";
+                } else {
+                    $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM super_techno_enterprise WHERE super_techno_enterprise_id = :ref");
+                    $stmt_manager->execute([':ref' => $reference_no]);
 
-                //     $stmt_manager->execute([':ref' => $reference_no]);
-
-                //     if ($stmt_manager->rowCount() > 0) {
-                //         if ($usertype == 'mf' || $usertype == 'bm') {
-                //             $reference_no_fname = $stmt_manager->fetch()['name'];
-                //         } else {
-                //             $manager = $stmt_manager->fetch(PDO::FETCH_ASSOC);
-                //             $reference_no_fname = $manager['firstname'] . ' ' . $manager['lastname'];
-                //         }
-                //     } else {
-                //         $reference_no_fname = "Unknown";
-                //     }
-                // }
+                    if ($stmt_manager->rowCount() > 0) {
+                        $manager = $stmt_manager->fetch(PDO::FETCH_ASSOC);
+                        $reference_no_fname = $manager['firstname'] . ' ' . $manager['lastname'];
+                    } else {
+                        $reference_no_fname = "Unknown";
+                    }
+                }
             }
         }
 
@@ -149,7 +137,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Chief Techno Enterprise | Admin Dashboard </title>
+        <title>Edit Executive Techno Enterprise | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -198,7 +186,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Chief Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Executive Techno Enterprise</h4>
                                 </div>
                             </div>
                         </div>
@@ -209,11 +197,11 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Chief Techno Enterprise</h3>
+                                            <h3>Edit Executive Techno Enterprise</h3>
                                             <div class="row">
                                                 <!-- Personal Details -->
 
-                                                <!-- <div class="col-md-6 col-sm-6">
+                                                <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Reference Id<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="user_id_name" placeholder="Enter First Name" value="<?php echo $reference_no; ?>" readonly>
@@ -224,7 +212,7 @@
                                                     <label class="col-form-label">Reference Full Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?php echo $reference_no_fname  ; ?>" readonly>
                                                     </div>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">First Name <span class="text-danger">*</span></label>
@@ -389,12 +377,8 @@
                                                         </select>
                                                     </div>
                                                 </div> -->
-                                                <!-- <div class="col-md-6 col-sm-6"> -->
-                                                    <!-- <div class="input-block mb-3">
-                                                        <label class="col-form-label" for="payFee">Payment Fee</label>
-                                                        <input type="text" value="₹ 12000/-" class="form-control" id="payFee" readonly />
-                                                    </div> -->
-                                                    <!-- <div class="input-block mb-3">
+                                                <!-- <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
                                                         <label class="col-form-label" for="payment_fee">Payment Fee <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" required disabled>
                                                             <option value="null" disabled>----Select Amount----</option>
@@ -410,8 +394,8 @@
                                                             <option value="500000" <?=$paid_amount == '500000'?'selected':''?>>₹ 5,00,000/-</option>
                                                         </select>
                                                     </div>
-                                                </div> -->
-                                                <!-- <div class="col-md-6 col-sm-6 <?= $payment_mode == "FOC"?'d-none':''?>" id="paymentModeBlock">
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 <?= $payment_mode == "FOC"?'d-none':''?>" id="paymentModeBlock">
                                                     <div class="input-block mb-3">
                                                         <label class="fw-bold col-form-label">Payment Mode: <span class="text-danger">*</span></label>
                                                         <div class="form-control radioBtn d-flex justify-content-around" id="paymentMode">
@@ -426,8 +410,8 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                </div> -->
-                                                <!-- <div class="pb-3" id="paymentFields">
+                                                </div>
+                                                <div class="pb-3" id="paymentFields">
                                                     <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
                                                         <div class="row d-flex justify-content-center">
                                                             <div class="col-md-4 py-1">
@@ -613,7 +597,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-md-6 col-sm-6 <?=(!$payment_mode ||$payment_mode == 'Free')?'d-none':''?>" id="payProof">  
+                                                <div class="col-md-6 col-sm-6 <?=(!$payment_mode ||$payment_mode == 'Free')?'d-none':''?>" id="payProof">  
 													<div class="input-block mb-3">
 														<label class="col-form-label">Payment Proof
                                                         <?php
@@ -641,7 +625,7 @@
                                                         <?php } ?>
 														</div>
 													</div>
-												</div>   -->
+												</div>  
 
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="input-block mb-3">
@@ -662,7 +646,7 @@
                                             <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> <!-- Business mentor -->
 
                                             <div class="submit-section d-flex justify-content-center mb-4">
-                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
+                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editExecutiveTechnoEnterprise">Submit</button>
                                             </div>
                                         </form>
                                     </div>

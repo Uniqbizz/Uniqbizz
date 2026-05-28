@@ -27,15 +27,15 @@
     $country=$_POST['country'];
     $state=$_POST['state'];
     $city=$_POST['city'];
-    $zone=$_POST['zone'];
-    $branch=$_POST['branch'];
-    $payment_fee=$_POST['payment_fee'];
-    $payment_proof=$_POST['payment_proof'];
-    $payment_mode=$_POST['paymentMode'];
-    $cheque_no=$_POST['chequeNo'];
-    $cheque_date=$_POST['chequeDate'];
-    $bank_name=$_POST['bankName'];
-    $transaction_no=$_POST['transactionNo'];
+    // $zone=$_POST['zone'];
+    // $branch=$_POST['branch'];
+    // $payment_fee=$_POST['payment_fee'];
+    // $payment_proof=$_POST['payment_proof'];
+    // $payment_mode=$_POST['paymentMode'];
+    // $cheque_no=$_POST['chequeNo'];
+    // $cheque_date=$_POST['chequeDate'];
+    // $bank_name=$_POST['bankName'];
+    // $transaction_no=$_POST['transactionNo'];
 	$note = $_POST['note'];
 
     $user_type="34";
@@ -48,9 +48,9 @@
     $age = $current_year - $birth_year;
 
     // data insertion for logs tables 
-    $title="Executive Techno Enterprise";
-    $message="Added new Executive Techno Enterprise by admin";
-    $message2="Added new Executive Techno Enterprise by admin";
+    $title="Executive Techo Enterprise";
+    $message="Added new Executive Techo Enterprise by admin";
+    $message2="Added new Executive Techo Enterprise by admin";
     $fromWhom="1";
 	$operation="Add";
 
@@ -59,7 +59,6 @@
 		lastname, 
 		nominee_name, 
 		nominee_relation,
-		paid_amount, 
 		email, 
 		country_code, 
 		contact_no , 
@@ -70,17 +69,9 @@
 		state, 
 		city, 
 		pincode, 
-		address, 
-		zone, 
-		branch, 
+		address,  
 		note,
 		profile_pic,
-		payment_mode,
-		cheque_no, 
-		cheque_date,
-		bank_name,
-		transaction_no,
-		payment_proof,
 		pan_card, 
 		aadhar_card, 
 		voting_card, 
@@ -95,7 +86,6 @@
 		:lastname, 
 		:nominee_name, 
 		:nominee_relation,
-		:paid_amount, 
 		:email, 
 		:country_code, 
 		:contact_no, 
@@ -107,16 +97,8 @@
 		:city, 
 		:pincode,
 		:address, 
-		:zone, 
-		:branch, 
 		:note,
 		:profile_pic,
-		:payment_mode,
-		:cheque_no, 
-		:cheque_date,
-		:bank_name,
-		:transaction_no,
-		:payment_proof, 
 		:pan_card,
 		:aadhar_card,
 		:voting_card,
@@ -133,7 +115,6 @@
         ':lastname' => $lastname, 
         ':nominee_name' => $nominee_name,
         ':nominee_relation' => $nominee_relation,
-        ':paid_amount' => $payment_fee,
         ':email' => $email,
         ':country_code' => $country_code, 
         ':contact_no' => $phone_no,
@@ -142,19 +123,13 @@
         ':city' => $city,
         ':pincode' => $pincode,
         ':address' => $address,  
-        ':zone' => $zone,
-        ':branch' => $branch,
+        // ':zone' => $zone,
+        // ':branch' => $branch,
         ':bdate' => $bdate,
         ':age' => $age,  
         ':gender' => $gender,
 		':note' => $note,
-        ':profile_pic' => $profile_pic,
-		':payment_mode'=>$payment_mode,
-		':cheque_no'=>$cheque_no, 
-		':cheque_date'=>$cheque_date,
-		':bank_name'=>$bank_name,
-		':transaction_no'=>$transaction_no,
-		':payment_proof'=>$payment_proof, 
+        ':profile_pic' => $profile_pic, 
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
         ':voting_card' => $voting_card,

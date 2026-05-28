@@ -98,9 +98,15 @@
                     </a>
                 </li>
                 <li>
+                    <a href="executive_techno/executiveTechno.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Executive Techno Enterprise</span>
+                    </a>
+                </li>
+                <li>
                     <a href="businessMentor/businessMentor.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">BM / MF / SF / ETE</span>
+                        <span key="t-contacts">BM / MF / SF</span>
                     </a>
                 </li>
                 <li>

@@ -24,15 +24,15 @@ $pincode = $_POST['pincode'];
 $country = $_POST['country'];
 $state = $_POST['state'];
 $city = $_POST['city'];
-$zone = $_POST['zone'];
-$branch = $_POST['branch'];
-$payment_fee = $_POST['payment_fee'];
-$payment_proof = $_POST['payment_proof'];
-$payment_mode = $_POST['paymentMode'];
-$cheque_no = $_POST['chequeNo'];
-$cheque_date = $_POST['chequeDate'];
-$bank_name = $_POST['bankName'];
-$transaction_no = $_POST['transactionNo'];
+// $zone = $_POST['zone'];
+// $branch = $_POST['branch'];
+// $payment_fee = $_POST['payment_fee'];
+// $payment_proof = $_POST['payment_proof'];
+// $payment_mode = $_POST['paymentMode'];
+// $cheque_no = $_POST['chequeNo'];
+// $cheque_date = $_POST['chequeDate'];
+// $bank_name = $_POST['bankName'];
+// $transaction_no = $_POST['transactionNo'];
 $note = $_POST['note'];
 
 $user_type_id = '34';
@@ -72,20 +72,11 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
         city = :city,
         pincode = :pincode,
         address = :address,
-        zone = :zone,
-        branch = :branch,
         note = :note,
         profile_pic = :profile_pic,
         pan_card = :pan_card,
         aadhar_card = :aadhar_card,
-        voting_card = :voting_card,
-        paid_amount = :paid_amount,
-        payment_mode = :payment_mode,
-        cheque_no = :cheque_no, 
-        cheque_date = :cheque_date,
-        bank_name = :bank_name,
-        transaction_no = :transaction_no,
-        payment_proof = :payment_proof
+        voting_card = :voting_card
     WHERE $identifier_name :identifier_id";
 
     // Execute Update Query
@@ -106,20 +97,11 @@ if ($firstname != '' || $lastname != '' || $phone != '' || $email != '' || $gend
         ':city' => $city,
         ':pincode' => $pincode,
         ':address' => $address,
-        ':zone' => $zone,
-        ':branch' => $branch,
         ':note' => $note,
         ':profile_pic' => $profile_pic,
         ':pan_card' => $pan_card,
         ':aadhar_card' => $aadhar_card,
         ':voting_card' => $voting_card,
-        ':paid_amount' => $payment_fee,
-        ':payment_mode' => $payment_mode,
-        ':cheque_no' => $cheque_no,
-        ':cheque_date' => $cheque_date,
-        ':bank_name' => $bank_name,
-        ':transaction_no' => $transaction_no,
-        ':payment_proof' => $payment_proof,
         ':identifier_id' => $identifier_id
     ]);
 

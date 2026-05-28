@@ -311,25 +311,25 @@ if ($user_type_id == '36') { //Business Mentor
 						</table>
 						</body>
 						</html>';
-					$mail = new PHPMailer();
-					$mail->IsSMTP();
-					$mail->SMTPAuth = true;
-					$mail->SMTPSecure = 'tls';
+					$mail = new PHPMailer(); 
+					$mail->IsSMTP(); 
+					$mail->SMTPAuth = true; 
+					$mail->SMTPSecure = 'tls'; 
 					$mail->Host = "mail.uniqbizz.com";
-					$mail->Port = 587;
+					$mail->Port = 587; 
 					$mail->IsHTML(true);
 					$mail->CharSet = 'UTF-8';
 					// $mail->SMTPDebug = 2; 
 					$mail->Username = "support@uniqbizz.com";
-					$mail->Password = "support@uniqbizz";
+					$mail->Password = "NCaB6f^jkm^~";
 					$mail->SetFrom("support@uniqbizz.com");
 					$mail->Subject = $subject;
-					$mail->Body = $message3;
+					$mail->Body =$message3;
 					$mail->AddAddress($to);
-					$mail->SMTPOptions = array('ssl' => array(
-						'verify_peer' => false,
-						'verify_peer_name' => false,
-						'allow_self_signed' => false
+					$mail->SMTPOptions=array('ssl'=>array(
+						'verify_peer'=>false,
+						'verify_peer_name'=>false,
+						'allow_self_signed'=>false
 					));
 					if (!$mail->Send()) {
 						echo $mail->ErrorInfo;
