@@ -3139,14 +3139,15 @@
                 galleryContainer.innerHTML += `
 
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item">
-                        <div class="card rounded-4 galleryCard destination-banner"
+                        <div class="card rounded-4 galleryCard"
                             data-index="${index}"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
-
-                            <img src="${item.image}"
+                            <div class="destination-banner">
+                                <img src="${item.image}"
                                 class="card-img-top rounded-4 cardImage"
                                 alt="">
+                            </div>
                             <div class="card-body">
                                 <h5 class="card-title fw-bolder text-black mb-0 fs-6">
                                     ${item.title}
