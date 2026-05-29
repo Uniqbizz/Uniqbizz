@@ -56,6 +56,8 @@ $date = date('Y');
         $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
     } else if ($DBtable == 'institution_branch_manager') { // 33
         $sql = "SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'chief_techno_enterprise') { // 34
+        $sql = "SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $id . "' AND status = '1'";
     }
     $stmt = $conn->prepare($sql);
     $stmt->execute();

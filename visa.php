@@ -98,12 +98,18 @@
             /* hover background */
             .visaPackage .visaPackageCard:hover .visaPackageContent{
                 background-color: #1781fe;
-                color: #fff;
+                color: #fff !important;
             }
 
             /* link color on hover */
-            .visaPackage .visaPackageCard:hover .visaPackageContent a{
-                color: #fff;
+            /* .visaPackage .visaPackageCard:hover .visaPackageContent a{
+                color: #fff !important;
+            } */
+            .visaPackage .visaPackageCard:hover .visaPackageContent h5{
+                color: #fff !important;
+            }
+            .visaPackage .visaPackageCard:hover .visaPackageContent p{
+                color: #fff !important;
             }
 
             /* processing text color */
@@ -735,17 +741,19 @@
                         <div class="visaPackageImg">
                             <img src="${visa.image}" alt="${visa.country}">
                         </div>
+                        <a href="${visa.link}">
+                            <div class="visaPackageContent card pt-18 pb-18 border-0 rounded-4">
+                            
+                                <h5 class="text-center fw-bold">
+                                    ${visa.country}
+                                </h5>
 
-                        <div class="visaPackageContent card pt-18 pb-18 border-0 rounded-4">
-                            <h5 class="text-center fw-bold">
-                                <a href="${visa.link}">${visa.country}</a>
-                            </h5>
-
-                            <span class="text-14 text-center">
-                                Processing Time -
-                                <strong class="text-tertiary">${visa.processing}</strong>
-                            </span>
-                        </div>
+                                <p class="text-14 text-center text-muted fw-bolder">
+                                    Processing Time -
+                                    <strong class="text-tertiary">${visa.processing}</strong>
+                                </p>
+                            </div>
+                        </a>
                     </div>
                 `;
 

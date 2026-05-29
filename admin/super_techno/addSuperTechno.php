@@ -238,38 +238,38 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<input type="text" class="form-control" id="address" placeholder="Address">
 												</div>
 											</div>
-											<div class="col-md-6 col-sm-6">
+											<!-- <div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Zone <span class="text-danger">*</span></label>
-													<select class="form-select" id="zone">
-														<option value=""> ---- Select Zone ---- </option>
+													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
+													<select class="form-select" id="branch">
+														<option value=""> ---- Select Branch ---- </option>
 														<?php
-														require '../connect.php';
-														$sql = "SELECT * FROM `zone` WHERE status ='1' ";
-														$stmt = $conn->prepare($sql);
-														$stmt->execute();
-														$stmt->setFetchMode(PDO::FETCH_ASSOC);
-														if ($stmt->rowCount() > 0) {
-															foreach (($stmt->fetchAll()) as $key => $row) {
-																echo '
-																			<option value="' . $row['id'] . '">' . $row['zone_name'] . '</option>
-																		';
-															}
-														} else {
-															echo '<option value="">Department not available</option>';
-														}
+														// require '../connect.php';
+														// $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+														// $stmt = $conn->prepare($sql);
+														// $stmt->execute();
+														// $stmt->setFetchMode(PDO::FETCH_ASSOC);
+														// if ($stmt->rowCount() > 0) {
+														// 	foreach (($stmt->fetchAll()) as $key => $row) {
+														// 		echo '
+														// 					<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>
+														// 				';
+														// 	}
+														// } else {
+														// 	echo '<option value="">Department not available</option>';
+														// }
 														?>
 													</select>
 												</div>
-											</div>
-											<div class="col-md-6 col-sm-6">
+											</div> -->
+											<!-- <div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
 													<select class="form-select" id="branch">
 														<option value=""> ---- Select Zone First ---- </option>
 													</select>
 												</div>
-											</div>
+											</div> -->
 
 											<!-- Attachments -->
 											<h4 class="my-2">Attachments</h4>
@@ -342,9 +342,9 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											
 										</div>
-										<input type="hidden" id="testValue" name="testValue" value="26"> <!-- Business mentor -->
+										<input type="hidden" id="testValue" name="testValue" value="36"> <!-- Business mentor -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addBusinessMentor">Submit</button>
+											<button type="submit" class="btn btn-primary px-5 py-2" id="addSuperTechnoEnterprise">Submit</button>
 										</div>
 									</form>
 								</div>
@@ -427,8 +427,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		// fetch User based on selected designation
 		$('#user_id_name').on('change', function() {
 			var user_id_name = $(this).val();
-			var designation = 'ca_franchisee';
-
+			var designation = $('#designation').val();
 			$.ajax({
 				type: 'POST',
 				url: '../agents/getUsers.php',
@@ -495,19 +494,19 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 		});
 
 		// on zone change get branch associated with that zone
-		$('#zone').on('change', function() {
-			var zone_id = $(this).val();
-			$.ajax({
-				url: '../assets/get_data/get_branch.php',
-				type: 'POST',
-				data: {
-					zone_id: zone_id
-				},
-				success: function(data) {
-					$('#branch').html(data);
-				}
-			});
-		});
+		// $('#zone').on('change', function() {
+		// 	var zone_id = $(this).val();
+		// 	$.ajax({
+		// 		url: '../assets/get_data/get_branch.php',
+		// 		type: 'POST',
+		// 		data: {
+		// 			zone_id: zone_id
+		// 		},
+		// 		success: function(data) {
+		// 			$('#branch').html(data);
+		// 		}
+		// 	});
+		// });
 	</script>
 </body>
 

@@ -138,7 +138,7 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,zone,date_of_birth,added_on,contact_no,status,register_by,country,branch, 'STE' AS user_type FROM super_techno_enterprise WHERE status IN ('0', '2')
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,date_of_birth,added_on,contact_no,status,register_by,country,'STE' AS user_type FROM super_techno_enterprise WHERE status IN ('0', '2')
                                                             ORDER BY id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -192,8 +192,6 @@
                                                                                                                 "' . $row["country"] . '",
                                                                                                                 "' . $row["state"] . '",
                                                                                                                 "' . $row["city"] . '",
-                                                                                                                "' . $row["zone"] . '",
-                                                                                                                "' . $row["branch"] . '",
                                                                                                                 "pending",
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
@@ -292,33 +290,33 @@
                                                         
                                                     </div>
                                                 </div> -->
-                                                <div class="col-sm-4 col-md-4"> 
+                                                <!-- <div class="col-sm-4 col-md-4"> 
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label"><span>Branch</span></label>
                                                         <select class="form-control Fileter-list" id="filter_branch" aria-label=" Floating label select example"> 
                                                             <option value="">--- Select ---</option>
                                                             <?php
-                                                                require '../connect.php';
-                                                                $sql = "SELECT * FROM `branch` WHERE status ='1' ";
-                                                                $stmt = $conn->prepare($sql);
-                                                                $stmt -> execute();
-                                                                $stmt -> setFetchMode(PDO::FETCH_ASSOC);
-                                                                if($stmt-> rowCount()>0 ){
-                                                                    foreach( ($stmt -> fetchAll()) as $key => $row ){
-                                                                        echo'
-                                                                            <option value="'.$row['id'].'">'.$row['branch_name'].'</option>
-                                                                        ';
-                                                                    }
-                                                                }else{
-                                                                    echo '<option value="">Department not available</option>'; 
-                                                                }
+                                                                // require '../connect.php';
+                                                                // $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                // $stmt = $conn->prepare($sql);
+                                                                // $stmt -> execute();
+                                                                // $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+                                                                // if($stmt-> rowCount()>0 ){
+                                                                //     foreach( ($stmt -> fetchAll()) as $key => $row ){
+                                                                //         echo'
+                                                                //             <option value="'.$row['id'].'">'.$row['branch_name'].'</option>
+                                                                //         ';
+                                                                //     }
+                                                                // }else{
+                                                                //     echo '<option value="">Department not available</option>'; 
+                                                                // }
                                                             ?>
                                                         </select>
                                                     </div>    
-                                                </div>
+                                                </div> -->
                                                 
                                                 <!-- date range -->
-                                                <div class="col-md-4 col-sm-4">
+                                                <div class="col-md-6 col-sm-4">
                                                     <label class="col-form-label"><span>Date Range</span></label>
                                                     <div id="reportrange" class="Fileter-list input-block text-dark px-3 py-2 w-100 text-center dateRange " style="background-color:#e5e5e5; border-radius: 6px;">
                                                         <i class="fa fa-calendar"></i>&nbsp;
@@ -326,7 +324,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-2 col-md-2"> 
+                                                <div class="col-sm-2 col-md-4"> 
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for=""><span>Count</span></label>
                                                         <input type="text" name="" id="filterCount" class="form-control" readonly>
@@ -349,7 +347,7 @@
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
-                                                        <th>Branch</th>
+                                                        <!-- <th>Branch</th> -->
                                                         <th>Amt</th>
                                                         <th>Joining Date</th>
                                                         <th>Status</th>
@@ -360,7 +358,7 @@
                                                     <?php
                                                         $sql = "
                                                             SELECT super_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,
-                                                            email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id, 
+                                                            email,paid_amount,register_date,date_of_birth,country,state,city,contact_no,register_by,id, 
                                                             'STE' AS user_type FROM super_techno_enterprise WHERE status IN ('1')
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -375,16 +373,16 @@
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
 
-                                                                $branchID = $row['branch'];
-                                                                $branch = '';
+                                                                // $branchID = $row['branch'];
+                                                                // $branch = '';
 
-                                                                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
-                                                                $stmtId = $conn->prepare($sqlBranch);
-                                                                $stmtId->execute([$branchID]);
-                                                                if ($stmtId->rowCount() > 0) {
-                                                                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
-                                                                    $branch = $branchData['branch_name'];
-                                                                }
+                                                                // $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
+                                                                // $stmtId = $conn->prepare($sqlBranch);
+                                                                // $stmtId->execute([$branchID]);
+                                                                // if ($stmtId->rowCount() > 0) {
+                                                                //     $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
+                                                                //     $branch = $branchData['branch_name'];
+                                                                // }
 
                                                                 $label = $row['user_type'] === 'STE'
                                                                     ? '<span class="badge bg-primary me-1">STE</span>':'NA';
@@ -399,7 +397,6 @@
                                                                         <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                                                                         <p class="mb-0">' . $row['email'] . '</p>
                                                                     </td>
-                                                                    <td>' . $branch . '</td>
                                                                     <td>' . $row['paid_amount'] . '</td>
                                                                     <td>' . $rdate . '</td>';
 
@@ -435,8 +432,6 @@
                                                                                                                         "' . $row["country"] . '",
                                                                                                                         "' . $row["state"] . '",
                                                                                                                         "' . $row["city"] . '",
-                                                                                                                        "' . $row["zone"] . '",
-                                                                                                                        "' . $row["branch"] . '",
                                                                                                                         "registered",
                                                                                                                         "' . strtolower($row['user_type']) . '"
                                                                                                                         )\' 
@@ -502,7 +497,7 @@
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
-                                                        <th>Branch</th>
+                                                        <!-- <th>Branch</th> -->
                                                         <th>Amt</th>
                                                         <th>Joining Date</th>
                                                         <th>Status</th>
@@ -527,16 +522,16 @@
                                                                 $rd = new DateTime($row['register_date']);
                                                                 $rdate = $rd->format('d-m-Y');
 
-                                                                $branchID = $row['branch'];
-                                                                $branch = '';
+                                                                // $branchID = $row['branch'];
+                                                                // $branch = '';
 
-                                                                $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
-                                                                $stmtId = $conn->prepare($sqlBranch);
-                                                                $stmtId->execute([$branchID]);
-                                                                if ($stmtId->rowCount() > 0) {
-                                                                    $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
-                                                                    $branch = $branchData['branch_name'];
-                                                                }
+                                                                // $sqlBranch = "SELECT branch_name FROM branch WHERE id = ?";
+                                                                // $stmtId = $conn->prepare($sqlBranch);
+                                                                // $stmtId->execute([$branchID]);
+                                                                // if ($stmtId->rowCount() > 0) {
+                                                                //     $branchData = $stmtId->fetch(PDO::FETCH_ASSOC);
+                                                                //     $branch = $branchData['branch_name'];
+                                                                // }
 
                                                                 $label = $row['user_type'] === 'STE'
                                                                     ? '<span class="badge bg-primary me-1">STE</span>':'NA';
@@ -551,7 +546,6 @@
                                                                         <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                                                                         <p class="mb-0">' . $row['email'] . '</p>
                                                                     </td>
-                                                                    <td>' . $branch . '</td>
                                                                     <td>' . $row['paid_amount'] . '</td>
                                                                     <td>' . $rdate . '</td>';
 
@@ -762,8 +756,8 @@
                 });
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,zn,br,editfor,usertype){ 
-                window.location.href='editSuperTechno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&zone='+zn+'&branch='+br+'&editfor='+editfor+'&usertype='+usertype;
+            function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
+                window.location.href='editSuperTechno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 
@@ -847,10 +841,11 @@
 
             // Reload function
             function reloadBMData(){
-                let filterDesig = $('#filter_branch').val();
+                // let filterDesig = $('#filter_branch').val();
                 // let desig = $('#designation_value').val();
 
-                let dataString = 'branch='+filterDesig;
+                // let dataString = 'branch='+filterDesig;
+                let dataString = '';
                 if (dateRangeChanged) {
                     dataString += '&fromDate='+fromDate+'&toDate='+toDate;
                 }

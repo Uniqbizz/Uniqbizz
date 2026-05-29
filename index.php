@@ -144,12 +144,6 @@
         .borderLine {
             border-left: 1px solid #bdbbbb !important;
         }
-        
-        .destinationImages{
-            height: 420px;
-            object-fit: cover;
-            border-radius: 18px;
-        }
 
         /* Thumbnail wrapper */
         .thumbnailWrapper{
@@ -246,6 +240,35 @@
             position: absolute;
             bottom: 60px;
             left: 160px;
+        }
+        .viewBtn {
+            background-color: #e03d42;
+            border: 1px solid transparent;
+            padding: 2px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            border: 1px solid #e03d42;
+            color: #fff;
+        }   
+        .viewBtn:hover {
+            background-color: #fff;
+            border: 1px solid transparent;
+            padding: 2px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            border: 1px solid #e03d42;
+        } 
+        .viewBtn:hover p {
+            color: #e03d42 !important;
+        }
+        .cardImage {
+            height: 180px;
+            width: 100%;
+            object-fit: fill;
         }
         /* <!-- End of Activity & Experiences --> */
         @media screen and (max-width: 1184px) {
@@ -1102,184 +1125,106 @@
                         </div>
                     </div>
                 </div>
-                <!-- Navbar -->
-                <nav class="customNavbar mt-2 mb-4">
-                    <ul class="navMenu d-flex justify-content-around flex-wrap gap-3 ps-0 mb-0">
-                        <li>
-                            <button class="filter-btn active" data-filter="all">
-                                All
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="travel">
-                                Travel Moments
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="bank">
-                                Bank Tie-ups
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="seminar">
-                                Seminars
-                            </button>
-                        </li>
-                        <li>
-                            <button class="filter-btn" data-filter="workshop">
-                                Workshops
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-                
-                <!-- Cards -->
-                <div class="row g-4" id="galleryContainer">
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Goa Group Trip</h5>
-                                <p class="card-text fontSize"><span>20 Pax</span> | <span>May 2025</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Dubai Tour</h5>
-                                <p class="card-text fontSize"><span>15 Pax</span> | <span>April 2025</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item bank">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">VPK Bank Partnership</h5>
-                                <p class="card-text fontSize">MoU Signing Ceremony</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item seminar">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Business Seminar, Bhopal</h5>
-                                <p class="card-text fontSize">150+ Attendees</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item workshop">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Team Workshop</h5>
-                                <p class="card-text fontSize"><span>Team Training</span> | <span>2025</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item travel">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Keralam Houseboat Trip</h5>
-                                <p class="card-text fontSize"><span>16 Pax</span> | <span>Feb 2025</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item seminar">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">VPK Team Meeting</h5>
-                                <p class="card-text fontSize">Strategic Discussion</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item workshop">
-                        <div class="card rounded-4">
-                            <img src="assets/images/destination/Goa.jpg" class="card-img-top rounded-4" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">Workshop Participation</h5>
-                                <p class="card-text fontSize"><span>Mumbai</span> | <span>Jan 2025</span></p>
-                            </div>
-                        </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-11">
+                        <!-- Navbar -->
+                        <nav class="customNavbar mt-2 mb-4">
+                            <ul class="navMenu d-flex justify-content-evenly flex-wrap gap-2 ps-0 mb-0">
+                                <li>
+                                    <button class="filter-btn active px-3" data-filter="all">
+                                        All
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="travel">
+                                        Travel Moments
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="bank">
+                                        Bank Tie-ups
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="seminar">
+                                        Seminars/Workshops
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="engagement">
+                                        Employee Engagement Activities
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-
+                <!-- Cards -->
+                <div class="row g-4" id="galleryContainer"></div>
+                <div class="d-flex justify-content-center mt-4" id="viewMoreWrapper">
+                    <div class="viewBtn rounded-2 py-2">
+                        <p class="text-white mb-0">View More</p>
+                    </div>
+                </div>
                 <!-- Modal Start -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
+                            <!-- CLOSE BUTTON -->
                             <button type="button" class="btn-close btnClose" data-bs-dismiss="modal" aria-label="Close">
                                 <i class="fa-solid fa-xmark d-flex justify-content-center"></i>
                             </button>
                             <div class="modal-body">
                                 <div class="row">
+                                    <!-- LEFT SIDE -->
                                     <div class="col-xl-6 col-lg-6 col-md-12">
+                                        <!-- CAROUSEL -->
                                         <div id="destinationCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
-                                            <div class="carousel-inner">
-                                                <div class="carousel-item active">
-                                                    <img src="assets/images/destination/Goa.jpg" class="d-block w-100 destinationImages" alt="">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="assets/images/destination/Dubai.jpg" class="d-block w-100 destinationImages" alt="">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="assets/images/destination/Kerala.jpg" class="d-block w-100 destinationImages" alt="">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="assets/images/destination/Maldives1.jpg" class="d-block w-100 destinationImages" alt="">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="assets/images/destination/Almaty1.jpg" class="d-block w-100 destinationImages" alt="">
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <img src="assets/images/destination/Thailand1.jpg" class="d-block w-100 destinationImages" alt="">
-                                                </div>
-                                            </div>
-
-                                            <!-- Controls -->
+                                            <!-- DYNAMIC IMAGES -->
+                                            <div class="carousel-inner" id="modalCarouselInner"></div>
+                                            <!-- PREV -->
                                             <button class="carousel-control-prev" type="button" data-bs-target="#destinationCarousel" data-bs-slide="prev">
                                                 <span class="carousel-control-prev-icon"></span>
                                             </button>
-
+                                            <!-- NEXT -->
                                             <button class="carousel-control-next" type="button" data-bs-target="#destinationCarousel" data-bs-slide="next">
                                                 <span class="carousel-control-next-icon"></span>
                                             </button>
                                         </div>
-                                        <!-- Thumbnails -->
+                                        <!-- THUMBNAILS -->
                                         <div class="thumbnailWrapper mt-3">
-                                            <div class="thumbnailScroll d-flex gap-2"
-                                                id="thumbnailContainer">
-
-                                                <!-- JS thumbnails -->
-
-                                            </div>
+                                            <div class="thumbnailScroll d-flex gap-2" id="thumbnailContainer"></div>
                                         </div>
                                     </div>
+
+                                    <!-- RIGHT SIDE -->
                                     <div class="col-xl-6 col-lg-6 col-md-12">
                                         <div class="p-3 borderLine">
-                                            <h1 class="modal-title fs-4 fw-bolder" id="exampleModalLabel">Business Growth Seminar - Bhopal</h1>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="fontSize"><i class="fa-regular fa-calendar-days fa-xl me-2"></i>12 March 2025</p>
-                                                <p class="fontSize"><i class="fa-solid fa-location-dot fa-xl me-2"></i>Bhopal</p>
-                                                <p class="fontSize"><i class="fa-solid fa-user-group fa-xl me-2"></i>150+ Attendees</p>
+                                            <!-- TITLE -->
+                                            <h1 class="modal-title fs-4 fw-bolder" id="modalTitle"></h1>
+
+                                            <!-- DETAILS -->
+                                            <div class="d-flex justify-content-between flex-wrap gap-2">
+                                                <p class="fontSize mb-0">
+                                                    <i class="fa-regular fa-calendar-days fa-xl me-2"></i>
+                                                    <span id="modalDate"></span>
+                                                </p>
+                                                <p class="fontSize mb-0">
+                                                    <i class="fa-solid fa-location-dot fa-xl me-2"></i>
+                                                    <span id="modalLocation"></span>
+                                                </p>
+                                                <p class="fontSize mb-0">
+                                                    <i class="fa-solid fa-user-group fa-xl me-2"></i>
+                                                    <span id="modalAttendees"></span>
+                                                </p>
                                             </div>
+
                                             <hr class="my-3 border border-2 border-black">
-                                            <p class="">
-                                                An interactive seminar focused on business expansion, travel consultancy opportunities, and digital income models
-                                                under Bizzmirth Holidays.
-                                            </p>
+                                            <!-- DESCRIPTION -->
+                                            <p id="modalDescription"></p>
                                             <hr class="my-3 border border-2 border-black">
-                                            <h1 class="modal-title fs-5 fw-bolder py-3" id="exampleModalLabel">Key Highlights</h1>
-                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Franchise Model Explained</p>
-                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Income Plan Breakdown</p>
-                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Live Q&A session</p>
-                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>Networking Opportunity</p>
-                                            <p class="fs-6"><i class="fa-solid fa-circle-check me-2" style="color: #03730f;"></i>success Stories & Case Studies</p>
+                                            <!-- HIGHLIGHTS -->
+                                            <div id="modalHighlights"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -2869,80 +2814,585 @@
     <!-- Carousel section end -->
     <!-- Activity & Experiences Start -->
     <script>
+        /* =========================================
+        ALL GALLERY DATA
+        ========================================= */
+        const galleryData = [
+
+            {
+                category: "travel",
+                title: "Goa Group Trip",
+                date: "May 2025",
+                location: "Goa",
+                attendees: "20 Pax",
+                image: "assets/images/destination/Goa.jpg",
+
+                description:
+                "Enjoyed an amazing Goa beach experience with group activities and networking.",
+
+                highlights: [
+                    "Beach Activities",
+                    "Sunset Party",
+                    "Networking Session",
+                    "Luxury Stay"
+                ],
+
+                images: [
+                    "assets/images/destination/Goa.jpg",
+                    "assets/images/destination/Dubai.jpg",
+                    "assets/images/destination/Kerala.jpg",
+                    "assets/images/destination/Maldives1.jpg"
+                ]
+            },
+
+            {
+                category: "travel",
+                title: "Dubai Tour",
+                date: "April 2025",
+                location: "Dubai",
+                attendees: "15 Pax",
+                image: "assets/images/destination/Dubai1.jpg",
+
+                description:
+                "Luxury Dubai experience with sightseeing and networking.",
+
+                highlights: [
+                    "Desert Safari",
+                    "Luxury Hotel",
+                    "City Tour",
+                    "Networking Event"
+                ],
+
+                images: [
+                    "assets/images/destination/Dubai1.jpg",
+                    "assets/images/destination/Dubai2.jpg",
+                    "assets/images/destination/Dubai3.jpg"
+                ]
+            },
+
+            {
+                category: "travel",
+                title: "Manali Trip",
+                date: "April 2025",
+                location: "Manali",
+                attendees: "15 Pax",
+                image: "assets/images/destination/Kerala.jpg",
+
+                description:
+                "Snow adventures and team bonding activities.",
+
+                highlights: [
+                    "Snow Activities",
+                    "Mountain Trek",
+                    "Camp Fire"
+                ],
+
+                images: [
+                    "assets/images/destination/Kerala.jpg",
+                    "assets/images/destination/Goa.jpg"
+                ]
+            },
+
+            {
+                category: "bank",
+                title: "VPK Bank Partnership",
+                date: "2025",
+                location: "Goa",
+                attendees: "Corporate",
+                image: "assets/images/destination/Goa.jpg",
+
+                description:
+                "Bank partnership signing ceremony.",
+
+                highlights: [
+                    "MoU Signing",
+                    "Corporate Networking"
+                ],
+
+                images: [
+                    "assets/images/destination/Goa.jpg"
+                ]
+            },
+
+            {
+                category: "seminar",
+                title: "Business Seminar",
+                date: "March 2025",
+                location: "Bhopal",
+                attendees: "150+ Attendees",
+                image: "assets/images/destination/Goa.jpg",
+
+                description:
+                "Business expansion and growth seminar.",
+
+                highlights: [
+                    "Growth Strategy",
+                    "Income Models",
+                    "Live Q&A"
+                ],
+
+                images: [
+                    "assets/images/destination/Goa.jpg",
+                    "assets/images/destination/Dubai.jpg"
+                ]
+            },
+            {
+                category: "workshop",
+                title: "Workshop Pernem - Goa",
+                date: "9 Nov 2025",
+                location: "Pernem",
+                attendees: "150+ Attendees",
+                image: "assets/images/events/pednemVist/image1.jpeg",
+
+                description:
+                "We were delighted to participate in the workshop at Sant Sohirobanath Ambiye Government College of Arts and Commerce, where we introduced our tech travel company and shared insights on digital innovation in the tourism industry. It was a great opportunity to connect, learn, and inspire future entrepreneurs.",
+
+                highlights: [
+                    "Participated in a workshop at Sant Sohirobanath Ambiye Government College of Arts and Commerce",
+                    "Introduced our tech-based travel company and digital travel solutions",
+                    "Shared insights on technology in the tourism industry",
+                    "Promoted entrepreneurship and innovation in travel & tourism",
+                    "Built valuable professional connections and networking opportunities"
+                ],
+
+                images: [
+                    "assets/images/events/pednemVist/image1.jpeg",
+                    "assets/images/events/pednemVist/image2.jpeg",
+                    "assets/images/events/pednemVist/image3.jpeg",
+                    "assets/images/events/pednemVist/image4.jpeg"
+                ]
+            },
+
+            {
+                category: "engagement",
+                title: "Women's Day",
+                date: "8 Mar 2026",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/womensDay/image8.jpeg",
+
+                description:
+                "Celebrated Women’s Day in the office by honoring and appreciating the strength, dedication, and achievements of women employees.",
+
+                highlights: [
+                    "Women’s Day celebration at the workplace",
+                    "Appreciated and recognized women employees",
+                    "Fun activities and joyful moments with the team",
+                    "Promoted equality, respect, and empowerment",
+                    "Created a positive and inspiring work environment"
+                ],
+
+                images: [
+                    "assets/images/events/womensDay/image1.jpeg",
+                    "assets/images/events/womensDay/image2.jpeg",
+                    "assets/images/events/womensDay/image3.jpeg",
+                    "assets/images/events/womensDay/image4.jpeg",
+                    "assets/images/events/womensDay/image5.jpeg",
+                    "assets/images/events/womensDay/image6.jpeg",
+                    "assets/images/events/womensDay/image7.jpeg",
+                    "assets/images/events/womensDay/image8.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Navratri Celebration",
+                date: "Nov 2025",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/navratri/image1.jpeg",
+
+                description:
+                "Celebrated Navratri in the office with a vibrant Color Day activity, bringing festive energy and team spirit to the workplace.",
+
+                highlights: [
+                    "Fun-filled Navratri Color Day celebration",
+                    "Employees participated in themed color dressing",
+                    "Promoted team bonding and festive spirit",
+                    "Created a lively and positive office environment",
+                    "Encouraged employee engagement and participation"
+                ],
+
+                images: [
+                    "assets/images/events/navratri/image1.jpeg",
+                    "assets/images/events/navratri/image2.jpeg",
+                    "assets/images/events/navratri/image3.jpeg",
+                    "assets/images/events/navratri/image4.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Birthday Celebration",
+                date: "11 Nov 2025",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/sushantiBday/image8.jpeg",
+
+                description:
+                "Celebrated a joyful birthday in the office, creating happy moments and strengthening team bonding.",
+
+                highlights: [
+                    "Fun-filled birthday celebration at the workplace",
+                    "Team gathered to celebrate the special occasion",
+                    "Created cheerful and memorable moments",
+                    "Encouraged employee engagement and positivity",
+                    "Strengthened team spirit and workplace culture"
+                ],
+
+                images: [
+                    "assets/images/events/sushantiBday/image1.jpeg",
+                    "assets/images/events/sushantiBday/image2.jpeg",
+                    "assets/images/events/sushantiBday/image3.jpeg",
+                    "assets/images/events/sushantiBday/image4.jpeg",
+                    "assets/images/events/sushantiBday/image5.jpeg",
+                    "assets/images/events/sushantiBday/image6.jpeg",
+                    "assets/images/events/sushantiBday/image7.jpeg",
+                    "assets/images/events/sushantiBday/image8.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Diwali Celebration",
+                date: "18 Oct 2025",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/diwali/image1.jpeg",
+
+                description:
+                "Celebrated Diwali in the office with sweets, fun games, and festive joy, creating memorable moments with the team.",
+
+                highlights: [
+                    "Festive Diwali celebration at the workplace",
+                    "Enjoyed sweets, games, and fun activities",
+                    "Promoted team bonding and employee engagement",
+                    "Created a joyful and vibrant office atmosphere",
+                    "Celebrated togetherness and festive spirit"
+                ],
+
+                images: [
+                    "assets/images/events/diwali/image1.jpeg",
+                    "assets/images/events/diwali/image2.jpeg",
+                    "assets/images/events/diwali/image3.jpeg",
+                    "assets/images/events/diwali/image4.jpeg",
+                    "assets/images/events/diwali/image5.jpeg",
+                    "assets/images/events/diwali/image6.jpeg",
+                    "assets/images/events/diwali/image7.jpeg",
+                    "assets/images/events/diwali/image8.jpeg"
+                ]
+            }
+        ];
+
+
+        /* =========================================
+        VARIABLES
+        ========================================= */
+
+        const galleryContainer = document.getElementById("galleryContainer");
         const filterButtons = document.querySelectorAll(".filter-btn");
-        const galleryItems = document.querySelectorAll(".gallery-item");
+        const viewMoreBtn = document.querySelector(".viewBtn");
+        const viewMoreText = viewMoreBtn.querySelector("p");
+        const viewMoreWrapper = document.getElementById("viewMoreWrapper");
+
+        let currentFilter = "all";
+        let expanded = false;
+
+        /* =========================================
+        RENDER CARDS
+        ========================================= */
+
+        function renderGallery(){
+
+            galleryContainer.innerHTML = "";
+            let filteredData = [];
+
+            // FILTER
+            if(currentFilter === "all"){
+
+                filteredData = galleryData;
+
+            } else {
+
+                filteredData = galleryData.filter(item => {
+
+                    if(currentFilter === "seminar"){
+
+                        return (
+                            item.category === "seminar" ||
+                            item.category === "workshop"
+                        );
+
+                    }
+
+                    return item.category === currentFilter;
+
+                });
+
+            }
+
+            // VIEW MORE LOGIC
+            const visibleData = expanded
+                ? filteredData
+                : filteredData.slice(0, 8);
+
+            // CREATE CARDS
+            visibleData.forEach((item, index) => {
+
+                galleryContainer.innerHTML += `
+
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item">
+                        <div class="card rounded-4 galleryCard"
+                            data-index="${index}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <div class="destination-banner">
+                                <img src="${item.image}"
+                                class="card-img-top rounded-4 cardImage"
+                                alt="">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">
+                                    ${item.title}
+                                </h5>
+                                <p class="card-text fontSize">
+                                    <span>${item.attendees}</span>
+                                    |
+                                    <span>${item.date}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            });
+
+            // BUTTON TEXT
+            if(expanded){
+
+                viewMoreText.innerText = "Hide Less";
+
+            } else {
+
+                viewMoreText.innerText = "View More";
+
+            }
+
+            // BUTTON SHOW/HIDE
+            if(filteredData.length <= 8){
+
+                viewMoreWrapper.style.display = "none";
+
+            } else {
+
+                viewMoreWrapper.style.display = "flex";
+
+            }
+
+            attachModalEvents(filteredData);
+
+        }
+
+
+
+        /* =========================================
+        FILTER BUTTONS
+        ========================================= */
 
         filterButtons.forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener("click", function(){
 
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove("active"));
+                filterButtons.forEach(btn => {
+                    btn.classList.remove("active");
+                });
 
-                // Add active class to clicked button
-                button.classList.add("active");
+                this.classList.add("active");
 
-                const filterValue = button.getAttribute("data-filter");
+                currentFilter =
+                    this.getAttribute("data-filter");
 
-                galleryItems.forEach(item => {
+                expanded = false;
 
-                    if (filterValue === "all") {
-                        item.style.display = "block";
-                    } 
-                    else if (item.classList.contains(filterValue)) {
-                        item.style.display = "block";
-                    } 
-                    else {
-                        item.style.display = "none";
-                    }
+                renderGallery();
+
+            });
+
+        });
+
+
+
+        /* =========================================
+        VIEW MORE
+        ========================================= */
+
+        viewMoreBtn.addEventListener("click", function(){
+
+            expanded = !expanded;
+
+            renderGallery();
+
+        });
+
+
+
+        /* =========================================
+        MODAL DYNAMIC DATA
+        ========================================= */
+
+        function attachModalEvents(filteredData){
+
+            const galleryCards =
+                document.querySelectorAll(".galleryCard");
+
+            galleryCards.forEach(card => {
+
+                card.addEventListener("click", function(){
+
+                    const index = this.dataset.index;
+
+                    const item = filteredData[index];
+
+                    // TITLE
+                    document.getElementById("modalTitle")
+                    .innerText = item.title;
+
+                    // DATE
+                    document.getElementById("modalDate")
+                    .innerText = item.date;
+
+                    // LOCATION
+                    document.getElementById("modalLocation")
+                    .innerText = item.location;
+
+                    // ATTENDEES
+                    document.getElementById("modalAttendees")
+                    .innerText = item.attendees;
+
+                    // DESCRIPTION
+                    document.getElementById("modalDescription")
+                    .innerText = item.description;
+
+                    // HIGHLIGHTS
+                    const highlightsContainer =
+                        document.getElementById("modalHighlights");
+
+                    highlightsContainer.innerHTML = `
+                        <h1 class="modal-title fs-5 fw-bolder py-3">
+                            Key Highlights
+                        </h1>
+                    `;
+
+                    item.highlights.forEach(highlight => {
+
+                        highlightsContainer.innerHTML += `
+                            <p class="fs-6">
+                                <i class="fa-solid fa-circle-check me-2"
+                                style="color:#03730f;"></i>
+                                ${highlight}
+                            </p>
+                        `;
+
+                    });
+
+                    // IMAGES
+                    const carouselInner =
+                        document.getElementById("modalCarouselInner");
+
+                    carouselInner.innerHTML = "";
+
+                    item.images.forEach((image, imgIndex) => {
+
+                        carouselInner.innerHTML += `
+                            <div class="carousel-item ${imgIndex === 0 ? 'active' : ''}">
+                                <img src="${image}"
+                                class="d-block w-100 destinationImages">
+                            </div>
+                        `;
+
+                    });
+
+                    // RESET CAROUSEL
+                    const carousel =
+                        bootstrap.Carousel.getOrCreateInstance(
+                            document.querySelector('#destinationCarousel')
+                        );
+
+                    carousel.to(0);
+
+                    thumbnailExpanded = false;
+
+                    // RENDER THUMBNAILS AFTER MODAL CONTENT LOADS
+                    setTimeout(() => {
+
+                        renderThumbnails();
+
+                    }, 100);
 
                 });
 
             });
 
-        });
+        }
+
+        /* =========================================
+        INITIAL LOAD
+        ========================================= */
+
+        renderGallery();
+
     </script>
     <script>
+
         const carouselElement = document.querySelector('#destinationCarousel');
-
         const carousel = new bootstrap.Carousel(carouselElement, {
-            interval: false
-        });
-
-        const carouselItems = document.querySelectorAll('#destinationCarousel .carousel-item');
+                interval: false
+            });
 
         const thumbnailContainer = document.getElementById('thumbnailContainer');
 
-        let expanded = false;
+        let thumbnailExpanded = false;
 
-        /* Create thumbnails */
+
+        /* ================================
+        RENDER THUMBNAILS
+        ================================ */
+
         function renderThumbnails(){
 
             thumbnailContainer.innerHTML = "";
 
+            // IMPORTANT
+            // GET UPDATED CAROUSEL ITEMS
+            const carouselItems = document.querySelectorAll(
+                '#destinationCarousel .carousel-item'
+            );
+
             const totalImages = carouselItems.length;
 
-            // show only 4 initially
-            const visibleCount = expanded ? totalImages : 4;
+            const visibleCount = thumbnailExpanded ? totalImages : 4;
 
             carouselItems.forEach((item, index) => {
 
                 if(index < visibleCount){
 
-                    const image = item.querySelector("img");
+                    const image =
+                        item.querySelector("img");
 
-                    const thumb = document.createElement("img");
+                    const thumb =
+                        document.createElement("img");
 
                     thumb.src = image.src;
 
-                    thumb.classList.add("destinationUpcomingImages");
+                    thumb.classList.add(
+                        "destinationUpcomingImages"
+                    );
 
-                    // Active thumbnail
+                    // ACTIVE THUMB
                     if(item.classList.contains("active")){
+
                         thumb.classList.add("active-thumb");
+
                     }
 
-                    // Click thumbnail
+                    // CLICK THUMB
                     thumb.addEventListener("click", function(){
 
                         carousel.to(index);
@@ -2950,42 +3400,53 @@
                     });
 
                     thumbnailContainer.appendChild(thumb);
+
                 }
 
             });
 
-            // More count card
-            if(!expanded && totalImages > 4){
+            // MORE CARD
+            if(!thumbnailExpanded && totalImages > 4){
 
                 const remaining = totalImages - 4;
 
-                const moreCard = document.createElement("div");
+                const moreCard =
+                    document.createElement("div");
 
-                moreCard.classList.add("more-images-card");
+                moreCard.classList.add(
+                    "more-images-card"
+                );
 
                 moreCard.innerHTML = `+${remaining}`;
 
                 moreCard.addEventListener("click", function(){
 
-                    expanded = true;
+                    thumbnailExpanded = true;
 
                     renderThumbnails();
 
                 });
 
                 thumbnailContainer.appendChild(moreCard);
+
             }
+
         }
 
-        /* Update active thumbnail on slide */
-        carouselElement.addEventListener('slid.bs.carousel', function(){
 
-            renderThumbnails();
+        /* ================================
+        UPDATE ACTIVE THUMB
+        ================================ */
 
-        });
+        carouselElement.addEventListener(
+            'slid.bs.carousel',
+            function(){
 
-        /* Initial load */
-        renderThumbnails();
+                renderThumbnails();
+
+            }
+        );
+
     </script>
     <!-- End of Activity & Experiences -->
 </body>

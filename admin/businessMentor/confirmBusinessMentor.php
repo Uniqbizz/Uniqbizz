@@ -306,25 +306,25 @@ if ($user_type_id == '26') { //Business Mentor
 						</table>
 						</body>
 						</html>';
-					$mail = new PHPMailer();
-					$mail->IsSMTP();
-					$mail->SMTPAuth = true;
-					$mail->SMTPSecure = 'tls';
+					$mail = new PHPMailer(); 
+					$mail->IsSMTP(); 
+					$mail->SMTPAuth = true; 
+					$mail->SMTPSecure = 'tls'; 
 					$mail->Host = "mail.uniqbizz.com";
-					$mail->Port = 587;
+					$mail->Port = 587; 
 					$mail->IsHTML(true);
 					$mail->CharSet = 'UTF-8';
 					// $mail->SMTPDebug = 2; 
 					$mail->Username = "support@uniqbizz.com";
-					$mail->Password = "support@uniqbizz";
+					$mail->Password = "NCaB6f^jkm^~";
 					$mail->SetFrom("support@uniqbizz.com");
 					$mail->Subject = $subject;
-					$mail->Body = $message3;
+					$mail->Body =$message3;
 					$mail->AddAddress($to);
-					$mail->SMTPOptions = array('ssl' => array(
-						'verify_peer' => false,
-						'verify_peer_name' => false,
-						'allow_self_signed' => false
+					$mail->SMTPOptions=array('ssl'=>array(
+						'verify_peer'=>false,
+						'verify_peer_name'=>false,
+						'allow_self_signed'=>false
 					));
 					if (!$mail->Send()) {
 						echo $mail->ErrorInfo;
@@ -599,25 +599,25 @@ if ($user_type_id == '26') { //Business Mentor
 					</table>
 					</body>
 					</html>';
-				$mail = new PHPMailer();
-				$mail->IsSMTP();
-				$mail->SMTPAuth = true;
-				$mail->SMTPSecure = 'tls';
+				$mail = new PHPMailer(); 
+				$mail->IsSMTP(); 
+				$mail->SMTPAuth = true; 
+				$mail->SMTPSecure = 'tls'; 
 				$mail->Host = "mail.uniqbizz.com";
-				$mail->Port = 587;
+				$mail->Port = 587; 
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
 				$mail->Username = "support@uniqbizz.com";
-				$mail->Password = "support@uniqbizz";
+				$mail->Password = "NCaB6f^jkm^~";
 				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
-				$mail->Body = $message3;
+				$mail->Body =$message3;
 				$mail->AddAddress($to);
-				$mail->SMTPOptions = array('ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => false
+				$mail->SMTPOptions=array('ssl'=>array(
+					'verify_peer'=>false,
+					'verify_peer_name'=>false,
+					'allow_self_signed'=>false
 				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
@@ -889,25 +889,25 @@ if ($user_type_id == '26') { //Business Mentor
 					</table>
 					</body>
 					</html>';
-				$mail = new PHPMailer();
-				$mail->IsSMTP();
-				$mail->SMTPAuth = true;
-				$mail->SMTPSecure = 'tls';
+				$mail = new PHPMailer(); 
+				$mail->IsSMTP(); 
+				$mail->SMTPAuth = true; 
+				$mail->SMTPSecure = 'tls'; 
 				$mail->Host = "mail.uniqbizz.com";
-				$mail->Port = 587;
+				$mail->Port = 587; 
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
 				$mail->Username = "support@uniqbizz.com";
-				$mail->Password = "support@uniqbizz";
+				$mail->Password = "NCaB6f^jkm^~";
 				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
-				$mail->Body = $message3;
+				$mail->Body =$message3;
 				$mail->AddAddress($to);
-				$mail->SMTPOptions = array('ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => false
+				$mail->SMTPOptions=array('ssl'=>array(
+					'verify_peer'=>false,
+					'verify_peer_name'=>false,
+					'allow_self_signed'=>false
 				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
@@ -941,16 +941,16 @@ if ($user_type_id == '26') { //Business Mentor
 		}
 	}
 
-	// $sql10 = $conn->prepare("SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $reference_no . "' AND status = '1' ");
-	// $sql10->execute();
-	// $sql10->setFetchMode(PDO::FETCH_ASSOC);
-	// if ($sql10->rowCount() > 0) {
-	// 	foreach (($sql10->fetchAll()) as $key10 => $row10) {
-	// 		$bdm_id = $row10['zonal_manager_id'];
-	// 		$bdm_name = $row10['name'];
-	// 		//$bdm_ref = $row10['reporting_manager'];
-	// 	}
-	// }
+	$sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $reference_no . "' AND status = '1' ");
+	$sql10->execute();
+	$sql10->setFetchMode(PDO::FETCH_ASSOC);
+	if ($sql10->rowCount() > 0) {
+		foreach (($sql10->fetchAll()) as $key10 => $row10) {
+			$bdm_id = $row10['super_techno_enterprise_id'];
+			$bdm_name = $row10['firstname'].' '.$row10['lastname'];
+			//$bdm_ref = $row10['reporting_manager'];
+		}
+	}
 
 	// Fetch the highest numeric part from all master_franchisee_id, ignoring prefix
 	$sql2 = $conn->prepare("
@@ -1178,25 +1178,25 @@ if ($user_type_id == '26') { //Business Mentor
 					</table>
 					</body>
 					</html>';
-				$mail = new PHPMailer();
-				$mail->IsSMTP();
-				$mail->SMTPAuth = true;
-				$mail->SMTPSecure = 'tls';
+				$mail = new PHPMailer(); 
+				$mail->IsSMTP(); 
+				$mail->SMTPAuth = true; 
+				$mail->SMTPSecure = 'tls'; 
 				$mail->Host = "mail.uniqbizz.com";
-				$mail->Port = 587;
+				$mail->Port = 587; 
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
 				$mail->Username = "support@uniqbizz.com";
-				$mail->Password = "support@uniqbizz";
+				$mail->Password = "NCaB6f^jkm^~";
 				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
-				$mail->Body = $message3;
+				$mail->Body =$message3;
 				$mail->AddAddress($to);
-				$mail->SMTPOptions = array('ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => false
+				$mail->SMTPOptions=array('ssl'=>array(
+					'verify_peer'=>false,
+					'verify_peer_name'=>false,
+					'allow_self_signed'=>false
 				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
