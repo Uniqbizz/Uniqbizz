@@ -115,7 +115,7 @@
                                 </div>
 
                                 <p>Total Savings</p>
-                                <h2 class="purple-text mb-n3">₹<?= $disWalletData['total_discount_earned'] ?></h2>
+                                <h2 class="purple-text mb-n3">₹<?= $disWalletData['total_discount_earned'] ?? 0?></h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -140,7 +140,7 @@
                                 </div>
 
                                 <p>Available Balance</p>
-                                <h2 class="green-text mb-n3">₹<?= $disWalletData['balance'] ?></h2>
+                                <h2 class="green-text mb-n3">₹<?= $disWalletData['balance'] ?? 0 ?></h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -165,7 +165,7 @@
                                 </div>
 
                                 <p>Total Discounts Used</p>
-                                <h2 style="color:#2563eb;" class="mb-n3">₹<?= $disWalletData['total_discount_used'] ?></h2>
+                                <h2 style="color:#2563eb;" class="mb-n3">₹<?= $disWalletData['total_discount_used'] ?? 0 ?></h2>
 
                                 <!--<div class="sub-data">-->
                                 <!--    <div>-->
@@ -274,7 +274,7 @@
                         <div class="table-card">
 
                             <div class="table-header">
-                                <h2>All Transactions (10)</h2>
+                                <h2>All Transactions (0)</h2>
                             </div>
 
                             <table class="transaction-table" id="transactionTable">

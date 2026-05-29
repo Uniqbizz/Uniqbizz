@@ -560,7 +560,7 @@
                                                                                     <a href="#" 
                                                                                         onclick=\'deletefunc(
                                                                                                                 "' . $row["id"] . '",
-                                                                                                                "' . $row["business_mentor_id"] . '",
+                                                                                                                "' . $row["executive_techno_enterprise_id"] . '",
                                                                                                                 "deactivate","' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >

@@ -120,7 +120,11 @@
     $sqlLoyaltyCoupons->execute([":user_id" => $userId]);
 
     $loyaltyCouponData = $sqlLoyaltyCoupons->fetch(PDO::FETCH_ASSOC);
-    $loyaltyexpiry_date = date('j M Y', strtotime($loyaltyCouponData['expiry_date']));
+    if($loyaltyCouponData){
+        $loyaltyexpiry_date = date('j M Y', strtotime($loyaltyCouponData['expiry_date'])) ;
+    }else{
+        $loyaltyexpiry_date = '';
+    }
     //reference wallet utilization 
     $sqlRefWalletCurBal = $conn->prepare("
 

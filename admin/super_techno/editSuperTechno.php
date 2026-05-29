@@ -119,7 +119,7 @@
                 if ($reference_no == "Not Applicable") {
                     $reference_no_fname = "Not Applicable";
                 } else {
-                    $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :ref");
+                    $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :ref");
                     $stmt_manager->execute([':ref' => $reference_no]);
 
                     if ($stmt_manager->rowCount() > 0) {

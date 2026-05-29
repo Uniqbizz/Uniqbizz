@@ -118,7 +118,7 @@
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">
                                 Wallet Balance <br>
-                                <span class="walletAmount">&#8377; 3,200</span>
+                                <span class="walletAmount">₹<?= (($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' ) + ($disWalletData['balance'] ?? '0')) ?></span>
                             </p>
                         </div>
                     </a>

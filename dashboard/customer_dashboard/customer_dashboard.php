@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="d-flex justify-content-around gap-3 mt-3">
                                         <div class="mt-3">
-                                            <p class="fs-4 mb-0 fw-bolder textColor">₹21,500.00</p>
+                                            <p class="fs-4 mb-0 fw-bolder textColor">₹<?= (($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' ) + ($disWalletData['balance'] ?? '0')) ?></p>
                                         </div>
                                         
                                     </div>

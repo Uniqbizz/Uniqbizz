@@ -17,7 +17,7 @@
     ){
 
         $project_folder =
-            "/ca.uniqbizz.com";
+            "/uniqbizz-main";
     }
     else{
 

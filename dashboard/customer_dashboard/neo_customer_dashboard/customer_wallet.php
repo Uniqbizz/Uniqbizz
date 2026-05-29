@@ -199,7 +199,7 @@
 
                                                 <div>
                                                     <div class="wallet-stat-label">
-                                                        Total Coupons : <span class="wallet-stat text-dark"><?= $loyaltyCouponData['coupon_total'] ?></span>
+                                                        Total Coupons : <span class="wallet-stat text-dark"><?= $loyaltyCouponData['coupon_total'] ?? '0' ?></span>
                                                     </div>
                                                 </div>
 
@@ -207,7 +207,7 @@
                                             </div>
                                             <div>
                                                 <div class="wallet-stat-label">
-                                                    Available : <span class="wallet-stat text-dark"><?= $loyaltyCouponData['active_coupon_total'] ?></span>
+                                                    Available : <span class="wallet-stat text-dark"><?= $loyaltyCouponData['active_coupon_total'] ?? '0' ?></span>
                                                 </div>
                                             </div>
 
@@ -218,7 +218,7 @@
                                             </div>
 
                                             <div class="wallet-total green-title">
-                                                ₹<?= $loyaltyCouponData['coupon_total_value'] ?>
+                                                ₹<?= $loyaltyCouponData['coupon_total_value'] ?? '0' ?>
                                             </div>
                                             <a href="customer_layalty_coupon.php" class="btn wallet-btn">
                                                 View Loyalty Coupons
@@ -257,11 +257,11 @@
 
                                             <div class="wallet-stat-label">Wallet Balance</div>
                                             <div class="wallet-stat orange-title">
-                                                <span>₹<?= $refWalletData['ref_total_earning'] + $refWalletCurBalData['ref_booking_total'] ?></span>
+                                                <span>₹<?= (($refWalletData['ref_total_earning'] ?? 0) + ($refWalletCurBalData['ref_booking_total'] ?? 0)) ?></span>
                                             </div>
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Withdrawable</div>
-                                            <div class="wallet-total">₹<?= $refWalletData['ref_total_earning'] + $refWalletCurBalData['ref_booking_total'] ?></div>
+                                            <div class="wallet-total">₹<?= (($refWalletData['ref_total_earning'] ?? '0') + ($refWalletCurBalData['ref_booking_total'] ?? '0' )) ?></div>
                                             <a href="customer_reference_wallet.php" class="btn wallet-btn">
                                                 View Transactions
                                             </a>
@@ -298,10 +298,10 @@
                                         <div class="position-relative z-1">
 
                                             <div class="wallet-stat-label">Wallet Balance</div>
-                                            <div class="wallet-stat blue-title">₹<?= $disWalletData['balance'] ?></div>
+                                            <div class="wallet-stat blue-title">₹<?= $disWalletData['balance'] ?? '0' ?></div>
 
                                             <div class="wallet-stat-label mt-4 custom-tight-space">Usable Balance</div>
-                                            <div class="wallet-total">₹<?= $disWalletData['balance'] ?></div>
+                                            <div class="wallet-total">₹<?= $disWalletData['balance'] ?? '0' ?></div>
                                             <a href="customer_discount_wallet.php" class="btn wallet-btn">
                                                 View Transactions
                                             </a>
