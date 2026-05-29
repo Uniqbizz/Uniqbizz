@@ -1,6 +1,7 @@
 
 <?php
 //For Multiple designation add form get name ref:corporate partner 
+// use else if condition format if userType define in this file and DB table not present then it will attach error message with output 15-05-2026
 require '../connect.php';
 
 $user_id = $_POST["user_id_name"]; 
@@ -444,5 +445,104 @@ if($userType = "sponsor_franchisee"){
     } 
 
 }
+if($userType = "institution"){
 
+    $stmt2 = $conn->prepare("SELECT * FROM institution WHERE institution_id = '$user_id' AND user_type = '32' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['firstname'].' '.$row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
+if($userType = "institution_branch_manager"){
+
+    $stmt2 = $conn->prepare("SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '$user_id' AND user_type = '33' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['firstname'].' '.$row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
+if($userType = "executive_techno_enterprise"){
+
+    $stmt2 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '$user_id' AND user_type = '34' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['firstname'].' '.$row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
+if($userType = "super_techno_enterprise"){
+
+    $stmt2 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '$user_id' AND user_type = '35' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['firstname'].' '.$row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
+if($userType = "chief_techno_enterprise"){
+
+    $stmt2 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '$user_id' AND user_type = '36' AND status = 1");
+    $stmt2->execute();                                                                                   
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+     
+    // Generate HTML of city options list
+
+     if($stmt2->rowCount()>0){
+        foreach (($stmt2->fetchAll()) as $key => $row2) {
+        	echo $row2['firstname'].' '.$row2['lastname'];
+        	// echo '<script>document.getElementById("pin").value ="'.$row2['pincode'].'"</script>';
+        	// echo '<script>'$('#pin').val(.$row2['pincode'].)'</script>';
+            
+        }  
+    }else{
+            echo '';
+    } 
+
+}
 ?>

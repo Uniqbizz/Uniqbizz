@@ -18,7 +18,7 @@ $totalAmt = $commission - $commissionTDS;
 
 $date = date('F,Y', strtotime($dateCA));
 
-$tableSearch = (substr($designation, 0, 1) === 'F') 
+$tableSearch = (substr($designation, 0, 1) === 'F' || substr($designation, 0, 1) === 'I') 
     ? substr($designation, 0, 1) 
     : substr($designation, 0, 2);
 if($tableSearch == "CA" || $tableSearch =="TE"){
@@ -29,6 +29,8 @@ if($tableSearch == "CA" || $tableSearch =="TE"){
     $bcNames = $conn -> prepare("SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '".$designation."' AND status = 1");
 }else if($tableSearch == "F"){
     $bcNames = $conn -> prepare("SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '".$designation."' AND status = 1");
+}else if($tableSearch == "I"){
+    $bcNames = $conn -> prepare("SELECT * FROM institution WHERE institution_id = '".$designation."' AND status = 1");
 }else if($tableSearch == "BM"){
     $bcNames = $conn -> prepare("SELECT * FROM business_mentor WHERE business_mentor_id = '".$designation."' AND status = 1");
 }else if($tableSearch == "TA"){
@@ -138,7 +140,8 @@ if($bcNames -> rowCount()>0){
                                                                                                     ($tableSearch == "F"  ? "Franchisee" :
                                                                                                     ($tableSearch == "BM" ? "Business Mentor" :
                                                                                                     ($tableSearch == "SF" ? "Sponsor Franchisee" :
-                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" : "Travel Consultant"))));?> Payout</h5>
+                                                                                                    ($tableSearch == "MF" ? "Master Franchisee" :
+                                                                                                    ($tableSearch == "I" ? "Institution":"Travel Consultant")))));?> Payout</h5>
                                 <div class="col-md-12 col-sm-12" style="text-align: left; margin-bottom:20px">
                                     <table class="orderTable text-center" style="padding-bottom:5px; margin:0px; border:1px solid #DDDDDD;">
                                         <thead>

@@ -1,12 +1,19 @@
 <?php
     include_once 'dashboard_user_details.php';
+
+    $page_title = "";
+    if($userType == "32"){
+        $page_title = "Institution Branch Manager";
+    }else{
+        $page_title = "Travel Consultant";
+    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
 
         <meta charset="utf-8" />
-        <title>Add Travel Consultant | Dashboard</title>
+        <title>Add <?php echo $page_title; ?> | Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/fav.png">
@@ -83,11 +90,11 @@
                             <div class="col-lg-12">
                                 <!-- Page title -->
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0">Add Travel Consultant</h4>
+                                    <h4 class="mb-sm-0">Add <?php echo $page_title; ?></h4>
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item">
-                                                <a href="view_travel_agent.php">View Travel Consultant</a>
+                                                <a href="view_travel_agent.php">View <?php echo $page_title; ?></a>
                                             </li>
                                             <li class="breadcrumb-item active">Add</li>
                                         </ol>
@@ -294,6 +301,28 @@
                                                             <input type="text" class="form-control" id="pin" placeholder="Enter your pincode">
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="branch">
+                                                                <option value=""> ---- Select Branch ---- </option>
+                                                                <?php
+                                                                    require '../connect.php';
+                                                                    $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                    $stmt = $conn->prepare($sql);
+                                                                    $stmt->execute();
+                                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">Branch not available</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="address">Address<span class="text-danger">*</span></label>
@@ -304,8 +333,8 @@
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="payment_fee">Payment Fee<span class="text-danger">*</span></label>
                                                             <select class="form-select" id="payment_fee">
-                                                                <option value="null" selected>--Select Payment Fee--</option>
-                                                                <option value="FOC">Free</option>
+                                                                <option value="null" >--Select Payment Fee--</option>
+                                                                <option value="FOC" selected>Free</option>
                                                                 <option value="3000"><span>&#8377 </span>3000/-</option> 
                                                                 <option value="10000"><span>&#8377 </span>10,000/-</option>
                                                             </select>
@@ -489,6 +518,19 @@
         <script src="assets/js/app.js"></script>
 
         <script>
+
+            var register_type = $("#userType").val();
+            // console.log(register_type);
+            if (register_type === '16' || register_type === '30') {
+                // Enable payment fee
+                $('#payment_fee').prop('disabled',false);
+                $('#branch').prop('disabled', true);
+            } else if (register_type === '32') {
+                // Disable payment fee
+                $('#payment_fee').prop('disabled',true);
+                $('#branch').prop('disabled', false);
+            }
+            
             //select Designation
             $('#designation').on('change', function() {
                 var designation = $('#designation').val();

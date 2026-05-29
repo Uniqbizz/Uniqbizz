@@ -13,7 +13,7 @@ $tdsPercentage=2/100;
 if($userType == '11'){ //travel_consultant
     $userIdCommi = 'ta_id';
     $amtCal = 'ta_markup + ta_amt';
-}elseif($userType == '16' || $userType =='29'){ //Techno Enterprise/ corporate agency/franchisee
+}elseif($userType == '16' || $userType =='29' || $userType =='32'){ //Techno Enterprise/ corporate agency/franchisee/institution
     $userIdCommi = 'te_id';
     $amtCal = 'te_amt';
 }elseif($userType == '10'){ //customer
@@ -118,7 +118,7 @@ if($totalTableMessage){
                         $status = $row['ta_status'];
                         $tds = $amt * $tdsPercentage;
                         $total = $amt - $tds;
-                    }else if($userType == '16' || $userType == '29'){
+                    }else if($userType == '16' || $userType == '29' || $userType =='32'){
                         $id = $row['te_id'];
                         $message = $row['te_mess'];
                         $amt = $row['te_amt'];

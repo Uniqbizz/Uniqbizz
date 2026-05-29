@@ -93,35 +93,37 @@ function userLogin(){
     //   alert('unchecked');
     // }
   	var datastring='username='+username+'&password='+password+'&remember_me='+remember_me+'&user_type='+user_type;
-
       if (user_type=='') {
           alert("Please Select Login As");
       }else if (username=='') {
-        
         alert("Please Enter Username");
       }
       else if(password==''){
-        
         alert("Please Enter Password");
       }else{
         $.ajax({
           type: "POST",
           url: "login_data/submit_data.php",
           data: datastring,
-            success: function (res) {
+          dataType: "json",
+          success: function (res) {
               console.log(res);
-              if (res==1) {
-
-                // alert("login ");
-                // window.open("index2.php");
-                // alert();
-                location.href = "dashboard/index.php";
+              if (res.status == 1) {
+                  if (res.user_type == "10" && res.user_id == "CU260052") {
+                    location.href = "dashboard/customer_dashboard/customer_dashboard.php";
+                  } else if (res.user_type == "33" && res.user_id == "IBRGA26004") {
+                    location.href = "dashboard/institute_branch_manager/index.php";
+                  } else {
+                    location.href = "dashboard/index.php";
+                  }
+              } else {
+                  alert("username and password not correct");
               }
-              else{
-                alert("username and password not correct");
-              }
-            },
-          });
+          },
+          error: function(xhr, status, error) {
+              console.log(xhr.responseText);
+          }
+        });
       }
 }
 

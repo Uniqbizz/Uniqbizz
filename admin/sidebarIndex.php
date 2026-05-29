@@ -85,12 +85,24 @@
                         <span key="t-contacts">Business Consultant</span>
                     </a>
                 </li> -->
-                <!-- <li>
-                    <a href="business_operation_executive/view_business_operation_executive.php" class=" waves-effect">
+                <li>
+                    <a href="chief_techno/chief_techno.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Business Operation Executive</span>
+                        <span key="t-contacts">Chief Techno Enterprise</span>
                     </a>
-                </li> -->
+                </li>
+                <li>
+                    <a href="super_techno/superTechno.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Super Techno Enterprise</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="executive_techno/executiveTechno.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Executive Techno Enterprise</span>
+                    </a>
+                </li>
                 <li>
                     <a href="businessMentor/businessMentor.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
@@ -106,7 +118,7 @@
                 <li>
                     <a href="ca_travelAgency/view_ca_travelAgency.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Travel Consultant</span>
+                        <span key="t-contacts">TC / IBR</span>
                     </a>
                 </li>
                 <li>

@@ -6,7 +6,8 @@
     $state_id = $_GET['mst'];
     $city_id = $_GET['hct'];
     $editfor = $_GET['editfor'];
-
+    $branch_id = $_GET['branch'];
+    
     $stmt = $conn->prepare("SELECT * FROM `ca_travelagency` WHERE ca_travelagency_id='".$id."' OR id = '".$id."' ");
     $stmt->execute();
     // set the resulting array to associative
@@ -43,6 +44,9 @@
             $bank_name=$row['bank_name'];
             $transaction_no=$row['transaction_no'];
             $pincode=$row['pincode'];
+            if($user_type == '32'){
+                $branch=$row['branch'];
+            }
             $register_by=$row['register_by'];
 
             //get country
@@ -71,7 +75,14 @@
                 $city_name = $city['city_name'];
             }
 
-            
+            // Get branch name
+            if($user_type == '32'){
+                $branchs = $conn->prepare("SELECT branch_name FROM branch WHERE id='$branch' AND status='1'");
+                $branchs->execute();
+                if ($branchs->rowCount() > 0) {
+                    $branch_name = $branchs->fetch()['branch_name'];
+                }
+            }
         }
     }
 ?>
@@ -298,6 +309,31 @@
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="pin" placeholder="Enter your zipcode" value="<?php echo $pincode;?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="input-block mb-3">
+                                                            <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                            <select class="form-select" id="branch">
+                                                                <?php if($userType == '32'){ ?>
+                                                                    <option value="<?php echo $branch_id;?>"><?php echo $branch_name.' (Already Selected)' ; ?></option>
+                                                                <?php } ?>    
+                                                                <option value=""> ---- Select Branch ---- </option>
+                                                                <?php
+                                                                    require '../connect.php';
+                                                                    $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                    $stmt = $conn->prepare($sql);
+                                                                    $stmt->execute();
+                                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                    if ($stmt->rowCount() > 0) {
+                                                                        foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                            echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<option value="">Branch not available</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -642,6 +678,18 @@
                 } else {
                     $("#chequeOpt").addClass("d-none");
                     $("#onlineOpt").addClass("d-none");
+                }
+
+                var register_type = $("#userType").val();
+                // console.log(register_type);
+                if (register_type === '16' || register_type === '30') {
+                    // Enable payment fee
+                    $('#payment_fee').prop('disabled',false);
+                    $('#branch').prop('disabled', true);
+                } else if (register_type === '32') {
+                    // Disable payment fee
+                    $('#payment_fee').prop('disabled',true);
+                    $('#branch').prop('disabled', false);
                 }
 
             });

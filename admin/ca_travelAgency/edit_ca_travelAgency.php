@@ -14,18 +14,30 @@
     $country_id = $_GET['ncy'];
     $state_id = $_GET['mst'];
     $city_id = $_GET['hct'];
-
+    $user_type = $_GET['usertype'];
+    $branch_id = $_GET['branch'];
     $editfor = $_GET['editfor'];
-
-    if($editfor == 'pending'){
-        // $identifier_id= $_POST["vkvbvjfgfikix"];
-        $identifier_name = 'id=';
-    }else if($editfor == 'registered') {
-        // $identifier_id= $_POST["vkvbvjfgfikix"];
-        $identifier_name = 'ca_travelagency_id=';
+    if($user_type == '11'){
+        if($editfor == 'pending'){
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'id=';
+        }else if($editfor == 'registered') {
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'ca_travelagency_id=';
+        }
+    
+        $stmt = $conn->prepare("SELECT * FROM `ca_travelagency` where ca_travelagency_id='".$id."' OR id = '".$id."'");
+    }elseif ($user_type == '33') {
+        if($editfor == 'pending'){
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'id=';
+        }else if($editfor == 'registered') {
+            // $identifier_id= $_POST["vkvbvjfgfikix"];
+            $identifier_name = 'institution_branch_manager_id=';
+        }
+    
+        $stmt = $conn->prepare("SELECT * FROM `institution_branch_manager` where institution_branch_manager_id='".$id."' OR id = '".$id."'");
     }
-
-    $stmt = $conn->prepare("SELECT * FROM `ca_travelagency` where ca_travelagency_id='".$id."' OR id = '".$id."'");
     $stmt->execute();
     // set the resulting array to associative
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -65,6 +77,9 @@
             $bank_name=$row['bank_name'];
             $transaction_no=$row['transaction_no'];
             $pincode=$row['pincode'];
+            if($user_type == '33'){
+                $branch=$row['branch'];
+            }
             $note=$row['note'];
             $comp_check=$row['comp_check'];
             // $complimentary=$row['complimentary'];
@@ -96,7 +111,16 @@
                 $city_name = $city['city_name'];
             }
 
-            $reference_id = (substr($reference_no, 0, 1) === 'F') 
+            // Get branch name
+            if($user_type == '33'){
+                $branchs = $conn->prepare("SELECT branch_name FROM branch WHERE id='$branch' AND status='1'");
+                $branchs->execute();
+                if ($branchs->rowCount() > 0) {
+                    $branch_name = $branchs->fetch()['branch_name'];
+                }
+            }
+            
+            $reference_id = (substr($reference_no, 0, 1) === 'F' || substr($reference_no, 0, 1) === 'I' ) 
 							? substr($reference_no, 0, 1) 
 							: substr($reference_no, 0, 2);
             if($reference_id == "BM"){
@@ -142,6 +166,16 @@
                     $reference_no_fname = $corporate_agencys['firstname'];
                     $reference_no_lname = $corporate_agencys['lastname'];
                 }
+            }else if($reference_id == "I"){
+                // corporate agency name
+                $corporate_agencys = $conn->prepare("SELECT firstname, lastname FROM institution where institution_id='".$reference_no."'");
+                $corporate_agencys ->execute();
+                $corporate_agencys ->setFetchMode(PDO::FETCH_ASSOC);
+                if(  $corporate_agencys->rowCount()>0 ){
+                    $corporate_agencys = $corporate_agencys->fetch();
+                    $reference_no_fname = $corporate_agencys['firstname'];
+                    $reference_no_lname = $corporate_agencys['lastname'];
+                }
             }else if($reference_id == "MF"){
                 // corporate agency name
                 $corporate_agencys = $conn->prepare("SELECT firstname,lastname FROM master_franchisee where master_franchisee_id='".$reference_no."'");
@@ -165,7 +199,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Travel Agency | Admin Dashboard </title>
+        <title>Edit Travel Consultant/ Institution Branch Manager| Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -214,7 +248,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Travel Agency</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Travel Consultant/ Institution Branch Manager</h4>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +259,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Travel Agency Form</h3>
+                                            <h3>Edit Travel Consultant / Institution Branch Manager Form</h3>
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 d-flex justify-content-end">
                                                     <div class="input-block mb-3 form-check">
@@ -370,6 +404,31 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label" for="pin">Pincode<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="pin" placeholder="Pincode" value="<?php echo $pincode; ?>" readonly >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label">Branch <span class="text-danger">*</span></label>
+                                                        <select class="form-select" id="branch">
+                                                            <?php if($user_type == '33'){ ?>
+                                                                <option value="<?php echo $branch_id;?>"><?php echo $branch_name.' (Already Selected)' ; ?></option>
+                                                            <?php } ?>    
+                                                            <option value=""> ---- Select Branch ---- </option>
+                                                            <?php
+                                                                require '../connect.php';
+                                                                $sql = "SELECT * FROM `branch` WHERE status ='1' ";
+                                                                $stmt = $conn->prepare($sql);
+                                                                $stmt->execute();
+                                                                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                                if ($stmt->rowCount() > 0) {
+                                                                    foreach (($stmt->fetchAll()) as $key => $row) {
+                                                                        echo '<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="">Branch not available</option>';
+                                                                }
+                                                            ?>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-sm-12">
@@ -631,6 +690,7 @@
                                             <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no;?>">
                                             <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor;?>">
                                             <input type="hidden" id="id" name="id" value="<?php echo $id;?>">
+                                            <input type="hidden" id="registered" name="registered" value="<?php echo $user_type; ?>">
 
                                             <div class="submit-section d-flex justify-content-center mb-4">
                                                 <button type="submit" class="btn btn-primary px-5 py-2" id="edit_ca_travelagency">Submit</button>
@@ -701,6 +761,17 @@
 
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
+            
+            var register_type = $("#registered").val();
+            // console.log(register_type);
+            if(register_type == '11'){
+                $('#branch').prop('disabled', true);
+                $('#payment_fee').prop('disabled',false);
+            }else if(register_type == '33'){
+                $('#branch').prop('disabled', false);
+                $('#payment_fee').prop('disabled',true);
+            }
+
             //on change of compcheck
             $('#is_complementary').on('change', function () {
                 if ($(this).is(':checked')) {

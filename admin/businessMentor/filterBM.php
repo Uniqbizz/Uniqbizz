@@ -68,6 +68,12 @@
             WHERE status = '1' $filter
         ";
 
+        $eteQuery = "
+            SELECT executive_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'ETE' AS user_type 
+            FROM executive_techno_enterprise 
+            WHERE status = '1' $filter
+        ";
+
         // Build final query based on designation
         if ($designation == "BM") {
             $sql = $bmQuery . " ORDER BY id ASC";
@@ -75,6 +81,8 @@
             $sql = $mfQuery . " ORDER BY id ASC";
         } elseif ($designation == "SF") {
             $sql = $sfQuery . " ORDER BY id ASC";
+        } elseif ($designation == "ETE") {
+            $sql = $eteQuery . " ORDER BY id ASC";
         } elseif ($designation == "All") {
             $sql = "
                 ($bmQuery)
@@ -82,6 +90,8 @@
                 ($mfQuery)
                 UNION
                 ($sfQuery)
+                UNION ALL
+                ($eteQuery)
                 ORDER BY id ASC
             ";
         } else {

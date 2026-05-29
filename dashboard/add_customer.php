@@ -21,11 +21,17 @@ if ($userType == 10) {
     $tcId = $tc['ta_reference_no'];
     $customer_type = $tc['customer_type'];
 
-
-    $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
-    $stmt12->execute();
-    $tcName = $stmt12->fetch();
-    $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+    if(substr($tcId,0,2) == 'TA'){
+        $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
+        $stmt12->execute();
+        $tcName = $stmt12->fetch();
+        $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+    }else if(substr($tcId,0,2) == 'IB'){
+        $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $tcId . "' ");
+        $stmt12->execute();
+        $tcName = $stmt12->fetch();
+        $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+    }
 
 }
 ?>
@@ -153,7 +159,7 @@ if ($userType == 10) {
                                                             <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
                                                         </div>
                                                     </div>
-                                                <?php } else if ($userType == '11') { ?>
+                                                <?php } else if ($userType == '11' || $userType == "33") { ?>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
@@ -347,7 +353,7 @@ if ($userType == 10) {
                                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
                                                     </div>
                                                 </div>
-                                                <?php if ($userType == 11 || $userType == 10) { ?>
+                                                <?php if ($userType == 11 || $userType == 10 || $userType == 33) { ?>
 
                                                 
                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">
@@ -355,12 +361,12 @@ if ($userType == 10) {
                                                         <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null">--Select Payment Fee--</option>
-                                                            <option value="FOC" selected>Free</option>
+                                                            <!-- <option value="FOC" selected>Free</option>
                                                             <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                             <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
                                                             <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
                                                             <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
-                                                            <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option>
+                                                            <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option> -->
                                                             <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                                         </select>
                                                     </div>

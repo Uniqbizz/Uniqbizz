@@ -13,7 +13,7 @@ $commision = $_POST['Commision'] ?? '';
 $user_id_str=substr($user_id,0,1) == 'F'?substr($user_id,0,1):substr($user_id,0,2);
 if($user_id_str =='MF' || $user_id_str =='SF' || $user_id_str=='BM'){
     $message = "message_bm";
-}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE'){
+}else if ($user_id_str =='F' || $user_id_str =='CA' || $user_id_str=='TE' || $user_id_str=='I'){
     $message = "message_te";
 }else if($user_id_str =='TA'){
     $message = "message_tc";

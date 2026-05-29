@@ -1,3 +1,4 @@
+<!-- Made table responsive 26-03-2026 -->
 <!-- Membership overview  -->
 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="card rounded-4 shadow mb-3">
@@ -29,7 +30,7 @@
                         $premium_select_customers = $row['premium_select_customers'] ?? 0;
                         $premium_select_lite_customers = $row['premium_select_lite_customers'] ?? 0;
                         $neo_select_customers = $row['neo_select_customers'] ?? 0;
-                        $neo_select_ultra_customers = $row['premium_select_lite_customers'] ?? 0;
+                        $neo_select_ultra_customers = $row['neo_select_ultra_customers'] ?? 0;
 
                         // get custommer count base on membership selected and if complimentary
                         $stmt2 = $conn->prepare("

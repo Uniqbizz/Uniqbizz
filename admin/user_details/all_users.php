@@ -100,7 +100,7 @@
                                                         <?php
                                                             require '../connect.php';
                                                             
-                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE (user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30' || user_type_id ='31')  AND status='1'");
+                                                            $stmt = $conn->prepare("SELECT * FROM login WHERE (user_type_id ='10' || user_type_id ='11' || user_type_id ='16' || user_type_id ='24' || user_type_id ='25' || user_type_id ='26' || user_type_id ='27' || user_type_id ='28' || user_type_id ='29' || user_type_id ='30' || user_type_id ='31' || user_type_id ='32')|| user_type_id ='33'  AND status='1'");
                                                             $stmt->execute();
                                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                                             $firstname='';
@@ -153,6 +153,14 @@
                                                                     //SF
                                                                     else if ( $userType == 30 ) {
                                                                         $users = $conn->prepare("SELECT firstname,lastname FROM sponsor_franchisee where sponsor_franchisee_id='".$userId."' AND status='1' ");
+                                                                    }
+                                                                    //I
+                                                                    else if ( $userType == 32 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM institution where institution_id='".$userId."' AND status='1' ");
+                                                                    }
+                                                                    //IBR
+                                                                    else if ( $userType == 33 ) {
+                                                                        $users = $conn->prepare("SELECT firstname,lastname FROM institution_branch_manager where institution_branch_manager_id='".$userId."' AND status='1' ");
                                                                     }
                                                                     //RM
                                                                     else if ( $userType == 31 ) {

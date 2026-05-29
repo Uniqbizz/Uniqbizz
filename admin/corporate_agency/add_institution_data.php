@@ -57,25 +57,25 @@
     $comm_per=0;
     $ins_per=0;
     //amount = 2,00,000
-    if ($amount == '200000') {
-        $comm_per=10;
-        $ins_per=10;
-    } 
-    //amount = 3,00,000
-    else if($amount == '300000') {
-        $comm_per=15;
-        $ins_per=15;
-    }
-    //amount = 4,00,000
-    else if($amount == '400000') {
-        $comm_per=20;
-        $ins_per=20;
-    }
-    //amount = 5,00,000
-    else if($amount >= '500000') {
-        $comm_per=30;
-        $ins_per=20;
-    }
+    // if ($amount == '200000') {
+    //     $comm_per=10;
+    //     $ins_per=10;
+    // } 
+    // //amount = 3,00,000
+    // else if($amount == '300000') {
+    //     $comm_per=15;
+    //     $ins_per=15;
+    // }
+    // //amount = 4,00,000
+    // else if($amount == '400000') {
+    //     $comm_per=20;
+    //     $ins_per=20;
+    // }
+    // //amount = 5,00,000
+    // else if($amount >= '500000') {
+    //     $comm_per=30;
+    //     $ins_per=20;
+    // }
     
     $sql= "INSERT INTO `institution` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , 
            date_of_birth, age, gender, country, state, city, pincode, address, note, converted, profile_pic, gst_no, amount,

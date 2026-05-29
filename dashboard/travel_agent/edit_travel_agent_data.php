@@ -43,6 +43,7 @@ $bank_name=$_POST['bankName'];
 $transaction_no=$_POST['transactionNo'];
 $address=$_POST['address'];
 $pincode=$_POST['pincode'];
+$branch=$_POST['branch'];
 $country=$_POST['country'];
 $state=$_POST['state'];
 $city=$_POST['city'];
@@ -58,7 +59,7 @@ $register_by= $userType;
  
 if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' ||$dob !='' ||$address !='' ||$profile_pic !=''){
 	
-    $sql1 = "UPDATE ca_travelagency SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age,country=:country,state=:state,city=:city,pincode=:pincode,address=:address,payment_mode=:payment_mode, cheque_no=:cheque_no, cheque_date=:cheque_date, bank_name=:bank_name, transaction_no=:transaction_no,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card,passbook=:passbook,payment_proof=:payment_proof WHERE $identifier_name:identifier_id ";
+    $sql1 = "UPDATE ca_travelagency SET firstname=:firstname,lastname=:lastname,nominee_name=:nominee_name,nominee_relation=:nominee_relation,country_code=:country_code,contact_no=:contact_no,email=:email,gender=:gender,date_of_birth=:date_of_birth,age=:age,country=:country,state=:state,city=:city,pincode=:pincode,branch=:branch,address=:address,payment_mode=:payment_mode, cheque_no=:cheque_no, cheque_date=:cheque_date, bank_name=:bank_name, transaction_no=:transaction_no,profile_pic=:profile_pic,pan_card=:pan_card,aadhar_card=:aadhar_card,voting_card=:voting_card,passbook=:passbook,payment_proof=:payment_proof WHERE $identifier_name:identifier_id ";
         $stmt = $conn->prepare($sql1);
         $result=  $stmt->execute(array(
             ':firstname' => $firstname,
@@ -74,6 +75,7 @@ if($firstname !='' ||$lastname !='' ||$phone !='' ||$email !='' ||$gender !='' |
             ':state' => $state,
             ':city' => $city,
             ':pincode' => $pincode,
+			':branch' => $branch,
             ':address' => $address,
             ':profile_pic' => $profile_pic,
             ':age' => $age,

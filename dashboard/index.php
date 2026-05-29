@@ -33,6 +33,24 @@ if ($userType == '29') {
         $fran_amount = 0;
     }
 }
+if ($userType == '32') {
+    $sqlf = 'SELECT upgrade_status, upgrade_amt 
+             FROM institution_upgrade 
+             WHERE institution_id = :user';
+
+    $stmt = $conn->prepare($sqlf);
+    $stmt->execute([':user' => $userId]);
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $fran_upgrade_status = $result['upgrade_status'];
+        $fran_amount         = $result['upgrade_amt'];
+    } else {
+        $fran_upgrade_status = null;
+        $fran_amount = 0;
+    }
+}
 
 ?>
 <!doctype html>
@@ -1008,11 +1026,11 @@ if ($userType == '29') {
                                 <?php   }
                                       } ?>
 
-                                <?php if ($userType == '11') { ?> <!--travel Agent => 11  -->
+                                <?php if ($userType == '11' || $userType == '33') { ?> <!--travel Agent => 11  -->
 
                                     <!-- New Card Template Start -->
                                     <div class="row">
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="<?= $userType == '33' ? 'col-xl-4':'col-xl-3' ?> col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg1">
                                                 <div>
                                                     <p class="text-white fw-bold">Registered Customer</p>
@@ -1054,7 +1072,7 @@ if ($userType == '29') {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="<?= $userType == '33' ? 'col-xl-4':'col-xl-3' ?> col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg2">
                                                 <div>
                                                     <p class="text-white fw-bold">Completed Tours</p>
@@ -1095,7 +1113,7 @@ if ($userType == '29') {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="<?= $userType == '33' ? 'col-xl-4':'col-xl-3' ?> col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg3">
                                                 <div>
                                                     <p class="text-white fw-bold">Upcoming Tours</p>
@@ -1134,6 +1152,7 @@ if ($userType == '29') {
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php if($userType != '33'){  ?>
                                         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="card rounded-3 pt-3 pb-2 px-4 cardBg4">
                                                 <div>
@@ -1209,15 +1228,18 @@ if ($userType == '29') {
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php } ?>
+
                                     </div>
                                     <!-- New Card Template end -->
 
                                 <?php } ?>
 
-                                <?php if ($userType == '16' || $userType == '29') { ?> <!--Corporate Agency => 16 -->
+                                <?php if ($userType == '16' || $userType == '29' || $userType == '32') { ?> <!--Corporate Agency => 16 -->
 
                                     <!-- New Card Template Start -->
                                      <?php
+                                     if ( $userType == '29' || $userType == '32') {
                                         if($fran_upgrade_status == 2){
                                      ?>
                                      <!-- upgrade card -->
@@ -1313,6 +1335,7 @@ if ($userType == '29') {
 
                                      <?php
                                         }
+                                     }
                                      ?>
                                      
                                     <div class="row">
@@ -1336,6 +1359,21 @@ if ($userType == '29') {
                                                                             AND tm.te_id = '" . $userId . "' 
                                                                             AND tm.map_status = 1
                                                                         WHERE (ca.reference_no = '" . $userId . "' OR tm.te_id = '" . $userId . "') 
+                                                                        AND ca.status = '1'";
+                                                            $stmt3 = $conn->prepare($sql3);
+                                                            $stmt3->execute();
+                                                            $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                                                            if ($stmt3->rowCount() > 0) {
+                                                                foreach (($stmt3->fetchAll()) as $key => $row) {
+                                                                    $id = $row['id'];
+                                                                    echo '<h1 class="mb-0 text-white">' . $id . '</h1>';
+                                                                }
+                                                            }
+                                                        
+                                                        }else if($userType == '32'){
+                                                            $sql3 = "SELECT COUNT(DISTINCT ca.institution_branch_manager_id) AS id
+                                                                        FROM institution_branch_manager ca
+                                                                        WHERE ca.reference_no = '" . $userId . "' 
                                                                         AND ca.status = '1'";
                                                             $stmt3 = $conn->prepare($sql3);
                                                             $stmt3->execute();
@@ -1391,6 +1429,17 @@ if ($userType == '29') {
                                                                 echo '<p class="text-white">' . $id . '</p>';
                                                             }
                                                         }
+                                                    }else if($userType == '32'){
+                                                        $sql3 = "SELECT COUNT(institution_branch_manager_id) as id FROM institution_branch_manager WHERE reference_no = '" . $userId . "' AND user_type = '11' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                                                        $stmt3 = $conn->prepare($sql3);
+                                                        $stmt3->execute();
+                                                        $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+                                                        if ($stmt3->rowCount() > 0) {
+                                                            foreach (($stmt3->fetchAll()) as $key => $row) {
+                                                                $id = $row['id'];
+                                                                echo '<p class="text-white">' . $id . '</p>';
+                                                            }
+                                                        }
                                                     }else{
                                                         $sql3 = "SELECT COUNT(ca_travelagency_id) as id FROM ca_travelagency WHERE reference_no = '" . $userId . "' AND user_type = '11' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
                                                         $stmt3 = $conn->prepare($sql3);
@@ -1420,17 +1469,19 @@ if ($userType == '29') {
                                                     </span>
                                                     <div class="ms-4">
                                                         <?php
-                                                        $stmt2 = $conn->prepare("SELECT * FROM `ca_travelagency` WHERE reference_no = ? ");
-                                                        $stmt2->execute([$userId]);
+                                                        $stmt2 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM `ca_travelagency` WHERE reference_no = ? 
+                                                                                UNION ALL
+                                                                                SELECT institution_branch_manager_id AS user_id FROM `institution_branch_manager` WHERE reference_no = ?");
+                                                        $stmt2->execute([$userId,$userId]);
                                                         $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                                                         $count = 0; // Initialize count
 
                                                         foreach ($referrals as $referral) {
-                                                            $userCA = $referral['ca_travelagency_id'];
+                                                            $userCA = $referral['user_id'];
 
                                                             $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND status = '1'");
-                                                            $stmt4->execute([$referral['ca_travelagency_id']]);
+                                                            $stmt4->execute([$referral['user_id']]);
                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                                                             if ($stmt4->rowCount() > 0) {
                                                                 foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
@@ -1447,14 +1498,16 @@ if ($userType == '29') {
                                                 <div class="d-flex justify-content-between">
                                                     <p class="text-white">This Month</p>
                                                     <?php
-                                                    $stmt2 = $conn->prepare("SELECT * FROM `ca_travelagency` WHERE reference_no = ? AND user_type = '11'  ");
-                                                    $stmt2->execute([$userId]);
+                                                    $stmt2 = $conn->prepare("SELECT ca_travelagency_id AS user_id FROM `ca_travelagency` WHERE reference_no = ? 
+                                                                            UNION ALL
+                                                                            SELECT institution_branch_manager_id AS user_id FROM `institution_branch_manager` WHERE reference_no = ? ");
+                                                    $stmt2->execute([$userId,$userId]);
                                                     $referrals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
                                                     $count2 = 0; // Initialize count
 
                                                     foreach ($referrals as $referral) {
-                                                        $userBM = $referral['ca_travelagency_id'];
+                                                        $userBM = $referral['user_id'];
 
                                                         $stmt4 = $conn->prepare("SELECT ca_customer_id FROM ca_customer WHERE ta_reference_no = ? AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'");
                                                         $stmt4->execute([$userBM]);
@@ -1485,56 +1538,15 @@ if ($userType == '29') {
 
                                                     //pending amount
                                                     //status = 1 Confirm,  2 pending
-                                                    $sqlCAP = $conn->prepare("SELECT SUM(te_amt) as teProductAmt FROM product_payout WHERE te_id = '" . $userId . "' AND te_status='2' ");
+                                                    include 'user_commission_query.php';
                                                     $sqlCAP->execute();
                                                     $sqlCAP->setFetchMode(PDO::FETCH_ASSOC);
                                                     if ($sqlCAP->rowCount() > 0) {
                                                         foreach (($sqlCAP->fetchAll()) as $key => $row) {
-                                                            $PendingAmt = $row['teProductAmt'];
+                                                            $finalAmtP = number_format($row['commission_pending_amount']);
+                                                            $finalAmtC = number_format($row['commission_paid_amount']);
                                                         }
                                                     }
-                                                    //status = 1 pending,  2 confirm
-                                                    $sqlTAP = $conn->prepare("SELECT SUM(commision_te) as teCommiAmt FROM ca_ta_payout WHERE techno_enterprise = '" . $userId . "' AND status_te = '2' ");
-                                                    $sqlTAP->execute();
-                                                    $sqlTAP->setFetchMode(PDO::FETCH_ASSOC);
-                                                    if ($sqlTAP->rowCount() > 0) {
-                                                        foreach (($sqlTAP->fetchAll()) as $key => $row) {
-                                                            $PendingComm = $row['teCommiAmt'];
-                                                        }
-                                                    }
-
-                                                    $AmtTotalPending = $PendingAmt + $PendingComm;
-                                                    $tdsAmtPending = $AmtTotalPending * $tdsPercentage;
-                                                    $walletBalPending = $AmtTotalPending - $tdsAmtPending;
-                                                    $truncatedWalletBalP = floor($walletBalPending * 100) / 100;
-                                                    $finalAmtP = number_format($truncatedWalletBalP, 2);
-
-                                                    //confirm amount
-                                                    //status = 1 Confirm,  2 pending
-                                                    $sqlCAP = $conn->prepare("SELECT SUM(te_amt) as teProductAmt FROM product_payout WHERE te_id = '" . $userId . "' AND te_status='1' ");
-                                                    $sqlCAP->execute();
-                                                    $sqlCAP->setFetchMode(PDO::FETCH_ASSOC);
-                                                    if ($sqlCAP->rowCount() > 0) {
-                                                        foreach (($sqlCAP->fetchAll()) as $key => $row) {
-                                                            $ConfirmAmt = $row['teProductAmt'];
-                                                        }
-                                                    }
-                                                    //status = 1 pending,  2 confirm
-                                                    $sqlTAP = $conn->prepare("SELECT SUM(commision_te) as teCommiAmt FROM ca_ta_payout WHERE techno_enterprise = '" . $userId . "' AND status_te = '1' ");
-                                                    $sqlTAP->execute();
-                                                    $sqlTAP->setFetchMode(PDO::FETCH_ASSOC);
-                                                    if ($sqlTAP->rowCount() > 0) {
-                                                        foreach (($sqlTAP->fetchAll()) as $key => $row) {
-                                                            $ConfirmComm = $row['teCommiAmt'];
-                                                        }
-                                                    }
-
-                                                    $AmtTotalConfirm = $ConfirmAmt + $ConfirmComm;
-                                                    $tdsAmtConfirm = $AmtTotalConfirm * $tdsPercentage;
-                                                    $walletBalConfirm = $AmtTotalConfirm - $tdsAmtConfirm;
-                                                    $truncatedWalletBalC = floor($walletBalConfirm * 100) / 100;
-                                                    $finalAmtC = number_format($truncatedWalletBalC, 2);
-
 
                                                     ?>
                                                     <div class="ms-4">
@@ -3234,7 +3246,7 @@ if ($userType == '29') {
                                                     </span>
                                                     <div class="ms-4">
                                                         <?php
-                                                            $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '16' AND status = '1'";
+                                                            $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '29' AND status = '1'";
                                                             $stmt3 = $conn->prepare($sql3);
                                                             $stmt3->execute();
                                                             $stmt3->setFetchMode(PDO::FETCH_ASSOC);
@@ -3251,7 +3263,7 @@ if ($userType == '29') {
                                                 <div class="d-flex justify-content-between">
                                                     <p class="text-white">This Month</p>
                                                     <?php
-                                                        $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '16' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
+                                                        $sql3 = "SELECT COUNT(sub_franchisee_id) as id FROM sub_franchisee WHERE reference_no = '" . $userId . "' AND user_type = '29' AND YEAR(register_date) = '" . $DateYear . "' AND MONTH(register_date) = '" . $DateMonth . "' AND status = '1'";
                                                         $stmt3 = $conn->prepare($sql3);
                                                         $stmt3->execute();
                                                         $stmt3->setFetchMode(PDO::FETCH_ASSOC);
@@ -3887,7 +3899,7 @@ if ($userType == '29') {
                                 <?php } ?>
 
                                 <!-- !-- Line Chart and top 5 user table -->
-                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30' || $userType =='31') { ?>
+                                <?php if ($userType == '3' || $userType == '11' || $userType == '16' || $userType == '26' || $userType == '25' || $userType == '24' || $userType == '28' || $userType =='29' || $userType =='30' || $userType =='31' || $userType == '33') { ?>
                                     <div class="row">
                                         <!-- Line Chart -->
                                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -3928,7 +3940,7 @@ if ($userType == '29') {
                                                     } else if ($userType == "16") {
                                                         $topCustomerTableName = "Travel Agency";
                                                         $topCustomerTableRefCol = "CU";
-                                                    } else if ($userType == "11") {
+                                                    } else if ($userType == "11" || $userType == '33') {
                                                         $topCustomerTableName = "Customers";
                                                         $topCustomerTableRefCol = "CU";
                                                     } else if ($userType == "18") {
@@ -3992,16 +4004,6 @@ if ($userType == '29') {
                                                             </thead>
                                                             <tbody>
                                                                 <?php
-                                                                // business_consultant
-                                                                if ($userType == '3') {
-                                                                    $tableName1 = 'corporate_agency';
-                                                                    $tableId1 = 'corporate_agency_id';
-                                                                    $tableNameDesignation = 'Corporate Agency';
-                                                                    $tableName2 = 'ca_travelagency';
-                                                                    $tableId2 = 'ca_travelagency_id';
-                                                                    $tableColumnName = 'reference_no';
-                                                                    $tableColumnName2 = 'reference_no';
-                                                                }
                                                                 // corporate_agency
                                                                 if ($userType == '16') {
                                                                     $tableName1 = 'ca_travelagency';
@@ -4029,46 +4031,6 @@ if ($userType == '29') {
                                                                     $tableNameDesignation = 'Customer';
                                                                     $tableName2 = 'ca_customer';
                                                                     $tableId2 = 'ca_customer_id';
-                                                                    $tableColumnName = 'reference_no';
-                                                                    $tableColumnName2 = 'reference_no';
-                                                                }
-                                                                // channel_business_director
-                                                                if ($userType == '18') {
-                                                                    $tableName1 = 'business_consultant';
-                                                                    $tableId1 = 'business_consultant_id';
-                                                                    $tableNameDesignation = 'Business Consultant';
-                                                                    $tableName2 = 'corporate_agency';
-                                                                    $tableId2 = 'corporate_agency_id';
-                                                                    $tableColumnName = 'reference_no';
-                                                                    $tableColumnName2 = 'reference_no';
-                                                                }
-                                                                // CA Franchisee
-                                                                if ($userType == '19') {
-                                                                    $tableName1 = 'business_operation_executive';
-                                                                    $tableId1 = 'business_operation_executive_id';
-                                                                    $tableNameDesignation = 'Business Operation Executive';
-                                                                    $tableName2 = 'training_manager';
-                                                                    $tableId2 = 'training_manager_id';
-                                                                    $tableColumnName = 'reference_no';
-                                                                    $tableColumnName2 = 'reference_no';
-                                                                }
-                                                                // Business Operation Executive
-                                                                if ($userType == '20') {
-                                                                    $tableName1 = 'training_manager';
-                                                                    $tableId1 = 'training_manager_id';
-                                                                    $tableNameDesignation = 'Training Manager';
-                                                                    $tableName2 = 'sales_executive';
-                                                                    $tableId2 = 'sales_executive_id';
-                                                                    $tableColumnName = 'reference_no';
-                                                                    $tableColumnName2 = 'reference_no';
-                                                                }
-                                                                // Training Manager table 2's id and name put proper 
-                                                                if ($userType == '21') {
-                                                                    $tableName1 = 'sales_executive';
-                                                                    $tableId1 = 'sales_executive_id';
-                                                                    $tableNameDesignation = 'Sales Executive';
-                                                                    $tableName2 = 'sales_executive';
-                                                                    $tableId2 = 'sales_executive_id';
                                                                     $tableColumnName = 'reference_no';
                                                                     $tableColumnName2 = 'reference_no';
                                                                 }
@@ -4115,27 +4077,14 @@ if ($userType == '29') {
                                                                     $tableId8 = 'ca_travelagency_id';
                                                                     $tableColumnName7 = 'reference_no';
                                                                     $tableColumnName8 = 'reference_no';
-                                                                    //for direct MF
-                                                                    //MF->F
-                                                                    $tableName9 = 'master_franchisee'; //TC
-                                                                    $tableId9 = 'master_franchisee_id'; //TC ID
-                                                                    $tableNameDesignation5 = 'Master Franchisee';
-                                                                    $tableName10 = 'sub_franchisee_id';
-                                                                    $tableId10 = 'sub_franchisee_id_id';
-                                                                    $tableColumnName9 = 'reference_no';
-                                                                    $tableColumnName10 = 'reference_no';
-                                                                    //Mf->TC
-                                                                    $tableName11 = 'ca_travelagency';
-                                                                    $tableId11 = 'ca_travelagency_id';
-                                                                    $tableColumnName11 = 'reference_no';
-                                                                    //for direct SF
-                                                                    $tableName12 = 'sponsor_franchisee'; //TC
-                                                                    $tableId12 = 'sponsor_franchisee_id'; //TC ID
-                                                                    $tableNameDesignation6 = 'Sponsor Franchisee';
-                                                                    $tableName13 = 'sub_franchisee';
-                                                                    $tableId13 = 'sub_franchisee_id';
-                                                                    $tableColumnName12 = 'reference_no';
-                                                                    $tableColumnName13 = 'reference_no';
+                                                                    //for I
+                                                                    $tableName5 = 'institution'; //I
+                                                                    $tableId5 = 'institution_id'; //I
+                                                                    $tableNameDesignation3 = 'Institution';
+                                                                    $tableName6 = 'institution_branch_manager';//IBR
+                                                                    $tableId6 = 'institution_branch_manager_id';//IBR
+                                                                    $tableColumnName5 = 'reference_no';
+                                                                    $tableColumnName6 = 'reference_no';
                                                                     
                                                                 }
                                                                 // Business Mentor
@@ -4156,7 +4105,22 @@ if ($userType == '29') {
                                                                     $tableId4 = 'ca_customer_id';
                                                                     $tableColumnName1 = 'reference_no';
                                                                     $tableColumnName3 = 'ta_reference_no';
-                                                                    
+                                                                    //for I
+                                                                    $tableName5 = 'institution'; //I
+                                                                    $tableId5 = 'institution_id'; //I
+                                                                    $tableNameDesignation2 = 'Institution';
+                                                                    $tableName6 = 'institution_branch_manager';//IBR
+                                                                    $tableId6 = 'institution_branch_manager_id';//IBR
+                                                                    $tableColumnName5 = 'reference_no';
+                                                                    $tableColumnName6 = 'reference_no';
+                                                                    //franchisee
+                                                                    $tableName7 = 'sub_franchisee'; //BDM
+                                                                    $tableId7 = 'sub_franchisee_id'; //BDM ID
+                                                                    $tableNameDesignation3 = 'Franchisee';
+                                                                    $tableName8 = 'ca_travelagency';
+                                                                    $tableId8 = 'ca_travelagency_id';
+                                                                    $tableColumnName7 = 'reference_no';
+                                                                    $tableColumnName8 = 'reference_no';
                                                                 }
                                                                 // Master Franchisee
                                                                 if ($userType == '28') {
@@ -4176,6 +4140,14 @@ if ($userType == '29') {
                                                                     $tableId4 = 'ca_customer_id';
                                                                     $tableColumnName3 = 'reference_no';
                                                                     $tableColumnName4 = 'ta_reference_no';
+                                                                    //for I
+                                                                    $tableName5 = 'institution'; //I
+                                                                    $tableId5 = 'institution_id'; //I
+                                                                    $tableNameDesignation3 = 'Institution';
+                                                                    $tableName6 = 'institution_branch_manager';//IBR
+                                                                    $tableId6 = 'institution_branch_manager_id';//IBR
+                                                                    $tableColumnName5 = 'reference_no';
+                                                                    $tableColumnName6 = 'reference_no';
                                                                 }
                                                                 // Franchisee(sub_franchisee)
                                                                 if ($userType == '29') {
@@ -4196,6 +4168,14 @@ if ($userType == '29') {
                                                                     $tableId2 = 'ca_travelagency_id';
                                                                     $tableColumnName = 'reference_no';
                                                                     $tableColumnName2 = 'reference_no';
+                                                                    //institution
+                                                                    $tableName3 = 'institution'; //I
+                                                                    $tableId3 = 'institution_id'; //I
+                                                                    $tableNameDesignation2 = 'Institution';
+                                                                    $tableName4 = 'institution_branch_manager';//IBR
+                                                                    $tableId4 = 'institution_branch_manager_id';//IBR
+                                                                    $tableColumnName2 = 'reference_no';
+                                                                    $tableColumnName4 = 'reference_no';
                                                                 }
                                                                 // Relationship Manager
                                                                 if ($userType == '31') {
@@ -4229,6 +4209,26 @@ if ($userType == '29') {
                                                                     $tableColumnName6 = 'reference_no';
                                                                     $tableColumnName7 = 'reference_no';
                                                                 }
+                                                                // IBR(travel_agent)
+                                                                if ($userType == '33') {
+                                                                    $tableName1 = 'ca_customer';
+                                                                    $tableId1 = 'ca_customer_id';
+                                                                    $tableNameDesignation = 'Customer';
+                                                                    $tableName2 = 'ca_customer';
+                                                                    $tableId2 = 'ca_customer_id';
+                                                                    $tableColumnName = 'ta_reference_no';
+                                                                    $tableColumnName2 = 'reference_no';
+                                                                }
+                                                                // Institution
+                                                                if ($userType == '32') {
+                                                                    $tableName1 = 'institution_branch_manager';
+                                                                    $tableId1 = 'institution_branch_manager_id';
+                                                                    $tableNameDesignation = 'Travel Agency';
+                                                                    $tableName2 = 'ca_customer';
+                                                                    $tableId2 = 'ca_customer_id';
+                                                                    $tableColumnName = 'reference_no';
+                                                                    $tableColumnName2 = 'ta_reference_no';
+                                                                }
                                                                 // 21-02-2025 work from here for other 2 users BDM, BM, add user_type for all users - giving problem for BCH and BDM.
                                                                 
                                                                 
@@ -4243,11 +4243,50 @@ if ($userType == '29') {
                                                                     $selectTC->execute([$userId]);
                                                                     $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
                                                                     $countTC = $resultTC['total'];
-                                                                    if($countSF>0 && $countTC>0){
+                                                                    //get I
+                                                                    $selectI=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
+                                                                    $selectI->execute([$userId]);
+                                                                    $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                                                    $countI = $resultTI['total'];
+                                                                    if($countSF>0 && $countTC>0 && $countI>0){
                                                                         $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
                                                                                                         SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
                                                                                                         UNION
                                                                                                         SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT id,Institution_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1'
+                                                                                                        
+                                                                                                        )AS combined
+                                                                                                        ORDER BY id DESC
+                                                                                                        limit 5");
+                                                                        $stmt2->execute([$userId, $userId, $user]);
+                                                                    }else if($countSF>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }else if($countTC>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }else if($countI>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,institution_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }
+                                                                }elseif($userType == '30'){
+                                                                    //get franchisee
+                                                                    $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM sub_franchisee WHERE reference_no=? AND status='1'");
+                                                                    $selectSF->execute([$userId]);
+                                                                    $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
+                                                                    $countSF = $resultSF['total'];
+                                                                    //get I
+                                                                    $selectI=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
+                                                                    $selectI->execute([$userId]);
+                                                                    $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                                                    $countI = $resultI['total'];
+                                                                    if($countSF>0 && $countI>0){
+                                                                        $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
+                                                                                                        SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT id,Institution_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                                                        
                                                                                                         )AS combined
                                                                                                         ORDER BY id DESC
                                                                                                         limit 5");
@@ -4255,36 +4294,55 @@ if ($userType == '29') {
                                                                     }else if($countSF>0){
                                                                         $stmt2=$conn->prepare("SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                                                         $stmt2->execute([$userId]);
-                                                                    }else if($countTC>0){
-                                                                        $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                    }else if($countI>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,institution_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                                                         $stmt2->execute([$userId]);
                                                                     }
-                                                                }
-                                                                else if($userType == '26'){
+                                                                }else if($userType == '26'){
                                                                     //get techno enterprise
-                                                                    $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
-                                                                    $selectSF->execute([$userId]);
-                                                                    $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
-                                                                    $countSF = $resultSF['total'];
+                                                                    $selectTE=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
+                                                                    $selectTE->execute([$userId]);
+                                                                    $resultTE = $selectTE->fetch(PDO::FETCH_ASSOC);
+                                                                    $countTE = $resultTE['total'];
+                                                                    //get Institution
+                                                                    $selectI=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
+                                                                    $selectI->execute([$userId]);
+                                                                    $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                                                    $countI = $resultI['total'];
+                                                                    //get franchisee
+                                                                    $selectF=$conn->prepare("SELECT COUNT(id) as total FROM corporate_agency WHERE reference_no=? AND status='1'");
+                                                                    $selectF->execute([$userId]);
+                                                                    $resultF = $selectF->fetch(PDO::FETCH_ASSOC);
+                                                                    $countF = $resultF['total'];
                                                                     //get TC
                                                                     $selectTC=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
                                                                     $selectTC->execute([$userId]);
                                                                     $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
                                                                     $countTC = $resultTC['total'];
-                                                                    if($countSF>0 && $countTC>0){
+                                                                    if($countTE>0 && $countTC>0 && $countF>0 && $countI>0){
                                                                         $stmt2 = $conn->prepare("SELECT id,user_id,firstname,lastname,register_date FROM(
                                                                                                         SELECT id,corporate_agency_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1'
                                                                                                         UNION
                                                                                                         SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT id,institution_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT id,sub_franchisee_id as user_id,firstname,lastname,register_date FROM $tableName7 WHERE reference_no=? AND status='1'
                                                                                                         )AS combined
                                                                                                         ORDER BY id DESC
                                                                                                         limit 5");
-                                                                        $stmt2->execute([$userId, $userId]);
-                                                                    }else if($countSF>0){
+                                                                        $stmt2->execute([$userId, $userId,$userId, $userId]);
+                                                                    }else if($countTE>0){
                                                                         $stmt2=$conn->prepare("SELECT id,corporate_agency_id as user_id,firstname,lastname,register_date FROM $tableName1 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                                                         $stmt2->execute([$userId]);
                                                                     }else if($countTC>0){
                                                                         $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName3 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }else if($countI>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,corporate_agency_id as user_id,firstname,lastname,register_date FROM $tableName5 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
+                                                                        $stmt2->execute([$userId]);
+                                                                    }else if($countF>0){
+                                                                        $stmt2=$conn->prepare("SELECT id,ca_travelagency_id as user_id,firstname,lastname,register_date FROM $tableName7 WHERE reference_no=? AND status='1' ORDER BY id DESC limit 5");
                                                                         $stmt2->execute([$userId]);
                                                                     }
                                                                 }else if($userType == '25'){
@@ -4343,36 +4401,25 @@ if ($userType == '29') {
 
                                                                                 UNION ALL
 
-                                                                                -- MF
-                                                                                SELECT mf.id,
-                                                                                    mf.master_franchisee_id AS user_id,
-                                                                                    mf.firstname,
-                                                                                    mf.lastname,
-                                                                                    mf.register_date,
-                                                                                    'MF' AS type
-                                                                                FROM master_franchisee mf
-                                                                                WHERE mf.reference_no = :userId AND mf.status = '1'
-
-                                                                                UNION ALL
-
-                                                                                -- SF
-                                                                                SELECT sf.id,
-                                                                                    sf.sponsor_franchisee_id AS user_id,
-                                                                                    sf.firstname,
-                                                                                    sf.lastname,
-                                                                                    sf.register_date,
-                                                                                    'SF' AS type
-                                                                                FROM sponsor_franchisee sf
-                                                                                WHERE sf.reference_no = :userId AND sf.status = '1'
+                                                                                -- I
+                                                                                SELECT te.id,
+                                                                                    te.institution_id AS user_id,
+                                                                                    te.firstname,
+                                                                                    te.lastname,
+                                                                                    te.register_date,
+                                                                                    'TE' AS type
+                                                                                FROM institution te
+                                                                                WHERE te.reference_no = :userId AND te.status = '1'
                                                                             ) AS combined
                                                                             ORDER BY combined.id DESC
                                                                             LIMIT 5
                                                                         ";
 
-                                                                        $stmt = $conn->prepare($sql);
-                                                                        $stmt->execute(['userId' => $userId]); 
+                                                                        $stmt2 = $conn->prepare($sql);
+                                                                        
+                                                                        $stmt2->execute(['userId' => $userId]); 
                                                                 }else if($userType == '31'){
-                                                                                                                                       
+                                                                                                                                        
                                                                     $sql = "SELECT combined.id,
                                                                                 combined.user_id,
                                                                                 combined.firstname,
@@ -4425,13 +4472,25 @@ if ($userType == '29') {
                                                                                     'TC' AS type
                                                                                 FROM ca_travelagency tc
                                                                                 WHERE tc.reference_no = :userId AND tc.status = '1'
+
+                                                                                UNION ALL
+                                                                                
+                                                                                -- I
+                                                                                SELECT te.id,
+                                                                                    te.institution_id AS user_id,
+                                                                                    te.firstname,
+                                                                                    te.lastname,
+                                                                                    te.register_date,
+                                                                                    'TE' AS type
+                                                                                FROM institution te
+                                                                                WHERE te.reference_no = :userId AND te.status = '1'
                                                                             ) AS combined
                                                                             ORDER BY combined.id DESC
                                                                             LIMIT 5
                                                                         ";
 
-                                                                    $stmt = $conn->prepare($sql);
-                                                                    $stmt->execute(['userId' => $userId]);
+                                                                    $stmt2 = $conn->prepare($sql);
+                                                                    $stmt2->execute(['userId' => $userId]);
 
                                                                     
                                                                 }else{
@@ -4442,11 +4501,11 @@ if ($userType == '29') {
                                                                     }
                                                                     if($userType == '16'){
                                                                         $stmt2 = $conn->prepare("SELECT $tableId1 as user_id $name_colum register_date,
-                                                                                                 CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
-                                                                                                 FROM $tableName1 
-                                                                                                 LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "'
-                                                                                                 WHERE ($tableColumnName = ? OR tm.te_id = '" . $userId . "') AND status='1' 
-                                                                                                 order by $tableId1 desc limit 5");
+                                                                                                    CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
+                                                                                                    FROM $tableName1 
+                                                                                                    LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "'
+                                                                                                    WHERE ($tableColumnName = ? OR tm.te_id = '" . $userId . "') AND status='1' 
+                                                                                                    order by $tableId1 desc limit 5");
                                                                     }else{
                                                                         $stmt2 = $conn->prepare("SELECT $tableId1 as user_id $name_colum register_date FROM $tableName1 WHERE $tableColumnName = ? AND status='1' order by $tableId1 desc limit 5");
                                                                     }
@@ -4474,7 +4533,7 @@ if ($userType == '29') {
                                                                             if($referral['alloted_check'] == 1){
                                                                                 $lastName.='<small class=" d-flex justify-content-center d-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea;">
                                                                                         Allotted TC
-                                                                                      </small>';
+                                                                                        </small>';
                                                                             }
                                                                         }
                                                                     }
@@ -4515,7 +4574,106 @@ if ($userType == '29') {
                                                                                     $inactiveCount++; // Increment count for each ca_travelagency_id
                                                                                 } //CATA foreach ends
                                                                             } //CATA if loop ends
+                                                                        }else if (substr($id,0,1)== 'I') {
+                                                                            // Total Count Loop End $count
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId6 FROM $tableName6 WHERE $tableColumnName6 = ? AND status='1'");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                            // Active Count Loop End $activeCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId6 FROM $tableName6 WHERE $tableColumnName6 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $activeCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+
+                                                                            // Inactive Count Loop End $inactiveCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId6 FROM $tableName6 WHERE $tableColumnName6 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $inactiveCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
                                                                         }else if (substr($id,0,2)== 'TA') {
+                                                                            // Total Count Loop End $count
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                            // Active Count Loop End $activeCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $activeCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+
+                                                                            // Inactive Count Loop End $inactiveCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $inactiveCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                        }
+
+                                                                    }else if ($userType == '30') {
+                                                                        if (substr($id,0,1)== 'F') {
+                                                                            // Total Count Loop End $count
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1'");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $count++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                            // Active Count Loop End $activeCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $activeCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+
+                                                                            // Inactive Count Loop End $inactiveCount
+                                                                            $stmt4 = $conn->prepare("SELECT $tableId2 FROM $tableName2 WHERE $tableColumnName2 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                            $stmt4->execute([$id]);
+                                                                            $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+                                                                            if ($stmt4->rowCount() > 0) {
+                                                                                foreach (($stmt4->fetchAll()) as $userCATAs => $userCATA) {
+                                                                                    // $userTA = $userCATA['ca_travelagency_id'].' ';
+                                                                                    $inactiveCount++; // Increment count for each ca_travelagency_id
+                                                                                } //CATA foreach ends
+                                                                            } //CATA if loop ends
+                                                                        }else if (substr($id,0,1)== 'I') {
                                                                             // Total Count Loop End $count
                                                                             $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'");
                                                                             $stmt4->execute([$id]);
@@ -4751,8 +4909,8 @@ if ($userType == '29') {
                                                                         else if(substr($id,0,1)== 'MF'){
                                                                             // Total Count Loop End $count
                                                                             $stmt4 = $conn->prepare("SELECT $tableId10 FROM $tableName10 WHERE $tableColumnName10 = ? AND status='1'
-                                                                                                     UNION
-                                                                                                     SELECT $tableId11 FROM $tableName11 WHERE $tableColumnName11 = ? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT $tableId11 FROM $tableName11 WHERE $tableColumnName11 = ? AND status='1'
                                                                                                     ");
                                                                             $stmt4->execute([$id]);
                                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
@@ -4764,8 +4922,8 @@ if ($userType == '29') {
                                                                             } //CATA if loop ends
                                                                             // Active Count Loop End $activeCount
                                                                             $stmt4 = $conn->prepare("SELECT $tableId10 FROM $tableName10 WHERE $tableColumnName10 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())
-                                                                                                     UNION
-                                                                                                     SELECT $tableId11 FROM $tableName11 WHERE $tableColumnName11 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                                                        UNION
+                                                                                                        SELECT $tableId11 FROM $tableName11 WHERE $tableColumnName11 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
                                                                             $stmt4->execute([$id]);
                                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                                                                             if ($stmt4->rowCount() > 0) {
@@ -4777,8 +4935,8 @@ if ($userType == '29') {
 
                                                                             // Inactive Count Loop End $inactiveCount
                                                                             $stmt4 = $conn->prepare("SELECT $tableId10 FROM $tableName10 WHERE $tableColumnName10 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))
-                                                                                                     UNION
-                                                                                                     SELECT $tableId11 FROM $tableName11 WHERE $tableColumnName10 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                                                        UNION
+                                                                                                        SELECT $tableId11 FROM $tableName11 WHERE $tableColumnName10 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
                                                                             $stmt4->execute([$id]);
                                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                                                                             if ($stmt4->rowCount() > 0) {
@@ -4891,8 +5049,8 @@ if ($userType == '29') {
                                                                         else if(substr($id,0,1)== 'MF'){
                                                                             // Total Count Loop End $count
                                                                             $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1'
-                                                                                                     UNION
-                                                                                                     SELECT $tableId5 FROM $tableName5 WHERE $tableColumnName5 = ? AND status='1'
+                                                                                                        UNION
+                                                                                                        SELECT $tableId5 FROM $tableName5 WHERE $tableColumnName5 = ? AND status='1'
                                                                                                     ");
                                                                             $stmt4->execute([$id]);
                                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
@@ -4904,8 +5062,8 @@ if ($userType == '29') {
                                                                             } //CATA if loop ends
                                                                             // Active Count Loop End $activeCount
                                                                             $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())
-                                                                                                     UNION
-                                                                                                     SELECT $tableId5 FROM $tableName5 WHERE $tableColumnName5 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
+                                                                                                        UNION
+                                                                                                        SELECT $tableId5 FROM $tableName5 WHERE $tableColumnName5 = ? AND status='1' AND MONTH(register_date) = MONTH(CURDATE()) AND YEAR(register_date) = YEAR(CURDATE())");
                                                                             $stmt4->execute([$id]);
                                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                                                                             if ($stmt4->rowCount() > 0) {
@@ -4917,8 +5075,8 @@ if ($userType == '29') {
 
                                                                             // Inactive Count Loop End $inactiveCount
                                                                             $stmt4 = $conn->prepare("SELECT $tableId4 FROM $tableName4 WHERE $tableColumnName4 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))
-                                                                                                     UNION
-                                                                                                     SELECT $tableId5 FROM $tableName5 WHERE $tableColumnName5 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
+                                                                                                        UNION
+                                                                                                        SELECT $tableId5 FROM $tableName5 WHERE $tableColumnName5 = ? AND status='1' AND NOT (MONTH(register_date) = MONTH(CURDATE())AND YEAR(register_date) = YEAR(CURDATE()))");
                                                                             $stmt4->execute([$id]);
                                                                             $stmt4->setFetchMode(PDO::FETCH_ASSOC);
                                                                             if ($stmt4->rowCount() > 0) {
@@ -5016,7 +5174,7 @@ if ($userType == '29') {
                                                                     $activeCount = 0; // reInitialize count
                                                                     $inactiveCount = 0; // reInitialize count
 
-                                                                } //CA foreach ends 
+                                                                }  //CA foreach ends 
                                                                 ?>
                                                             </tbody><!-- end tbody -->
                                                         </table><!-- end table -->
@@ -5117,13 +5275,6 @@ if ($userType == '29') {
                                                 <div data-simplebar style="max-height: 190px" class="px-3 mx-n3">
                                                     <ul class="list-unstyled mb-0 pt-2" id="candidate-list">
                                                         <?php
-                                                            // business_consultant
-                                                            if ($userType == '3') {
-                                                                $tableName = 'corporate_agency';
-                                                                $tableId = 'corporate_agency_id';
-                                                                $tableNameDesignation = 'Corporate Agency';
-                                                                $tableColumn = 'reference_no';
-                                                            }
                                                             // corporate_agency
                                                             if ($userType == '16') {
                                                                 $tableName = 'ca_travelagency';
@@ -5145,41 +5296,7 @@ if ($userType == '29') {
                                                                 $tableNameDesignation = 'Customer';
                                                                 $tableColumn = 'reference_no';
                                                             }
-                                                            // channel_business_director
-                                                            if ($userType == '18') {
-                                                                $tableName = 'business_consultant';
-                                                                $tableId = 'business_consultant_id';
-                                                                $tableNameDesignation = 'Business Consultant';
-                                                                $tableColumn = 'reference_no';
-                                                            }
-                                                            // CA Franchisee
-                                                            if ($userType == '19') {
-                                                                $tableName = 'business_operation_executive';
-                                                                $tableId = 'business_operation_executive_id';
-                                                                $tableNameDesignation = 'Business Operation Executive';
-                                                                $tableColumn = 'reference_no';
-                                                            }
-                                                            // Business Operation Executive
-                                                            if ($userType == '20') {
-                                                                $tableName = 'training_manager';
-                                                                $tableId = 'training_manager_id';
-                                                                $tableNameDesignation = 'Training Manager';
-                                                                $tableColumn = 'reference_no';
-                                                            }
-                                                            // Training Manager
-                                                            if ($userType == '21') {
-                                                                $tableName = 'sales_executive';
-                                                                $tableId = 'sales_executive_id';
-                                                                $tableNameDesignation = 'Sales Executive';
-                                                                $tableColumn = 'reference_no';
-                                                            }
-                                                            // Sales Executive not set for ref table dummy name and id added
-                                                            if ($userType == '22') {
-                                                                $tableName = 'business_operation_executive';
-                                                                $tableId = 'business_operation_executive_id';
-                                                                $tableNameDesignation = 'Business Operation Executive';
-                                                                $tableColumn = 'reference_no';
-                                                            }
+                                                            
                                                             //Business Channel manager
                                                             if ($userType == '24') {
                                                                 $tableName = 'employees';
@@ -5242,6 +5359,22 @@ if ($userType == '29') {
                                                                 $tableId12 = 'sub_franchisee_id';
                                                                 $tableColumnName12 = 'reference_no';
                                                                 $tableColumnName11 = 'reference_no';
+                                                                //for direct I
+                                                                $tableName13 = 'institution'; //TC
+                                                                $tableId13 = 'institution_id'; //TC ID
+                                                                $tableNameDesignation6 = 'Institution';
+                                                                $tableName14 = 'institution_branch_manager';
+                                                                $tableId14 = 'institution_branch_manager_id';
+                                                                $tableColumnName13 = 'reference_no';
+                                                                $tableColumnName14 = 'reference_no';
+                                                                //I through BM
+                                                                $tableName15 = 'business_mentor'; //TE
+                                                                $tableId15 = 'business_mentor_id'; //TE ID
+                                                                $tableNameDesignation7 = 'Business Mentor';
+                                                                $tableName16 = 'institution';
+                                                                $tableId16 = 'institution_id';
+                                                                $tableColumn15 = 'reference_no';
+                                                                $tableColumn16 = 'reference_no';
                                                             }
                                                             //Business Mentor (BM->TC)
                                                             if ($userType == '26') {
@@ -5249,6 +5382,18 @@ if ($userType == '29') {
                                                                 $tableId = 'ca_travelagency_id';
                                                                 $tableNameDesignation = 'Travel Agency';
                                                                 $tableColumn = 'reference_no';
+                                                                $tableName1 = 'corporate_agency';
+                                                                $tableId1 = 'corporate_agency_id';
+                                                                $tableNameDesignation1 = 'Techno Enterprise';
+                                                                $tableColumn1 = 'reference_no';
+                                                                $tableName2 = 'sub_franchisee';
+                                                                $tableId2 = 'sub_franchisee_id';
+                                                                $tableNameDesignation2 = 'Franchisee';
+                                                                $tableColumn2 = 'reference_no';
+                                                                $tableName3 = 'institution';
+                                                                $tableId3 = 'institution_id';
+                                                                $tableNameDesignation3 = 'Institution';
+                                                                $tableColumn3 = 'reference_no';
                                                             }
                                                             //Master Franchisee (MF->TC/MF->F->TC)
                                                             if ($userType == '28') {
@@ -5260,6 +5405,11 @@ if ($userType == '29') {
                                                                 $tableId1 = 'ca_travelagency_id';
                                                                 $tableNameDesignation1 = 'Travel Agency';
                                                                 $tableColumn1 = 'reference_no';
+                                                                //I
+                                                                $tableName2 = 'sub_franchisee';
+                                                                $tableId2 = 'sub_franchisee_id';
+                                                                $tableNameDesignation2 = 'Franchisee';
+                                                                $tableColumn2 = 'reference_no';
                                                             }
                                                             //Franchisee (F->TC)
                                                             if ($userType == '29') {
@@ -5273,6 +5423,11 @@ if ($userType == '29') {
                                                                 $tableId = 'sub_franchisee_id';
                                                                 $tableNameDesignation = 'Franchisee';
                                                                 $tableColumn = 'reference_no';
+                                                                //I
+                                                                $tableName1 = 'institution';
+                                                                $tableId1 = 'institution_id';
+                                                                $tableNameDesignation1 = 'Institution';
+                                                                $tableColumn1 = 'reference_no';
                                                             }
                                                             //Sponsor Franchisee (SF->F)
                                                             if ($userType == '31') {
@@ -5299,19 +5454,38 @@ if ($userType == '29') {
                                                                 $tableColumnName3 = 'reference_no';
                                                                 $tableColumnName2 = 'reference_no';
                                                             }
+                                                            // IBR(travel_agent)
+                                                            if ($userType == '33') {
+                                                                $tableName = 'ca_customer';
+                                                                $tableId = 'ca_customer_id';
+                                                                $tableNameDesignation = 'Customer';
+                                                                $tableColumn = 'ta_reference_no';
+                                                            }
+                                                            //Institution (I->IBR)
+                                                            if ($userType == '32') {
+                                                                $tableName = 'institution_branch_manager';
+                                                                $tableId = 'institution_branch_manager_id';
+                                                                $tableNameDesignation = 'Institution Branch Manager';
+                                                                $tableColumn = 'reference_no';
+                                                            }
                                                             if ($userType=='28') {
                                                                 //get franchisee
                                                                 $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM sub_franchisee WHERE reference_no=? AND status='1'");
                                                                 $selectSF->execute([$userId]);
                                                                 $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
                                                                 $countSF = $resultSF['total'];
+                                                                //get institution
+                                                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM institution WHERE reference_no=? AND status='1'");
+                                                                $selectI->execute([$userId]);
+                                                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                                                $countI = $resultI['total'];
                                                                 //get TC
                                                                 $selectTC=$conn->prepare("SELECT COUNT(id) as total FROM ca_travelagency WHERE reference_no=? AND status='1'");
                                                                 $selectTC->execute([$userId]);
                                                                 $resultTC = $selectTC->fetch(PDO::FETCH_ASSOC);
                                                                 $countTC = $resultTC['total'];
                                                                 
-                                                                if ($countSF>0 && $countTC>0) {
+                                                                if ($countSF>0 && $countTC>0 && $countI>0) {
                                                                     $sqlCandidates = "SELECT id, userid, firstname, lastname, profile_pic, desination FROM (
                                                                                         SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
                                                                                         FROM $tableName 
@@ -5322,21 +5496,78 @@ if ($userType == '29') {
                                                                                         SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
                                                                                         FROM $tableName1 
                                                                                         WHERE $tableColumn1 = '$userId' AND status = '1'
+
+                                                                                        UNION
+
+                                                                                        SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation2' AS desination 
+                                                                                        FROM $tableName2 
+                                                                                        WHERE $tableColumn2 = '$userId' AND status = '1'
                                                                                     ) AS combined
                                                                                     ORDER BY id DESC
                                                                                 ";
 
                                                                     $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
                                                                 }else if ($countSF>0){
                                                                     $sqlCandidates="SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
                                                                                         FROM $tableName 
                                                                                         WHERE $tableColumn = '$userId' AND status = '1'";
                                                                     $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
+                                                                }else if ($countI>0){
+                                                                    $sqlCandidates="SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation2' AS desination 
+                                                                                        FROM $tableName2 
+                                                                                        WHERE $tableColumn2 = '$userId' AND status = '1'";
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
                                                                 }else if($countTC>0){
                                                                     $sqlCandidates="SELECT id, ca_travelagency_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
                                                                                         FROM $tableName1 
                                                                                         WHERE $tableColumn1 = '$userId' AND status = '1'";
                                                                     $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
+                                                                }
+                                                            }else if ($userType=='30') {
+                                                                //get franchisee
+                                                                $selectSF=$conn->prepare("SELECT COUNT(id) as total FROM sub_franchisee WHERE reference_no=? AND status='1'");
+                                                                $selectSF->execute([$userId]);
+                                                                $resultSF = $selectSF->fetch(PDO::FETCH_ASSOC);
+                                                                $countSF = $resultSF['total'];
+                                                                //get institution
+                                                                $selectI=$conn->prepare("SELECT COUNT(id) as total FROM institution WHERE reference_no=? AND status='1'");
+                                                                $selectI->execute([$userId]);
+                                                                $resultI = $selectI->fetch(PDO::FETCH_ASSOC);
+                                                                $countI = $resultI['total'];
+                                                                
+                                                                if ($countSF>0 && $countI>0) {
+                                                                    $sqlCandidates = "SELECT id, userid, firstname, lastname, profile_pic, desination FROM (
+                                                                                        SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                                                        FROM $tableName 
+                                                                                        WHERE $tableColumn = '$userId' AND status = '1'
+
+                                                                                        UNION
+
+                                                                                        SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                                                        FROM $tableName1 
+                                                                                        WHERE $tableColumn1 = '$userId' AND status = '1'
+                                                                                    ) AS combined
+                                                                                    ORDER BY id DESC
+                                                                                ";
+
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
+                                                                }else if ($countSF>0){
+                                                                    $sqlCandidates="SELECT id, sub_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                                                        FROM $tableName 
+                                                                                        WHERE $tableColumn = '$userId' AND status = '1'";
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
+                                                                }else if ($countI>0){
+                                                                    $sqlCandidates="SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                                                        FROM $tableName1 
+                                                                                        WHERE $tableColumn1 = '$userId' AND status = '1'";
+                                                                    $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
                                                                 }
                                                             }else if ($userType=='25') {
                                                                 // Check existence in all tables at once
@@ -5352,9 +5583,11 @@ if ($userType == '29') {
                                                                     SELECT 'MF' AS type, COUNT(*) AS total FROM master_franchisee WHERE reference_no=? AND status='1'
                                                                     UNION
                                                                     SELECT 'SF'  AS type, COUNT(*) AS total FROM sponsor_franchisee WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT 'I'  AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
                                                                 ";
                                                                 $stmtCheck = $conn->prepare($sqlCheck);
-                                                                $stmtCheck->execute([$userId, $userId, $userId, $userId,$userId, $userId]);
+                                                                $stmtCheck->execute([$userId, $userId, $userId, $userId,$userId, $userId, $userId]);
                                                                 
 
                                                                 $counts = [];
@@ -5366,6 +5599,7 @@ if ($userType == '29') {
                                                                 $countBM = $counts['BM'] ?? 0;
                                                                 $countMF = $counts['MF'] ?? 0;
                                                                 $countSF = $counts['SF'] ?? 0;
+                                                                $countI = $counts['I'] ?? 0;
                                                                 $countTE = $counts['TE'] ?? 0;
                                                                 $countF  = $counts['F'] ?? 0;
                                                                 $countTC = $counts['TC'] ?? 0;
@@ -5410,7 +5644,13 @@ if ($userType == '29') {
                                                                 // SF
                                                                 if ($countSF > 0) {
                                                                     $queries[] = "SELECT id, sponsor_franchisee_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation5' AS desination 
-                                                                                FROM $tableName10 WHERE reference_no=? AND status='1'";
+                                                                                FROM $tableName11 WHERE reference_no=? AND status='1'";
+                                                                    $params[] = $userId;
+                                                                }
+                                                                // I
+                                                                if ($countI > 0) {
+                                                                    $queries[] = "SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation6' AS desination 
+                                                                                FROM $tableName13 WHERE reference_no=? AND status='1'";
                                                                     $params[] = $userId;
                                                                 }
 
@@ -5432,6 +5672,8 @@ if ($userType == '29') {
                                                                     SELECT 'SF' AS type, COUNT(*) AS total FROM sponsor_franchisee WHERE reference_no=? AND status='1'
                                                                     UNION
                                                                     SELECT 'F' AS type, COUNT(*) AS total FROM sub_franchisee WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT 'I' AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
                                                                 ";
                                                                 $stmtCheck = $conn->prepare($sqlCheck);
                                                                 $stmtCheck->execute([$userId, $userId, $userId]);
@@ -5446,6 +5688,7 @@ if ($userType == '29') {
                                                                 $countMF = $counts['MF'] ?? 0;
                                                                 $countSF = $counts['SF'] ?? 0;
                                                                 $countF = $counts['F'] ?? 0;
+                                                                $countI = $counts['I'] ?? 0;
 
                                                                 // Now decide query based on availability
                                                                 $queries = [];
@@ -5471,6 +5714,79 @@ if ($userType == '29') {
                                                                                 FROM $tableName1 WHERE reference_no=? AND status='1'";
                                                                     $params[] = $userId;
                                                                 }
+                                                                //I
+                                                                if ($countI > 0) {
+                                                                    $queries[] = "SELECT id, institution_id AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                                                FROM $tableName1 WHERE reference_no=? AND status='1'";
+                                                                    $params[] = $userId;
+                                                                }
+
+                                                                // Execute only if we have something to query
+                                                                
+                                                                if (!empty($queries)) {
+                                                                    $sql = "SELECT * FROM (" . implode(" UNION ALL ", $queries) . ") AS combined
+                                                                            ORDER BY id DESC 
+                                                                            LIMIT 5";
+                                                                    $candidates = $conn->prepare($sql);
+                                                                    $candidates->execute($params);
+                                                                    
+                                                                }
+                                                            }else if ($userType=='26') {
+                                                                // Check existence in all tables at once
+                                                                $sqlCheck = "
+                                                                    SELECT 'F' AS type, COUNT(*) AS total FROM sub_franchisee WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT 'TE' AS type, COUNT(*) AS total FROM corporate_agency WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT 'I' AS type, COUNT(*) AS total FROM institution WHERE reference_no=? AND status='1'
+                                                                    UNION
+                                                                    SELECT 'TC' AS type, COUNT(*) AS total FROM ca_travelagency WHERE reference_no=? AND status='1'
+                                                                ";
+                                                                $stmtCheck = $conn->prepare($sqlCheck);
+                                                                $stmtCheck->execute([$userId, $userId, $userId, $userId]);
+                                                                
+
+                                                                $counts = [];
+                                                                while ($row = $stmtCheck->fetch(PDO::FETCH_ASSOC)) {
+                                                                    $counts[$row['type']] = (int)$row['total']; // force integer
+                                                                }
+
+                                                                // Assign variables                                                                
+                                                                $countF = $counts['F'] ?? 0;
+                                                                $countTE = $counts['TE'] ?? 0;
+                                                                $countI = $counts['I'] ?? 0;
+                                                                $countTC = $counts['TC'] ?? 0;
+
+                                                                // Now decide query based on availability
+                                                                $queries = [];
+                                                                $params = [];
+
+                                                                
+                                                                // TC
+                                                                if ($countTC > 0) {
+                                                                    $queries[] = "SELECT id, $tableId AS userid, firstname, lastname, profile_pic, '$tableNameDesignation' AS desination 
+                                                                                FROM $tableName WHERE reference_no=? AND status='1'";
+                                                                                
+                                                                    $params[] = $userId;
+                                                                }
+                                                                // TE
+                                                                if ($countTE > 0) {
+                                                                    $queries[] = "SELECT id, $tableId1 AS userid, firstname, lastname, profile_pic, '$tableNameDesignation1' AS desination 
+                                                                                FROM $tableName1 WHERE reference_no=? AND status='1'";
+                                                                    $params[] = $userId;
+                                                                }
+                                                                // F
+                                                                if ($countF > 0) {
+                                                                    $queries[] = "SELECT id, $tableId2 AS userid, firstname, lastname, profile_pic, '$tableNameDesignation2' AS desination 
+                                                                                FROM $tableName2 WHERE reference_no=? AND status='1'";
+                                                                    $params[] = $userId;
+                                                                }
+                                                                //I
+                                                                if ($countI > 0) {
+                                                                    $queries[] = "SELECT id, $tableId3 AS userid, firstname, lastname, profile_pic, '$tableNameDesignation3' AS desination 
+                                                                                FROM $tableName3 WHERE reference_no=? AND status='1'";
+                                                                    $params[] = $userId;
+                                                                }
 
                                                                 // Execute only if we have something to query
                                                                 
@@ -5485,28 +5801,34 @@ if ($userType == '29') {
                                                             }else{
                                                                 if($userType =='16'){
                                                                     $sqlCandidates = "SELECT *, CASE WHEN tm.te_id IS NOT NULL THEN 1 ELSE 0 END AS alloted_check
-                                                                                      FROM $tableName
-                                                                                      LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "' 
-                                                                                      WHERE ($tableColumn = '$userId' OR tm.te_id = '" . $userId . "') AND status = '1' ";
+                                                                                        FROM $tableName
+                                                                                        LEFT JOIN tc_mapping tm on tc_id=ca_travelagency_id and te_id = '" . $userId . "' 
+                                                                                        WHERE ($tableColumn = '$userId' OR tm.te_id = '" . $userId . "') AND status = '1' ";
                                                                     $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
                                                                 }else{
                                                                     $sqlCandidates = "SELECT * FROM $tableName WHERE $tableColumn = '$userId' AND status = '1' ";
                                                                     $candidates = $conn->prepare($sqlCandidates);
+                                                                    $candidates->execute();
                                                                 }
                                                             }
-                                                            $candidates->execute();
+                                                            // print_r($sqlCandidates);
                                                             $candidates->setFetchMode(PDO::FETCH_ASSOC);
                                                             if ($candidates->rowCount() > 0) {
                                                                 foreach (($candidates->fetchAll()) as $key => $row) {
-                                                                if ($userType == '28' || $userType =='25' || $userType =='31') {
+                                                                if ($userType == '28' || $userType =='25' || $userType =='31' || $userType == '26' || $userType == '28' || $userType == '30') {
                                                                     $selected_user =$row['userid'];
                                                                 }else{
-                                                                    $selected_user = ($userType == '24') ? $row['employee_id'] :
-                                                                                     (($userType == '26' || $userType == '16') ? $row['ca_travelagency_id'] :
-                                                                                     (($userType == '30') ? $row['sub_franchisee_id'] : ''));
+                                                                    $map = [
+                                                                                '24' => 'employee_id',
+                                                                                '16' => 'ca_travelagency_id',
+                                                                                '32' => 'institution_branch_manager_id',
+                                                                                '29' => 'ca_travelagency_id'
+                                                                            ];
 
-
-
+                                                                    $selected_user = isset($map[$userType]) 
+                                                                        ? ($row[$map[$userType]] ?? '') 
+                                                                        : '';
                                                                 }
                                                                     if ($userType == '24') {
                                                                         $fname = $row['name'];
@@ -5518,26 +5840,36 @@ if ($userType == '29') {
                                                                             if($row['alloted_check'] == 1){
                                                                                 $lname.='<small class="d-flex justify-content-center d-inline-block fw-bold text-success px-2 py-1 rounded" style="font-size: 12px; background-color: #e6f4ea; width: fit-content;">
                                                                                             Allotted TC
-                                                                                         </small>';
+                                                                                            </small>';
                                                                             }
                                                                         }
                                                                     }
-                                                                    $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' )?$row['desination']:$tableNameDesignation;
-                                                                    if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31') {
+                                                                    $tableNameDesignation=($userType == '28' || $userType == '25' || $userType == '31' || $userType == '26' || $userType == '28' || $userType == '30' )?$row['desination']:$tableNameDesignation;
+                                                                    if ($userType == '24' || $userType == '25' || $userType == '26' || $userType == '28' || $userType == '29' || $userType == '16' || $userType == '30' || $userType == '31' || $userType == '32') {
                                                                         # code...
-                                                                       echo '
+                                                                        echo '
                                                                                 <li id="list-item-' . $selected_user . '">
-                                                                                    <a class="d-flex align-items-center py-2" style="cursor: grab;" onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
+                                                                                    <a class="d-flex align-items-center py-2 candidate-item" 
+                                                                                    style="cursor: grab;" 
+                                                                                    onclick="showCountlist(\'' . $userType . '\',\'' . $selected_user . '\'); highlightSelected(\'list-item-' . $selected_user . '\')">
+
                                                                                         <div class="flex-shrink-0 me-2">
                                                                                             <div class="avatar-xs">
-                                                                                                <img src="../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
+                                                                                                <img src="../uploading/' . $row['profile_pic'] . '" 
+                                                                                                    alt="" 
+                                                                                                    class="img-fluid rounded-circle candidate-img" 
+                                                                                                    style="height: 35px; width: 35px;">
                                                                                             </div>
                                                                                         </div>
+
                                                                                         <div class="flex-grow-1">
                                                                                             <h5 class="fs-13 mb-1 text-truncate">
                                                                                                 <span class="candidate-name">' . $fname . ' ' . $lname . '</span>
                                                                                             </h5>
-                                                                                            <div class="' . (($userType == '28'|| $userType == '25' || $userType == '31') ? '' : 'd-none') . ' candidate-position">' . $tableNameDesignation . '</div>
+
+                                                                                            <div class="candidate-position">
+                                                                                                ' . $tableNameDesignation . '
+                                                                                            </div>
                                                                                         </div>
                                                                                     </a>
                                                                                 </li>
@@ -5547,15 +5879,21 @@ if ($userType == '29') {
 
                                                                         echo '
                                                                                 <li>
-                                                                                    <a href="javascript:void(0);" class="d-flex align-items-center py-2">
+                                                                                    <a href="javascript:void(0);" class="d-flex align-items-center py-2 candidate-item">
                                                                                         <div class="flex-shrink-0 me-2">
                                                                                             <div class="avatar-xs">
-                                                                                                <img src="../uploading/' . $row['profile_pic'] . '" alt="" class="img-fluid rounded-circle candidate-img" style="height: 35px; width: 35px;">
+                                                                                                <img src="../uploading/'.$row['profile_pic'].'" 
+                                                                                                    class="img-fluid rounded-circle candidate-img"
+                                                                                                    style="height: 35px; width: 35px;">
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="flex-grow-1">
-                                                                                            <h5 class="fs-13 mb-1 text-truncate"><span class="candidate-name">' . $fname . ' ' . $lname . '</span></h5>
-                                                                                            <div class="d-none candidate-position">' . $tableNameDesignation . '</div>
+                                                                                            <h5 class="fs-13 mb-1 text-truncate">
+                                                                                                <span class="candidate-name">'. $fname . ' ' . $lname.'</span>
+                                                                                            </h5>
+                                                                                            <div class="candidate-position">
+                                                                                                '.$tableNameDesignation.'
+                                                                                            </div>
                                                                                         </div>
                                                                                     </a>
                                                                                 </li>
@@ -5572,7 +5910,7 @@ if ($userType == '29') {
                                             </div>
                                         </div>
                                         <?php
-                                            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30') {
+                                            if ($userType =='24' || $userType =='25' || $userType =='26' || $userType == '28' || $userType =='29' || $userType =='16' || $userType =='30' || $userType =='32') {
                                         ?>
                                         <!-- show table only for user type 25,24,26 -->
                                         
@@ -5623,6 +5961,12 @@ if ($userType == '29') {
                                                                     <td><?=$deletedF??0?></td>
                                                                 </tr>
                                                                 <tr>
+                                                                    <th scope="row">Institution</th>
+                                                                    <td><?=$pendingI??0?></td>
+                                                                    <td><?=$registeredI??0?></td>
+                                                                    <td><?=$deletedI??0?></td>
+                                                                </tr>
+                                                                <tr>
                                                                     <th scope="row">Travel Consultant</th>
                                                                     <td><?=$pendingTC??0?></td>
                                                                     <td><?=$registeredTC??0?></td>
@@ -5653,6 +5997,12 @@ if ($userType == '29') {
                                                                     <td><?=$deletedF??0?></td>
                                                                 </tr>
                                                                 <tr>
+                                                                    <th scope="row">Institution</th>
+                                                                    <td><?=$pendingI??0?></td>
+                                                                    <td><?=$registeredI??0?></td>
+                                                                    <td><?=$deletedI??0?></td>
+                                                                </tr>
+                                                                <tr>
                                                                     <th scope="row">Travel Consultant</th>
                                                                     <td><?=$pendingTC??0?></td>
                                                                     <td><?=$registeredTC??0?></td>
@@ -5671,10 +6021,16 @@ if ($userType == '29') {
                                                                 if($userType=='26'){
                                                             ?>
                                                                 <tr>
-                                                                    <th scope="row">Techno Enterprise</th>
-                                                                    <td><?=$pendingTE??0?></td>
-                                                                    <td><?=$registeredTE??0?></td>
-                                                                    <td><?=$deletedTE??0?></td>
+                                                                    <th scope="row">Travel Agency</th>
+                                                                    <td><?=$pendingTC??0?></td>
+                                                                    <td><?=$registeredTC??0?></td>
+                                                                    <td><?=$deletedTC??0?></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="row">Institution Branch Manager</th>
+                                                                    <td><?=$pendingIBR??0?></td>
+                                                                    <td><?=$registeredIBR??0?></td>
+                                                                    <td><?=$deletedIBR??0?></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row">CU</th>
@@ -5744,6 +6100,15 @@ if ($userType == '29') {
                                                                     <td><?=$deletedCU??0?></td>
                                                                 </tr>
                                                             <?php
+                                                                }if($userType=='32'){
+                                                            ?>
+                                                                <tr>
+                                                                    <th scope="row">CU</th>
+                                                                    <td><?=$pendingCU??0?></td>
+                                                                    <td><?=$registeredCU??0?></td>
+                                                                    <td><?=$deletedCU??0?></td>
+                                                                </tr>
+                                                            <?php
                                                                 }
                                                             ?>
                                                             
@@ -5775,7 +6140,7 @@ if ($userType == '29') {
                                 </div>
                                 <!-- recents 5 bookings -->
                                 <!-- booking id,customer name,package name,amount,booking date,travel date -->
-                                <?php if($userType == "11"){ ?>
+                                <?php if($userType == "11" || $userType == '33'){ ?>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="card">
@@ -5805,7 +6170,7 @@ if ($userType == '29') {
                                                         <tbody>
                                                             <?php
 
-                                                                if($userType == "11"){
+                                                                if($userType == "11" || $userType == "33"){
                                                                     $sql = "SELECT order_id,bookings.name,package.name as package_name,booking_direct_bill.total_net_payable as amount,bookings.created_date as booking_date,bookings.date as travel_date 
                                                                             FROM `bookings`
                                                                             INNER JOIN booking_direct_bill on booking_direct_bill.bookings_id=bookings.id
@@ -5984,7 +6349,12 @@ if ($userType == '29') {
         });
 
         let monthlyChart;
-
+        function hexToRgba(hex, alpha = 0.5) {
+            const r = parseInt(hex.substring(1, 3), 16);
+            const g = parseInt(hex.substring(3, 5), 16);
+            const b = parseInt(hex.substring(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
         async function getMonthlyUserData(get_year) {
             const option = {
                 method: 'POST',
@@ -6003,87 +6373,115 @@ if ($userType == '29') {
                 const data = await response.json();
  
                 if (!Array.isArray(data)) {
-                console.error("Invalid data", data);
-                return;
+                    console.error("Invalid data", data);
+                    return;
                 }
  
                 const xValues = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                const hasAnyData = data.some(arr =>
-                                                Array.isArray(arr) && arr.some(v => Number(v) > 0)
-                                            );
+                
  
                 const labelMap = {
-                                    '24': ['BDM','BM','MF','SF','TE','F','TC','CU'],
-                                    '25': ['BM','MF','SF','TE','F','TC','CU'],
-                                    '26': ['TE','TC','CU'],
-                                    '28': ['F','TC','CU'],
-                                    '29': ['TC','CU'],
-                                    '16': ['TC','CU'],
-                                    '30': ['F','TC','CU'],
-                                    '31': ['MF','SF','F','TC','CU'],
-                                    '11': ['CU']
-                                 };
+                    '24': ['BDM','BM','MF','SF','TE','F','I','TA','IBR','CU'],
+                    '25': ['BM','MF','SF','TE','F','I','TA','IBR','CU'],
+                    '26': ['TE','F','I','TA','IBR','CU'],
+                    '28': ['F','I','TA','IBR','CU'],
+                    '29': ['TA','CU'],
+                    '16': ['TA','CU'],
+                    '30': ['F','I','TA','IBR','CU'],
+                    '31': ['MF','SF','F','I','TA','IBR','CU'],
+                    '11': ['CU'],
+                    '32': ['IBR','CU'],
+                    '33': ['CU']
+                };
  
                 const labels = labelMap[userType] || [];
                 const colors = [
-                                '#f39c12','#27ae60','#2980b9','#8e44ad',
-                                '#e74c3c','#1abc9c','#f1c40f','#0ff12d'
-                               ];
+                            '#f39c12', // orange
+                            '#27ae60', // green
+                            '#2980b9', // blue
+                            '#8e44ad', // purple
+                            '#e74c3c', // red
+                            '#1abc9c', // teal
+                            '#f1c40f', // yellow
+                            '#0ff12d', // neon green
+                            '#ff6b6b', // light red
+                            '#34495e', // dark blue-grey
+                            '#16a085', // dark teal
+                            '#d35400', // burnt orange
+                            '#2ecc71', // light green
+                            '#9b59b6', // soft purple
+                            '#c0392b', // dark red
+                            '#7f8c8d', // grey
+                            '#00cec9', // cyan
+                            '#6c5ce7', // violet
+                            '#fd79a8', // pink
+                            '#e17055'  // coral
+                        ];
  
                 const MONTHS = 12;
  
-                const datasets = data.map((arr, i) => {
-                    const hasData = Array.isArray(arr) && arr.length > 0;
- 
+                const normalizedData = Array.isArray(data[0]) && Array.isArray(data[0][0])
+                    ? data[0]
+                    : data;
+
+                const hasAnyData = normalizedData.some(arr =>
+                    Array.isArray(arr) && arr.some(v => Number(v) > 0)
+                );
+
+                const datasets = normalizedData.map((arr, i) => {
+                    const safeData = Array.isArray(arr) ? arr.slice(0, 12) : [];
+
+                    while (safeData.length < 12) {
+                        safeData.push(0);
+                    }
+
                     return {
                         label: labels[i] || `Series ${i + 1}`,
-                        data: hasData ? arr : Array(MONTHS).fill(null),
+                        data: safeData,
                         borderColor: colors[i % colors.length],
-                        backgroundColor: colors[i % colors.length] + '77',
-                        fill: hasData,
+                        backgroundColor: hexToRgba(colors[i % colors.length], 0.4),
+                        pointBackgroundColor: colors[i % colors.length],
+                        fill: true,
                         tension: 0.4,
-                        pointRadius: hasData ? 3 : 0,
+                        pointRadius: 3,
                         spanGaps: false
                     };
                 });
- 
+
                 if (monthlyChart) {
                     monthlyChart.destroy();
                 }
- 
+
                 monthlyChart = new Chart(document.getElementById("myChart"), {
                     type: 'line',
                     data: {
-                        labels: xValues,   // ✅ ALWAYS 12 months
+                        labels: xValues,
                         datasets
                     },
                     options: {
-                        legend: {
-                            display: true
-                        },
+                        responsive: true,
+                        legend: { display: true },   //  v2 plugin config
                         scales: {
-                              yAxes: [{
-                                    ticks: {
-                                        min: 0,
-                                        max: hasAnyData ? undefined : 5,
-                                        stepSize: hasAnyData ? undefined : 1,
-                                        precision: 0,   // 👈 still forces integers when empty
-                                        callback: function(value) {
-                                            if (!hasAnyData) {
-                                            return value;            // 0–5 when empty
-                                            }
-                                            return Number(value.toFixed(2));  // 👈 formats 0.30000000004 → 0.3
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                    max: hasAnyData ? undefined : 5,
+                                    stepSize: hasAnyData ? undefined : 1,
+                                    precision: 0,   //  still forces integers when empty
+                                    callback: function(value) {
+                                        if (!hasAnyData) {
+                                        return value;            // 0–5 when empty
                                         }
+                                        return Number(value.toFixed(2));  //  formats 0.30000000004 → 0.3
                                     }
-                                }]
-                        },
-                        title: {
-                            display: false,
-                            text: 'Registered Users'
+                                }
+                            }]
                         }
                     }
                 });
- 
+                console.log(hasAnyData);
+                
+
             } catch (error) {
                 console.error("Fetch chart error:", error);
             }
@@ -6103,7 +6501,8 @@ if ($userType == '29') {
                 success: function (response) {
                     if (response.status === 'success') {
                         const data = response.data;
-
+                        const prefix2 = userId.substring(0, 2);
+                        const prefix1 = userId.substring(0, 1);
                         // Example: Populate table with ID `#countTableBody`
                         const tableBody = $('#countTableBody');
                         tableBody.empty(); // Clear previous data
@@ -6140,6 +6539,12 @@ if ($userType == '29') {
                                     <td>${data.deletedF}</td>
                                 </tr>
                                 <tr>
+                                    <th>Institution</th>
+                                    <td>${data.pendingI}</td>
+                                    <td>${data.registeredI}</td>
+                                    <td>${data.deletedI}</td>
+                                </tr>
+                                <tr>
                                     <th>Travel Consultant</th>
                                     <td>${data.pendingTC}</td>
                                     <td>${data.registeredTC}</td>
@@ -6154,8 +6559,7 @@ if ($userType == '29') {
                             `);
                         }
                         if (userType == '25'){
-                            const prefix2 = userId.substring(0, 2);
-                            const prefix1 = userId.substring(0, 1);
+                        
                             if (['BM', 'MF', 'SF'].includes(prefix2)) {
                                 if (prefix2 === 'BM') {
                                     tableBody.append(`
@@ -6164,6 +6568,18 @@ if ($userType == '29') {
                                             <td>${data.pendingTE}</td>
                                             <td>${data.registeredTE}</td>
                                             <td>${data.deletedTE}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Institution</th>
+                                            <td>${data.pendingI}</td>
+                                            <td>${data.registeredI}</td>
+                                            <td>${data.deletedI}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Franchisee</th>
+                                            <td>${data.pendingF}</td>
+                                            <td>${data.registeredF}</td>
+                                            <td>${data.deletedF}</td>
                                         </tr>
                                         <tr>
                                             <th>Travel Consultant</th>
@@ -6180,6 +6596,12 @@ if ($userType == '29') {
                                     `);
                                 } else if (prefix2 === 'MF' || prefix2 === 'SF') {
                                     tableBody.append(`
+                                        <tr>
+                                            <th>Institution</th>
+                                            <td>${data.pendingI}</td>
+                                            <td>${data.registeredI}</td>
+                                            <td>${data.deletedI}</td>
+                                        </tr>
                                         <tr>
                                             <th>Franchisee</th>
                                             <td>${data.pendingF}</td>
@@ -6224,24 +6646,65 @@ if ($userType == '29') {
                                         <td>${data.deletedCU}</td>
                                     </tr>
                                 `);
+                            } else if (prefix1 === 'I') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Institution Branch Manager</th>
+                                        <td>${data.pendingIBR}</td>
+                                        <td>${data.registeredIBR}</td>
+                                        <td>${data.deletedIBR}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
                             }
                         }
                         if (userType == '26'){
 
-                            tableBody.append(`
-                                <tr>
-                                    <th>Travel Consultant</th>
-                                    <td>${data.pendingTC}</td>
-                                    <td>${data.registeredTC}</td>
-                                    <td>${data.deletedTC}</td>
-                                </tr>
-                                <tr>
-                                    <th>Customer</th>
-                                    <td>${data.pendingCU}</td>
-                                    <td>${data.registeredCU}</td>
-                                    <td>${data.deletedCU}</td>
-                                </tr>
-                            `);
+                            if (prefix1 === 'F' || prefix2 === 'TE' || prefix2 === 'CA') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Travel Consultant</th>
+                                        <td>${data.pendingTC}</td>
+                                        <td>${data.registeredTC}</td>
+                                        <td>${data.deletedTC}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
+                            } else if (prefix1 === 'I') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Institution Branch Manager</th>
+                                        <td>${data.pendingIBR}</td>
+                                        <td>${data.registeredIBR}</td>
+                                        <td>${data.deletedIBR}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
+                            }else if (prefix2 === 'TA') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
+                            }
                         }
                         if (userType == '16'){
                             tableBody.append(`
@@ -6254,8 +6717,6 @@ if ($userType == '29') {
                             `);
                         }
                         if (userType == '28'){
-                            const prefix2 = userId.substring(0, 2);
-                            const prefix1 = userId.substring(0, 1);
                             if (prefix2 === 'TA') {
                                 tableBody.append(`
                                     <tr>
@@ -6280,6 +6741,21 @@ if ($userType == '29') {
                                         <td>${data.deletedCU}</td>
                                     </tr>
                                 `);
+                            } else if (prefix1 === 'I') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Institution Branch Manager</th>
+                                        <td>${data.pendingIBR}</td>
+                                        <td>${data.registeredIBR}</td>
+                                        <td>${data.deletedIBR}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
                             }
                             
                         }
@@ -6294,20 +6770,37 @@ if ($userType == '29') {
                             `);
                         }
                         if (userType == '30'){
-                            tableBody.append(`
-                                <tr>
-                                    <th>Travel Consultant</th>
-                                    <td>${data.pendingTC}</td>
-                                    <td>${data.registeredTC}</td>
-                                    <td>${data.deletedTC}</td>
-                                </tr>
-                                <tr>
-                                    <th>Customer</th>
-                                    <td>${data.pendingCU}</td>
-                                    <td>${data.registeredCU}</td>
-                                    <td>${data.deletedCU}</td>
-                                </tr>
-                            `);
+                            if (prefix1 === 'F') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Travel Consultant</th>
+                                        <td>${data.pendingTC}</td>
+                                        <td>${data.registeredTC}</td>
+                                        <td>${data.deletedTC}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
+                            } else if (prefix1 === 'I') {
+                                tableBody.append(`
+                                    <tr>
+                                        <th>Institution Branch Manager</th>
+                                        <td>${data.pendingIBR}</td>
+                                        <td>${data.registeredIBR}</td>
+                                        <td>${data.deletedIBR}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <td>${data.pendingCU}</td>
+                                        <td>${data.registeredCU}</td>
+                                        <td>${data.deletedCU}</td>
+                                    </tr>
+                                `);
+                            }
                         }
                         if (userType == '31'){
                             tableBody.append(`
@@ -6333,6 +6826,16 @@ if ($userType == '29') {
                             `);
                             
                         }
+                        if (userType == '32'){
+                            tableBody.append(`
+                                <tr>
+                                    <th>Customer</th>
+                                    <td>${data.pendingCU}</td>
+                                    <td>${data.registeredCU}</td>
+                                    <td>${data.deletedCU}</td>
+                                </tr>
+                            `);
+                        }
                     } else {
                         console.error('Error:', response.message);
                     }
@@ -6357,6 +6860,7 @@ if ($userType == '29') {
                 selectedItem.classList.add('active-highlight');
             }
         }
+        
     </script>
     <?php 
         if ($userType == 10) {
@@ -6456,6 +6960,7 @@ if ($userType == '29') {
     ?>
     <!-- Coupon section for customer end -->
     <!-- dialer logic -->
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -6481,9 +6986,6 @@ if ($userType == '29') {
             }
 
         });
-    </script>
-
-    <script>
         var modal = document.getElementById('staticBackdrop');
 
         // Store the element that opened the modal

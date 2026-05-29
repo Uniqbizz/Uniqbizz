@@ -27,7 +27,7 @@
         $columnMessage = 'message_bm';
         $columnCommision = 'commision_bm';
         $columnStatus = 'status_bm';
-    }else if($userType == '16' || $userType == '29'){ //Techno Enterprise / Corporate Agency/ Franchisee
+    }else if($userType == '16' || $userType == '29' || $userType =='32'){ //Techno Enterprise / Corporate Agency/ Franchisee/ Institution
         $columnDesignation = 'techno_enterprise';
         $columnMessage = 'message_te';
         $columnCommision = 'commision_te';

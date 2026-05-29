@@ -2112,7 +2112,7 @@ if($user_type_id_value == '11'){
                                 payee_contact = $("#payee_contact").val();
                             }
                             var formdata = {
-                                user_cust_id: user_cust_id,
+                                user_cust_id: user_cust_id, 
                                 cust_id: cust_id,
                                 package_id: package_id,
                                 name: name,
@@ -2133,7 +2133,7 @@ if($user_type_id_value == '11'){
                                 couponCode: couponCode,
                                 couponDiscount: couponDiscount,
                                 packageID: packageID,
-                                userID: userID,
+                                userID: userID, //tc id
                                 cuID: cuID,
                                 no_of_adult: no_of_adult,
                                 no_of_child: no_of_child,
@@ -2152,48 +2152,77 @@ if($user_type_id_value == '11'){
                             console.log(formdata);
                             //resolve(formdata)
                             // Book Package
-                            let data = JSON.stringify(formdata);
+                            let data = formdata;
                             $.ajax({
                                 type: "POST",
                                 url: "assets/submit/book-tickets.php",
-                                data: data,
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
-                                },
+                                data: JSON.stringify(data),
+                                contentType: "application/json",
+                                dataType: "json",
+                                // headers: {
+                                //     "Content-Type": "application/json",
+                                //     "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
+                                // },
                                 success: function(res) {
 
                                     //$('#book_id').val(res.bookid);
-                                    if (res == 1) {
+                                    if (res.status == 1) {
                                         console.log("success payment");
-                                        hideTourMemberForm();
-                                        // empty fields
-                                        $("#b_name").val('');
-                                        $("#b_email").val('');
-                                        $("#b_phn_no").val('');
-                                        $("#b_date").val('');
-                                        $("#b_no_adult").val('');
-                                        $("#b_no_child").val('');
-                                        $("#b_no_infants").val('');
+                                        // ✅ Add invoice_no to data
+                                        let secondData = {
+                                            ...formdata, // ✅ use original object
+                                            invoice_no: res.invoice_no,
+                                            booking_id: res.booking_id
+                                        };
+                                        // hideTourMemberForm();
+                                        // // empty fields
+                                        // $("#b_name").val('');
+                                        // $("#b_email").val('');
+                                        // $("#b_phn_no").val('');
+                                        // $("#b_date").val('');
+                                        // $("#b_no_adult").val('');
+                                        // $("#b_no_child").val('');
+                                        // $("#b_no_infants").val('');
 
-                                        names.forEach(function(data, i) {
-                                            data.value = "";
-                                        });
-                                        ages.forEach(function(data, i) {
-                                            data.value = "";
-                                        });
-                                        genders.forEach(function(data, i) {
-                                            data.value = "male";
-                                        });
+                                        // names.forEach(function(data, i) {
+                                        //     data.value = "";
+                                        // });
+                                        // ages.forEach(function(data, i) {
+                                        //     data.value = "";
+                                        // });
+                                        // genders.forEach(function(data, i) {
+                                        //     data.value = "male";
+                                        // });
 
-                                        alert('Booking is successful')
+                                        alert('Booking successful. proceeding to Payment Gateway.');
                                         // resolve(res); // Resolve the promise on success
-                                        location.reload();
+                                        // location.reload();
                                         //make new snackbar
                                         // showBottomSnackBar("Success !! Order placed for Booking ");
                                         // setTimeout(function() {
                                         //     location.reload();
                                         // }, 4000);
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "assets/submit/create-payment.php",
+                                            data: JSON.stringify(secondData),
+                                            contentType: "application/json",
+                                            dataType: "json",
+                                            // headers: {
+                                            //     "Content-Type": "application/json",
+                                            //     "X-CSRF-TOKEN": $('meta[name="csrf-token').attr('content')
+                                            // },
+                                            success: function(res) {
+                                                if (res.status === "success") {
+                                                    window.location.href = res.payment_url;
+                                                } else {
+                                                    $("#status").text(res.message);
+                                                    $("#payBtn").prop("disabled", false).text("Book Now");
+                                                }
+                                            }
+                                        });
+
                                     } else {
                                         alert("failed to book");
                                         // resolve(res); // Resolve with unsuccessful result
@@ -2202,7 +2231,7 @@ if($user_type_id_value == '11'){
                                 },
                                 error: function(err) {
                                     console.log(err);
-                                    reject(err); // Reject the promise on error
+                                    // reject(err); // Reject the promise on error
                                 }
                             });
                         }

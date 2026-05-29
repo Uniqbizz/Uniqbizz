@@ -19,12 +19,20 @@
     $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years before today
     $row_id=$_REQUEST['id'];
     $id=$_REQUEST['sub_f_id'];
+    $user_type=$_REQUEST['user_type'];
     $subId='';
     $frname='';
     $amount='';
-    $sql1 = "SELECT sub_franchisee_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
+    if($user_type == 'SF'){
+        $sql1 = "SELECT sub_franchisee_id as user_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status,user_type 
          FROM sub_franchisee 
          WHERE sub_franchisee_id = :id";
+    }else if($user_type == 'I'){
+        $sql1 = "SELECT institution_id as user_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status, user_type
+         FROM institution 
+         WHERE institution_id = :id";
+    }
+    
 
     $stmt = $conn->prepare($sql1);
 
@@ -36,21 +44,32 @@
 
     // get fname and sub_franchisee_id
     if ($franchisee) {
-        $subId = $franchisee['sub_franchisee_id'];
+        $subId = $franchisee['user_id'];
         $frname = $franchisee['fname'];
         $amount = $franchisee['amount'];
         $prev_comm = $franchisee['current_commission_per'];
         $prev_ins = $franchisee['current_incentive_per'];
         $prev_upgrade=$franchisee['upgrade_status'];
+        $user_type=$franchisee['user_type'];
         if($prev_upgrade == 2){
-            // check how many entries are there
+            
+        // check how many entries are there
+        if($user_type == "29"){
             $sql2_1 = "
                 SELECT COUNT(id) AS id_count
                 FROM sub_franchisee_upgrade
                 WHERE sub_franchisee_id = :id 
                 AND upgrade_status = 1
             ";
-
+        }else if($user_type == "32"){
+            $sql2_1 = "
+                SELECT COUNT(id) AS id_count
+                FROM institution_upgrade
+                WHERE institution_id = :id 
+                AND upgrade_status = 1
+            ";
+        }
+            
             $stmt2_1 = $conn->prepare($sql2_1);
             $stmt2_1->bindValue(':id', (string)$id, PDO::PARAM_STR);
             $stmt2_1->execute();
@@ -65,10 +84,18 @@
             // if id_count is more than 1
             elseif ($idCount > 1) {
                 // multiple upgrade entries
-                $sql2_2 = "SELECT * 
-                FROM sub_franchisee_upgrade 
-                WHERE sub_franchisee_id = :id AND id < :row_id 
-                ORDER BY id DESC LIMIT 1";
+                if($user_type == "29"){
+                    $sql2_2 = "SELECT * 
+                        FROM sub_franchisee_upgrade 
+                        WHERE sub_franchisee_id = :id AND id < :row_id 
+                        ORDER BY id DESC LIMIT 1";
+                }else if($user_type == "32"){
+                    $sql2_2 = "SELECT * 
+                        FROM institution_upgrade 
+                        WHERE institution_id = :id AND id < :row_id 
+                        ORDER BY id DESC LIMIT 1";
+                }
+                
 
                 $stmt2_2 = $conn->prepare($sql2_2);
 
@@ -83,10 +110,16 @@
             // else {
             //     // no upgrade entries
             // }
-
-            $sql2 = "SELECT * 
+            if($user_type == "29"){
+                $sql2 = "SELECT * 
                 FROM sub_franchisee_upgrade 
                 WHERE sub_franchisee_id = :id and id= :row_id";
+            }else if($user_type == "32"){
+                $sql2 = "SELECT * 
+                FROM institution_upgrade 
+                WHERE institution_id = :id and id= :row_id";
+            }
+            
 
             $stmt = $conn->prepare($sql2);
 

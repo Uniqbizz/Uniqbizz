@@ -60,6 +60,10 @@
         $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '$userId' ";
     }else if($userType == '31'){
         $sql2 = "SELECT * FROM `employees` WHERE employee_id = '$userId' ";
+    }else if($userType == '32'){
+        $sql2 = "SELECT * FROM `institution` WHERE institution_id = '$userId' ";
+    }else if($userType == '33'){
+        $sql2 = "SELECT * FROM `institution_branch_manager` WHERE institution_branch_manager_id = '$userId' ";
     }
 
     $stmt = $conn -> prepare($sql2);

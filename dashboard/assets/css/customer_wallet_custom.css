@@ -1,0 +1,416 @@
+    body{
+        background:#f6f7fb;
+        font-family: Arial, sans-serif;
+    }
+
+    .wallet-page{
+        padding:30px 20px;
+    }
+
+    .page-title{
+        font-size:24px;
+        font-weight:700;
+        color:#111827;
+    }
+
+    .page-subtitle{
+        color:#6b7280;
+        font-size:13px;
+        margin-bottom:25px;
+    }
+
+    /* INFO BAR */
+
+    .wallet-info{
+        background:#f4f2ff;
+        border:1px solid #d9d2ff;
+        border-radius:14px;
+        padding:16px 20px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:28px;
+        flex-wrap:wrap;
+        gap:15px;
+    }
+
+    .wallet-info-left,
+    .wallet-info-right{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        color:#5b4bb7;
+        font-weight:500;
+    }
+
+    /* SUMMARY CARDS */
+
+    .wallet-summary-card{
+        border-radius:22px;
+        padding:15px;
+        background:#fff;
+        border:1px solid #e8e8e8;
+        height:100%;
+        transition:.3s;
+    }
+
+    .wallet-summary-card:hover{
+        transform:translateY(-4px);
+        box-shadow:0 8px 25px rgba(0,0,0,0.06);
+    }
+
+    .wallet-icon{
+        width:68px;
+        height:68px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:28px;
+        color:#fff;
+        margin-bottom:18px;
+    }
+
+    .purple{
+        background:#f5f0ff;
+        border-color:#dbcfff;
+    }
+
+    .purple .wallet-icon{
+        background:#8b5cf6;
+    }
+
+    .green{
+        background:#f1fbf5;
+        border-color:#cdeed7;
+    }
+
+    .green .wallet-icon{
+        background:#23a55a;
+    }
+
+    .orange{
+        background:#fff7f1;
+        border-color:#ffd8ba;
+    }
+
+    .orange .wallet-icon{
+        background:#ff7a00;
+    }
+
+    .blue{
+        background:#f3f6ff;
+        border-color:#cfdcff;
+    }
+
+    .blue .wallet-icon{
+        background:#2563eb;
+    }
+
+    .wallet-heading{
+        font-size:15px;
+        font-weight:700;
+        margin-bottom:22px;
+    }
+
+    .wallet-stat-label{
+        color:#6b7280;
+        margin-bottom:6px;
+        font-size:12px;
+    }
+
+    .wallet-stat{
+        font-size:16px;
+        font-weight:700;
+    }
+
+    .wallet-divider{
+        border-top:1px dashed #d6d6d6;
+        margin:2px 0;
+    }
+
+    .wallet-total{
+        font-size:22px;
+        font-weight:700;
+    }
+
+    .wallet-btn{
+        width:100%;
+        border-radius:12px;
+        padding:14px;
+        font-weight:600;
+        margin-top:22px;
+        background:#fff;
+    }
+
+    .purple .wallet-btn{
+        border:1px solid #c9b4ff;
+        color:#7c3aed;
+    }
+    .purple-title{
+       color:#7c3aed; 
+    }
+
+    .green .wallet-btn{
+        border:1px solid #9dd9b0;
+        color:#15803d;
+    }
+    .green-title{
+        color:#15803d;
+    }
+
+    .orange .wallet-btn{
+        border:1px solid #ffc59b;
+        color:#ea580c;
+    }
+    .orange-title{
+       color:#ea580c; 
+    }
+
+    .blue .wallet-btn{
+        border:1px solid #b6c8ff;
+        color:#2563eb;
+    }
+    .blue-title{
+       color:#2563eb; 
+    }
+
+    /* ACTIVITY SECTION */
+
+    .activity-card{
+        background:#fff;
+        border-radius:22px;
+        border:1px solid #e5e7eb;
+        overflow:hidden;
+        margin-top:28px;
+    }
+
+    .activity-body{
+        padding:28px;
+    }
+
+    .activity-side{
+        text-align:center;
+        padding:30px 20px;
+        height:100%;
+        border-right:1px solid #ececec;
+    }
+
+    .activity-side-icon{
+        width:90px;
+        height:90px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#fff;
+        font-size:36px;
+        margin:0 auto 18px;
+    }
+
+    .activity-title{
+        font-size:20px;
+        font-weight:700;
+        margin-bottom:12px;
+    }
+
+    .activity-desc{
+        color:#6b7280;
+        font-size:15px;
+        margin-bottom:16px;
+    }
+
+    .activity-link{
+        font-weight:600;
+        text-decoration:none;
+    }
+
+    .table th{
+        color:#6b7280;
+        font-weight:600;
+        border-bottom:1px solid #ececec;
+    }
+
+    .table td{
+        vertical-align:middle;
+        padding:16px 8px;
+    }
+
+    .credited{
+        background:#e9f9ef;
+        color:#15803d;
+        padding:6px 12px;
+        border-radius:8px;
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .debited{
+        background:#fff0f0;
+        color:#dc2626;
+        padding:6px 12px;
+        border-radius:8px;
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .feature-bar{
+        background:#fafafa;
+        border-top:1px solid #ececec;
+        padding:16px 20px;
+    }
+
+    .feature-item{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-size:15px;
+        color:#4b5563;
+    }
+
+    .feature-item i{
+        font-size:18px;
+    }
+
+    .note-box{
+        background:#f7faf8;
+        border:1px solid #dcefe3;
+        border-radius:18px;
+        padding:22px;
+        margin-top:30px;
+        color:#166534;
+        font-weight:500;
+    }
+
+    .wallet-sections .activity-card{
+        margin-top:30px;
+    }
+
+    .purple-border{
+        border:1px solid #dac9ff;
+    }
+
+    .green-border{
+        border:1px solid #cdeed7;
+    }
+
+    .orange-border{
+        border:1px solid #ffd8ba;
+    }
+
+    .blue-border{
+        border:1px solid #cfdcff;
+    }
+
+    .purple-bg{
+        background:#8b5cf6;
+    }
+
+    .green-bg{
+        background:#16a34a;
+    }
+
+    .orange-bg{
+        background:#f97316;
+    }
+
+    .blue-bg{
+        background:#2563eb;
+    }
+
+    .purple-text{
+        color:#7c3aed;
+    }
+
+    .green-text{
+        color:#15803d;
+    }
+
+    .orange-text{
+        color:#ea580c;
+    }
+
+    .blue-text{
+        color:#2563eb;
+    }
+    .referral-wallet{
+        position: relative;
+    }
+
+    .wallet-watermark{
+        position: absolute;
+        right: -15px;
+        bottom: -10px;
+        font-size: 140px;
+        color: rgba(255, 122, 0, 0.08);
+        transform: rotate(-15deg);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .discount-wallet{
+        position: relative;
+    }
+
+    .blue-watermark{
+        position: absolute;
+        right: -15px;
+        bottom: -10px;
+        font-size: 140px;
+        color: rgba(37, 99, 235, 0.08);
+        transform: rotate(-15deg);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .loyalty-wallet{
+        position: relative;
+    }
+
+    .green-watermark{
+        position: absolute;
+        right: -15px;
+        bottom: -10px;
+        font-size: 140px;
+        color: rgba(34, 197, 94, 0.08);
+        transform: rotate(-15deg);
+        pointer-events: none;
+        z-index: 0;
+    }
+    .coupon-wallet{
+        position: relative;
+    }
+
+    .purple-watermark{
+        position: absolute;
+        right: -15px;
+        bottom: -10px;
+        font-size: 140px;
+        color: rgba(139, 92, 246, 0.08);
+        transform: rotate(-15deg);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .z-1{
+        position: relative;
+        z-index: 1;
+    }
+
+    .custom-tight-space{
+        margin-bottom: -4px;
+    }
+
+    @media(max-width:991px){
+
+        .activity-side{
+            border-right:none;
+            border-bottom:1px solid #ececec;
+        }
+
+        .page-title{
+            font-size:32px;
+        }
+
+        .wallet-stat{
+            font-size:20px;
+        }
+    }

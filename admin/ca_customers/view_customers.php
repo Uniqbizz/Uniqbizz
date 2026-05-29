@@ -382,7 +382,7 @@
                                                         <th>Customer Id/Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
-                                                        <th>Type/Complemetory</th>
+                                                        <th>Type/Complimentary</th>
                                                         <th>Address</th>
                                                         <th>Joining Date</th>
                                                         <th>status</th>

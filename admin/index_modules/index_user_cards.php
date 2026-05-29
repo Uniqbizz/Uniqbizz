@@ -51,8 +51,8 @@
                             <?php
                                 $stmt = $conn->prepare("
                                     SELECT 
-                                        (SELECT COUNT(corporate_agency_id) FROM corporate_agency WHERE user_type='16') +
-                                        (SELECT COUNT(sub_franchisee_id) FROM sub_franchisee WHERE user_type='29') +
+                                        (SELECT COUNT(corporate_agency_id) FROM corporate_agency WHERE user_type='16' AND status='1') +
+                                        (SELECT COUNT(sub_franchisee_id) FROM sub_franchisee WHERE user_type='29' AND status='1') +
                                         (SELECT COUNT(institution_id) FROM institution WHERE user_type='32' AND status='1')
                                     AS total_users
                                 ");
@@ -82,7 +82,7 @@
                             </span>
                         </div>
                         <div class="">
-                            <p class="text-muted fw-medium ps-2">Revenue Generated Full</p>
+                            <p class="text-muted fw-medium ps-2">Revenue Generated</p>
                             <!-- <h3 class="mb-0 text-dark ps-2">&#8377; 302Cr</h3> -->
                              <?php
                                 
@@ -95,7 +95,7 @@
                                         COALESCE((SELECT SUM(paid_amount) FROM master_franchisee WHERE user_type='28'), 0) +
                                         COALESCE((SELECT SUM(paid_amount) FROM sponsor_franchisee WHERE user_type='30'), 0) + 
                                         COALESCE((SELECT SUM(amount) FROM ca_travelagency WHERE user_type='11'), 0) + 
-                                        COALESCE((SELECT SUM(paid_amount) FROM ca_customer WHERE user_type='10' AND status = '1'), 0)
+                                        COALESCE((SELECT SUM(paid_amount) FROM ca_customer WHERE user_type='10'), 0)
                                     AS total_revenue;
                                 ");
                                 $stmt->execute();
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="mt-4 mb-2">
-                        <a href="" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3 px-5" role="button" style="width: 190px;">View details</a>
+                        <a href="payout/sub_franchisee_payout.php" class="text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 fw-bolder text-center py-1 viewDetailsButton3 px-5" role="button" style="width: 190px;">View details</a>
                     </div>
                     <div class="flex-fill" style="position: relative;">
                         <div class="dotlottie-player2">
@@ -174,8 +174,8 @@
                             <?php
                                 $stmt = $conn->prepare("
                                     SELECT 
-                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26') +
-                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28') +
+                                        (SELECT COUNT(business_mentor_id) FROM business_mentor WHERE user_type='26' AND status='1') +
+                                        (SELECT COUNT(master_franchisee_id) FROM master_franchisee WHERE user_type='28' AND status='1') +
                                         (SELECT COUNT(sponsor_franchisee_id) FROM sponsor_franchisee WHERE user_type='30' AND status='1')
                                     AS total_users
                                 ");

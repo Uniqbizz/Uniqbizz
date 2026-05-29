@@ -660,7 +660,7 @@
                 $("#registeredCustomerList-table").DataTable();
                 $("#deletedCustomerList-table").DataTable();
             });
-            
+
             function editfuncCust(id,refno,regby,dept,desig,zn,br,editfor,usertype){ 
                 window.location.href='editEmployee.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&dept='+dept+'&desig='+desig+'&zn='+zn+'&br='+br+'&editfor='+editfor+'&usertype='+usertype;
             };
@@ -728,7 +728,7 @@
                     message='business_developement_manager';
 
                 }else if(userType =="27"){
-                   var designation = 'zonal_manager';
+                    var designation = 'zonal_manager';
                     message='zonal_manager'; 
                 }else if (userType == "31"){
                     var designation = 'relationship_manager';

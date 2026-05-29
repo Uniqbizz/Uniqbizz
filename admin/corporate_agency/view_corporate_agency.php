@@ -387,7 +387,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="registeredCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>TE/F Id</th>
+                                                        <th>TE/F/I Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>
@@ -579,7 +579,7 @@
                                             <div class="col-sm-6">
                                                 <div class="search-box me-2 mb-2 d-inline-block">
                                                     <div class="position-relative">
-                                                        <h4>Deleted Techno Enterprise / Franchisee List</h4>
+                                                        <h4>Deleted Techno Enterprise / Franchisee / Institution List</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -590,7 +590,7 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="deletedCustomerList-table">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>TE/F Id</th>
+                                                        <th>TE/F/I Id</th>
                                                         <th>Full Name</th>
                                                         <th>Reference ID / Name</th>
                                                         <th>Phone / Email</th>

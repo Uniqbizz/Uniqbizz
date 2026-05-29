@@ -21,170 +21,101 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 <html lang="en">
 <?php
 
-require '../connect.php';
-$date = date('Y');
+    require '../connect.php';
+    include __DIR__ . '/../assets/submit/get_table_user_type.php'; //refers to current directory
+    $date = date('Y');
 
-$id = $_GET['vkvbvjfgfikix'];
-$user_id = $_GET['fyfyfregby'];
-$reference_no = $_GET['nohbref'];
-$dept = $_GET['dept'];
-$desig = $_GET['desig'];
-$zn = $_GET['zn'];
-$br = $_GET['br'];
-$usertype=$_GET['usertype'];
+    $id = $_GET['vkvbvjfgfikix'];
+    $user_id = $_GET['fyfyfregby'];
+    $reference_no = $_GET['nohbref'];
+    $dept = $_GET['dept'];
+    $desig = $_GET['desig'];
+    $zn = $_GET['zn'];
+    $br = $_GET['br'];
+    $usertype=$_GET['usertype'];
+    
 
-$editfor = $_GET['editfor'];
+    $editfor = $_GET['editfor'];
+    $transfer_check=$_GET['tr_check']??0;
+    $transfer_status=0;
 
-if ($editfor == 'pending') {
-    // $identifier_id= $_POST["vkvbvjfgfikix"];
-    $identifier_name = 'id=';
-} else if ($editfor == 'registered') {
-    // $identifier_id= $_POST["vkvbvjfgfikix"];
-    $identifier_name = 'employee_id=';
-}
-
-if($usertype == 27){
-    $stmt = $conn->prepare("SELECT * FROM `zonal_manager` where zonal_manager_id='" . $id . "' OR id = '" . $id . "'");
-    $stmt->execute();
-    // set the resulting array to associative
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-    if ($stmt->rowCount() > 0) {
-        foreach (($stmt->fetchAll()) as $key => $row) {
-            $fid = $row['id'];
-            $name = $row['name'];
-            $email = $row['email'];
-            $contact = $row['contact'];
-            $date_of_birth = $row['date_of_birth'];
-            $gender = $row['gender'];
-            $country = $row['country'];
-            $country_cd = $row['country_code'];
-            $state = $row['state'];
-            $city = $row['city'];
-            $pincode = $row['pincode'];
-            $zone = $row['zone'];
-            $address = $row['address'];
-            $profile_pic = $row['profile_pic'];
-            $pan_card = $row['pan_card'];
-            $aadhar_card = $row['aadhar_card'];
-            $bank_details = $row['bank_passbook'];
-            $register_by = $row['register_by'];
-            $user_type = $row['user_type'];
-            $register_date = $row['register_date'];
-            $note = $row['note'];
-
-            //get zone
-            $zones = $conn->prepare("SELECT id,zone FROM zonal where id='" . $zone . "' and status='1' ");
-            $zones->execute();
-            $zones->setFetchMode(PDO::FETCH_ASSOC);
-            if ($zones->rowCount() > 0) {
-                $zone = $zones->fetch();
-                $zone_name = $zone['zone'];
-                $zone_id = $zone['id'];
-            }
-            //get country
-            $country_stmt = $conn->prepare("SELECT id,country_name FROM countries where id='" . $country . "' and status='1' ");
-            $country_stmt->execute();
-            $country_stmt->setFetchMode(PDO::FETCH_ASSOC);
-            if ($country_stmt->rowCount() > 0) {
-                $country_res = $country_stmt->fetch();
-                $country_name = $country_res['country_name'];
-                $country_id =$country_res['id'];
-            }
-            
-            //get state
-            $states = $conn->prepare("SELECT id,state_name FROM states where id='" . $state . "' and status='1' ");
-            $states->execute();
-            $states->setFetchMode(PDO::FETCH_ASSOC);
-            if ($states->rowCount() > 0) {
-                $state = $states->fetch();
-                $state_name = $state['state_name'];
-                $state_id = $state['id'];
-            }
-            //get city
-            $citys = $conn->prepare("SELECT id,city_name FROM cities where id='" . $city . "' and status='1' ");
-            $citys->execute();
-            $citys->setFetchMode(PDO::FETCH_ASSOC);
-            if ($citys->rowCount() > 0) {
-                $city = $citys->fetch();
-                $city_name = $city['city_name'];
-                $city_id = $city['id'];
-            }
-
-        }
+    if ($editfor == 'pending') {
+        // $identifier_id= $_POST["vkvbvjfgfikix"];
+        $identifier_name = 'id=';
+    } else if ($editfor == 'registered') {
+        // $identifier_id= $_POST["vkvbvjfgfikix"];
+        $identifier_name = 'employee_id=';
     }
-}else{
-    $stmt = $conn->prepare("SELECT * FROM `employees` where employee_id='" . $id . "' OR id = '" . $id . "'");
+    // 0. Fetch transfer request pending load
+    $sql = "SELECT pending_payload,transfer_status FROM transfered_users WHERE transfer_user_id ='". $id."' AND transfer_status=1";
+    $stmt = $conn->prepare($sql);
     $stmt->execute();
-    // set the resulting array to associative
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $employees = $stmt->fetchAll();
+    
+    if (!empty($employees)) {
+        foreach ($employees as $row) {
+            // Decode the JSON payload
+            $payload = json_decode($row['pending_payload'], true); // true = associative array
 
-    if ($stmt->rowCount() > 0) {
-        foreach (($stmt->fetchAll()) as $key => $row) {
-            $fid = $row['id'];
-            $name = $row['name'];
-            $email = $row['email'];
-            $contact = $row['contact'];
-            $country_cd = $row['country_code'];
-            $reporting_manager_id = $row['reporting_manager'];
-            $date_of_birth = $row['date_of_birth'];
-            $date_of_joining = $row['date_of_joining'];
-            $gender = $row['gender'];
-            $department = $row['department'];
-            $designation = $row['designation'];
-            $zone = $row['zone'];
-            $branch = $row['branch'];
-            $address = $row['address'];
-            $profile_pic = $row['profile_pic'];
-            $id_proof = $row['id_proof'];
-            $bank_details = $row['bank_details'];
-            $register_by = $row['register_by'];
-            $user_type = $row['user_type'];
-            $register_date = $row['register_date'];
-            $note = $row['note'];
+            // Extract table info (optional)
+            $table = $payload['table'] ?? null;
+            $identifier_column = $payload['identifier_column'] ?? null;
+            $identifier_id = $payload['identifier_id'] ?? null;
 
-            //get country
-            $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $dept . "' and status='1' ");
+            // Extract updated data
+            $update_data = $payload['update_data'] ?? [];
+
+            $fid = $update_data['id'] ?? null;
+            $update_data_prev = json_decode($update_data['prev_user_data'], true);
+            $name = $update_data['name'] ??$update_data_prev['name'] ?? null;
+            $update_data = $payload['update_data'] ?? [];
+            $email = $update_data['email'] ??$update_data_prev['email'] ?? null;
+            $contact = $update_data['contact']?? $update_data_prev['contact'] ?? null;
+            $country_cd = $update_data['country_code'] ??$update_data_prev['country_code'] ?? null;
+            $reporting_manager_id = $update_data_prev['reporting_manager'] ?? null;
+            $date_of_birth = $update_data['date_of_birth'] ??$update_data_prev['date_of_birth'] ?? null;
+            $date_of_joining = $update_data['date_of_joining'] ??$update_data_prev['date_of_joining'] ?? null;
+            $gender = $update_data['gender'] ??$update_data_prev['gender'] ?? null;
+
+            // Department / Designation / Zone / Branch (nested in JSON)
+            //get dept
+            $departmentname = $update_data_prev['dept_name'] ?? ($update_data_prev['department']['dept_name'] ?? null);
+            $departments = $conn->prepare("SELECT id FROM department where dept_name='" . $departmentname . "' and status='1' ");
             $departments->execute();
             $departments->setFetchMode(PDO::FETCH_ASSOC);
             if ($departments->rowCount() > 0) {
                 $department = $departments->fetch();
-                $departmentname = $department['dept_name'];
+                $dept = $department['id'];
             }
 
-            //get state
-            $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $desig . "' and status='1' ");
+            //get desig
+            $designationname = $update_data_prev['designation_name']??($update_data_prev['designation']['designation_name'] ?? null);
+            $designations = $conn->prepare("SELECT id FROM designation where designation_name='" . $designationname. "' and status='1' ");
             $designations->execute();
             $designations->setFetchMode(PDO::FETCH_ASSOC);
             if ($designations->rowCount() > 0) {
                 $designation = $designations->fetch();
-                $designationname = $designation['designation_name'];
+                $desig = $designation['id'];
             }
-            //get city
-            $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zn . "' and status='1' ");
+            //get zone
+            $zone_name = $update_data_prev['zone_name']?? ($update_data_prev['zone']['zone_name'] ?? null);
+            $zones = $conn->prepare("SELECT id FROM zone where zone_name='" .$zone_name . "' and status='1' ");
             $zones->execute();
             $zones->setFetchMode(PDO::FETCH_ASSOC);
             if ($zones->rowCount() > 0) {
                 $zone = $zones->fetch();
-                $zone_name = $zone['zone_name'];
+                $zn = $zone['id'];
             }
 
-            //get city
-            $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $br . "' and status='1' ");
+            //get branch
+            $branch_name = $update_data_prev['branch_name'] ?? ($update_data_prev['branch']['branch_name'] ?? null);
+            $branchs = $conn->prepare("SELECT id FROM branch where branch_name='" . $branch_name . "' and status='1' ");
             $branchs->execute();
             $branchs->setFetchMode(PDO::FETCH_ASSOC);
             if ($branchs->rowCount() > 0) {
                 $branch = $branchs->fetch();
-                $branch_name = $branch['branch_name'];
-            }
-
-            //get city
-            $employees = $conn->prepare("SELECT name FROM employees where employee_id='" . $reference_no . "' and status='1' ");
-            $employees->execute();
-            $employees->setFetchMode(PDO::FETCH_ASSOC);
-            if ($employees->rowCount() > 0) {
-                $employee = $employees->fetch();
-                $employee_name = $employee['name'];
+                $br = $branch['id'];
             }
 
             // Get Reporting Manager Name
@@ -199,9 +130,204 @@ if($usertype == 27){
                     $reporting_manager_name = $reporting_manager['name'];
                 }
             }
+            
+
+            $address = $update_data['address'] ?? $update_data_prev['address'] ?? null;
+            $profile_pic = $update_data['profile_pic'] ?? $update_data_prev['profile_pic'] ?? null;
+            $id_proof = $update_data['id_proof'] ?? $update_data_prev['id_proof'] ?? null;
+            $bank_details = $update_data['bank_details'] ?? $update_data_prev['bank_details'] ?? null;
+            $register_by = $update_data['register_by'] ?? $update_data_prev['register_by'] ?? null;
+            $user_type = $update_data['user_type'] ?? $update_data_prev['user_type'] ?? null;
+            $register_date = $update_data['register_date'] ?? $update_data_prev['register_date'] ?? null;
+            $note = $update_data['note'] ?? $update_data_prev['note'] ?? null;
+
+            // Extract login data if needed
+            $login_data = $payload['login_data'] ?? [];
+            $username = $login_data['username'] ?? null;
+            $user_id = $login_data['user_id'] ?? null;
+
+            $transfer_status=$row['transfer_status'];
         }
-    }   
-}
+    }else{
+        if($usertype == 27){
+            $stmt = $conn->prepare("SELECT * FROM `zonal_manager` where zonal_manager_id='" . $id . "' OR id = '" . $id . "'");
+            $stmt->execute();
+            // set the resulting array to associative
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+            if ($stmt->rowCount() > 0) {
+                foreach (($stmt->fetchAll()) as $key => $row) {
+                    $fid = $row['id'];
+                    $name = $row['name'];
+                    $email = $row['email'];
+                    $contact = $row['contact'];
+                    $date_of_birth = $row['date_of_birth'];
+                    $gender = $row['gender'];
+                    $country = $row['country'];
+                    $country_cd = $row['country_code'];
+                    $state = $row['state'];
+                    $city = $row['city'];
+                    $pincode = $row['pincode'];
+                    $zone = $row['zone'];
+                    $address = $row['address'];
+                    $profile_pic = $row['profile_pic'];
+                    $pan_card = $row['pan_card'];
+                    $aadhar_card = $row['aadhar_card'];
+                    $bank_details = $row['bank_passbook'];
+                    $register_by = $row['register_by'];
+                    $user_type = $row['user_type'];
+                    $register_date = $row['register_date'];
+                    $note = $row['note'];
+
+                    //get zone
+                    $zones = $conn->prepare("SELECT id,zone FROM zonal where id='" . $zone . "' and status='1' ");
+                    $zones->execute();
+                    $zones->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($zones->rowCount() > 0) {
+                        $zone = $zones->fetch();
+                        $zone_name = $zone['zone'];
+                        $zone_id = $zone['id'];
+                    }
+                    //get country
+                    $country_stmt = $conn->prepare("SELECT id,country_name FROM countries where id='" . $country . "' and status='1' ");
+                    $country_stmt->execute();
+                    $country_stmt->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($country_stmt->rowCount() > 0) {
+                        $country_res = $country_stmt->fetch();
+                        $country_name = $country_res['country_name'];
+                        $country_id =$country_res['id'];
+                    }
+                    
+                    //get state
+                    $states = $conn->prepare("SELECT id,state_name FROM states where id='" . $state . "' and status='1' ");
+                    $states->execute();
+                    $states->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($states->rowCount() > 0) {
+                        $state = $states->fetch();
+                        $state_name = $state['state_name'];
+                        $state_id = $state['id'];
+                    }
+                    //get city
+                    $citys = $conn->prepare("SELECT id,city_name FROM cities where id='" . $city . "' and status='1' ");
+                    $citys->execute();
+                    $citys->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($citys->rowCount() > 0) {
+                        $city = $citys->fetch();
+                        $city_name = $city['city_name'];
+                        $city_id = $city['id'];
+                    }
+
+                }
+            }
+        }else{
+            $stmt = $conn->prepare("SELECT * FROM `employees` where employee_id='" . $id . "' OR id = '" . $id . "'");
+            $stmt->execute();
+            // set the resulting array to associative
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+            if ($stmt->rowCount() > 0) {
+                foreach (($stmt->fetchAll()) as $key => $row) {
+                    $fid = $row['id'];
+                    $name = $row['name'];
+                    $email = $row['email'];
+                    $contact = $row['contact'];
+                    $country_cd = $row['country_code'];
+                    $reporting_manager_id = $row['reporting_manager'];
+                    $date_of_birth = $row['date_of_birth'];
+                    $date_of_joining = $row['date_of_joining'];
+                    $gender = $row['gender'];
+                    $department = $row['department'];
+                    $designation = $row['designation'];
+                    $zone = $row['zone'];
+                    $branch = $row['branch'];
+                    $address = $row['address'];
+                    $profile_pic = $row['profile_pic'];
+                    $id_proof = $row['id_proof'];
+                    $bank_details = $row['bank_details'];
+                    $register_by = $row['register_by'];
+                    $user_type = $row['user_type'];
+                    $register_date = $row['register_date'];
+                    $note = $row['note'];
+
+                    //get country
+                    $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $dept . "' and status='1' ");
+                    $departments->execute();
+                    $departments->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($departments->rowCount() > 0) {
+                        $department = $departments->fetch();
+                        $departmentname = $department['dept_name'];
+                    }
+
+                    //get state
+                    $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $desig . "' and status='1' ");
+                    $designations->execute();
+                    $designations->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($designations->rowCount() > 0) {
+                        $designation = $designations->fetch();
+                        $designationname = $designation['designation_name'];
+                    }
+                    //get city
+                    $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zn . "' and status='1' ");
+                    $zones->execute();
+                    $zones->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($zones->rowCount() > 0) {
+                        $zone = $zones->fetch();
+                        $zone_name = $zone['zone_name'];
+                    }
+
+                    //get city
+                    $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $br . "' and status='1' ");
+                    $branchs->execute();
+                    $branchs->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($branchs->rowCount() > 0) {
+                        $branch = $branchs->fetch();
+                        $branch_name = $branch['branch_name'];
+                    }
+
+                    // Get Reporting Manager Name
+                    if ($reporting_manager_id == 'null' || empty($reporting_manager_id)) {
+                        $reporting_manager_name = 'Not Selected';
+                    } else {
+                        $reporting_managers = $conn->prepare("SELECT * FROM employees WHERE employee_id = :reporting_manager");
+                        $reporting_managers->execute(['reporting_manager' => $reporting_manager_id]);
+                        $reporting_managers->setFetchMode(PDO::FETCH_ASSOC);
+                        if ($reporting_managers->rowCount() > 0) {
+                            $reporting_manager = $reporting_managers->fetch();
+                            $reporting_manager_name = $reporting_manager['name'];
+                        }
+                    }
+                
+                }
+                $prev_user_data = [
+                    "id" => $fid,
+                    "name" => $name,
+                    "email" => $email,
+                    "contact" => $contact,
+                    "country_code" => $country_cd,
+                    "reporting_manager" => $reporting_manager_id,
+                    "date_of_birth" => $date_of_birth,
+                    "date_of_joining" => $date_of_joining,
+                    "gender" => $gender,
+                    "department" => $department,
+                    "department_name" => $departmentname,
+                    "designation" => $designation,
+                    "designation_name" => $designationname,
+                    "zone" => $zone,
+                    "zone_name" => $zone_name,
+                    "branch" => $branch,
+                    "branch_name" => $branch_name,
+                    "address" => $address,
+                    "profile_pic" => $profile_pic,
+                    "id_proof" => $id_proof,
+                    "bank_details" => $bank_details,
+                    "register_by" => $register_by,
+                    "user_type" => $user_type,
+                    "register_date" => $register_date,
+                    "note" => $note
+                ];
+            }   
+        }
+    }
 
 
 ?>
@@ -271,6 +397,14 @@ if($usertype == 27){
                                 <div class="card-body">
                                     <form>
                                         <h3>Edit Employee / Zonal Manager</h3>
+                                        <?php if ($transfer_check) {?>
+                                        <div class="d-flex justify-content-end">
+                                            <span class="gap-1 px-2 py-1 bg-info-subtle text-info rounded">
+                                                <i class="fa-solid fa-right-left"></i>
+                                                Transfer
+                                            </span>
+                                        </div>
+                                        <?php }?>
                                         <div class="row" id="formParent">
                                             <!-- Personal Details -->
                                             <h4 class="my-2">Personal Details</h4>
@@ -278,12 +412,20 @@ if($usertype == 27){
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Full Name <span class="text-danger">*</span></label>
                                                     <input class="form-control" type="text" id="fullName" value="<?php echo $name; ?>">
+                                                    <?php
+                                                        $column = 'name';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
                                                     <input class="form-control" type="date" id="birth_date" value="<?php echo $date_of_birth; ?>" max="<?php echo $ageLimit; ?>">
+                                                    <?php
+                                                        $column = 'date_of_birth';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12 mb-3">
@@ -308,12 +450,20 @@ if($usertype == 27){
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'country_code';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-8 col-sm-8 col-9">
                                                         <div class="input-block">
                                                             <label class="col-form-label">Contact Number <span class="text-danger">*</span></label>
                                                             <input class="form-control" type="number" id="contact" value="<?php echo $contact; ?>">
+                                                            <?php
+                                                                $column = 'contact';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -322,12 +472,20 @@ if($usertype == 27){
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Email <span class="text-danger">*</span></label>
                                                     <input class="form-control" type="email" id="email" value="<?php echo $email; ?>">
+                                                    <?php
+                                                        $column = 'email';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="input-block mb-3">
                                                     <label class="col-form-label">Address <span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="address" value="<?php echo $address; ?>">
+                                                    <?php
+                                                        $column = 'address';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
@@ -344,6 +502,10 @@ if($usertype == 27){
                                                                                                                                                                                 echo "checked";
                                                                                                                                                                             } ?>>&nbsp;&nbsp;&nbsp;Other</label>
                                                     </div>
+                                                    <?php
+                                                        $column = 'gender';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
 
@@ -355,6 +517,10 @@ if($usertype == 27){
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Joining Date <span class="text-danger">*</span></label>
                                                             <input class="form-control" type="date" id="joining_date" value="<?php echo $date_of_joining; ?>" max="<?php echo $today; ?>" min="<?php echo $ageLimit; ?> ">
+                                                            <?php
+                                                                $column = 'date_of_joining';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -379,6 +545,10 @@ if($usertype == 27){
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'department';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -403,6 +573,10 @@ if($usertype == 27){
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'desination';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -427,6 +601,10 @@ if($usertype == 27){
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'zone';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -435,6 +613,10 @@ if($usertype == 27){
                                                             <select class="form-select" id="branch">
                                                                 <option value="<?php echo $br; ?>"> <?php echo $branch_name . ' (Already Selected)'; ?> </option>
                                                             </select>
+                                                            <?php
+                                                                $column = 'branch';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -459,6 +641,10 @@ if($usertype == 27){
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'reporting_manager';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <!-- Attachments -->
@@ -574,6 +760,10 @@ if($usertype == 27){
                                                                 }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'country';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -596,6 +786,10 @@ if($usertype == 27){
                                                                     }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'state';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -618,12 +812,20 @@ if($usertype == 27){
                                                                     }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'city';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label">Pincode<span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="pin" placeholder="Pincode" readonly value="<?=$pincode?>">
+                                                            <?php
+                                                                $column = 'pincode';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
@@ -646,6 +848,10 @@ if($usertype == 27){
                                                                     }
                                                                 ?>
                                                             </select>
+                                                            <?php
+                                                                $column = 'zone';
+                                                                include '../common_views/edit_log_tooltip.php';
+                                                            ?>
                                                         </div>
                                                     </div>
 
@@ -771,6 +977,10 @@ if($usertype == 27){
                                                 <div class="input-block mb-3 mt-2">
                                                     <label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="note" placeholder="Enter Note" value="<?php echo $note; ?>">
+                                                    <?php
+                                                        $column = 'note';
+                                                        include '../common_views/edit_log_tooltip.php';
+                                                    ?>
                                                 </div>
                                             </div>
 
@@ -781,9 +991,46 @@ if($usertype == 27){
                                         <input type="hidden" id="ref_id" name="ref_id" value="<?php echo $reference_no; ?>">
                                         <input type="hidden" id="editfor" name="editfor" value="<?php echo $editfor; ?>">
                                         <input type="hidden" id="registered" name="registered" value="<?php echo $usertype; ?>">
-                                        <div class="submit-section d-flex justify-content-center mb-4">
-                                            <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="edit_employee">Submit</button>
-                                        </div>
+                                        <input type="hidden" id="tr_check" name="tr_check" value="<?php echo $transfer_check; ?>">
+                                        <input type="hidden" id="prev_user_name" name="prev_user_name" value="<?php echo $name; ?>">
+                                        <input type="hidden" id="prev_user_email" name="prev_user_email" value="<?php echo $email; ?>">
+                                        <input type="hidden" id="prev_user_doj" name="prev_user_doj" value="<?php echo $date_of_joining; ?>">
+                                        
+                                        <input type="hidden" id="prev_user_data" name="prev_user_data"
+                                            value="<?php echo htmlspecialchars(json_encode($prev_user_data), ENT_QUOTES, 'UTF-8'); ?>">
+
+                                        <div class="submit-section d-flex <?=$transfer_status != 1?'justify-content-between':'justify-content-center'?> mb-4">
+
+                                        <?php if($transfer_check == 1){ ?>
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="edit_employee">
+                                                Save Changes
+                                            </button>
+
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="transfer_employee">
+                                                Submit Transfer
+                                            </button>
+
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                Close
+                                            </button>
+
+                                        <?php } else if($transfer_status == 1) { ?>
+
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                Close
+                                            </button>
+
+                                        <?php }  else { ?>
+
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="edit_employee">
+                                                Submit
+                                            </button>
+
+                                            <button type="button" class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="close">
+                                                Close
+                                            </button>
+
+                                        <?php } ?>
                                     </form>
                                 </div>
                             </div>
@@ -805,6 +1052,10 @@ if($usertype == 27){
     <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
         <i class="mdi mdi-arrow-up"></i>
     </button>
+    <!-- commom view modals -->
+    <?php include '../common_views/edit_reason_modal_view.php'?>
+    
+    <?php include '../common_views/no_edit_modal.php'?>
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
     <script src="../assets/libs/jquery/jquery.min.js"></script>
@@ -814,7 +1065,7 @@ if($usertype == 27){
     <script src="../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- add data to database js file -->
-    <script type="text/javascript" src="../assets/js/submitdata.js"></script>
+    <!-- <script type="text/javascript" src="../assets/js/submitdata.js"></script> -->
 
     <!-- apexcharts -->
     <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
@@ -845,134 +1096,53 @@ if($usertype == 27){
 
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
-        // $(document).ready(function(){
-        //     var paymentMode = $(".payment:checked").val();
-        //     if(paymentMode == "cheque"){
-        //         $("#chequeOpt").removeClass("d-none");
-        //         $("#onlineOpt").addClass("d-none");
-        //     }else if(paymentMode == "online"){
-        //         $("#onlineOpt").removeClass("d-none");
-        //         $("#chequeOpt").addClass("d-none");
-        //     } else {
-        //         $("#chequeOpt").addClass("d-none");
-        //         $("#onlineOpt").addClass("d-none");
-        //     }
-        // });
-        // //select Designation
-        // $('#designation').on('change', function() {
-        //     var designation = $('#designation').val();
-        //     // console.log(designation);
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'../agents/get_user_Franchisee.php',
-        //         data: "designation="+designation,
-        //         success:function (e) {
-        //             // console.log(e);
-        //             $('#user_id_name').html(e); 
-        //         },
-        //         error: function(err){
-        //             console.log(err);
-        //         },
-        //     });
-        // });
-
-        // // fetch User based on selected designation
-        // $('#user_id_name').on('change', function(){
-        //     var user_id_name = $(this).val();
-        //     // console.log(user_id_name);
-
-        //     var designation = $('#designation').val();
-        //     // console.log(designation);
-
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'../agents/getUsers.php',
-        //         data: 'user_id_name=' + user_id_name + '&designation=' + designation ,
-        //         success:function(response){
-        //         // console.log(response);
-        //             // $('#pin').html(response);
-        //             $('#reference_name').val(response); 
-        //         }
-        //     }); 
-
-        // }); 
-
-        // $('#country').on('change', function(){
-        //     var countryID = $(this).val();
-        //     if(countryID){
-        //         $.ajax({
-        //             type:'POST',
-        //             url:'../address/countrydata.php',
-        //             data:'country_id='+countryID,
-        //             success:function(htmll){
-        //                 $('#mystate').html(htmll); 
-        //                 $('#city').html('<option value="">Select state first</option>'); 
-        //             }
-        //         }); 
-        //     }else{
-        //         $('#mystate').html('<option value="">Select country first</option>');
-        //         $('#city').html('<option value="">Select state first</option>');
-        //         $('#pin').val('');   
-        //     }
-        // });
-
-        // $('#mystate').on('change', function(){
-        //     // alert();
-        //     var stateID = $(this).val();
-        //     if(stateID){
-        //         $.ajax({
-        //             type:'POST',
-        //             url:'../address/countrydata.php',
-        //             data:'state_id='+stateID,
-        //             success:function(html){
-        //                 $('#city').html(html);
-        //             }
-        //         }); 
-        //     }else{
-        //         $('#city').html('<option value="">Select state first</option>');
-        //         $('#pin').val('');   
-        //     }
-        // });
-
-        // $('#city').on('change', function(){
-        //     var cityID = $(this).val();
-        //     if(cityID){
-        //         $.ajax({
-        //             type:'POST',
-        //             url:'../address/pincode.php',
-        //             data:'city_id='+cityID,
-        //             success:function(response){
-        //                 // $('#pin').html(response);
-        //                 $('#pin').val(response); 
-        //             }
-        //         }); 
-        //     }else{
-        //         $('#city').html('<option value="">Select state first</option>');
-        //         $('#pin').val('');
-        //     }
-        // });
-
-        // // $('#business_package_amount').on('change', function(){
-        // //     var business_package_amount = $(this).val();
-        // //     $('#flex_amount').val(business_package_amount);
-        // // });
-
-        // $('#paymentMode').on('click', function(){
-        //     var paymentMode = $(".payment:checked").val();
-        //     // console.log(paymentMode);
-        //     if(paymentMode == "cheque"){
-        //         $("#chequeOpt").removeClass("d-none");
-        //         $("#onlineOpt").addClass("d-none");
-        //     }else if(paymentMode == "online"){
-        //         $("#onlineOpt").removeClass("d-none");
-        //         $("#chequeOpt").addClass("d-none");
-        //     } else {
-        //         $("#chequeOpt").addClass("d-none");
-        //         $("#onlineOpt").addClass("d-none");
-        //     }
-        // });
         let cachedEmpBlock = null;
         let cachedZmBlock = null;
+        let originalFormData = "";
+        const currentYear = new Date().getFullYear();
+
+        function getFormData() {
+            return $("#employee_form")
+                .serializeArray()
+                .filter(field =>
+                    field.name !== "prev_user_data" &&
+                    field.name !== "testemail"
+                );
+        }
+
+        $(window).on("load", function () {
+            // wait a bit for AJAX + DOM changes
+            setTimeout(() => {
+                originalFormData = JSON.stringify(getFormData());
+                // console.log("FINAL ORIGINAL:", originalFormData);
+            }, 800);
+        });
+
+        $("#email").keyup(function () {
+            var email = $("#email").val().trim();
+            var testValue = $("#testValue").val().trim();
+            emailtest(email, testValue);
+        });
+
+        var emailtest = (emailtest, testValue) => {
+            $.ajax({
+                type: "POST",
+                url: "../../test_data/emailtest.php",
+                data: "email=" + emailtest + "&tablename=" + testValue,
+                success: function (response) {
+                    if (response == 1) {
+                        $("#testemails").html(
+                            '<input type="hidden"  id="testemail" value="1" >'
+                        );
+                    } else {
+                        $("#testemails").html(
+                            '<input  type="hidden" id="testemail" value="0" >'
+                        );
+                        // return false;
+                    }
+                },
+            });
+        };
 
         let registeAs=$('#registered').val()
 
@@ -1020,7 +1190,7 @@ if($usertype == 27){
         $('#zone').on('change', function() {
             var zone_id = $(this).val();
             $.ajax({
-                url: '../assets/get_data/get_branch.php',
+                url: '../../assets/get_data/get_branch.php',
                 type: 'POST',
                 data: {
                     zone_id: zone_id
@@ -1030,7 +1200,326 @@ if($usertype == 27){
                 }
             });
         });
+
+        // Edit Employee by admin
+        $("#confirmEditReason").click(function (e) {
+
+            // var currentFormData = JSON.stringify($("#employee_form").serializeArray());
+
+            // if(originalFormData === currentFormData){
+            //     $("#noChangeModal").modal("show");
+            //     return;
+            // }
+            var edit_reason = $("#edit_reason").val().trim();
+
+            if(edit_reason === ""){
+                alert("Please enter reason for edit");
+                return;
+            }
+
+            $("#editReasonModal").modal("hide");
+            var transfer_check = $('#tr_check').val();
+            var register_as=$('#registered').val();
+            var prev_user_data=$('#prev_user_data').val();
+            var url=''
+            var country=state=city=pin=zonal=id_proof=bank_details=addar=pancard=department=designation=zone=branch=reporting_manager=joining_date='';
+            
+            if (register_as == '27'){
+                url='editZonalManagerData.php';
+                country=$('#country').val();
+                state=$('#mystate').val();
+                city=$('#city').val();
+                pin=$('#pin').val();
+                zonal=$('#zonal').val();
+                id_proof = 'NA';
+                addar= $(":hidden#img_path2").val().trim();
+                pancard= $(":hidden#img_path3").val().trim();
+                bank_details = $(":hidden#img_path4").val().trim();
+                joining_date = 'NA';
+                department = 'NA';
+                designation = 'NA';
+                zone = 'NA';
+                branch = 'NA';
+                reporting_manager = 'NA';
+            }else if(register_as == '24' || register_as == '25'){
+                url='editEmployeeData.php';
+                country='NA';
+                state='NA';
+                city='NA';
+                pin='NA';
+                zonal='NA';
+                id_proof= $(":hidden#img_path2").val().trim();
+                addar= 'NA';
+                pancard= 'NA';
+                bank_details = $(":hidden#img_path3").val().trim();
+                joining_date = $("#joining_date").val().trim();
+                department = $("#department").val().trim();
+                designation = $("#designation").val().trim();
+                zone = $("#zone").val().trim();
+                branch = $("#branch").val().trim();
+                reporting_manager = $("#reporting_manager").val().trim();
+            }
+            var id = $("#empID").val().trim();
+            var name = $("#fullName").val().trim();
+            var birth_date = $("#birth_date").val().trim();
+            var country_cd = $("#country_cd").val().trim();
+            var contact = $("#contact").val().trim();
+            var email = $("#email").val().trim();
+            var address = $("#address").val().trim();
+            var gender = $(".gender:checked").val();
+            var editfor = $("#editfor").val().trim();
+            var ref_id = $("#ref_id").val().trim();
+            var profile_pic = $(":hidden#img_path1").val().trim();
+
+            //if note is empty
+            var rawNote = $("#note").val();
+            var note = (typeof rawNote === "string") ? (rawNote === "" ? "" : rawNote.trim()) : "";
+
+            // var testp= $('#testphone').val();
+            var testE = $("#testemail").val();
+
+            //age calculation
+            var birth_date_split = birth_date.split("-");
+            var age = currentYear - birth_date_split[0];
+            // console.log(age);
+
+            //joining date calculation
+            var joining_date_split = joining_date.split("-");
+            var joining = currentYear - joining_date_split[0];
+            // console.log(joining);
+
+            var characterLetters = /^[A-Za-z\s]+$/;
+            var phoneReg = /^[0-9]{10}$/;
+            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            var specialChar = /[!@#$%^&*]/g;
+            var edit_reason_param = "&edit_reason=" + encodeURIComponent(edit_reason);
+            if (name === "" || name.length <= 2) {
+                alert("Enter Proper Name");
+            } else if (birth_date === "") {
+                alert("Choose Correct Birth date");
+            } else if (age < 20) {
+                alert("Age must be more than 20 Years");
+            } else if (contact === "") {
+                alert("Please enter contact number");
+            } else if (!phoneReg.test(contact)) {
+                alert("Contact Number Must be 10 Digit");
+            } else if (email == "") {
+                alert("Enter Email");
+            } else if (!emailReg.test(email)) {
+                alert("Enter Proper Email");
+            } else if (testE == "1") {
+                alert("Email already exists");
+            } else if (address === "") {
+                alert("Please Enter address");
+            } else if (gender !== "male" && gender !== "female" && gender !== "others") {
+                alert("Please Select Gender");
+            } else if (country === "" && register_as == '27') {
+                alert("Please Select Country");
+            }else if (state === "" && register_as == '27') {
+                alert("Please Select State");
+            }else if (city === "" && register_as == '27') {
+                alert("Please Select City");
+            }else if (zonal === "" && register_as == '27') {
+                alert("Please Select Zone");
+            } else if (joining_date === "" && (register_as == '24' || register_as == '25')) {
+                alert("Please Select Joining date");
+            } else if (joining > 20 && (register_as == '24' || register_as == '25')) {
+                alert("Joining date can not be more than 20 Years");
+            } else if (department === "" && (register_as == '24' || register_as == '25')) {
+                alert("Please Select department");
+            } else if (designation === "" && (register_as == '24' || register_as == '25')) {
+                alert("Please Select designation");
+            } else if (zone === "" && (register_as == '24' || register_as == '25')) {
+                alert("Please Select zone");
+            } else if (branch === "" && (register_as == '24' || register_as == '25')) {
+                alert("Please Select branch");
+            } else if (profile_pic === "") {
+                alert("Please Upload profile Picture");
+            } else if (id_proof === "" && (register_as == '24' || register_as == '25')) {
+                alert("Please provide valid id proof");
+            } else if (addar === "" && register_as == '27') {
+                alert("Please provide valid id proof");
+            } else if (pancard === "" && register_as == '27') {
+                alert("Please provide valid id proof");
+            } else if (bank_details === "") {
+                alert("Please provide correct bank details");
+            } else {
+                var dataString =
+                    "id=" +id +
+                    "&name=" + name +
+                    "&birth_date=" + birth_date +
+                    "&country_cd=" + country_cd +
+                    "&contact=" + contact +
+                    "&email=" + email +
+                    "&address=" + address +
+                    "&gender=" + gender +
+                    "&joining_date=" + joining_date +
+                    "&department=" + department +
+                    "&designation=" + designation +
+                    "&zone=" + zone +
+                    "&branch=" + branch +
+                    "&reporting_manager=" + reporting_manager +
+                    "&profile_pic=" + profile_pic +
+                    "&id_proof=" + id_proof +
+                    "&addar=" + addar +
+                    "&pancard=" + pancard +
+                    "&bank_details=" + bank_details +
+                    "&country=" + country +
+                    "&state=" + state +
+                    "&city=" + city +
+                    "&pin=" + pin +
+                    "&zonal=" + zonal +
+                    "&ref_id=" + ref_id +
+                    "&editfor=" + editfor +
+                    "&note=" + note+
+                    "&transfer_check="+transfer_check+
+                    "&user_type="+register_as+
+                    "&prev_user_data="+encodeURIComponent(prev_user_data)+
+                    edit_reason_param;
+
+                // console.log(dataString);
+                $("#edit_employee").attr("disabled", "disabled");
+                if (transfer_check == 1) {
+
+                    // Transfer workflow
+                    $("#edit_employee")
+                        .removeClass("btn-primary")
+                        .addClass("btn-success")
+                        .prop("disabled", true);
+
+                    $("#transfer_employee").prop("disabled", false);
+
+                    // Disable entire form fields
+                    $("#employee_form")
+                        .find("input, textarea, select, button")
+                        .not("#transfer_employee")
+                        .prop("disabled", true);
+
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: dataString,
+                        cache: false,
+                        success: function (data) {
+                            if (data == 1) {
+                                alert("Edited Successfully");
+                                location.href = "employee.php";
+
+                            } else {
+                                alert("Failed");
+                            }
+                        },
+                    });
+                }
+                
+            }
+        });
+
+        $("#edit_employee").click(function (e) {
+            e.preventDefault();
+            const currentFormData = JSON.stringify(getFormData());
+
+            if (originalFormData === currentFormData) {
+                $("#noChangeModal").modal("show");
+                return;
+            }
+
+            $("#editReasonModal").modal("show");
+        });
+
+        $("#noChangeOk, #noChangeClose").add("#noChangeModal")
+        .on("click hidden.bs.modal", () =>{
+            window.location.href = "employee.php";
+        });
+        //Transfer employee
+        $("#transfer_employee").click(function (e) {
+
+            e.preventDefault();
+
+            var transfer_check = $('#tr_check').val();
+
+            if (transfer_check != 1) {
+                alert("Please save changes first");
+                return;
+            }
+
+            var prev_user_data = $('#prev_user_data').val();
+            var register_as = $('#registered').val();
+            var id = $("#empID").val().trim();
+            var email = $("#email").val().trim();
+            var name = $("#fullName").val().trim();
+            var prev_user_email = $("#prev_user_email").val().trim();
+            var prev_user_name = $("#prev_user_name").val().trim();
+            var prev_user_doj = $("#prev_user_doj").val().trim();
+
+            var dataString =
+                "id=" + id +
+                "&name=" + name +
+                "&email=" + email +
+                "&transfer_check=" + transfer_check +
+                "&prev_user_email=" + prev_user_email +
+                "&prev_user_name=" + prev_user_name +
+                "&prev_user_doj=" + prev_user_doj +
+                "&user_type=" + register_as +
+                "&prev_user_data=" + encodeURIComponent(prev_user_data);
+
+            $("#transfer_employee").prop("disabled", true);
+
+            $.ajax({
+                type: "POST",
+                url: "../user_transfer/transfer_user_custom.php",
+                data: dataString,
+                success: function (data) {
+
+                    if (data == 1) {
+                        alert("Transfer Requested!");
+                        location.href = "employee.php";
+                    } else {
+                        alert("Transfer Failed");
+                    }
+
+                }
+            });
+
+        });
+        $("#close").on('click',function () {
+            // Go back to the previous page
+            window.history.back(); // or window.history.go(-1);
+        });
     </script>
+    <script src="../common_resources/edit_log_tooltip_custom.js"></script>
+    
+    <?php if ($transfer_check == 1) { ?>
+        <script>
+            $(document).ready(function(){
+
+                // Disable transfer button initially
+                $('#transfer_employee').prop('disabled', true);
+
+            });
+        </script>
+    <?php
+
+        }
+    ?>
+    <?php if ($transfer_status == 1) { ?>
+        <script>
+            $(document).ready(function(){
+
+                // Disable transfer button initially
+                $("#employee_form")
+                .find("input, textarea, select, button")
+                .not("#close")
+                .prop("disabled", true);
+
+            });
+            
+        </script>
+    <?php
+
+        }
+    ?>
 </body>
 
 </html>
