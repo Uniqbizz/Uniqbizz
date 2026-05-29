@@ -136,7 +136,7 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center">
                                             <span>Total Loyalty Coupons</span>
-                                            <span class="summary-value"><?= $loyaltyCouponData['coupon_total'] ?></span>
+                                            <span class="summary-value"><?= $loyaltyCouponData['coupon_total'] ?? 0 ?></span>
                                         </div>
 
                                     </div>
@@ -157,11 +157,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n3">
                                             <span>Available Coupons</span>
-                                            <span class="summary-value"><?= $loyaltyCouponData['active_coupon_total'] ?></span>
+                                            <span class="summary-value"><?= $loyaltyCouponData['active_coupon_total'] ?? 0 ?></span>
                                         </div>
 
                                         <div class="summary-sub-value green-text">
-                                            Value ₹<?= $loyaltyCouponData['active_total_value'] ?>
+                                            Value ₹<?= $loyaltyCouponData['active_total_value'] ?? 0 ?>
                                         </div>
 
                                     </div>
@@ -182,11 +182,11 @@
                                         <!-- Content -->
                                         <div class="summary-label d-flex justify-content-between align-items-center mb-n2">
                                             <span>Used / Expired Coupons</span>
-                                            <span class="summary-value"><?= $loyaltyCouponData['used_coupon_total'] + $loyaltyCouponData['expired_coupon_total'] ?> </span>
+                                            <span class="summary-value"><?= (($loyaltyCouponData['used_coupon_total'] ?? 0) + ($loyaltyCouponData['expired_coupon_total'] ??0)) ?> </span>
                                         </div>
 
                                         <div class="summary-sub-value">
-                                            Value ₹<?= $loyaltyCouponData['used_total_value'] + $loyaltyCouponData['expired_total_value'] ?>
+                                            Value ₹<?= (($loyaltyCouponData['used_total_value'] ?? 0) + ($loyaltyCouponData['expired_total_value'] ?? 0)) ?>
                                         </div>
 
                                     </div>
@@ -210,7 +210,7 @@
                                         </div>
 
                                         <div class="summary-big-value">
-                                            ₹<?= $loyaltyCouponData['coupon_total_value'] ?>
+                                            ₹<?= $loyaltyCouponData['coupon_total_value'] ?? 0 ?>
                                         </div>
 
                                     </div>
@@ -266,22 +266,22 @@
 
                                         <button class="coupon-tab active" data-filter="all">
                                             All Loyalty Coupons
-                                            <span class="tab-count"><?= $loyaltyCouponData['coupon_total'] ?></span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['coupon_total'] ?? 0 ?></span>
                                         </button>
 
                                         <button class="coupon-tab available-tab" data-filter="available">
                                             Available
-                                            <span class="tab-count"><?= $loyaltyCouponData['active_coupon_total'] ?></span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['active_coupon_total'] ?? 0 ?></span>
                                         </button>
 
                                         <button class="coupon-tab used-tab" data-filter="used">
                                             Used
-                                            <span class="tab-count"><?= $loyaltyCouponData['used_coupon_total'] ?></span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['used_coupon_total'] ?? 0 ?></span>
                                         </button>
 
                                         <button class="coupon-tab expired-tab" data-filter="expired">
                                             Expired
-                                            <span class="tab-count"><?= $loyaltyCouponData['expired_coupon_total'] ?></span>
+                                            <span class="tab-count"><?= $loyaltyCouponData['expired_coupon_total'] ?? 0 ?></span>
                                         </button>
 
                                     </div>

@@ -112,7 +112,53 @@ if ($user_type_id == '16') {
 		}
 
 		$bdmCommiAmt = $convertedMark == "" ? $amount * 0.05 : 0; //25000
+	} if ($reference_id == "ST") {
+
+		$sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $reference_no . "'");
+		$sql10->execute();
+		$sql10->setFetchMode(PDO::FETCH_ASSOC);
+		if ($sql10->rowCount() > 0) {
+			foreach (($sql10->fetchAll()) as $key10 => $row10) {
+				$BM_id = $row10['super_techno_enterprise_id'];
+				$BM_name = $row10['firstname'] . ' ' . $row10['lastname'];
+				$BM_ref = $row10['reference_no']??'';
+			}
+		}
+		if ( $BM_ref !='Not Applicable') {
+			$sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $BM_ref . "'");
+			$sql11->execute();
+			$sql11->setFetchMode(PDO::FETCH_ASSOC);
+			if ($sql11->rowCount() > 0) {
+				foreach (($sql11->fetchAll()) as $key11 => $row11) {
+					$bdm_id = $row11['executive_techno_enterprise_id'];
+					$bdm_name = $row11['firstname'] . ' ' . $row11['lastname'];
+					$bdm_ref = $row10['reference_no']??'';
+					// $bdm_user_type_id = $row11['user_type'];
+					// $bdm_ref = $row11['reporting_manager'];
+				}
+			}
+			if ($bdm_ref == 'null') {
+				$sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $BM_ref . "'");
+				$sql12->execute();
+				$sql12->setFetchMode(PDO::FETCH_ASSOC);
+				if ($sql12->rowCount() > 0) {
+					foreach (($sql12->fetchAll()) as $key12 => $row12) {
+						$bcm_id = $row12['chief_techno_enterprise_id'];
+						$bcm_name = $row12['firstname'] . ' ' . $row12['lastname'];
+						// $bdm_user_type_id = $row11['user_type'];
+						// $bdm_ref = $row11['reporting_manager'];
+					}
+				}
+			}
+		}
+
+
+		$bmCommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; //12500
+		$bdmCommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; //12500
+
 	}
+
+
 	if ($amount == "200000") {
 		$business_package = "standard";
 	} else if ($amount == "300000") {

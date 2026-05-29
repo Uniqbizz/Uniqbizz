@@ -35,12 +35,12 @@ if ($user_type_id == '34') { //Executive Techno Enterprise
 		}
 	}
 
-	$sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $reference_no . "' AND status = '1' ");
+	$sql10 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $reference_no . "' AND status = '1' ");
 	$sql10->execute();
 	$sql10->setFetchMode(PDO::FETCH_ASSOC);
 	if ($sql10->rowCount() > 0) {
 		foreach (($sql10->fetchAll()) as $key10 => $row10) {
-			$bdm_id = $row10['super_techno_enterprise_id'];
+			$bdm_id = $row10['chief_techno_enterprise_id'];
 			$bdm_name = $row10['firstname'].' '.$row10['lastname'];
 			//$bdm_ref = $row10['reporting_manager'];
 		}

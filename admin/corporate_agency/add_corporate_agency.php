@@ -113,8 +113,8 @@
                                                         <select id="designation1" class="form-select" disabled>
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
-                                                            <!--<option value="business_consultant">Business Consultant</option>-->
                                                             <option value="business_mentor">Business Mentor</option>
+                                                            <option value="super_techno_enterprise">Super Techno Enterprise</option>
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="">--Select Designation--</option>

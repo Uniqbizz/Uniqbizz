@@ -105,7 +105,7 @@
 
                                 <div>
                                     <h4>Total Earnings</h4>
-                                    <h2>₹<?= $refWalletData['ref_total_earning'] + $refWalletCurBalData['ref_booking_total'] ?></h2>
+                                    <h2>₹<?= (($refWalletData['ref_total_earning'] ?? 0) + ($refWalletCurBalData['ref_booking_total'] ?? 0)) ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -129,7 +129,7 @@
 
                                 <div>
                                     <h4>Available Balance</h4>
-                                    <h2>₹<?= $refWalletCurBalData['balance']?></h2>
+                                    <h2>₹<?= $refWalletCurBalData['balance'] ?? 0?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -153,7 +153,7 @@
 
                                 <div>
                                     <h4>Total Referrals</h4>
-                                    <h2><?= $refWalletData['ref_count'] ?></h2>
+                                    <h2><?= $refWalletData['ref_count'] ?? 0 ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->
@@ -177,7 +177,7 @@
 
                                 <div>
                                     <h4>Total Withdrawn</h4>
-                                    <h2>₹<?= $refWalletEncashData['total_earning_echased'] ?></h2>
+                                    <h2>₹<?= $refWalletEncashData['total_earning_echased'] ?? 0 ?></h2>
                                 </div>
 
                                 <!--<div class="card-footer-data">-->

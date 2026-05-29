@@ -135,6 +135,16 @@ if($user_type == 'te'){
                     $reference_no_name = $business_development_manager['name'];
                     // $business_trainees_reference_no = $business_trainee['reference_no'];
                 }
+            } else if ($reference_id == "ST") {
+                // super_techno_enterprise name
+                $super_techno_enterprise = $conn->prepare("SELECT firstname, lastname FROM super_techno_enterprise where super_techno_enterprise_id='" . $reference_no . "'");
+                $super_techno_enterprise->execute();
+                $super_techno_enterprise->setFetchMode(PDO::FETCH_ASSOC);
+                if ($super_techno_enterprise->rowCount() > 0) {
+                    $super_techno_enterprise = $super_techno_enterprise->fetch();
+                    $reference_no_fname = $super_techno_enterprise['firstname'];
+                    $reference_no_lname = $super_techno_enterprise['lastname'];
+                }
             } else {
                 // business_consultant name
                 $business_consultants = $conn->prepare("SELECT firstname, lastname FROM business_consultant where business_consultant_id='" . $reference_no . "'");

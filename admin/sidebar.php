@@ -101,15 +101,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../super_techno/superTechno.php" class=" waves-effect">
-                            <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">Super Techno Enterprise</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="../executive_techno/executiveTechno.php" class=" waves-effect">
                             <i class="bx bxs-user-detail"></i>
                             <span key="t-contacts">Executive Techno Enterprise</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../super_techno/superTechno.php" class=" waves-effect">
+                            <i class="bx bxs-user-detail"></i>
+                            <span key="t-contacts">Super Techno Enterprise</span>
                         </a>
                     </li>
                     <li>
