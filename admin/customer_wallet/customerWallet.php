@@ -10,7 +10,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Customers View | Admin Dashboard </title>
+        <title>Customer Wallet | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -162,84 +162,80 @@
                                                 <i class="fa-solid fa-wallet"></i>
                                             </div>
                                             <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Total Wallet Balance</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 12,50,000.00</p>
-                                                <p class="fontSize2 text-muted fw-bolder">Across 1,250 customers</p>
+                                                <h1 class="fontSize1 fw-bolder text-dark">Coupon Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">18,520</p>
+                                                <p class="fs-6 text-dark fw-bolder">Value: &#8377;<span class="">12,00,000</span></p>
                                             </div>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.6% 
-                                            <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                        </p>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard2">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon2">
-                                            <i class="fa-solid fa-ticket"></i>
+                                <a href="loyaltyCouponWallet.php">
+                                    <div class="rounded-3 px-3 py-2 walletCard2">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon2">
+                                                <i class="fa-solid fa-ticket"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Loyalty Coupon Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">18,520</p>
+                                                <p class="fs-6 text-dark fw-bolder">Value: &#8377;<span class="">12,00,000</span></p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Total Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-1">15,230</p>
-                                            <p class="fontSize2 text-muted fw-bolder">Across all customers</p>
-                                        </div>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.3% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard3">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon3">
-                                            <i class="fa-solid fa-money-bill-transfer"></i>
+                                <a href="#">
+                                    <div class="rounded-3 px-3 py-2 walletCard3">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon3">
+                                                <i class="fa-solid fa-money-bill-transfer"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Referral Customer Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 2,30,450</p>
+                                                <p class="fontSize2 fw-bolder text-dark">18 requests withdrawal pending</p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Pending Withdrawals</h1>
-                                            <p class="fs-5 fw-bolder mb-1">&#8377; 2,30,450.00</p>
-                                            <p class="fontSize2 text-muted fw-bolder">18 requests pending</p>
-                                        </div>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>9.2% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard4">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon4">
-                                            <i class="fa-solid fa-gift"></i>
+                                <a href="#">
+                                    <div class="rounded-3 px-3 py-2 walletCard4">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon4">
+                                                <i class="fa-solid fa-gift"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Discount Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 1,20,000.00</p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Loyalty Issued (This Month)</h1>
-                                            <p class="fs-5 fw-bolder mb-1">&#8377; 1,20,000.00</p>
-                                            <p class="fontSize2 text-muted fw-bolder">320 Transactions</p>
-                                        </div>
+                                        <p class="text-danger fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
-                                    <p class="text-danger fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>10.1% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard2">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon2">
-                                            <i class="fa-solid fa-arrow-trend-up"></i>
+                                <a href="#">
+                                    <div class="rounded-3 px-3 py-2 walletCard2">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon2">
+                                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Extended Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 3,40,000.00</p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Extended Wallet Usage</h1>
-                                            <p class="fs-5 fw-bolder mb-1">&#8377; 3,40,000.00</p>
-                                            <p class="fontSize2 text-muted fw-bolder">45 Adjustments</p>
-                                        </div>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>14.6% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="row my-3">
@@ -247,13 +243,16 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between">
+                                            <div class="col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between">
                                                 <div>
                                                     <select class="form-select mb-3" aria-label="Large select example">
                                                         <option selected>Wallet Type</option>
                                                         <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        <option value="couponwallet">Coupon wallet</option>
+                                                        <option value="loyaltyCoupon">Loyalty coupon</option>
+                                                        <option value="referralCustomerWallet">Referral customer wallet</option>
+                                                        <option value="discountWallet">Discount wallet</option>
+                                                        <option value="extendedWallet">Extended wallet</option>
                                                     </select>
                                                 </div>
                                                 <div>
