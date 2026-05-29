@@ -58,6 +58,10 @@
     <!-- RTL CSS::When Need RTL Uncomments File -->
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/rtl.css"> -->
     <style>
+        .fontSize {
+            font-size: 12px !important;
+            font-weight: 900 !important;
+        }
         .carousel-section {
             width: 350px !important;
             height: 400px !important;
@@ -107,6 +111,166 @@
             object-fit: fill !important;
         }
         /* testimonial end*/
+        /* <!-- Activity & Experiences Start --> */
+        .navMenu {
+            list-style: none;
+        }
+        .filter-btn {
+            border: 2px solid #e03d42;
+            background: #fff;
+            color: #e03d42;
+            padding: 8px 10px;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+        .filter-btn:hover {
+            background: #e03d42;
+            color: #fff;
+        }
+        .filter-btn.active {
+            background: #e03d42;
+            color: #fff;
+        }
+        .gallery-item {
+            transition: 0.4s ease;
+        }
+        .destinationImages {
+            width: 540px !important;
+            height: 400px !important;
+            object-fit: fill;
+            border-radius: 16px !important;
+        }
+        .borderLine {
+            border-left: 1px solid #bdbbbb !important;
+        }
+
+        /* Thumbnail wrapper */
+        .thumbnailWrapper{
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Scroll container */
+        .thumbnailScroll{
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 5px;
+        }
+
+        .thumbnailScroll::-webkit-scrollbar{
+            display: none;
+        }
+
+        /* Thumbnail image */
+        .destinationUpcomingImages{
+            min-width: 90px;
+            width: 90px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        /* Active */
+        .destinationUpcomingImages.active-thumb{
+            border: 3px solid red;
+        }
+
+        /* Hover */
+        .destinationUpcomingImages:hover{
+            transform: scale(1.03);
+        }
+
+        /* More card */
+        .more-images-card{
+            min-width: 90px;
+            width: 90px;
+            height: 70px;
+            border-radius: 10px;
+            background: #f5f5f5;
+            border: 2px dashed red;
+            color: red;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .btnClose {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            z-index: 999;
+            background: #e03d42;
+            opacity: 1;
+            border-radius: 100%;
+            padding: 7px;
+            border: 2px solid #e03d42;
+        }
+        .btnClose:hover {
+            position: absolute;
+            background: #fff;
+            color: #e03d42;
+            opacity: 1;
+            border: 2px solid #e03d42;
+        }
+        .newsImage {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+        .faIcon {
+            font-size: 50px;
+            color: #03730f;
+        }
+        .cardBackground {
+            background: #d4f5d8;
+            border-radius: 16px;
+        }
+        .newsDetails {
+            position: absolute;
+            bottom: 60px;
+            left: 160px;
+        }
+        .viewBtn {
+            background-color: #e03d42;
+            border: 1px solid transparent;
+            padding: 2px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            border: 1px solid #e03d42;
+            color: #fff;
+        }   
+        .viewBtn:hover {
+            background-color: #fff;
+            border: 1px solid transparent;
+            padding: 2px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            border: 1px solid #e03d42;
+        } 
+        .viewBtn:hover p {
+            color: #e03d42 !important;
+        }
+        .cardImage {
+            height: 180px;
+            width: 100%;
+            object-fit: fill;
+        }
+        /* <!-- End of Activity & Experiences --> */
         @media screen and (max-width: 1184px) {
             .carousel-section {
                 width: 300px !important;
@@ -149,6 +313,10 @@
                 right: 35px !important;
                 opacity: 1;
             }
+            .faIcon {
+                font-size: 45px;
+                color: #03730f;
+            }
         }
         @media screen and (max-width: 1100px) {
             .carousel-section {
@@ -178,6 +346,13 @@
                 position: absolute;
                 top: 290px;
                 right: 5px !important;
+            }
+        }
+        @media screen and (max-width: 1024px) {
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 100px;
             }
         }
         @media screen and (max-width: 992px) {
@@ -218,6 +393,11 @@
                 font-size: 14px !important;
                 padding-left: 50px !important;
                 width: 450px !important;
+            }
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 160px;
             }
         }
         @media screen and (max-width: 910px) {
@@ -306,6 +486,32 @@
                 width: 100% !important;
             }
         }
+        @media screen and (max-width: 767px) {
+            .navMenu {
+                display: flex !important;
+                justify-content: center !important;
+            }
+            .destinationImages{
+                height: 260px;
+            }
+
+            .destinationUpcomingImages{
+                width: 75px;
+                min-width: 75px;
+                height: 60px;
+            }
+
+            .more-images-card{
+                width: 75px;
+                min-width: 75px;
+                height: 60px;
+            }
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 130px;
+            }
+        }
         @media screen and (max-width: 575px) {
             .heroHeight {
                 height: 750px !important;
@@ -340,6 +546,11 @@
             .sliderWidth {
                 width: 100%;
                 height: 276px !important;
+            }
+            .newsDetails {
+                position: absolute;
+                bottom: 60px;
+                left: 60px;
             }
         }
         @media screen and (max-width: 400px) {
@@ -901,8 +1112,180 @@
         </section>
         <!--/ End-of Destination -->
 
-         <!-- About Us area S t a r t -->
-        <section class="about-area-two about-bg-before section-padding2 mt-4">
+        <!-- Activity & Experiences Start -->
+        <section class="destination-area ">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-7 col-lg-7">
+                        <div class="section-title text-center mx-auto position-relative mb-4">
+                            <h4 class="title">
+                                Our Activities & Experiences
+                            </h4>
+                            <p class="text-muted">Real moments, partnerships & growth journey.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-11">
+                        <!-- Navbar -->
+                        <nav class="customNavbar mt-2 mb-4">
+                            <ul class="navMenu d-flex justify-content-evenly flex-wrap gap-2 ps-0 mb-0">
+                                <li>
+                                    <button class="filter-btn active px-3" data-filter="all">
+                                        All
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="travel">
+                                        Travel Moments
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="bank">
+                                        Bank Tie-ups
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="seminar">
+                                        Seminars/Workshops
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="filter-btn" data-filter="engagement">
+                                        Employee Engagement Activities
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Cards -->
+                <div class="row g-4" id="galleryContainer"></div>
+                <div class="d-flex justify-content-center mt-4" id="viewMoreWrapper">
+                    <div class="viewBtn rounded-2 py-2">
+                        <p class="text-white mb-0">View More</p>
+                    </div>
+                </div>
+                <!-- Modal Start -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <!-- CLOSE BUTTON -->
+                            <button type="button" class="btn-close btnClose" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa-solid fa-xmark d-flex justify-content-center"></i>
+                            </button>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <!-- LEFT SIDE -->
+                                    <div class="col-xl-6 col-lg-6 col-md-12">
+                                        <!-- CAROUSEL -->
+                                        <div id="destinationCarousel" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                                            <!-- DYNAMIC IMAGES -->
+                                            <div class="carousel-inner" id="modalCarouselInner"></div>
+                                            <!-- PREV -->
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#destinationCarousel" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon"></span>
+                                            </button>
+                                            <!-- NEXT -->
+                                            <button class="carousel-control-next" type="button" data-bs-target="#destinationCarousel" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon"></span>
+                                            </button>
+                                        </div>
+                                        <!-- THUMBNAILS -->
+                                        <div class="thumbnailWrapper mt-3">
+                                            <div class="thumbnailScroll d-flex gap-2" id="thumbnailContainer"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT SIDE -->
+                                    <div class="col-xl-6 col-lg-6 col-md-12">
+                                        <div class="p-3 borderLine">
+                                            <!-- TITLE -->
+                                            <h1 class="modal-title fs-4 fw-bolder" id="modalTitle"></h1>
+
+                                            <!-- DETAILS -->
+                                            <div class="d-flex justify-content-between flex-wrap gap-2">
+                                                <p class="fontSize mb-0">
+                                                    <i class="fa-regular fa-calendar-days fa-xl me-2"></i>
+                                                    <span id="modalDate"></span>
+                                                </p>
+                                                <p class="fontSize mb-0">
+                                                    <i class="fa-solid fa-location-dot fa-xl me-2"></i>
+                                                    <span id="modalLocation"></span>
+                                                </p>
+                                                <p class="fontSize mb-0">
+                                                    <i class="fa-solid fa-user-group fa-xl me-2"></i>
+                                                    <span id="modalAttendees"></span>
+                                                </p>
+                                            </div>
+
+                                            <hr class="my-3 border border-2 border-black">
+                                            <!-- DESCRIPTION -->
+                                            <p id="modalDescription"></p>
+                                            <hr class="my-3 border border-2 border-black">
+                                            <!-- HIGHLIGHTS -->
+                                            <div id="modalHighlights"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal End -->
+                <div class="my-5">
+                    <div class="cardBackground">
+                        <div class="row d-flex justify-content-around p-2">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-users d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">5000+</h2>
+                                    <p class="fontSize text-muted mb-0">Happy Travelers</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-calendar-days d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">50+</h2>
+                                    <p class="fontSize text-muted mb-0">Seminars Conducted</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-handshake d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">10+</h2>
+                                    <p class="fontSize text-muted mb-0">Corporate Tie-ups</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 d-flex justify-content-center gap-2">
+                                <i class="fa-solid fa-graduation-cap d-flex justify-content-center align-items-center faIcon"></i>
+                                <div class="pt-2">
+                                    <h2 class="fs-2 text-black mb-0 fw-bolder">100+</h2>
+                                    <p class="fontSize text-muted mb-0">Workshops Attended</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <img src="assets/images/news/news1.jpg" class="newsImage" alt="">
+                        <div class="newsDetails">
+                            <h3 class="text-white fw-bolder">We Don't Just Plan Trips <br> We Create Experiences</h3>
+                            <div class="d-inline-block mt-4">
+                                <a href="about.php">
+                                    <div class="btn-primary-icon-sm rounded-2 py-2">
+                                        <p class="text-white">Know More</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End of Activity & Experiences -->
+
+        <!-- About Us area S t a r t -->
+        <!-- <section class="about-area-two about-bg-before section-padding2 mt-4">
             <div class="container">
                 <div class="row align-items-center position-relative">
                     <div class="col-lg-8">
@@ -929,7 +1312,6 @@
                 <div class="about-banner-two">
                     <h4 class="watermark-text ">7+ years of experience</h4>
                     <div class="video-section">
-                        <!-- Video -->
                         <div class="hero-bg-video">
                             <video class="hero-slider-video video-cover radius-30" 
                                 poster="assets/images/gallery/about-curve-banner.png" loop autoplay muted>
@@ -963,7 +1345,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
         <!--/ End-of About US-->
 
         <!-- Feature S t a r t -->
@@ -971,7 +1353,7 @@
             <div class="container">
                 <div class="row justify-content-center position-relative z-10">
                     <div class="col-xl-7 col-lg-7">
-                        <div class="section-title mx-430 mx-auto text-center">
+                        <div class="section-title mx-430 mx-auto text-center pt-3">
                             <span class="highlights fancy-font font-400">Popular Packages</span>
                             <h4 class="title">
                                 Explore The Beautiful Places Around World
@@ -2430,6 +2812,643 @@
         });
     </script>
     <!-- Carousel section end -->
+    <!-- Activity & Experiences Start -->
+    <script>
+        /* =========================================
+        ALL GALLERY DATA
+        ========================================= */
+        const galleryData = [
+
+            {
+                category: "travel",
+                title: "Goa Group Trip",
+                date: "May 2025",
+                location: "Goa",
+                attendees: "20 Pax",
+                image: "assets/images/destination/Goa.jpg",
+
+                description:
+                "Enjoyed an amazing Goa beach experience with group activities and networking.",
+
+                highlights: [
+                    "Beach Activities",
+                    "Sunset Party",
+                    "Networking Session",
+                    "Luxury Stay"
+                ],
+
+                images: [
+                    "assets/images/destination/Goa.jpg",
+                    "assets/images/destination/Dubai.jpg",
+                    "assets/images/destination/Kerala.jpg",
+                    "assets/images/destination/Maldives1.jpg"
+                ]
+            },
+
+            {
+                category: "travel",
+                title: "Dubai Tour",
+                date: "April 2025",
+                location: "Dubai",
+                attendees: "15 Pax",
+                image: "assets/images/destination/Dubai1.jpg",
+
+                description:
+                "Luxury Dubai experience with sightseeing and networking.",
+
+                highlights: [
+                    "Desert Safari",
+                    "Luxury Hotel",
+                    "City Tour",
+                    "Networking Event"
+                ],
+
+                images: [
+                    "assets/images/destination/Dubai1.jpg",
+                    "assets/images/destination/Dubai2.jpg",
+                    "assets/images/destination/Dubai3.jpg"
+                ]
+            },
+
+            {
+                category: "travel",
+                title: "Manali Trip",
+                date: "April 2025",
+                location: "Manali",
+                attendees: "15 Pax",
+                image: "assets/images/destination/Kerala.jpg",
+
+                description:
+                "Snow adventures and team bonding activities.",
+
+                highlights: [
+                    "Snow Activities",
+                    "Mountain Trek",
+                    "Camp Fire"
+                ],
+
+                images: [
+                    "assets/images/destination/Kerala.jpg",
+                    "assets/images/destination/Goa.jpg"
+                ]
+            },
+
+            {
+                category: "bank",
+                title: "VPK Bank Partnership",
+                date: "2025",
+                location: "Goa",
+                attendees: "Corporate",
+                image: "assets/images/destination/Goa.jpg",
+
+                description:
+                "Bank partnership signing ceremony.",
+
+                highlights: [
+                    "MoU Signing",
+                    "Corporate Networking"
+                ],
+
+                images: [
+                    "assets/images/destination/Goa.jpg"
+                ]
+            },
+
+            {
+                category: "seminar",
+                title: "Business Seminar",
+                date: "March 2025",
+                location: "Bhopal",
+                attendees: "150+ Attendees",
+                image: "assets/images/destination/Goa.jpg",
+
+                description:
+                "Business expansion and growth seminar.",
+
+                highlights: [
+                    "Growth Strategy",
+                    "Income Models",
+                    "Live Q&A"
+                ],
+
+                images: [
+                    "assets/images/destination/Goa.jpg",
+                    "assets/images/destination/Dubai.jpg"
+                ]
+            },
+            {
+                category: "workshop",
+                title: "Workshop Pernem - Goa",
+                date: "9 Nov 2025",
+                location: "Pernem",
+                attendees: "150+ Attendees",
+                image: "assets/images/events/pednemVist/image1.jpeg",
+
+                description:
+                "We were delighted to participate in the workshop at Sant Sohirobanath Ambiye Government College of Arts and Commerce, where we introduced our tech travel company and shared insights on digital innovation in the tourism industry. It was a great opportunity to connect, learn, and inspire future entrepreneurs.",
+
+                highlights: [
+                    "Participated in a workshop at Sant Sohirobanath Ambiye Government College of Arts and Commerce",
+                    "Introduced our tech-based travel company and digital travel solutions",
+                    "Shared insights on technology in the tourism industry",
+                    "Promoted entrepreneurship and innovation in travel & tourism",
+                    "Built valuable professional connections and networking opportunities"
+                ],
+
+                images: [
+                    "assets/images/events/pednemVist/image1.jpeg",
+                    "assets/images/events/pednemVist/image2.jpeg",
+                    "assets/images/events/pednemVist/image3.jpeg",
+                    "assets/images/events/pednemVist/image4.jpeg"
+                ]
+            },
+
+            {
+                category: "engagement",
+                title: "Women's Day",
+                date: "8 Mar 2026",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/womensDay/image8.jpeg",
+
+                description:
+                "Celebrated Women’s Day in the office by honoring and appreciating the strength, dedication, and achievements of women employees.",
+
+                highlights: [
+                    "Women’s Day celebration at the workplace",
+                    "Appreciated and recognized women employees",
+                    "Fun activities and joyful moments with the team",
+                    "Promoted equality, respect, and empowerment",
+                    "Created a positive and inspiring work environment"
+                ],
+
+                images: [
+                    "assets/images/events/womensDay/image1.jpeg",
+                    "assets/images/events/womensDay/image2.jpeg",
+                    "assets/images/events/womensDay/image3.jpeg",
+                    "assets/images/events/womensDay/image4.jpeg",
+                    "assets/images/events/womensDay/image5.jpeg",
+                    "assets/images/events/womensDay/image6.jpeg",
+                    "assets/images/events/womensDay/image7.jpeg",
+                    "assets/images/events/womensDay/image8.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Navratri Celebration",
+                date: "Nov 2025",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/navratri/image1.jpeg",
+
+                description:
+                "Celebrated Navratri in the office with a vibrant Color Day activity, bringing festive energy and team spirit to the workplace.",
+
+                highlights: [
+                    "Fun-filled Navratri Color Day celebration",
+                    "Employees participated in themed color dressing",
+                    "Promoted team bonding and festive spirit",
+                    "Created a lively and positive office environment",
+                    "Encouraged employee engagement and participation"
+                ],
+
+                images: [
+                    "assets/images/events/navratri/image1.jpeg",
+                    "assets/images/events/navratri/image2.jpeg",
+                    "assets/images/events/navratri/image3.jpeg",
+                    "assets/images/events/navratri/image4.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Birthday Celebration",
+                date: "11 Nov 2025",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/sushantiBday/image8.jpeg",
+
+                description:
+                "Celebrated a joyful birthday in the office, creating happy moments and strengthening team bonding.",
+
+                highlights: [
+                    "Fun-filled birthday celebration at the workplace",
+                    "Team gathered to celebrate the special occasion",
+                    "Created cheerful and memorable moments",
+                    "Encouraged employee engagement and positivity",
+                    "Strengthened team spirit and workplace culture"
+                ],
+
+                images: [
+                    "assets/images/events/sushantiBday/image1.jpeg",
+                    "assets/images/events/sushantiBday/image2.jpeg",
+                    "assets/images/events/sushantiBday/image3.jpeg",
+                    "assets/images/events/sushantiBday/image4.jpeg",
+                    "assets/images/events/sushantiBday/image5.jpeg",
+                    "assets/images/events/sushantiBday/image6.jpeg",
+                    "assets/images/events/sushantiBday/image7.jpeg",
+                    "assets/images/events/sushantiBday/image8.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Diwali Celebration",
+                date: "18 Oct 2025",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/diwali/image1.jpeg",
+
+                description:
+                "Celebrated Diwali in the office with sweets, fun games, and festive joy, creating memorable moments with the team.",
+
+                highlights: [
+                    "Festive Diwali celebration at the workplace",
+                    "Enjoyed sweets, games, and fun activities",
+                    "Promoted team bonding and employee engagement",
+                    "Created a joyful and vibrant office atmosphere",
+                    "Celebrated togetherness and festive spirit"
+                ],
+
+                images: [
+                    "assets/images/events/diwali/image1.jpeg",
+                    "assets/images/events/diwali/image2.jpeg",
+                    "assets/images/events/diwali/image3.jpeg",
+                    "assets/images/events/diwali/image4.jpeg",
+                    "assets/images/events/diwali/image5.jpeg",
+                    "assets/images/events/diwali/image6.jpeg",
+                    "assets/images/events/diwali/image7.jpeg",
+                    "assets/images/events/diwali/image8.jpeg"
+                ]
+            }
+        ];
+
+
+        /* =========================================
+        VARIABLES
+        ========================================= */
+
+        const galleryContainer = document.getElementById("galleryContainer");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const viewMoreBtn = document.querySelector(".viewBtn");
+        const viewMoreText = viewMoreBtn.querySelector("p");
+        const viewMoreWrapper = document.getElementById("viewMoreWrapper");
+
+        let currentFilter = "all";
+        let expanded = false;
+
+        /* =========================================
+        RENDER CARDS
+        ========================================= */
+
+        function renderGallery(){
+
+            galleryContainer.innerHTML = "";
+            let filteredData = [];
+
+            // FILTER
+            if(currentFilter === "all"){
+
+                filteredData = galleryData;
+
+            } else {
+
+                filteredData = galleryData.filter(item => {
+
+                    if(currentFilter === "seminar"){
+
+                        return (
+                            item.category === "seminar" ||
+                            item.category === "workshop"
+                        );
+
+                    }
+
+                    return item.category === currentFilter;
+
+                });
+
+            }
+
+            // VIEW MORE LOGIC
+            const visibleData = expanded
+                ? filteredData
+                : filteredData.slice(0, 8);
+
+            // CREATE CARDS
+            visibleData.forEach((item, index) => {
+
+                galleryContainer.innerHTML += `
+
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 gallery-item">
+                        <div class="card rounded-4 galleryCard"
+                            data-index="${index}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <div class="destination-banner">
+                                <img src="${item.image}"
+                                class="card-img-top rounded-4 cardImage"
+                                alt="">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bolder text-black mb-0 fs-6">
+                                    ${item.title}
+                                </h5>
+                                <p class="card-text fontSize">
+                                    <span>${item.attendees}</span>
+                                    |
+                                    <span>${item.date}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            });
+
+            // BUTTON TEXT
+            if(expanded){
+
+                viewMoreText.innerText = "Hide Less";
+
+            } else {
+
+                viewMoreText.innerText = "View More";
+
+            }
+
+            // BUTTON SHOW/HIDE
+            if(filteredData.length <= 8){
+
+                viewMoreWrapper.style.display = "none";
+
+            } else {
+
+                viewMoreWrapper.style.display = "flex";
+
+            }
+
+            attachModalEvents(filteredData);
+
+        }
+
+
+
+        /* =========================================
+        FILTER BUTTONS
+        ========================================= */
+
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", function(){
+
+                filterButtons.forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+                this.classList.add("active");
+
+                currentFilter =
+                    this.getAttribute("data-filter");
+
+                expanded = false;
+
+                renderGallery();
+
+            });
+
+        });
+
+
+
+        /* =========================================
+        VIEW MORE
+        ========================================= */
+
+        viewMoreBtn.addEventListener("click", function(){
+
+            expanded = !expanded;
+
+            renderGallery();
+
+        });
+
+
+
+        /* =========================================
+        MODAL DYNAMIC DATA
+        ========================================= */
+
+        function attachModalEvents(filteredData){
+
+            const galleryCards =
+                document.querySelectorAll(".galleryCard");
+
+            galleryCards.forEach(card => {
+
+                card.addEventListener("click", function(){
+
+                    const index = this.dataset.index;
+
+                    const item = filteredData[index];
+
+                    // TITLE
+                    document.getElementById("modalTitle")
+                    .innerText = item.title;
+
+                    // DATE
+                    document.getElementById("modalDate")
+                    .innerText = item.date;
+
+                    // LOCATION
+                    document.getElementById("modalLocation")
+                    .innerText = item.location;
+
+                    // ATTENDEES
+                    document.getElementById("modalAttendees")
+                    .innerText = item.attendees;
+
+                    // DESCRIPTION
+                    document.getElementById("modalDescription")
+                    .innerText = item.description;
+
+                    // HIGHLIGHTS
+                    const highlightsContainer =
+                        document.getElementById("modalHighlights");
+
+                    highlightsContainer.innerHTML = `
+                        <h1 class="modal-title fs-5 fw-bolder py-3">
+                            Key Highlights
+                        </h1>
+                    `;
+
+                    item.highlights.forEach(highlight => {
+
+                        highlightsContainer.innerHTML += `
+                            <p class="fs-6">
+                                <i class="fa-solid fa-circle-check me-2"
+                                style="color:#03730f;"></i>
+                                ${highlight}
+                            </p>
+                        `;
+
+                    });
+
+                    // IMAGES
+                    const carouselInner =
+                        document.getElementById("modalCarouselInner");
+
+                    carouselInner.innerHTML = "";
+
+                    item.images.forEach((image, imgIndex) => {
+
+                        carouselInner.innerHTML += `
+                            <div class="carousel-item ${imgIndex === 0 ? 'active' : ''}">
+                                <img src="${image}"
+                                class="d-block w-100 destinationImages">
+                            </div>
+                        `;
+
+                    });
+
+                    // RESET CAROUSEL
+                    const carousel =
+                        bootstrap.Carousel.getOrCreateInstance(
+                            document.querySelector('#destinationCarousel')
+                        );
+
+                    carousel.to(0);
+
+                    thumbnailExpanded = false;
+
+                    // RENDER THUMBNAILS AFTER MODAL CONTENT LOADS
+                    setTimeout(() => {
+
+                        renderThumbnails();
+
+                    }, 100);
+
+                });
+
+            });
+
+        }
+
+        /* =========================================
+        INITIAL LOAD
+        ========================================= */
+
+        renderGallery();
+
+    </script>
+    <script>
+
+        const carouselElement = document.querySelector('#destinationCarousel');
+        const carousel = new bootstrap.Carousel(carouselElement, {
+                interval: false
+            });
+
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+
+        let thumbnailExpanded = false;
+
+
+        /* ================================
+        RENDER THUMBNAILS
+        ================================ */
+
+        function renderThumbnails(){
+
+            thumbnailContainer.innerHTML = "";
+
+            // IMPORTANT
+            // GET UPDATED CAROUSEL ITEMS
+            const carouselItems = document.querySelectorAll(
+                '#destinationCarousel .carousel-item'
+            );
+
+            const totalImages = carouselItems.length;
+
+            const visibleCount = thumbnailExpanded ? totalImages : 4;
+
+            carouselItems.forEach((item, index) => {
+
+                if(index < visibleCount){
+
+                    const image =
+                        item.querySelector("img");
+
+                    const thumb =
+                        document.createElement("img");
+
+                    thumb.src = image.src;
+
+                    thumb.classList.add(
+                        "destinationUpcomingImages"
+                    );
+
+                    // ACTIVE THUMB
+                    if(item.classList.contains("active")){
+
+                        thumb.classList.add("active-thumb");
+
+                    }
+
+                    // CLICK THUMB
+                    thumb.addEventListener("click", function(){
+
+                        carousel.to(index);
+
+                    });
+
+                    thumbnailContainer.appendChild(thumb);
+
+                }
+
+            });
+
+            // MORE CARD
+            if(!thumbnailExpanded && totalImages > 4){
+
+                const remaining = totalImages - 4;
+
+                const moreCard =
+                    document.createElement("div");
+
+                moreCard.classList.add(
+                    "more-images-card"
+                );
+
+                moreCard.innerHTML = `+${remaining}`;
+
+                moreCard.addEventListener("click", function(){
+
+                    thumbnailExpanded = true;
+
+                    renderThumbnails();
+
+                });
+
+                thumbnailContainer.appendChild(moreCard);
+
+            }
+
+        }
+
+
+        /* ================================
+        UPDATE ACTIVE THUMB
+        ================================ */
+
+        carouselElement.addEventListener(
+            'slid.bs.carousel',
+            function(){
+
+                renderThumbnails();
+
+            }
+        );
+
+    </script>
+    <!-- End of Activity & Experiences -->
 </body>
 
 <!-- Mirrored from Bizzmirth Holidayso.vercel.app/template/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jul 2024 06:52:47 GMT -->

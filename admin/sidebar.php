@@ -131,10 +131,14 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../ca_customers/view_customers.php" class=" waves-effect">
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
                             <i class="bx bxs-user-detail"></i>
-                            <span key="t-contacts">Customers</span>
+                            <span key="t-multi-level">Customers</span>
                         </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                            <li><a href="../ca_customers/view_customers.php" key="t-level-1-1"><i class="bx bxs-user-detail"></i></i>Customers</a></li>
+                            <li><a href="../customer_wallet/customerWallet.php" key="t-level-1-1"><i class="bx bxs-collection"></i>Customer Wallet</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="../channels/all_channels.php" class=" waves-effect">

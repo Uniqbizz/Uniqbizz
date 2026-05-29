@@ -585,6 +585,314 @@ body {
     padding: 8px;
     width: 80px;
 }
+/* card section 4 */
+.confirmBtn {
+    background-color: #fff;
+    color:#38b34f;
+    border: 2px solid #38b34f;
+    width: 100px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.confirmBtn:hover {
+    background-color: #38b34f;
+    color:#fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.tripsImage {
+    width: 160px !important;
+    height: 160px !important;
+    border-radius: 15px;
+}
+.tripsImage1 {
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 12px;
+}
+.upcomingBtn {
+    background-color: #bbf5c6;
+    color: #38b34f;
+    width: 100px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.upcomingBtn:hover {
+    background-color: #38b34f;
+    color:#fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageImage {
+    width: 100% !important;
+    height: 160px !important;
+    border-radius: 12px;
+}
+.packageDetailBtn {
+    background-color: #d5d7fa;
+    color: #35239a;
+    width: 100%;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageDetailBtn:hover {
+    background-color: #35239a;
+    color:#fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.packageCard {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+.heartIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.heartIcon i {
+    color: #fff;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+.heartIcon.active i {
+    color: #ff2e63;
+}
+.customIndicators {
+    position: relative;
+    margin-top: 20px;
+}
+
+.customIndicators button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+    border: none !important;
+    background: #d4d4d4 !important;
+    margin: 0 5px !important;
+    opacity: 1 !important;
+    transition: 0.3s ease;
+}
+
+.customIndicators button.active {
+    width: 30px !important;
+    border-radius: 20px !important;
+    background: #5b5ff6 !important;
+}
+/* card section 5 */
+.analyticsCard {
+    background: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+/* Title */
+.chartTitle {
+    color: #5b5ff6;
+    font-size: 22px;
+}
+
+.smallText {
+    font-size: 14px;
+    color: #8d8d8d;
+}
+
+/* Select */
+.yearSelect {
+    width: 140px;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
+    box-shadow: none !important;
+}
+
+/* Line Chart */
+.chartWrapper {
+    position: relative;
+    width: 100%;
+    height: 320px;
+}
+
+/* Donut */
+.donutWrapper {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    position: relative;
+    padding: 10px !important;
+}
+#tripChart {
+    margin: 10px !important;
+}
+
+.donutCenterText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Legend */
+.legendItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #4b4b4b;
+}
+
+.legendLeft {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.legendColor {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.domestic {
+    background: #5b5ff6;
+}
+
+.international {
+    background: #1e88ff;
+}
+
+.upcoming {
+    background: #10c981;
+}
+.inactiveLegend {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+
+/* card section 6 */
+.membershipCard1 {
+    background-color: #f5f7ff;
+    border: 1px solid #e7ebfc;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipCard2 {
+    background-color: #f1fff5;
+    border: 1px solid #dffbe7;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipCard3 {
+    background-color: #f0f8ff;
+    border: 1px solid #ddedfa;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipCard4 {
+    background-color: #fff8f1;
+    border: 1px solid #f8eadb;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+.membershipOverviewIcon1 {
+    font-size: 18px !important;
+    color: #35239a;
+    background: #c8c1eb;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.membershipOverviewIcon2 {
+    font-size: 18px !important;
+    color: #2d950a;
+    background: #d0f3c3;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.membershipOverviewIcon3 {
+    font-size: 18px !important;
+    color: #0c82f5;
+    background: #d3e9ff;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.membershipOverviewIcon4 {
+    font-size: 18px !important;
+    color: #e7970e;
+    background: #f2d4a0;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
+.inviteBtn {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    border: 2px solid #4b38b3;
+    display: flex;
+    justify-content: center;
+}
+.inviteBtn:hover {
+    background-color: #fff;
+    color:#4b38b3;
+}
+.referralImage {
+    height: 125px;
+    width: 150px;
+    object-fit: cover;
+}
+.notificationIcon {
+    font-size: 12px !important;
+    color: #35239a;
+    background: #c8c1eb;
+    border-radius: 6px;
+    padding: 5px 10px;
+}
+/* card section 7 */
+.imageIcons {
+    width: 50px;
+    height: 50px;
+}
+/* card section 8 */
+.supportImagePosition {
+    position: relative;
+}
+.supportImage {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    object-fit: fill;
+}
+.supportDetails {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 999;
+}
+.supportBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.supportBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -600,6 +908,9 @@ body {
     .linkBtn p {
         font-size: 12px !important;
         padding-left: 10px;
+    }
+    .exploreBtns {
+        display: block !important;
     }
 }
 @media (max-width: 1110px) {
@@ -688,10 +999,26 @@ body {
     .card4 {
         margin-left: 0px !important;
     }
+    .exploreBtns {
+        display: flex !important;
+    }
+
 }
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .card2 {
         margin-right: 12px !important;
+    }
+    .exploreBtns {
+        display: block !important;
+    }
+    .chartContainer {
+        flex-direction: column;
+    }
+
+    .y-axis {
+        flex-direction: row;
+        height: auto;
+        padding: 0;
     }
 }
 
@@ -699,7 +1026,7 @@ body {
    ONLY MOBILE (768px)
 ========================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .comp_name {
         display: flex !important;
         justify-content: space-between !important;
@@ -737,6 +1064,28 @@ body {
     .premiumCard h4 {
         font-size: 18px !important;
     }
+    .exploreBtns {
+        display: flex !important;
+    }
+    .donutChart {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 30px;
+    }
+
+    .donutChart::before {
+        width: 100px;
+        height: 100px;
+    }
+
+    .chartTitle {
+        font-size: 18px;
+    }
+
+    .donutWrapper {
+        width: 180px;
+        height: 180px;
+    }
 }
 
 /* REMOVE OVERLAY ABOVE 768 */
@@ -745,6 +1094,19 @@ body {
         display: none !important;
     }
 }
+@media (max-width: 660px) {
+    .supportDetails h3 {
+        font-size: 18px !important;
+    }
+    .supportDetails p {
+        font-size: 14px !important;
+    }
+    .supportBtn {
+        padding: 8px !important;
+        width: 150px !important;
+    }
+}
+
 @media (max-width: 575px) {
     .card2 {
         margin-left: 12px !important;
@@ -756,6 +1118,14 @@ body {
     }
     .premiumCard h4 {
         font-size: 14px !important;
+    }
+    .exploreBtns {
+        display: flex !important;
+    }
+}
+@media (max-width: 441px) {
+    .exploreBtns {
+        display: block !important;
     }
 }
 /* sidebar end */

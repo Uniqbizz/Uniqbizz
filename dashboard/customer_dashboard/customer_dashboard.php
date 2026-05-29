@@ -30,10 +30,7 @@
         <!-- custom Css developer-->
         <link rel="stylesheet" href="assets/css/custom.css" />
         <!-- Customer Dashboard CSS -->
-        <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
-        <!-- modal css -->
-        <!-- <link rel="stylesheet" href="assets/css/my_consultant_modal.css" /> -->
-
+        <link rel="stylesheet" href="../assets/css/customer_dashboard.css" />
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         
@@ -470,7 +467,7 @@
                                             <div>
                                                 <div class="d-flex justify-content-center align-items-center">
                                                     <div class="membershipIcon">
-                                                        <i class="ri-plane-line"></i>
+                                                        <i class="fa-solid fa-indian-rupee-sign"></i>
                                                     </div>
                                                 </div>
                                                 <div class="mt-4">
@@ -1137,7 +1134,640 @@
                             </div>
 
                         </div>
-                        <!-- end card section 6 -->
+                        <!-- card section 4 -->
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 p-3 border border-1">
+                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Upcoming Trips
+                                        <a href="#" class="fs-6">View All</a>
+                                    </h4>
+                                    <hr>
+                                    <div class="d-flex gap-2">
+                                        <div class="">
+                                            <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage">
+                                        </div>
+                                        <div class="tripDetails">
+                                            <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                            <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                            <a href="#">
+                                                <div class="confirmBtn p-1 mb-3">
+                                                    <p class="fs-6 mb-0 fw-bolder">Confirmed</p>
+                                                </div>
+                                            </a>
+                                            <div class="d-flex justify-content-between gap-2 exploreBtns">
+                                                <a href="#">
+                                                    <div class="exploreBtn p-2 border border-primary border-2 mb-2">
+                                                        <p class="fs-6 mb-0 fw-bolder">View Itinerary</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#">
+                                                    <div class="exploreBtn p-2 border border-primary border-2 mb-2">
+                                                        <p class="fs-6 mb-0 fw-bolder">Make Payment</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3">
+                                        <div class="">
+                                            <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
+                                        </div>
+                                        <div class="tripDetails">
+                                            <h6 class="text-dark fw-bolder">Bali Bliss</h6>
+                                            <div class="d-flex gap-3">
+                                                <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                                <a href="#">
+                                                    <div class="upcomingBtn p-1 mb-3">
+                                                        <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <hr class="mt-0">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3">
+                                        <div class="">
+                                            <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="tripsImage1">
+                                        </div>
+                                        <div class="tripDetails">
+                                            <h6 class="text-dark fw-bolder">Bali Bliss</h6>
+                                            <div class="d-flex gap-3">
+                                                <p class="text-muted fs-6">12 May 2026 - 18 May 2026 <br> 6D / 7D</p>
+                                                <a href="#">
+                                                    <div class="upcomingBtn p-1 mb-3">
+                                                        <p class="fs-6 mb-0 fw-bolder">Upcoming</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-6 col-sm-12 col-12">
+                                <div class="card rounded-4 p-3 border border-1">
+                                    <h4 class="d-flex justify-content-between mb-0 textColor fw-bolder">Book Your Next Trip
+                                        <a href="#" class="fs-6">View All Packages</a>
+                                    </h4>
+                                    <hr>
+                                    <div id="packageCarousel" class="carousel slide" data-bs-ride="false">
+                                        <!-- Dynamic Slides -->
+                                        <div class="carousel-inner" id="carouselInner"></div>
+                                        <!-- Indicators -->
+                                        <div class="carousel-indicators customIndicators" id="carouselIndicators"></div>
+                                    </div>
+                                    <!-- ALL 12 CARDS -->
+                                    <div id="allCards" class="d-none">
+                                        <!-- CARD 1 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 2 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 3 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 4 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 5 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 6 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 7 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 8 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 9 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 10 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 11 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- CARD 12 -->
+                                        <div class="package-card">
+                                            <div class="card border border-1 rounded-4 mb-0">
+                                                <div class="packageCard">
+                                                    <img src="../assets/images/packages/dubai.jpg" alt="TripsImage" class="packageImage">
+                                                    <div class="heartIcon" onclick="toggleWishlist(this)">
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="packageDetails p-3">
+                                                    <h6 class="text-dark fw-bolder">Dubai Extravaganza</h6>
+                                                    <p class="text-muted fs-6 d-flex justify-content-between">4D / 5D
+                                                        <span class="fs-6 text-muted fw-normal"><i class="fa-solid fa-star" style="color: #fdd611;"></i> 4.8(120)</span>
+                                                    </p>
+                                                    <p class="mb-3 fw-bolder textColor fs-5">&#8377;39,999<span class="fs-6 text-muted fw-normal">/person</span></p>
+                                                    <a href="#">
+                                                        <div class="packageDetailBtn p-2 mb-0">
+                                                            <p class="fs-6 mb-0 fw-bolder">View Details</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section 5 -->
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-12">
+                                <div class="analyticsCard p-3 h-100">
+                                    <!-- Header -->
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                                        <h5 class="chartTitle fw-bolder mb-0">
+                                            Spending Overview
+                                            <span class="smallText">(All Time)</span>
+                                        </h5>
+                                        <select class="form-select yearSelect" id="yearFilter">
+                                            <option value="this">This Year</option>
+                                            <option value="last">Last Year</option>
+                                        </select>
+                                    </div>
+                                    <!-- Line Chart -->
+                                    <div class="chartWrapper">
+                                        <canvas id="spendingChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="analyticsCard p-3 h-100">
+                                    <!-- Header -->
+                                    <h5 class="chartTitle fw-bolder mb-4">
+                                        Trip Summary
+                                        <span class="smallText">(All Time)</span>
+                                    </h5>
+                                    <div class="row align-items-center g-4">
+                                        <!-- Donut Chart -->
+                                        <div class="col-md-5 text-center">
+                                            <div class="donutWrapper">
+                                                <canvas id="tripChart"></canvas>
+                                                <!-- Center Text -->
+                                                <div class="donutCenterText">
+                                                    <h2 class="fw-bolder mb-0">8</h2>
+                                                    <p class="smallText mb-0">Total Trips</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Legend -->
+                                        <div class="col-md-7">
+                                            <!-- Domestic -->
+                                            <div class="legendItem"onclick="tripAction(0, this)">
+                                                <div class="legendLeft">
+                                                    <span class="legendColor domestic"></span>
+                                                    Domestic Trips
+                                                </div>
+                                                <span>4 (50%)</span>
+                                            </div>
+
+                                            <!-- International -->
+                                            <div class="legendItem"onclick="tripAction(0, this)">
+                                                <div class="legendLeft">
+                                                    <span class="legendColor international"></span>
+                                                    International Trips
+                                                </div>
+                                                <span>3 (37.5%)</span>
+                                            </div>
+
+                                            <!-- Upcoming -->
+                                            <div class="legendItem mb-0"onclick="tripAction(0, this)">
+                                                <div class="legendLeft">
+                                                    <span class="legendColor upcoming"></span>
+                                                    Upcoming Trips
+                                                </div>
+                                                <span>1 (12.5%)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section 6 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+                                <div class="p-3 border border-2 rounded-4">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                                        <h5 class="chartTitle fw-bolder mb-0"> Membership Overview</h5>
+                                        <select class="form-select yearSelect" id="yearFilterMembership">
+                                            <option value="this">This Year</option>
+                                            <option value="last">Last Year</option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard1">
+                                                <p class="text-center textColor fw-bolder">Total Vouchers</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon1">
+                                                        10
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">1</p>
+                                                <p class="text-center textColor fw-bolder">Worth &#8377;30,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard2">
+                                                <p class="text-center textColor fw-bolder">Vouchers Used</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon2">
+                                                        <i class="ri-ticket-2-line"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">3</p>
+                                                <p class="text-center textColor fw-bolder">Worth &#8377;9,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard3">
+                                                <p class="text-center textColor fw-bolder">Vouchers Remaining</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon3">
+                                                        <i class="ri-ticket-2-line"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">7</p>
+                                                <p class="text-center textColor fw-bolder">Worth &#8377;21,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-3 col-sm-3 col-6 mt-2">
+                                            <div class="membershipCard4">
+                                                <p class="text-center textColor fw-bolder">Total Trips Completed</p>
+                                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                                    <div class="membershipOverviewIcon4">
+                                                        <i class="fa-solid fa-plane-arrival"></i>
+                                                    </div>
+                                                </div>
+                                                <p class="text-center textColor fw-bolder">2</p>
+                                                <p class="text-center textColor fw-bolder">(All Time)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-3">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="p-3 border border-2 rounded-4">
+                                            <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Earn With Referrals
+                                                <a href="#" class="fs-6">View All</a>
+                                            </h4>
+                                            <div class="d-flex">
+                                                <div class="referralDetail flex-grow-1">
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="my-3 fw-bold text-muted fs-6">Total Earnings<br>
+                                                            <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
+                                                        </p>
+                                                        <p class="my-3 fw-bold text-muted fs-6">Total Earnings<br>
+                                                            <span class="textColor fw-bolder fs-4">&#8377;4,500</span>
+                                                        </p>
+                                                    </div>
+                                                    <a href="#">
+                                                        <div class="inviteBtn gap-3 px-2">
+                                                            <p class="fs-6 mb-0 fw-bolder">Invite Friends & Earn</p>
+                                                            <i class="ri-stackshare-line d-flex align-items-center"></i>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <img src="../assets/images/referralImage.png" alt="Referral Image" class="referralImage">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <div class="p-3 border border-2 rounded-4">
+                                            <h4 class="d-flex justify-content-between mb-0 text-dark fw-bolder">Notifications & Alerts
+                                                <a href="#" class="fs-6">View All</a>
+                                            </h4>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div>
+                                            <div class="d-flex mt-2">
+                                                <div class="notificationDetail flex-grow-1">
+                                                    <div class="d-flex gap-2">
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="notificationIcon">
+                                                               <i class="ri-ticket-2-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <p class="text-muted d-flex align-items-center mb-0">Your Coupon &#8377;1500 OFF is expiring in 2 days!</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-muted fs-6 d-flex align-items-center mb-0 fw-bolder">2h ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section 7 -->
+                        <div class="p-3 border border-2 rounded-4 mt-3">
+                            <h4 class="textColor fw-bolder text-center">Why Premium Members Love Us</h4>
+                            <div class="row d-flex justify-content-around">
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons1.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons2.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons3.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons4.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-6">
+                                    <div class="d-flex justify-content-center align-items-center mb-2">
+                                        <img src="../assets/images/imageIcons5.png" alt="Icon1" class="imageIcons">
+                                    </div>
+                                    <p class="textColor fw-bolder fs-6 text-center mb-2">Best Price Guarantee</p>
+                                    <p class="text-muted fw-normal fs-6 text-center mb-2">Get the best deals always</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section 8 -->
+                        <div class="supportImagePosition mt-3">
+                            <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
+                            <div class="supportDetails">
+                                <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
+                                <p class="text-white fw-normal fs-5">Our travel experts are here for you.</p>
+                                <a href="#">
+                                    <div class="supportBtn">
+                                        <p class="fs-5 mb-0 fw-bolder">Contact Support</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
@@ -1204,9 +1834,10 @@
         <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
 
         <!-- App js -->
-        <script src="assets/js/app.js"></script>
-
-        <script src="assets/libs/chart.js/Chart-2.5.0.min.js"></script>
+        <script src="../assets/js/app.js"></script>
+        <!-- Chart -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- <script src="../assets/libs/chart.js/Chart-2.5.0.min.js"></script> -->
 
 
         <!-- Dashboard init  popular candidates section js file-->
@@ -1676,48 +2307,6 @@
                 spendingChart.update();
             });
         </script>
-        <!-- <script>
-            //onclick my consultant from side bar
-            /* =========================================
-            OPEN MODAL FROM SIDEBAR MENU
-            ========================================= */
-
-            const qxz9Modal =
-            document.getElementById('qxz9ConsultantModal');
-
-            const qxz9OpenBtn =
-            document.getElementById('qxz9OpenConsultantModal');
-
-            const qxz9CloseBtn =
-            document.getElementById('qxz9CloseConsultantModal');
-
-            /* OPEN */
-
-            qxz9OpenBtn.addEventListener('click', function () {
-
-                qxz9Modal.classList.add('active');
-
-            });
-
-            /* CLOSE */
-
-            qxz9CloseBtn.addEventListener('click', function () {
-
-                qxz9Modal.classList.remove('active');
-
-            });
-
-            /* OUTSIDE CLICK CLOSE */
-
-            qxz9Modal.addEventListener('click', function (e) {
-
-                if (e.target === qxz9Modal) {
-
-                    qxz9Modal.classList.remove('active');
-
-                }
-
-            });
-        </script> -->
+        <!-- dialer logic -->
     </body>
 </html>
