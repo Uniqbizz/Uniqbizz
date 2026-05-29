@@ -109,9 +109,9 @@ function userLogin(){
           success: function (res) {
               console.log(res);
               if (res.status == 1) {
-                  if (res.user_type == "10" && res.user_id == "CU260052") {
+                  if (res.user_type == "10" && res.customer_type == ['Neo Select']) {
                     location.href = "dashboard/customer_dashboard/customer_dashboard.php";
-                  } else if (res.user_type == "33" && res.user_id == "IBRGA26004") {
+                  }else if (res.user_type == "33" && res.user_id == "IBRGA26004") {
                     location.href = "dashboard/institute_branch_manager/index.php";
                   } else {
                     location.href = "dashboard/index.php";

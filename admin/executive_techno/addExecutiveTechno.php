@@ -92,7 +92,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
 													<select id="designation" class="form-select">
 														<option value="NA">--Select Designation--</option>
-														<option value="super_techno_enterprise">Super Techno Enterprise</option>
+														<option value="chief_techno_enterprise">Cheif Techno Enterprise</option>
 													</select>
 												</div>
 											</div>

@@ -10,6 +10,7 @@
      $userLname = $_SESSION['lname']; //last name of user 'Cardoso'.
      $userType = $_SESSION['user_type_id_value']; //user type id value '3'.
      $userId = $_SESSION['user_id']; // user id 'TA230030'.
+     $customer_type = $_SESSION["customer_type"] ?? ''; // customer type.
 
     $date = date('Y');
 
