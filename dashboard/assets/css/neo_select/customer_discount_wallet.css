@@ -349,7 +349,7 @@ body{
 
 .stat-card::after{
     position:absolute;
-    font-family:"Font Awesome 6 Free"; /* SAFE fallback for CDN */
+    font-family:"Font Awesome 7 Free"; /* SAFE fallback for CDN */
     font-weight:900;
     font-size:110px;
     top:50%;
@@ -366,24 +366,32 @@ body{
 
 /* 💜 SAVINGS */
 .stat-card:has(.stat-icon.purple)::after{
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content:"\f555"; /* wallet */
     color:#7d39ff;
 }
 
 /* 💚 BALANCE */
 .stat-card:has(.stat-icon.green)::after{
-    content:"\f0d6"; /* money */
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
+    content:"\f3d1"; /* money-bill-wave */
     color:#16a34a;
 }
 
 /* 💙 DISCOUNTS */
 .stat-card:has(.stat-icon.blue)::after{
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content:"\f02b"; /* tags */
     color:#2563eb;
 }
 
 /* 🧡 EXPIRY */
 .stat-card:has(.stat-icon.orange)::after{
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content:"\f073"; /* calendar */
     color:#ff6b00;
 }
