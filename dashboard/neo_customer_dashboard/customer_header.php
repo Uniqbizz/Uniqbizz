@@ -1,8 +1,5 @@
 <?php
-    include (__DIR__ .'/customer_model.php');
-    include (__DIR__ .'/customer_mapping.php');
-    include (__DIR__.'/urls.php');
-    include_once(__DIR__ . '/../dashboard_user_details.php');
+    include_once 'dashboard_user_details.php';
 ?>
 <header id="page-topbar" class="rounded-4" style="left: 0 !important;">
     <div class="layout-width">
@@ -11,20 +8,20 @@
                 <!-- LOGO -->
                 <div class="navbar-brand-box" class="rounded-4">
                     <!-- Light Logo-->
-                    <a href="<?= $base_url_cust?>customer_dashboard.php" class="logo logo-light">
+                    <a href="customer_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="<?= $base_url ?>assets/images/fav.png" alt="" height="25">
+                            <img src="assets/images/fav.png" alt="" height="25">
                         </span>
                         <span class="logo-lg ms-5">
-                            <img src="<?= $base_url ?>assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
                 <!-- logo for mobile view  -->
                 <div class="com_logo">
-                    <a href="<?= $base_url_cust?>customer_dashboard.php" class="logo logo-light">
+                    <a href="customer_dashboard.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="<?= $base_url ?>assets/images/bizz_logo.png" alt="" height="50">
+                            <img src="assets/images/bizz_logo.png" alt="" height="50">
                         </span>
                     </a>
                 </div>
@@ -113,12 +110,12 @@
                 <!-- Customer -->
                 <?php if ($userType == '10'){?> 
                 <button type="button" class="btn shadow-none d-none d-md-inline-block">
-                    <a class="dropdown-item" href="<?= $base_url_cust. $folder_map[$customer['customer_type']] ?>customer_wallet.php">
+                    <a class="dropdown-item" href="customer_wallet.php">
                         <div class="d-flex gap-3">
                             <i class="bx bx-wallet walletIcon"></i> 
                             <p class="mb-0">
                                 Wallet Balance <br>
-                                <span class="walletAmount">&#8377; 3,200</span>
+                                <span class="walletAmount">&#8377; 21,500</span>
                             </p>
                         </div>
                     </a>
@@ -179,7 +176,7 @@
                             <div class="tab-pane fade show p-4" id="all-noti-tab" role="tabpanel">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="<?= $base_url ?>assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -190,7 +187,7 @@
                             <div class="tab-pane fade p-4" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="<?= $base_url ?>assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -200,7 +197,7 @@
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
                                 <div class="empty-notification-elem">
                                     <div class="w-25 w-sm-50 pt-3 mx-auto">
-                                        <img src="<?= $base_url ?>assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
+                                        <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                     </div>
                                     <div class="text-center pb-5 mt-2">
                                         <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>
@@ -217,7 +214,7 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user bg-white">
                     <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="<?php echo $home_url.'uploading/' . $profile_pic; ?>" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="<?php echo '../../uploading/' . $profile_pic; ?>" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php echo $userFname . ' ' . $userLname; ?></span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo $designation; ?></span>
@@ -277,14 +274,15 @@
                                     <i class="bx bx-wallet walletIcon"></i>
                                     <p class="mb-0">
                                         Wallet Balance <br>
-                                        <span class="walletAmount">&#8377; 3,200</span>
+                                        <span class="walletAmount">&#8377; 21,500</span>
                                     </p>
                                 </div>
                             </a>
                         </div>
-                        <a class="dropdown-item" href="<?= $base_url ?>profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <a class="dropdown-item" href="profile.php"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <!-- <a class="dropdown-item" href="reset_password.php"><i class="fa-solid fa-key"></i></i> <span class="align-middle">Reset Password</span></a> -->
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="<?= $base_url ?>logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a class="dropdown-item" href="../logout.php" class="mylogout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
             </div>

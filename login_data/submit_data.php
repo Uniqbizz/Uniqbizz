@@ -151,6 +151,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["customer_type"] = $row['customer_type'] ;
 						
 					}
 				}
@@ -441,7 +442,8 @@ if($stmt->rowCount()>0){
 		$response = [
 			"status" => 1,
 			"user_type" => $user_type,
-			"user_id" => $_SESSION["user_id"]
+			"user_id" => $_SESSION["user_id"],
+			"customer_type" => $_SESSION["customer_type"] ?? ''
 		];
 
 		echo json_encode($response);

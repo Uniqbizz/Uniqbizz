@@ -1,15 +1,24 @@
 <?php
-include_once 'dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
 
-// get current date to show next payout amount  and pass it in sql @ line 129
-$date = date('F,Y'); //month and year. 'F' - month in Text form
-$nextDateMonth = date('m'); //month in number form
-$nextDateYear = date('Y'); //year
+    // get current date to show next payout amount  and pass it in sql @ line 129
+    $date = date('F,Y'); //month and year. 'F' - month in Text form
+    $nextDateMonth = date('m'); //month in number form
+    $nextDateYear = date('Y'); //year
 
-// get Previous date to show Previous payout amount  and pass it in sql @ line 111
-$prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
-$prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
-$prevDateYear = date('Y');  //Year in number form. 
+    // get Previous date to show Previous payout amount  and pass it in sql @ line 111
+    $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
+    $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
+    $prevDateYear = date('Y');  //Year in number form. 
+    if ($userType == '10') {
+        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/";
+    }else{
+        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/"; 
+    }
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +32,17 @@ $prevDateYear = date('Y');  //Year in number form.
     <link rel="shortcut icon" href="assets/images/fav.png">
     <!-- custom css file -->
     <!-- <link href="assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+    <!-- jsvectormap css -->
+    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -35,20 +55,35 @@ $prevDateYear = date('Y');  //Year in number form.
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css developer-->
     <link rel="stylesheet" href="assets/css/custom.css" />
+    <!-- font-awesome -->
+        <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
     <!-- Css-->
     <link href="assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- App js -->
     <!-- <script src="assets/js/plugin.js"></script> -->
     <!-- DataTables -->
-    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- Responsive datatable examples -->
-    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Date Range Picker CSS End -->
+    
+    <?php 
+        if ($userType == '10') {
+    ?>
+    <!-- Customer Dashboard CSS -->
+    <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <?php
+        }else{
+    ?>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <?php
+        }
+    ?>
     <!-- Date Range Picker CSS Start -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <!-- Date Range Picker CSS End -->
+    
 
     <style>
         .selected-date {
@@ -67,7 +102,7 @@ $prevDateYear = date('Y');  //Year in number form.
         }
 
         .faIcon {
-            padding: 21px 17px 21px 17px !important;
+            padding: 21px 32px 21px 17px !important;
         }
 
         .faIcon:hover {
@@ -85,7 +120,17 @@ $prevDateYear = date('Y');  //Year in number form.
         .dateRange {
             border-radius: 14px !important;
         }
-
+        .nav-link.active {
+            background: #4b38b3;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+        }
+        .nav-link.active span{
+            color: #fff;
+        }
+        .span-tab-font{
+            font-size: 13px;
+        }
         @media screen and (min-width: 993px) and (max-width: 1180px) {
             .cardText {
                 font-size: 12px !important;
@@ -151,12 +196,21 @@ $prevDateYear = date('Y');  //Year in number form.
 
 <body>
     <div id="layout-wrapper">
-        <?php
-            // top header logo, hamberger menu, fullscreen icon, profile
-            include_once 'header.php';
+       <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_header.php');
+            }else{
 
-            // sidebar navigation menu 
-            include_once 'sidebar.php';
+                include_once 'header.php'; 
+            }
+        ?>
+        <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_sidebar.php');
+            }else{
+
+                include_once 'sidebar.php'; 
+            }
         ?>
         <?php
             $pending_booking_count = 0;
@@ -912,21 +966,21 @@ $prevDateYear = date('Y');  //Year in number form.
                         <div class="row rowAlign">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
                                 <nav role="navigation">
-                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory">All</a>
+                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex flex-nowrap justify-content-around" role="tablist">
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory"><span class="span-tab-font">All</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#pendingHistory">Pending</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link"  data-bs-toggle="tab" role="tab" href="#pendingHistory"><span class="span-tab-font">Pending</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory">Booked</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory"><span class="span-tab-font">Booked</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory">Canceled</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory"><span class="span-tab-font">Canceled</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory">Refund</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory"><span class="span-tab-font">Refund</span></a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -1214,7 +1268,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>">
                                                                                 <i class="fa-solid fa-eye"></i> View
                                                                             </a>
-                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
                                                                                 <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                             </a>
                                                                             <?php
@@ -1427,7 +1481,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1638,7 +1692,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1851,7 +1905,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                             <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                                         </div>
                                                                     </div>
@@ -2064,7 +2118,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="../controllers/orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -2094,7 +2148,14 @@ $prevDateYear = date('Y');  //Year in number form.
                         </div>
                     </div>
                 </div>
-                <?php include_once "footer.php" ?>
+                <?php 
+                    if ($userType == 10) {
+                        include_once(__DIR__ . '/customer_dashboard/customer_footer.php');
+                    }else{
+
+                        include_once "footer.php"; 
+                    }
+                ?>
             </div>
         </div>
         <!-- Payment Screen start -->
@@ -2222,6 +2283,7 @@ $prevDateYear = date('Y');  //Year in number form.
                 </div>
             </div>
         </div>
+        <?php include (__DIR__ .'/contact_modal.php') ?>
     </div>
     <!-- END layout-wrapper -->
     <!--start back-to-top-->
@@ -2230,11 +2292,11 @@ $prevDateYear = date('Y');  //Year in number form.
     </button>
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
-    <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
     <!-- Required datatable js -->
     <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -2242,9 +2304,24 @@ $prevDateYear = date('Y');  //Year in number form.
     <!-- Responsive examples -->
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-    <!-- Calendar init -->
-    <script src="assets/libs/fullcalendar/index.global.min.js"></script>
+   
+    <?php 
+        if ($userType == 10) {
+    ?>
+    <script src="assets/js/pages/remix-icons-listing.js"></script>
+    <!-- Vector map-->
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/maps/world-merc.js"></script>
 
+    <!--Swiper slider js-->
+    <script src="<?= $base_url ?>assets/libs/swiper/swiper-bundle.min.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+    <?php
+        }
+    ?>
+     <!-- Calendar init -->
+    <script src="assets/libs/fullcalendar/index.global.min.js"></script>
     <!-- Date Range Picker Script Start -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -2580,7 +2657,7 @@ $prevDateYear = date('Y');  //Year in number form.
         //part payment logic end
     </script>
     <script type="text/javascript">
-        console.log('test');
+        // console.log('test');
         document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -2736,12 +2813,12 @@ $prevDateYear = date('Y');  //Year in number form.
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
-                            <img src="../${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
+                            <img src="<?= $home_url ?>${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
                         </div>
                         <div class="col-md-9 col-sm-9 col-9">
                             <div class="row">
                                 <div class="col-md-2 col-sm-2 col-2 d-flex align-items-center">
-                                    <img src="../uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
+                                    <img src="<?= $home_url ?>uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
                                 </div>
                                 <div class="col-md-10 col-sm-10 col-10">
                                     ${message}
@@ -2894,6 +2971,55 @@ $prevDateYear = date('Y');  //Year in number form.
         });
     </script>
     <!-- Date Range Script -->
+    <!-- dialer logic scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const callBtn = document.getElementById("callBtn");
+
+            if (callBtn) {
+                callBtn.addEventListener("click", function(e) {
+
+                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (!isMobile) {
+                        e.preventDefault();
+
+                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                        location.reload();
+
+                        // Optional clipboard copy (safe fallback)
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText("8010892265");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        var modal = document.getElementById('staticBackdrop');
+
+        // Store the element that opened the modal
+        let lastFocusedElement;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-bs-toggle="modal"]')) {
+                lastFocusedElement = e.target;
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            } else {
+                document.body.focus();
+            }
+        });
+    </script>
+    <!-- end dialer logic scripts -->
 </body>
 
 </html>

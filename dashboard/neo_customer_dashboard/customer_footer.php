@@ -1,6 +1,5 @@
 <?php
     $date = date('Y');
-    include (__DIR__.'/urls.php');
 ?>
 
 <footer class="footer">
@@ -25,7 +24,7 @@
             <div class="col-lg-2 col-md-2 col-sm-12 col-12">
                 <div class="d-flex justify-content-center gap-2">
                     <p class="mt-2">Follow us on </p>
-                    <a href="http:#"><img src="<?= $base_url?>assets/images/instagram.png" alt="Instagram" class="insta-icon"></a>
+                    <a href="http:#"><img src="assets/images/instagram.png" alt="Instagram" class="insta-icon"></a>
                 </div>
             </div>
         </div>

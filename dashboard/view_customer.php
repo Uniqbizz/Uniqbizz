@@ -1,5 +1,14 @@
 <?php
     include_once 'dashboard_user_details.php';
+    if ($userType == '10') {
+        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/";
+    }else{
+        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/"; 
+    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -36,6 +45,17 @@
         <link rel="stylesheet" href="assets/css/custom.css" />
         <!-- font-awesome -->
         <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
+        <?php 
+         if ($userType == '10') {
+        ?>
+        <!-- Customer Dashboard CSS -->
+        <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <?php
+         }
+        ?>
     </head>
 
     <body>
@@ -43,7 +63,14 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <?php include_once 'header.php'; ?>
+            <?php 
+                if ($userType == 10) {
+                    include_once(__DIR__ . '/customer_dashboard/customer_header.php');
+                }else{
+
+                    include_once 'header.php'; 
+                }
+            ?>
 
             <!-- removeNotificationModal -->
             <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -70,8 +97,14 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
-           
-            <?php include_once 'sidebar.php'; ?>
+            <?php 
+                if ($userType == 10) {
+                    include_once(__DIR__ . '/customer_dashboard/customer_sidebar.php');
+                }else{
+
+                    include_once 'sidebar.php'; 
+                }
+            ?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -81,22 +114,33 @@
                 <div class="page-content">
                     <div class="container-fluid">
                         <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">View Customer</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0">View Customer</h4>
 
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                                        <li class="breadcrumb-item active">View Customer</li>
-                                    </ol>
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="
+                                            <?php 
+                                                if ($userType == '10') {
+                                            ?>
+                                                    <?= $base_url_sidebar ?>customer_dashboard.php
+                                            <?php
+                                                }else{
+                                            ?>
+                                                    index.php
+                                            <?php
+                                                }
+                                            ?>">Dashboard</a></li>
+                                            <li class="breadcrumb-item active">View Customer</li>
+                                        </ol>
+                                    </div>
+
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                    <!-- end page title -->
+                        <!-- end page title -->
 
                         <div class="row">
                             <div class="col">
@@ -2232,8 +2276,14 @@
                     </div> <!-- container-fluid -->
 
                 </div><!-- End Page-content -->
+                <?php 
+                    if ($userType == 10) {
+                        include_once(__DIR__ . '/customer_dashboard/customer_footer.php');
+                    }else{
 
-                <?php include_once "footer.php" ?>
+                        include_once "footer.php"; 
+                    }
+                ?>
                 
             </div><!-- end main content-->
         
@@ -2244,7 +2294,7 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-        
+        <?php include (__DIR__ .'/contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
@@ -2259,14 +2309,25 @@
         <!-- Responsive examples -->
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
         <!-- !-- materialdesign icon js- -->
         <script src="assets/js/pages/remix-icons-listing.js"></script>
+        <?php 
+            if ($userType == 10) {
+        ?>
+        <!-- Vector map-->
+        <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+        <script src="<?= $base_url ?>assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+        <!--Swiper slider js-->
+        <script src="<?= $base_url ?>assets/libs/swiper/swiper-bundle.min.js"></script>
+        <?php
+            }
+        ?>
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>
 
-         <script>
+        <script>
             $(document).ready(function(){
                 $("#example-dataTable").DataTable();
                 $("#example-dataTable-2").DataTable();
@@ -2336,5 +2397,54 @@
                 window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
             }
         </script>
+        <!-- dialer logic scripts -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+        <script>
+            var modal = document.getElementById('staticBackdrop');
+
+            // Store the element that opened the modal
+            let lastFocusedElement;
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-bs-toggle="modal"]')) {
+                    lastFocusedElement = e.target;
+                }
+            });
+
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                } else {
+                    document.body.focus();
+                }
+            });
+        </script>
+        <!-- end dialer logic scripts -->
     </body>
 </html>
