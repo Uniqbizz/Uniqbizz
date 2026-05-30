@@ -214,7 +214,7 @@
                                     
                                     <div class="d-flex gap-3 align-items-center mb-2">
                                         <div class="custProfile">
-                                            <img src="<?= $home_url  ?>uploading/<?= $customerTa['profile_pic'] ?>" alt="Profile" class="profileImage img-fluid w-100">
+                                            <img src="<?= $home_url  ?>uploading/<?= $customerTa['profile_pic'] ?>" alt="Profile" class="profileImage w-100">
                                         </div>
                                         <div class="">
                                             <p class="text-muted mb-0">Your Travel Consultant</p>
