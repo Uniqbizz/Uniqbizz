@@ -10,7 +10,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Customer Wallet | Admin Dashboard </title>
+        <title>Loyalty Coupon Wallet | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -43,66 +43,167 @@
             .fontSize3 {
                 font-size: 8px;
             }
-            .walletIcon1 {
+            .icon1 {
                 font-size: 20px !important;
                 color: #fff;
                 background: #35239a;
-                border-radius: 8px;
+                border-radius: 100%;
                 padding: 8px 10px;
                 width: 45px;
                 height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
-            .walletIcon2 {
-                font-size: 20px !important;
-                color: #fff;
-                background: #136bd8;
-                border-radius: 8px;
-                padding: 8px 10px;
-                width: 45px;
-                height: 45px;
-            }
-            .walletIcon3 {
+            .icon2 {
                 font-size: 20px !important;
                 color: #fff;
                 background: #067b40;
-                border-radius: 8px;
+                border-radius: 100%;
                 padding: 8px 10px;
                 width: 45px;
                 height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
-            .walletIcon4 {
+            .icon3 {
                 font-size: 20px !important;
                 color: #fff;
-                background: #d54a0a;
-                border-radius: 8px;
+                background: #fbaa06;
+                border-radius: 100%;
                 padding: 8px 10px;
                 width: 45px;
                 height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
-            .walletCard1 {
-                background: #f5f3fd;
+            .icon4 {
+                font-size: 20px !important;
+                color: #fff;
+                background: #136bd8;
+                border-radius: 100%;
+                padding: 8px 10px;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .icon5 {
+                font-size: 20px !important;
+                color: #fff;
+                background: #fb2306;
+                border-radius: 100%;
+                padding: 8px 10px;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .icon6 {
+                font-size: 20px !important;
+                color: #fff;
+                background: #d1690e;
+                border-radius: 100%;
+                padding: 8px 10px;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .walletIcon1 {
+                background: #f4f2ff;
                 border: 1px solid #35239a;
             }
-            .walletCard2 {
-                background: #eaf4ff;
-                border: 1px solid #136bd8;
+            .walletCase1 {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 100px;
+                color: #5b5ff6;
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
             }
-            .walletCard3 {
-                background: #ecfff5;
+            .walletIcon2 {
+                background: #ecfff7;
                 border: 1px solid #067b40;
             }
-            .walletCard4 {
-                background: #fff4ef;
-                border: 1px solid #d54a0a;
+            .walletCase2 {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 100px;
+                color: #067b40;
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .walletIcon3 {
+                background: #fffcf4;
+                border: 1px solid #fbaa06;
+            }
+            .walletCase3 {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 100px;
+                color: #fbaa06;
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .walletIcon4 {
+                background: #eef3f9;
+                border: 1px solid #136bd8;
+            }
+            .walletCase4 {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 100px;
+                color: #136bd8;
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .walletIcon5 {
+                background: #fff1ef;
+                border: 1px solid #fb2306;
+            }
+            .walletCase5 {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 100px;
+                color: #fb2306;
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .walletIcon6 {
+                background: #f9ede3;
+                border: 1px solid #d1690e;
+            }
+            .walletCase6 {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 100px;
+                color: #d1690e;
+                opacity: 0.15;
+                z-index: 1;
+                pointer-events: none;
             }
             .profileImage {
                 width:40px !important;
                 height: 40px !important;
                 border-radius: 100% !important;
                 object-fit: fill;
-            }
-            .memberShipType {
-                width: 90px;
             }
             .textOrange {
                 color: #d54a0a;
@@ -148,125 +249,155 @@
                 <div class="page-content">
                     <div class="container-fluid">
                         <div class="">
-                            <h2 class="fw-bolder text-dark">Customer Wallet Management</h2>
+                            <h2 class="fw-bolder text-dark">Loyalty Coupon Wallet</h2>
                             <p class="fs-6 text-muted">
-                                Manage, monitor and control all customer wallets from one place.
+                                Loyalty coupons are earned after a successful trip. Each coupon is worth &#8377;500 and valid for 12 months. Coupons are unclocked only after all membership coupons are used.
                             </p>
                         </div>
                         <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="couponWallet.php">
-                                    <div class="rounded-3 px-3 py-2 walletCard1">
-                                        <div class="d-flex gap-2">
-                                            <div class="walletIcon1">
-                                                <i class="fa-solid fa-wallet"></i>
-                                            </div>
-                                            <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Coupon Wallet</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">18,520</p>
-                                                <p class="fs-6 text-dark fw-bolder">Value: &#8377;<span class="">12,00,000</span></p>
-                                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card walletIcon1">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-gift walletCase1"></i>
+                                    <div class="d-flex gap-2">
+                                        <div class="icon1">
+                                            <i class="fa-solid fa-gift"></i>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="loyaltyCouponWallet.php">
-                                    <div class="rounded-3 px-3 py-2 walletCard2">
-                                        <div class="d-flex gap-2">
-                                            <div class="walletIcon2">
-                                                <i class="fa-solid fa-ticket"></i>
-                                            </div>
-                                            <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Loyalty Coupon Wallet</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">18,520</p>
-                                                <p class="fs-6 text-dark fw-bolder">Value: &#8377;<span class="">12,00,000</span></p>
-                                            </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Total Loyalty Coupons Issued</h1>
+                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fontSize1 fw-normal mb-1">Coupons</p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
-                                </a>
+                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="#">
-                                    <div class="rounded-3 px-3 py-2 walletCard3">
-                                        <div class="d-flex gap-2">
-                                            <div class="walletIcon3">
-                                                <i class="fa-solid fa-money-bill-transfer"></i>
-                                            </div>
-                                            <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Referral Customer Wallet</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 2,30,450</p>
-                                                <p class="fontSize2 fw-bolder text-dark">18 requests withdrawal pending</p>
-                                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card walletIcon2">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-wallet walletCase2"></i>
+                                    <div class="d-flex gap-2">
+                                        <div class="icon2">
+                                            <i class="fa-solid fa-wallet"></i>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="#">
-                                    <div class="rounded-3 px-3 py-2 walletCard4">
-                                        <div class="d-flex gap-2">
-                                            <div class="walletIcon4">
-                                                <i class="fa-solid fa-gift"></i>
-                                            </div>
-                                            <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Discount Wallet</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 1,20,000.00</p>
-                                            </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Available Loyalty Coupons</h1>
+                                            <p class="fs-5 fw-bolder mb-0">1,550</p>
+                                            <p class="fontSize1 fw-normal mb-1">Coupons</p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">7,75,000</span></p>
                                         </div>
-                                        <p class="text-danger fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
                                     </div>
-                                </a>
+                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
+                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="#">
-                                    <div class="rounded-3 px-3 py-2 walletCard2">
-                                        <div class="d-flex gap-2">
-                                            <div class="walletIcon2">
-                                                <i class="fa-solid fa-arrow-trend-up"></i>
-                                            </div>
-                                            <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Extended Wallet</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 3,40,000.00</p>
-                                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card walletIcon3">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-lock walletCase3"></i>
+                                    <div class="d-flex gap-2">
+                                        <div class="icon3">
+                                            <i class="fa-solid fa-lock"></i>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Locked Loyalty Coupons</h1>
+                                            <p class="fs-5 fw-bolder mb-0">6,470</p>
+                                            <p class="fontSize1 fw-normal mb-1">Coupons</p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">32,35,000</span></p>
+                                        </div>
                                     </div>
-                                </a>
+                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
+                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
+                                    </p>
+                                </div>
                             </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card walletIcon4">
+                                    <!-- Background Icon -->
+                                    <i class="fa-brands fa-uikit walletCase4"></i>
+                                    <div class="d-flex gap-2">
+                                        <div class="icon4">
+                                            <i class="fa-brands fa-uikit"></i>
+                                        </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Used Loyalty Coupons</h1>
+                                            <p class="fs-5 fw-bolder mb-0">1,980</p>
+                                            <p class="fontSize1 fw-normal mb-1">Coupons</p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">9,90,000</span></p>
+                                        </div>
+                                    </div>
+                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
+                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card walletIcon5">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-trash walletCase5"></i>
+                                    <div class="d-flex gap-2">
+                                        <div class="icon5">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Expired Loyalty Coupons</h1>
+                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fontSize1 fw-normal mb-1">Coupons</p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                        </div>
+                                    </div>
+                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card walletIcon6">
+                                    <!-- Background Icon -->
+                                    <i class="fa-solid fa-hourglass walletCase6"></i>
+                                    <div class="d-flex gap-2">
+                                        <div class="icon6">
+                                            <i class="fa-solid fa-hourglass"></i>
+                                        </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Expiring within 30 days</h1>
+                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fontSize1 fw-normal mb-1">Coupons</p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                        </div>
+                                    </div>
+                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
+                                    </p>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="row my-3">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between">
+                                            <div class="col-xl-6 col-lg-8 col-md-8 col-sm-9 col-12 d-flex justify-content-between">
                                                 <div>
                                                     <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Wallet Type</option>
-                                                        <option value="1">All</option>
-                                                        <option value="couponwallet">Coupon wallet</option>
-                                                        <option value="loyaltyCoupon">Loyalty coupon</option>
-                                                        <option value="referralCustomerWallet">Referral customer wallet</option>
-                                                        <option value="discountWallet">Discount wallet</option>
-                                                        <option value="extendedWallet">Extended wallet</option>
+                                                        <option selected>Coupon Status</option>
+                                                        <option value="available">Available</option>
+                                                        <option value="used">Used</option>
+                                                        <option value="expired">Expired</option>
                                                     </select>
                                                 </div>
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Status</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
+                                                <div class="text-end">
+                                                    <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
                                                 </div>
                                                 <a href="#">
                                                     <div class="linkBtn gap-2 align-items-center">
                                                         <i class="fa-solid fa-download"></i>
-                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Export</p>
+                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
                                                     </div>
                                                 </a>
                                             </div>
@@ -277,12 +408,11 @@
                                                     <tr>
                                                         <th>Customer</th>
                                                         <th>Membership</th>
-                                                        <th>Mobile</th>
-                                                        <th>Coupon Wallet</th>
-                                                        <th>loyalty Coupon</th>
-                                                        <th>Referral Wallet</th>
-                                                        <th>Discount Wallet</th>
-                                                        <th>Extended Wallet</th>
+                                                        <th>Total Coupons <span class="d-flex justify-content-center text-muted">(Issued)</span></th>
+                                                        <th>Available <span class="d-flex justify-content-center text-muted">(Unlocked)</span></th>
+                                                        <th>Used</th>
+                                                        <th>Expired</th>
+                                                        <th>Locked</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -306,39 +436,42 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            9876543210
-                                                        </td>
-                                                        <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">3</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">&#8377;15,000</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">12</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">&#8377;3,500</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 textOrange text-center">&#8377;2,300.00</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">Withdrawable</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center text-primary">&#8377;1,200.00</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center textViolet">&#8377;4,500.00</p>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder memberShipType">
-                                                                Active
+                                                            <div class="">
+                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder memberShipType">
+                                                            <div class="">
+                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Eligible / Unlocked
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                 View
                                                             </div>
                                                         </td>
@@ -361,39 +494,42 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            9876543210
-                                                        </td>
-                                                        <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">3</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">&#8377;15,000</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">12</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">&#8377;3,500</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 textOrange text-center">&#8377;2,300.00</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">Withdrawable</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center text-primary">&#8377;1,200.00</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center textViolet">&#8377;4,500.00</p>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder memberShipType">
-                                                                Active
+                                                            <div class="">
+                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder memberShipType">
+                                                            <div class="">
+                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-center fw-bolder">
+                                                                Locked
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                 View
                                                             </div>
                                                         </td>
@@ -416,39 +552,42 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            9876543210
-                                                        </td>
-                                                        <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">3</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">&#8377;15,000</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">12</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">&#8377;3,500</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 textOrange text-center">&#8377;2,300.00</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">Withdrawable</p>
+                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center text-primary">&#8377;1,200.00</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center textViolet">&#8377;4,500.00</p>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-center fw-bolder memberShipType">
-                                                                Inactive
+                                                            <div class="">
+                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder memberShipType">
+                                                            <div class="">
+                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
+                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Eligible / Unlocked
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                 View
                                                             </div>
                                                         </td>
@@ -475,11 +614,11 @@
             <div class="loading-icon"></div>
         </div>
         <!-- Add button icon -->
-        <!-- <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
+        <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
             <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                 <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
             </a>
-        </div> -->
+        </div>
         <!-- End button icon -->
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
@@ -530,8 +669,6 @@
         <script>
             $(document).ready(function(){
                 $("#pendingCustomerList-table").DataTable();
-                $("#registeredCustomerList-table").DataTable();
-                $("#deletedCustomerList-table").DataTable();
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
