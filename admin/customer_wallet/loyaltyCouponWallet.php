@@ -278,9 +278,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -298,9 +298,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">7,75,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -318,9 +318,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">32,35,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -338,9 +338,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">9,90,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -358,9 +358,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -378,9 +378,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             
