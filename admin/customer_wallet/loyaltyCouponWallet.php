@@ -248,6 +248,14 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
+                        <div class="d-inline-block" onclick="history.back()" style="cursor:pointer;">
+                            <div class="viewBtn rounded-2 py-2">
+                                <p class="text-muted mb-0 fw-bolder">
+                                    <i class="fa-solid fa-arrow-left me-2 fw-bolder"></i>
+                                    Back to Customer Wallet Management
+                                </p>
+                            </div>
+                        </div>
                         <div class="">
                             <h2 class="fw-bolder text-dark">Loyalty Coupon Wallet</h2>
                             <p class="fs-6 text-muted">
@@ -471,9 +479,11 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                View
-                                                            </div>
+                                                            <a href="viewLoyaltyCouponWallet.php" class="">
+                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                    View
+                                                                </div>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                     <tr>

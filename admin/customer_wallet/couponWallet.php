@@ -134,6 +134,14 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
+                        <div class="d-inline-block" onclick="history.back()" style="cursor:pointer;">
+                            <div class="viewBtn rounded-2 py-2">
+                                <p class="text-muted mb-0 fw-bolder">
+                                    <i class="fa-solid fa-arrow-left me-2 fw-bolder"></i>
+                                    Back to Customer Wallet Management
+                                </p>
+                            </div>
+                        </div>
                         <div class="">
                             <h2 class="fw-bolder text-dark">Coupon Wallet Management</h2>
                             <p class="fs-6 text-muted">
