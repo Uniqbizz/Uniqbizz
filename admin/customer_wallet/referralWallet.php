@@ -277,7 +277,7 @@
                                                             <p class="mb-0 fw-bolder fs-6 text-center">&#8377;2,000</p>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="">
+                                                            <a href="viewReferralWallet.php" class="">
                                                                 <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                     View
                                                                 </div>
@@ -314,7 +314,7 @@
                                                             <p class="mb-0 fw-bolder fs-6 text-center">&#8377;2,000</p>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="">
+                                                            <a href="viewReferralWallet.php" class="">
                                                                 <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                     View
                                                                 </div>
@@ -351,7 +351,7 @@
                                                             <p class="mb-0 fw-bolder fs-6 text-center">&#8377;2,000</p>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="">
+                                                            <a href="viewReferralWallet.php" class="">
                                                                 <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                     View
                                                                 </div>
