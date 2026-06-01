@@ -84,11 +84,11 @@
     }
 
     // sidebar menu highlight when u r on that page 
-    $directoryURI = $_SERVER['REQUEST_URI'];
-    $path = parse_url($directoryURI, PHP_URL_PATH);
-    $components = explode('/', $path);
-    $first_part = $components[3];
-
+    // $directoryURI = $_SERVER['REQUEST_URI'];
+    // $path = parse_url($directoryURI, PHP_URL_PATH);
+    // $components = explode('/', $path);
+    // $first_part = $components[3];
+    $first_part = basename($_SERVER['PHP_SELF']);
     //data use for line chart
     if($userType == '3'){ //Business Consultant
         $directNext = "Techno Enterprise";

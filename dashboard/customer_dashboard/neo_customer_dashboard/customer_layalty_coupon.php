@@ -260,9 +260,9 @@
 
                                 <!-- TABS -->
 
-                                <div class="tabs-wrapper py-2">
+                                <div class="tabs-wrapper py-2 d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
-                                    <div class="coupon-tabs-nav">
+                                    <div class="coupon-tabs-nav d-flex gap-3 flex-wrap">
 
                                         <button class="coupon-tab active" data-filter="all">
                                             All Loyalty Coupons
@@ -284,6 +284,22 @@
                                             <span class="tab-count"><?= $loyaltyCouponData['expired_coupon_total'] ?? 0 ?></span>
                                         </button>
 
+                                        <div class="card-header bg-white border-0 p-2">
+    
+                                            <div class="row align-items-center">
+                                                <div class="loyal-coupon-search ms-lg-auto">
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                                                    <input type="text" id="tableSearch" 
+                                                        placeholder="Search anything...">
+
+                                                    <span type="button" id="clearSearch" class="loyal-coupon-search">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </span>
+                                                </div>    
+                                            </div>
+    
+                                        </div>
                                     </div>
 
                                 </div>
@@ -703,7 +719,7 @@
                             */
                             html += `
 
-                                <tr Class="transaction-row data-status="${rowStatus}">
+                                <tr Class="main-row transaction-row data-status="${rowStatus}">
 
                                     <td>
 
@@ -785,7 +801,7 @@
 
                         html = `
 
-                            <tr>
+                            <tr class="main-row">
 
                                 <td colspan="7"
                                     class="text-center py-4 text-muted fw-bold">
@@ -848,7 +864,38 @@
                     });
                 }
             });
+            //search feature
+            $('#tableSearch').on('keyup', function () {
 
+                let search = $(this).val().toLowerCase();
+
+                $('.main-row').each(function () {
+
+                    let found = false;
+
+                    $(this).find('td').each(function () {
+
+                        if ($(this).text().toLowerCase().includes(search)) {
+                            found = true;
+                            return false;
+                        }
+
+                    });
+
+                    if (found) {
+                        $(this).show();
+                        // $(this).next('.child-row').show();
+                    } else {
+                        $(this).hide();
+                        // $(this).next('.child-row').hide();
+                    }
+                });
+
+            });
+            $('#clearSearch').on('click', function () {
+                $('#tableSearch').val('').trigger('keyup').focus();
+            });
+            //search feature end
         </script>
         <!-- download logic -->
         <script>

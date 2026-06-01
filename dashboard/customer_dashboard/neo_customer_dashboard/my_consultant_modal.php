@@ -31,7 +31,7 @@
                 <div class="qxz9-profile-top-section">
 
                     <div class="qxz9-profile-image">
-                        <img src="../../uploading/<?= $customerTa['profile_pic'] ?>" alt="">
+                        <img src="<?= $home_url ?>uploading/<?= $customerTa['profile_pic'] ?>" alt="">
                     </div>
 
                     <div class="qxz9-profile-details">
@@ -55,17 +55,17 @@
                 <div class="qxz9-contact-list">
 
                     <div class="qxz9-contact-item">
-                        <i class="fa-light fa-phone"></i>
+                        <i class="fa-solid fa-square-phone"></i>
                         <span>+<?= $customerTa['country_code'].' '. $customerTa['contact_no'] ?></span>
                     </div>
 
                     <div class="qxz9-contact-item">
-                        <i class="fa-light fa-envelope"></i>
+                        <i class="fa-regular fa-envelope text-color"></i>
                         <span><?= $customerTa['email'] ?></span>
                     </div>
 
                     <div class="qxz9-contact-item">
-                        <i class="fa-light fa-clock"></i>
+                        <i class="fa-regular fa-clock text-color"></i>
                         <span>Mon - Sat (10:00 AM - 7:00 PM)</span>
                     </div>
 
@@ -113,7 +113,7 @@
                     </button>
 
                     <button class="qxz9-call-btn">
-                        <i class="fa-light fa-calendar-days"></i>
+                        <i class="fa-regular fa-calendar text-color"></i>
                         Schedule a Call
                     </button>
 
