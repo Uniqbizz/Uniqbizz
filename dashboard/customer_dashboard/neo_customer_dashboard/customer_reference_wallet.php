@@ -205,8 +205,37 @@
 
 
                             <!-- FILTER SECTION -->
-                            <!-- FILTER BOX -->
+                            <!-- search -->
+                            <div class="card-header bg-white border-0 p-2">
 
+                                <div class="row align-items-center">
+
+                                    <div class="col-lg-4">
+                                        <h5 class="mb-1">Referral Customer Wallet Management</h5>
+                                        <small class="text-muted">
+                                            Search and manage referral customer entries
+                                        </small>
+                                    </div>
+
+                                    <div class="col-lg-8 text-lg-end mt-3 mt-lg-0">
+
+                                        <div class="ref-wallet-search ms-lg-auto">
+                                            <i class="fa-solid fa-magnifying-glass "></i>
+
+                                            <input type="text" id="tableSearch"
+                                                placeholder="Search anything...">
+
+                                            <span type="button" id="clearSearch">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- FILTER BOX -->
                             <div class="filter-box">
 
                                 <div class="row g-4 align-items-end">
@@ -541,289 +570,6 @@
         <!-- dialer logic -->
 
         <!-- table tabs -->
-        <!-- <script>
-
-            document.addEventListener('DOMContentLoaded', function(){
-
-                // =========================================
-                // EXPANDABLE TABLE ROWS
-                // =========================================
-
-                const clickableRows =
-                    document.querySelectorAll('.clickable-row');
-
-                clickableRows.forEach(row => {
-
-                    row.addEventListener('click', function(){
-
-                        const target =
-                            this.getAttribute('data-target');
-
-                        if(!target) return;
-
-                        const details =
-                            document.getElementById(target);
-
-                        if(!details) return;
-
-                        const icon =
-                            this.querySelector('.toggle-btn i');
-
-                        const isVisible =
-                            details.style.display === 'table-row';
-
-                        // HIDE ALL DETAIL ROWS
-
-                        document
-                            .querySelectorAll('.details-row')
-                            .forEach(detailRow => {
-
-                                detailRow.style.display = 'none';
-
-                            });
-
-                        // RESET ALL ICONS
-
-                        document
-                            .querySelectorAll('.toggle-btn i')
-                            .forEach(i => {
-
-                                i.classList.remove(
-                                    'fa-chevron-up'
-                                );
-
-                                i.classList.add(
-                                    'fa-chevron-down'
-                                );
-
-                            });
-
-                        // OPEN CURRENT ROW
-
-                        if(!isVisible){
-
-                            details.style.display =
-                                'table-row';
-
-                            if(icon){
-
-                                icon.classList.remove(
-                                    'fa-chevron-down'
-                                );
-
-                                icon.classList.add(
-                                    'fa-chevron-up'
-                                );
-
-                            }
-
-                        }
-
-                    });
-
-                });
-
-                // =========================================
-                // FILTER ELEMENTS
-                // =========================================
-
-                const transactionFilter =
-                    document.getElementById(
-                        'transactionFilter'
-                    );
-
-                const statusFilter =
-                    document.getElementById(
-                        'statusFilter'
-                    );
-
-                const dateFilter =
-                    document.getElementById(
-                        'dateFilter'
-                    );
-
-                const tableBody =
-                    document.getElementById(
-                        'transactionTableBody'
-                    );
-
-                // SAFETY CHECK
-
-                if(
-                    !transactionFilter ||
-                    !statusFilter ||
-                    !dateFilter ||
-                    !tableBody
-                ){
-
-                    console.log(
-                        'Missing filter elements'
-                    );
-
-                    return;
-
-                }
-
-                const rows =
-                    tableBody.querySelectorAll('tr');
-
-                // =========================================
-                // FILTER EVENTS
-                // =========================================
-
-                transactionFilter.addEventListener(
-                    'change',
-                    applyFilters
-                );
-
-                statusFilter.addEventListener(
-                    'change',
-                    applyFilters
-                );
-
-                dateFilter.addEventListener(
-                    'change',
-                    applyFilters
-                );
-
-                // =========================================
-                // APPLY FILTERS
-                // =========================================
-
-                function applyFilters(){
-
-                    const transactionValue =
-                        transactionFilter.value.toLowerCase();
-
-                    const statusValue =
-                        statusFilter.value.toLowerCase();
-
-                    const dateValue =
-                        dateFilter.value;
-
-                    rows.forEach(row => {
-
-                        // SKIP DETAIL ROWS
-
-                        if(
-                            row.classList.contains(
-                                'details-row'
-                            )
-                        ){
-                            return;
-                        }
-
-                        const rowTransaction =
-                            row.dataset.transaction
-                            ? row.dataset.transaction.toLowerCase()
-                            : '';
-
-                        const rowStatus =
-                            row.dataset.status
-                            ? row.dataset.status.toLowerCase()
-                            : '';
-
-                        const rowDate =
-                            row.dataset.date || '';
-
-                        let visible = true;
-
-                        // =================================
-                        // TRANSACTION FILTER
-                        // =================================
-
-                        if(
-                            transactionValue !== 'all' &&
-                            rowTransaction !== transactionValue
-                        ){
-                            visible = false;
-                        }
-
-                        // =================================
-                        // STATUS FILTER
-                        // =================================
-
-                        if(
-                            statusValue !== 'all' &&
-                            rowStatus !== statusValue
-                        ){
-                            visible = false;
-                        }
-
-                        // =================================
-                        // DATE FILTER
-                        // =================================
-
-                        if(
-                            dateValue &&
-                            rowDate !== dateValue
-                        ){
-                            visible = false;
-                        }
-
-                        // =================================
-                        // SHOW / HIDE MAIN ROW
-                        // =================================
-
-                        row.style.display =
-                            visible
-                            ? 'table-row'
-                            : 'none';
-
-                        // =================================
-                        // HIDE DETAILS ROW
-                        // =================================
-
-                        const target =
-                            row.getAttribute('data-target');
-
-                        if(target){
-
-                            const detailRow =
-                                document.getElementById(
-                                    target
-                                );
-
-                            if(detailRow){
-
-                                detailRow.style.display =
-                                    'none';
-
-                            }
-
-                        }
-
-                    });
-
-                }
-
-                // =========================================
-                // DOWNLOAD BUTTON
-                // =========================================
-
-                const downloadBtn =
-                    document.getElementById(
-                        'downloadBtn'
-                    );
-
-                if(downloadBtn){
-
-                    downloadBtn.addEventListener(
-                        'click',
-                        function(){
-
-                            alert(
-                                'Statement download started!'
-                            );
-
-                        }
-                    );
-
-                }
-
-            });
-
-        </script> -->
         <script>
 
             document.addEventListener("DOMContentLoaded", function () {
@@ -998,11 +744,11 @@
                                 isTripCompleted
                                 ?
                                 `
-                                class="clickable-row transaction-row"
+                                class="clickable-row transaction-row main-row"
                                 data-target="${detailId}"
                                 `
                                 :
-                                'Class="transaction-row'
+                                'Class="transaction-row main-row'
                             }
 
                             data-transaction="${transactionLower}"
@@ -1096,7 +842,7 @@
                             <!-- DETAILS ROW -->
 
                             <tr
-                                class="details-row"
+                                class="details-row child-row"
                                 id="${detailId}"
                                 style="display:none;"
                             >
@@ -1390,7 +1136,38 @@
                 }
 
             });
+            //search feature
+            $('#tableSearch').on('keyup', function () {
 
+                let search = $(this).val().toLowerCase();
+
+                $('.main-row').each(function () {
+
+                    let found = false;
+
+                    $(this).find('td').each(function () {
+
+                        if ($(this).text().toLowerCase().includes(search)) {
+                            found = true;
+                            return false;
+                        }
+
+                    });
+
+                    if (found) {
+                        $(this).show();
+                        // $(this).next('.child-row').show();
+                    } else {
+                        $(this).hide();
+                        $(this).next('.child-row').hide();
+                    }
+                });
+
+            });
+            $('#clearSearch').on('click', function () {
+                $('#tableSearch').val('').trigger('keyup').focus();
+            });
+            //search feature end
         </script>
         <!-- download logic -->
         <script>

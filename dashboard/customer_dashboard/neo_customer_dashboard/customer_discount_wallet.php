@@ -227,7 +227,36 @@
                             </div>
 
                         </div>
+                        <!-- search -->
+                        <div class="card-header bg-white border-0 p-2">
 
+                            <div class="row align-items-center">
+
+                                <div class="col-lg-4">
+                                    <h5 class="mb-1">Discount WalletManagement</h5>
+                                    <small class="text-muted">
+                                        Search and manage discount wallet entries
+                                    </small>
+                                </div>
+
+                                <div class="col-lg-8 text-lg-end mt-3 mt-lg-0">
+
+                                    <div class="discount-wallet-search ms-lg-auto">
+                                        <i class="fa-solid fa-magnifying-glass "></i>
+
+                                        <input type="text" id="tableSearch"
+                                            placeholder="Search anything...">
+
+                                        <span type="button" id="clearSearch">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                         <!-- FILTERS -->
                         <div class="filter-bar">
 
@@ -451,106 +480,7 @@
         <!-- dialer logic -->
 
         <!-- table tabs -->
-        <!-- <script>
-
-            // EXPANDABLE TABLE
-
-            const transactionRows = document.querySelectorAll(".transaction-row");
-
-            transactionRows.forEach(row => {
-
-                row.addEventListener("click", () => {
-
-                    const details = row.nextElementSibling;
-
-                    if(details.style.display === "table-row"){
-                        details.style.display = "none";
-                    }else{
-                        details.style.display = "table-row";
-                    }
-
-                });
-
-            });
-
-            // FILTERS
-
-            const typeFilter = document.getElementById("typeFilter");
-            const statusFilter = document.getElementById("statusFilter");
-
-            function filterTransactions(){
-
-                const rows = document.querySelectorAll(".transaction-row");
-
-                rows.forEach(row => {
-
-                    const type = row.dataset.type;
-                    const status = row.dataset.status;
-
-                    const typeValue = typeFilter.value;
-                    const statusValue = statusFilter.value;
-
-                    const typeMatch =
-                        typeValue === "all" || type === typeValue;
-
-                    const statusMatch =
-                        statusValue === "all" || status === statusValue;
-
-                    if(typeMatch && statusMatch){
-
-                        row.style.display = "";
-
-                        if(row.nextElementSibling.classList.contains("details-row")){
-                            row.nextElementSibling.style.display = "none";
-                        }
-
-                    }else{
-
-                        row.style.display = "none";
-
-                        if(row.nextElementSibling.classList.contains("details-row")){
-                            row.nextElementSibling.style.display = "none";
-                        }
-
-                    }
-
-                });
-
-            }
-
-            typeFilter.addEventListener("change", filterTransactions);
-            statusFilter.addEventListener("change", filterTransactions);
-
-            // DOWNLOAD BUTTON
-
-            document.querySelector(".download-btn")
-            .addEventListener("click", () => {
-
-                alert("Statement Download Started!");
-
-            });
-
-            // MEMBERSHIP BUTTON
-
-            document.querySelector(".membership button")
-            .addEventListener("click", () => {
-
-                alert("Redirecting to Membership Details");
-
-            });
-
-            // INFO BUTTON
-
-            document.querySelector(".info-btn")
-            .addEventListener("click", () => {
-
-                alert(
-                    "Discount Wallet allows you to earn and use discounts on eligible travel bookings."
-                );
-
-            });
-
-        </script> -->
+        
         <script>
 
             $.ajax({
@@ -632,7 +562,7 @@
 
                             html += `
 
-                                <tr class="transaction-row"
+                                <tr class="transaction-row main-row"
                                     data-type="${item.type}"
                                     data-status="${item.status}">
 
@@ -710,7 +640,7 @@
 
                                 </tr>
 
-                                <tr class="details-row">
+                                <tr class="details-row child-row">
 
                                     <td colspan="8">
 
@@ -824,7 +754,7 @@
 
                         html = `
 
-                            <tr>
+                            <tr class="main-row">
 
                                 <td colspan="7"
                                     class="text-center py-5 fw-bold text-muted">
@@ -907,7 +837,38 @@
                     $(".details-row").hide();
                 }
             });
+            //search feature
+            $('#tableSearch').on('keyup', function () {
 
+                let search = $(this).val().toLowerCase();
+
+                $('.main-row').each(function () {
+
+                    let found = false;
+
+                    $(this).find('td').each(function () {
+
+                        if ($(this).text().toLowerCase().includes(search)) {
+                            found = true;
+                            return false;
+                        }
+
+                    });
+
+                    if (found) {
+                        $(this).show();
+                        // $(this).next('.child-row').show();
+                    } else {
+                        $(this).hide();
+                        $(this).next('.child-row').hide();
+                    }
+                });
+
+            });
+            $('#clearSearch').on('click', function () {
+                $('#tableSearch').val('').trigger('keyup').focus();
+            });
+            //search feature end
         </script>
         <!-- download logic -->
         <script>
