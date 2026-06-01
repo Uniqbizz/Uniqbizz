@@ -10,7 +10,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>View Loyalty Coupon Wallet | Admin Dashboard </title>
+        <title>View Referral Wallet Details | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -93,18 +93,6 @@
                 justify-content: center;
                 align-items: center;
             }
-            .loyalty5 {
-                font-size: 20px !important;
-                color: #fb2306;
-                background: #fbdad5;
-                border-radius: 100%;
-                padding: 8px 10px;
-                width: 60px;
-                height: 60px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
             .loyaltyCard1 {
                 background: #f4f2ff;
                 border: 1px solid #c5bdf4;
@@ -121,21 +109,11 @@
                 background: #eef3f9;
                 border: 1px solid #aecaec;
             }
-            .loyaltyCard5 {
-                background: #fff6f4;
-                border: 1px solid #f9d6ce;
-            }
             .profileImage {
                 width:40px !important;
                 height: 40px !important;
                 border-radius: 100% !important;
                 object-fit: fill;
-            }
-            .textOrange {
-                color: #d54a0a;
-            }
-            .textViolet {
-                color: #35239a;
             }
             .linkBtn {
                 background-color: #fff;
@@ -236,14 +214,6 @@
             .loyaltyAmt4 {
                 color: #136bd8;
                 background: #d2e0f1;
-                padding: 5px;
-                display: flex;
-                justify-content: center;
-                border-radius: 8px;
-            }
-            .loyaltyAmt5 {
-                color: #fb2306;
-                background: #fbdad5;
                 padding: 5px;
                 display: flex;
                 justify-content: center;
@@ -403,6 +373,222 @@
                                             <h1 class="fs-6 fw-bolder">Pending Withdrawal</h1>
                                             <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">2,000</span></p>
                                             <p class="fs-6 textColor4 loyaltyAmt4 fw-bolder mb-1">Under Process</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2 d-flex justify-content-between">
+                                            <div class="col-xl-6 col-lg-8 col-md-8 col-sm-9 col-12 d-flex justify-content-between">
+                                                <nav class="customLoyaltyNavbar mt-2 mb-4">
+                                                    <ul class="navMenu d-flex justify-content-evenly flex-wrap gap-2 ps-0 mb-0">
+                                                        <li>
+                                                            <button class="filter-btn active px-3" data-filter="all">
+                                                                All Transaction
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="filter-btn" data-filter="travel">
+                                                                Credit
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="filter-btn" data-filter="bank">
+                                                                Debit
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                            <div class="col-xl-2">
+                                                <div class="text-end">
+                                                    <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
+                                                <h4 class="fw-bolder text-dark">Wallet Transaction</h4>
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Date & Time </th>
+                                                        <th>Transaction Type</th>
+                                                        <th>Description</th>
+                                                        <th>Credit (&#8377;)</th>
+                                                        <th>Debit (&#8377;)</th>
+                                                        <th>Balance (&#8377;)</th>
+                                                        <th>Payment Method / Ref ID</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Referral Income
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Rahul Sharma Joined</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0">REF10001</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Credited
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Booking Wallet Transfer
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Used for Booking #BK1020</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end">2,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0">BK1020</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                Used
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Package Discount
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Used for Package Discount</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">1,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end">500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0">PKD3344</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                Used
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
+                                                                Withdrawal
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Withdrawal to Bank (Txn ID: 4587)</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end text-danger">-500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0">UP14587</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                Apporved
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
