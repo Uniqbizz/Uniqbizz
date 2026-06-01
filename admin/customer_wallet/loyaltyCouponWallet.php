@@ -4,7 +4,8 @@
         echo '<script>location.href = "../login.php";</script>';
     }
     require '../connect.php';
-    $date = date('Y'); 
+    $date = date('Y');
+    include (__DIR__.'/models/lcw_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -273,14 +274,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Loyalty Coupons Issued</h1>
-                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['total_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['total_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -293,14 +291,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">1,550</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['available_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">7,75,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['available_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -313,14 +308,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Locked Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">6,470</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['locked_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">32,35,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['locked_coupon_total']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -333,14 +325,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Used Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">1,980</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['used_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">9,90,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['used_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -353,14 +342,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Expired Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['expired_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['expired_total']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -373,14 +359,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Expiring within 30 days</h1>
-                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['expiring_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['expiring_total']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             
