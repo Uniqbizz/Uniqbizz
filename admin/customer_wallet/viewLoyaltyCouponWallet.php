@@ -607,13 +607,6 @@
         <div id="loading-overlay">
             <div class="loading-icon"></div>
         </div>
-        <!-- Add button icon -->
-        <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
-            <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-            </a>
-        </div>
-        <!-- End button icon -->
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
             <i class="mdi mdi-arrow-up"></i>
