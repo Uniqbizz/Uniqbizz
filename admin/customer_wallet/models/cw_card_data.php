@@ -45,7 +45,6 @@
         FROM customer_reference_wallet_utilization lc
         LEFT JOIN customer_reference_wallet_encashed c
             ON lc.customer_id = c.customer_id
-            AND c.status = 2
         WHERE lc.earned_amount IS NOT NULL;
     ";
 
@@ -60,11 +59,22 @@
             COALESCE(SUM(lc.earn_amount), 0) AS total_amt,
             COALESCE(COUNT(DISTINCT lc.customer_id),0) AS dis_cust_count
         FROM customer_discount_wallet lc
-        WHERE status =1
     ";
 
     $stmtDis = $conn->prepare($sqlDis);
     $stmtDis->execute();
 
     $disWalletData = $stmtDis->fetch(PDO::FETCH_ASSOC);
+    //extended  wallet
+    $sqlEtd = "
+        SELECT 
+            COALESCE(SUM(lc.earn_amount), 0) AS total_amt,
+            COALESCE(COUNT(DISTINCT lc.customer_id),0) AS etd_cust_count
+        FROM customer_extended_wallet lc
+    ";
+
+    $stmtEtd = $conn->prepare($sqlEtd);
+    $stmtEtd->execute();
+
+    $etdWalletData = $stmtEtd->fetch(PDO::FETCH_ASSOC);
 ?>

@@ -234,10 +234,10 @@
                                             </div>
                                             <div class="">
                                                 <h1 class="fontSize1 fw-bolder text-dark">Extended Wallet</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 3,40,000.00</p>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; <?= number_format($etdWalletData['total_amt']) ?></p>
                                             </div>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across 1250 Customers</p>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across <?= number_format($etdWalletData['etd_cust_count']) ?> Customers</p>
                                     </div>
                                 </a>
                             </div>
@@ -769,7 +769,7 @@
                                     </p>
 
                                     <p class="fontSize1 fw-bold mb-0 text-success text-center">
-                                        ₹${Number(data.loyalty_total).toLocaleString()}
+                                        ₹${Number(data.loyalty_coupon_total).toLocaleString()}
                                     </p>
                                 </div>
                             `;
@@ -795,24 +795,30 @@
                     },
 
                     {
-                        data: 'dis_total',
+                        data: null,
                         render: function(data)
                         {
                             return `
                                 <p class="mb-0 fw-bolder fs-6 text-center text-primary">
-                                    ₹${Number(data).toLocaleString()}
+                                    ₹${Number(data.dis_total).toLocaleString()}
+                                </p>
+                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                    ${Number(data.dis_count).toLocaleString()} Entries
                                 </p>
                             `;
                         }
                     },
 
                     {
-                        data: 'ext_total',
+                        data: null,
                         render: function(data)
                         {
                             return `
                                 <p class="mb-0 fw-bolder fs-6 text-center textViolet">
-                                    ₹${0}
+                                    ₹${Number(data.ext_total).toLocaleString()}
+                                </p>
+                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                    ${Number(data.ext_count).toLocaleString()} Entries
                                 </p>
                             `;
                         }

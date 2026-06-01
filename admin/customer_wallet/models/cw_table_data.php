@@ -32,19 +32,20 @@
             c.customer_type,
             c.contact_no,
 
-            COALESCE(cp.coupon_total, 0) AS coupon_total,
-            COALESCE(cp.coupon_count, 0) AS coupon_count,
+            CAST(COALESCE(cp.coupon_total, 0) AS UNSIGNED) AS coupon_total,
+            CAST(COALESCE(cp.coupon_count, 0) AS UNSIGNED) AS coupon_count,
 
-            COALESCE(lp.loyalty_coupon_total, 0) AS loyalty_coupon_total,
-            COALESCE(lp.loyalty_count, 0) AS loyalty_count,
+            CAST(COALESCE(lp.loyalty_coupon_total, 0) AS UNSIGNED) AS loyalty_coupon_total,
+            CAST(COALESCE(lp.loyalty_count, 0) AS UNSIGNED) AS loyalty_count,
 
-            COALESCE(rp.ref_total, 0) AS ref_total,
-            COALESCE(rp.ref_count, 0) AS ref_count,
+            CAST(COALESCE(rp.ref_total, 0) AS UNSIGNED) AS ref_total,
+            CAST(COALESCE(rp.ref_count, 0) AS UNSIGNED) AS ref_count,
 
-            COALESCE(dp.dis_total, 0) AS dis_total,
-            COALESCE(dp.dis_count, 0) AS dis_count,
+            CAST(COALESCE(dp.dis_total, 0) AS UNSIGNED) AS dis_total,
+            CAST(COALESCE(dp.dis_count, 0) AS UNSIGNED) AS dis_count,
 
-            0 AS ext_total,
+            CAST(COALESCE(etd.ext_total, 0) AS UNSIGNED) AS ext_total,
+            CAST(COALESCE(etd.ext_count, 0) AS UNSIGNED) AS ext_count,
 
             c.profile_pic,
             c.register_date,
@@ -87,6 +88,15 @@
             FROM customer_discount_wallet
             GROUP BY customer_id
         ) dp ON dp.customer_id = c.ca_customer_id
+
+        LEFT JOIN (
+            SELECT
+                customer_id,
+                SUM(earn_amount) AS ext_total,
+                COUNT(*) AS ext_count
+            FROM customer_extended_wallet
+            GROUP BY customer_id
+        ) etd ON etd.customer_id = c.ca_customer_id
 
         WHERE ".implode(' AND ', $where)."
 
