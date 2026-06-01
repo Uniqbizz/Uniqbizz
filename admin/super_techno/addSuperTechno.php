@@ -87,6 +87,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 										<h3>Add Super Techo Enterprise</h3>
 										<div class="row">
 											<!-- Personal Details -->
+											<h4>Personal Details</h4>
 											<div class="col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
@@ -124,14 +125,8 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
-													<input class="form-control" type="text" id="nominee_name">
-												</div>
-											</div>
-											<div class="col-md-6 col-sm-6">
-												<div class="input-block mb-3">
-													<label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
-													<input class="form-control" type="text" id="nominee_relation">
+													<label class="col-form-label">Father / Spouse Name <span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="father_spouse_name">
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6">
@@ -188,6 +183,52 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													</div>
 												</div>
 											</div>
+											<div class="col-md-6 col-sm-12 mb-3">
+												<div class="row">
+													<div class="col-md-4 col-sm-4 col-3">
+														<div class="input-block">
+															<?php
+															require '../connect.php';
+															$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+															$stmt->execute();
+															$stmt->setFetchMode(PDO::FETCH_ASSOC);
+															?>
+															<label for="country_cd_alt" class="col-form-label">Code:</label>
+															<select class="form-control" id="country_cd_alt">
+																<?php
+																if ($stmt->rowCount() > 0) {
+																	foreach (($stmt->fetchAll()) as $key => $row) {
+																		echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
+																	}
+																} else {
+																	echo '<option value="">Country not available</option>';
+																}
+																?>
+															</select>
+														</div>
+													</div>
+													<div class="col-md-8 col-sm-8 col-9">
+														<div class="input-block">
+															<label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
+															<input class="form-control" type="number" id="altPhone" placeholder="Enter Alternative Phone Number">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Aadhar No<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="aadharNo">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">PAN No<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="panNo">
+												</div>
+											</div>
+
+											<h3>Residential Address</h3>
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<?php
@@ -238,6 +279,259 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<input type="text" class="form-control" id="address" placeholder="Address">
 												</div>
 											</div>
+
+											<h3>Professional Details</h3>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Current Occupation / Business<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="occupation">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Total Experience<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="experience">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Current Annual Income<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="annual_income">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-12">
+												<div class="form-group">
+													<label class="col-form-label">Have You Managed teams Previously <span class="text-danger">*</span></label>
+													<div class="form-control d-flex justify-content-around">
+														<label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedYes" value="yes">&nbsp;&nbsp;&nbsp;Yes</label>
+														<label class="radio-inline mb-0 ms-3"><input type="radio" name="teamManaged" class="teamManaged" id="teamManagedNo" value="no">&nbsp;&nbsp;&nbsp;No</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">If Yes, Team size<span class="text-danger">*</span></label>
+													<textarea class="form-control" id="teamSize" rows="4" cols="50"> </textarea>
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">
+														Leadership Experience <span class="text-danger">*</span>
+													</label>
+
+													<div class="row mt-2">
+														<!-- Left Column -->
+														<div class="col-md-4">
+															<div class="mb-2">
+																<input type="checkbox" id="lead1" name="leadership[]" value="Sales Leadership">
+																<label for="lead1">Sales Leadership</label>
+															</div>
+
+															<div class="mb-2">
+																<input type="checkbox" id="lead2" name="leadership[]" value="Business Development">
+																<label for="lead2">Business Development</label>
+															</div>
+
+															<div class="mb-2">
+																<input type="checkbox" id="lead3" name="leadership[]" value="Team Management">
+																<label for="lead3">Team Management</label>
+															</div>
+														</div>
+
+														<!-- Right Column -->
+														<div class="col-md-8">
+															<div class="mb-2">
+																<input type="checkbox" id="lead4" name="leadership[]" value="Enterpreneurship">
+																<label for="lead4">Enterpreneurship</label>
+															</div>
+
+															<div class="mb-2">
+																<input type="checkbox" id="lead5" name="leadership[]" value="Corporate Leader">
+																<label for="lead5">Corporate Leader</label>
+															</div>
+
+															<div class="mb-2">
+																<input type="checkbox" id="lead6" name="leadership[]" value="other">
+																<label for="lead6">Other(Please Specify)</label>
+																<input type="text" name="" id="">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<h4 class="my-2">Educational Details</h4>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Educational Qualification<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="qualification">
+												</div>
+											</div>
+
+											<h4 class="my-2">Leadership Assessment</h4>
+											<div class="col-md-4 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Why You want to become a Super Techno Enterprise?<span class="text-danger">*</span></label>
+													<textarea class="form-control" id="qualification" rows="4" cols="50"> </textarea>
+												</div>
+											</div>
+											<div class="col-md-4 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">
+														Expected Team Building Capacity(Within 12 Months) <span class="text-danger">*</span>
+													</label>
+													
+													<div class="row mt-2">
+														<div class="col-md-6">
+															<div class="mb-2">
+																<input type="radio" id="expected1" name="teamExpected" value="5">
+																<label for="expected1">5 Techno Enterprise</label>
+															</div>
+
+															<div class="mb-2">
+																<input type="radio" id="expected2" name="teamExpected" value="10">
+																<label for="expected2">10 Techno Enterprise</label>
+															</div>
+
+															<div class="mb-2">
+																<input type="radio" id="expected3" name="teamExpected" value="15">
+																<label for="expected3">15 Techno Enterprise</label>
+															</div>
+
+														</div>
+
+														<!-- Right Column -->
+														<div class="col-md-6">
+															<div class="mb-2">
+																<input type="radio" id="expected3" name="teamExpected" value="25+">
+																<label for="expected3">25+ Techno Enterprise</label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
+													<select class="form-select" id="branch">
+														<option value=""> ---- Select State ---- </option>
+														<?php
+														require '../connect.php';
+														$sql = "SELECT * FROM `states` WHERE status ='1' ";
+														$stmt = $conn->prepare($sql);
+														$stmt->execute();
+														$stmt->setFetchMode(PDO::FETCH_ASSOC);
+														if ($stmt->rowCount() > 0) {
+															foreach (($stmt->fetchAll()) as $key => $row) {
+																echo '
+																			<option value="' . $row['id'] . '">' . $row['state_name'] . '</option>
+																		';
+															}
+														} else {
+															echo '<option value="">Department not available</option>';
+														}
+														?>
+													</select>
+												</div>
+											</div>
+
+											<h4 class="my-2">Nominee Details</h4>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="nomineeName">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="nomineeRelation">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-12 mb-3">
+												<div class="row">
+													<div class="col-md-4 col-sm-4 col-3">
+														<div class="input-block">
+															<?php
+															require '../connect.php';
+															$stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+															$stmt->execute();
+															$stmt->setFetchMode(PDO::FETCH_ASSOC);
+															?>
+															<label for="countryCdNominee" class="col-form-label">Code:</label>
+															<select class="form-control" id="countryCdNominee">
+																<?php
+																if ($stmt->rowCount() > 0) {
+																	foreach (($stmt->fetchAll()) as $key => $row) {
+																		echo '<option value="' . $row['country_code'] . '">+' . $row['country_code'] . ' (' . $row['sortname'] . ')</option>';
+																	}
+																} else {
+																	echo '<option value="">Country not available</option>';
+																}
+																?>
+															</select>
+														</div>
+													</div>
+													<div class="col-md-8 col-sm-8 col-9">
+														<div class="input-block">
+															<label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
+															<input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
+													<input class="form-control" type="date" id="nomineeDob" max="<?php echo $ageLimit; ?>">
+												</div>
+											</div>
+											<div class="col-md-12 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Nominee Address<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="nomineeAddress">
+												</div>
+											</div>
+
+											<h4 class="my-2">Bank Details</h4>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="accHolderName">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="bankName">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Account Number<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="accountNumber">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Confirm Account Number<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="confirmAccountNumber">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="ifscCode">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
+													<input class="form-control" type="text" id="branchName">
+												</div>
+											</div>
+
 											<!-- <div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
@@ -311,7 +605,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Bank Passbook</label>
+													<label class="col-form-label">Cancelled Cheque / Bank Passbook</label>
 													<input class="form-control" type="file" name="file4" id="upload_file4">
 												</div>
 												<input type="hidden" id="img_path4" value="">
@@ -323,7 +617,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Voting Card</label>
+													<label class="col-form-label">Resume / CV</label>
 													<input class="form-control" type="file" name="file5" id="upload_file5">
 												</div>
 												<input type="hidden" id="img_path5" value="">
@@ -333,6 +627,43 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													</div>
 												</div>
 											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Address Proof</label>
+													<input class="form-control" type="file" name="file6" id="upload_file6">
+												</div>
+												<input type="hidden" id="img_path6" value="">
+												<div id="preview6" style="display: none;">
+													<div id="image_preview6">
+														<img alt="Preview" class="imgSize" id="img_pre6">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Other Document</label>
+													<input class="form-control" type="file" name="file7" id="upload_file7">
+												</div>
+												<input type="hidden" id="img_path7" value="">
+												<div id="preview7" style="display: none;">
+													<div id="image_preview7">
+														<img alt="Preview" class="imgSize" id="img_pre7">
+													</div>
+												</div>
+											</div>
+
+											<!-- <div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Voting Card</label>
+													<input class="form-control" type="file" name="file5" id="upload_file5">
+												</div>
+												<input type="hidden" id="img_path5" value="">
+												<div id="preview5" style="display: none;">
+													<div id="image_preview5">
+														<img alt="Preview" class="imgSize" id="img_pre5">
+													</div>
+												</div>
+											</div> -->
 
 											<div class="col-md-12 col-sm-12">
 												<div class="input-block mb-3">
@@ -342,7 +673,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											
 										</div>
-										<input type="hidden" id="testValue" name="testValue" value="36"> <!-- Business mentor -->
+										<input type="hidden" id="testValue" name="testValue" value="35"> <!-- Super TE -->
 										<div class="d-flex justify-content-center mb-4">
 											<button type="submit" class="btn btn-primary px-5 py-2" id="addSuperTechnoEnterprise">Submit</button>
 										</div>
