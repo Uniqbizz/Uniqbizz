@@ -299,6 +299,7 @@ body {
 }
 .profileImage {
     width: 80px !important;
+    height: 80px !important;
     border-radius: 100%;
 }
 .linkBtn {

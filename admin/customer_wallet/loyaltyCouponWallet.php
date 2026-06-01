@@ -248,6 +248,14 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid">
+                        <div class="d-inline-block" onclick="history.back()" style="cursor:pointer;">
+                            <div class="viewBtn rounded-2 py-2">
+                                <p class="text-muted mb-0 fw-bolder">
+                                    <i class="fa-solid fa-arrow-left me-2 fw-bolder"></i>
+                                    Back to Customer Wallet Management
+                                </p>
+                            </div>
+                        </div>
                         <div class="">
                             <h2 class="fw-bolder text-dark">Loyalty Coupon Wallet</h2>
                             <p class="fs-6 text-muted">
@@ -270,9 +278,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -290,9 +298,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">7,75,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -310,9 +318,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">32,35,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -330,9 +338,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">9,90,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -350,9 +358,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -370,9 +378,9 @@
                                             <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
+                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
                                         <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             
@@ -471,9 +479,11 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                View
-                                                            </div>
+                                                            <a href="viewLoyaltyCouponWallet.php" class="">
+                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                    View
+                                                                </div>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                     <tr>
