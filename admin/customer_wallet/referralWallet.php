@@ -233,35 +233,8 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between d-none">
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Wallet Type</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Status</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <a href="#">
-                                                    <div class="linkBtn gap-2 align-items-center">
-                                                        <i class="fa-solid fa-download"></i>
-                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Export</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
                                         <div class="table-responsive">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
-                                                <h4 class="fw-bolder text-dark">Customers Enrolled for Coupons <span class="">(820)</span></h4>
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th>Customer</th>
