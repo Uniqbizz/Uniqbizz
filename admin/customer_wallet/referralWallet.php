@@ -37,12 +37,6 @@
             .fontSize1 {
                 font-size: 12px;
             }
-            .fontSize2 {
-                font-size: 10px;
-            }
-            .fontSize3 {
-                font-size: 8px;
-            }
             .walletIcon1 {
                 font-size: 20px !important;
                 color: #fff;
@@ -103,15 +97,6 @@
                 height: 40px !important;
                 border-radius: 100% !important;
                 object-fit: fill;
-            }
-            .memberShipType {
-                width: 90px;
-            }
-            .textOrange {
-                color: #d54a0a;
-            }
-            .textViolet {
-                color: #35239a;
             }
             .linkBtn {
                 background-color: #fff;
@@ -244,7 +229,169 @@
                                 </div>
                             </div>
                         </div>
-                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row mb-2 d-flex justify-content-end">
+                                            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between d-none">
+                                                <div>
+                                                    <select class="form-select mb-3" aria-label="Large select example">
+                                                        <option selected>Wallet Type</option>
+                                                        <option value="1">All</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <select class="form-select mb-3" aria-label="Large select example">
+                                                        <option selected>Status</option>
+                                                        <option value="1">All</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                </div>
+                                                <a href="#">
+                                                    <div class="linkBtn gap-2 align-items-center">
+                                                        <i class="fa-solid fa-download"></i>
+                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Export</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
+                                                <h4 class="fw-bolder text-dark">Customers Enrolled for Coupons <span class="">(820)</span></h4>
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Customer</th>
+                                                        <th>Membership</th>
+                                                        <th>Total Earned</th>
+                                                        <th>Available Balance</th>
+                                                        <th>Used Balance</th>
+                                                        <th>Pending Withdrawal</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex gap-2 align-items-center mb-2">
+                                                                <div class="">
+                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
+                                                                </div>
+                                                                <div class="">
+                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
+                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Neo Select
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;12,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;4,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;8,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;2,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="">
+                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                    View
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex gap-2 align-items-center mb-2">
+                                                                <div class="">
+                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
+                                                                </div>
+                                                                <div class="">
+                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
+                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                Neo Select Plus
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;12,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;4,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;8,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;2,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="">
+                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                    View
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex gap-2 align-items-center mb-2">
+                                                                <div class="">
+                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
+                                                                </div>
+                                                                <div class="">
+                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
+                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
+                                                                Neo Premium
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;12,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;4,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;8,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bolder fs-6 text-center">&#8377;2,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="">
+                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                                    View
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div> <!-- End Page-content -->
 
