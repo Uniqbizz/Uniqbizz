@@ -483,7 +483,7 @@
                                                             <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-bold text-center">+2</p>
+                                                            <p class="mb-0 fw-bold text-center">2</p>
                                                         </td>
                                                         <td>
                                                             <p class="fontSize1 fw-bold mb-0">&#8377;1,000</p>
@@ -519,7 +519,7 @@
                                                             <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-bold text-center text-warning">+2</p>
+                                                            <p class="mb-0 fw-bold text-center text-warning">2</p>
                                                         </td>
                                                         <td>
                                                             <p class="fontSize1 fw-bold mb-0 fw-bold">&#8377;1,000</p>
@@ -555,7 +555,7 @@
                                                             <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
                                                         </td>
                                                         <td>
-                                                            <p class="mb-0 fw-bold text-center text-danger">+2</p>
+                                                            <p class="mb-0 fw-bold text-center text-danger">2</p>
                                                         </td>
                                                         <td>
                                                             <p class="fontSize1 fw-bold mb-0 fw-bold">&#8377;1,000</p>
