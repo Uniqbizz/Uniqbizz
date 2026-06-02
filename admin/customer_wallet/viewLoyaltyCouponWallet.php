@@ -271,6 +271,15 @@
             .navMenu {
                 list-style: none;
             }
+            @media (max-width: 540px) {
+                .loyaltyDetails {
+                    display: block !important;
+                    margin-bottom: 10px;
+                }
+                .loyaltyDetails .linkBtn {
+                    width: 200px;
+                }
+            }
         </style>
     </head>
     <body data-sidebar="dark">
@@ -298,7 +307,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
+                        <div class="d-flex justify-content-between mb-3 loyaltyDetails">
                             <h2 class="fw-bolder text-dark">Customer Loyalty Details</h2>
                             <a href="#">
                                 <div class="linkBtn gap-2 align-items-center">
