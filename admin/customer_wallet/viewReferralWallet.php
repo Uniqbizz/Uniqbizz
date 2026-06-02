@@ -241,6 +241,15 @@
             .navMenu {
                 list-style: none;
             }
+            @media (max-width: 540px) {
+                .referralDetails {
+                    display: block !important;
+                    margin-bottom: 10px;
+                }
+                .referralDetails .linkBtn {
+                    width: 200px;
+                }
+            }
         </style>
     </head>
     <body data-sidebar="dark">
@@ -268,7 +277,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mb-3">
+                        <div class="d-flex justify-content-between mb-3 referralDetails">
                             <h2 class="fw-bolder text-dark">Referral Wallet Details</h2>
                             <a href="#">
                                 <div class="linkBtn gap-2 align-items-center">

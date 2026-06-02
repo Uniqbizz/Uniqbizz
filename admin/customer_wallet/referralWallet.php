@@ -116,6 +116,12 @@
                 display: flex;
                 justify-content: center;
             }
+            @media (max-width: 770px) {
+                .referralWallet {
+                    display: block !important;
+                    margin-bottom: 10px;
+                }
+            }
         </style>
     </head>
     <body data-sidebar="dark">
@@ -143,7 +149,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between referralWallet">
                             <div>
                                 <h2 class="fw-bolder text-dark">Referral Wallet</h2>
                                 <p class="fs-6 text-muted">
