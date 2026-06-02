@@ -665,13 +665,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												</div>
 											</div> -->
 
-											<div class="col-md-12 col-sm-12">
-												<div class="input-block mb-3">
-													<label class="col-form-label" for="flex_amount">Extra Notes<span class="text-danger">*</span></label>
-													<input type="text" class="form-control" id="note" placeholder="Enter Note">
-												</div>
-											</div>
-											
 										</div>
 										<input type="hidden" id="testValue" name="testValue" value="35"> <!-- Super TE -->
 										<div class="d-flex justify-content-center mb-4">
@@ -711,7 +704,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<script src="../assets/libs/node-waves/waves.min.js"></script>
 
 	<!-- add data to database js file -->
-	<script type="text/javascript" src="../assets/js/submitdata.js"></script>
+	<script type="text/javascript" src="super_techno_enterprise.js"></script>
 
 	<!-- App js -->
 	<script src="../assets/js/app.js"></script>

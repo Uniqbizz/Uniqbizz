@@ -16,24 +16,8 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     
-    // Input values
-    // $customer_id        = (string)($mydata['cuID'] ?? '');
-    // $fullname           = (string)($mydata['name'] ?? '');
-    // $travel_agenct_id   = (string)($mydata['userID'] ?? '');
-    // $packageID          = (string)($mydata['packageID'] ?? '');
-    // $no_of_adult        = (string)($mydata['no_of_adult'] ?? '0');
-    // $no_of_child        = (string)($mydata['no_of_child'] ?? '0');
-    // $start_date         = (string)($mydata['tour_start_date'] ?? '');
-    // $total_passenger    = (string)((int)($mydata['no_of_adult'] ?? 0) + (int)($mydata['no_of_child'] ?? 0));
-    // $payment_id         = (string)($mydata['payment_id'] ?? '');
-    // $pay_type           = (string)($mydata['pay_type'] ?? '');
-    // $gst_total          = (string)($mydata['total_price'] ?? '0');
-    // $amount             = (string)($mydata['paid_amount'] ?? '0');
-    // $ta_markup          = (string)($mydata['ta_markup'] ?? '0');
     $invoice_no         = (string)($mydata['invoice_no'] ?? '');
     $booking_id         = (string)($mydata['booking_id'] ?? '');
-    // $phone              = (string)($mydata['phone'] ?? '');
-    // $email              = (string)($mydata['email'] ?? '');
     
     // Validate
     if (!$invoice_no || !$booking_id) {
@@ -43,66 +27,6 @@
         ]);
         exit;
     }
-    
-    // Convert amount
-    // $amount = (float)$amount;
-    
-    // Generate Order ID
-    // $order_id = "ORD_" . time() . "_" . rand(1000, 9999);
-    
-    // Insert into DB
-    // try {
-    //     $stmt = $conn->prepare("
-    //         INSERT INTO pg_bookings (
-    //             order_id,
-    //             booking_id,
-    //             invoice_no,
-    //             pay_type,
-    //             package_id,
-    //             travel_consultant_id,
-    //             customer_id,
-    //             name,
-    //             email,
-    //             phone,
-    //             amount,
-    //             status
-    //         ) VALUES (
-    //             :order_id,
-    //             :booking_id,
-    //             :invoice_no,
-    //             :pay_type,
-    //             :package_id,
-    //             :travel_consultant_id,
-    //             :customer_id,
-    //             :name,
-    //             :email,
-    //             :phone,
-    //             :amount,
-    //             'PENDING'
-    //         )
-    //     ");
-    
-    //     $stmt->execute([
-    //         ':order_id' => $order_id,
-    //         ':booking_id' => $booking_id,
-    //         ':invoice_no' => $invoice_no,
-    //         ':pay_type' => $pay_type,
-    //         ':package_id' => $packageID,
-    //         ':travel_consultant_id' => $travel_agenct_id,
-    //         ':customer_id' => $customer_id,
-    //         ':name' => $fullname,
-    //         ':email' => $email,
-    //         ':phone' => $phone,
-    //         ':amount' => $amount
-    //     ]);
-    
-    // } catch (PDOException $e) {
-    //     echo json_encode([
-    //         "status" => "error",
-    //         "message" => "Database error while creating booking"
-    //     ]);
-    //     exit;
-    // }
 
     $stmt = $conn -> prepare("SELECT * FROM pg_bookings WHERE bookings_id = :bookings_id ");
     $stmt -> execute([':bookings_id' => $booking_id]);
