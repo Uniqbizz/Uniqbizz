@@ -52,7 +52,7 @@
             c.ca_customer_id,
             c.customer_type,
             c.contact_no,
-            c.profile_pic
+            c.profile_pic,
 
             CAST(COALESCE(cp.coupon_total, 0) AS UNSIGNED) AS coupon_total,
             CAST(COALESCE(cp.coupon_count, 0) AS UNSIGNED) AS coupon_count,
