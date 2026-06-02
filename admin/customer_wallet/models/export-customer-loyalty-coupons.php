@@ -11,12 +11,37 @@
     $params = [];
 
     $status = $_GET['status'] ?? '';
-    $month  = $_GET['month'] ?? '';
 
-    if (!empty($month))
-    {
-        $conditions[] = "DATE_FORMAT(c.register_date,'%Y-%m') = :month";
-        $params[':month'] = $month;
+    if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
+        $fromDateObj = DateTime::createFromFormat('Y-m-d', $_GET['start_date']);
+        $toDateObj   = DateTime::createFromFormat('Y-m-d', $_GET['end_date']);
+
+        //changed on 28-05-2026 by SV
+        if ($fromDateObj && $toDateObj) {
+
+            // Same date
+            if ($fromDateObj->format('Y-m-d') == $toDateObj->format('Y-m-d')) {
+
+                $conditions[] = "register_date >= :from_start
+                                AND register_date < :from_end";
+
+                $params[':from_start'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+
+                $nextDay = clone $fromDateObj;
+                $nextDay->modify('+1 day');
+
+                $params[':from_end'] = $nextDay->format('Y-m-d') . ' 00:00:00';
+
+            }
+            // Different dates
+            else {
+
+                $conditions[] = "register_date BETWEEN :from AND :to";
+
+                $params[':from'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+                $params[':to']   = $toDateObj->format('Y-m-d') . ' 23:59:59';
+            }
+        }
     }
 
     $sql = "

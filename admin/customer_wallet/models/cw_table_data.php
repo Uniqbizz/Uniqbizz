@@ -17,18 +17,17 @@
     }
 
     /* Date Filter */
-    if (!empty($start_date) && !empty($end_date )) {
+    if (!empty($start_date) && !empty($end_date))
+    {
         $fromDateObj = DateTime::createFromFormat('Y-m-d', $start_date);
-        $toDateObj   = DateTime::createFromFormat('Y-m-d', $end_date );
+        $toDateObj   = DateTime::createFromFormat('Y-m-d', $end_date);
 
-        //changed on 28-05-2026 by SV
-        if ($fromDateObj && $toDateObj) {
-
-            // Same date
-            if ($fromDateObj->format('Y-m-d') == $toDateObj->format('Y-m-d')) {
-
-                $conditions[] = "register_date >= :from_start
-                                AND register_date < :from_end";
+        if ($fromDateObj && $toDateObj)
+        {
+            if ($fromDateObj->format('Y-m-d') == $toDateObj->format('Y-m-d'))
+            {
+                $where[] = "c.register_date >= :from_start
+                            AND c.register_date < :from_end";
 
                 $params[':from_start'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
 
@@ -36,12 +35,10 @@
                 $nextDay->modify('+1 day');
 
                 $params[':from_end'] = $nextDay->format('Y-m-d') . ' 00:00:00';
-
             }
-            // Different dates
-            else {
-
-                $conditions[] = "register_date BETWEEN :from AND :to";
+            else
+            {
+                $where[] = "c.register_date BETWEEN :from AND :to";
 
                 $params[':from'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
                 $params[':to']   = $toDateObj->format('Y-m-d') . ' 23:59:59';
@@ -55,6 +52,7 @@
             c.ca_customer_id,
             c.customer_type,
             c.contact_no,
+            c.profile_pic
 
             CAST(COALESCE(cp.coupon_total, 0) AS UNSIGNED) AS coupon_total,
             CAST(COALESCE(cp.coupon_count, 0) AS UNSIGNED) AS coupon_count,
@@ -123,6 +121,15 @@
         ) etd ON etd.customer_id = c.ca_customer_id
 
         WHERE ".implode(' AND ', $where)."
+        GROUP BY
+            c.ca_customer_id,
+            c.firstname,
+            c.lastname,
+            c.customer_type,
+            c.contact_no,
+            c.profile_pic,
+            c.register_date,
+            c.status
 
         ORDER BY c.id DESC
     ";

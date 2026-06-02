@@ -5,6 +5,7 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/lcw_view_cards_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,6 +36,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- remix icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 02-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 02-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -271,6 +275,13 @@
             .navMenu {
                 list-style: none;
             }
+            /* added on 02-06-2026 by SV */
+            .text-break{
+                white-space: normal;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            /* added on 02-06-2026 by SV END */
             @media (max-width: 540px) {
                 .loyaltyDetails {
                     display: block !important;
@@ -324,10 +335,10 @@
                                         <p class="p-1 rounded-pill fw-bolder text-center statusBtn"><i class="fa-solid fa-circle me-1"></i>Active</p>
                                     </div>
                                     <div class="cardLoyaltyDetails">
-                                        <h4 class="fw-bolder text-dark ">Pratiksha Gawas <i class="ri-verified-badge-fill"></i></h4>
-                                        <p class="fw-bold textColor mb-2">CUST10001</p>
-                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>9876543210</p>
-                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i>pratiksha@gmail.com</p>
+                                        <h4 class="fw-bolder text-dark "><?= $viewCustLoyaltyCoupondata['cust_name'] ?> <i class="ri-verified-badge-fill"></i></h4>
+                                        <p class="fw-bold textColor mb-2"><?= $viewCustLoyaltyCoupondata['ca_customer_id'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>+<?= $viewCustLoyaltyCoupondata['country_code'].$viewCustLoyaltyCoupondata['contact_no'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i><?= $viewCustLoyaltyCoupondata['email'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -336,7 +347,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Membership</p>
-                                        <p class="fw-bold textColor1 mb-2">Neo Select</p>
+                                        <p class="fw-bold textColor1 mb-2"><?= $viewCustLoyaltyCoupondata['customer_type'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -345,7 +356,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Joined On</p>
-                                        <p class="fw-bold text-dark mb-2">15 Jan 2025</p>
+                                        <p class="fw-bold text-dark mb-2"><?= date('d M, Y', strtotime($viewCustLoyaltyCoupondata['register_date'])) ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -354,7 +365,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Total Trips</p>
-                                        <p class="fw-bold text-dark mb-2">5 Trips</p>
+                                        <p class="fw-bold text-dark mb-2"><?=number_format($viewCustLoyaltyCoupondata['total_trips']) ?> Trips</p>
                                     </div>
                                 </div>
                             </div>
@@ -368,8 +379,8 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Earned Coupon</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">8</p>
-                                            <p class="fs-6 textColor2 loyaltyAmt2 fw-bolder"> &#8377;<span class="">4,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"><?= number_format($viewCustLoyaltyCoupondata['total_coupons']) ?></p>
+                                            <p class="fs-6 textColor2 loyaltyAmt2 fw-bolder"> &#8377;<span class=""><?= number_format($viewCustLoyaltyCoupondata['total_amt']) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -382,8 +393,8 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Coupon</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">2</p>
-                                            <p class="fs-6 textColor1 loyaltyAmt1 fw-bolder"> &#8377;<span class="">1,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"><?= number_format($viewCustLoyaltyCoupondata['available_coupons']) ?></p>
+                                            <p class="fs-6 textColor1 loyaltyAmt1 fw-bolder"> &#8377;<span class=""><?= number_format($viewCustLoyaltyCoupondata['available_amt']) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -396,8 +407,8 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Used Coupon</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">2</p>
-                                            <p class="fs-6 textColor3 loyaltyAmt3 fw-bolder"> &#8377;<span class="">1,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"><?= number_format($viewCustLoyaltyCoupondata['used_coupons']) ?></p>
+                                            <p class="fs-6 textColor3 loyaltyAmt3 fw-bolder"> &#8377;<span class=""><?= number_format($viewCustLoyaltyCoupondata['used_amt']) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -410,8 +421,8 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Locked Coupon</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">3</p>
-                                            <p class="fs-6 textColor4 loyaltyAmt4 fw-bolder"> &#8377;<span class="">1,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"><?= number_format($viewCustLoyaltyCoupondata['locked_coupons']) ?></p>
+                                            <p class="fs-6 textColor4 loyaltyAmt4 fw-bolder"> &#8377;<span class=""><?= number_format($viewCustLoyaltyCoupondata['locked_coupon_total']) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -424,8 +435,8 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Deleted / Expired</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">1</p>
-                                            <p class="fs-6 textColor5 loyaltyAmt5 fw-bolder"> &#8377;<span class="">500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"><?= number_format($viewCustLoyaltyCoupondata['expired_coupons']) ?></p>
+                                            <p class="fs-6 textColor5 loyaltyAmt5 fw-bolder"> &#8377;<span class=""><?= number_format($viewCustLoyaltyCoupondata['expired_total']) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -444,32 +455,42 @@
                                                                 All Transaction
                                                             </button>
                                                         </li>
+
                                                         <li>
-                                                            <button class="filter-btn" data-filter="travel">
+                                                            <button class="filter-btn" data-filter="available">
                                                                 Earned
                                                             </button>
                                                         </li>
+
                                                         <li>
-                                                            <button class="filter-btn" data-filter="bank">
+                                                            <button class="filter-btn" data-filter="used">
                                                                 Used
                                                             </button>
                                                         </li>
+
                                                         <li>
-                                                            <button class="filter-btn" data-filter="seminar">
+                                                            <button class="filter-btn" data-filter="locked">
                                                                 Locked
                                                             </button>
                                                         </li>
+
                                                         <li>
-                                                            <button class="filter-btn" data-filter="engagement">
+                                                            <button class="filter-btn" data-filter="expired">
                                                                 Deleted
                                                             </button>
                                                         </li>
                                                     </ul>
                                                 </nav>
                                             </div>
-                                            <div class="col-xl-2">
-                                                <div class="text-end">
-                                                    <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
+                                            <!-- Date Range -->
+                                            <div class="col-12 col-md-6 col-lg-5">
+                                                <div id="reportrange"
+                                                    class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                    style="border-radius:6px; cursor:pointer;">
+                                                    <i class="fa fa-calendar"></i>
+                                                    &nbsp;
+                                                    <span id="selectedDate"></span>
+                                                    <i class="fa-solid fa-angle-down"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -644,6 +665,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -663,17 +689,485 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-            });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
+            const CUSTOMER_ID = <?= json_encode($_POST['customer_id']) ?>;
+            window.statusFilter = 'all';
+            $(document).on('click', '.filter-btn', function () {
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+
+                window.statusFilter = $(this).data('filter');
+                window.startDate = startDate;
+                window.endDate = endDate;
+
+                $('#pendingCustomerList-table').DataTable().ajax.reload();
+            });
+            //date range filter
+            $(function () {
+
+                let start = moment('2020-01-01');
+                let end = moment();
+
+                window.startDate = start.format('YYYY-MM-DD');
+                window.endDate = end.format('YYYY-MM-DD');
+
+                function cb(start, end)
+                {
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+
+                    if ($.fn.DataTable.isDataTable('#pendingCustomerList-table'))
+                    {
+                        $('#pendingCustomerList-table').DataTable().ajax.reload();
+                    }
+                }
+
+                $('#reportrange').daterangepicker({
+
+                    startDate: start,
+                    endDate: end,
+
+                    showDropdowns: true,
+                    opens: 'left',
+
+                    ranges: {
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+
+                }, cb);
+
+                cb(start, end);
+
+            });
+            $('#reportrange').on('change', function () {
+                window.startDate = startDate;
+                window.endDate = endDate;
+                window.statusFilter;
+                table.ajax.reload();
+            });
+            function format(row)
+            {
+                let passengerRows = '';
+
+                if(row.travellers && row.travellers.length)
+                {
+                    row.travellers.forEach(function(p){
+
+                        passengerRows += `
+                            <tr>
+                                <td>${p.name}</td>
+                                <td>${p.age}</td>
+                                <td>${p.gender}</td>
+                            </tr>
+                        `;
+                    });
+                }
+                else
+                {
+                    passengerRows = `
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                No Passenger Found
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                let couponRows = '';
+
+                if(row.coupons && row.coupons.length)
+                {
+                    row.coupons.forEach(function(c){
+
+                        couponRows += `
+                            <tr>
+                                <td>${c.code}</td>
+                                <td>₹${Number(c.coupon_amt).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                }
+                else
+                {
+                    couponRows = `
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                No Coupons Found
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                let statusClass = 'secondary';
+
+                if(row.coupon_status === 'Available')
+                {
+                    statusClass = 'success';
+                }
+                else if(row.coupon_status === 'Locked')
+                {
+                    statusClass = 'danger';
+                }
+                else if(row.coupon_status === 'Expired')
+                {
+                    statusClass = 'warning';
+                }
+
+                return `
+                    <div class="p-3 bg-light">
+
+                        <div class="row g-4">
+
+                            <!-- Trip Details -->
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+
+                                <div class="card border-0 shadow-sm h-100 rounded-4">
+
+                                    <div class="card-body">
+
+                                        <h5 class="mb-4">
+                                            <i class="fa-solid fa-suitcase me-2"></i>
+                                            Trip Details
+                                        </h5>
+
+                                        <p class="mb-3">
+                                            <strong>Tour Name:</strong>
+                                            ${row.package_name ?? '-'}
+                                        </p>
+
+                                        <p class="mb-3 text-break">
+                                            <strong>Destination:</strong>
+                                            ${row.destination ?? '-'}
+                                        </p>
+
+                                        <p class="mb-3">
+                                            <strong>Travel Date:</strong>
+                                            ${row.travel_date ?? '-'}
+                                        </p>
+
+                                        <p class="mb-3">
+                                            <strong>Booking ID:</strong>
+                                            ${row.order_id ?? '-'}
+                                        </p>
+
+                                        <p class="mb-0">
+                                            <strong>Booking Date:</strong>
+                                            ${row.booking_date ?? '-'}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Passenger Details -->
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+
+                                <div class="card border-0 shadow-sm h-100 rounded-4">
+
+                                    <div class="card-body">
+
+                                        <h5 class="mb-4">
+                                            <i class="fa-solid fa-users me-2"></i>
+                                            Passenger Details
+                                        </h5>
+
+                                        <div class="table-responsive">
+
+                                            <table class="table table-bordered align-middle">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Age</th>
+                                                        <th>Gender</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    ${passengerRows}
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Coupon Details -->
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+
+                                <div class="card border-0 shadow-sm h-100 rounded-4">
+
+                                    <div class="card-body">
+
+                                        <h5 class="mb-4">
+                                            <i class="fa-solid fa-ticket me-2"></i>
+                                            Coupon Details
+                                        </h5>
+
+                                        <table class="table table-bordered align-middle">
+
+                                            <thead>
+                                                <tr>
+                                                    <th>Coupon Code</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                ${couponRows}
+                                            </tbody>
+
+                                        </table>
+
+                                        <div class="mt-3">
+
+                                            <table class="table table-sm mb-0">
+
+                                                <tr>
+                                                    <th width="40%">Status</th>
+                                                    <td>
+                                                        <span class="badge bg-${statusClass}">
+                                                            ${row.coupon_status}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Expiry Date</th>
+                                                    <td>${row.expiry_date}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Total Value</th>
+                                                    <td>
+                                                        ₹${Number(row.coupon_total).toLocaleString()}
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+            }
+            $(document).ready(function () {
+                var table = $('#pendingCustomerList-table').DataTable({
+
+                    processing: true,
+                    responsive: true,
+
+                    ajax: {
+                        url: 'models/lcw_view_table_data.php',
+                        type: 'POST',
+                        data: function(d){
+
+                            d.customer_id = CUSTOMER_ID;
+                            d.status = window.statusFilter || 'all';
+                            d.start_date = window.startDate || '';
+                            d.end_date = window.endDate || '';
+
+                        },
+                        dataSrc: 'data'
+                    },
+
+                    columns: [
+
+                        {
+                            data: 'earned_date',
+                            render: function(data){
+
+                                return `
+                                    <p class="mb-0 fw-bold">
+                                        ${data}
+                                    </p>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: 'coupon_count',
+                            render: function(data){
+
+                                return `
+                                    <p class="mb-0 fw-bold text-center">
+                                        ${data}
+                                    </p>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: 'coupon_total',
+                            render: function(data){
+
+                                return `
+                                    <p class="fontSize1 fw-bold mb-0">
+                                        ₹${Number(data).toLocaleString()}
+                                    </p>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(data){
+
+                                return `
+                                    <p class="mb-0 fw-bold">
+                                        ${data.package_name}
+                                        <span>(Booking #${data.order_id})</span>
+                                    </p>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: 'coupon_status',
+                            render: function(data){
+
+                                let cls = 'secondary';
+
+                                if(data === 'Available')
+                                {
+                                    cls = 'success';
+                                }
+                                else if(data === 'Locked')
+                                {
+                                    cls = 'danger';
+                                }
+                                else if(data === 'Expired')
+                                {
+                                    cls = 'warning';
+                                }
+
+                                return `
+                                    <div class="p-1 text-${cls}-emphasis bg-${cls}-subtle border border-${cls}-subtle rounded-3 text-center fw-bolder">
+                                        <i class="fa-solid fa-circle me-1"></i>
+                                        ${data}
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: 'expiry_date',
+                            render: function(data,row,type){
+
+                                return `
+                                    <div>
+                                        <p class="mb-0 fw-bolder fs-6 text-center">
+                                            ${data}
+                                        </p>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            className: 'details-control text-center',
+                            orderable: false,
+                            searchable: false,
+                            data: null,
+                            defaultContent: `
+                                <button class="toggle-btn btn btn-sm btn-light">
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                            `
+                        }
+
+                    ],
+
+                    order: [[0, 'desc']]
+                });
+
+
+                $('#pendingCustomerList-table tbody').on(
+                    'click',
+                    'td.details-control',
+                    function()
+                    {
+                        let tr = $(this).closest('tr');
+                        let row = table.row(tr);
+
+                        let icon = $(this).find('i');
+
+                        if(row.child.isShown())
+                        {
+                            row.child.hide();
+
+                            tr.removeClass('shown');
+
+                            icon.removeClass('fa-chevron-up')
+                                .addClass('fa-chevron-down');
+                        }
+                        else
+                        {
+                            row.child(format(row.data())).show();
+
+                            tr.addClass('shown');
+
+                            icon.removeClass('fa-chevron-down')
+                                .addClass('fa-chevron-up');
+                        }
+                    }
+                );
+            });
 
         </script>
         <script>

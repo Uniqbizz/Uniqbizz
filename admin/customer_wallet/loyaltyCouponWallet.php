@@ -420,182 +420,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Select
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Eligible / Unlocked
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="viewLoyaltyCouponWallet.php" class="">
-                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                    View
-                                                                </div>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Select Plus
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-center fw-bolder">
-                                                                Locked
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                View
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Premium
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Eligible / Unlocked
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                View
-                                                            </div>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -835,13 +659,18 @@
                             orderable: false,
                             searchable: false,
                             render: function(row){
-                                return `
-                                    <a href="viewLoyaltyCouponWallet.php?id=${row.ca_customer_id}">
-                                        <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                            View
-                                        </div>
-                                    </a>
-                                `;
+                                 return `
+                                        <form action="viewLoyaltyCouponWallet.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="customer_id" value="${row.ca_customer_id}">
+
+                                            <button type="submit"
+                                                    style="border:none;background:none;padding:0;width:100%;">
+                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                    View
+                                                </div>
+                                            </button>
+                                        </form>
+                                    `;
                             }
                         }
                     ]
