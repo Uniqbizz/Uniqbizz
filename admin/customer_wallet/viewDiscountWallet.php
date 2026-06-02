@@ -373,6 +373,165 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
+                                                <div class="d-flex justify-content-between mb-2 discountDetails">
+                                                    <h4 class="fw-bolder text-dark">Wallet Transaction</h4>
+                                                    <div class="text-end">
+                                                        <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
+                                                    </div>
+                                                </div>
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Date & Time </th>
+                                                        <th>Transaction Type</th>
+                                                        <th>Description</th>
+                                                        <th>Credit (&#8377;)</th>
+                                                        <th>Debit (&#8377;)</th>
+                                                        <th>Balance (&#8377;)</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Discount Credit
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Membership Benefit</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Discount Credit
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Membership Benefit</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end">2,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Discount Credit
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Membership Benefit</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">1,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end">500</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
+                                                                Discount Used
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Goa Package(BK1001)</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end text-danger">-500</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div> <!-- End Page-content -->
 
