@@ -321,7 +321,7 @@
                         <div class="d-flex justify-content-between mb-3 loyaltyDetails">
                             <h2 class="fw-bolder text-dark">Customer Loyalty Details</h2>
                             <a href="#">
-                                <div class="linkBtn gap-2 align-items-center">
+                                <div id="exportExcelBtn" class="linkBtn gap-2 align-items-center">
                                     <i class="fa-solid fa-download"></i>
                                     <p class="fs-6 mb-0 fw-bolder pe-1">Export Statement</p>
                                 </div>
@@ -691,6 +691,7 @@
         <script>
             const CUSTOMER_ID = <?= json_encode($_POST['customer_id']) ?>;
             window.statusFilter = 'all';
+            
             $(document).on('click', '.filter-btn', function () {
 
                 $('.filter-btn').removeClass('active');
@@ -1168,7 +1169,81 @@
                     }
                 );
             });
+            //dowload
+            $('#exportExcelBtn').on('click', function () {
 
+                let btn = $(this);
+
+                btn.prop('disabled', true);
+
+                btn.html(`
+                    <span class="spinner-border spinner-border-sm me-1"></span>
+                    Exporting...
+                `);
+
+                $.ajax({
+                    url: 'models/export_lcw_view_table_data.php',
+                    type: 'POST',
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    data: {
+                        customer_id: CUSTOMER_ID,
+                        status: window.statusFilter || 'all',
+                        start_date: window.startDate || '',
+                        end_date: window.endDate || ''
+                    },
+
+                    success: function (blob, status, xhr) {
+
+                        let disposition = xhr.getResponseHeader('Content-Disposition');
+
+                        let filename = 'LoyaltyCouponReport.xlsx';
+
+                        if (disposition && disposition.indexOf('filename=') !== -1) {
+
+                            filename = disposition
+                                .split('filename=')[1]
+                                .replace(/"/g, '');
+                        }
+
+                        let link = document.createElement('a');
+
+                        link.href = window.URL.createObjectURL(blob);
+
+                        link.download = filename;
+
+                        document.body.appendChild(link);
+
+                        link.click();
+
+                        document.body.removeChild(link);
+
+                        window.URL.revokeObjectURL(link.href);
+                    },
+
+                    error: function (xhr) {
+
+                        console.log(xhr.responseText);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Export Failed',
+                            text: 'Unable to generate Excel file.'
+                        });
+                    },
+
+                    complete: function () {
+
+                        btn.prop('disabled', false);
+
+                        btn.html(`
+                            <i class="fa-solid fa-file-excel me-1"></i>
+                            Export Excel
+                        `);
+                    }
+                });
+            });
         </script>
         <script>
             document.querySelectorAll('.filter-btn').forEach(button => {
