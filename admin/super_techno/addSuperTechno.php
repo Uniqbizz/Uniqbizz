@@ -92,7 +92,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												<div class="input-block mb-3">
 													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
 													<select id="designation" class="form-select">
-														<option value="NA">--Select Designation--</option>
+														<option value="">--Select Designation--</option>
 														<option value="executive_techno_enterprise">Executive Techno Enterprise</option>
 													</select>
 												</div>
@@ -101,14 +101,14 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												<div class="input-block mb-3">
 													<label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
 													<select id="user_id_name" class="form-select">
-														<option value="NA">--Select Designation First--</option>
+														<option value="">--Select Designation First--</option>
 													</select>
 												</div>
 											</div>
 											<div class="col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
-													<input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
+													<input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="" readonly>
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6">
@@ -354,9 +354,10 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 															<div class="mb-2">
 																<input type="checkbox" id="lead6" name="leadership[]" value="other">
 																<label for="lead6">Other(Please Specify)</label>
-																<input type="text" name="" id="">
+																<input type="text" name="other_leadership" id="otherLead" class="form-control mt-2" style="display:none;">
 															</div>
 														</div>
+														<input type="hidden" name="leadership_json" id="leadership_json">
 													</div>
 												</div>
 											</div>
@@ -373,7 +374,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<div class="col-md-4 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Why You want to become a Super Techno Enterprise?<span class="text-danger">*</span></label>
-													<textarea class="form-control" id="qualification" rows="4" cols="50"> </textarea>
+													<textarea class="form-control" id="career_objective" rows="4" cols="50"> </textarea>
 												</div>
 											</div>
 											<div class="col-md-4 col-sm-6">
@@ -385,17 +386,17 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="row mt-2">
 														<div class="col-md-6">
 															<div class="mb-2">
-																<input type="radio" id="expected1" name="teamExpected" value="5">
+																<input type="radio" id="expected1" name="teamExpected" class="teamExpected" value="5">
 																<label for="expected1">5 Techno Enterprise</label>
 															</div>
 
 															<div class="mb-2">
-																<input type="radio" id="expected2" name="teamExpected" value="10">
+																<input type="radio" id="expected2" name="teamExpected" class="teamExpected" value="10">
 																<label for="expected2">10 Techno Enterprise</label>
 															</div>
 
 															<div class="mb-2">
-																<input type="radio" id="expected3" name="teamExpected" value="15">
+																<input type="radio" id="expected3" name="teamExpected" class="teamExpected" value="15">
 																<label for="expected3">15 Techno Enterprise</label>
 															</div>
 
@@ -404,8 +405,8 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 														<!-- Right Column -->
 														<div class="col-md-6">
 															<div class="mb-2">
-																<input type="radio" id="expected3" name="teamExpected" value="25+">
-																<label for="expected3">25+ Techno Enterprise</label>
+																<input type="radio" id="expected4" name="teamExpected" class="teamExpected" value="25+">
+																<label for="expected4">25+ Techno Enterprise</label>
 															</div>
 														</div>
 													</div>
@@ -414,7 +415,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<div class="col-md-4 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Preferred Operating Region <span class="text-danger">*</span></label>
-													<select class="form-select" id="branch">
+													<select class="form-select" id="OperatingState">
 														<option value=""> ---- Select State ---- </option>
 														<?php
 														require '../connect.php';
@@ -532,39 +533,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 												</div>
 											</div>
 
-											<!-- <div class="col-md-6 col-sm-6">
-												<div class="input-block mb-3">
-													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
-													<select class="form-select" id="branch">
-														<option value=""> ---- Select Branch ---- </option>
-														<?php
-														// require '../connect.php';
-														// $sql = "SELECT * FROM `branch` WHERE status ='1' ";
-														// $stmt = $conn->prepare($sql);
-														// $stmt->execute();
-														// $stmt->setFetchMode(PDO::FETCH_ASSOC);
-														// if ($stmt->rowCount() > 0) {
-														// 	foreach (($stmt->fetchAll()) as $key => $row) {
-														// 		echo '
-														// 					<option value="' . $row['id'] . '">' . $row['branch_name'] . '</option>
-														// 				';
-														// 	}
-														// } else {
-														// 	echo '<option value="">Department not available</option>';
-														// }
-														?>
-													</select>
-												</div>
-											</div> -->
-											<!-- <div class="col-md-6 col-sm-6">
-												<div class="input-block mb-3">
-													<label class="col-form-label">Branch <span class="text-danger">*</span></label>
-													<select class="form-select" id="branch">
-														<option value=""> ---- Select Zone First ---- </option>
-													</select>
-												</div>
-											</div> -->
-
+											
 											<!-- Attachments -->
 											<h4 class="my-2">Attachments</h4>
 											<div class="col-md-6 col-sm-6">
@@ -641,7 +610,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Other Document</label>
+													<label class="col-form-label">Professional Profile</label>
 													<input class="form-control" type="file" name="file7" id="upload_file7">
 												</div>
 												<input type="hidden" id="img_path7" value="">
@@ -651,19 +620,42 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													</div>
 												</div>
 											</div>
-
-											<!-- <div class="col-md-6 col-sm-6">
+											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Voting Card</label>
-													<input class="form-control" type="file" name="file5" id="upload_file5">
+													<label class="col-form-label">Business Profile</label>
+													<input class="form-control" type="file" name="file8" id="upload_file8">
 												</div>
-												<input type="hidden" id="img_path5" value="">
-												<div id="preview5" style="display: none;">
-													<div id="image_preview5">
-														<img alt="Preview" class="imgSize" id="img_pre5">
+												<input type="hidden" id="img_path8" value="">
+												<div id="preview8" style="display: none;">
+													<div id="image_preview8">
+														<img alt="Preview" class="imgSize" id="img_pre8">
 													</div>
 												</div>
-											</div> -->
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Income Proof</label>
+													<input class="form-control" type="file" name="file9" id="upload_file9">
+												</div>
+												<input type="hidden" id="img_path9" value="">
+												<div id="preview9" style="display: none;">
+													<div id="image_preview9">
+														<img alt="Preview" class="imgSize" id="img_pre9">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<div class="input-block mb-3">
+													<label class="col-form-label">Other Document</label>
+													<input class="form-control" type="file" name="file10" id="upload_file10">
+												</div>
+												<input type="hidden" id="img_path10" value="">
+												<div id="preview10" style="display: none;">
+													<div id="image_preview10">
+														<img alt="Preview" class="imgSize" id="img_pre10">
+													</div>
+												</div>
+											</div>
 
 										</div>
 										<input type="hidden" id="testValue" name="testValue" value="35"> <!-- Super TE -->
@@ -710,7 +702,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<script src="../assets/js/app.js"></script>
 
 	<!-- file upload code js file -->
-	<script src="../../uploading/upload.js"></script>
+	<script src="../../uploading/uploadTechnoAdmin.js"></script>
 	<script>
 		var mybutton = document.getElementById("back-to-top");
 
@@ -815,6 +807,17 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 				$('#city').html('<option value="">Select state first</option>');
 				$('#pin').val('');
 			}
+		});
+
+		$("#lead6").change(function () {
+
+			if ($(this).is(":checked")) {
+				$("#otherLead").slideDown();
+			} else {
+				$("#otherLead").slideUp();
+				$("#otherLead").val("");
+			}
+
 		});
 
 		// on zone change get branch associated with that zone

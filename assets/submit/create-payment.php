@@ -62,7 +62,7 @@
             "payment_page_client_id" => HDFC_CLIENT_ID,
             "action" => "paymentPage",
             "currency" => "INR",
-            "return_url" => "http://localhost/uniqbizz-main/payment-success.php",
+            "return_url" => "https://ca.uniqbizz.com/payment-success.php",
             "description" => "Tour Booking Payment",
             "first_name" => $fullname,
             "last_name" => "",
