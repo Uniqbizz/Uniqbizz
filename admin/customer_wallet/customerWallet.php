@@ -559,7 +559,7 @@
             function addCustRef(id,fullname,taRef,status){ 
                 window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
             };
-            //added on 30-05 by SV
+            //added on 30-05-2026 by SV
             function membershipBadge(type)
             {
                 const badges = {
@@ -866,7 +866,7 @@
                 window.location.href = url;
 
             });
-            //added on 30-05 by SV END
+            //added on 30-05-2026 by SV END
         </script>
     </body>
 </html>

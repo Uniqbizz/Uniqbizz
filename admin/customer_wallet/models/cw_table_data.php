@@ -17,12 +17,36 @@
     }
 
     /* Date Filter */
-    if(!empty($start_date) && !empty($end_date))
-    {
-        $where[] = "DATE(c.register_date) BETWEEN :start_date AND :end_date";
+    if (!empty($start_date) && !empty($end_date )) {
+        $fromDateObj = DateTime::createFromFormat('Y-m-d', $start_date);
+        $toDateObj   = DateTime::createFromFormat('Y-m-d', $end_date );
 
-        $params[':start_date'] = $start_date;
-        $params[':end_date']   = $end_date;
+        //changed on 28-05-2026 by SV
+        if ($fromDateObj && $toDateObj) {
+
+            // Same date
+            if ($fromDateObj->format('Y-m-d') == $toDateObj->format('Y-m-d')) {
+
+                $conditions[] = "register_date >= :from_start
+                                AND register_date < :from_end";
+
+                $params[':from_start'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+
+                $nextDay = clone $fromDateObj;
+                $nextDay->modify('+1 day');
+
+                $params[':from_end'] = $nextDay->format('Y-m-d') . ' 00:00:00';
+
+            }
+            // Different dates
+            else {
+
+                $conditions[] = "register_date BETWEEN :from AND :to";
+
+                $params[':from'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+                $params[':to']   = $toDateObj->format('Y-m-d') . ' 23:59:59';
+            }
+        }
     }
 
     $sql = "
