@@ -210,7 +210,7 @@
                                 </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="#">
+                                <a href="discountWallet.php">
                                     <div class="rounded-3 px-3 py-2 walletCard4">
                                         <div class="d-flex gap-2">
                                             <div class="walletIcon4">
