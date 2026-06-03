@@ -2,14 +2,14 @@
 
     include (__DIR__.'/../../connect.php');
 
-    $cust_id = $_POST['customer_id'] ?? '';
-    $status      = $_POST['status'] ?? 'all';
-    $start_date  = $_POST['start_date'] ?? '';
-    $end_date    = $_POST['end_date'] ?? '';
+    $cust_id    = $_POST['customer_id'] ?? '';
+    $status     = $_POST['status'] ?? 'all';
+    $start_date = $_POST['start_date'] ?? '';
+    $end_date   = $_POST['end_date'] ?? '';
 
     $statusCondition = '';
 
-    switch(strtolower($status))
+    switch (strtolower($status))
     {
         case 'available':
             $statusCondition = "
@@ -23,20 +23,20 @@
                     AND cc.usage_status = 0
                 )
             ";
-        break;
+            break;
 
         case 'used':
             $statusCondition = "
                 AND lc.usage_status = 1
             ";
-        break;
+            break;
 
         case 'expired':
             $statusCondition = "
                 AND lc.usage_status = 0
                 AND lc.expiry_date < NOW()
             ";
-        break;
+            break;
 
         case 'locked':
             $statusCondition = "
@@ -50,17 +50,60 @@
                     AND cc.usage_status = 0
                 )
             ";
-        break;
+            break;
     }
-    $dateCondition = '';
 
-    if(!empty($start_date) && !empty($end_date))
+    /*
+    |--------------------------------------------------------------------------
+    | Date Filter
+    |--------------------------------------------------------------------------
+    */
+
+    $conditions = [];
+    $params = [];
+
+    if (!empty($start_date) && !empty($end_date))
     {
-        $dateCondition = "
-            AND DATE(lc.created_date)
-            BETWEEN :start_date AND :end_date
-        ";
+        $fromDateObj = new DateTime($start_date);
+        $toDateObj   = new DateTime($end_date);
+
+        if ($fromDateObj->format('Y-m-d') === $toDateObj->format('Y-m-d'))
+        {
+            $conditions[] = "
+                lc.created_date >= :from_start
+                AND lc.created_date < :from_end
+            ";
+
+            $params[':from_start'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+
+            $nextDay = clone $fromDateObj;
+            $nextDay->modify('+1 day');
+
+            $params[':from_end'] = $nextDay->format('Y-m-d') . ' 00:00:00';
+        }
+        else
+        {
+            $conditions[] = "
+                lc.created_date BETWEEN :from AND :to
+            ";
+
+            $params[':from'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+            $params[':to']   = $toDateObj->format('Y-m-d') . ' 23:59:59';
+        }
     }
+
+    $dateCondition = !empty($conditions)
+        ? ' AND ' . implode(' AND ', $conditions)
+        : '';
+
+    $params[':user_id'] = $cust_id;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Query
+    |--------------------------------------------------------------------------
+    */
+
     $sqlViewCustLoyaltyCoupon = $conn->prepare("
         SELECT
             lc.id,
@@ -124,8 +167,8 @@
 
         WHERE lc.confirm_status = 1
         AND lc.user_id = :user_id
-        {$statusCondition}
-        {$dateCondition}
+        $statusCondition
+        $dateCondition
 
         GROUP BY
             lc.id,
@@ -143,17 +186,8 @@
         ORDER BY lc.created_date DESC
     ");
 
-    $params = [
-        ':user_id' => $cust_id
-    ];
-
-    if(!empty($start_date) && !empty($end_date))
-    {
-        $params[':start_date'] = $start_date;
-        $params[':end_date']   = $end_date;
-    }
-
     $sqlViewCustLoyaltyCoupon->execute($params);
+
     $rows = $sqlViewCustLoyaltyCoupon->fetchAll(PDO::FETCH_ASSOC);
 
     $data = [];

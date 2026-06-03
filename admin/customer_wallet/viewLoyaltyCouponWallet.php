@@ -331,7 +331,7 @@
                             <div class="row d-flex justify-content-evenly">
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center gap-4 mb-2">
                                     <div class="d-flex justify-content-center">
-                                        <img src="../assets/images/users/avatar-5.jpg" alt="" class="profileImgLoyalty">
+                                        <img src="../../uploading/<?= $viewCustLoyaltyCoupondata['profile_pic'] ?>" alt="" class="profileImgLoyalty">
                                         <p class="p-1 rounded-pill fw-bolder text-center statusBtn"><i class="fa-solid fa-circle me-1"></i>Active</p>
                                     </div>
                                     <div class="cardLoyaltyDetails">

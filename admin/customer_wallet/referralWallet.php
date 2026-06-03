@@ -5,6 +5,7 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/rw_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +34,9 @@
 
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 02-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 02-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -117,10 +121,32 @@
                 justify-content: center;
             }
             @media (max-width: 770px) {
-                .referralWallet {
+                /* code by NC */
+                /* .referralWallet {
                     display: block !important;
                     margin-bottom: 10px;
+                } */
+                /* end code by NC */
+                /* code by SV */
+                .referralWallet{
+                    flex-direction: column;
+                    gap: 15px;
                 }
+
+                .referralWallet > div:last-child{
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                #reportrange{
+                    width: 100%;
+                }
+
+                .linkBtn{
+                    width: 100%;
+                    justify-content: center;
+                }
+                /* end code by SV */
             }
         </style>
     </head>
@@ -149,7 +175,8 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between referralWallet">
+                        <!-- Date Range -->
+                        <!-- <div class="d-flex justify-content-between referralWallet">
                             <div>
                                 <h2 class="fw-bolder text-dark">Referral Wallet</h2>
                                 <p class="fs-6 text-muted">
@@ -157,8 +184,15 @@
                                 </p>
                             </div>
                             <div class="d-flex gap-3">
-                                <div class="text-end">
-                                    <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
+                                <div class="col-12 col-md-6 col-lg-5">
+                                    <div id="reportrange"
+                                        class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                        style="border-radius:6px; cursor:pointer;">
+                                        <i class="fa fa-calendar"></i>
+                                        &nbsp;
+                                        <span id="selectedDate"></span>
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </div>
                                 </div>
                                 <a href="#">
                                     <div class="linkBtn gap-2 align-items-center">
@@ -167,6 +201,45 @@
                                     </div>
                                 </a>
                             </div>
+                        </div> -->
+                        <!-- /* code by SV */ -->
+                        <div class="d-flex justify-content-between align-items-start flex-wrap referralWallet">
+
+                            <div class="me-2">
+                                <h2 class="fw-bolder text-dark">Referral Wallet</h2>
+                                <p class="fs-6 text-muted">
+                                    Manage customer referral earnings, balances and usage
+                                </p>
+                            </div>
+
+                            <div class="d-flex gap-3 align-items-stretch flex-grow-1 justify-content-end">
+
+                                <!-- Date Range -->
+                                <div class="flex-grow-1" style="max-width:500px;">
+                                    <div id="reportrange"
+                                        class="bg-primary text-white px-3 py-2 d-flex justify-content-between align-items-center h-100"
+                                        style="border-radius:6px; cursor:pointer; min-height:56px;">
+                                        
+                                        <div>
+                                            <i class="fa fa-calendar me-2"></i>
+                                            <span id="selectedDate"></span>
+                                        </div>
+
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </div>
+                                </div>
+                                <!-- Export -->
+                                <a href="#" class="text-decoration-none">
+                                    <div class="linkBtn d-flex align-items-center gap-2 px-4 h-100">
+                                        <i class="fa-solid fa-download"></i>
+                                        <p class="fs-6 mb-0 fw-bolder">Export Statement</p>
+                                    </div>
+                                </a>
+
+
+                            </div>
+                            <!-- /* end code by SV */ -->
+
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -177,7 +250,14 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Referral Wallet Balance</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-1">&#8377;<span class="">12,50,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-1">&#8377;
+                                                <span class="">
+                                                    <?= number_format(
+                                                        ($refWalletData['ref_total_earning'] ?? 0) +
+                                                        ($refWalletCurBalData['ref_booking_total'] ?? 0)
+                                                    ) ?>
+                                                </span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +270,9 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Customers</h1>
-                                            <p class="fs-4 text-dark fw-bolder">8,420</p>
+                                            <p class="fs-4 text-dark fw-bolder">
+                                                    <?= number_format($custCountData['total_cust']) ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -203,7 +285,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Balance</h1>
-                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class="">18,55,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($refWalletCurBalData['total_balance'] ?? 0) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +298,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Used Balance</h1>
-                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class="">18,55,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($refWalletCurBalData['total_used_amount']) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +311,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Pending Withdrawals</h1>
-                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class="">18,55,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($refWalletEncashData['total_earning_pending'] ?? 0) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -420,7 +502,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
         <script>
             var mybutton = document.getElementById("back-to-top");
             function scrollFunction() {
@@ -450,7 +536,213 @@
             function addCustRef(id,fullname,taRef,status){ 
                 window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
             };
+            //date range filter
+            $(function () {
 
+                let firstLoad = true;
+
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let start = urlParams.get('start_date')
+                    ? moment(urlParams.get('start_date'))
+                    : moment('2020-01-01');
+
+                let end = urlParams.get('end_date')
+                    ? moment(urlParams.get('end_date'))
+                    : moment();
+
+                function cb(start, end) {
+
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+
+                    // Prevent redirect on initial load
+                    if (firstLoad) {
+                        firstLoad = false;
+                        return;
+                    }
+
+                    const newUrl =
+                        window.location.pathname +
+                        '?start_date=' + window.startDate +
+                        '&end_date=' + window.endDate;
+
+                    window.location.href = newUrl;
+                }
+
+                $('#reportrange').daterangepicker({
+
+                    startDate: start,
+                    endDate: end,
+
+                    showDropdowns: true,
+                    opens: 'left',
+
+                    ranges: {
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+
+                }, cb);
+
+                cb(start, end);
+
+            });
+            $('#reportrange').on('change', function () {
+
+                const newUrl =
+                    window.location.pathname +
+                    '?start_date=' + window.startDate +
+                    '&end_date=' + window.endDate;
+
+                window.location.href = newUrl;
+
+            });
+            $('#pendingCustomerList-table').DataTable({
+                processing: true,
+                destroy: true,
+                responsive: true,
+
+                ajax: {
+                    url: 'models/rw_table_data.php',
+                    type: 'GET',
+                    data: function(d){
+
+                        const params = new URLSearchParams(window.location.search);
+
+                        d.start_date = params.get('start_date');
+                        d.end_date   = params.get('end_date');
+                    }
+                },
+
+                columns: [
+
+                    {
+                        data: null,
+                        render: function(data){
+                            
+                            let profilePic = data.profile_pic
+                                ? '../../uploading/'+data.profile_pic
+                                : '../assets/images/users/avatar-7.jpg';
+
+                            return `
+                                <div class="d-flex gap-2 align-items-center mb-2">
+                                    <div>
+                                        <img src="${profilePic}" class="profileImage">
+                                    </div>
+                                    <div>
+                                        <p class="mb-0 fw-bolder fontSize1">${data.customer_name}</p>
+                                        <p class="fontSize1 fw-bold mb-0">${data.ca_customer_id}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'customer_type',
+                        render: function(data){
+                            const classes = {
+                                'Premium Select Lite': 'secondary',
+                                'Neo Select': 'success',
+                                'Neo Select Ultra': 'primary',
+                                'Premium': 'warning',
+                                'Premium Plus': 'danger',
+                                'Premium Select': 'info',
+                                'Prime': 'dark'
+                            };
+
+                            const badgeClass = classes[data] || 'secondary';
+                            return `
+                                <div class="p-1 text-${badgeClass}-emphasis bg-${badgeClass}-subtle border border-${badgeClass}-subtle rounded-3 text-center fw-bolder">
+                                    ${data}
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'total_earned',
+                        render: function(data){
+                            return `<p class="mb-0 fw-bolder fs-6 text-center">₹${Number(data).toLocaleString()}</p>`;
+                        }
+                    },
+
+                    {
+                        data: 'available_balance',
+                        render: function(data){
+                            return `<p class="mb-0 fw-bolder fs-6 text-center">₹${Number(data).toLocaleString()}</p>`;
+                        }
+                    },
+
+                    {
+                        data: 'used_balance',
+                        render: function(data){
+                            return `<p class="mb-0 fw-bolder fs-6 text-center">₹${Number(data).toLocaleString()}</p>`;
+                        }
+                    },
+
+                    {
+                        data: 'pending_withdrawal',
+                        render: function(data){
+                            return `<p class="mb-0 fw-bolder fs-6 text-center">₹${Number(data).toLocaleString()}</p>`;
+                        }
+                    },
+
+                    {
+                        data: 'ca_customer_id',
+                        render: function(data){
+                            return `
+                                <form action="viewReferralWallet.php" method="POST" class="m-0">
+                                    <input type="hidden" name="customer_id" value="${data}">
+                                    <button type="submit" class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder w-100">
+                                        View
+                                    </button>
+                                </form>
+                            `;
+                        }
+                    }
+                ]
+            });
         </script>
     </body>
 </html>

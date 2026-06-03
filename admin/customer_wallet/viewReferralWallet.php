@@ -5,6 +5,7 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/rw_view_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,6 +36,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- remix icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 03-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 03-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -241,6 +245,29 @@
             .navMenu {
                 list-style: none;
             }
+            #pendingCustomerList-table {
+                width: 100% !important;
+            }
+
+            /* ONLY truncate specific cells, NOT all */
+            #pendingCustomerList-table td {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            /* Allow first column to stay readable */
+            #pendingCustomerList-table td:nth-child(1),
+            #pendingCustomerList-table td:nth-child(2) {
+                white-space: nowrap;
+            }
+            /* added on 02-06-2026 by SV */
+            .text-break{
+                white-space: normal;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            /* added on 02-06-2026 by SV END */
             @media (max-width: 540px) {
                 .referralDetails {
                     display: block !important;
@@ -279,7 +306,7 @@
                         </div>
                         <div class="d-flex justify-content-between mb-3 referralDetails">
                             <h2 class="fw-bolder text-dark">Referral Wallet Details</h2>
-                            <a href="#">
+                            <a href="#" onclick="downloadWalletSummary()">
                                 <div class="linkBtn gap-2 align-items-center">
                                     <i class="fa-solid fa-download"></i>
                                     <p class="fs-6 mb-0 fw-bolder pe-1">Export Statement</p>
@@ -290,14 +317,14 @@
                             <div class="row d-flex justify-content-evenly">
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center gap-4 mb-2">
                                     <div class="d-flex justify-content-center">
-                                        <img src="../assets/images/users/avatar-5.jpg" alt="" class="profileImgLoyalty">
+                                        <img src="../../uploading/<?= $custData['profile_pic'] ?>" alt="" class="profileImgLoyalty">
                                         <p class="p-1 rounded-pill fw-bolder text-center statusBtn"><i class="fa-solid fa-circle me-1"></i>Active</p>
                                     </div>
                                     <div class="cardLoyaltyDetails">
-                                        <h4 class="fw-bolder text-dark ">Pratiksha Gawas <i class="ri-verified-badge-fill"></i></h4>
-                                        <p class="fw-bold textColor mb-2">CUST10001</p>
-                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>9876543210</p>
-                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i>pratiksha@gmail.com</p>
+                                        <h4 class="fw-bolder text-dark "><?= $custData['cust_name'] ?><i class="ri-verified-badge-fill"></i></h4>
+                                        <p class="fw-bold textColor mb-2"><?= $custData['ca_customer_id'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>+<?= $custData['country_code'].$custData['contact_no'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i><?= $custData['email'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -306,7 +333,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Membership</p>
-                                        <p class="fw-bold textColor1 mb-2">Neo Select</p>
+                                        <p class="fw-bold textColor1 mb-2"><?= $custData['customer_type'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -315,7 +342,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Joined On</p>
-                                        <p class="fw-bold text-dark mb-2">15 Jan 2025</p>
+                                        <p class="fw-bold text-dark mb-2"><?= date('d M Y', strtotime($custData['register_date'])) ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -324,7 +351,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Total Trips</p>
-                                        <p class="fw-bold text-dark mb-2">5 Trips</p>
+                                        <p class="fw-bold text-dark mb-2"><?= number_format($custData['total_trips']) ?> Trips</p>
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +365,14 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Earned</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;<span class="">12,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;
+                                                <span class="">
+                                                    <?= number_format(
+                                                        ($refWalletData['ref_total_earning'] ?? 0) +
+                                                        ($refWalletCurBalData['ref_booking_total'] ?? 0)
+                                                    ) ?>
+                                                </span>
+                                            </p>
                                             <p class="fs-6 textColor1 loyaltyAmt1 fw-bolder mb-1">Lifetime Earnings</p>
                                         </div>
                                     </div>
@@ -352,7 +386,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Balance</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">4,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class=""><?= number_format($refWalletCurBalData['total_balance'] ?? 0) ?></span></p>
                                             <p class="fs-6 textColor2 loyaltyAmt2 fw-bolder mb-1">Ready to Use </p>
                                         </div>
                                     </div>
@@ -366,7 +400,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Used Amount</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">6,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class=""><?= number_format($refWalletCurBalData['total_used_amount']) ?></span></p>
                                             <p class="fs-6 textColor3 loyaltyAmt3 fw-bolder mb-1">Total Utilized</p>
                                         </div>
                                     </div>
@@ -380,7 +414,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Pending Withdrawal</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">2,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class=""><?= number_format($refWalletData['ref_total_earning']) ?></span></p>
                                             <p class="fs-6 textColor4 loyaltyAmt4 fw-bolder mb-1">Under Process</p>
                                         </div>
                                     </div>
@@ -413,9 +447,15 @@
                                                     </ul>
                                                 </nav>
                                             </div>
-                                            <div class="col-xl-2">
-                                                <div class="text-end">
-                                                    <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
+                                            <!-- Date Range -->
+                                            <div class="col-12 col-md-6 col-lg-5">
+                                                <div id="reportrange"
+                                                    class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                    style="border-radius:6px; cursor:pointer;">
+                                                    <i class="fa fa-calendar"></i>
+                                                    &nbsp;
+                                                    <span id="selectedDate"></span>
+                                                    <i class="fa-solid fa-angle-down"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -645,6 +685,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -664,18 +709,496 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-            });
+            const CUSTOMER_ID = <?= json_encode($_POST['customer_id']) ?>;
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
+             $(function () {
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
+                let start = moment('2020-01-01');
+                let end = moment();
 
+                window.startDate = start.format('YYYY-MM-DD');
+                window.endDate = end.format('YYYY-MM-DD');
+
+                function cb(start, end)
+                {
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+
+                    loadWalletTransactions(
+                        window.startDate,
+                        window.endDate,
+                        currentFilter
+                    );
+                }
+
+                $('#reportrange').daterangepicker({
+
+                    startDate: start,
+                    endDate: end,
+
+                    showDropdowns: true,
+                    opens: 'left',
+
+                    ranges: {
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+
+                }, cb);
+
+                cb(start, end);
+
+            });
+            /* =========================
+            UTF-8 SAFE BASE64
+            ========================= */
+            function encodeBase64Unicode(str)
+            {
+                return btoa(unescape(encodeURIComponent(str)));
+            }
+
+            function decodeBase64Unicode(str)
+            {
+                return decodeURIComponent(escape(atob(str)));
+            }
+
+            /* =========================
+            GLOBAL VARIABLE
+            ========================= */
+            let walletTable;
+
+            /* =========================
+            LOAD TRANSACTIONS
+            ========================= */
+            function loadWalletTransactions(startDate = '', endDate = '', filter = 'all')
+            {
+                $.ajax({
+                    url: 'models/rw_view_table_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        customer_id: CUSTOMER_ID,
+                        start_date: startDate,
+                        end_date: endDate
+                    },
+
+                    beforeSend: function ()
+                    {
+                        if ($.fn.DataTable.isDataTable('#pendingCustomerList-table')) {
+                            $('#pendingCustomerList-table').DataTable().destroy();
+                        }
+
+                        $('#pendingCustomerList-table tbody').html(`
+                            <tr>
+                                <td colspan="9" class="text-center py-4">
+                                    Loading...
+                                </td>
+                            </tr>
+                        `);
+                    },
+
+                    success: function (response)
+                    {
+                        let html = '';
+
+                        if (!response.status || !response.data || response.data.length === 0)
+                        {
+                            $('#pendingCustomerList-table tbody').empty();
+
+                            initializeDataTable();
+
+                            return;
+                        }
+
+                        $.each(response.data, function(index, item)
+                        {
+                            let credit = '-';
+                            let debit = '-';
+
+                            const isDebit = item.entry_type === 'Withdrawal Request';
+
+                            if (isDebit) {
+                                debit = item.amount;
+                            } else {
+                                credit = item.amount;
+                            }
+
+                            /* FILTER */
+                            if (filter === 'credit' && isDebit) return true;
+                            if (filter === 'debit' && !isDebit) return true;
+
+                            /* TYPE BADGE */
+                            let typeClass = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+
+                            if (item.entry_type === 'Withdrawal Request') {
+                                typeClass = 'text-warning-emphasis bg-warning-subtle border border-warning-subtle';
+                            }
+
+                            /* STATUS BADGE */
+                            let statusClass = 'text-primary-emphasis bg-primary-subtle border border-primary-subtle';
+
+                            if (item.status === 'Paid' || item.status === 'Success') {
+                                statusClass = 'text-success-emphasis bg-success-subtle border border-success-subtle';
+                            }
+
+                            if (item.status === 'Cancelled') {
+                                statusClass = 'text-danger-emphasis bg-danger-subtle border border-danger-subtle';
+                            }
+
+                            /* MEMBERS */
+                            let membersHtml = '';
+
+                            if (item.members && item.members.length > 0)
+                            {
+                                $.each(item.members, function(k, member)
+                                {
+                                    membersHtml += `
+                                        <tr>
+                                            <td>${member.name}</td>
+                                            <td>${member.age}</td>
+                                            <td>${member.gender}</td>
+                                        </tr>
+                                    `;
+                                });
+                            }
+                            else
+                            {
+                                membersHtml = `
+                                    <tr>
+                                        <td colspan="3" class="text-center">No passenger details</td>
+                                    </tr>
+                                `;
+                            }
+
+                            /* DETAIL HTML */
+                            let detailHtml = '';
+
+                            if (item.entry_type === 'Trip Completed Bonus')
+                            {
+                                detailHtml = `
+                                    <div class="row g-4">
+
+                                        <div class="col-lg-4">
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-body">
+
+                                                    <h5 class="mb-4">
+                                                        <i class="fa-solid fa-suitcase me-2"></i>
+                                                        Trip Details
+                                                    </h5>
+
+                                                    <p><strong>Tour Name:</strong> ${item.trip_name}</p>
+                                                    <p><strong>Destination:</strong><span class="text-break"> ${item.trip_destination}</span></p>
+                                                    <p><strong>Travel Date:</strong> ${item.trip_start_date}</p>
+                                                    <p><strong>Booking ID:</strong> ${item.reference_id}</p>
+                                                    <p><strong>Booking Date:</strong> ${item.booking_date}</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-body">
+
+                                                    <h5 class="mb-4">
+                                                        <i class="fa-solid fa-users me-2"></i>
+                                                        Passenger Details
+                                                    </h5>
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Age</th>
+                                                                    <th>Gender</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                ${membersHtml}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                `;
+                            }
+                            else if (item.entry_type === 'Membership Activation Bonus')
+                            {
+                                detailHtml = `
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body">
+
+                                            <h5 class="mb-3">Referral Bonus Details</h5>
+
+                                            <div class="row">
+
+                                                <div class="col-md-3">
+                                                    <p><strong>Reference ID:</strong> ${item.reference_id}</p>
+                                                    <p><strong>Reference Message:</strong> ${item.referral_message}</p>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <p><strong>Bonus Earned:</strong> ₹${item.amount}</p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            else
+                            {
+                                detailHtml = `
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body">
+
+                                            <h5 class="mb-3">Withdrawal Details</h5>
+
+                                            <div class="row">
+
+                                                <div class="col-md-3">
+                                                    <p><strong>Transaction ID:</strong> ${item.reference_id}</p>
+                                                    <p><strong>Transaction Details:</strong> ${item.referral_message}</p>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <p><strong>Amount:</strong> ₹${item.amount}</p>
+                                                    <p><strong>Status:</strong> ${item.status}</p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            const formattedMessage = item.message
+                                .split(' ')
+                                .reduce((result, word, index) => {
+                                    return result + word + ((index + 1) % 8 === 0 ? '<br>' : ' ');
+                                }, '');
+                            html += `
+                                <tr data-details="${encodeBase64Unicode(detailHtml)}">
+
+                                    <td>${item.created_date}</td>
+
+                                    <td>
+                                        <div class="${typeClass} rounded-3 text-center fw-bolder p-1">
+                                            ${item.entry_type}
+                                        </div>
+                                    </td>
+
+                                    <td>${formattedMessage}</td>
+
+                                    <td class="text-end text-success fw-bold">
+                                        ${credit !== '-' ? '+' + credit : '-'}
+                                    </td>
+
+                                    <td class="text-end text-danger fw-bold">
+                                        ${debit !== '-' ? '-' + debit : '-'}
+                                    </td>
+                                    <td class="text-end fw-bold">${item.balance}</td>
+
+                                    <td>${item.reference_id}</td>
+
+                                    <td>
+                                        <div class="p-1 ${statusClass} rounded-3 text-center fw-bolder">
+                                            ${item.status}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <button class="toggle-btn btn btn-sm btn-light">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            `;
+                        });
+
+                        $('#pendingCustomerList-table tbody').html(html);
+
+                        initializeDataTable();
+                    }
+                });
+            }
+
+            /* =========================
+            DATATABLE INIT (FIXED)
+            ========================= */
+            function initializeDataTable()
+            {
+                walletTable = $('#pendingCustomerList-table').DataTable({
+                    responsive: false,
+                    scrollX: true,
+                    autoWidth: false,
+                    pageLength: 10,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    destroy: true,
+                    order: [[0, 'desc']],
+                    language: {
+                        emptyTable: "No wallet transactions found.",
+                        zeroRecords: "No matching records found."
+                    },
+                    columnDefs: [
+                        { targets: 0, width: "140px" },
+                        { targets: 1, width: "180px" },
+                        { targets: 2, width: "260px" },
+                        { targets: 3, width: "120px" },
+                        { targets: 4, width: "120px" },
+                        { targets: 5, width: "120px" },
+                        { targets: 6, width: "160px" },
+                        { targets: 7, width: "140px" },
+                        { targets: 8, width: "80px" }
+                    ]
+                });
+            }
+
+            /* =========================
+            ROW EXPAND
+            ========================= */
+            $(document).on('click', '.toggle-btn', function ()
+            {
+                const tr = $(this).closest('tr');
+                const row = walletTable.row(tr);
+                const icon = $(this).find('i');
+
+                if (row.child.isShown())
+                {
+                    row.child.hide();
+                    tr.removeClass('shown');
+
+                    icon.removeClass('fa-chevron-up')
+                        .addClass('fa-chevron-down');
+                }
+                else
+                {
+                    row.child(
+                        decodeBase64Unicode(tr.attr('data-details'))
+                    ).show();
+
+                    tr.addClass('shown');
+
+                    icon.removeClass('fa-chevron-down')
+                        .addClass('fa-chevron-up');
+                }
+            });
+
+            /* =========================
+            FILTER
+            ========================= */
+            let currentFilter = 'all';
+
+            $('.filter-btn').on('click', function ()
+            {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+
+                currentFilter = $(this).data('filter');
+
+                if (currentFilter === 'travel') currentFilter = 'credit';
+                if (currentFilter === 'bank') currentFilter = 'debit';
+
+                loadWalletTransactions(startDate, endDate, currentFilter);
+            });
+
+            /* =========================
+            INIT
+            ========================= */
+            $(document).ready(function ()
+            {
+                window.startDate = startDate;
+                window.endDate = endDate;
+                loadWalletTransactions(startDate, endDate,currentFilter);
+            });
+           function downloadWalletSummary()
+            {
+                let form = $('<form>', {
+                    action: 'models/export_referral_wallet_summary.php',
+                    method: 'POST'
+                });
+
+                form.append(
+                    $('<input>', {
+                        type: 'hidden',
+                        name: 'customer_id',
+                        value: CUSTOMER_ID
+                    })
+                );
+
+                form.append(
+                    $('<input>', {
+                        type: 'hidden',
+                        name: 'start_date',
+                        value: window.startDate
+                    })
+                );
+
+                form.append(
+                    $('<input>', {
+                        type: 'hidden',
+                        name: 'end_date',
+                        value: window.endDate
+                    })
+                );
+
+                $('body').append(form);
+
+                form.submit();
+
+                form.remove();
+            }
         </script>
         <script>
             document.querySelectorAll('.filter-btn').forEach(button => {
