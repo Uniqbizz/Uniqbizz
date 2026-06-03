@@ -289,7 +289,7 @@
                                                             <p class="fontSize1 fw-bold mb-0 text-success text-center">3,000</p>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="">
+                                                            <a href="viewExtendedWallet.php" class="">
                                                                 <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                     View
                                                                 </div>
@@ -323,7 +323,7 @@
                                                             <p class="fontSize1 fw-bold mb-0 text-success text-center">3,500</p>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="">
+                                                            <a href="viewExtendedWallet.php" class="">
                                                                 <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                     View
                                                                 </div>
@@ -357,7 +357,7 @@
                                                             <p class="fontSize1 fw-bold mb-0 text-success text-center">3,800</p>
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="">
+                                                            <a href="viewExtendedWallet.php" class="">
                                                                 <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
                                                                     View
                                                                 </div>
