@@ -1,0 +1,579 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        echo '<script>location.href = "../login.php";</script>';
+    }
+    require '../connect.php';
+    $date = date('Y'); 
+?>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>View Extended Wallet Details | Admin Dashboard </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="../assets/images/fav.png">
+        <!-- bootstrap-datepicker css -->
+        <link href="../assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+        <!-- DataTables -->
+        <link href="../assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="../assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+        <!-- Bootstrap Css -->
+        <link href="../assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="../assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- Loading Screen and Images size css  -->
+        <link rel="stylesheet" href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+        <!-- App js -->
+        <!-- <script src="../assets/js/plugin.js"></script> -->
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- remix icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .fontSize1 {
+                font-size: 12px;
+            }
+            .fontSize2 {
+                font-size: 10px;
+            }
+            .fontSize3 {
+                font-size: 8px;
+            }
+            .loyalty1 {
+                font-size: 20px !important;
+                color: #35239a;
+                background: #e0dbf9;
+                border-radius: 100%;
+                padding: 8px 10px;
+                width: 60px;
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .loyalty2 {
+                font-size: 20px !important;
+                color: #067b40;
+                background: #c5f2cd;
+                border-radius: 100%;
+                padding: 8px 10px;
+                width: 60px;
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .loyalty4 {
+                font-size: 20px !important;
+                color: #136bd8;
+                background: #d2e0f1;
+                border-radius: 100%;
+                padding: 8px 10px;
+                width: 60px;
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .loyaltyCard1 {
+                background: #f4f2ff;
+                border: 1px solid #c5bdf4;
+            }
+            .loyaltyCard2 {
+                background: #e5ffe6;
+                border: 1px solid #a9d8aa;
+            }
+            .loyaltyCard4 {
+                background: #eef3f9;
+                border: 1px solid #aecaec;
+            }
+            .profileImage {
+                width:40px !important;
+                height: 40px !important;
+                border-radius: 100% !important;
+                object-fit: fill;
+            }
+            .linkBtn {
+                background-color: #fff;
+                color: #4b38b3;
+                border: 2px solid #4b38b3;
+                padding: 6px 12px;
+                border-radius: 6px;
+                display: flex;
+                justify-content: center;
+            }
+            .linkBtn:hover {
+                background-color: #4b38b3;
+                border: 2px solid #4b38b3;
+                color:#fff;
+                padding: 6px 12px;
+                border-radius: 6px;
+                display: flex;
+                justify-content: center;
+            }
+            /* profile section */
+            .profileImgLoyalty {
+                width: 80px !important;
+                height: 80px !important;
+                object-fit: fill !important;
+                border-radius: 100% !important;
+                position: relative;
+            }
+            .statusBtn {
+                width: 90px;
+                border: 1px solid #03730f;
+                background-color: #dafdde;
+                color: #03730f;
+                position: absolute;
+                top: 68px !important;
+            }
+            .statusBtn i{
+                color: #03730f;
+            }
+            .cardLoyaltyDetails i{
+                color: #4b38b3;
+            }
+            .textColor {
+                color: #3c3f91;
+            }
+            .textColor1 {
+                color: #4b38b3;
+            }
+            .textColor2 {
+                color: #067b40;
+            }
+            .iconLoyalty1 {
+                border-radius: 40%;
+                background-color: #e1def3; 
+                width: 45px;
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .iconLoyalty1 i{
+                color: #4b38b3;
+            }
+            .iconLoyalty2 {
+                border-radius: 40%;
+                background-color: #eef3f9; 
+                width: 45px;
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .iconLoyalty2 i{
+                color: #136bd8;
+            }
+            .loyaltyAmt1 {
+                color: #35239a;
+                background: #e0dbf9;
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                border-radius: 8px;
+            }
+            .loyaltyAmt2 {
+                background-color: #c5f2cd;
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                border-radius: 8px;
+            }
+            .loyaltyAmt4 {
+                color: #136bd8;
+                background: #d2e0f1;
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                border-radius: 8px;
+            }
+            .filter-btn {
+                padding: 8px;
+                border-radius: 8px;
+                background-color: #fff; 
+                color: #5442ba;
+                border: 1px solid #5442ba;
+            }
+            .filter-btn:hover {
+                padding: 8px;
+                border-radius: 8px;
+                background-color: #5442ba; 
+                color: #fff;
+                border: 1px solid #5442ba;
+            }
+            .filter-btn.active {
+                background-color: #5442ba; 
+                color: #fff;
+                border: 1px solid #5442ba;
+            }
+            .navMenu {
+                list-style: none;
+            }
+            @media (max-width: 540px) {
+                .extendedDetails {
+                    display: block !important;
+                    margin-bottom: 10px;
+                }
+                .extendedDetails .linkBtn {
+                    width: 200px;
+                }
+            }
+        </style>
+    </head>
+    <body data-sidebar="dark">
+    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            <?php 
+                // top header logo, hamberger menu, fullscreen icon, profile
+                include_once '../header.php';
+
+                // sidebar navigation menu 
+                include_once '../sidebar.php';
+            ?>
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        <div class="d-inline-block" onclick="history.back()" style="cursor:pointer;">
+                            <div class="viewBtn rounded-2 py-2">
+                                <p class="text-muted mb-0 fw-bolder">
+                                    <i class="fa-solid fa-arrow-left me-2 fw-bolder"></i>
+                                    Back to Extended Wallet
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 extendedDetails">
+                            <h2 class="fw-bolder text-dark">Extended Wallet Details</h2>
+                            <div class="d-flex gap-3">
+                                <div class="text-end">
+                                    <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
+                                </div>
+                                <a href="#">
+                                    <div class="linkBtn gap-2 align-items-center">
+                                        <i class="fa-solid fa-download"></i>
+                                        <p class="fs-6 mb-0 fw-bolder pe-1">Export Report</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card rounded-4 p-3">
+                            <div class="row d-flex justify-content-evenly">
+                                <div class="col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center gap-4 mb-2">
+                                    <div class="d-flex justify-content-center">
+                                        <img src="../assets/images/users/avatar-5.jpg" alt="" class="profileImgLoyalty">
+                                        <p class="p-1 rounded-pill fw-bolder text-center statusBtn"><i class="fa-solid fa-circle me-1"></i>Active</p>
+                                    </div>
+                                    <div class="cardLoyaltyDetails">
+                                        <h4 class="fw-bolder text-dark ">Pratiksha Gawas <i class="ri-verified-badge-fill"></i></h4>
+                                        <p class="fw-bold textColor mb-2">CUST10001</p>
+                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>9876543210</p>
+                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i>pratiksha@gmail.com</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
+                                    <div class="iconLoyalty1">
+                                        <i class="fa-solid fa-crown"></i>
+                                    </div>
+                                    <div>
+                                        <p class="fw-bold textColor mb-1">Membership</p>
+                                        <p class="fw-bold textColor1 mb-2">Neo Select</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
+                                    <div class="iconLoyalty2">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                    </div>
+                                    <div>
+                                        <p class="fw-bold textColor mb-1">Joined On</p>
+                                        <p class="fw-bold text-dark mb-2">15 Jan 2025</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
+                                    <div class="iconLoyalty1">
+                                        <i class="fa-solid fa-plane-departure"></i>
+                                    </div>
+                                    <div>
+                                        <p class="fw-bold textColor mb-1">Total Trips</p>
+                                        <p class="fw-bold text-dark mb-2">5 Trips</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card loyaltyCard4">
+                                    <div class="d-flex gap-3">
+                                        <div class="loyalty4">
+                                            <i class="fa-solid fa-wallet"></i>
+                                        </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Total Benefits Generated</h1>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;<span class="">8,500</span></p>
+                                            <p class="fs-6 textColor1 loyaltyAmt4 fw-bolder mb-1">From 11 Credits</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card loyaltyCard2">
+                                    <div class="d-flex gap-3">
+                                        <div class="loyalty2">
+                                            <i class="fa-solid fa-wallet"></i>
+                                        </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Benefits Applied</h1>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">2,500</span></p>
+                                            <p class="fs-6 textColor2 loyaltyAmt2 fw-bolder mb-1">From 4 Debits </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+                                <div class="rounded-4 p-3 card loyaltyCard1">
+                                    <div class="d-flex gap-3">
+                                        <div class="loyalty1">
+                                            <i class="fa-solid fa-wallet"></i>
+                                        </div>
+                                        <div class="">
+                                            <h1 class="fs-6 fw-bolder">Available Benefit Value</h1>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">6,000</span></p>
+                                            <p class="fs-6 textColor3 loyaltyAmt1 fw-bolder mb-1">Current Balance</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
+                                                <div class="d-flex justify-content-between mb-2 discountDetails">
+                                                    <h4 class="fw-bolder text-dark">Extended Wallet</h4>
+                                                    <div class="d-flex gap-3">
+                                                        <div class="text-end">
+                                                            <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
+                                                        </div>
+                                                        <a href="#">
+                                                            <div class="linkBtn gap-2 align-items-center">
+                                                                <i class="fa-solid fa-download"></i>
+                                                                <p class="fs-6 mb-0 fw-bolder pe-1">Export Report</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Date & Time </th>
+                                                        <th>Source Type</th>
+                                                        <th>Description</th>
+                                                        <th>Credit (&#8377;)</th>
+                                                        <th>Debit (&#8377;)</th>
+                                                        <th>Balance (&#8377;)</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Package Conversion
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Thailand Package Converted</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">1,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end text-primary">6,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
+                                                                Secondary Referral
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Anjali Iyer Joined</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">500</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end text-primary">5,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">10 jan 2026, 10:30 AM</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
+                                                                Benefit Applied
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold">Price Drop Approve - BK1200</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-success text-end">-</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="mb-0 fw-bold text-danger text-end">2,000</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="fw-bold mb-0 text-end text-primary">2,500</p>
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center">
+                                                                <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </button>
+                                                                <!-- <button class="toggle-btn btn btn-sm btn-light">
+                                                                    <i class="fa-solid fa-minus"></i>
+                                                                </button> -->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- container-fluid -->
+                </div> <!-- End Page-content -->
+
+                
+                <?php include_once "../footer.php" ?>
+            </div>
+            <!-- end main content-->
+        </div>
+        <!-- END layout-wrapper -->
+
+        <!-- loading screen -->
+        <div id="loading-overlay">
+            <div class="loading-icon"></div>
+        </div>
+        <!--start back-to-top-->
+        <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
+            <i class="mdi mdi-arrow-up"></i>
+        </button>
+        <!--end back-to-top-->                                                
+
+        <!-- JAVASCRIPT -->
+        <script src="../assets/libs/jquery/jquery.min.js"></script>
+        <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/libs/metismenu/metisMenu.min.js"></script>
+        <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="../assets/libs/node-waves/waves.min.js"></script>
+        <!-- bootstrap-datepicker js -->
+        <script src="../assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+        <!-- Required datatable js -->
+        <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        
+        <!-- Responsive examples -->
+        <script src="../assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        
+        <!-- ecommerce-customer-list init -->
+        <!-- <script src="../assets/js/pages/ecommerce-customer-list.init.js"></script> -->
+        
+        <!-- App js -->
+        <script src="../assets/js/app.js"></script>
+
+        <script>
+            var mybutton = document.getElementById("back-to-top");
+            function scrollFunction() {
+                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
+            }
+            function topFunction() {
+                document.body.scrollTop = 0,
+                document.documentElement.scrollTop = 0
+            }
+            mybutton && (window.onscroll = function() {
+                scrollFunction()
+            }
+            );
+
+        </script>
+
+        <!-- dataTable -->
+        <script>
+            $(document).ready(function(){
+                $("#pendingCustomerList-table").DataTable();
+            });
+            
+            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
+                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
+            };
+
+            function addCustRef(id,fullname,taRef,status){ 
+                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
+            };
+
+        </script>
+        <script>
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function () {
+
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    this.classList.add('active');
+                });
+            });
+        </script>
+    </body>
+</html>
