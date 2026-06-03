@@ -137,7 +137,11 @@
         ON bm.bookings_id = bt.id
 
     WHERE ".implode(' AND ', $where)."
-
+    GROUP BY
+    lc.code,
+    bm.name,
+    bm.age,
+    bm.gender
     ORDER BY lc.created_date DESC
     ";
 

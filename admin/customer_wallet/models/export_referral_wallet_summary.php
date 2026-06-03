@@ -58,103 +58,112 @@ $params[':user_id'] = $customerId;
 $sql = $conn->prepare("
 
     SELECT
-        ru.created_date,
+        MAX(ru.created_date) AS created_date,
 
-        CASE
-            WHEN ru.used_on IS NULL
-                 OR ru.used_on = ''
-            THEN ru.earned_on
-            ELSE ru.used_on
-        END AS message,
+        MAX(
+            CASE
+                WHEN ru.used_on IS NULL
+                    OR ru.used_on = ''
+                THEN ru.earned_on
+                ELSE ru.used_on
+            END
+        ) AS message,
 
-        CASE
-            WHEN ru.used_amount IS NULL
-            THEN ru.earned_amount
-            ELSE ru.used_amount
-        END AS amount,
+        MAX(
+            CASE
+                WHEN ru.used_amount IS NULL
+                THEN ru.earned_amount
+                ELSE ru.used_amount
+            END
+        ) AS amount,
 
         ru.transaction_id,
-        ru.balance,
 
-        CASE
+        MAX(ru.balance) AS balance,
 
-            WHEN SUBSTRING(ru.transaction_id,1,2)='CU'
-            THEN 'Membership Activation Bonus'
+        MAX(
+            CASE
+                WHEN SUBSTRING(ru.transaction_id,1,2)='CU'
+                THEN 'Membership Activation Bonus'
 
-            WHEN SUBSTRING(ru.transaction_id,1,2)='WD'
-            THEN 'Withdrawal Request'
+                WHEN SUBSTRING(ru.transaction_id,1,2)='WD'
+                THEN 'Withdrawal Request'
 
-            ELSE 'Trip Completed Bonus'
+                ELSE 'Trip Completed Bonus'
+            END
+        ) AS entry_type,
 
-        END AS entry_type,
+        MAX(b.id) AS booking_id,
 
-        b.id AS booking_id,
+        MAX(
+            CASE
+                WHEN SUBSTRING(ru.transaction_id,1,2) = 'CU' THEN
+                (
+                    SELECT status
+                    FROM customer_reference_payout
+                    WHERE ru.transaction_id = refered_customer_id
+                    LIMIT 1
+                )
 
-        CASE
-            WHEN SUBSTRING(ru.transaction_id,1,2) = 'CU' THEN
-            (
-                SELECT status
-                FROM customer_reference_payout
-                WHERE ru.transaction_id = refered_customer_id
-                LIMIT 1
-            )
+                WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
+                (
+                    SELECT status
+                    FROM customer_reference_wallet_encashed
+                    WHERE ru.transaction_id = transaction_id
+                    LIMIT 1
+                )
 
-            WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
-            (
-                SELECT status
-                FROM customer_reference_wallet_encashed
-                WHERE ru.transaction_id = transaction_id
-                LIMIT 1
-            )
+                ELSE
+                (
+                    SELECT cu1_status
+                    FROM product_payout
+                    WHERE ru.transaction_id = order_id
+                    LIMIT 1
+                )
+            END
+        ) AS status,
 
-            ELSE
-            (
-                SELECT cu1_status
-                FROM product_payout
-                WHERE ru.transaction_id = order_id
-                LIMIT 1
-            )
-        END AS status,
+        MAX(
+            CASE
+                WHEN SUBSTRING(ru.transaction_id,1,2) = 'CU' THEN
+                (
+                    SELECT earned_on
+                    FROM customer_reference_wallet_utilization crwu
+                    WHERE crwu.transaction_id = ru.transaction_id
+                    LIMIT 1
+                )
 
-        CASE
-            WHEN SUBSTRING(ru.transaction_id,1,2) = 'CU' THEN
-            (
-                SELECT earned_on
-                FROM customer_reference_wallet_utilization crwu
-                WHERE crwu.transaction_id = ru.transaction_id
-                LIMIT 1
-            )
+                WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
+                (
+                    SELECT earned_on
+                    FROM customer_reference_wallet_utilization crwu
+                    WHERE crwu.transaction_id = ru.transaction_id
+                    LIMIT 1
+                )
 
-            WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
-            (
-                SELECT earned_on
-                FROM customer_reference_wallet_utilization crwu
-                WHERE crwu.transaction_id = ru.transaction_id
-                LIMIT 1
-            )
+                ELSE NULL
+            END
+        ) AS referral_message,
 
-            ELSE NULL
-        END AS referral_message,
-
-        b.created_date AS booking_date,
-
-        pg.name AS trip_name,
-
-        pg.destination AS trip_destination,
-
-        b.date AS trip_start_date
+        MAX(b.created_date) AS booking_date,
+        MAX(pg.name) AS trip_name,
+        MAX(pg.destination) AS trip_destination,
+        MAX(b.date) AS trip_start_date
 
     FROM customer_reference_wallet_utilization ru
 
     LEFT JOIN bookings b
         ON ru.transaction_id = b.order_id
+
     LEFT JOIN package pg
         ON b.package_id = pg.id
 
     WHERE ru.customer_id = :user_id
     $dateCondition
 
-    ORDER BY ru.created_date DESC
+    GROUP BY ru.transaction_id
+
+    ORDER BY MAX(ru.created_date) DESC
 
 ");
 
