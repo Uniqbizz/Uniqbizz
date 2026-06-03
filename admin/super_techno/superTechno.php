@@ -757,7 +757,7 @@
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-                window.location.href='editSuperTechno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+                window.location.href='editSuperTechno.php?id='+id+'&refno='+refno+'&regby='+regby+'&country='+cut+'&state='+st+'&city='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 

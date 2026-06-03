@@ -24,16 +24,14 @@
         require '../connect.php';
         $date = date('Y'); 
 
-        $id = $_GET['vkvbvjfgfikix'];
-        $user_id = $_GET['fyfyfregby'];
-        $reference_no = $_GET['nohbref'];
-        $country_id = $_GET['ncy'];
-        $state_id = $_GET['mst'];
-        $city_id = $_GET['hct'];
-        // $zone_id = $_GET['zone'];
-        // $branch_id = $_GET['branch'];
-        $editfor = $_GET['editfor'];
-        $usertype = $_GET['usertype']; // 'mf' for master franchisee, 'bm' for business mentor
+        $id = $_GET['vkvbvjfgfikix']; //id 11
+        $user_id = $_GET['regby']; //regby 1-admin or other user in this case 34-executive Techno Enterprise (Not in use)
+        $reference_no = $_GET['refno']; //refno ETE260001
+        $country_id = $_GET['country']; // country
+        $state_id = $_GET['state']; // state
+        $city_id = $_GET['city']; // city
+        $editfor = $_GET['editfor']; // pending or confirm
+        $usertype = $_GET['usertype']; // 'STE' for Super Techno Enterprise
 
         if ($editfor == 'pending') {
             $identifier_name = 'id=';
@@ -50,13 +48,12 @@
         if ($stmt->rowCount() > 0) {
             foreach (($stmt->fetchAll()) as $row) {
                 $fid = $row['id'];
+                $application_id = $row['application_id'];
                 $firstname = $row['firstname'];
                 $lastname = $row['lastname'];
-                $nominee_name = $row['nominee_name'];
-                $nominee_relation = $row['nominee_relation'];
+                $father_spouse_name = $row['father_spouse_name'];
                 $email = $row['email'];
                 $contact_no = $row['contact_no'];
-                // $paid_amount = $row['paid_amount'];
                 $reference_no = $row['reference_no'];
                 $date_of_birth = $row['date_of_birth'];
                 $gender = $row['gender'];
@@ -64,21 +61,7 @@
                 $state = $row['state'];
                 $city = $row['city'];
                 $address = $row['address'];
-                // $zone = $row['zone'];
-                // $branch = $row['branch'];
-                $profile_pic = $row['profile_pic'];
-                // $payment_mode = $row['payment_mode'];
-                // $payment_proof = $row['payment_proof'];
-                $pan_card = $row['pan_card'];
-                $aadhar_card = $row['aadhar_card'];
-                $voting_card = $row['voting_card'];
-                $bank_passbook = $row['bank_passbook'];
                 $pincode = $row['pincode'];
-                // $cheque_no = $row['cheque_no'];
-                // $cheque_date = $row['cheque_date'];
-                // $bank_name = $row['bank_name'];
-                // $transaction_no = $row['transaction_no'];
-                $note = $row['note'];
 
                 // Get country name
                 $countries = $conn->prepare("SELECT country_name FROM countries WHERE id='$country' AND status='1'");
@@ -101,20 +84,6 @@
                     $city_name = $cities->fetch()['city_name'];
                 }
 
-                // Get zone name
-                // $zones = $conn->prepare("SELECT zone_name FROM zone WHERE id='$zone' AND status='1'");
-                // $zones->execute();
-                // if ($zones->rowCount() > 0) {
-                //     $zone_name = $zones->fetch()['zone_name'];
-                // }
-
-                // Get branch name
-                // $branchs = $conn->prepare("SELECT branch_name FROM branch WHERE id='$branch' AND status='1'");
-                // $branchs->execute();
-                // if ($branchs->rowCount() > 0) {
-                //     $branch_name = $branchs->fetch()['branch_name'];
-                // }
-
                 // Get reporting manager (BM or ZM)
                 if ($reference_no == "Not Applicable") {
                     $reference_no_fname = "Not Applicable";
@@ -127,6 +96,88 @@
                         $reference_no_fname = $manager['firstname'] . ' ' . $manager['lastname'];
                     } else {
                         $reference_no_fname = "Unknown";
+                    }
+                }
+
+                // professional_and_educational
+                $stmt2 = $conn->prepare("SELECT * FROM `professional_and_educational` WHERE application_id= :application_id");
+                $stmt2->execute([':application_id' => $application_id]);
+                $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($stmt2->rowCount() > 0) {
+                    foreach (($stmt2->fetchAll()) as $row2) {
+                        $current_occupation = $row2['current_occupation'];
+                        $current_experience = $row2['current_experience'];
+                        $current_income = $row2['current_income'];
+                        $managed_team = $row2['managed_team'];
+                        $team_description = $row2['team_description'];
+                        $leadership_experience = $row2['leadership_experience'];
+                        $leadership_experience_other = $row2['leadership_experience_other'];
+                        $educational_qualification = $row2['educational_qualification'];
+                    }
+                }
+
+                // leadership_assessment
+                $stmt3 = $conn->prepare("SELECT * FROM `leadership_assessment` WHERE application_id= :application_id");
+                $stmt3->execute([':application_id' => $application_id]);
+                $stmt3->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($stmt3->rowCount() > 0) {
+                    foreach (($stmt3->fetchAll()) as $row3) {
+                        $career_objective = $row3['career_objective'];
+                        $team_expected = $row3['team_expected'];
+                        $operating_region = $row3['operating_region'];
+                    }
+                }
+
+                // nominee_details
+                $stmt4 = $conn->prepare("SELECT * FROM `nominee_details` WHERE application_id= :application_id");
+                $stmt4->execute([':application_id' => $application_id]);
+                $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($stmt4->rowCount() > 0) {
+                    foreach (($stmt4->fetchAll()) as $row4) {
+                        $nominee_name = $row4['nominee_name'];
+                        $nominee_relation = $row4['nominee_relation'];
+                        $nominee_contact_cd = $row4['nominee_contact_cd'];
+                        $nominee_contact_no = $row4['nominee_contact_no'];
+                        $nominee_date_of_birth = $row4['nominee_date_of_birth'];
+                        $nominee_address = $row4['nominee_address'];
+                    }
+                }
+
+                // bank_details
+                $stmt5 = $conn->prepare("SELECT * FROM `bank_details` WHERE application_id= :application_id");
+                $stmt5->execute([':application_id' => $application_id]);
+                $stmt5->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($stmt5->rowCount() > 0) {
+                    foreach (($stmt5->fetchAll()) as $row5) {
+                        $account_holder_name = $row5['account_holder_name'];
+                        $bank_name = $row5['bank_name'];
+                        $account_number = $row5['account_number'];
+                        $ifsc_code = $row5['ifsc_code'];
+                        $branch_name = $row5['branch_name'];
+                    }
+                }
+
+                // documents
+                $stmt4 = $conn->prepare("SELECT * FROM `documents` WHERE application_id= :application_id");
+                $stmt4->execute([':application_id' => $application_id]);
+                $stmt4->setFetchMode(PDO::FETCH_ASSOC);
+
+                if ($stmt4->rowCount() > 0) {
+                    foreach (($stmt4->fetchAll()) as $row4) {
+                        $profile_pic = $row4['profile_pic'];
+                        $aadhar_card = $row4['aadhar_card'];
+                        $pan_card = $row4['pan_card'];
+                        $cancelled_cheque_bank_passbook = $row4['cancelled_cheque_bank_passbook'];
+                        $resume_cv = $row4['resume_cv'];
+                        $address_proof = $row4['address_proof'];
+                        $professional_profile = $row4['professional_profile'];
+                        $business_profile = $row4['business_profile'];
+                        $income_proof = $row4['income_proof'];
+                        $other_document = $row4['other_document'];
                     }
                 }
             }
