@@ -1,0 +1,371 @@
+body {
+    background-color: #fff !important;
+}
+.fs-6 {
+    font-size: 12px !important;
+}
+.insta-icon {
+    width: 30px;
+    height: 30px;
+}
+.footer {
+    height:0px !important;
+    background-color: transparent !important;
+}
+.footer .footer-container {
+    background-color: #fff;
+    padding: 10px !important;
+    margin: 0px !important;
+}
+.policy-link a {
+    color: #98a6ad
+}
+/* card icon */
+.icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.selected-li {
+    border-left: 4px solid #0d6efd; /* Bootstrap primary blue */
+    background-color: #f0f8ff; /* optional: light background */
+    padding-left: 12px; /* left padding */
+}
+.active-highlight {
+    background-color: #d8ecff !important; /*Light blue */
+    border-left: 4px solid #0d6efd;  /*Optional: adds a blue border */
+    border-radius: 5px;
+    padding: 5px;
+}
+/* sidebar start */
+/* Sidebar spacing */
+.nav-item {
+    margin: 6px 10px;
+}
+
+/* Base link style */
+.nav-item .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 14px !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #6c757d !important;
+    text-decoration: none !important;
+    transition: all 0.25s ease !important;
+}
+
+/* Icon */
+.nav-item .nav-link i {
+    font-size: 18px;
+    transition: 0.25s;
+}
+
+/* Hover state */
+.nav-item .nav-link:hover {
+    background: #4b38b3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+}
+/* Active state (IMPORTANT FIX) */
+.nav-item.active .nav-link {
+    background: #4b38b3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+}
+
+/* Icon color on hover + active */
+.nav-item .nav-link:hover i,
+.nav-item.active .nav-link i {
+    color: #fff;
+}
+
+/* OPTIONAL: only if you KEEP span */
+.nav-item .nav-link:hover span,
+.nav-item.active .nav-link span {
+    color: #fff;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .navbar-nav .nav-item:hover>a.menu-link {
+    position: relative;
+    width: calc(190px + var(--vz-vertical-menu-width-sm));
+    -webkit-transition: none;
+    transition: none;
+    background: #4b38b3 !important;
+}
+.sidebarImage {
+    width: stretch !important;
+    margin: 6px !important;
+}
+.sidebarImageCard {
+   position: relative; 
+}
+
+.exploreBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.exploreBtn i {
+    font-size: 18px !important;
+    padding-left: 10px;
+}
+.exploreBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.exploreCard {
+    position: absolute;
+    bottom: 290px;
+    padding: 0px 20px;
+    z-index: 999;
+}
+.logoutBtn {
+    background-color: #4b38b3;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.logoutBtn i {
+    font-size: 18px !important;
+}
+.logoutBtn:hover {
+    background-color: #35239a;
+    color:#fff;
+    padding: 10px 0px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .sidebarImage {
+    display: none !important;
+}
+:is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .exploreCard {
+    display: none !important;
+}
+/* :is([data-layout=vertical],[data-layout=semibox])[data-sidebar-size=sm] .navbar-menu .simplebar-mask {
+    overflow: visible !important;
+} */
+
+/* =========================================
+   DEFAULT DESKTOP
+========================================= */
+
+.navbar-menu {
+    position: fixed !important;
+    left: 0 !important;
+    height: calc(100vh - 90px) !important;
+    transition: all 0.3s ease !important;
+    /* z-index: 9999 !important; */
+    z-index: 1;
+}
+
+/* SCROLL */
+#scrollbar {
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* HIDE SIDEBAR */
+.navbar-menu.sidebar-hidden {
+    transform: translateX(-120%) !important;
+}
+
+/* header */
+.searchBar {
+    width: 35% !important;
+    position: relative;
+}
+.searchBar input{
+    border: 3px solid #a398df;
+    border-radius: 6px;
+}
+.searchBar i{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #35239a;
+    pointer-events: none;
+}
+
+.walletAmount {
+    color: #35239a;
+    font-weight: 600;
+}
+.walletIcon {
+    font-size: 20px !important;
+    color: #35239a;
+    background: #e1ddf9;
+    border-radius: 8px;
+    padding: 9px;
+}
+/* main dashboard */
+
+.greetingImageWrapper{
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.greetingImageWrapper::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(to right, rgb(5 44 130 / 97%), rgba(0, 23, 56, 73%), rgba(54, 39, 28, 0))
+}
+
+.greetingImage{
+    display: block;
+    position: relative;
+    height: 250px !important;
+    object-fit: cover;
+}
+.greetingCard {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    z-index: 999;
+}
+/* card section 8 */
+.supportImagePosition {
+    position: relative;
+}
+.supportImage {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    object-fit: fill;
+}
+.supportDetails {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 999;
+}
+.supportBtn {
+    background-color: #fff;
+    color:#4b38b3;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+}
+.supportBtn:hover {
+    background-color: #4b38b3;
+    color:#fff;
+}
+
+/* =========================================
+   TABLET + SMALL LAPTOP (1024px)
+========================================= */
+/* =========================================
+   FIX CONTENT PUSHING
+========================================= */
+
+@media (max-width: 1280px) {
+}
+@media (max-width: 1110px) {
+}
+@media (min-width: 1025px) {
+    #topnav-hamburger-icon {
+        display: none !important;
+    }
+}
+@media (max-width: 1024px) {
+    .page-content {
+        padding-left: 0px !important;
+    }
+    .container-fluid {
+        padding-left: 10px !important;
+        padding-right: 0px !important;
+    }
+    /* SIDEBAR FLOATING */
+    .navbar-menu {
+        position: fixed !important;
+        left: 15px !important;
+        width: 280px !important;
+        height: calc(100vh - 100px) !important;
+        z-index: 99999 !important;
+        transform: translateX(-120%) !important;
+        transition: transform 0.3s ease !important;
+        background: #f5f5f7 !important;
+        border-radius: 24px !important;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+        overflow: hidden !important;
+    }
+
+    /* SHOW SIDEBAR */
+    .navbar-menu.sidebar-mobile-show {
+        transform: translateX(0) !important;
+    }
+
+    /* VERY IMPORTANT */
+    .main-content,
+    .page-content,
+    .app-content,
+    #layout-wrapper {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        transform: none !important;
+        width: 100% !important;
+    }
+
+    /* REMOVE TEMPLATE SIDEBAR SPACE */
+    body[data-sidebar-size="sm"] .main-content,
+    body[data-sidebar-size="sm-hover"] .main-content {
+        margin-left: 0 !important;
+    }
+
+    /* REMOVE AUTO PUSH */
+    .vertical-overlay {
+        pointer-events: none;
+    }
+}
+@media (max-width: 991px) {
+}
+
+/* =========================================
+   ONLY MOBILE (768px)
+========================================= */
+
+@media (max-width: 767px) {
+}
+
+/* REMOVE OVERLAY ABOVE 768 */
+@media (min-width: 769px) {
+}
+@media (max-width: 660px) {
+    .supportDetails h3 {
+        font-size: 18px !important;
+    }
+    .supportDetails p {
+        font-size: 14px !important;
+    }
+    .supportBtn {
+        padding: 8px !important;
+        width: 150px !important;
+    }
+}
+
+@media (max-width: 575px) {
+}
+@media (max-width: 441px) {
+}
+/* sidebar end */
