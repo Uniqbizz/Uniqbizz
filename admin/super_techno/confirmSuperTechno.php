@@ -30,7 +30,7 @@ if ($user_type_id == '35') { //Super Techno Enterprise
 			$country_code = $row9['country_code'];
 			$contact_no = $row9['contact_no'];
 			$reference_no = $row9['reference_no'];
-			$amount = $row9['paid_amount'];
+			$application_id = $row9['application_id'];
 		}
 	}
 
@@ -90,7 +90,7 @@ if ($user_type_id == '35') { //Super Techno Enterprise
 
 	$sql1 = "UPDATE super_techno_enterprise SET status=:status,super_techno_enterprise_id=:super_techno_enterprise_id,register_date=:register_date WHERE id=:id";
 	$stmt = $conn->prepare($sql1);
-	$result =  $stmt->execute(array(
+	$resultSte =  $stmt->execute(array(
 		':status' => $status,
 		':super_techno_enterprise_id' => $uid,
 		':register_date' => $register_Date,
@@ -98,7 +98,33 @@ if ($user_type_id == '35') { //Super Techno Enterprise
 		':id' => $id
 	));
 
-	if ($result) {
+	if($resultSte){
+
+		$tables = [
+			'professional_and_educational',
+			'leadership_assessment',
+			'nominee_details',
+			'bank_details',
+			'documents'
+		];
+
+		foreach($tables as $table){
+
+			$sql = "UPDATE `$table`
+					SET user_id = :user_id
+					WHERE application_id = :application_id";
+
+			$stmtTable = $conn->prepare($sql);
+
+			$resultAllTables = $stmtTable->execute([
+				':user_id' => $uid,
+				':application_id' => $application_id
+			]);
+		}
+
+	}
+
+	if ($resultAllTables) {
 		$sql = "INSERT INTO login (username,password, user_id, user_type_id , status) VALUES (:uname ,:password, :user_id, :user_type_id, :status)";
 		$stmt3 = $conn->prepare($sql);
 		$result2 = $stmt3->execute(array(

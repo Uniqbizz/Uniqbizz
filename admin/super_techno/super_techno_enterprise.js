@@ -101,14 +101,20 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         alert("Enter valid email address");
     }
-    else if (occupation === "") {
-        alert("Select occupation");
+    else if (country === "") {
+        alert("Select Country");
     }
-    else if (qualification === "") {
-        alert("Enter qualification");
+    else if (mystate === "") {
+        alert("Select State");
     }
-    else if (career_objective === "") {
-        alert("Enter why you want to become a Super Techno Enterprise");
+    else if (city === "") {
+        alert("Select City");
+    }
+    else if (address === "") {
+        alert("Enter Address");
+    }
+    else if (nominee_name === "") {
+        alert("Enter Nominee Name");
     }
     else if (acc_holder_name === "") {
         alert("Enter account holder name");
@@ -125,15 +131,19 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
     else if (!mobileRegex.test(phone)) {
         alert("Enter Valid Mobile Number");
     }
-    else if (!mobileRegex.test(alt_phone)) {
-        alert("Enter Valid Alternate Mobile Number");
-    }
-    else if (phone === alt_phone) {
-        alert("Mobile Number and Alternate Mobile Number cannot be the same");
-    }
+    // else if (!mobileRegex.test(alt_phone)) {
+    //     alert("Enter Valid Alternate Mobile Number");
+    // }
+    // else if (phone === alt_phone) {
+    //     alert("Mobile Number and Alternate Mobile Number cannot be the same");
+    // }
     else if (account_number !== confirm_account_number) {
         alert("Account Number and Confirm Account Number do not match");
-    } else {
+    } 
+    else if (profile_pic) {
+        alert("Upload Profile Picture");
+    }
+    else {
 
         var dataObj = {
             designation: designation,
@@ -238,9 +248,10 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     // var designation = $("#designation").val();
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
+    var application_id = $("#applicationId").val();
     var editfor = $("#editfor").val().trim(); // pending or confirm
-    var ref_id = $("#ref_id").val().trim(); // ETE260003
-    var id = $("#id").val().trim(); // SuperTE id value if user is not confirmed - 11 , if confirmed - STE2600011
+    var ref_id = $("#ref_id").val().trim(); // reference of the user - ETE260003
+    var id = $("#id").val().trim(); // SuperTE id value if user is not registered - 11 , if registered - STE2600011
     var firstname = $("#firstname").val().trim();
     var lastname = $("#lastname").val().trim();
     var father_spouse_name = $("#father_spouse_name").val().trim();
@@ -307,10 +318,7 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     var other_document = $(":hidden#img_path10").val().trim();
 
 
-    if (designation === "") {
-        alert("Please select designation");
-    }
-    else if (firstname.length < 3) {
+    if (firstname.length < 3) {
         alert("Enter proper first name");
     }
     else if (lastname.length < 3) {
@@ -325,14 +333,20 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         alert("Enter valid email address");
     }
-    else if (occupation === "") {
-        alert("Select occupation");
+    else if (country === "") {
+        alert("Select Country");
     }
-    else if (qualification === "") {
-        alert("Enter qualification");
+    else if (mystate === "") {
+        alert("Select State");
     }
-    else if (career_objective === "") {
-        alert("Enter why you want to become a Super Techno Enterprise");
+    else if (city === "") {
+        alert("Select City");
+    }
+    else if (address === "") {
+        alert("Enter Address");
+    }
+    else if (nominee_name === "") {
+        alert("Enter Nominee Name");
     }
     else if (acc_holder_name === "") {
         alert("Enter account holder name");
@@ -349,17 +363,22 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     else if (!mobileRegex.test(phone)) {
         alert("Enter Valid Mobile Number");
     }
-    else if (!mobileRegex.test(alt_phone)) {
-        alert("Enter Valid Alternate Mobile Number");
-    }
-    else if (phone === alt_phone) {
-        alert("Mobile Number and Alternate Mobile Number cannot be the same");
-    }
+    // else if (!mobileRegex.test(alt_phone)) {
+    //     alert("Enter Valid Alternate Mobile Number");
+    // }
+    // else if (phone === alt_phone) {
+    //     alert("Mobile Number and Alternate Mobile Number cannot be the same");
+    // }
     else if (account_number !== confirm_account_number) {
         alert("Account Number and Confirm Account Number do not match");
-    } else {
+    } 
+    else if (profile_pic) {
+        alert("Upload Profile Picture");
+    } 
+    else {
 
         var dataObj = {
+            application_id: application_id,
             editfor: editfor,
             ref_id: ref_id,
             id: id,

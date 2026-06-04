@@ -39,7 +39,7 @@
     // Leadership assessment - table "leadership_assessment"
     $career_objective     = $_POST['career_objective'] ?? '';
     $team_expected        = $_POST['team_expected'] ?? '';
-    $operating_region     = $_POST['operating_state'] ?? '';
+    $operating_region     = $_POST['operating_state'] ?? '0';
 
     // Nominee Details - table "nominee_details"
     $nominee_name         = $_POST['nominee_name'] ?? '';
@@ -50,7 +50,7 @@
     $nominee_address      = $_POST['nominee_address'] ?? '';
 
     // Bank Details - table "bank_details"
-    $account_holder_name      = $_POST['acc_holder_name'] ?? '';
+    $account_holder_name  = $_POST['acc_holder_name'] ?? '';
     $bank_name            = $_POST['bank_name'] ?? '';
     $account_number       = $_POST['account_number'] ?? '';
     $ifsc_code            = $_POST['ifsc_code'] ?? '';
@@ -71,7 +71,8 @@
     $user_type="35";
     $register_by="1";
 	$status= '2';
-
+    $age = '';
+    $application_id = '';
     // genarate uniq application id 
     function getApplication() {
         return 'APP' . strtoupper(bin2hex(random_bytes(4)));
@@ -79,9 +80,11 @@
     $application_id = getApplication();
 
     // get age of the user
-    $birthYear = str_split($bdate,4);
-    $birth_year = $birthYear[0];
-    $age = $current_year - $birth_year;
+    if($bdate){
+        $birthYear = str_split($bdate,4);
+        $birth_year = $birthYear[0];
+        $age = $current_year - $birth_year;
+    }
 
     // data insertion for logs tables 
     $title="Super Techo Enterprise";
@@ -327,10 +330,10 @@
 
                         if($result6){
 
-                            $sql3= "INSERT INTO logs ( title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
-                            $stmt =$conn->prepare($sql3);
+                            $sql7= "INSERT INTO logs ( title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
+                            $stmt7 =$conn->prepare($sql7);
 
-                            $result3=$stmt->execute(array(
+                            $result7=$stmt7->execute(array(
                                 ':title' => $title,
                                 ':message' => $message,
                                 ':message2' =>$message2,
@@ -340,9 +343,9 @@
                                 ':operation' => $operation
                             ));
 
-                            if($result3){
+                            if($result7){
                                 echo 1;
-                            }else{  //email
+                            }else{  
                                 echo 0	;
                             }
 

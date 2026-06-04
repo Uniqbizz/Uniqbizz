@@ -701,8 +701,9 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<!-- App js -->
 	<script src="../assets/js/app.js"></script>
 
-	<!-- file upload code js file -->
+	<!-- upload js file made only for CTE,ETE and STE users -->
 	<script src="../../uploading/uploadTechnoAdmin.js"></script>
+
 	<script>
 		var mybutton = document.getElementById("back-to-top");
 
@@ -819,21 +820,6 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 			}
 
 		});
-
-		// on zone change get branch associated with that zone
-		// $('#zone').on('change', function() {
-		// 	var zone_id = $(this).val();
-		// 	$.ajax({
-		// 		url: '../assets/get_data/get_branch.php',
-		// 		type: 'POST',
-		// 		data: {
-		// 			zone_id: zone_id
-		// 		},
-		// 		success: function(data) {
-		// 			$('#branch').html(data);
-		// 		}
-		// 	});
-		// });
 	</script>
 </body>
 
