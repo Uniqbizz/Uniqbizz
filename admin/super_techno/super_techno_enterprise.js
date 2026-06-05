@@ -140,7 +140,7 @@ $("#addSuperTechnoEnterprise").on("click", function (e) {
     else if (account_number !== confirm_account_number) {
         alert("Account Number and Confirm Account Number do not match");
     } 
-    else if (profile_pic) {
+    else if (profile_pic === "") {
         alert("Upload Profile Picture");
     }
     else {
@@ -372,7 +372,7 @@ $("#editSuperTechnoEnterprise").on("click", function (e) {
     else if (account_number !== confirm_account_number) {
         alert("Account Number and Confirm Account Number do not match");
     } 
-    else if (profile_pic) {
+    else if (profile_pic === "") {
         alert("Upload Profile Picture");
     } 
     else {

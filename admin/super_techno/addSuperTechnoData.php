@@ -75,7 +75,7 @@
     $application_id = '';
     // genarate uniq application id 
     function getApplication() {
-        return 'APP' . strtoupper(bin2hex(random_bytes(4)));
+        return 'STEAPP' . strtoupper(bin2hex(random_bytes(4)));
     }
     $application_id = getApplication();
 
@@ -93,88 +93,90 @@
     $fromWhom="1";
 	$operation="Add";
 
-    $sql1= "INSERT INTO `super_techno_enterprise` ( 
-        application_id,
-		firstname, 
-		lastname, 
-        father_spouse_name,
-		email, 
-		country_code, 
-		contact_no, 
-        alternative_country_code,
-        alternative_contact_no,
-        aadhar_no,
-        pan_no,
-		date_of_birth, 
-		age, 
-		gender, 
-		country, 
-		state, 
-		city, 
-		pincode, 
-		address,  
-		user_type, 
-		registrant, 
-		reference_no, 
-		register_by, 
-		status)
-	VALUES ( 
-        :application_id,
-		:firstname,
-		:lastname, 
-		:father_spouse_name,
-		:email, 
-		:country_code, 
-		:contact_no, 
-        :alternative_country_code,
-        :alternative_contact_no,
-        :aadhar_no,
-        :pan_no,
-		:bdate, 
-		:age, 
-		:gender, 
-		:country, 
-		:state, 
-		:city, 
-		:pincode,
-		:address,
-		:user_type,
-		:registrant,  
-		:reference_no, 
-		:register_by, 
-		:status)";
-    $stmt1 =$conn->prepare($sql1);
+    try {
 
-    $result1=$stmt1->execute(array(
-        ':application_id' => $application_id,
-        ':firstname' => $firstname, 
-        ':lastname' => $lastname, 
-        ':father_spouse_name' => $father_spouse_name,
-        ':email' => $email,
-        ':country_code' => $country_code, 
-        ':contact_no' => $phone,
-        ':alternative_country_code' => $country_code_alt,
-        ':alternative_contact_no' => $alt_phone,
-        ':aadhar_no' => $aadhar_no,
-        ':pan_no' => $pan_no,
-        ':country' => $country,
-        ':state' => $state,
-        ':city' => $city,
-        ':pincode' => $pincode,
-        ':address' => $address,  
-        ':bdate' => $bdate,
-        ':age' => $age,  
-        ':gender' => $gender,
-        ':user_type' => $user_type,
-        ':registrant' =>$reference_name,
-        ':reference_no' => $user_id_name,
-        ':register_by' => $register_by,
-        ':status' => $status
-    ));
+        $conn->beginTransaction();
 
-    if ($result1) {
+        $sql1= "INSERT INTO `super_techno_enterprise` ( 
+            application_id,
+            firstname, 
+            lastname, 
+            father_spouse_name,
+            email, 
+            country_code, 
+            contact_no, 
+            alternative_country_code,
+            alternative_contact_no,
+            aadhar_no,
+            pan_no,
+            date_of_birth, 
+            age, 
+            gender, 
+            country, 
+            state, 
+            city, 
+            pincode, 
+            address,  
+            user_type, 
+            registrant, 
+            reference_no, 
+            register_by, 
+            status)
+        VALUES ( 
+            :application_id,
+            :firstname,
+            :lastname, 
+            :father_spouse_name,
+            :email, 
+            :country_code, 
+            :contact_no, 
+            :alternative_country_code,
+            :alternative_contact_no,
+            :aadhar_no,
+            :pan_no,
+            :bdate, 
+            :age, 
+            :gender, 
+            :country, 
+            :state, 
+            :city, 
+            :pincode,
+            :address,
+            :user_type,
+            :registrant,  
+            :reference_no, 
+            :register_by, 
+            :status)";
+        $stmt1 =$conn->prepare($sql1);
 
-		$sql2= "INSERT INTO `professional_and_educational` ( 
+        $stmt1->execute(array(
+            ':application_id' => $application_id,
+            ':firstname' => $firstname, 
+            ':lastname' => $lastname, 
+            ':father_spouse_name' => $father_spouse_name,
+            ':email' => $email,
+            ':country_code' => $country_code, 
+            ':contact_no' => $phone,
+            ':alternative_country_code' => $country_code_alt,
+            ':alternative_contact_no' => $alt_phone,
+            ':aadhar_no' => $aadhar_no,
+            ':pan_no' => $pan_no,
+            ':country' => $country,
+            ':state' => $state,
+            ':city' => $city,
+            ':pincode' => $pincode,
+            ':address' => $address,  
+            ':bdate' => $bdate,
+            ':age' => $age,  
+            ':gender' => $gender,
+            ':user_type' => $user_type,
+            ':registrant' =>$reference_name,
+            ':reference_no' => $user_id_name,
+            ':register_by' => $register_by,
+            ':status' => $status
+        ));
+
+        $sql2= "INSERT INTO `professional_and_educational` ( 
             application_id,
             current_occupation, 
             current_experience, 
@@ -196,7 +198,7 @@
             :educational_qualification)";
         $stmt2 =$conn->prepare($sql2);
 
-        $result2=$stmt2->execute(array(
+        $stmt2->execute(array(
             ':application_id' => $application_id,
             ':current_occupation' => $current_occupation, 
             ':current_experience' => $current_experience, 
@@ -208,165 +210,146 @@
             ':educational_qualification' => $educational_qualification
         ));
 
-        if ($result2) {
+        $sql3= "INSERT INTO `leadership_assessment` ( 
+            application_id,
+            career_objective, 
+            team_expected, 
+            operating_region)
+        VALUES ( 
+            :application_id,
+            :career_objective ,
+            :team_expected, 
+            :operating_region)";
+        $stmt3 =$conn->prepare($sql3);
 
-            $sql3= "INSERT INTO `leadership_assessment` ( 
-                application_id,
-                career_objective, 
-                team_expected, 
-                operating_region)
-            VALUES ( 
-                :application_id,
-                :career_objective ,
-                :team_expected, 
-                :operating_region)";
-            $stmt3 =$conn->prepare($sql3);
+        $stmt3->execute(array(
+            ':application_id' => $application_id,
+            ':career_objective' => $career_objective, 
+            ':team_expected' => $team_expected, 
+            ':operating_region' => $operating_region
+        ));
 
-            $result3=$stmt3->execute(array(
-                ':application_id' => $application_id,
-                ':career_objective' => $career_objective, 
-                ':team_expected' => $team_expected, 
-                ':operating_region' => $operating_region
-            ));
 
-            if ($result3) {
+        $sql4= "INSERT INTO `nominee_details` ( 
+            application_id,
+            nominee_name, 
+            nominee_relation, 
+            nominee_contact_cd,
+            nominee_contact_no,
+            nominee_date_of_birth,
+            nominee_address)
+        VALUES ( 
+            :application_id,
+            :nominee_name ,
+            :nominee_relation, 
+            :nominee_contact_cd,
+            :nominee_contact_no,
+            :nominee_date_of_birth,
+            :nominee_address)";
+        $stmt4 =$conn->prepare($sql4);
 
-                $sql4= "INSERT INTO `nominee_details` ( 
-                    application_id,
-                    nominee_name, 
-                    nominee_relation, 
-                    nominee_contact_cd,
-                    nominee_contact_no,
-                    nominee_date_of_birth,
-                    nominee_address)
-                VALUES ( 
-                    :application_id,
-                    :nominee_name ,
-                    :nominee_relation, 
-                    :nominee_contact_cd,
-                    :nominee_contact_no,
-                    :nominee_date_of_birth,
-                    :nominee_address)";
-                $stmt4 =$conn->prepare($sql4);
+        $stmt4->execute(array(
+            ':application_id' => $application_id,
+            ':nominee_name' => $nominee_name, 
+            ':nominee_relation' => $nominee_relation, 
+            ':nominee_contact_cd' => $nominee_contact_cd,
+            ':nominee_contact_no' => $nominee_contact_no,
+            ':nominee_date_of_birth' => $nominee_date_of_birth,
+            ':nominee_address' => $nominee_address,
+        ));
 
-                $result4=$stmt4->execute(array(
-                    ':application_id' => $application_id,
-                    ':nominee_name' => $nominee_name, 
-                    ':nominee_relation' => $nominee_relation, 
-                    ':nominee_contact_cd' => $nominee_contact_cd,
-                    ':nominee_contact_no' => $nominee_contact_no,
-                    ':nominee_date_of_birth' => $nominee_date_of_birth,
-                    ':nominee_address' => $nominee_address,
-                ));
+        $sql5= "INSERT INTO `bank_details` ( 
+            application_id,
+            account_holder_name, 
+            bank_name, 
+            account_number,
+            ifsc_code,
+            branch_name)
+        VALUES ( 
+            :application_id,
+            :account_holder_name ,
+            :bank_name, 
+            :account_number,
+            :ifsc_code,
+            :branch_name)";
+        $stmt5 =$conn->prepare($sql5);
 
-                if ($result4) {
+        $stmt5->execute(array(
+            ':application_id' => $application_id,
+            ':account_holder_name' => $account_holder_name, 
+            ':bank_name' => $bank_name, 
+            ':account_number' => $account_number,
+            ':ifsc_code' => $ifsc_code,
+            ':branch_name' => $branch_name
+        ));
 
-                    $sql5= "INSERT INTO `bank_details` ( 
-                        application_id,
-                        account_holder_name, 
-                        bank_name, 
-                        account_number,
-                        ifsc_code,
-                        branch_name)
-                    VALUES ( 
-                        :application_id,
-                        :account_holder_name ,
-                        :bank_name, 
-                        :account_number,
-                        :ifsc_code,
-                        :branch_name)";
-                    $stmt5 =$conn->prepare($sql5);
+        $sql6= "INSERT INTO `documents` ( 
+            application_id,
+            profile_pic, 
+            aadhar_card, 
+            pan_card,
+            cancelled_cheque_bank_passbook,
+            resume_cv,
+            address_proof,
+            professional_profile,
+            business_profile,
+            income_proof,
+            other_document)
+        VALUES ( 
+            :application_id,
+            :profile_pic ,
+            :aadhar_card, 
+            :pan_card,
+            :cancelled_cheque_bank_passbook,
+            :resume_cv,
+            :address_proof,
+            :professional_profile,
+            :business_profile,
+            :income_proof,
+            :other_document)";
+        $stmt6 =$conn->prepare($sql6);
 
-                    $result5=$stmt5->execute(array(
-                        ':application_id' => $application_id,
-                        ':account_holder_name' => $account_holder_name, 
-                        ':bank_name' => $bank_name, 
-                        ':account_number' => $account_number,
-                        ':ifsc_code' => $ifsc_code,
-                        ':branch_name' => $branch_name
-                    ));
+        $stmt6->execute(array(
+            ':application_id' => $application_id,
+            ':profile_pic' => $profile_pic, 
+            ':aadhar_card' => $aadhar_card, 
+            ':pan_card' => $pan_card,
+            ':cancelled_cheque_bank_passbook' => $cancelled_cheque_bank_passbook,
+            ':resume_cv' => $resume_cv,
+            ':address_proof' => $address_proof,
+            ':professional_profile' => $professional_profile,
+            ':business_profile' => $business_profile,
+            ':income_proof' => $income_proof,
+            ':other_document' => $other_document
+        ));
 
-                    if ($result5) {
+        $sql7= "INSERT INTO logs ( title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
+        $stmt7 =$conn->prepare($sql7);
 
-                        $sql6= "INSERT INTO `documents` ( 
-                            application_id,
-                            profile_pic, 
-                            aadhar_card, 
-                            pan_card,
-                            cancelled_cheque_bank_passbook,
-                            resume_cv,
-                            address_proof,
-                            professional_profile,
-                            business_profile,
-                            income_proof,
-                            other_document)
-                        VALUES ( 
-                            :application_id,
-                            :profile_pic ,
-                            :aadhar_card, 
-                            :pan_card,
-                            :cancelled_cheque_bank_passbook,
-                            :resume_cv,
-                            :address_proof,
-                            :professional_profile,
-                            :business_profile,
-                            :income_proof,
-                            :other_document)";
-                        $stmt6 =$conn->prepare($sql6);
+        $stmt7->execute(array(
+            ':title' => $title,
+            ':message' => $message,
+            ':message2' =>$message2,
+            ':reference_no' => $user_id_name,
+            ':register_by' => $register_by,
+            ':from_whom' => $fromWhom,
+            ':operation' => $operation
+        ));
 
-                        $result6=$stmt6->execute(array(
-                            ':application_id' => $application_id,
-                            ':profile_pic' => $profile_pic, 
-                            ':aadhar_card' => $aadhar_card, 
-                            ':pan_card' => $pan_card,
-                            ':cancelled_cheque_bank_passbook' => $cancelled_cheque_bank_passbook,
-                            ':resume_cv' => $resume_cv,
-                            ':address_proof' => $address_proof,
-                            ':professional_profile' => $professional_profile,
-                            ':business_profile' => $business_profile,
-                            ':income_proof' => $income_proof,
-                            ':other_document' => $other_document
-                        ));
+        $conn->commit();
 
-                        if($result6){
+        echo 1;
 
-                            $sql7= "INSERT INTO logs ( title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
-                            $stmt7 =$conn->prepare($sql7);
+    } catch (Exception $e) {
 
-                            $result7=$stmt7->execute(array(
-                                ':title' => $title,
-                                ':message' => $message,
-                                ':message2' =>$message2,
-                                ':reference_no' => $user_id_name,
-                                ':register_by' => $register_by,
-                                ':from_whom' => $fromWhom,
-                                ':operation' => $operation
-                            ));
-
-                            if($result7){
-                                echo 1;
-                            }else{  
-                                echo 0	;
-                            }
-
-                        }else{
-                            echo 0	;
-                        }
-
-                    }else{
-                        echo 0	;
-                    }
-                }else{
-                    echo 0	;
-                }   
-            }else{
-                echo 0	;
-            }
-        }else{
-            echo 0	;
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
         }
-    }else{
-        echo 0	;
+
+        // Uncomment for debugging
+        // echo $e->getMessage();
+
+        echo 0;
     }
 
 ?>
