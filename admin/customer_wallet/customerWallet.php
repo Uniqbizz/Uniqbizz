@@ -226,7 +226,7 @@
                                 </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <a href="#">
+                                <a href="extendedWallet.php">
                                     <div class="rounded-3 px-3 py-2 walletCard2">
                                         <div class="d-flex gap-2">
                                             <div class="walletIcon2">
@@ -493,11 +493,6 @@
             <div class="loading-icon"></div>
         </div>
         <!-- Add button icon -->
-        <!-- <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
-            <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-            </a>
-        </div> -->
         <!-- End button icon -->
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">

@@ -38,7 +38,11 @@
                 END
             ), 0) AS UNSIGNED) AS used_coupons,
 
-            CAST(COALESCE(COUNT(DISTINCT user_id), 0) AS UNSIGNED) AS total_customers
+            (
+                SELECT COUNT(*)
+                FROM ca_customer
+                WHERE status = 1
+            ) AS total_customers
 
         FROM cu_coupons
         WHERE confirm_status = 1

@@ -4,7 +4,8 @@
         echo '<script>location.href = "../login.php";</script>';
     }
     require '../connect.php';
-    $date = date('Y'); 
+    $date = date('Y');
+    include (__DIR__.'/models/ew_card_data.php');  
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +34,11 @@
 
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 02-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 02-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -109,10 +115,30 @@
                 justify-content: center;
             }
             @media (max-width: 687px) {
-                .discountWallet {
+                /* .discountWallet {
                     display: block !important;
                     margin-bottom: 10px;
+                } code by NC*/
+                 /* code by SV */
+                .discountWallet{
+                    flex-direction: column;
+                    gap: 15px;
                 }
+
+                .discountWallet > div:last-child{
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                #reportrange{
+                    width: 100%;
+                }
+
+                .linkBtn{
+                    width: 100%;
+                    justify-content: center;
+                }
+                /* end code by SV */
             }
         </style>
     </head>
@@ -141,7 +167,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between discountWallet">
+                        <!-- <div class="d-flex justify-content-between discountWallet">
                             <div>
                                 <h2 class="fw-bolder text-dark">Extended Benefit Wallet</h2>
                                 <p class="fs-6 text-muted">
@@ -159,6 +185,44 @@
                                     </div>
                                 </a>
                             </div>
+                        </div> -->
+                        <div class="d-flex justify-content-between align-items-start flex-wrap discountWallet">
+
+                            <div class="me-2">
+                                <h2 class="fw-bolder text-dark">Extended Benefit Wallet</h2>
+                                <p class="fs-6 text-muted">
+                                    Manage secondary level referral benefits and package conversions
+                                </p>
+                            </div>
+
+                            <div class="d-flex gap-3 align-items-stretch flex-grow-1 justify-content-end">
+
+                                <!-- Date Range -->
+                                <div class="flex-grow-1" style="max-width:500px;">
+                                    <div id="reportrange"
+                                        class="bg-primary text-white px-3 py-2 d-flex justify-content-between align-items-center h-100"
+                                        style="border-radius:6px; cursor:pointer; min-height:56px;">
+                                        
+                                        <div>
+                                            <i class="fa fa-calendar me-2"></i>
+                                            <span id="selectedDate"></span>
+                                        </div>
+
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </div>
+                                </div>
+                                <!-- Export -->
+                                <a href="#" id="exportExcel" class="text-decoration-none">
+                                    <div class="linkBtn d-flex align-items-center gap-2 px-4 h-100">
+                                        <i class="fa-solid fa-download"></i>
+                                        <p class="fs-6 mb-0 fw-bolder">Export Statement</p>
+                                    </div>
+                                </a>
+
+
+                            </div>
+                            <!-- /* end code by SV */ -->
+
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -169,7 +233,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Total Extended Benefits</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">10,80,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class=""><?= number_format($extWalletData['ref_total_earning']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">All time generated</p>
                                         </div>
                                     </div>
@@ -183,7 +247,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Active Customers</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">420</p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2"><?= number_format($custCountData['total_cust']) ?></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">With Extended Wallet</p>
                                         </div>
                                     </div>
@@ -197,7 +261,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Converted Referrals</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">580</p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2"><?= number_format($extWalletCurBalData['ref_booking_total']) ?></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Secondary Level</p>
                                         </div>
                                     </div>
@@ -211,7 +275,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Benefits Applied</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">4,20,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">0</span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">For Discounts / Price Drops</p>
                                         </div>
                                     </div>
@@ -225,7 +289,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Available Benefit Pool</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">6,60,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class=""><?= number_format($extWalletCurBalData['balance']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Ready to Use</p>
                                         </div>
                                     </div>
@@ -236,7 +300,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row mb-2 d-flex justify-content-end">
+                                        <!-- <div class="row mb-2 d-flex justify-content-end">
                                             <div class="col-xl-6 col-lg-8 col-md-8 col-sm-9 col-12 d-flex justify-content-end gap-2">
                                                 <div class="text-end">
                                                     <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
@@ -248,7 +312,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="table-responsive">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
                                                 <thead class="table-light">
