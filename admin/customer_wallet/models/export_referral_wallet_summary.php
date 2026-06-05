@@ -135,7 +135,7 @@ $sql = $conn->prepare("
 
                 WHEN SUBSTRING(ru.transaction_id,1,2) = 'WD' THEN
                 (
-                    SELECT earned_on
+                    SELECT used_on
                     FROM customer_reference_wallet_utilization crwu
                     WHERE crwu.transaction_id = ru.transaction_id
                     LIMIT 1

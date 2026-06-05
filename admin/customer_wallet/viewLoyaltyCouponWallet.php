@@ -1235,11 +1235,11 @@
 
                     complete: function () {
 
-                        btn.prop('disabled', false);
+                        // btn.prop('disabled', false);
 
                         btn.html(`
-                            <i class="fa-solid fa-file-excel me-1"></i>
-                            Export Excel
+                            <i class="fa-solid fa-download"></i>
+                            <p class="fs-6 mb-0 fw-bolder pe-1">Export Statement</p>
                         `);
                     }
                 });

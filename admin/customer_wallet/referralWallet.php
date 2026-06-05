@@ -5,6 +5,8 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    $start_date = $_GET['start_date'] ?? '2020-01-01';
+    $end_date   = $_GET['end_date'] ?? date('Y-m-d');
     include (__DIR__.'/models/rw_card_data.php'); 
 ?>
 <!doctype html>
@@ -229,7 +231,7 @@
                                     </div>
                                 </div>
                                 <!-- Export -->
-                                <a href="#" class="text-decoration-none">
+                                <a href="#" id="exportExcel" class="text-decoration-none">
                                     <div class="linkBtn d-flex align-items-center gap-2 px-4 h-100">
                                         <i class="fa-solid fa-download"></i>
                                         <p class="fs-6 mb-0 fw-bolder">Export Statement</p>
@@ -285,7 +287,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Balance</h1>
-                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($refWalletCurBalData['total_balance'] ?? 0) ?></span></p>
+                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($refWalletCurBalData['balance'] ?? 0) ?></span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -525,21 +527,8 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-            });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
-
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
             //date range filter
             $(function () {
-
-                let firstLoad = true;
 
                 const urlParams = new URLSearchParams(window.location.search);
 
@@ -551,90 +540,38 @@
                     ? moment(urlParams.get('end_date'))
                     : moment();
 
-                function cb(start, end) {
+                // First page load without dates in URL
+                if (!urlParams.has('start_date') || !urlParams.has('end_date')) {
 
-                    $('#selectedDate').html(
-                        start.format('MMMM D, YYYY') +
-                        ' - ' +
-                        end.format('MMMM D, YYYY')
+                    window.location.replace(
+                        window.location.pathname +
+                        '?start_date=' + start.format('YYYY-MM-DD') +
+                        '&end_date=' + end.format('YYYY-MM-DD')
                     );
 
-                    window.startDate = start.format('YYYY-MM-DD');
-                    window.endDate = end.format('YYYY-MM-DD');
-
-                    // Prevent redirect on initial load
-                    if (firstLoad) {
-                        firstLoad = false;
-                        return;
-                    }
-
-                    const newUrl =
-                        window.location.pathname +
-                        '?start_date=' + window.startDate +
-                        '&end_date=' + window.endDate;
-
-                    window.location.href = newUrl;
+                    return;
                 }
 
                 $('#reportrange').daterangepicker({
-
                     startDate: start,
                     endDate: end,
-
                     showDropdowns: true,
-                    opens: 'left',
+                    opens: 'left'
+                });
 
-                    ranges: {
+                $('#selectedDate').html(
+                    start.format('MMMM D, YYYY') +
+                    ' - ' +
+                    end.format('MMMM D, YYYY')
+                );
 
-                        'Today': [
-                            moment(),
-                            moment()
-                        ],
+                $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
 
-                        'Yesterday': [
-                            moment().subtract(1, 'days'),
-                            moment().subtract(1, 'days')
-                        ],
-
-                        'Last 7 Days': [
-                            moment().subtract(6, 'days'),
-                            moment()
-                        ],
-
-                        'Last 30 Days': [
-                            moment().subtract(29, 'days'),
-                            moment()
-                        ],
-
-                        'This Month': [
-                            moment().startOf('month'),
-                            moment().endOf('month')
-                        ],
-
-                        'Last Month': [
-                            moment().subtract(1, 'month').startOf('month'),
-                            moment().subtract(1, 'month').endOf('month')
-                        ],
-
-                        'Last Year': [
-                            moment().subtract(1, 'year').startOf('year'),
-                            moment().subtract(1, 'year').endOf('year')
-                        ]
-                    }
-
-                }, cb);
-
-                cb(start, end);
-
-            });
-            $('#reportrange').on('change', function () {
-
-                const newUrl =
-                    window.location.pathname +
-                    '?start_date=' + window.startDate +
-                    '&end_date=' + window.endDate;
-
-                window.location.href = newUrl;
+                    window.location.href =
+                        window.location.pathname +
+                        '?start_date=' + picker.startDate.format('YYYY-MM-DD') +
+                        '&end_date=' + picker.endDate.format('YYYY-MM-DD');
+                });
 
             });
             $('#pendingCustomerList-table').DataTable({
@@ -742,6 +679,20 @@
                         }
                     }
                 ]
+            });
+
+            $('#exportExcel').on('click', function () {
+
+                const params = new URLSearchParams(window.location.search);
+
+                const startDate = params.get('start_date') || '';
+                const endDate = params.get('end_date') || '';
+
+                window.location.href =
+                    'models/rw_export_excel.php?start_date=' +
+                    encodeURIComponent(startDate) +
+                    '&end_date=' +
+                    encodeURIComponent(endDate);
             });
         </script>
     </body>

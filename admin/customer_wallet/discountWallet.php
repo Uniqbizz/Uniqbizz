@@ -5,6 +5,9 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    $start_date = $_GET['start_date'] ?? '2020-01-01';
+    $end_date   = $_GET['end_date'] ?? date('Y-m-d');
+    include (__DIR__.'/models/dw_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +36,9 @@
 
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 02-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 02-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -109,10 +115,30 @@
                 justify-content: center;
             }
             @media (max-width: 687px) {
-                .discountWallet {
+                /* .discountWallet {
                     display: block !important;
                     margin-bottom: 10px;
+                } code by NC*/
+                /* code by SV */
+                .discountWallet{
+                    flex-direction: column;
+                    gap: 15px;
                 }
+
+                .discountWallet > div:last-child{
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                #reportrange{
+                    width: 100%;
+                }
+
+                .linkBtn{
+                    width: 100%;
+                    justify-content: center;
+                }
+                /* end code by SV */
             }
         </style>
     </head>
@@ -141,7 +167,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between discountWallet">
+                        <!-- <div class="d-flex justify-content-between discountWallet">
                             <div>
                                 <h2 class="fw-bolder text-dark">Discount Wallet</h2>
                                 <p class="fs-6 text-muted">
@@ -159,6 +185,44 @@
                                     </div>
                                 </a>
                             </div>
+                        </div> -->
+                        <div class="d-flex justify-content-between align-items-start flex-wrap discountWallet">
+
+                            <div class="me-2">
+                                <h2 class="fw-bolder text-dark">Discount Wallet</h2>
+                                <p class="fs-6 text-muted">
+                                    Manage customer discount balances and usage
+                                </p>
+                            </div>
+
+                            <div class="d-flex gap-3 align-items-stretch flex-grow-1 justify-content-end">
+
+                                <!-- Date Range -->
+                                <div class="flex-grow-1" style="max-width:500px;">
+                                    <div id="reportrange"
+                                        class="bg-primary text-white px-3 py-2 d-flex justify-content-between align-items-center h-100"
+                                        style="border-radius:6px; cursor:pointer; min-height:56px;">
+                                        
+                                        <div>
+                                            <i class="fa fa-calendar me-2"></i>
+                                            <span id="selectedDate"></span>
+                                        </div>
+
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </div>
+                                </div>
+                                <!-- Export -->
+                                <a href="#" id="exportExcel" class="text-decoration-none">
+                                    <div class="linkBtn d-flex align-items-center gap-2 px-4 h-100">
+                                        <i class="fa-solid fa-download"></i>
+                                        <p class="fs-6 mb-0 fw-bolder">Export Statement</p>
+                                    </div>
+                                </a>
+
+
+                            </div>
+                            <!-- /* end code by SV */ -->
+
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -169,7 +233,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Total Discount Wallet Balance</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-1">&#8377;<span class="">8,50,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-1">&#8377;<span class=""><?= number_format($disWalletData['ref_total_earning']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Total Available</p>
                                         </div>
                                     </div>
@@ -183,7 +247,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Active Customers</h1>
-                                            <p class="fs-4 text-dark fw-bolder">1,250</p>
+                                            <p class="fs-4 text-dark fw-bolder"><?= number_format($custCountData['total_cust']) ?></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Total Customers</p>
                                         </div>
                                     </div>
@@ -197,7 +261,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Total Discount Used</h1>
-                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class="">5,20,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($disWalletCurBalData['total_used_amount']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">All Time Used</p>
                                         </div>
                                     </div>
@@ -211,7 +275,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Available Discount Balance</h1>
-                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class="">3,30,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder">&#8377;<span class=""><?= number_format($disWalletCurBalData['balance']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Ready to Use</p>
                                         </div>
                                     </div>
@@ -222,19 +286,6 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-6 col-lg-8 col-md-8 col-sm-9 col-12 d-flex justify-content-end gap-2">
-                                                <div class="text-end">
-                                                    <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
-                                                </div>
-                                                <a href="#">
-                                                    <div class="linkBtn gap-2 align-items-center">
-                                                        <i class="fa-solid fa-download"></i>
-                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
                                         <div class="table-responsive">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
                                                 <thead class="table-light">
@@ -371,12 +422,6 @@
         <div id="loading-overlay">
             <div class="loading-icon"></div>
         </div>
-        <!-- Add button icon -->
-        <!-- <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
-            <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-            </a>
-        </div> -->
         <!-- End button icon -->
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
@@ -406,6 +451,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -425,18 +475,188 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
+
+            $(function () {
+
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let start = urlParams.get('start_date')
+                    ? moment(urlParams.get('start_date'))
+                    : moment('2020-01-01');
+
+                let end = urlParams.get('end_date')
+                    ? moment(urlParams.get('end_date'))
+                    : moment();
+
+                // First page load without dates in URL
+                if (!urlParams.has('start_date') || !urlParams.has('end_date')) {
+
+                    window.location.replace(
+                        window.location.pathname +
+                        '?start_date=' + start.format('YYYY-MM-DD') +
+                        '&end_date=' + end.format('YYYY-MM-DD')
+                    );
+
+                    return;
+                }
+
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    showDropdowns: true,
+                    opens: 'left'
+                });
+
+                $('#selectedDate').html(
+                    start.format('MMMM D, YYYY') +
+                    ' - ' +
+                    end.format('MMMM D, YYYY')
+                );
+
+                $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+
+                    window.location.href =
+                        window.location.pathname +
+                        '?start_date=' + picker.startDate.format('YYYY-MM-DD') +
+                        '&end_date=' + picker.endDate.format('YYYY-MM-DD');
+                });
+
             });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
+            $('#pendingCustomerList-table').DataTable({
+                processing: true,
+                destroy: true,
+                responsive: true,
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
+                ajax: {
+                    url: 'models/dw_table_data.php',
+                    type: 'GET',
+                    data: function(d) {
 
+                        const params = new URLSearchParams(window.location.search);
+
+                        d.start_date = params.get('start_date');
+                        d.end_date = params.get('end_date');
+                    }
+                },
+
+                columns: [
+
+                    // Customer
+                    {
+                        data: null,
+                        render: function(data) {
+
+                            let profilePic = data.profile_pic
+                                ? '../../uploading/' + data.profile_pic
+                                : '../assets/images/users/avatar-7.jpg';
+
+                            return `
+                                <div class="d-flex gap-2 align-items-center mb-2">
+                                    <div>
+                                        <img src="${profilePic}" alt="Customer" class="profileImage">
+                                    </div>
+                                    <div>
+                                        <p class="mb-0 fw-bolder fontSize1">${data.customer_name}</p>
+                                        <p class="fontSize1 fw-bold mb-0">${data.ca_customer_id}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    // Membership
+                    {
+                        data: 'customer_type',
+                        render: function(data) {
+
+                            const classes = {
+                                'Premium Select Lite': 'secondary',
+                                'Neo Select': 'success',
+                                'Neo Select Ultra': 'primary',
+                                'Premium': 'warning',
+                                'Premium Plus': 'danger',
+                                'Premium Select': 'info',
+                                'Prime': 'dark'
+                            };
+
+                            const badgeClass = classes[data] || 'secondary';
+
+                            return `
+                                <div class="p-1 text-${badgeClass}-emphasis bg-${badgeClass}-subtle border border-${badgeClass}-subtle rounded-3 text-center fw-bolder">
+                                    ${data}
+                                </div>
+                            `;
+                        }
+                    },
+
+                    // Discount Earned
+                    {
+                        data: 'total_earned',
+                        render: function(data) {
+                            return `
+                                <p class="fontSize1 fw-bold mb-0 text-dark text-center">
+                                    ₹${Number(data || 0).toLocaleString()}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    // Discount Used
+                    {
+                        data: 'used_balance',
+                        render: function(data) {
+                            return `
+                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">
+                                    ₹${Number(data || 0).toLocaleString()}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    // Available Balance
+                    {
+                        data: 'available_balance',
+                        render: function(data) {
+                            return `
+                                <p class="fontSize1 fw-bold mb-0 text-success text-center">
+                                    ₹${Number(data || 0).toLocaleString()}
+                                </p>
+                            `;
+                        }
+                    },
+
+                    // Action
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            return `
+                                <form action="viewDiscountWallet.php" method="POST" class="m-0">
+                                    <input type="hidden" name="customer_id" value="${data.ca_customer_id}">
+                                    <button type="submit"
+                                        class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder w-100">
+                                        View
+                                    </button>
+                                </form>
+                            `;
+                        }
+                    }
+                ]
+            });
+            $('#exportExcel').on('click', function () {
+
+                const params = new URLSearchParams(window.location.search);
+
+                const startDate = params.get('start_date') || '';
+                const endDate = params.get('end_date') || '';
+
+                window.location.href =
+                    'models/dw_export_excel.php?start_date=' +
+                    encodeURIComponent(startDate) +
+                    '&end_date=' +
+                    encodeURIComponent(endDate);
+            });
         </script>
     </body>
 </html>

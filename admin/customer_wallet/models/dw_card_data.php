@@ -1,5 +1,5 @@
 <?php
-include(__DIR__ . '/../../connect.php');
+    include(__DIR__ . '/../../connect.php');
 
     $start_date = $_GET['start_date'] ?? date('Y-m-01');
     $end_date   = $_GET['end_date'] ?? date('Y-m-d');
@@ -43,10 +43,10 @@ include(__DIR__ . '/../../connect.php');
 
     /*
     |--------------------------------------------------------------------------
-    | Reference Wallet Utilization
+    | Discount Wallet Utilization
     |--------------------------------------------------------------------------
     */
-    $sqlRefWalletCurBal = $conn->prepare("
+    $sqlDisWalletCurBal = $conn->prepare("
         SELECT
             COALESCE(SUM(earned_amount),0) -
             COALESCE(SUM(used_amount),0) AS balance,
@@ -61,34 +61,33 @@ include(__DIR__ . '/../../connect.php');
                     END
                 ),
             0) AS ref_booking_total,
+
             COALESCE(SUM(used_amount),0) AS total_used_amount
 
-        FROM customer_reference_wallet_utilization
+        FROM customer_discount_wallet_utilization
         WHERE $dateCondition
     ");
 
-    $sqlRefWalletCurBal->execute($params);
-    $refWalletCurBalData = $sqlRefWalletCurBal->fetch(PDO::FETCH_ASSOC);
+    $sqlDisWalletCurBal->execute($params);
+    $disWalletCurBalData = $sqlDisWalletCurBal->fetch(PDO::FETCH_ASSOC);
 
     /*
     |--------------------------------------------------------------------------
-    | Reference Wallet Statistics
+    | Discount Wallet Statistics
     |--------------------------------------------------------------------------
     */
-    $sqlRefWallet = $conn->prepare("
+    $sqlDisWallet = $conn->prepare("
         SELECT
             COUNT(*) AS ref_count,
 
-            COALESCE(SUM(referral_amount),0) AS ref_total_earning
+            COALESCE(SUM(earn_amount),0) AS ref_total_earning
 
-        FROM customer_reference_payout
-        WHERE referral_level = 'Level1'
-        AND referral_amount IS NOT NULL
-        AND $dateCondition
+        FROM customer_discount_wallet
+        WHERE $dateCondition
     ");
 
-    $sqlRefWallet->execute($params);
-    $refWalletData = $sqlRefWallet->fetch(PDO::FETCH_ASSOC);
+    $sqlDisWallet->execute($params);
+    $disWalletData = $sqlDisWallet->fetch(PDO::FETCH_ASSOC);
     /*
     |--------------------------------------------------------------------------
     | Total Customers
@@ -105,28 +104,15 @@ include(__DIR__ . '/../../connect.php');
     $custCountData = $sqlcustCount->fetch(PDO::FETCH_ASSOC);
     /*
     |--------------------------------------------------------------------------
-    | Reference wallet encashment
-    |--------------------------------------------------------------------------
-    */
-    $sqlRefWalletEncash = $conn->prepare("
-        SELECT COALESCE(SUM(encashed_amount), 0) AS total_earning_pending
-        FROM customer_reference_wallet_encashed
-        WHERE status=2
-    ");
-
-    $sqlRefWalletEncash->execute();
-    $refWalletEncashData = $sqlRefWalletEncash->fetch(PDO::FETCH_ASSOC);
-    /*
-    |--------------------------------------------------------------------------
     | Safe Defaults
     |--------------------------------------------------------------------------
     */
-    $refWalletCurBalData = $refWalletCurBalData ?: [
+    $disWalletCurBalData = $disWalletCurBalData ?: [
         'total_balance' => 0,
         'ref_booking_total' => 0
     ];
 
-    $refWalletData = $refWalletData ?: [
+    $disWalletData = $disWalletData ?: [
         'ref_count' => 0,
         'ref_total_earning' => 0,
         'total_used_amount' =>0
@@ -136,7 +122,4 @@ include(__DIR__ . '/../../connect.php');
         'total_cust' => 0
     ];
 
-    $refWalletEncashData=$refWalletEncashData?:[
-        'total_earning_pending' =>0
-    ];
 ?>
