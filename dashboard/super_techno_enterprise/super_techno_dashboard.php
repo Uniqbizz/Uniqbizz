@@ -84,7 +84,65 @@
                                 <p class="text-dark fs-4">Here's your business overview.</p>
                             </div>
                         </div>
-                        
+                        <!-- Card section 2 -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="card rounded-4 p-3 stCard1">
+                                    <div class="d-flex gap-3">
+                                        <div class="stIcon stIcon1">
+                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
+                                            <h2 class="fw-bolder text-dark mb-1">18</h2>
+                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="card rounded-4 p-3 stCard2">
+                                    <div class="d-flex gap-3">
+                                        <div class="stIcon stIcon2">
+                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bold">Travel Consultants</p>
+                                            <h2 class="fw-bolder text-dark mb-1">142</h2>
+                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="card rounded-4 p-3 stCard3">
+                                    <div class="d-flex gap-3">
+                                        <div class="stIcon stIcon3">
+                                            <i class="fa-solid fa-user-group fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bold">Customers</p>
+                                            <h2 class="fw-bolder text-dark mb-1">680</h2>
+                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="card rounded-4 p-3 stCard4">
+                                    <div class="d-flex gap-3">
+                                        <div class="stIcon stIcon4">
+                                            <i class="fa-solid fa-wallet fa-xl"></i>
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
+                                            <h2 class="fw-bolder text-dark mb-1">&#8377; 9,63,000</h2>
+                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- card section 8 -->
                         <div class="supportImagePosition mt-3">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">

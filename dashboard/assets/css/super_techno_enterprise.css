@@ -242,6 +242,47 @@ body {
     left: 20px;
     z-index: 999;
 }
+/* card section 2  */
+.stCard1 {
+    background-color: #f3f2ff;
+    border: 2px solid #d3d0ee;
+}
+.stCard2 {
+    background-color: #dceaff;
+    border: 2px solid #bcd0ee;
+}
+.stCard3 {
+    background-color: #cff0d6;
+    border: 2px solid #ace9b9;
+}
+.stCard4 {
+    background-color: #dfe3ff;
+    border: 2px solid #b9bfe7;
+}
+.stIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.stIcon1 {
+    background-color: #35239a;
+    color: #fff; 
+}
+.stIcon2 {
+    background-color: #0d6efd;
+    color: #fff; 
+}
+.stIcon3 {
+    background-color: #068c25;
+    color: #fff; 
+}
+.stIcon4 {
+    background-color: #021185;
+    color: #fff; 
+}
 /* card section 8 */
 .supportImagePosition {
     position: relative;
