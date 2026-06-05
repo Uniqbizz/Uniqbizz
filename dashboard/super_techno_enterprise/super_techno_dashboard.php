@@ -86,7 +86,7 @@
                         </div>
                         <!-- Card section 2 -->
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                 <div class="card rounded-4 p-3 stCard1">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon1">
@@ -94,13 +94,13 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
-                                            <h2 class="fw-bolder text-dark mb-1">18</h2>
+                                            <h4 class="fw-bolder text-dark mb-1">18</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                 <div class="card rounded-4 p-3 stCard2">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon2">
@@ -108,13 +108,13 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Travel Consultants</p>
-                                            <h2 class="fw-bolder text-dark mb-1">142</h2>
+                                            <h4 class="fw-bolder text-dark mb-1">142</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                 <div class="card rounded-4 p-3 stCard3">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon3">
@@ -122,13 +122,13 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Customers</p>
-                                            <h2 class="fw-bolder text-dark mb-1">680</h2>
+                                            <h4 class="fw-bolder text-dark mb-1">680</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                                 <div class="card rounded-4 p-3 stCard4">
                                     <div class="d-flex gap-3">
                                         <div class="stIcon stIcon4">
@@ -136,8 +136,104 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
-                                            <h2 class="fw-bolder text-dark mb-1">&#8377; 9,63,000</h2>
+                                            <h4 class="fw-bolder text-dark mb-1">&#8377; 9,63,000</h4>
                                             <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card section 3 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="commission-card px-2">
+                                    <div class="commission-title">
+                                        Commission Earned This Month
+                                    </div>
+                                    <div class="commission-wrapper gap-2">
+                                        <div class="chart-container">
+                                            <canvas id="commissionChart"></canvas>
+                                            <div class="center-text">
+                                                <p>Total Earnings</p>
+                                                <h2>₹ 9,63,000</h2>
+                                            </div>
+                                        </div>
+                                        <div class="legend-section-details">
+                                            <div class="legend-section">
+                                                <div class="legend-item">
+                                                    <div class="legend-left">
+                                                        <span class="dot" style="background:#5B2EFF"></span>
+                                                        <span>Recruitment Commission</span>
+                                                    </div>
+                                                    <div class="amount">₹ 4,50,000</div>
+                                                    <div class="percent">46.7%</div>
+                                                </div>
+                                                <div class="legend-item">
+                                                    <div class="legend-left">
+                                                        <span class="dot" style="background:#2563EB"></span>
+                                                        <span>Neo Select Commission</span>
+                                                    </div>
+                                                    <div class="amount">₹ 1,92,000</div>
+                                                    <div class="percent">19.9%</div>
+                                                </div>
+                                                <div class="legend-item">
+                                                    <div class="legend-left">
+                                                        <span class="dot" style="background:#00C46A"></span>
+                                                        <span>Booking Commission</span>
+                                                    </div>
+                                                    <div class="amount">₹ 3,21,000</div>
+                                                    <div class="percent">33.4%</div>
+                                                </div>
+                                                <div class="report-link">
+                                                    <a href="#">
+                                                        View Commission Report →
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="commission-card px-2">
+                                    <div class="commission-title">
+                                        My Wallet
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
+                                            <div class="card rounded-4 p-3 stWalletCard1">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="">
+                                                        <p class="mb-1 fs-6 fw-bold">Available Balance</p>
+                                                        <h4 class="fw-bolder text-dark mb-1">&#8377; 9,18,000</h4>
+                                                    </div>
+                                                    <div class="stWalletIcon1">
+                                                        <i class="fa-solid fa-wallet"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-6 col-12">
+                                            <div class="card rounded-4 p-3 stWalletCard2">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="">
+                                                        <p class="mb-1 fs-6 fw-bold">Pending Payout</p>
+                                                        <h4 class="fw-bolder text-dark mb-1">&#8377; 45,000</h4>
+                                                    </div>
+                                                    <div class="stWalletIcon2">
+                                                        <i class="fa-regular fa-hourglass"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-lg-5">
+                                            <a href="#">
+                                                <div class="stWalletBtn">
+                                                    <p class="fs-5 mb-0 fw-bolder">Withdraw <i class="fa-solid fa-arrow-right"></i></p>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -353,5 +449,36 @@
             }
         </script>
         <!-- dialer logic -->
+        <!-- Card section 3 -->
+        <script>
+            const ctx = document.getElementById('commissionChart');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Recruitment', 'Neo Select', 'Booking'],
+                    datasets: [{
+                        data: [46.7, 19.9, 33.4],
+                        backgroundColor: [
+                            '#5B2EFF',
+                            '#2563EB',
+                            '#00C46A'
+                        ],
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
