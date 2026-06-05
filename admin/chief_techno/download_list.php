@@ -3,7 +3,7 @@
 
     $output="";
 
-    $branchFilter = $_GET['branch'] ?? '';
+    // $branchFilter = $_GET['branch'] ?? '';
     $designation  = $_GET['designation'] ?? '';
     $from=$_GET['fromDate']??'';
     $to=$_GET['toDate']??'';
@@ -38,26 +38,26 @@
 
     // Base queries
     $bmQuery = "
-        SELECT business_mentor_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'BM' AS user_type 
+        SELECT business_mentor_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,register_date,date_of_birth,country,state,city,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'BM' AS user_type 
         FROM business_mentor 
         WHERE status = '1' $filter
     ";
 
     $mfQuery = "
-        SELECT master_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'MF' AS user_type 
+        SELECT master_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,register_date,date_of_birth,country,state,city,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'MF' AS user_type 
         FROM master_franchisee 
         WHERE status = '1' $filter
     ";
 
     $sfQuery = "
-        SELECT sponsor_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'SF' AS user_type 
+        SELECT sponsor_franchisee_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,register_date,date_of_birth,country,state,city,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'SF' AS user_type 
         FROM sponsor_franchisee 
         WHERE status = '1' $filter
     ";
 
     $eteQuery = "
-        SELECT executive_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,branch,register_date,date_of_birth,country,state,city,zone,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'ETE' AS user_type 
-        FROM executive_techno_enterprise 
+        SELECT chief_techno_enterprise_id as user_id,firstname,lastname,reference_no,registrant,country_code,email,paid_amount,register_date,date_of_birth,country,state,city,contact_no,register_by,id,nominee_name,nominee_relation,age,gender,pincode,address,payment_mode, 'ETE' AS user_type 
+        FROM chief_techno_enterprise 
         WHERE status = '1' $filter
     ";
 
@@ -102,9 +102,9 @@
                     : (($designation == "SF")
                         ? "Sponsor Franchisee"
                         : (($designation == "ETE")
-                        ? "Executive Techno Enterprise"
+                        ? "Chief Techno Enterprise"
                             : (($designation == "All")
-                                ? "Business Mentor / Master Franchisee / Sponsor Franchisee / Executive Techno Enterprise"
+                                ? "Business Mentor / Master Franchisee / Sponsor Franchisee / Chief Techno Enterprise"
                                 : "Unknown"))));
 
         $output .= '<h2 style="text-align:center">' . $label . ' Registered List</h2>

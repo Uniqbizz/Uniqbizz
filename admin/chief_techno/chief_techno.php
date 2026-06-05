@@ -285,7 +285,7 @@
                                                             <option value="BM">Business Mentor</option>
                                                             <option value="MF">Master Franchisee</option>
                                                             <option value="SF">Sponsor Franchisee</option>
-                                                            <option value="ETE">Executive Techno Enterprise</option>
+                                                            <option value="CTE">Chief Techno Enterprise</option>
                                                         </select>
                                                         
                                                     </div>
@@ -608,7 +608,7 @@
             <div class="loading-icon"></div>
         </div>
         <!-- Add button icon -->
-        <div class="btn" data-bs-toggle="modal" data-bs-target="#newBusinessOperationExecutiveModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
+        <div class="btn" data-bs-toggle="modal" data-bs-target="#newBusinessOperationChiefModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
             <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
                 <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
             </a>
@@ -620,7 +620,7 @@
         <!--end back-to-top-->
 
         <!-- Modal -->
-        <div class="modal fade" id="newBusinessOperationExecutiveModal" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="newBusinessOperationChiefModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm">
                 <div class="modal-content">
                     <div class="modal-body px-4 py-5 text-center">
@@ -635,14 +635,14 @@
                         <p class="text-muted font-size-16 mb-4">Are you Sure You want to Add New User ?</p>
                         
                         <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="add-item"><a href="add_chief_techno.php"><span style="color: white;">Add Now</span></a></button>
-                            <button type="button" class="btn btn-secondary" id="close-newBusinessOperationExecutiveModal" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" id="add-item"><a href="addChiefTechno.php"><span style="color: white;">Add Now</span></a></button>
+                            <button type="button" class="btn btn-secondary" id="close-newBusinessOperationChiefModal" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- end newBusinessOperationExecutiveModal -->
+        <!-- end newBusinessOperationChiefModal -->
 
         <!-- Modal -->
         <div class="modal fade" id="removeItemModal" tabindex="-1" aria-hidden="true">
@@ -757,7 +757,7 @@
             });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor,usertype){ 
-                window.location.href='edit_chief_techno.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor+'&usertype='+usertype;
+                window.location.href='editChiefTechno.php?id='+id+'&refno='+refno+'&regby='+regby+'&country='+cut+'&state='+st+'&city='+ct+'&editfor='+editfor+'&usertype='+usertype;
             };
 
             function deletefunc(id,fid,action,usertype){ 
@@ -765,7 +765,7 @@
 
                 $.ajax({
                 type: "POST",
-                url: "delete_chief_techno.php",
+                url: "deleteChiefTechno.php",
                 data: dataString,
                 cache: false,
                     success:function(data){
@@ -796,7 +796,7 @@
                 $("#loading-overlay").show(); //loading screen
                 $.ajax({
                     type: "POST",
-                    url: "confirm_chief_techno.php",
+                    url: "confirmChiefTechno.php",
                     data: dataString,
                     cache: false,
                     success:function(data){
@@ -845,14 +845,14 @@
                 // let desig = $('#designation_value').val();
 
                 // let dataString = 'branch='+filterDesig;
-                let dataString='';
+                let dataString = '';
                 if (dateRangeChanged) {
                     dataString += '&fromDate='+fromDate+'&toDate='+toDate;
                 }
 
                 $.ajax({
                     type: 'POST',
-                    url: 'filter_cte.php',
+                    url: 'filterSte.php',
                     data: dataString,
                     cache: false,
                     success: function(data){

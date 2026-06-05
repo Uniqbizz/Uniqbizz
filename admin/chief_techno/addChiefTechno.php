@@ -24,7 +24,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 
 <head>
 	<meta charset="utf-8" />
-	<title>Add Executive Techo Enterprise | Admin Dashboard </title>
+	<title>Add Chief Techo Enterprise | Admin Dashboard </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- App favicon -->
 	<link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0 font-size-18">Executive Techo Enterprise</h4>
+								<h4 class="mb-sm-0 font-size-18">Chief Techo Enterprise</h4>
 							</div>
 						</div>
 					</div>
@@ -84,11 +84,11 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 							<div class="card">
 								<div class="card-body">
 									<form>
-										<h3>Add Executive Techo Enterprise</h3>
+										<h3>Add Chief Techo Enterprise</h3>
 										<div class="row">
 											<!-- Personal Details -->
 											<h4>Personal Details</h4>
-											<div class="col-md-4 col-sm-12">
+											<!-- <div class="col-md-4 col-sm-12">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Designation<span class="text-danger">*</span></label>
 													<select id="designation" class="form-select">
@@ -110,7 +110,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
 													<input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="" readonly>
 												</div>
-											</div>
+											</div> -->
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">First Name <span class="text-danger">*</span></label>
@@ -373,7 +373,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<h4 class="my-2">Leadership Assessment</h4>
 											<div class="col-md-4 col-sm-6">
 												<div class="input-block mb-3">
-													<label class="col-form-label">Why You want to become a Executive Techno Enterprise?<span class="text-danger">*</span></label>
+													<label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
 													<textarea class="form-control" id="career_objective" rows="4" cols="50"> </textarea>
 												</div>
 											</div>
@@ -658,9 +658,9 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											</div>
 
 										</div>
-										<input type="hidden" id="testValue" name="testValue" value="35"> <!-- Executive TE -->
+										<input type="hidden" id="testValue" name="testValue" value="36"> <!-- Chief TE -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addExecutiveTechnoEnterprise">Submit</button>
+											<button type="submit" class="btn btn-primary px-5 py-2" id="addChiefTechnoEnterprise">Submit</button>
 										</div>
 									</form>
 								</div>
@@ -696,7 +696,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 	<script src="../assets/libs/node-waves/waves.min.js"></script>
 
 	<!-- add data to database js file -->
-	<script type="text/javascript" src="executive_techno_enterprise.js"></script>
+	<script type="text/javascript" src="chief_techno_enterprise.js"></script>
 
 	<!-- App js -->
 	<script src="../assets/js/app.js"></script>

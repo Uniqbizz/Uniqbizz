@@ -4,10 +4,8 @@
     date_default_timezone_set('Asia/Kolkata');
     $current_year = date('Y'); 
 
-    //personal details - table "executive_techno_enterprise"
-    $designation          = $_POST['designation'] ?? '';
-    $user_id_name         = $_POST['user_id_name'] ?? '';
-    $reference_name       = $_POST['reference_name'] ?? '';
+    //personal details - table "chief_techno_enterprise"
+    
     $firstname            = $_POST['firstname'] ?? '';
     $lastname             = $_POST['lastname'] ?? '';
     $father_spouse_name   = $_POST['father_spouse_name'] ?? '';
@@ -68,14 +66,14 @@
     $income_proof                   = $_POST['income_proof'] ?? '';
     $other_document                 = $_POST['other_document'] ?? '';
 
-    $user_type="34";
+    $user_type="36";
     $register_by="1";
 	$status= '2';
     $age = '';
     $application_id = '';
     // genarate uniq application id 
     function getApplication() {
-        return 'ETEAPP' . strtoupper(bin2hex(random_bytes(4)));
+        return 'CTEAPP' . strtoupper(bin2hex(random_bytes(4)));
     }
     $application_id = getApplication();
 
@@ -87,9 +85,9 @@
     }
 
     // data insertion for logs tables 
-    $title="Executive Techo Enterprise";
-    $message="Added new Executive Techo Enterprise by admin";
-    $message2="Added new Executive Techo Enterprise by admin";
+    $title="Chief Techo Enterprise";
+    $message="Added new Chief Techo Enterprise by admin";
+    $message2="Added new Chief Techo Enterprise by admin";
     $fromWhom="1";
 	$operation="Add";
 
@@ -97,7 +95,7 @@
 
         $conn->beginTransaction();
 
-        $sql1= "INSERT INTO `executive_techno_enterprise` ( 
+        $sql1= "INSERT INTO `chief_techno_enterprise` ( 
             application_id,
             firstname, 
             lastname, 
@@ -117,9 +115,7 @@
             city, 
             pincode, 
             address,  
-            user_type, 
-            registrant, 
-            reference_no, 
+            user_type,
             register_by, 
             status)
         VALUES ( 
@@ -142,9 +138,7 @@
             :city, 
             :pincode,
             :address,
-            :user_type,
-            :registrant,  
-            :reference_no, 
+            :user_type, 
             :register_by, 
             :status)";
         $stmt1 =$conn->prepare($sql1);
@@ -170,8 +164,6 @@
             ':age' => $age,  
             ':gender' => $gender,
             ':user_type' => $user_type,
-            ':registrant' =>$reference_name,
-            ':reference_no' => $user_id_name,
             ':register_by' => $register_by,
             ':status' => $status
         ));
@@ -323,14 +315,13 @@
             ':other_document' => $other_document
         ));
 
-        $sql7= "INSERT INTO logs ( title,message,message2,reference_no, register_by, from_whom,operation) VALUES (:title ,:message, :message2, :reference_no, :register_by, :from_whom, :operation)";
+        $sql7= "INSERT INTO logs ( title,message,message2,register_by, from_whom,operation) VALUES (:title ,:message, :message2, :register_by, :from_whom, :operation)";
         $stmt7 =$conn->prepare($sql7);
 
         $stmt7->execute(array(
             ':title' => $title,
             ':message' => $message,
             ':message2' =>$message2,
-            ':reference_no' => $user_id_name,
             ':register_by' => $register_by,
             ':from_whom' => $fromWhom,
             ':operation' => $operation

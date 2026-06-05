@@ -99,7 +99,7 @@ if ($user_type_id == '35') { //Super Techno Enterprise
 	));
 
 	if($resultSte){
-
+		// enter Super Techno Enterprise uniq id in all tables mentioned below
 		$tables = [
 			'professional_and_educational',
 			'leadership_assessment',
