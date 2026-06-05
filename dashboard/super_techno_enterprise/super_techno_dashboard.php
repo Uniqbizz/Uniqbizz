@@ -5,7 +5,7 @@
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
         <meta charset="utf-8" />
-        <title>Dashboard | Uniqbizz</title>
+        <title>Super Techno Enterprisee Dashboard | Uniqbizz</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -28,7 +28,7 @@
         <link href="../assets/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- custom Css developer-->
         <link rel="stylesheet" href="../assets/css/custom.css" />
-        <!-- Customer Dashboard CSS -->
+        <!-- Super Techno Enterprisee Dashboard CSS -->
         <link rel="stylesheet" href="../assets/css/super_techno_enterprise.css" />
         
         <!-- FontAwesome -->
@@ -60,7 +60,6 @@
                                 <button type="button" class="btn w-sm btn-danger" id="delete-notification">Yes, Delete It!</button>
                             </div>
                         </div>
-
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
@@ -68,37 +67,21 @@
 
             <?php include_once "super_techno_sidebar.php" ?>
             <!-- ============================================================== -->
-            <!-- Start of Customer Dashboard here -->
+            <!-- Start of Super Techno Enterprisee Dashboard here -->
             <!-- ============================================================== -->
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid ps-0">
-                        <!-- Customer Dashboard Greeting Card -->
+                        <!-- Super Techno Enterprisee Dashboard Greeting Card -->
                         <div class="card border rounded-4 shadow-sm overflow-hidden">
                             <div class="greetingImageWrapper">
-                                <img src="../assets/images/greetingImage.png" alt="Package" class="greetingImage img-fluid w-100">
+                                <img src="../assets/images/superTechnoImage.png" alt="Package" class="greetingImage img-fluid w-100">
                             </div>
                             <div class="greetingCard">
-                                <h2 class="fw-bold text-white gap-3">
-                                    Good Morning, <span class="">Pratiksha</span>! &#128075;
-                                </h2>
-                                <p class="text-white fs-5">
-                                    Let's make today a day to remember.
-                                </p>
-                                <div class="d-flex gap-3 mt-4">
-                                    <a href="../../tour-list.php">
-                                        <div class="exploreBtn gap-3 px-2">
-                                            <i class="fa-solid fa-plane-departure d-flex align-items-center"></i>
-                                            <p class="fs-6 mb-0 fw-bolder">Explore Packages</p>
-                                        </div>
-                                    </a>
-                                    <a href="../../tour-list.php">
-                                        <div class="exploreBtn gap-3 px-2">
-                                            <i class="fa-solid fa-suitcase d-flex align-items-center"></i>
-                                            <p class="fs-6 mb-0 fw-bolder"> View My Trips</p>
-                                        </div>
-                                    </a>
-                                </div>
+                                <p class="fw-bold text-dark gap-3 fs-4">Welcome Back,<span class="">Sachin</span>! &#128075;</p>
+                                <h1 class="fw-bold text-dark gap-3">Super Techno Enterprise</h1>
+                                <p class="text-dark fs-4 mb-0">You're building something great.</p>
+                                <p class="text-dark fs-4">Here's your business overview.</p>
                             </div>
                         </div>
                         
@@ -121,7 +104,7 @@
             </div>
 
             <!-- end main content-->
-            <!-- End of Customer Dashboard here -->
+            <!-- End of Super Techno Enterprisee Dashboard here -->
             <!-- ============================================================== -->
         </div>
         <!--start back-to-top-->
@@ -189,23 +172,6 @@
         <script src="../assets/js/pages/dashboard-job.init.js"></script>
 
         <script src="../assets/js/js-confetti.js"></script>
-
-        <script>
-            var userType= document.getElementById("user_type").value;
-            function highlightSelected(id) {
-                // Remove highlight from all list items
-                document.querySelectorAll("li[id^='list-item-']").forEach(function(el) {
-                    el.classList.remove("selected-li");
-                });
-
-                // Add highlight to the selected one
-                const selected = document.getElementById(id);
-                if (selected) {
-                    selected.classList.add("selected-li");
-                }
-            }
-        </script>
-        
         <script>
             function highlightSelected(id) {
                 // Remove highlight from all items
@@ -220,7 +186,6 @@
                 }
             }
         </script>
-        
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -314,17 +279,6 @@
 
         </script>
         <script>
-            // Get values directly from HTML
-            const completed = parseInt(document.getElementById("completedYears").innerText);
-            const total = parseInt(document.getElementById("totalYears").innerText);
-
-            // Calculate percentage
-            const percentage = (completed / total) * 100;
-
-            // Update progress bar
-            document.getElementById("yearProgressBar").style.width = percentage + "%";
-        </script>
-        <script>
             function toggleWishlist(button) {
 
                 button.classList.toggle("active");
@@ -339,142 +293,6 @@
                     icon.classList.add("fa-regular");
                 }
             }
-        </script>
-        <script>
-            function buildCarousel() {
-                const carouselInner = document.getElementById("carouselInner");
-                const indicators = document.getElementById("carouselIndicators");
-                const cards = document.querySelectorAll(".package-card");
-                carouselInner.innerHTML = "";
-                indicators.innerHTML = "";
-                let cardsPerSlide = 3;
-                // xl
-                if (window.innerWidth >= 1280) {
-                    cardsPerSlide = 3;
-                }
-                // lg
-                else if (window.innerWidth >= 992) {
-                    cardsPerSlide = 2;
-                }
-
-                // md
-                else if (window.innerWidth >= 768) {
-                    cardsPerSlide = 2;
-                }
-
-                // sm
-                else if (window.innerWidth >=575 ) {
-                    cardsPerSlide = 2;
-                }
-                else {
-                    cardsPerSlide = 1;
-                }
-
-                // CREATE SLIDES
-                for (let i = 0; i < cards.length; i += cardsPerSlide) {
-                    // Slide
-                    const carouselItem = document.createElement("div");
-                    carouselItem.classList.add("carousel-item");
-                    if (i === 0) {
-                        carouselItem.classList.add("active");
-                    }
-
-                    // Row
-                    const row = document.createElement("div");
-                    row.classList.add("row", "g-3");
-
-                    // ADD CARDS
-                    for (
-                        let j = i;
-                        j < i + cardsPerSlide && j < cards.length;
-                        j++
-                    ) {
-
-                        const col = document.createElement("div");
-
-                        // Dynamic bootstrap columns
-                        if (cardsPerSlide === 3) {
-                            col.className =
-                                "col-lg-4 col-md-6 col-sm-6 col-12";
-                        }
-                        else if (cardsPerSlide === 2) {
-                            col.className =
-                                "col-md-6 col-sm-6 col-12";
-                        }
-                        else {
-                            col.className =
-                                "col-12";
-                        }
-
-                        col.innerHTML = cards[j].innerHTML;
-                        row.appendChild(col);
-                    }
-                    carouselItem.appendChild(row);
-                    carouselInner.appendChild(carouselItem);
-
-                    // INDICATORS
-                    const button = document.createElement("button");
-                    button.type = "button";
-                    button.setAttribute(
-                        "data-bs-target",
-                        "#packageCarousel"
-                    );
-
-                    button.setAttribute(
-                        "data-bs-slide-to",
-                        i / cardsPerSlide
-                    );
-                    if (i === 0) {
-                        button.classList.add("active");
-                    }
-                    indicators.appendChild(button);
-                }
-            }
-
-            // Initial Load
-            buildCarousel();
-
-            // Rebuild on Resize
-            window.addEventListener(
-                "resize",
-                buildCarousel
-            );
-
-        </script>
-        <script>
-            const spendingCtx = document
-                .getElementById("spendingChart")
-                .getContext("2d");
-            // Gradient Fill
-            const gradient = spendingCtx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, "rgba(91,95,246,0.35)");
-            gradient.addColorStop(1, "rgba(91,95,246,0)");
-
-            
-            // YEAR FILTER
-            const yearFilter =
-                document.getElementById("yearFilter");
-            yearFilter.addEventListener("change", function () {
-                // THIS YEAR
-                if (this.value === "this") {
-                    spendingChart.data.datasets[0].data = [
-                        10, 28, 22, 40,
-                        48, 38, 35, 50,
-                        65, 45, 63, 55
-                    ];
-                }
-                // LAST YEAR
-                else {
-                    spendingChart.data.datasets[0].data = [
-                        15, 20, 30, 25,
-                        40, 42, 50, 55,
-                        48, 60, 70, 68
-
-                    ];
-                }
-                // Update Chart
-                spendingChart.update();
-            });
         </script>
         <!-- dialer logic -->
     </body>
