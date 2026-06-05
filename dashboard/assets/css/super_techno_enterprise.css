@@ -291,28 +291,25 @@ body {
     box-shadow:0 2px 10px rgba(0,0,0,.05);
     width:100%;
     height:100%;
+    border: 1px solid rgba(0,0,0,.07);
 }
-
 .commission-title{
     font-size:18px;
     font-weight:700;
     color:#18204a;
     margin-bottom:20px;
 }
-
 .commission-wrapper{
     display:flex;
     align-items:center;
     gap:20px;
 }
-
 .chart-container{
     position:relative;
     width:180px;
     height:180px;
     flex-shrink:0;
 }
-
 .center-text{
     position:absolute;
     top:50%;
@@ -321,25 +318,21 @@ body {
     text-align:center;
     width:100px;
 }
-
 .center-text p{
     margin:0;
     color:#6c757d;
     font-size:12px;
 }
-
 .center-text h2{
     margin-top:5px;
     color:#18204a;
     font-size:15px;
     font-weight:700;
 }
-
 .legend-section{
     flex:1;
     min-width:0;
 }
-
 .legend-item{
     display:flex;
     align-items:center;
@@ -347,7 +340,6 @@ body {
     gap:10px;
     margin-bottom:15px;
 }
-
 .legend-left{
     display:flex;
     align-items:center;
@@ -355,28 +347,24 @@ body {
     flex:1;
     min-width:0;
 }
-
 .legend-left span:last-child{
     font-size:13px;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
-
 .dot{
     width:12px;
     height:12px;
     border-radius:50%;
     flex-shrink:0;
 }
-
 .amount{
     font-size:12px;
     font-weight:700;
     color:#18204a;
     white-space:nowrap;
 }
-
 .percent{
     min-width:50px;
     text-align:right;
@@ -384,12 +372,10 @@ body {
     font-size:12px;
     font-weight:600;
 }
-
 .report-link{
     text-align:right;
     margin-top:20px;
 }
-
 .report-link a{
     color:#4f46ff;
     font-size:12px;
@@ -427,6 +413,13 @@ body {
 }
 .stWalletCard2 {
     background-color: #fff8ee;
+}
+/* card section 4 */
+.cardChart{
+    border-radius:16px;
+}
+.cardChart canvas{
+    height:250px !important;
 }
 /* card section 8 */
 .supportImagePosition {
@@ -470,11 +463,9 @@ body {
         align-items:center;
         text-align:center;
     }
-
     .legend-section{
         width:100%;
     }
-
     .report-link{
         text-align:center;
     }
@@ -508,7 +499,6 @@ body {
         box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
         overflow: hidden !important;
     }
-
     /* SHOW SIDEBAR */
     .navbar-menu.sidebar-mobile-show {
         transform: translateX(0) !important;
@@ -540,11 +530,9 @@ body {
         align-items:center;
         text-align:center;
     }
-
     .legend-section{
         width:100%;
     }
-
     .report-link{
         text-align:center;
     }
@@ -555,11 +543,9 @@ body {
         align-items:center;
         text-align:center;
     }
-
     .legend-section{
         width:100%;
     }
-
     .report-link{
         text-align:center;
     }
@@ -589,34 +575,28 @@ body {
         width:150px;
         height:150px;
     }
-
     .legend-item{
         flex-wrap:wrap;
         gap:5px;
     }
-
     .legend-left{
         width:100%;
     }
-
     .amount{
         margin-left:22px;
     }
-
     .percent{
         margin-left:auto;
     }
-
     .center-text h2{
         font-size:13px;
     }
-
     .center-text p{
         font-size:11px;
     }
     .greetingImage {
-    object-fit: cover !important;
-}
+        object-fit: cover !important;
+    }
 }
 @media (max-width: 441px) {
 }

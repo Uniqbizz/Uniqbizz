@@ -239,6 +239,41 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Card section 4 -->
+                        <div class="row mt-4">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="cardChart card border-1">
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="fw-bolder">Customer Trend (Monthly)</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="yearFilter">
+                                                <option value="this">This Year</option>
+                                                <option value="last">Last Year</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="customerTrendChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="cardChart card border-1">
+                                    <div class="card-title d-flex justify-content-between p-2">
+                                        <p class="fw-bolder">Techno Enterprise Enrollment Trend (Monthly)</p>
+                                        <p class="">
+                                            <select class="form-select yearSelect py-1" id="yearFilter">
+                                                <option value="this">This Year</option>
+                                                <option value="last">Last Year</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="enrollmentTrendChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- card section 8 -->
                         <div class="supportImagePosition mt-3">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
@@ -475,6 +510,138 @@
                     plugins: {
                         legend: {
                             display: false
+                        }
+                    }
+                }
+            });
+        </script>
+        <!-- Card section 4 -->
+        <script>
+            const months = [
+                'Jan','Feb','Mar','Apr','May','Jun',
+                'Jul','Aug','Sep','Oct','Nov','Dec'
+            ];
+
+            /* Customer Trend */
+            new Chart(document.getElementById('customerTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Customers',
+                        data: [280,390,500,500,650,645,760,760,630,570,610,710],
+                        borderColor: '#2F6BFF',
+                        backgroundColor: (context) => {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+
+                            if (!chartArea) return null;
+
+                            const gradient = ctx.createLinearGradient(
+                                0,
+                                chartArea.top,
+                                0,
+                                chartArea.bottom
+                            );
+
+                            gradient.addColorStop(0,'rgba(47,107,255,0.30)');
+                            gradient.addColorStop(1,'rgba(47,107,255,0.02)');
+
+                            return gradient;
+                        },
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#2F6BFF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins:{
+                        legend:{
+                            display:false
+                        }
+                    },
+                    scales:{
+                        x:{
+                            grid:{
+                                display:false
+                            }
+                        },
+                        y:{
+                            beginAtZero:true,
+                            max:800,
+                            ticks:{
+                                stepSize:200
+                            },
+                            grid:{
+                                color:'#edf1f7'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            /* Enrollment Trend */
+            new Chart(document.getElementById('enrollmentTrendChart'), {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Enrollments',
+                        data: [180,260,330,360,360,480,480,580,600,520,460,610],
+                        borderColor: '#1DB56C',
+                        backgroundColor: (context) => {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+
+                            if (!chartArea) return null;
+
+                            const gradient = ctx.createLinearGradient(
+                                0,
+                                chartArea.top,
+                                0,
+                                chartArea.bottom
+                            );
+
+                            gradient.addColorStop(0,'rgba(29,181,108,0.30)');
+                            gradient.addColorStop(1,'rgba(29,181,108,0.02)');
+
+                            return gradient;
+                        },
+                        fill:true,
+                        tension:0.4,
+                        pointRadius:4,
+                        pointHoverRadius:6,
+                        pointBackgroundColor:'#1DB56C'
+                    }]
+                },
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    plugins:{
+                        legend:{
+                            display:false
+                        }
+                    },
+                    scales:{
+                        x:{
+                            grid:{
+                                display:false
+                            }
+                        },
+                        y:{
+                            beginAtZero:true,
+                            max:800,
+                            ticks:{
+                                stepSize:200
+                            },
+                            grid:{
+                                color:'#edf1f7'
+                            }
                         }
                     }
                 }
