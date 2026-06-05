@@ -145,7 +145,7 @@
                         </div>
                         <!-- Card section 3 -->
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
                                 <div class="commission-card px-2">
                                     <div class="commission-title">
                                         Commission Earned This Month
@@ -194,7 +194,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
                                 <div class="commission-card px-2">
                                     <div class="commission-title">
                                         My Wallet
@@ -240,11 +240,11 @@
                             </div>
                         </div>
                         <!-- Card section 4 -->
-                        <div class="row mt-4">
+                        <div class="row mt-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="cardChart card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="fw-bolder">Customer Trend (Monthly)</p>
+                                        <p class="commission-title fs-5">Customer Trend (Monthly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="yearFilter">
                                                 <option value="this">This Year</option>
@@ -260,7 +260,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="cardChart card border-1">
                                     <div class="card-title d-flex justify-content-between p-2">
-                                        <p class="fw-bolder">Techno Enterprise Enrollment Trend (Monthly)</p>
+                                        <p class="commission-title fs-5">Techno Enterprise Enrollment Trend (Monthly)</p>
                                         <p class="">
                                             <select class="form-select yearSelect py-1" id="yearFilter">
                                                 <option value="this">This Year</option>
@@ -274,8 +274,155 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- card section 8 -->
-                        <div class="supportImagePosition mt-3">
+                        <!-- Card section 5 -->
+                        <div class="row">
+                            <div class="col-lg-5 col-sm-12 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="card-title d-flex justify-content-between">
+                                        <p class="commission-title fs-5 mb-1">
+                                            Recent Activities
+                                        </p>
+                                        <p class="mb-1">
+                                            <a href="#" class="mb-1 fs-6 fw-bold">View All </a>
+                                        </p>
+                                    </div>
+                                    <div class="cardDetails">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="stRecentIcon stRecentIcon1">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">New Techno Enterprise Added</p>
+                                                    <p class="mb-1 fs-6 text-muted">Global Journey Holidays</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">10:30 AM</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="stRecentIcon stRecentIcon2">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">New Select Membership Purchased</p>
+                                                    <p class="mb-1 fs-6 text-muted">Rahul Naik - Neo Select Lite</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">09:45 AM</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="stRecentIcon stRecentIcon3">
+                                                    <i class="fa-solid fa-user-group fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Holiday Package Booked</p>
+                                                    <p class="mb-1 fs-6 text-muted">Goa Package - By Sneha Kamat</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">09:15 AM</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="stRecentIcon stRecentIcon4">
+                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Recruitment Commission Credited</p>
+                                                    <p class="mb-1 fs-6 text-success">+ &#8377; 25,000</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">Yesterday</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <div class="d-flex gap-2">
+                                                <div class="stRecentIcon stRecentIcon5">
+                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
+                                                </div>
+                                                <div class="">
+                                                    <p class="mb-1 fs-6 fw-bold">Booking Commission Credited</p>
+                                                    <p class="mb-1 fs-6 text-success">+ &#8377; 12,500</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">Yesterday</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-sm-12 col-12">
+                                <div class="card rounded-4 border-1 p-3">
+                                    <div class="card-title d-flex justify-content-start">
+                                        <p class="commission-title fs-5 mb-1">
+                                            Techno Enterprise Performance
+                                        </p>
+                                    </div>
+                                    <div class="cardDetails">
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th scope="col">TE Name</th>
+                                                    <th scope="col">No. of Travel Consultants</th>
+                                                    <th scope="col">Neo Select Members</th>
+                                                    <th scope="col">Customers</th>
+                                                    <th scope="col">Bookings</th>
+                                                    <th scope="col">Total Earnings</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Walk & Holidays</th>
+                                                    <td class="text-center">15</td>
+                                                    <td class="text-center">42</td>
+                                                    <td class="text-center">96</td>
+                                                    <td class="text-center">18</td>
+                                                    <td class="text-end">&#8377; 2,10,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Dreamz Holidays</th>
+                                                    <td class="text-center">18</td>
+                                                    <td class="text-center">38</td>
+                                                    <td class="text-center">82</td>
+                                                    <td class="text-center">14</td>
+                                                    <td class="text-end">&#8377; 1,80,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Go Global Holidays</th>
+                                                    <td class="text-center">20</td>
+                                                    <td class="text-center">20</td>
+                                                    <td class="text-center">55</td>
+                                                    <td class="text-center">10</td>
+                                                    <td class="text-end">&#8377; 95,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Trip Factory</th>
+                                                    <td class="text-center">16</td>
+                                                    <td class="text-center">16</td>
+                                                    <td class="text-center">41</td>
+                                                    <td class="text-center">08</td>
+                                                    <td class="text-end">&#8377; 70,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Journey Planners</th>
+                                                    <td class="text-center">12</td>
+                                                    <td class="text-center">12</td>
+                                                    <td class="text-center">33</td>
+                                                    <td class="text-center">06</td>
+                                                    <td class="text-end">&#8377; 60,000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="report-link">
+                                            <a href="#">
+                                                View Commission Report →
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card section 6 -->
+                        <div class="supportImagePosition mt-2">
                             <img src="../assets/images/supportImage.png" alt="Referral Image" class="supportImage">
                             <div class="supportDetails">
                                 <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
