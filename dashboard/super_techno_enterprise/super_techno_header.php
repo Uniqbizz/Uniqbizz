@@ -107,20 +107,6 @@
 
 
                 </div>
-                <!-- Customer -->
-                <?php if ($userType == '10'){?> 
-                <button type="button" class="btn shadow-none d-none d-md-inline-block">
-                    <a class="dropdown-item" href="view_cu_wallet.php">
-                        <div class="d-flex gap-3">
-                            <i class="bx bx-wallet walletIcon"></i> 
-                            <p class="mb-0">
-                                Wallet Balance <br>
-                                <span class="walletAmount">&#8377; 3,200</span>
-                            </p>
-                        </div>
-                    </a>
-                </button>
-                <?php } ?>
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-toggle="fullscreen">
                         <i class='bx bx-fullscreen fs-22'></i>
