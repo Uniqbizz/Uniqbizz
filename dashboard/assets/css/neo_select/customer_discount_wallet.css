@@ -349,7 +349,7 @@ body{
 
 .stat-card::after{
     position:absolute;
-    font-family:"Font Awesome 6 Free"; /* SAFE fallback for CDN */
+    font-family:"Font Awesome 7 Free"; /* SAFE fallback for CDN */
     font-weight:900;
     font-size:110px;
     top:50%;
@@ -366,24 +366,32 @@ body{
 
 /* 💜 SAVINGS */
 .stat-card:has(.stat-icon.purple)::after{
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content:"\f555"; /* wallet */
     color:#7d39ff;
 }
 
 /* 💚 BALANCE */
 .stat-card:has(.stat-icon.green)::after{
-    content:"\f0d6"; /* money */
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
+    content:"\f3d1"; /* money-bill-wave */
     color:#16a34a;
 }
 
 /* 💙 DISCOUNTS */
 .stat-card:has(.stat-icon.blue)::after{
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content:"\f02b"; /* tags */
     color:#2563eb;
 }
 
 /* 🧡 EXPIRY */
 .stat-card:has(.stat-icon.orange)::after{
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
     content:"\f073"; /* calendar */
     color:#ff6b00;
 }
@@ -626,6 +634,62 @@ input{
     font-size:28px;
     color:#6b4eff;
     margin-bottom:15px;
+}
+/* search feture */
+.discount-wallet-search{
+    width:100%;
+    max-width:500px;
+    height:48px;
+    background:#fff;
+    border:1px solid #e6e8ec;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    padding:0 10px;
+    transition:all .25s ease;
+}
+
+.discount-wallet-search:focus-within{
+    border-color:#6b4eff;
+    box-shadow:0 0 0 4px rgba(25,135,84,.12);
+}
+
+.discount-wallet-search .search-icon{
+    font-size:15px;
+    color:#6c757d;
+    margin-left:4px;
+}
+
+.discount-wallet-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding:0 12px;
+    font-size:14px;
+}
+
+.discount-wallet-search input::placeholder{
+    color:#adb5bd;
+}
+
+.discount-wallet-search span{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#f8f9fa;
+    color:#6c757d;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s;
+}
+
+.discount-wallet-search span:hover{
+    background:#6b4eff;
+    color:#fff;
+    transform:scale(1.05);
 }
 
 /* =========================

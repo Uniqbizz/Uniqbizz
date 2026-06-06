@@ -560,7 +560,62 @@ body{
 .stats-card.purple h2{
   color:#6d4cff;
 }
+/* search feture */
+.ref-wallet-search{
+    width:100%;
+    max-width:500px;
+    height:48px;
+    background:#fff;
+    border:1px solid #e6e8ec;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    padding:0 10px;
+    transition:all .25s ease;
+}
 
+.ref-wallet-search:focus-within{
+    border-color:#ff6b00;
+    box-shadow:0 0 0 4px rgba(25,135,84,.12);
+}
+
+.ref-wallet-search .search-icon{
+    font-size:15px;
+    color:#6c757d;
+    margin-left:4px;
+}
+
+.ref-wallet-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding:0 12px;
+    font-size:14px;
+}
+
+.ref-wallet-search input::placeholder{
+    color:#adb5bd;
+}
+
+.ref-wallet-search span{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#f8f9fa;
+    color:#6c757d;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s;
+}
+
+.ref-wallet-search span:hover{
+    background:#ff6b00;
+    color:#fff;
+    transform:scale(1.05);
+}
 
 @media(max-width:1200px){
 

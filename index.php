@@ -2819,123 +2819,133 @@
         ========================================= */
         const galleryData = [
 
-            {
-                category: "travel",
-                title: "Goa Group Trip",
-                date: "May 2025",
-                location: "Goa",
-                attendees: "20 Pax",
-                image: "assets/images/destination/Goa.jpg",
+            // {
+            //     category: "travel",
+            //     title: "Goa Group Trip",
+            //     date: "May 2025",
+            //     location: "Goa",
+            //     attendees: "20 Pax",
+            //     image: "assets/images/destination/Goa.jpg",
 
-                description:
-                "Enjoyed an amazing Goa beach experience with group activities and networking.",
+            //     description:
+            //     "Enjoyed an amazing Goa beach experience with group activities and networking.",
 
-                highlights: [
-                    "Beach Activities",
-                    "Sunset Party",
-                    "Networking Session",
-                    "Luxury Stay"
-                ],
+            //     highlights: [
+            //         "Beach Activities",
+            //         "Sunset Party",
+            //         "Networking Session",
+            //         "Luxury Stay"
+            //     ],
 
-                images: [
-                    "assets/images/destination/Goa.jpg",
-                    "assets/images/destination/Dubai.jpg",
-                    "assets/images/destination/Kerala.jpg",
-                    "assets/images/destination/Maldives1.jpg"
-                ]
-            },
+            //     images: [
+            //         "assets/images/destination/Goa.jpg",
+            //         "assets/images/destination/Dubai.jpg",
+            //         "assets/images/destination/Kerala.jpg",
+            //         "assets/images/destination/Maldives1.jpg"
+            //     ]
+            // },
 
-            {
-                category: "travel",
-                title: "Dubai Tour",
-                date: "April 2025",
-                location: "Dubai",
-                attendees: "15 Pax",
-                image: "assets/images/destination/Dubai1.jpg",
+            // {
+            //     category: "travel",
+            //     title: "Dubai Tour",
+            //     date: "April 2025",
+            //     location: "Dubai",
+            //     attendees: "15 Pax",
+            //     image: "assets/images/destination/Dubai1.jpg",
 
-                description:
-                "Luxury Dubai experience with sightseeing and networking.",
+            //     description:
+            //     "Luxury Dubai experience with sightseeing and networking.",
 
-                highlights: [
-                    "Desert Safari",
-                    "Luxury Hotel",
-                    "City Tour",
-                    "Networking Event"
-                ],
+            //     highlights: [
+            //         "Desert Safari",
+            //         "Luxury Hotel",
+            //         "City Tour",
+            //         "Networking Event"
+            //     ],
 
-                images: [
-                    "assets/images/destination/Dubai1.jpg",
-                    "assets/images/destination/Dubai2.jpg",
-                    "assets/images/destination/Dubai3.jpg"
-                ]
-            },
+            //     images: [
+            //         "assets/images/destination/Dubai1.jpg",
+            //         "assets/images/destination/Dubai2.jpg",
+            //         "assets/images/destination/Dubai3.jpg"
+            //     ]
+            // },
 
-            {
-                category: "travel",
-                title: "Manali Trip",
-                date: "April 2025",
-                location: "Manali",
-                attendees: "15 Pax",
-                image: "assets/images/destination/Kerala.jpg",
+            // {
+            //     category: "travel",
+            //     title: "Manali Trip",
+            //     date: "April 2025",
+            //     location: "Manali",
+            //     attendees: "15 Pax",
+            //     image: "assets/images/destination/Kerala.jpg",
 
-                description:
-                "Snow adventures and team bonding activities.",
+            //     description:
+            //     "Snow adventures and team bonding activities.",
 
-                highlights: [
-                    "Snow Activities",
-                    "Mountain Trek",
-                    "Camp Fire"
-                ],
+            //     highlights: [
+            //         "Snow Activities",
+            //         "Mountain Trek",
+            //         "Camp Fire"
+            //     ],
 
-                images: [
-                    "assets/images/destination/Kerala.jpg",
-                    "assets/images/destination/Goa.jpg"
-                ]
-            },
+            //     images: [
+            //         "assets/images/destination/Kerala.jpg",
+            //         "assets/images/destination/Goa.jpg"
+            //     ]
+            // },
 
             {
                 category: "bank",
                 title: "VPK Bank Partnership",
-                date: "2025",
+                date: "01 Feb 2026",
                 location: "Goa",
                 attendees: "Corporate",
-                image: "assets/images/destination/Goa.jpg",
+                image: "assets/images/events/vpkBank/image1.jpg",
 
                 description:
-                "Bank partnership signing ceremony.",
+                "Successfully conducted the MOE signup in collaboration with VPK Urban Multipurpose Co-operative Society Ltd., strengthening partnership and growth opportunities",
 
                 highlights: [
-                    "MoU Signing",
-                    "Corporate Networking"
+                    "MOE signup and onboarding initiative",
+                    "Launch of new plans with VPK Urban Multipurpose Co-operative Society Ltd.",
+                    "Strengthened partnership and collaboration",
+                    "Professional event with stakeholder participation",
+                    "Business growth and future opportunities"
                 ],
 
                 images: [
-                    "assets/images/destination/Goa.jpg"
+                    "assets/images/events/vpkBank/image1.jpg",
+                    "assets/images/events/vpkBank/image2.jpg",
+                    "assets/images/events/vpkBank/image3.jpg",
+                    "assets/images/events/vpkBank/image4.jpg",
+                    "assets/images/events/vpkBank/image5.jpg",
+                    "assets/images/events/vpkBank/image6.jpg",
+                    "assets/images/events/vpkBank/image7.jpg",
+                    "assets/images/events/vpkBank/image8.jpg"
                 ]
             },
 
-            {
-                category: "seminar",
-                title: "Business Seminar",
-                date: "March 2025",
-                location: "Bhopal",
-                attendees: "150+ Attendees",
-                image: "assets/images/destination/Goa.jpg",
+            // {
+            //     category: "seminar",
+            //     title: "Business Seminar",
+            //     date: "March 2025",
+            //     location: "Bhopal",
+            //     attendees: "150+ Attendees",
+            //     image: "assets/images/destination/Goa.jpg",
 
-                description:
-                "Business expansion and growth seminar.",
+            //     description:
+            //     "Business expansion and growth seminar.",
 
-                highlights: [
-                    "Growth Strategy",
-                    "Income Models",
-                    "Live Q&A"
-                ],
+            //     highlights: [
+            //         "Growth Strategy",
+            //         "Income Models",
+            //         "Live Q&A"
+            //     ],
 
-                images: [
-                    "assets/images/destination/Goa.jpg",
-                    "assets/images/destination/Dubai.jpg"
-                ]
-            },
+            //     images: [
+            //         "assets/images/destination/Goa.jpg",
+            //         "assets/images/destination/Dubai.jpg"
+            //     ]
+            // },
             {
                 category: "workshop",
                 title: "Workshop Pernem - Goa",
@@ -3077,6 +3087,32 @@
                     "assets/images/events/diwali/image6.jpeg",
                     "assets/images/events/diwali/image7.jpeg",
                     "assets/images/events/diwali/image8.jpeg"
+                ]
+            },
+            {
+                category: "engagement",
+                title: "Diwali Celebration",
+                date: "28 Oct 2024",
+                location: "Office",
+                attendees: "Staff",
+                image: "assets/images/events/diwali2024/image1.jpg",
+
+                description:
+                "Diwali 2024 celebration at the office filled with festive décor, traditional attire, and joyful moments of togetherness with the team.",
+
+                highlights: [
+                    "Diwali celebration at the workplace",
+                    "Traditional ethnic wear by team members",
+                    "Festive office decorations and lighting",
+                    "Team bonding and joyful celebrations",
+                    "Positive and vibrant festive atmosphere"
+                ],
+
+                images: [
+                    "assets/images/events/diwali2024/image1.jpg",
+                    "assets/images/events/diwali2024/image2.jpg",
+                    "assets/images/events/diwali2024/image3.jpg",
+                    "assets/images/events/diwali2024/image4.jpg"
                 ]
             }
         ];

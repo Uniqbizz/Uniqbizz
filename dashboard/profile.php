@@ -158,7 +158,7 @@
     <div id="layout-wrapper">
 
         <?php 
-            if ($userType == 10) {
+            if ($userType == 10 && $customer_type== 'Neo Select') {
                 include_once(__DIR__ . '/customer_dashboard/customer_header.php');
             }else{
 
@@ -193,7 +193,7 @@
         <!-- ========== App Menu ========== -->
 
         <?php 
-            if ($userType == 10) {
+            if ($userType == 10 && $customer_type== 'Neo Select') {
                 include_once(__DIR__ . '/customer_dashboard/customer_sidebar.php');
             }else{
 
@@ -725,7 +725,7 @@
             </div><!-- End Page-content -->
 
             <?php 
-                if ($userType == 10) {
+                if ($userType == 10 && $customer_type== 'Neo Select') {
                     include_once(__DIR__ . '/customer_dashboard/customer_footer.php');
                 }else{
 
@@ -753,7 +753,7 @@
     <script src="assets/libs/feather-icons/feather.min.js"></script>
     <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
     <?php 
-        if ($userType == 10) {
+        if ($userType == 10 && $customer_type== 'Neo Select') {
     ?>
     <!-- Vector map-->
     <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>

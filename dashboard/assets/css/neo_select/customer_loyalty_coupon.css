@@ -518,7 +518,62 @@ body{
  
     background:#dbe7e2;
 }
- 
+/* search feture */
+.loyal-coupon-search{
+    width:100%;
+    max-width:500px;
+    height:48px;
+    background:#fff;
+    border:1px solid #e6e8ec;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    padding:0 10px;
+    transition:all .25s ease;
+}
+
+.loyal-coupon-search:focus-within{
+    border-color:#198754;
+    box-shadow:0 0 0 4px rgba(25,135,84,.12);
+}
+
+.loyal-coupon-search .search-icon{
+    font-size:15px;
+    color:#6c757d;
+    margin-left:4px;
+}
+
+.loyal-coupon-search input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    padding:0 12px;
+    font-size:14px;
+}
+
+.loyal-coupon-search input::placeholder{
+    color:#adb5bd;
+}
+
+.loyal-coupon-search span{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#f8f9fa;
+    color:#6c757d;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s;
+}
+
+.loyal-coupon-search span:hover{
+    background:#198754;
+    color:#fff;
+    transform:scale(1.05);
+}
 /* =========================================
    RESPONSIVE
 ========================================= */

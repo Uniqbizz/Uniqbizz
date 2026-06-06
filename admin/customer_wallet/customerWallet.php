@@ -5,12 +5,13 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/cw_card_data.php');
 ?>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Customers View | Admin Dashboard </title>
+        <title>Customer Wallet | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -33,6 +34,9 @@
 
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- add on 30-05-2026 by SV -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+         <!-- add on 30-05-2026 by SV END-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -162,84 +166,80 @@
                                                 <i class="fa-solid fa-wallet"></i>
                                             </div>
                                             <div class="">
-                                                <h1 class="fontSize1 fw-bolder text-dark">Total Wallet Balance</h1>
-                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; 12,50,000.00</p>
-                                                <p class="fontSize2 text-muted fw-bolder">Across 1,250 customers</p>
+                                                <h1 class="fontSize1 fw-bolder text-dark">Coupon Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark"><?= number_format($couponData['total_coupons']) ?></p>
+                                                <p class="fs-6 text-dark fw-bolder">Value: &#8377; <span class=""><?= number_format($couponData['total_amt']) ?></span></p>
                                             </div>
                                         </div>
-                                        <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.6% 
-                                            <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                        </p>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across <?= number_format($couponData['customer_count']) ?> Customers</p>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard2">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon2">
-                                            <i class="fa-solid fa-ticket"></i>
+                                <a href="loyaltyCouponWallet.php">
+                                    <div class="rounded-3 px-3 py-2 walletCard2">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon2">
+                                                <i class="fa-solid fa-ticket"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Loyalty Coupon Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark"><?= number_format($loyalCouponData['total_coupons']) ?></p>
+                                                <p class="fs-6 text-dark fw-bolder">Value: &#8377; <span class=""><?= number_format($loyalCouponData['total_amt']) ?></span></p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Total Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-1">15,230</p>
-                                            <p class="fontSize2 text-muted fw-bolder">Across all customers</p>
-                                        </div>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across <?= number_format($loyalCouponData['customer_count']) ?> Customers</p>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.3% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard3">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon3">
-                                            <i class="fa-solid fa-money-bill-transfer"></i>
+                                <a href="referralWallet.php">
+                                    <div class="rounded-3 px-3 py-2 walletCard3">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon3">
+                                                <i class="fa-solid fa-money-bill-transfer"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Referral Customer Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; <?= number_format($refWalletData['total_amt']) ?></p>
+                                                <p class="fontSize2 fw-bolder text-dark"><?= number_format($refWalletData['pending_encashed_count']) ?> requests withdrawal pending</p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Pending Withdrawals</h1>
-                                            <p class="fs-5 fw-bolder mb-1">&#8377; 2,30,450.00</p>
-                                            <p class="fontSize2 text-muted fw-bolder">18 requests pending</p>
-                                        </div>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across <?= number_format($refWalletData['ref_cust_count']) ?> Customers</p>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>9.2% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard4">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon4">
-                                            <i class="fa-solid fa-gift"></i>
+                                <a href="discountWallet.php">
+                                    <div class="rounded-3 px-3 py-2 walletCard4">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon4">
+                                                <i class="fa-solid fa-gift"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Discount Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; <?= number_format($disWalletData['total_amt']) ?></p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Loyalty Issued (This Month)</h1>
-                                            <p class="fs-5 fw-bolder mb-1">&#8377; 1,20,000.00</p>
-                                            <p class="fontSize2 text-muted fw-bolder">320 Transactions</p>
-                                        </div>
+                                        <p class="text-danger fontSize1 mb-0 fw-bolder">Across <?= number_format($disWalletData['dis_cust_count']) ?> Customers</p>
                                     </div>
-                                    <p class="text-danger fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>10.1% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                                <div class="rounded-3 px-3 py-2 walletCard2">
-                                    <div class="d-flex gap-2">
-                                        <div class="walletIcon2">
-                                            <i class="fa-solid fa-arrow-trend-up"></i>
+                                <a href="extendedWallet.php">
+                                    <div class="rounded-3 px-3 py-2 walletCard2">
+                                        <div class="d-flex gap-2">
+                                            <div class="walletIcon2">
+                                                <i class="fa-solid fa-arrow-trend-up"></i>
+                                            </div>
+                                            <div class="">
+                                                <h1 class="fontSize1 fw-bolder text-dark">Extended Wallet</h1>
+                                                <p class="fs-5 fw-bolder mb-1 text-dark">&#8377; <?= number_format($etdWalletData['total_amt']) ?></p>
+                                            </div>
                                         </div>
-                                        <div class="">
-                                            <h1 class="fontSize1 fw-bolder">Extended Wallet Usage</h1>
-                                            <p class="fs-5 fw-bolder mb-1">&#8377; 3,40,000.00</p>
-                                            <p class="fontSize2 text-muted fw-bolder">45 Adjustments</p>
-                                        </div>
+                                        <p class="text-success fontSize1 mb-0 fw-bolder">Across <?= number_format($etdWalletData['etd_cust_count']) ?> Customers</p>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>14.6% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="row my-3">
@@ -247,29 +247,46 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between">
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Wallet Type</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                            <div class="row g-2 align-items-center mb-3">
+
+                                                <!-- Wallet Type -->
+                                                <div class="col-12 col-md-6 col-lg-3">
+                                                    <select class="form-select" id="membershipFilter">
+                                                        <option selected>Membership Type</option>
+                                                        <option value="all">All</option>
+                                                        <option value="Prime">Prime</option>
+                                                        <option value="Premium">Premium</option>
+                                                        <option value="Premium Plus">Premium Plus</option>
+                                                        <option value="Premium Select">Premium Select</option>
+                                                        <option value="Premium Select Lite">Premium Select Lite</option>
+                                                        <option value="Neo Select">Neo Select</option>
+                                                        <option value="Neo Select Ultra">Neo Select Ultra</option>
+                                                        <option value="Free">Free</option>
                                                     </select>
                                                 </div>
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Status</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <a href="#">
-                                                    <div class="linkBtn gap-2 align-items-center">
-                                                        <i class="fa-solid fa-download"></i>
-                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Export</p>
+
+                                                <!-- Date Range -->
+                                                <div class="col-12 col-md-6 col-lg-5">
+                                                    <div id="reportrange"
+                                                        class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                        style="border-radius:6px; cursor:pointer;">
+                                                        <i class="fa fa-calendar"></i>
+                                                        &nbsp;
+                                                        <span id="selectedDate"></span>
+                                                        <i class="fa-solid fa-angle-down"></i>
                                                     </div>
-                                                </a>
+                                                </div>
+
+                                                <!-- Export -->
+                                                <div class="col-12 col-lg-2 ms-lg-auto">
+                                                    <a href="#" class="text-decoration-none" id="exportExcelBtn">
+                                                        <div class="linkBtn gap-2 align-items-center justify-content-center justify-content-lg-start">
+                                                            <i class="fa-solid fa-download"></i>
+                                                            <p class="fs-6 mb-0 fw-bolder pe-1">Export</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="table-responsive">
@@ -476,11 +493,6 @@
             <div class="loading-icon"></div>
         </div>
         <!-- Add button icon -->
-        <!-- <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
-            <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-            </a>
-        </div> -->
         <!-- End button icon -->
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
@@ -510,6 +522,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 30-05-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+         <!-- add on 30-05-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -529,11 +546,6 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-                $("#registeredCustomerList-table").DataTable();
-                $("#deletedCustomerList-table").DataTable();
-            });
             
             function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
                 window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
@@ -542,7 +554,314 @@
             function addCustRef(id,fullname,taRef,status){ 
                 window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
             };
+            //added on 30-05-2026 by SV
+            function membershipBadge(type)
+            {
+                const badges = {
+                    'Premium Select Lite'   : 'secondary',
+                    'Neo Select'            : 'success',
+                    'Neo Select Ultra'      : 'primary',
+                    'Premium'               : 'warning',
+                    'Premium Plus'          : 'danger',
+                    'Premium Select'        : 'info',
+                    'Prime'                 : 'dark'
+                };
 
+                const color = badges[type] || 'secondary';
+
+                return `
+                    <div class="p-1 text-${color}-emphasis bg-${color}-subtle border border-${color}-subtle rounded-3 text-center fw-bolder">
+                        ${type}
+                    </div>
+                `;
+            }
+            function statusBadge(status)
+            {
+                if(status == 1)
+                {
+                    return `
+                        <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder memberShipType">
+                            Active
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-center fw-bolder memberShipType">
+                        Inactive
+                    </div>
+                `;
+            }
+            
+            $(function () {
+                let start = moment('2020-01-01');
+                let end = moment();
+
+                function cb(start, end) {
+
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+
+                    window.startDate = '2020-01-01';
+                    window.endDate = moment().format('YYYY-MM-DD');
+
+                    if ($.fn.DataTable.isDataTable('#pendingCustomerList-table')) {
+                        $('#pendingCustomerList-table').DataTable().ajax.reload();
+                    }
+                }
+                $('#reportrange').daterangepicker({
+
+                    startDate: start,
+                    endDate: end,
+
+                    showDropdowns: true,
+
+                    opens: 'left',
+
+                    ranges: {
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+
+                }, cb);
+
+                cb(start, end);
+
+            });
+
+            function loadTable(startDate, endDate)
+            {
+                window.startDate = startDate;
+                window.endDate = endDate;
+                $('#pendingCustomerList-table').DataTable().ajax.reload();
+            }
+            window.membershipType = 'all';
+
+            $('#membershipFilter').on('change', function(){
+
+                window.membershipType = $(this).val();
+
+                $('#pendingCustomerList-table')
+                    .DataTable()
+                    .ajax
+                    .reload();
+            });
+            $('#pendingCustomerList-table').DataTable({
+                processing: true,
+                ajax: {
+                    url: 'models/cw_table_data.php',
+                    data: function(d){
+
+                        d.start_date      = window.startDate || '';
+                        d.end_date        = window.endDate || '';
+                        d.membership_type = window.membershipType || 'all';
+
+                    },
+                    dataSrc: 'data'
+
+                },
+                columns: [
+
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            return `
+                                <div class="d-flex gap-2 align-items-center mb-2">
+                                    <div>
+                                        <img src="../../uploading/${data.profile_pic}"
+                                            class="profileImage">
+                                    </div>
+
+                                    <div>
+                                        <p class="mb-0 fw-bolder fontSize1">
+                                            ${data.customer_name}
+                                        </p>
+
+                                        <p class="fontSize1 fw-bold mb-0">
+                                            ${data.ca_customer_id}
+                                        </p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'customer_type',
+                        render: function(data)
+                        {
+                            return membershipBadge(data);
+                        }
+                    },
+
+                    {
+                        data: 'contact_no'
+                    },
+
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            return `
+                                <div>
+                                    <p class="mb-0 fw-bolder fs-6 text-center">
+                                        ${Number(data.coupon_count).toLocaleString()}
+                                    </p>
+
+                                    <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                        ₹${Number(data.coupon_total).toLocaleString()}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            return `
+                                <div>
+                                    <p class="mb-0 fw-bolder fs-6 text-center">
+                                        ${Number(data.loyalty_count).toLocaleString()}
+                                    </p>
+
+                                    <p class="fontSize1 fw-bold mb-0 text-success text-center">
+                                        ₹${Number(data.loyalty_coupon_total).toLocaleString()}
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            return `
+                                <div>
+                                    <p class="mb-0 fw-bolder fs-6 textOrange text-center">
+                                        ₹${Number(data.ref_total).toLocaleString()}
+                                    </p>
+
+                                    <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                        ${Number(data.ref_count).toLocaleString()} Entries
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            return `
+                                <p class="mb-0 fw-bolder fs-6 text-center text-primary">
+                                    ₹${Number(data.dis_total).toLocaleString()}
+                                </p>
+                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                    ${Number(data.dis_count).toLocaleString()} Entries
+                                </p>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            return `
+                                <p class="mb-0 fw-bolder fs-6 text-center textViolet">
+                                    ₹${Number(data.ext_total).toLocaleString()}
+                                </p>
+                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                    ${Number(data.ext_count).toLocaleString()} Entries
+                                </p>
+                            `;
+                        }
+                        // ₹${Number(data).toLocaleString()}
+                    },
+
+                    {
+                        data: 'status',
+                        render: function(data)
+                        {
+                            return statusBadge(data);
+                        }
+                    },
+
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data)
+                        {
+                            return `
+                                <a href="customer-wallet-details.php?id=${data.customer_id}"
+                                class="text-decoration-none">
+
+                                    <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder memberShipType">
+                                        View
+                                    </div>
+
+                                </a>
+                            `;
+                        }
+                    }
+                ]
+            });
+            $('#exportExcelBtn').click(function(e){
+
+                e.preventDefault();
+
+                let url =
+                    'models/export_customer_wallets.php?' +
+                    'start_date=' + encodeURIComponent(window.startDate || '') +
+                    '&end_date=' + encodeURIComponent(window.endDate || '') +
+                    '&membership_type=' + encodeURIComponent(window.membershipType || 'all');
+
+                window.location.href = url;
+
+            });
+            //added on 30-05-2026 by SV END
         </script>
     </body>
 </html>

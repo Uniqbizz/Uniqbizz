@@ -226,9 +226,9 @@
                                 COUPON TABLE TABS
                                 ========================= -->
 
-                                <div class="tabs-wrapper">
+                                <div class="tabs-wrapper d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
-                                    <div class="coupon-tabs-nav mb-2">
+                                    <div class="coupon-tabs-nav mb-2 d-flex gap-3 flex-wrap">
 
                                         <button class="coupon-tab active" data-filter="all">
                                             <span class="tab-title">All Coupons</span>
@@ -251,7 +251,35 @@
                                         <!--</button>-->
 
                                     </div>
+                                    <div class="card-header bg-white border-0 p-2">
 
+                                        <div class="row align-items-center">
+
+                                            <div class="col-lg-4">
+                                                <h5 class="mb-1">Coupon Management</h5>
+                                                <small class="text-muted">
+                                                    Search and manage customer coupons
+                                                </small>
+                                            </div>
+
+                                            <div class="col-lg-8 text-lg-end mt-3 mt-lg-0">
+
+                                                <div class="coupon-search ms-lg-auto">
+                                                    <i class="fa-solid fa-magnifying-glass "></i>
+
+                                                    <input type="text" id="tableSearch"
+                                                        placeholder="Search anything...">
+
+                                                    <span type="button" id="clearSearch">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
                                 </div>
 
                                 <!-- =========================
@@ -518,7 +546,7 @@
 
                 .then(data => {
 
-                    console.log(data);
+                    // console.log(data);
 
                     try {
 
@@ -612,7 +640,7 @@
                         }
 
                         const row = `
-                            <tr data-status="${statusLower}">
+                            <tr class="main-row" data-status="${statusLower}">
 
                                 <td>
                                     <div class="coupon-box">
@@ -844,6 +872,38 @@
                 });
 
             });
+            //search feature
+            $('#tableSearch').on('keyup', function () {
+
+                let search = $(this).val().toLowerCase();
+
+                $('.main-row').each(function () {
+
+                    let found = false;
+
+                    $(this).find('td').each(function () {
+
+                        if ($(this).text().toLowerCase().includes(search)) {
+                            found = true;
+                            return false;
+                        }
+
+                    });
+
+                    if (found) {
+                        $(this).show();
+                        // $(this).next('.child-row').show();
+                    } else {
+                        $(this).hide();
+                        // $(this).next('.child-row').hide();
+                    }
+                });
+
+            });
+            $('#clearSearch').on('click', function () {
+                $('#tableSearch').val('').trigger('keyup').focus();
+            });
+            //search feature end
         </script>
     </body>
 </html>

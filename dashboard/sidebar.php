@@ -20,9 +20,9 @@
                             <i class="ri-layout-masonry-line"></i> <span data-key="t-dashboards">Dashboards</span>
                         </a>
                     </li>
-                    <li class="nav-item <?php if ($first_part=="../index.php") {echo "actives"; } else  {echo "noactive";}?>">
-                        <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                            <i class="ri-layout-masonry-line"></i> <span data-key="t-home">Home Page</span>
+                    <li class="nav-item <?php if ($first_part=="tour-list.php") {echo "actives"; } else  {echo "noactive";}?>">
+                        <a class="nav-link menu-link" href="../tour-list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                            <i class="ri-layout-masonry-line"></i> <span data-key="t-home">Explore Packages</span>
                         </a>
                     </li>
                     <?php 
