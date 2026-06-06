@@ -478,7 +478,30 @@ body {
     background-color: #4b38b3;
     color:#fff;
 }
-
+/* Techno Enteprise List */
+.tePendingIcon {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tePendingIcon1 {
+    background-color: #35239a;
+    color: #fff;
+}
+.tePendingIcon2 {
+    background-color: #068c25;
+    color: #fff;
+}
+.tePendingBtn {
+    background-color: #ffefd8;
+    color: #f49609;
+    border: 1px solid #f49609;
+    font-weight: 900;
+    padding: 3px 0px;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -578,13 +601,22 @@ body {
     .report-link{
         text-align:center;
     }
+    .teSectionSize {
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 0 !important;
+        margin-bottom: 10px;
+    }
 }
 
 /* =========================================
    ONLY MOBILE (768px)
 ========================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 840px) {
+    .teRegister {
+        display: flex !important;
+    }
 }
 @media (max-width: 660px) {
     .supportDetails h3 {

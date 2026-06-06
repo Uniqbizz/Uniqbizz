@@ -16,12 +16,12 @@
             <ul class="navbar-nav" id="navbar-nav" >
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <li class="nav-item active">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="super_techno_dashboard.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="fa-regular fa-house d-flex"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                    <a class="nav-link menu-link" href="techno_enterprise_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Techno Enterprisee</span>
                     </a>
                 </li>
