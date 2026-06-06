@@ -925,10 +925,10 @@
 
                 const customerId = CUSTOMER_ID;
 
-                const params = new URLSearchParams(window.location.search);
+                const picker = $('#reportrange').data('daterangepicker');
 
-                const startDate = params.get('start_date') || '';
-                const endDate = params.get('end_date') || '';
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
 
                 window.location.href =
                     'models/export_discount_wallet.php'

@@ -483,6 +483,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -502,18 +507,225 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
+            $(document).ready(function () {
+
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let start = urlParams.get('start_date')
+                    ? moment(urlParams.get('start_date'))
+                    : moment('2020-01-01');
+
+                let end = urlParams.get('end_date')
+                    ? moment(urlParams.get('end_date'))
+                    : moment();
+
+                // Add dates to URL if missing
+                if (!urlParams.has('start_date') || !urlParams.has('end_date')) {
+
+                    window.location.replace(
+                        window.location.pathname +
+                        '?start_date=' + start.format('YYYY-MM-DD') +
+                        '&end_date=' + end.format('YYYY-MM-DD')
+                    );
+
+                    return;
+                }
+
+                // Date Range Picker
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    showDropdowns: true,
+                    opens: 'left'
+                });
+
+                // Display selected date
+                $('#selectedDate').html(
+                    start.format('MMMM D, YYYY') +
+                    ' - ' +
+                    end.format('MMMM D, YYYY')
+                );
+
+                // Load table on page load
+                loadExtendedWallet(
+                    start.format('YYYY-MM-DD'),
+                    end.format('YYYY-MM-DD')
+                );
+
+                // Reload page when date changes
+                $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+
+                    window.location.href =
+                        window.location.pathname +
+                        '?start_date=' + picker.startDate.format('YYYY-MM-DD') +
+                        '&end_date=' + picker.endDate.format('YYYY-MM-DD');
+                });
+
             });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
 
+            function loadExtendedWallet(startDate = '', endDate = '')
+            {
+                $.ajax({
+                    url: 'models/ew_table_data.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        start_date: startDate,
+                        end_date: endDate
+                    },
+                    beforeSend: function () {
+
+                        if ($.fn.DataTable.isDataTable('#pendingCustomerList-table')) {
+                            $('#pendingCustomerList-table').DataTable().destroy();
+                        }
+
+                        $('#pendingCustomerList-table tbody').html(`
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    Loading...
+                                </td>
+                            </tr>
+                        `);
+                    },
+                    success: function (response) {
+
+                        let html = '';
+
+                        if (response.data && response.data.length > 0)
+                        {
+                            $.each(response.data, function (index, item) {
+
+                                let profilePic = item.profile_pic
+                                    ? '../../uploading/' + item.profile_pic
+                                    : '../assets/images/users/avatar-7.jpg';
+
+                                let membershipClass = 'text-primary-emphasis bg-primary-subtle border-primary-subtle';
+
+                                switch ((item.customer_type || '').toLowerCase())
+                                {
+                                    case 'neo select':
+                                        membershipClass = 'text-success-emphasis bg-success-subtle border-success-subtle';
+                                        break;
+
+                                    case 'neo premium':
+                                        membershipClass = 'text-warning-emphasis bg-warning-subtle border-warning-subtle';
+                                        break;
+
+                                    case 'neo select plus':
+                                        membershipClass = 'text-primary-emphasis bg-primary-subtle border-primary-subtle';
+                                        break;
+                                }
+
+                                html += `
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <div>
+                                                    <img src="${profilePic}" class="profileImage">
+                                                </div>
+                                                <div>
+                                                    <p class="mb-0 fw-bolder fontSize1">
+                                                        ${item.customer_name || ''}
+                                                    </p>
+                                                    <p class="fontSize1 fw-bold mb-0">
+                                                        ${item.ca_customer_id || ''}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="p-1 ${membershipClass} border rounded-3 text-center fw-bolder">
+                                                ${item.customer_type || '-'}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <p class="fontSize1 fw-bold mb-0 text-primary text-center">
+                                                ₹${Number(item.total_earned || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fontSize1 fw-bold mb-0 text-warning text-center">
+                                                ₹${Number(item.used_balance || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fontSize1 fw-bold mb-0 text-success text-center">
+                                                ₹${Number(item.available_balance || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <form action="viewExtendedWallet.php" method="POST" class="m-0">
+                                                <input type="hidden" name="customer_id" value="${item.ca_customer_id}">
+                                                <button type="submit"
+                                                    class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder w-100">
+                                                    View
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        else
+                        {
+                            html = `
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        No records found
+                                    </td>
+                                </tr>
+                            `;
+                        }
+
+                        $('#pendingCustomerList-table tbody').html(html);
+
+                        // Initialize DataTable
+                        $('#pendingCustomerList-table').DataTable({
+                            destroy: true,
+                            responsive: true,
+                            pageLength: 10,
+                            ordering: true,
+                            searching: true,
+                            lengthChange: true,
+                            info: true,
+                            autoWidth: false,
+                            columnDefs: [
+                                { orderable: false, targets: 5 }
+                            ]
+                        });
+                    },
+                    error: function (xhr) {
+
+                        console.log(xhr.responseText);
+
+                        $('#pendingCustomerList-table tbody').html(`
+                            <tr>
+                                <td colspan="6" class="text-center text-danger">
+                                    Failed to load data
+                                </td>
+                            </tr>
+                        `);
+                    }
+                });
+            }
+            $('#exportExcel').on('click', function () {
+
+                const params = new URLSearchParams(window.location.search);
+
+                const startDate = params.get('start_date') || '';
+                const endDate = params.get('end_date') || '';
+
+                window.location.href =
+                    'models/ew_export_excel.php?start_date=' +
+                    encodeURIComponent(startDate) +
+                    '&end_date=' +
+                    encodeURIComponent(endDate);
+            });
         </script>
     </body>
 </html>

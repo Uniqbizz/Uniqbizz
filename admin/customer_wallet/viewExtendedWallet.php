@@ -5,6 +5,7 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/ew_view_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,6 +36,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- remix icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <!-- added on 05-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 05-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -217,6 +221,30 @@
             .navMenu {
                 list-style: none;
             }
+            /* added on 06-06-2026 by SV */
+            #pendingCustomerList-table {
+                width: 100% !important;
+            }
+
+            /* ONLY truncate specific cells, NOT all */
+            #pendingCustomerList-table td {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            /* Allow first column to stay readable */
+            #pendingCustomerList-table td:nth-child(1),
+            #pendingCustomerList-table td:nth-child(2) {
+                white-space: nowrap;
+            }
+            
+            .text-break{
+                white-space: normal;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            /* added on 06-06-2026 by SV END */
             @media (max-width: 540px) {
                 .extendedDetails {
                     display: block !important;
@@ -256,10 +284,7 @@
                         <div class="d-flex justify-content-between mb-3 extendedDetails">
                             <h2 class="fw-bolder text-dark">Extended Wallet Details</h2>
                             <div class="d-flex gap-3">
-                                <div class="text-end">
-                                    <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
-                                </div>
-                                <a href="#">
+                                <a href="#" id="exportExcel">
                                     <div class="linkBtn gap-2 align-items-center">
                                         <i class="fa-solid fa-download"></i>
                                         <p class="fs-6 mb-0 fw-bolder pe-1">Export Report</p>
@@ -271,14 +296,14 @@
                             <div class="row d-flex justify-content-evenly">
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center gap-4 mb-2">
                                     <div class="d-flex justify-content-center">
-                                        <img src="../assets/images/users/avatar-5.jpg" alt="" class="profileImgLoyalty">
+                                        <img src="../../uploading/<?= $custData['profile_pic'] ?>" alt="" class="profileImgLoyalty">
                                         <p class="p-1 rounded-pill fw-bolder text-center statusBtn"><i class="fa-solid fa-circle me-1"></i>Active</p>
                                     </div>
                                     <div class="cardLoyaltyDetails">
-                                        <h4 class="fw-bolder text-dark ">Pratiksha Gawas <i class="ri-verified-badge-fill"></i></h4>
-                                        <p class="fw-bold textColor mb-2">CUST10001</p>
-                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>9876543210</p>
-                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i>pratiksha@gmail.com</p>
+                                        <h4 class="fw-bolder text-dark "><?= $custData['cust_name'] ?> <i class="ri-verified-badge-fill"></i></h4>
+                                        <p class="fw-bold textColor mb-2"><?= $custData['ca_customer_id'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>+<?= $custData['country_code'].$custData['contact_no'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i><?= $custData['email'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -287,7 +312,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Membership</p>
-                                        <p class="fw-bold textColor1 mb-2">Neo Select</p>
+                                        <p class="fw-bold textColor1 mb-2"><?= $custData['customer_type'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -296,7 +321,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Joined On</p>
-                                        <p class="fw-bold text-dark mb-2">15 Jan 2025</p>
+                                        <p class="fw-bold text-dark mb-2"><?= date('d M Y', strtotime($custData['register_date'])) ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -305,7 +330,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Total Trips</p>
-                                        <p class="fw-bold text-dark mb-2">5 Trips</p>
+                                        <p class="fw-bold text-dark mb-2"><?= number_format($custData['total_trips']) ?> Trips</p>
                                     </div>
                                 </div>
                             </div>
@@ -319,7 +344,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Benefits Generated</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;<span class="">8,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;<span class=""><?= number_format($extWalletCurBalData['earn_total']) ?></span></p>
                                             <p class="fs-6 textColor1 loyaltyAmt4 fw-bolder mb-1">From 11 Credits</p>
                                         </div>
                                     </div>
@@ -333,7 +358,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Benefits Applied</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">2,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">0</span></p>
                                             <p class="fs-6 textColor2 loyaltyAmt2 fw-bolder mb-1">From 4 Debits </p>
                                         </div>
                                     </div>
@@ -347,7 +372,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Benefit Value</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">6,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class=""><?= number_format($extWalletCurBalData['total_balance']) ?></span></p>
                                             <p class="fs-6 textColor3 loyaltyAmt1 fw-bolder mb-1">Current Balance</p>
                                         </div>
                                     </div>
@@ -362,16 +387,16 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
                                                 <div class="d-flex justify-content-between mb-2 discountDetails">
                                                     <h4 class="fw-bolder text-dark">Extended Wallet</h4>
-                                                    <div class="d-flex gap-3">
-                                                        <div class="text-end">
-                                                            <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
+                                                    <!-- Date Range -->
+                                                    <div class="col-12 col-md-6 col-lg-5">
+                                                        <div id="reportrange"
+                                                            class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                            style="border-radius:6px; cursor:pointer;">
+                                                            <i class="fa fa-calendar"></i>
+                                                            &nbsp;
+                                                            <span id="selectedDate"></span>
+                                                            <i class="fa-solid fa-angle-down"></i>
                                                         </div>
-                                                        <a href="#">
-                                                            <div class="linkBtn gap-2 align-items-center">
-                                                                <i class="fa-solid fa-download"></i>
-                                                                <p class="fs-6 mb-0 fw-bolder pe-1">Export Report</p>
-                                                            </div>
-                                                        </a>
                                                     </div>
                                                 </div>
                                                 <thead class="table-light">
@@ -531,7 +556,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
         <script>
             var mybutton = document.getElementById("back-to-top");
             function scrollFunction() {
@@ -550,18 +579,483 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
+            const CUSTOMER_ID = <?= json_encode($_POST['customer_id'] ?? '') ?>;
+
+            // =========================
+            // DATE RANGE
+            // =========================
+            $(function () {
+
+                let start = moment('2020-01-01');
+                let end = moment();
+                window.startDate = start.format('YYYY-MM-DD');
+                window.endDate = end.format('YYYY-MM-DD');
+                function cb(start, end)
+                {
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+                    loadExtendedWallet(
+                        start.format('YYYY-MM-DD'),
+                        end.format('YYYY-MM-DD')
+                    );
+                }
+
+                $('#reportrange').daterangepicker({
+
+                    startDate: start,
+                    endDate: end,
+                    showDropdowns: true,
+                    opens: 'left',
+
+                    ranges: {
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+
+                }, cb);
+
+                cb(start, end);
+
             });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
 
+            // =========================
+            // CHILD ROW
+            // =========================
+
+            function formatChildRow(child)
+            {
+                let membersHtml = '';
+
+                if (child.members && child.members.length > 0)
+                {
+                    child.members.forEach(function (member) {
+
+                        membersHtml += `
+                            <tr>
+                                <td>${member.name || '-'}</td>
+                                <td>${member.age || '-'}</td>
+                                <td>${member.gender || '-'}</td>
+                            </tr>
+                        `;
+
+                    });
+                }
+                else
+                {
+                    membersHtml = `
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                No Passenger Details Found
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                return `
+                    <div class="row g-4">
+
+                        <div class="col-lg-4 mb-3">
+                            <div class="card border shadow-sm">
+                                <div class="card-body">
+
+                                    <h5 class="fw-bolder mb-3">
+                                        <i class="fa-solid fa-suitcase me-2"></i>
+                                        Trip Details
+                                    </h5>
+
+                                    <p>
+                                        <strong>Tour Name:</strong>
+                                        ${child.trip_name || '-'}
+                                    </p>
+
+                                    <p>
+                                        <strong>Destination:</strong>
+                                        <span class="text-break">${child.destination || '-'}</span>
+                                    </p>
+
+                                    <p>
+                                        <strong>Booking ID:</strong>
+                                        ${child.booking_id || '-'}
+                                    </p>
+
+                                    <p>
+                                        <strong>Customer Name:</strong>
+                                        ${child.booked_customer_name || '-'}
+                                    </p>
+
+                                    <p class="mb-0">
+                                        <strong>Customer ID:</strong>
+                                        ${child.booked_customer_id || '-'}
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-3">
+                            <div class="card border shadow-sm">
+                                <div class="card-body">
+
+                                    <h5 class="fw-bolder mb-3">
+                                        <i class="fa-solid fa-users me-2"></i>
+                                        Passenger Details
+                                    </h5>
+
+                                    <table class="table table-bordered align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Age</th>
+                                                <th>Gender</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${membersHtml}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }
+            function formatReferralChildRow(child)
+            {
+                return `
+                    <div class="p-3">
+
+                        <div class="card border shadow-sm">
+                            <div class="card-body">
+
+                                <h5 class="fw-bolder mb-4">
+                                    Referral Bonus Details
+                                </h5>
+
+                                <div class="row mb-3">
+
+                                    <div class="col-md-6">
+                                        <strong>Reference ID:</strong>
+                                        ${child.booking_id || '-'}
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <strong>Bonus Earned:</strong>
+                                        ₹${Number(
+                                            child.transaction_amount || 0
+                                        ).toLocaleString('en-IN')}
+                                    </div>
+
+                                </div>
+
+                                <div>
+                                    <strong>Reference Message:</strong>
+
+                                    ${child.description || '-'}
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }
+
+            // ====================================
+            // LOAD WALLET DATA
+            // ====================================
+
+            function loadExtendedWallet(startDate = '', endDate = '')
+            {
+
+                if ($.fn.DataTable.isDataTable('#pendingCustomerList-table'))
+                {
+                    $('#pendingCustomerList-table')
+                        .DataTable()
+                        .clear()
+                        .destroy();
+                }
+
+                $.ajax({
+
+                    url: 'models/ew_view_table_data.php',
+
+                    type: 'POST',
+
+                    dataType: 'json',
+
+                    data: {
+                        customer_id: CUSTOMER_ID,
+                        start_date: startDate,
+                        end_date: endDate
+                    },
+
+                    beforeSend: function () {
+
+                        if ($.fn.DataTable.isDataTable('#pendingCustomerList-table'))
+                        {
+                            $('#pendingCustomerList-table')
+                                .DataTable()
+                                .clear()
+                                .draw();
+                        }
+
+                    },
+
+                    success: function (response) {
+
+                        let html = '';
+
+                        if (response.status && response.data.length > 0)
+                        {
+
+                            $.each(response.data, function (index, item) {
+
+                                const childData = encodeURIComponent(
+                                    JSON.stringify(item.child || {})
+                                );
+
+                                const isCredit = [
+                                    'Package Conversion',
+                                    'Secondary Referral'
+                                ].includes(item.entry_type);
+
+                                const credit = isCredit
+                                    ? Number(item.amount || 0).toLocaleString('en-IN')
+                                    : '-';
+
+                                const debit = !isCredit
+                                    ? Number(item.amount || 0).toLocaleString('en-IN')
+                                    : '-';
+
+                                const badgeClass = isCredit
+                                    ? 'text-success-emphasis bg-success-subtle border-success-subtle'
+                                    : 'text-warning-emphasis bg-warning-subtle border-warning-subtle';
+
+                                html += `
+                                    <tr data-child="${childData}">
+
+                                        <td>
+                                            <p class="mb-0 fw-bold">
+                                                ${item.created_date || '-'}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <div class="p-1 ${badgeClass} border rounded-3 text-center fw-bolder">
+                                                ${item.entry_type || '-'}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <p class="mb-0 fw-bold text-break">
+                                                ${item.message || '-'}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fw-bold mb-0 text-success text-end">
+                                                ${credit !== '-' ? '+' + credit : '-'}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fw-bold mb-0 text-danger text-end">
+                                                ${debit !== '-' ? '-' + debit : '-'}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fw-bold mb-0 text-primary text-end">
+                                                ${Number(item.balance || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            <button
+                                                type="button"
+                                                class="toggle-btn btn btn-sm btn-light">
+
+                                                <i class="fa-solid fa-chevron-down"></i>
+
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+                                `;
+                            });
+
+                        }
+                        else
+                        {
+                            html = `
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        No records found
+                                    </td>
+                                </tr>
+                            `;
+                        }
+
+                        $('#pendingCustomerList-table tbody').html(html);
+
+                        const table = $('#pendingCustomerList-table').DataTable({
+
+                            responsive: false,
+                            scrollX: true,
+                            autoWidth: false,
+                            pageLength: 10,
+                            searching: true,
+                            ordering: true,
+                            info: true,
+                            destroy: true,
+
+                            language: {
+                                emptyTable: "No wallet transactions found.",
+                                zeroRecords: "No matching records found."
+                            },
+
+                            columnDefs: [
+                                {targets: 0, width: "160px"},
+                                {targets: 1, width: "180px"},
+                                {targets: 2, width: "250px"},
+                                {targets: 3, width: "120px"},
+                                {targets: 4, width: "120px"},
+                                {targets: 5, width: "120px"},
+                                {
+                                    targets: 6,
+                                    width: "80px",
+                                    orderable: false
+                                }
+                            ]
+
+                        });
+
+                        $('#pendingCustomerList-table tbody')
+                            .off('click', '.toggle-btn')
+                            .on('click', '.toggle-btn', function () {
+
+                                const tr = $(this).closest('tr');
+                                const row = table.row(tr);
+
+                                if (row.child.isShown())
+                                {
+
+                                    row.child.hide();
+
+                                    $(this).html(
+                                        '<i class="fa-solid fa-chevron-down"></i>'
+                                    );
+
+                                    tr.removeClass('shown');
+
+                                }
+                                else
+                                {
+
+                                    const child = JSON.parse(
+                                        decodeURIComponent(
+                                            tr.attr('data-child')
+                                        )
+                                    );
+
+                                    if (child.description === 'Secondary Referral')
+                                    {
+                                        row.child(
+                                            formatReferralChildRow(child)
+                                        ).show();
+                                    }
+                                    else
+                                    {
+                                        row.child(
+                                            formatChildRow(child)
+                                        ).show();
+                                    }
+
+                                    $(this).html(
+                                        '<i class="fa-solid fa-chevron-up"></i>'
+                                    );
+
+                                    tr.addClass('shown');
+                                }
+
+                            });
+
+                    },
+
+                    error: function (xhr) {
+
+                        console.log(xhr.responseText);
+
+                        $('#pendingCustomerList-table tbody').html(`
+                            <tr>
+                                <td colspan="7" class="text-center text-danger py-4">
+                                    Failed to load data
+                                </td>
+                            </tr>
+                        `);
+
+                    }
+
+                });
+
+            }
+            $('#exportExcel').on('click', function () {
+
+                const picker = $('#reportrange').data('daterangepicker');
+
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+
+                window.location.href =
+                    'models/export_extended_wallet.php'
+                    + '?customer_id=' + encodeURIComponent(CUSTOMER_ID)
+                    + '&start_date=' + encodeURIComponent(startDate)
+                    + '&end_date=' + encodeURIComponent(endDate);
+
+            });
         </script>
         <script>
             document.querySelectorAll('.filter-btn').forEach(button => {

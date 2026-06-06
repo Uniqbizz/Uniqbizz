@@ -26,12 +26,12 @@
             CONCAT(c.firstname, ' ', c.lastname) AS customer_name,
             c.customer_type,
 
-            COALESCE(SUM(crwu.earned_amount), 0) AS total_earned,
+            COALESCE(SUM(crwu.earn_amount), 0) AS total_earned,
 
             COALESCE(
                 (
                     SELECT crwu2.balance
-                    FROM customer_discount_wallet_utilization crwu2
+                    FROM customer_extended_wallet_utilization crwu2
                     WHERE crwu2.customer_id = c.ca_customer_id
                     ORDER BY crwu2.id DESC
                     LIMIT 1
@@ -53,7 +53,7 @@
 
         FROM ca_customer c
 
-        LEFT JOIN customer_discount_wallet_utilization crwu
+        LEFT JOIN customer_extended_wallet_utilization crwu
             ON crwu.customer_id = c.ca_customer_id
 
         {$where}
@@ -78,8 +78,8 @@
     $sheet->setCellValue('A1', 'Customer ID');
     $sheet->setCellValue('B1', 'Customer Name');
     $sheet->setCellValue('C1', 'Customer Type');
-    $sheet->setCellValue('D1', 'Discount Earned');
-    $sheet->setCellValue('E1', 'Discount Used');
+    $sheet->setCellValue('D1', 'extended Wallet Earned');
+    $sheet->setCellValue('E1', 'extended Wallet Used');
     $sheet->setCellValue('F1', 'Available Balance');
 
     $rowNo = 2;
@@ -100,7 +100,7 @@
         $sheet->getColumnDimension($column)->setAutoSize(true);
     }
 
-    $fileName = 'Discount_Wallet_' . date('Ymd_His') . '.xlsx';
+    $fileName = 'extended Wallet_Wallet_' . date('Ymd_His') . '.xlsx';
 
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$fileName.'"');
