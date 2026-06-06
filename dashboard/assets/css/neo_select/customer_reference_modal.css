@@ -1,0 +1,446 @@
+/* =========================
+   UNIQUE REFERRAL MODAL
+========================= */
+
+.neo-referral-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:9999;
+    opacity:0;
+    visibility:hidden;
+    transition:0.3s ease;
+}
+
+.neo-referral-modal.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.neo-referral-modal-box{
+    width:100%;
+    max-width:1400px;
+    max-height:95vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:32px;
+    padding:40px;
+    position:relative;
+}
+
+.neo-referral-close{
+    position:absolute;
+    right:20px;
+    top:20px;
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.neo-referral-header{
+    margin-bottom:30px;
+}
+
+.neo-referral-header-left{
+    display:flex;
+    gap:30px;
+    align-items:center;
+}
+
+.neo-header-illustration{
+    position:relative;
+}
+
+.neo-wallet-icon{
+    width:140px;
+    height:140px;
+    border-radius:30px;
+    background:linear-gradient(180deg,#7d39ff,#5b21ff);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:60px;
+    box-shadow:0 15px 30px rgba(125,57,255,0.25);
+}
+
+.neo-coin-stack{
+    position:absolute;
+    bottom:-10px;
+    right:-10px;
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#ffbf3c;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.neo-mini-title{
+    color:#6b7280;
+    font-size:15px;
+    margin-bottom:10px;
+}
+
+.neo-referral-header h1{
+    font-size:26px;
+    color:#5126ff;
+    line-height:1.1;
+    margin-bottom:15px;
+}
+
+.neo-header-desc{
+    font-size:16px;
+    color:#5b6275;
+    max-width:850px;
+    line-height:1.7;
+}
+
+/* =========================
+   REFERRAL CARD
+========================= */
+
+.neo-referral-card{
+    position:relative;
+    border:1px solid #ececf5;
+    border-radius:28px;
+    padding:35px;
+    margin-bottom:18px;
+}
+
+.neo-step-badge{
+    position:absolute;
+    top:25px;
+    left:25px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    color:#fff;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.neo-purple-bg{ background:#6d4cff; }
+.neo-green-bg{ background:#12a150; }
+.neo-orange-bg{ background:#ff6b00; }
+
+.neo-referral-flex{
+    display:flex;
+    justify-content:space-between;
+    gap:30px;
+    padding-left:55px;
+}
+
+.neo-referral-left{
+    flex:1;
+}
+
+.neo-referral-left h3{
+    font-size:24px;
+    margin-bottom:20px;
+    color:#141b34;
+}
+
+.neo-referral-left p{
+    color:#61667a;
+    font-size:15px;
+    line-height:1.8;
+}
+
+.neo-referral-right{
+    width:480px;
+    border-radius:22px;
+    padding:30px;
+}
+
+.neo-purple-soft{
+    background:#f7f4ff;
+}
+
+.neo-referral-right h4{
+    color:#5126ff;
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+.neo-referral-right ul{
+    list-style:none;
+}
+
+.neo-referral-right li{
+    display:flex;
+    gap:12px;
+    margin-bottom:18px;
+    font-size:15px;
+    color:#3f4560;
+}
+
+.neo-referral-right i{
+    color:#6d4cff;
+    margin-top:4px;
+}
+
+/* =========================
+   EARN BOX
+========================= */
+
+.neo-earn-box{
+    margin-top:25px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:25px;
+    border-radius:20px;
+    width:fit-content;
+}
+
+.neo-earn-box i{
+    font-size:42px;
+    color:#6d4cff;
+}
+
+.neo-earn-box h2{
+    font-size:24px;
+    color:#5126ff;
+}
+
+.neo-earn-box span{
+    color:#555f75;
+    font-size:20px;
+}
+
+/* =========================
+   BENEFIT ICONS
+========================= */
+
+.neo-benefit-icons{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    width:600px;
+}
+
+.neo-benefit-item{
+    text-align:center;
+}
+
+.neo-benefit-item i{
+    width:75px;
+    height:75px;
+    border-radius:18px;
+    background:#effcf4;
+    color:#12a150;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    margin:auto;
+    margin-bottom:15px;
+}
+
+.neo-benefit-item span{
+    font-size:14px;
+    color:#555;
+}
+
+/* =========================
+   ALERT
+========================= */
+
+.neo-green-alert{
+    margin-top:30px;
+    background:#eefbf3;
+    padding:24px;
+    border-radius:18px;
+    color:#166534;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:16px;
+}
+
+/* =========================
+   BOOKING GRID
+========================= */
+
+.neo-booking-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    width:700px;
+}
+
+.neo-booking-box{
+    padding:30px;
+    border-radius:22px;
+}
+
+.neo-orange-soft{
+    background:#fff5ec;
+}
+
+.neo-pink-soft{
+    background:#fff1f5;
+}
+
+.neo-booking-box i{
+    font-size:40px;
+    margin-bottom:18px;
+}
+
+.neo-orange-soft i,
+.neo-orange-soft strong{
+    color:#ff6b00;
+}
+
+.neo-pink-soft i,
+.neo-pink-soft strong{
+    color:#ff2f74;
+}
+
+.neo-booking-box h4{
+    margin-bottom:12px;
+    font-size:18px;
+}
+
+.neo-booking-box p{
+    font-size:14px;
+    color:#555;
+    line-height:1.7;
+}
+
+/* =========================
+   TIPS SECTION
+========================= */
+
+.neo-tips-section{
+    background:#f7f5ff;
+    border-radius:28px;
+    padding:35px;
+    margin-top:25px;
+}
+
+.neo-tips-title{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.neo-tips-title i{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#ece5ff;
+    color:#6d4cff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+
+.neo-tips-title h3{
+    color:#5126ff;
+    font-size:24px;
+}
+
+.neo-tips-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.neo-tip-item{
+    display:flex;
+    gap:18px;
+}
+
+.neo-tip-item i{
+    font-size:34px;
+    color:#6d4cff;
+}
+
+.neo-tip-item h4{
+    margin-bottom:8px;
+    font-size:16px;
+}
+
+.neo-tip-item p{
+    color:#666;
+    font-size:14px;
+}
+
+/* =========================
+   FOOTER NOTE
+========================= */
+
+.neo-footer-note{
+    margin-top:25px;
+    background:#fff9f1;
+    border-radius:18px;
+    padding:22px;
+    color:#7a5d00;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    font-size:16px;
+}
+
+.neo-footer-note i{
+    color:#ffb400;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:991px){
+
+    .neo-referral-modal-box{
+        padding:20px;
+    }
+
+    .neo-referral-header-left,
+    .neo-referral-flex{
+        flex-direction:column;
+    }
+
+    .neo-referral-header h1{
+        font-size:34px;
+    }
+
+    .neo-header-desc,
+    .neo-referral-left p{
+        font-size:16px;
+    }
+
+    .neo-referral-right,
+    .neo-benefit-icons,
+    .neo-booking-grid{
+        width:100%;
+    }
+
+    .neo-benefit-icons,
+    .neo-booking-grid,
+    .neo-tips-grid{
+        grid-template-columns:1fr;
+    }
+}

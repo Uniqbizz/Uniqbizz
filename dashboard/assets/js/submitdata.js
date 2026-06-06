@@ -2072,7 +2072,7 @@ $('#add-customer').click(function (e) {
         alert("Select City");
     } else if (address === '' || specialChar.test(address) || address.length <= 7) {
         alert("Enter Proper Address");
-    } else if (!paymentMode || (paymentMode !== "Free" && paymentMode === "")) {
+    } else if (!paymentMode || paymentMode !== "Free") {
         alert("Please select payment mode");
     } else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");
@@ -2276,7 +2276,9 @@ $('#edit-customer').click(function (e) {
         alert("Select City");
     } else if (address === '' || specialChar.test(address) || address.length <= 7) {
         alert("Enter Proper Address");
-    } else if (!paymentMode || (paymentMode !== "Free" && paymentMode === "")) {
+    }else if(!payment_fee){
+        alert("Please select payment fee");
+    }else if (!paymentMode || paymentMode !== "Free") {
         alert("Please select payment mode");
     } else if (paymentMode === "online" && !transactionNo) {
         alert("Please enter Transaction No");

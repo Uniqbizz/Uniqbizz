@@ -1,33 +1,47 @@
 <?php
-include_once 'dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
 
-$id = $_GET['vkvbvjfgfikix'] ?? '';
-$taId = $_GET['taId'] ?? '';
-$country_id = $_GET['ncy'] ?? '';
-$state_id = $_GET['mst'] ?? '';
-$city_id = $_GET['hct'] ?? '';
-$editfor = $_GET['editfor'] ?? '';
+    $id = $_GET['vkvbvjfgfikix'] ?? '';
+    $taId = $_GET['taId'] ?? '';
+    $country_id = $_GET['ncy'] ?? '';
+    $state_id = $_GET['mst'] ?? '';
+    $city_id = $_GET['hct'] ?? '';
+    $editfor = $_GET['editfor'] ?? '';
 
-if ($editfor == 'addreff') {
-    $stmt1 = $conn->prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '" . $id . "' ");
-    $stmt1->execute();
-    $cu_name = $stmt1->fetch();
-    $cuName = $cu_name['firstname'] . ' ' . $cu_name['lastname'];
-}
-if ($userType == 10) {
-    $stmt11 = $conn->prepare(" SELECT ta_reference_no,customer_type FROM ca_customer WHERE ca_customer_id = '" . $userId . "' ");
-    $stmt11->execute();
-    $tc = $stmt11->fetch();
-    $tcId = $tc['ta_reference_no'];
-    $customer_type = $tc['customer_type'];
+    if ($editfor == 'addreff') {
+        $stmt1 = $conn->prepare(" SELECT firstname, lastname FROM ca_customer WHERE ca_customer_id = '" . $id . "' ");
+        $stmt1->execute();
+        $cu_name = $stmt1->fetch();
+        $cuName = $cu_name['firstname'] . ' ' . $cu_name['lastname'];
+    }
+    if ($userType == 10) {
+        $stmt11 = $conn->prepare(" SELECT ta_reference_no,customer_type FROM ca_customer WHERE ca_customer_id = '" . $userId . "' ");
+        $stmt11->execute();
+        $tc = $stmt11->fetch();
+        $tcId = $tc['ta_reference_no'];
+        $customer_type = $tc['customer_type'];
 
+        if(substr($tcId,0,2) == 'TA'){
+            $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
+            $stmt12->execute();
+            $tcName = $stmt12->fetch();
+            $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+        }else if(substr($tcId,0,2) == 'IB'){
+            $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $tcId . "' ");
+            $stmt12->execute();
+            $tcName = $stmt12->fetch();
+            $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
+        }
+        //added on 22-05-2026 by SV
+        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/";
 
-    $stmt12 = $conn->prepare(" SELECT firstname, lastname FROM ca_travelagency WHERE ca_travelagency_id = '" . $tcId . "' ");
-    $stmt12->execute();
-    $tcName = $stmt12->fetch();
-    $tcFullName = $tcName['firstname'] . ' ' . $tcName['lastname'];
-
-}
+    }else{
+        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/"; 
+    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -59,6 +73,17 @@ if ($userType == 10) {
     <!-- custom Css developer-->
     <link rel="stylesheet" href="assets/css/custom.css" />
     <link href="assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+    <?php 
+        if ($userType == '10') {
+    ?>
+    <!-- Customer Dashboard CSS -->
+    <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <?php
+        }
+    ?>
 </head>
 
 <body>
@@ -66,7 +91,14 @@ if ($userType == 10) {
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <?php include_once 'header.php'; ?>
+        <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_header.php');
+            }else{
+
+                include_once 'header.php'; 
+            }
+        ?>
 
         <!-- removeNotificationModal -->
         <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
@@ -94,7 +126,14 @@ if ($userType == 10) {
         </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
 
-        <?php include_once 'sidebar.php'; ?>
+        <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_sidebar.php');
+            }else{
+
+                include_once 'sidebar.php'; 
+            }
+        ?>
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -153,7 +192,7 @@ if ($userType == 10) {
                                                             <input type="text" class="form-control" id="reference_name" placeholder="Enter Reference Name" value="<?php echo $userFname . ' ' . $userLname; ?>" readonly>
                                                         </div>
                                                     </div>
-                                                <?php } else if ($userType == '11') { ?>
+                                                <?php } else if ($userType == '11' || $userType == "33") { ?>
                                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                                         <div class="input-block mb-3">
                                                             <label class="col-form-label" for="user_id_name">TA Reference ID <span class="text-danger">*</span></label>
@@ -347,7 +386,7 @@ if ($userType == 10) {
                                                         <input type="text" class="form-control" id="address" placeholder="Enter your Address">
                                                     </div>
                                                 </div>
-                                                <?php if ($userType == 11 || $userType == 10) { ?>
+                                                <?php if ($userType == 11 || $userType == 10 || $userType == 33) { ?>
 
                                                 
                                                 <div class="col-md-6 col-sm-6 col-12" id="couponFee">
@@ -355,12 +394,12 @@ if ($userType == 10) {
                                                         <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null">--Select Payment Fee--</option>
-                                                            <option value="FOC" selected>Free</option>
+                                                            <!-- <option value="FOC" selected>Free</option>
                                                             <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                             <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
                                                             <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
                                                             <option value="35000">Premium Select: <span>&#8377 </span>35,000/-</option>
-                                                            <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option>
+                                                            <option value="21000">Premium Select Lite: <span>&#8377 </span>21,000/-</option> -->
                                                             <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                                         </select>
                                                     </div>
@@ -514,7 +553,14 @@ if ($userType == 10) {
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
-            <?php include_once "footer.php" ?>
+            <?php 
+                if ($userType == 10) {
+                    include_once(__DIR__ . '/customer_dashboard/customer_footer.php');
+                }else{
+
+                    include_once "footer.php"; 
+                }
+            ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->
 
@@ -523,6 +569,7 @@ if ($userType == 10) {
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
+    <?php include (__DIR__ .'/contact_modal.php') ?>
 
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -538,6 +585,18 @@ if ($userType == 10) {
 
     <!-- !-- materialdesign icon js- -->
     <script src="assets/js/pages/remix-icons-listing.js"></script>
+    <?php 
+            if ($userType == 10) {
+    ?>
+    <!-- Vector map-->
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!--Swiper slider js-->
+    <script src="<?= $base_url ?>assets/libs/swiper/swiper-bundle.min.js"></script>
+    <?php
+        }
+    ?>
 
     <!-- apexcharts -->
     <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
@@ -669,6 +728,55 @@ if ($userType == 10) {
             }
         });
     </script>
+    <!-- dialer logic scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const callBtn = document.getElementById("callBtn");
+
+            if (callBtn) {
+                callBtn.addEventListener("click", function(e) {
+
+                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (!isMobile) {
+                        e.preventDefault();
+
+                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                        location.reload();
+
+                        // Optional clipboard copy (safe fallback)
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText("8010892265");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        var modal = document.getElementById('staticBackdrop');
+
+        // Store the element that opened the modal
+        let lastFocusedElement;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-bs-toggle="modal"]')) {
+                lastFocusedElement = e.target;
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            } else {
+                document.body.focus();
+            }
+        });
+    </script>
+    <!-- end dialer logic scripts -->
 </body>
 
 </html>

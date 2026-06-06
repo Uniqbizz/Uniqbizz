@@ -1,6 +1,8 @@
 
 var uploadUrl = "../../uploading/upload.php";
+var uploadTermsUrl = "../../uploading/upload.php";
 var transactuploadUrl = "../uploading/upload.php";
+var uploadUrlUpgrade = "../../uploading/upload.php";
 
 //employee BCH and BDM pics upload
 // ** Profile Pic upload **
@@ -118,7 +120,7 @@ $('#bank_details').change(function(){
     });
 });
 
-// ** cheque/transact pic **
+// ** cheque/transact pic TA top up**
 $('#upload_cheque').change(function () {
     
     var folder = 'tatopup';
@@ -348,7 +350,7 @@ $('#upload_file5').change(function () {
     });
 });
 
-// ** Payment Proof Pic upload **
+// ** Payment Proof Pic upload   **
 $('#upload_file6').change(function () {
     var folder = 'payment';
 
@@ -377,6 +379,44 @@ $('#upload_file6').change(function () {
             }else if(data == 4){
                 alert("File size is greater then 2 MB");
                 $('#upload_file6').val('');
+            }else{
+                $("#preview6").show();
+                $("#img_pre6").attr("src","../../uploading/"+data);
+                $("#img_path6").val(data);
+            }
+        }
+    });
+});
+
+// ** use also for franchisee and institution upgrade **
+$('#upload_file_upgrade').change(function () {
+    var folder = 'payment';
+
+    var file_data = $('#upload_file_upgrade').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    form_data.append('folder', folder);
+    $.ajax({
+        url: uploadUrlUpgrade,
+        type: "POST",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            // console.log(data);
+            if(data == 1){
+                alert("Upload Failed");
+                $('#upload_file_upgrade').val('');
+            }else if(data == 2){
+                alert("Invalid file Extension");
+                $('#upload_file_upgrade').val('');
+            }else if(data == 3){
+                alert("Please select File");
+                $('#upload_file_upgrade').val('');
+            }else if(data == 4){
+                alert("File size is greater then 2 MB");
+                $('#upload_file_upgrade').val('');
             }else{
                 $("#preview6").show();
                 $("#img_pre6").attr("src","../../uploading/"+data);
@@ -418,7 +458,7 @@ $('#upload_file61').change(function () {
             }else{
                 
                 $("#preview61").show();
-                $("#img_pre61").attr("src","../../uploading/"+data);
+                $("#img_pre61").attr("src","../../../uploading/"+data);
                 $("#img_path61").val(data);
             }
         }
@@ -434,7 +474,7 @@ $('#terms_condition').change(function(){
     form_data.append('file', file_data);
     form_data.append('folder',folder);
     $.ajax({
-        url: uploadUrl,
+        url: uploadTermsUrl,
         type: "POST",
         data: form_data,
         contentType: false,

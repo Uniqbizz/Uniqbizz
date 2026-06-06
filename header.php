@@ -113,6 +113,9 @@
                                                 <li class="single-list">
                                                     <a href="tour-list.php" class="single">Tour Package</a>
                                                 </li>
+                                                <li class="single-list">
+                                                    <a href="visa.php" class="single">Visa</a>
+                                                </li>
                                                 <!-- <li class="single-list">
                                                     <a href="javascript:void(0)" class="single">Pages <i
                                                             class="ri-arrow-down-s-line"></i></a>
@@ -180,7 +183,13 @@
                                                 <li>
                                                     <div class="sign-btn d-none">
                                                         <?php 
-                                                            if(isset($_SESSION['username2'])){
+                                                            if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "10"){
+                                                                echo '<a href="dashboard/customer_dashboard/customer_dashboard.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
+                                                                <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
+                                                            }else if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "33"){
+                                                                echo '<a href="dashboard/customer_dashboard/customer_dashboard.php" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
+                                                                <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
+                                                            }else if(isset($_SESSION['username2'])){
                                                                 echo '<a href="dashboard/" class="btn-secondary-sm fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Dashboard</a>
                                                                 <a href="login.php" class="btn-secondary-sm my2logout fw-bolder d-flex justify-content-center align-items-center" style="width:100px; height:40px;">Logout</a>';
                                                             }else{
@@ -219,7 +228,13 @@
                                                 </div> -->
                                                 <div class="sign-btn">
                                                     <?php 
-                                                        if(isset($_SESSION['username2'])){
+                                                        if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "10"){
+                                                            echo '<a href="dashboard/customer_dashboard/customer_dashboard.php" class="btn-secondary-sm">Dashboard</a>
+                                                            <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
+                                                        } else if(isset($_SESSION['username2']) && isset($_SESSION['user_type_id_value']) && $_SESSION['user_type_id_value'] == "33"){
+                                                            echo '<a href="dashboard/institute_branch_manager/index.php" class="btn-secondary-sm">Dashboard</a>
+                                                            <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
+                                                        } else if(isset($_SESSION['username2'])){
                                                             echo '<a href="dashboard/" class="btn-secondary-sm">Dashboard</a>
                                                             <a href="login.php" class="btn-secondary-sm my2logout">Logout</a>';
                                                         }else{

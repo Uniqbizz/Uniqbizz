@@ -10,6 +10,7 @@
      $userLname = $_SESSION['lname']; //last name of user 'Cardoso'.
      $userType = $_SESSION['user_type_id_value']; //user type id value '3'.
      $userId = $_SESSION['user_id']; // user id 'TA230030'.
+     $customer_type = $_SESSION["customer_type"] ?? ''; // customer type.
 
     $date = date('Y');
 
@@ -60,6 +61,10 @@
         $sql2 = "SELECT * FROM `sponsor_franchisee` WHERE sponsor_franchisee_id = '$userId' ";
     }else if($userType == '31'){
         $sql2 = "SELECT * FROM `employees` WHERE employee_id = '$userId' ";
+    }else if($userType == '32'){
+        $sql2 = "SELECT * FROM `institution` WHERE institution_id = '$userId' ";
+    }else if($userType == '33'){
+        $sql2 = "SELECT * FROM `institution_branch_manager` WHERE institution_branch_manager_id = '$userId' ";
     }
 
     $stmt = $conn -> prepare($sql2);
@@ -79,11 +84,11 @@
     }
 
     // sidebar menu highlight when u r on that page 
-    $directoryURI = $_SERVER['REQUEST_URI'];
-    $path = parse_url($directoryURI, PHP_URL_PATH);
-    $components = explode('/', $path);
-    $first_part = $components[3];
-
+    // $directoryURI = $_SERVER['REQUEST_URI'];
+    // $path = parse_url($directoryURI, PHP_URL_PATH);
+    // $components = explode('/', $path);
+    // $first_part = $components[3];
+    $first_part = basename($_SERVER['PHP_SELF']);
     //data use for line chart
     if($userType == '3'){ //Business Consultant
         $directNext = "Techno Enterprise";

@@ -106,7 +106,16 @@ if ($stmt->rowCount() > 0) {
                 $reference_no_fname = $caTravelAgency['firstname'];
                 $reference_no_lname = $caTravelAgency['lastname'];
             }
-        } else {
+        } else if($reference_id == "IB") {
+            $cacustomers = $conn->prepare("SELECT firstname, lastname, reference_no FROM institution_branch_manager WHERE institution_branch_manager_id='" . $reference_no . "'");
+            $cacustomers->execute();
+            $cacustomers->setFetchMode(PDO::FETCH_ASSOC);
+            if ($cacustomers->rowCount() > 0) {
+                $cacustomer = $cacustomers->fetch();
+                $reference_no_fname = $cacustomer['firstname'];
+                $reference_no_lname = $cacustomer['lastname'];
+            }
+        }else if($reference_id == "CU") {
             $cacustomers = $conn->prepare("SELECT firstname, lastname, reference_no FROM ca_customer WHERE ca_customer_id='" . $reference_no . "'");
             $cacustomers->execute();
             $cacustomers->setFetchMode(PDO::FETCH_ASSOC);

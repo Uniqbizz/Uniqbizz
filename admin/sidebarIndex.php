@@ -85,12 +85,24 @@
                         <span key="t-contacts">Business Consultant</span>
                     </a>
                 </li> -->
-                <!-- <li>
-                    <a href="business_operation_executive/view_business_operation_executive.php" class=" waves-effect">
+                <li>
+                    <a href="chief_techno/chief_techno.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Business Operation Executive</span>
+                        <span key="t-contacts">Chief Techno Enterprise</span>
                     </a>
-                </li> -->
+                </li>
+                <li>
+                    <a href="executive_techno/executiveTechno.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Executive Techno Enterprise</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="super_techno/superTechno.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Super Techno Enterprise</span>
+                    </a>
+                </li>
                 <li>
                     <a href="businessMentor/businessMentor.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
@@ -100,20 +112,24 @@
                 <li>
                     <a href="corporate_agency/view_corporate_agency.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">TE / F</span>
+                        <span key="t-contacts">TE / F / I</span>
                     </a>
                 </li>
                 <li>
                     <a href="ca_travelAgency/view_ca_travelAgency.php" class=" waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Travel Consultant</span>
+                        <span key="t-contacts">TC / IBR</span>
                     </a>
                 </li>
                 <li>
-                    <a href="ca_customers/view_customers.php" class=" waves-effect">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-user-detail"></i>
-                        <span key="t-contacts">Customers</span>
+                        <span key="t-multi-level">Customers</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="ca_customers/view_customers.php" key="t-level-1-1"><i class="bx bxs-user-detail"></i></i>Customers</a></li>
+                        <li><a href="customer_wallet/customerWallet.php" key="t-level-1-1"><i class="bx bxs-collection"></i>Customer Wallet</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="channels/all_channels.php" class=" waves-effect">
@@ -167,6 +183,12 @@
                             </ul>
                         </li> -->
                     </ul>
+                </li>
+                <li>
+                    <a href="visa/visa.php" class=" waves-effect">
+                        <i class="bx bxs-user-detail"></i>
+                        <span key="t-contacts">Visa</span>
+                    </a>
                 </li>
                 <li>
                     <!-- <button class="text-center ms-3 mt-3"> -->

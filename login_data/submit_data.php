@@ -151,6 +151,7 @@ if($stmt->rowCount()>0){
 					foreach (($stmt->fetchAll()) as $key => $row){
 						$_SESSION["username2"] = $row['firstname'] ;
 						$_SESSION["lname"] = $row['lastname'] ;
+						$_SESSION["customer_type"] = $row['customer_type'] ;
 						
 					}
 				}
@@ -382,6 +383,34 @@ if($stmt->rowCount()>0){
 					
 				}
 			}
+		}else if($_SESSION["user_type_id_value"] =='32'){
+			$stmt = $conn->prepare("SELECT * FROM institution where email='".$username."' AND user_type = '32' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
+		}else if($_SESSION["user_type_id_value"] =='33'){
+			$stmt = $conn->prepare("SELECT * FROM institution_branch_manager where email='".$username."' AND user_type = '33' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
 		}else{
 			$_SESSION["username2"] = '' ;
 			$_SESSION["lname"]='';
@@ -399,7 +428,8 @@ if($stmt->rowCount()>0){
 		|| $_SESSION["user_type_id_value"]== '24' || $_SESSION["user_type_id_value"]== '25' 
 		|| $_SESSION["user_type_id_value"]== '26' || $_SESSION["user_type_id_value"]== '27' 
 		|| $_SESSION["user_type_id_value"]== '28' || $_SESSION["user_type_id_value"]== '29' 
-		|| $_SESSION["user_type_id_value"]== '30' || $_SESSION["user_type_id_value"]== '31'){
+		|| $_SESSION["user_type_id_value"]== '30' || $_SESSION["user_type_id_value"]== '31'
+		|| $_SESSION["user_type_id_value"]== '32' || $_SESSION["user_type_id_value"]== '33'){
 		if ($remember_me == 'true') {
 				setcookie('user2',$username, time() + (86400 * 30), "/"); // 86400 = 1 day
 				// setcookie('user2',$username , time() + (86400 * 30), "/"); // 86400 = 1 day
@@ -408,7 +438,15 @@ if($stmt->rowCount()>0){
 				setcookie('user2',''); // 86400 = 1 day
 				setcookie('pass',''); // 86400 = 1 day
 			}
-		echo '1';
+		// echo '1';
+		$response = [
+			"status" => 1,
+			"user_type" => $user_type,
+			"user_id" => $_SESSION["user_id"],
+			"customer_type" => $_SESSION["customer_type"] ?? ''
+		];
+
+		echo json_encode($response);
 	}else{
 		echo '0';
 	}

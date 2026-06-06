@@ -2030,6 +2030,12 @@ $("#edit_employee").click(function (e) {
 });
 // @@@@****#### Employee End by admin @@@@****####
 
+// chief Techno Enterprise js code shifted to its own folder  
+// execuitive Techno Enterprise js code shifted to its own folder  
+// super Techno Enterprise js code shifted to its own folder  
+
+// @@@@****#### business_trainee End by admin @@@@****####
+
 // @@@@****#### Business Mentor start by admin @@@@****####
 // Add Business Mentor by admin
 $("#addBusinessMentor").on("click", function (e) {
@@ -2174,8 +2180,6 @@ $("#addBusinessMentor").on("click", function (e) {
         alert("Please Select City");
     } else if (address === "") {
         alert("Please Enter address");
-    } else if (zone === "") {
-        alert("Please Select zone");
     } else if (branch === "") {
         alert("Please Select branch");
     } else if (payment_fee == "null") {
@@ -2425,8 +2429,6 @@ $("#editBuisnessMentor").on("click", function (e) {
         alert("Please Select City");
     } else if (address === "") {
         alert("Please Enter address");
-    } else if (zone === "") {
-        alert("Please Select zone");
     } else if (branch === "") {
         alert("Please Select branch");
     } else if (payment_fee == "null") {
@@ -3021,13 +3023,16 @@ $("#addCorporateAgency").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
     var url = register_as == 'corporate_agency'
-    ? 'add_corporate_agency_data.php'
-    : register_as == 'sub_franchisee'
+        ? 'add_corporate_agency_data.php'
+        : register_as == 'sub_franchisee'
         ? 'add_sub_franchisee_data.php'
+        : register_as == 'institution' 
+        ? 'add_institution_data.php'
         : '';
     // console.log('Add customer button clicked');
 
     //var designation = $("#designation").val() ? "travel_agent" : "";
+    var converted = $('#is_converted').is(':checked') ? 1 : 2;//1 converted 2 non converted
     var user_id_name = $("#user_id_name").val() == 'NA' ? 'Not Applicable' :  $("#user_id_name").val();
     var reference_name = $("#reference_name").val() == 'NA' ? 'Not Applicable' :  $("#reference_name").val();
 
@@ -3197,7 +3202,9 @@ $("#addCorporateAgency").on("click", function (e) {
             "&transactionNo=" +
             transactionNo +
             "&note=" +
-            note;
+            note+
+            "&converted="+
+            converted;
         console.log(dataString);
 
         if (validateForm()) {
@@ -3228,11 +3235,14 @@ $("#addCorporateAgency").on("click", function (e) {
 $("#editCorporateAgency").on("click", function (e) {
     e.preventDefault();
     var register_as = $('#registered').val();
+
     var url = register_as == 'te'
     ? 'edit_corporate_agency_data.php'
     : register_as == 'sf'
-        ? 'edit_sub_franchisee_data.php'
-        : '';
+    ? 'edit_sub_franchisee_data.php'
+    : register_as == 'in' 
+    ? 'edit_institution_data.php'
+    : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val();
@@ -3476,7 +3486,12 @@ $("#editCorporateAgency").on("click", function (e) {
 $("#add_ca_travelagency").on("click", function (e) {
 
     e.preventDefault();
-
+    var register_as = $('#registered').val();
+    var url = register_as == 'travel_consultant'
+    ? 'add_ca_travelAgency_data.php'
+    : register_as == 'institution_branch_manager'
+        ? 'add_ca_ins_branch_manager_data.php'
+        : '';
     // console.log('Add customer button clicked');
 
     // var designation = $("#designation").val().trim();
@@ -3501,6 +3516,7 @@ $("#add_ca_travelagency").on("click", function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
+    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
     var payment_fee = $("#payment_fee").val().trim();
     if (payment_fee == "FOC") {
@@ -3632,6 +3648,8 @@ $("#add_ca_travelagency").on("click", function (e) {
             city +
             "&pincode=" +
             pin +
+            "&branch=" +
+            branch +
             "&address=" +
             address +
             "&profile_pic=" +
@@ -3669,7 +3687,7 @@ $("#add_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: 'add_ca_travelAgency_data.php' ,
+            url: url ,
             data: dataString,
             cache: false,
             success: function (data) {
@@ -3691,7 +3709,12 @@ $("#add_ca_travelagency").on("click", function (e) {
 $("#edit_ca_travelagency").on("click", function (e) {
     e.preventDefault();
     // console.log('Add customer button clicked');
-
+    var register_as = $('#registered').val();
+    var url = register_as == '11'
+    ? "edit_ca_travelAgency_data.php"
+    : register_as == '33'
+        ? 'edit_ca_ins_branch_manager_data.php'
+        : '';
     // var designation = $("#designation").val();
     // var user_id_name = $("#user_id_name").val();
     // var reference_name = $("#reference_name").val();
@@ -3717,6 +3740,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
     var mystate = $("#mystate").val().trim();
     var city = $("#city").val().trim();
     var pin = $("#pin").val().trim();
+    var branch = $("#branch").val().trim();
     var address = $("#address").val().trim();
     var payment_fee = $("#payment_fee").val().trim();
     if (payment_fee == "FOC") {
@@ -3864,6 +3888,8 @@ $("#edit_ca_travelagency").on("click", function (e) {
             city +
             "&pincode=" +
             pin +
+            "&branch=" +
+            branch +
             "&address=" +
             address +
             "&profile_pic=" +
@@ -3901,7 +3927,7 @@ $("#edit_ca_travelagency").on("click", function (e) {
         $("#loading-overlay").show(); //loading screen
         $.ajax({
             type: "POST",
-            url: "edit_ca_travelAgency_data.php",
+            url: url,
             data: dataString,
             cache: false,
             success: function (data) {

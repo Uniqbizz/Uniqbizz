@@ -1,79 +1,88 @@
 <?php
-include_once 'dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
 
-$id = $_GET['vkvbvjfgfikix'];
-$country_id = $_GET['ncy'];
-$state_id = $_GET['mst'];
-$city_id = $_GET['hct'];
-$editfor = $_GET['editfor'];
+    $id = $_GET['vkvbvjfgfikix'];
+    $country_id = $_GET['ncy'];
+    $state_id = $_GET['mst'];
+    $city_id = $_GET['hct'];
+    $editfor = $_GET['editfor'];
 
-$stmt = $conn->prepare("SELECT * FROM `ca_customer` WHERE ca_customer_id='" . $id . "' OR id='" . $id . "' ");
-$stmt->execute();
-// set the resulting array to associative
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare("SELECT * FROM `ca_customer` WHERE ca_customer_id='" . $id . "' OR id='" . $id . "' ");
+    $stmt->execute();
+    // set the resulting array to associative
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-if ($stmt->rowCount() > 0) {
-    foreach (($stmt->fetchAll()) as $key => $row) {
-        $fid = $row['id'];
-        $firstname = $row['firstname'];
-        $lastname = $row['lastname'];
-        $nominee_name = $row['nominee_name'];
-        $nominee_relation = $row['nominee_relation'];
-        $email = $row['email'];
-        $contact_no = $row['contact_no'];
-        $reference_no = $row['reference_no'];
-        $registrant = $row['registrant'];
-        $ta_reference_no = $row['ta_reference_no'];
-        $ta_reference_name = $row['ta_reference_name'];
-        $date_of_birth = $row['date_of_birth'];
-        $gender = $row['gender'];
-        $country = $row['country'];
-        $state = $row['state'];
-        $city = $row['city'];
-        $address = $row['address'];
-        $profile_pic = $row['profile_pic'];
-        $pan_card = $row['pan_card'];
-        $aadhar_card = $row['aadhar_card'];
-        $voting_card = $row['voting_card'];
-        $bank_passbook = $row['passbook'];
-        $payment_proof = $row['payment_proof'];
-        $payment_mode = $row['payment_mode'];
-        $cheque_no = $row['cheque_no'];
-        $cheque_date = $row['cheque_date'];
-        $bank_name = $row['bank_name'];
-        $transaction_no = $row['transaction_no'];
-        $pincode = $row['pincode'];
-        $register_by = $row['register_by'];
-        $customer_type = $row['customer_type'];
+    if ($stmt->rowCount() > 0) {
+        foreach (($stmt->fetchAll()) as $key => $row) {
+            $fid = $row['id'];
+            $firstname = $row['firstname'];
+            $lastname = $row['lastname'];
+            $nominee_name = $row['nominee_name'];
+            $nominee_relation = $row['nominee_relation'];
+            $email = $row['email'];
+            $contact_no = $row['contact_no'];
+            $reference_no = $row['reference_no'];
+            $registrant = $row['registrant'];
+            $ta_reference_no = $row['ta_reference_no'];
+            $ta_reference_name = $row['ta_reference_name'];
+            $date_of_birth = $row['date_of_birth'];
+            $gender = $row['gender'];
+            $country = $row['country'];
+            $state = $row['state'];
+            $city = $row['city'];
+            $address = $row['address'];
+            $profile_pic = $row['profile_pic'];
+            $pan_card = $row['pan_card'];
+            $aadhar_card = $row['aadhar_card'];
+            $voting_card = $row['voting_card'];
+            $bank_passbook = $row['passbook'];
+            $payment_proof = $row['payment_proof'];
+            $payment_mode = $row['payment_mode'];
+            $cheque_no = $row['cheque_no'];
+            $cheque_date = $row['cheque_date'];
+            $bank_name = $row['bank_name'];
+            $transaction_no = $row['transaction_no'];
+            $pincode = $row['pincode'];
+            $register_by = $row['register_by'];
+            $customer_type = $row['customer_type'];
 
-        //get country
-        $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
-        $countries->execute();
-        $countries->setFetchMode(PDO::FETCH_ASSOC);
-        if ($countries->rowCount() > 0) {
-            $country = $countries->fetch();
-            $countryname = $country['country_name'];
+            //get country
+            $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
+            $countries->execute();
+            $countries->setFetchMode(PDO::FETCH_ASSOC);
+            if ($countries->rowCount() > 0) {
+                $country = $countries->fetch();
+                $countryname = $country['country_name'];
+            }
+
+            //get state
+            $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
+            $states->execute();
+            $states->setFetchMode(PDO::FETCH_ASSOC);
+            if ($states->rowCount() > 0) {
+                $state = $states->fetch();
+                $statename = $state['state_name'];
+            }
+            //get city
+            $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
+            $cities->execute();
+            $cities->setFetchMode(PDO::FETCH_ASSOC);
+            if ($cities->rowCount() > 0) {
+                $city = $cities->fetch();
+                $city_name = $city['city_name'];
+            }
+
         }
-
-        //get state
-        $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
-        $states->execute();
-        $states->setFetchMode(PDO::FETCH_ASSOC);
-        if ($states->rowCount() > 0) {
-            $state = $states->fetch();
-            $statename = $state['state_name'];
-        }
-        //get city
-        $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
-        $cities->execute();
-        $cities->setFetchMode(PDO::FETCH_ASSOC);
-        if ($cities->rowCount() > 0) {
-            $city = $cities->fetch();
-            $city_name = $city['city_name'];
-        }
-
     }
-}
+    if ($userType == '10') {
+        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/";
+    }else{
+        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/"; 
+    }
 ?>
 
 <!doctype html>
@@ -109,6 +118,17 @@ if ($stmt->rowCount() > 0) {
     <link rel="stylesheet" href="assets/css/custom.css" />
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
     <link href="assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
+     <?php 
+         if ($userType == '10') {
+    ?>
+    <!-- Customer Dashboard CSS -->
+    <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <?php
+        }
+    ?>
 
 </head>
 
@@ -117,7 +137,14 @@ if ($stmt->rowCount() > 0) {
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <?php include_once "header.php"; ?>
+        <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_header.php');
+            }else{
+
+                include_once 'header.php'; 
+            }
+        ?>
         <!-- removeNotificationModal -->
         <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -144,7 +171,14 @@ if ($stmt->rowCount() > 0) {
         </div><!-- /.modal -->
         <!-- ========== App Menu ========== -->
 
-        <?php include_once "sidebar.php"; ?>
+        <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_sidebar.php');
+            }else{
+
+                include_once 'sidebar.php'; 
+            }
+        ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -326,6 +360,8 @@ if ($stmt->rowCount() > 0) {
                                                             <option value="35000" <?= $customer_type == "Premium Plus" ? 'selected' : ''; ?>>Premium Plus: <span>&#8377 </span>35,000/-</option>
                                                             <option value="35000" <?= $customer_type == "Premium Select" ? 'selected' : ''; ?>>Premium Select: <span>&#8377 </span>35,000/-</option>
                                                             <option value="21000" <?= $customer_type == "Premium Select Lite" ? 'selected' : ''; ?>>Premium Select Lite: <span>&#8377 </span>21,000/-</option>
+                                                            <option value="21000" <?= $customer_type == "Neo Select" ? 'selected' : ''; ?>>Neo Select: <span>&#8377 </span>11,000/-</option>
+                                                            <option value="21000" <?= $customer_type == "Neo Select Ultra" ? 'selected' : ''; ?>>Neo Select Ultra: <span>&#8377 </span>11,000/-</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -591,7 +627,14 @@ if ($stmt->rowCount() > 0) {
                     </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
-            <?php include_once "footer.php" ?>
+            <?php 
+                if ($userType == 10) {
+                    include_once(__DIR__ . '/customer_dashboard/customer_footer.php');
+                }else{
+
+                    include_once "footer.php"; 
+                }
+            ?>
         </div><!-- end main content-->
     </div><!-- END layout-wrapper -->
 
@@ -600,7 +643,7 @@ if ($stmt->rowCount() > 0) {
         <i class="ri-arrow-up-line"></i>
     </button>
     <!--end back-to-top-->
-
+    <?php include (__DIR__ .'/contact_modal.php') ?>
     <!-- JAVASCRIPT -->
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
@@ -616,6 +659,18 @@ if ($stmt->rowCount() > 0) {
 
     <!-- !-- materialdesign icon js- -->
     <script src="assets/js/pages/remix-icons-listing.js"></script>
+    <?php 
+        if ($userType == 10) {
+    ?>
+    <!-- Vector map-->
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!--Swiper slider js-->
+    <script src="<?= $base_url ?>assets/libs/swiper/swiper-bundle.min.js"></script>
+    <?php
+        }
+    ?>
 
     <!-- apexcharts -->
     <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
@@ -746,6 +801,55 @@ if ($stmt->rowCount() > 0) {
             }
         });
     </script>
+    <!-- dialer logic scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const callBtn = document.getElementById("callBtn");
+
+            if (callBtn) {
+                callBtn.addEventListener("click", function(e) {
+
+                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (!isMobile) {
+                        e.preventDefault();
+
+                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                        location.reload();
+
+                        // Optional clipboard copy (safe fallback)
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText("8010892265");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        var modal = document.getElementById('staticBackdrop');
+
+        // Store the element that opened the modal
+        let lastFocusedElement;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-bs-toggle="modal"]')) {
+                lastFocusedElement = e.target;
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            } else {
+                document.body.focus();
+            }
+        });
+    </script>
+    <!-- end dialer logic scripts -->
 </body>
 
 </html>

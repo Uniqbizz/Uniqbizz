@@ -21,43 +21,86 @@
     $subId='';
     $frname='';
     $amount='';
-    $sql1 = "SELECT sub_franchisee_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
+    $id_str=substr($id,0,1);
+    if ($id_str == 'F') {
+        $sql1 = "SELECT sub_franchisee_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
          FROM sub_franchisee 
          WHERE sub_franchisee_id = :id";
 
-    $stmt = $conn->prepare($sql1);
+        $stmt = $conn->prepare($sql1);
 
-    $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
+        $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // get fname and sub_franchisee_id
-    if ($franchisee) {
-        $subId = $franchisee['sub_franchisee_id'];
-        $frname = $franchisee['fname'];
-        $amount = $franchisee['amount'];
-        $prev_comm = $franchisee['current_commission_per'];
-        $prev_ins = $franchisee['current_incentive_per'];
-        $prev_upgrade=$franchisee['upgrade_status'];
-        if($prev_upgrade == 2){
-            $sql2 = "SELECT upgrade_amt 
-                FROM sub_franchisee_upgrade 
-                WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+        // get fname and sub_franchisee_id
+        if ($franchisee) {
+            $subId = $franchisee['sub_franchisee_id'];
+            $frname = $franchisee['fname'];
+            $amount = $franchisee['amount'];
+            $prev_comm = $franchisee['current_commission_per'];
+            $prev_ins = $franchisee['current_incentive_per'];
+            $prev_upgrade=$franchisee['upgrade_status'];
+            if($prev_upgrade == 2){
+                $sql2 = "SELECT upgrade_amt 
+                    FROM sub_franchisee_upgrade 
+                    WHERE sub_franchisee_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
 
-            $stmt = $conn->prepare($sql2);
+                $stmt = $conn->prepare($sql2);
 
-            $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+                $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
 
-            $stmt->execute();
+                $stmt->execute();
 
-            $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($franchisee_upgrade) {
-                $amount = $franchisee_upgrade['upgrade_amt'];
+                $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($franchisee_upgrade) {
+                    $amount = $franchisee_upgrade['upgrade_amt'];
+                }
+            }
+        }
+    }else if ($id_str == 'I') {
+        $sql1 = "SELECT institution_id, CONCAT(firstname,' ',lastname) AS fname,amount,current_commission_per,current_incentive_per,upgrade_status 
+         FROM institution 
+         WHERE institution_id = :id";
+
+        $stmt = $conn->prepare($sql1);
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+
+        $stmt->execute();
+
+        $franchisee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // get fname and institution_id
+        if ($franchisee) {
+            $subId = $franchisee['institution_id'];
+            $frname = $franchisee['fname'];
+            $amount = $franchisee['amount'];
+            $prev_comm = $franchisee['current_commission_per'];
+            $prev_ins = $franchisee['current_incentive_per'];
+            $prev_upgrade=$franchisee['upgrade_status'];
+            if($prev_upgrade == 2){
+                $sql2 = "SELECT upgrade_amt 
+                    FROM institution_upgrade 
+                    WHERE institution_id = :id and upgrade_status=1 ORDER BY id DESC limit 1";
+
+                $stmt = $conn->prepare($sql2);
+
+                $stmt->bindParam(':id', $id, PDO::PARAM_STR);  // $id must have the value before execute
+
+                $stmt->execute();
+
+                $franchisee_upgrade = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($franchisee_upgrade) {
+                    $amount = $franchisee_upgrade['upgrade_amt'];
+                }
             }
         }
     }
+    
+    
 
 
 ?>
@@ -81,10 +124,10 @@
         <!-- Loading Screen and Images size css  -->
         <link href="../assets/css/loadingScreen.css" rel="stylesheet" type="text/css" />
         <!-- App js -->
-        <!-- <script src="../assets/js/plugin.js"></script> -->
+        <!-- <script src="../../assets/js/plugin.js"></script> -->
 
         <!-- Plugins css -->
-        <!-- <link href="../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="../../assets/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" /> -->
 
     </head>
 
@@ -232,7 +275,7 @@
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label"><b>Payment Proof</b></label><br/>
-                                                        <input class="form-control" type="file" name="file6" id="upload_file6">
+                                                        <input class="form-control" type="file" name="file6" id="upload_file_upgrade">
                                                     </div>
                                                     <input type="hidden" id="img_path6" value="">
                                                     <div id="preview6" style="display: none;">
@@ -284,7 +327,7 @@
         <script type="text/javascript" src="../assets/js/submitdata.js"></script>
 
         <!-- apexcharts -->
-        <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->
+        <!-- <script src="../../assets/libs/apexcharts/apexcharts.min.js"></script> -->
 
         <!-- dashboard init -->
         <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
@@ -295,21 +338,7 @@
         <!-- file upload code js file -->
         <script src="../../uploading/upload.js"></script>
 
-        <script>
-            var mybutton = document.getElementById("back-to-top");
-            function scrollFunction() {
-                100 < document.body.scrollTop || 100 < document.documentElement.scrollTop ? mybutton.style.display = "block" : mybutton.style.display = "none"
-            }
-            function topFunction() {
-                document.body.scrollTop = 0,
-                document.documentElement.scrollTop = 0
-            }
-            mybutton && (window.onscroll = function() {
-                scrollFunction()
-            }
-            );
-
-        </script>
+       
         <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
         <script>
             $("#new_select_amount").on('change', function () {
@@ -334,7 +363,7 @@
                     $("#incentive").val('20');
                 } else if (amount >= 500000) {
                     $("#commission").val('30');
-                    $("#incentive").val('30');
+                    $("#incentive").val('20');
                 } else {
                     $("#commission").val('');
                     $("#incentive").val('');
@@ -364,8 +393,6 @@
                     $("#transactionNo").val("");
                 }
             });
-        </script>
-        <script>
             $("#upgradeForm").on("submit", function(e){
                 e.preventDefault();
                 let paymentMode     = $(".payment:checked").val() || "";

@@ -1,0 +1,267 @@
+2026-05-07 06:52:28
+Array
+(
+)
+
+
+2026-05-08 07:17:48
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => 547uKgHKWthNSBi0muXe0PqWp8DYO8Pzvs4E7tVCf3g=
+    [order_id] => ORD_1778217445_1806
+)
+
+
+2026-05-08 07:18:07
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => 547uKgHKWthNSBi0muXe0PqWp8DYO8Pzvs4E7tVCf3g=
+    [order_id] => ORD_1778217445_1806
+)
+
+
+2026-05-08 08:04:19
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => LkLpBs6ziQJdTexolG1ptQOqdXLBtDEACB6twbUQv7A=
+    [order_id] => ORD_1778220222_1770
+)
+
+
+2026-05-08 08:08:57
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => LkLpBs6ziQJdTexolG1ptQOqdXLBtDEACB6twbUQv7A=
+    [order_id] => ORD_1778220222_1770
+)
+
+
+2026-05-08 08:11:02
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => fITwHuqEdap/xxt0iG9bhsFS2YCCP1d5w2P9DpyCElw=
+    [order_id] => ORD_1778220647_3040
+)
+
+
+2026-05-08 08:18:28
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => sTLdkpKeRR+oVTSH5fin+eJQEJsuAIZg3oimli+dIuA=
+    [order_id] => ORD_1778221083_5946
+)
+
+
+2026-05-08 08:23:41
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => sTLdkpKeRR+oVTSH5fin+eJQEJsuAIZg3oimli+dIuA=
+    [order_id] => ORD_1778221083_5946
+)
+
+
+2026-05-08 08:23:47
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => sTLdkpKeRR+oVTSH5fin+eJQEJsuAIZg3oimli+dIuA=
+    [order_id] => ORD_1778221083_5946
+)
+
+
+2026-05-08 08:25:08
+Array
+(
+    [status] => AUTHORIZING
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 28
+    [signature] => 6y9KDMuAwWuBFCmgg8dHwYt1DSxDkAps2OJq2HabVzU=
+    [order_id] => ORD_1778221458_7611
+)
+
+
+2026-05-11 07:26:27
+Array
+(
+    [status] => AUTHORIZING
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 28
+    [signature] => 6y9KDMuAwWuBFCmgg8dHwYt1DSxDkAps2OJq2HabVzU=
+    [order_id] => ORD_1778221458_7611
+)
+
+
+2026-05-13 13:14:32
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => GOF3ctUNeHMs3VAMNAn9sX/7+A3PwqNZn8iq55Jqqjs=
+    [order_id] => ORD_6a045d03b6b0c
+)
+
+
+2026-05-13 13:36:08
+Array
+(
+    [order_id] => ORD_6a045e5ebefef
+    [status] => NEW
+    [sdk_status] => backpressed
+    [status_id] => 10
+)
+
+
+2026-05-13 13:42:11
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => EgQP2tSphkUVNVWFvSZ9ZORarVpkIy2zhZTjqGERujQ=
+    [order_id] => ORD_6a0462993333e
+)
+
+
+2026-05-13 14:26:51
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => JZtnLLhWqZUIZC3cQzkbFFi5fyA5I8GEV8hmQ3Vmjq0=
+    [order_id] => ORD_6a046dfbde5f2
+)
+
+
+2026-05-14 08:15:51
+Array
+(
+    [order_id] => ORD_6a05688dbffb5
+    [status] => NEW
+    [sdk_status] => backpressed
+    [status_id] => 10
+)
+
+
+2026-05-14 12:37:57
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => wpvIOLn+M47iq0jvgPCgGSYfWpthymofB68x6bh5gVw=
+    [order_id] => ORD_6a05a5f2dcbd3
+)
+
+
+2026-05-14 16:09:06
+Array
+(
+    [order_id] => ORD_6a05a643005f2
+    [status] => NEW
+    [sdk_status] => backpressed
+    [status_id] => 10
+)
+
+
+2026-05-21 15:10:09
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => 9PxrpcMJQYQddlc9sod1jn0HPqYt6cjaCNG1OOvoQmg=
+    [order_id] => ORD_5C7D462E4A47
+)
+
+
+2026-05-21 15:19:10
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => ucj+0yP2qxWBrIEWjSXHj+r4BpBXE81b8r0IBazD9RQ=
+    [order_id] => ORD_28694C9B3A52
+)
+
+
+2026-05-21 15:20:55
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => ucj+0yP2qxWBrIEWjSXHj+r4BpBXE81b8r0IBazD9RQ=
+    [order_id] => ORD_28694C9B3A52
+)
+
+
+2026-05-21 15:21:02
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => ucj+0yP2qxWBrIEWjSXHj+r4BpBXE81b8r0IBazD9RQ=
+    [order_id] => ORD_28694C9B3A52
+)
+
+
+2026-05-21 15:22:48
+Array
+(
+    [status] => JUSPAY_DECLINED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 22
+    [signature] => 2Hctr6HLda3/ScmQI9JEJ4lc0mYBCzCpcW4VJtA56IM=
+    [order_id] => ORD_A9E5193B9743
+)
+
+
+2026-06-02 10:52:54
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => qtSKPNg7ixO+dnlbGGrxMB0jEa/eAXkeBkVy1QYfSeA=
+    [order_id] => ORD_E634DE079F28
+)
+
+
+2026-06-02 10:53:35
+Array
+(
+    [status] => CHARGED
+    [signature_algorithm] => HMAC-SHA256
+    [status_id] => 21
+    [signature] => qtSKPNg7ixO+dnlbGGrxMB0jEa/eAXkeBkVy1QYfSeA=
+    [order_id] => ORD_E634DE079F28
+)
+
+

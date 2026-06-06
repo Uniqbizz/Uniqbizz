@@ -1,15 +1,24 @@
 <?php
-include_once 'dashboard_user_details.php';
+    include_once 'dashboard_user_details.php';
 
-// get current date to show next payout amount  and pass it in sql @ line 129
-$date = date('F,Y'); //month and year. 'F' - month in Text form
-$nextDateMonth = date('m'); //month in number form
-$nextDateYear = date('Y'); //year
+    // get current date to show next payout amount  and pass it in sql @ line 129
+    $date = date('F,Y'); //month and year. 'F' - month in Text form
+    $nextDateMonth = date('m'); //month in number form
+    $nextDateYear = date('Y'); //year
 
-// get Previous date to show Previous payout amount  and pass it in sql @ line 111
-$prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
-$prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
-$prevDateYear = date('Y');  //Year in number form. 
+    // get Previous date to show Previous payout amount  and pass it in sql @ line 111
+    $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
+    $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
+    $prevDateYear = date('Y');  //Year in number form. 
+    if ($userType == '10') {
+        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/";
+    }else{
+        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
+        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
+        $home_url = "/ca.uniqbizz.com/"; 
+    }
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +32,17 @@ $prevDateYear = date('Y');  //Year in number form.
     <link rel="shortcut icon" href="assets/images/fav.png">
     <!-- custom css file -->
     <!-- <link href="assets/css/styles.css" rel="stylesheet" type="text/css" /> -->
+    <!-- jsvectormap css -->
+    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- DataTables -->
+    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+
     <!-- Layout config Js -->
     <script src="assets/js/layout.js"></script>
     <!-- Bootstrap Css -->
@@ -35,20 +55,35 @@ $prevDateYear = date('Y');  //Year in number form.
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css developer-->
     <link rel="stylesheet" href="assets/css/custom.css" />
+    <!-- font-awesome -->
+        <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
     <!-- Css-->
     <link href="assets/css/loadingScreen.css" id="app-style" rel="stylesheet" type="text/css" />
     <!-- App js -->
     <!-- <script src="assets/js/plugin.js"></script> -->
     <!-- DataTables -->
-    <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- Responsive datatable examples -->
-    <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Date Range Picker CSS End -->
+    
+    <?php 
+        if ($userType == '10') {
+    ?>
+    <!-- Customer Dashboard CSS -->
+    <link rel="stylesheet" href="assets/css/customer_dashboard.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <?php
+        }else{
+    ?>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <?php
+        }
+    ?>
     <!-- Date Range Picker CSS Start -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <!-- Date Range Picker CSS End -->
+    
 
     <style>
         .selected-date {
@@ -67,7 +102,7 @@ $prevDateYear = date('Y');  //Year in number form.
         }
 
         .faIcon {
-            padding: 21px 17px 21px 17px !important;
+            padding: 21px 32px 21px 17px !important;
         }
 
         .faIcon:hover {
@@ -85,7 +120,17 @@ $prevDateYear = date('Y');  //Year in number form.
         .dateRange {
             border-radius: 14px !important;
         }
-
+        .nav-link.active {
+            background: #4b38b3;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(95, 46, 234, 0.3);
+        }
+        .nav-link.active span{
+            color: #fff;
+        }
+        .span-tab-font{
+            font-size: 13px;
+        }
         @media screen and (min-width: 993px) and (max-width: 1180px) {
             .cardText {
                 font-size: 12px !important;
@@ -151,29 +196,39 @@ $prevDateYear = date('Y');  //Year in number form.
 
 <body>
     <div id="layout-wrapper">
+       <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_header.php');
+            }else{
+
+                include_once 'header.php'; 
+            }
+        ?>
+        <?php 
+            if ($userType == 10) {
+                include_once(__DIR__ . '/customer_dashboard/customer_sidebar.php');
+            }else{
+
+                include_once 'sidebar.php'; 
+            }
+        ?>
         <?php
-        // top header logo, hamberger menu, fullscreen icon, profile
-        include_once 'header.php';
+            $pending_booking_count = 0;
+            $completed_booking_count = 0;
+            $pending_payment_amt = 0;
+            $in_transit_booking_count=0;
+            $canceled_booking_count=0;
+            $completed_payment_amt = 0;
 
-        // sidebar navigation menu 
-        include_once 'sidebar.php';
-
-        $pending_booking_count = 0;
-        $completed_booking_count = 0;
-        $pending_payment_amt = 0;
-        $in_transit_booking_count=0;
-        $canceled_booking_count=0;
-        $completed_payment_amt = 0;
-
-        $sql = "SELECT 
-                        b.id, 
-                        b.order_id, 
-                        b.package_id, 
-                        b.date, 
-                        b.customer_id, 
-                        b.name, 
-                        b.status, 
-                        p.name AS package_name, 
+            $sql = "SELECT
+                        b.id,
+                        b.order_id,
+                        b.package_id,
+                        b.date,
+                        b.customer_id,
+                        b.name,
+                        b.status,
+                        p.name AS package_name,
                         p.tour_days,
                         bd.final_price,
                         bd.amount,
@@ -186,322 +241,623 @@ $prevDateYear = date('Y');  //Year in number form.
                         bd.status AS bd_status,
                         b.confirm_status,
                         b.ta_id,
-                        max(date) as max_b_date,
-                        min(date) as min_b_date
+                        agg.max_b_date,
+                        agg.min_b_date
                     FROM bookings b
                     LEFT JOIN package p ON b.package_id = p.id
                     LEFT JOIN booking_direct_bill bd ON b.id = bd.bookings_id
-                    WHERE 1=1";
-        
+                    ";
+                
 
-        if ($userType == '24') { // BCM
-            $filter = " AND b.ta_id IN (
-                -- 1. BCM -> BDM -> BM -> TE -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN corporate_agency co 
-                    ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                INNER JOIN business_mentor bm 
-                    ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                INNER JOIN employees bcm 
-                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 2. BCM -> BDM -> BM -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN business_mentor bm 
-                    ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                INNER JOIN employees bcm 
-                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 3. BCM -> BDM -> MF -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN master_franchisee mf 
-                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                INNER JOIN employees bcm 
-                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 4. BCM -> BDM -> MF -> F -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f 
-                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                INNER JOIN master_franchisee mf 
-                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                INNER JOIN employees bcm 
-                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 5. BCM -> BDM -> SF -> F -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f 
-                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                INNER JOIN sponsor_franchisee sf 
-                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                INNER JOIN employees bcm 
-                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 6. BCM -> BDM -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                INNER JOIN employees bcm 
-                    ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                WHERE ca.status = 1 AND bcm.employee_id = '$userId'
-            )";
-        } elseif ($userType == '25') { // BDM
-            $filter = " AND b.ta_id IN (
-                -- 1. BDM -> BM -> TE -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN corporate_agency co 
-                    ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                INNER JOIN business_mentor bm 
-                    ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 2. BDM -> BM -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN business_mentor bm 
-                    ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 3. BDM -> MF -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN master_franchisee mf 
-                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 4. BDM -> MF -> F -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f 
-                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                INNER JOIN master_franchisee mf 
-                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 5. BDM -> SF -> F -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f 
-                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                INNER JOIN sponsor_franchisee sf 
-                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 6. BDM -> TC (direct)
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-            )";
-        } elseif ($userType == '26') { // BM
-            $filter = " AND b.ta_id IN (
-                    -- TA via corporate_agency
-                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                    INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                    INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                    WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
+                    if ($userType == '24') { // BCM
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            -- 1. BCM -> BDM -> BM -> TE -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN corporate_agency co
+                                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                            INNER JOIN business_mentor bm
+                                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                            INNER JOIN employees bcm
+                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 2. BCM -> BDM -> BM -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN business_mentor bm
+                                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                            INNER JOIN employees bcm
+                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 3. BCM -> BDM -> MF -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN master_franchisee mf
+                                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                            INNER JOIN employees bcm
+                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 4. BCM -> BDM -> MF -> F -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee f
+                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                            INNER JOIN master_franchisee mf
+                                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                            INNER JOIN employees bcm
+                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 5. BCM -> BDM -> SF -> F -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee f
+                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                            INNER JOIN sponsor_franchisee sf
+                                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                            INNER JOIN employees bcm
+                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 6. BCM -> BDM -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                            INNER JOIN employees bcm
+                                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                            -- 1. BCM -> BDM -> BM -> TE -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN corporate_agency co
+                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                            INNER JOIN business_mentor bm
+                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                            INNER JOIN employees bcm
+                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 2. BCM -> BDM -> BM -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN business_mentor bm
+                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                            INNER JOIN employees bcm
+                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 3. BCM -> BDM -> MF -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN master_franchisee mf
+                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                            INNER JOIN employees bcm
+                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 4. BCM -> BDM -> MF -> F -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN sub_franchisee f
+                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                            INNER JOIN master_franchisee mf
+                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                            INNER JOIN employees bcm
+                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 5. BCM -> BDM -> SF -> F -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN sub_franchisee f
+                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                            INNER JOIN sponsor_franchisee sf
+                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                            INNER JOIN employees bcm
+                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 6. BCM -> BDM -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                            INNER JOIN employees bcm
+                                ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
+                            WHERE ca.status = 1 AND bcm.employee_id = '$userId'
+                        )";
+                    } elseif ($userType == '25') { // BDM
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            -- 1. BDM -> BM -> TE -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN corporate_agency co
+                                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                            INNER JOIN business_mentor bm
+                                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 2. BDM -> BM -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN business_mentor bm
+                                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 3. BDM -> MF -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN master_franchisee mf
+                                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 4. BDM -> MF -> F -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee f
+                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                            INNER JOIN master_franchisee mf
+                                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 5. BDM -> SF -> F -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee f
+                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                            INNER JOIN sponsor_franchisee sf
+                                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 6. BDM -> TC (direct)
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                            -- 1. BDM -> BM -> TE -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN corporate_agency co
+                                ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                            INNER JOIN business_mentor bm
+                                ON bm.business_mentor_id = co.reference_no AND bm.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 2. BDM -> BM -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN business_mentor bm
+                                ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = bm.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 3. BDM -> MF -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN master_franchisee mf
+                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 4. BDM -> MF -> F -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN sub_franchisee f
+                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                            INNER JOIN master_franchisee mf
+                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 5. BDM -> SF -> F -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN sub_franchisee f
+                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                            INNER JOIN sponsor_franchisee sf
+                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 6. BDM -> TC (direct)
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        )";
+                    } elseif ($userType == '26') { // BM
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            -- TA via corporate_agency
+                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                            INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                            INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
+                                            WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
+                    
+                                            UNION
+                    
+                                            -- Direct TC under BM
+                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                            WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                -- TA via corporate_agency
+                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                INNER JOIN corporate_agency co ON co.corporate_agency_id = ca.reference_no AND co.status = 1
+                                INNER JOIN business_mentor bm ON co.reference_no = bm.business_mentor_id AND bm.status = 1
+                                WHERE ca.status = 1 AND bm.business_mentor_id = '$userId'
 
-                    UNION
+                                UNION
 
-                    -- Direct TC under BM
-                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                )";
-        } elseif ($userType == '28') { // MF
-            $filter = " AND b.ta_id IN (
-                    -- TA via Franchisee
-                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
-                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
-                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                -- Direct TC under BM
+                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                            )";
+                    } elseif ($userType == '28') { // MF
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            -- TA via Franchisee
+                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                            INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                            WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                -- TA via Franchisee
+                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
 
-                    UNION
+                                UNION
 
-                    -- Direct TC under MF
-                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                )";
-        } elseif ($userType == '30') { // SF
-            $filter = " AND b.ta_id IN (
-                    -- TA via Franchisee
-                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                    INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
-                    INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
-                    WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
-                )";
-        } elseif ($userType == '16' || $userType == '29') { // TE/F
-            $filter = " AND b.ta_id IN (
-                    SELECT ca.ca_travelagency_id FROM ca_travelagency ca
-                    WHERE ca.status = 1 AND ca.reference_no = '$userId'
-                )";
-        } elseif ($userType == '11') { // TC
-            $filter = " AND b.ta_id = '$userId'";
-        } elseif ($userType == '10') { // Customer
-            $filter = " AND b.customer_id = '$userId'";
-        } elseif ($userType == '31') { // RM
-            $filter = " AND b.ta_id IN (
-                                
-                -- 1. RM -> MF -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN master_franchisee mf 
-                    ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 2. RM -> MF -> F -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f 
-                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                INNER JOIN master_franchisee mf 
-                    ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 3. RM -> SF -> F -> TC
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN sub_franchisee f 
-                    ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                INNER JOIN sponsor_franchisee sf 
-                    ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-                
-                UNION
-                
-                -- 6. RM -> TC (direct)
-                SELECT ca.ca_travelagency_id 
-                FROM ca_travelagency ca
-                INNER JOIN employees bdm 
-                    ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                WHERE ca.status = 1 AND bdm.employee_id = '$userId'
-            )";
-        }
+                                -- Direct TC under MF
+                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                            )";
+                    } elseif ($userType == '30') { // SF
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            -- TA via Franchisee
+                                            SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                            INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                            WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                -- TA via Franchisee
+                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                INNER JOIN sub_franchisee co ON co.sub_franchisee_id = ca.reference_no AND co.status = 1
+                                INNER JOIN master_franchisee bm ON co.reference_no = bm.master_franchisee_id AND bm.status = 1
+                                WHERE ca.status = 1 AND bm.master_franchisee_id = '$userId'
+                            )";
+                    } elseif ($userType == '16' || $userType == '29') { // TE/F
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            WHERE ca.status = 1
+                                            AND ca.reference_no = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                SELECT ca.ca_travelagency_id FROM ca_travelagency ca
+                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                            )";
+                    } elseif ($userType == '32') { // TE/F
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            SELECT ca.institution_branch_manager_id
+                                            FROM institution_branch_manager ca
+                                            WHERE ca.status = 1
+                                            AND ca.reference_no = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                SELECT ca.institution_branch_manager_id FROM institution_branch_manager ca
+                                WHERE ca.status = 1 AND ca.reference_no = '$userId'
+                            )";
+                    } elseif ($userType == '11' || $userType == '33') { // TC/IBR
+                        $filter = " CROSS JOIN (
+                                        SELECT
+                                            MAX(date) AS max_b_date,
+                                            MIN(date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id = '$userId'
+                                    ) agg
+                                    WHERE 1=1 AND b.ta_id = '$userId'";
+                    } elseif ($userType == '10') { // Customer
+                        $filter = " CROSS JOIN (
+                                        SELECT
+                                            MAX(date) AS max_b_date,
+                                            MIN(date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.customer_id = '$userId'
+                                    ) agg
+                                    WHERE 1=1 AND b.customer_id = '$userId'";
+                    } elseif ($userType == '31') { // RM
+                        $filter = "CROSS JOIN (
+                                        SELECT
+                                            MAX(b2.date) AS max_b_date,
+                                            MIN(b2.date) AS min_b_date
+                                        FROM bookings b2
+                                        WHERE b2.ta_id IN (
+                                            -- 1. RM -> MF -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN master_franchisee mf
+                                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 2. RM -> MF -> F -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee f
+                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                            INNER JOIN master_franchisee mf
+                                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 3. RM -> SF -> F -> TC
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN sub_franchisee f
+                                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                                            INNER JOIN sponsor_franchisee sf
+                                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        
+                                            UNION
+                                        
+                                            -- 6. RM -> TC (direct)
+                                            SELECT ca.ca_travelagency_id
+                                            FROM ca_travelagency ca
+                                            INNER JOIN employees bdm
+                                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                                        )
+                                    ) agg
+                                WHERE 1=1 AND b.ta_id IN (
+                                        
+                            -- 1. RM -> MF -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN master_franchisee mf
+                                ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 2. RM -> MF -> F -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN sub_franchisee f
+                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                            INNER JOIN master_franchisee mf
+                                ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = mf.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 3. RM -> SF -> F -> TC
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN sub_franchisee f
+                                ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
+                            INNER JOIN sponsor_franchisee sf
+                                ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = sf.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        
+                            UNION
+                        
+                            -- 6. RM -> TC (direct)
+                            SELECT ca.ca_travelagency_id
+                            FROM ca_travelagency ca
+                            INNER JOIN employees bdm
+                                ON bdm.employee_id = ca.reference_no AND bdm.status = 1
+                            WHERE ca.status = 1 AND bdm.employee_id = '$userId'
+                        )";
+                    }
 
-        $sql .= $filter;
-        //hirarchy filter logic
-        $sql .=" GROUP BY
-                    b.id,
-                    b.order_id,
-                    b.package_id,
-                    b.customer_id,
-                    b.name,
-                    b.status,
-                    p.name,
-                    p.tour_days,
-                    bd.final_price,
-                    bd.amount,
-                    bd.part_pay_1,
-                    bd.part_pay_2,
-                    bd.part_pay_3,
-                    bd.part_pay_1_status,
-                    bd.part_pay_2_status,
-                    bd.part_pay_3_status,
-                    bd.status,
-                    b.confirm_status,
-                    b.ta_id";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $today = date('Y-m-d'); // Get today's date as a string
+                    $sql .= $filter;
+                    //hirarchy filter logic // no longer required
+                    // $sql .=" GROUP BY
+                    //             b.id,
+                    //             b.order_id,
+                    //             b.package_id,
+                    //             b.customer_id,
+                    //             b.name,
+                    //             b.status,
+                    //             p.name,
+                    //             p.tour_days,
+                    //             bd.final_price,
+                    //             bd.amount,
+                    //             bd.part_pay_1,
+                    //             bd.part_pay_2,
+                    //             bd.part_pay_3,
+                    //             bd.part_pay_1_status,
+                    //             bd.part_pay_2_status,
+                    //             bd.part_pay_3_status,
+                    //             bd.status,
+                    //             b.confirm_status,
+                    //             b.ta_id";
+                    $stmt = $conn->prepare($sql);
+                    // print_r($stmt);
+                    // exit;
+                    $stmt->execute();
+            $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $today = date('Y-m-d'); // Get today's date as a string
 
-        $mindate= "01-01-2022";
-        $maxdate=$today;
-        foreach ($bookings as $booking) {
-            $maxdate=$booking['max_b_date'] ?? $today;
-            // Ensure 'date' exists in booking data
-            if (!isset($booking['date']) || empty($booking['date'])) {
-                continue; // Skip if date is not set
+            $mindate= "01-01-2022";
+            $maxdate=$today;
+            foreach ($bookings as $booking) {
+                $maxdate=$booking['max_b_date'] ?? $today;
+                // Ensure 'date' exists in booking data
+                if (!isset($booking['date']) || empty($booking['date'])) {
+                    continue; // Skip if date is not set
+                }
+
+                $startDate = date('Y-m-d', strtotime($booking['date'])); // Convert start date to string format
+                $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
+                $endDate = date('Y-m-d', strtotime("$startDate +$tourDays days")); // Calculate end date as string
+                if ($booking['part_pay_2_status'] == 0) {
+                    $pending_payment_amt += floatval(number_format($booking['part_pay_2'], 2, '.', '')); // Convert NULL to 0
+
+                }
+                if ($booking['part_pay_3_status'] == 0) {
+                    $pending_payment_amt += floatval(number_format($booking['part_pay_3'], 2, '.', '')); // Convert NULL to 0
+                }
+                if ($booking['status'] == '1' && $booking['bd_status'] == 1) {
+                    $completed_payment_amt += floatval(number_format($booking['final_price'], 2, '.', '')); // Convert NULL to 0
+                }
+                if ($booking['status'] == '2') {
+                    $canceled_booking_count++;
+                }
+                if ($today > $endDate) {
+                    $completed_booking_count++;
+                } else if ($booking['confirm_status'] == '0') {
+                    $pending_booking_count++;
+                } else if ($booking['confirm_status'] == '1') {
+                    $in_transit_booking_count++;
+                }
             }
-
-            $startDate = date('Y-m-d', strtotime($booking['date'])); // Convert start date to string format
-            $tourDays = !empty($booking['tour_days']) ? (int)$booking['tour_days'] : 0; // Ensure it's an integer
-            $endDate = date('Y-m-d', strtotime("$startDate +$tourDays days")); // Calculate end date as string
-            if ($booking['part_pay_2_status'] == 0) {
-                $pending_payment_amt += floatval(number_format($booking['part_pay_2'], 2, '.', '')); // Convert NULL to 0
-
-            }
-            if ($booking['part_pay_3_status'] == 0) {
-                $pending_payment_amt += floatval(number_format($booking['part_pay_3'], 2, '.', '')); // Convert NULL to 0
-            }
-            if ($booking['status'] == '1' && $booking['bd_status'] == 1) {
-                $completed_payment_amt += floatval(number_format($booking['final_price'], 2, '.', '')); // Convert NULL to 0
-            }
-            if ($booking['status'] == '2') {
-                $canceled_booking_count++;
-            }
-            if ($today > $endDate) {
-                $completed_booking_count++;
-            } else if ($booking['confirm_status'] == '0') {
-                $pending_booking_count++;
-            } else if ($booking['confirm_status'] == '1') {
-                $in_transit_booking_count++;
-            }
-        }
-
-
         ?>
         <div>
             <div class="main-content">
@@ -610,21 +966,21 @@ $prevDateYear = date('Y');  //Year in number form.
                         <div class="row rowAlign">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pb-3">
                                 <nav role="navigation">
-                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex justify-content-around" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory">All</a>
+                                    <ul class="nav nav-underline border-bottom border-1 border-secondary-subtle d-flex flex-nowrap justify-content-around" role="tablist">
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#allHistory"><span class="span-tab-font">All</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#pendingHistory">Pending</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link"  data-bs-toggle="tab" role="tab" href="#pendingHistory"><span class="span-tab-font">Pending</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory">Booked</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#bookedHistory"><span class="span-tab-font">Booked</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory">Canceled</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#canceledHistory"><span class="span-tab-font">Canceled</span></a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory">Refund</a>
+                                        <li class="nav-item flex-shrink-0">
+                                            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#refundHistory"><span class="span-tab-font">Refund</span></a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -658,365 +1014,28 @@ $prevDateYear = date('Y');  //Year in number form.
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                                 <?php
-                                                $customer_fil = '';
-                                                //check which user logged in based on user type
-                                                if ($userType == '24') {
-                                                    // BCM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
+                                                    $customer_fil = '';
+                                                    //check which user logged in based on user type
+                                                    //data load from models file
+                                                    include 'all_channels.php';
 
-                                                        UNION
+                                                    // Check if travel agencies exist
+                                                    if (empty($ta_list)) {
+                                                        echo '<tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Travel Agencies Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>';
 
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '25') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. BDM -> BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BDM -> BM -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. BDM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. BDM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 5. BDM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 6. BDM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '26') {
-                                                    // BM and lower hierarchy (all TA paths under BM)
-                                                    $sql0 = "
-                                                        -- 1. BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '28') {
-                                                    // MF and lower hierarchy (all TA paths under MF)
-                                                    $sql0 = "
-                                                        -- 1. MF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. MF -> TC -> TA (direct under MF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '30') {
-                                                    // SF and lower hierarchy (all TA paths under SF)
-                                                    $sql0 = "
-                                                        -- 1. SF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. SF -> TC -> TA (direct under SF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-
-                                                else if ($userType == '16') {
-                                                    //TE and lower hirachy
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency
-                                                        INNER join corporate_agency on corporate_agency.corporate_agency_id = ca_travelagency.reference_no and corporate_agency.status=1                                                        
-                                                        WHERE ca_travelagency.status=1 and corporate_agency.corporate_agency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                }
-                                                else if ($userType == '29') {
-                                                    // Franchisee (F) and lower hierarchy (all TA under F)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                }
-
-                                                 else if ($userType == '11') {
-                                                    //TC
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
-                                                        WHERE ca_travelagency.status=1 and ca_travelagency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } else if ($userType == '10') {
-                                                    //Customer
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency 
-                                                        INNER JOIN ca_customer on ca_customer.ta_reference_no = ca_travelagency.ca_travelagency_id and ca_customer.status=1
-                                                        WHERE ca_travelagency.status=1 and ca_customer.ca_customer_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                    $customer_fil = " AND b.customer_id='" . $userId . "'";
-                                                }
-                                                else if ($userType == '31') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. RM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. RM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. RM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. M -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-
-                                                // Check if travel agencies exist
-                                                if (empty($ta_list)) {
-                                                    echo '<tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Travel Agencies Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>';
-
-                                                    // exit; // Stop further execution
-                                                } else {
+                                                        // exit; // Stop further execution
+                                                    } else {
 
                                                     // Create an array mapping travel agency IDs to their details
                                                     $ta_details = [];
@@ -1024,8 +1043,8 @@ $prevDateYear = date('Y');  //Year in number form.
 
 
                                                     foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['ca_travelagency_id']] = [
+                                                        $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                        $ta_details[$ta['tc_id']] = [
                                                             'firstname' => $ta['firstname'],
                                                             'lastname' => $ta['lastname'],
                                                             'email' => $ta['email'],
@@ -1073,15 +1092,15 @@ $prevDateYear = date('Y');  //Year in number form.
                                                             <td></td>
                                                         </tr>
                                                         <?php
-                                                    } else {
-                                                        $i = 0;
+                                                            } else {
+                                                                $i = 0;
 
-                                                        foreach ($bookings as $booking) {
-                                                            $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
-                                                            $stmt3 = $conn->prepare($sql3);
-                                                            $stmt3->execute();
-                                                            $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-                                                            $formattedDate = date("d-m-Y", strtotime($booking['date']));
+                                                                foreach ($bookings as $booking) {
+                                                                    $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'] . "";
+                                                                    $stmt3 = $conn->prepare($sql3);
+                                                                    $stmt3->execute();
+                                                                    $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
+                                                                    $formattedDate = date("d-m-Y", strtotime($booking['date']));
                                                         ?>
                                                             <tr>
                                                                 <td><?= ++$i ?></td>
@@ -1249,7 +1268,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>">
                                                                                 <i class="fa-solid fa-eye"></i> View
                                                                             </a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF">
                                                                                 <i class="fa-solid fa-arrow-down"></i> Download Itineraries
                                                                             </a>
                                                                             <?php
@@ -1295,366 +1314,32 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $customer_fil = '';
-                                                //check which user logged in based on user type
-                                                if ($userType == '24') {
-                                                    // BCM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '25') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. BDM -> BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BDM -> BM -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. BDM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. BDM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 5. BDM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 6. BDM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '26') {
-                                                    // BM and lower hierarchy (all TA paths under BM)
-                                                    $sql0 = "
-                                                        -- 1. BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '28') {
-                                                    // MF and lower hierarchy (all TA paths under MF)
-                                                    $sql0 = "
-                                                        -- 1. MF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. MF -> TC -> TA (direct under MF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '30') {
-                                                    // SF and lower hierarchy (all TA paths under SF)
-                                                    $sql0 = "
-                                                        -- 1. SF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. SF -> TC -> TA (direct under SF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '16') {
-                                                    //TE and lower hirachy
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency
-                                                        INNER join corporate_agency on corporate_agency.corporate_agency_id = ca_travelagency.reference_no and corporate_agency.status=1                                                        
-                                                        WHERE ca_travelagency.status=1 and corporate_agency.corporate_agency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } 
-                                                else if ($userType == '29') {
-                                                    // Franchisee (F) and lower hierarchy (all TA under F)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                }
-                                                else if ($userType == '11') {
-                                                    //TC
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
-                                                        WHERE ca_travelagency.status=1 and ca_travelagency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } else if ($userType == '10') {
-                                                    //Customer
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency 
-                                                        INNER JOIN ca_customer on ca_customer.ta_reference_no = ca_travelagency.ca_travelagency_id and ca_customer.status=1
-                                                        WHERE ca_travelagency.status=1 and ca_customer.ca_customer_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                    $customer_fil = " AND b.customer_id='" . $userId . "'";
-                                                }
-                                                else if ($userType == '31') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. RM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. RM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. RM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. M -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                // Check if travel agencies exist
-                                                if (empty($ta_list)) {
-                                                    echo '<tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Travel Agencies Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>';
-                                                    // exit; // Stop further execution
-                                                } else {
+                                                    $customer_fil = '';
+                                                    //check which user logged in based on user type
+                                                    //data load from models file
+                                                    include 'all_channels.php';
+                                                    // Check if travel agencies exist
+                                                    if (empty($ta_list)) {
+                                                        echo '<tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Travel Agencies Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>';
+                                                        // exit; // Stop further execution
+                                                    } else {
 
                                                     // Travel Agency Mapping
                                                     $ta_details = [];
                                                     $ta_ids = [];
                                                     foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['ca_travelagency_id'];
-                                                        $ta_details[$ta['ca_travelagency_id']] = [
+                                                        $ta_ids[] = $ta['tc_id'];
+                                                        $ta_details[$ta['tc_id']] = [
                                                             'firstname' => $ta['firstname'],
                                                             'lastname' => $ta['lastname'],
                                                             'email' => $ta['email'],
@@ -1695,9 +1380,9 @@ $prevDateYear = date('Y');  //Year in number form.
                                                             <td></td>
                                                         </tr>
                                                         <?php } else {
-                                                        $i = 0;
-                                                        //$data_found = false;
-                                                        foreach ($bookings as $booking) {
+                                                            $i = 0;
+                                                            //$data_found = false;
+                                                            foreach ($bookings as $booking) {
                                                             $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
                                                             $stmt3 = $conn->prepare($sql3);
                                                             $stmt3->execute();
@@ -1796,7 +1481,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -1830,368 +1515,34 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $customer_fil = '';
-                                                //check which user logged in based on user type
-                                                if ($userType == '24') {
-                                                    // BCM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
+                                                    $customer_fil = '';
+                                                    //check which user logged in based on user type
+                                                    //data load from models file
+                                                    include 'all_channels.php';
 
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '25') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. BDM -> BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BDM -> BM -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. BDM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. BDM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 5. BDM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 6. BDM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '26') {
-                                                    // BM and lower hierarchy (all TA paths under BM)
-                                                    $sql0 = "
-                                                        -- 1. BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '28') {
-                                                    // MF and lower hierarchy (all TA paths under MF)
-                                                    $sql0 = "
-                                                        -- 1. MF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. MF -> TC -> TA (direct under MF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '30') {
-                                                    // SF and lower hierarchy (all TA paths under SF)
-                                                    $sql0 = "
-                                                        -- 1. SF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. SF -> TC -> TA (direct under SF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '16') {
-                                                    //TE and lower hirachy
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency
-                                                        INNER join corporate_agency on corporate_agency.corporate_agency_id = ca_travelagency.reference_no and corporate_agency.status=1                                                        
-                                                        WHERE ca_travelagency.status=1 and corporate_agency.corporate_agency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } 
-                                                else if ($userType == '29') {
-                                                    // Franchisee (F) and lower hierarchy (all TA under F)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                }
-                                                else if ($userType == '11') {
-                                                    //TC
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
-                                                        WHERE ca_travelagency.status=1 and ca_travelagency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } else if ($userType == '10') {
-                                                    //Customer
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency 
-                                                        INNER JOIN ca_customer on ca_customer.ta_reference_no = ca_travelagency.ca_travelagency_id and ca_customer.status=1
-                                                        WHERE ca_travelagency.status=1 and ca_customer.ca_customer_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                    $customer_fil = " AND b.customer_id='" . $userId . "'";
-                                                }
-                                                else if ($userType == '31') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. RM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. RM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. RM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. M -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-
-                                                // Check if travel agencies exist
-                                                if (empty($ta_list)) {
-                                                    echo '<tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Travel Agencies Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>';
-                                                    // exit; // Stop further execution
-                                                } else {
+                                                    // Check if travel agencies exist
+                                                    if (empty($ta_list)) {
+                                                        echo '<tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Travel Agencies Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>';
+                                                        // exit; // Stop further execution
+                                                    } else {
 
                                                     // Create an array mapping travel agency IDs to their details
                                                     $ta_details = [];
                                                     $ta_ids = [];
 
                                                     foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['ca_travelagency_id']] = [
+                                                        $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                        $ta_details[$ta['tc_id']] = [
                                                             'firstname' => $ta['firstname'],
                                                             'lastname' => $ta['lastname'],
                                                             'email' => $ta['email'],
@@ -2240,49 +1591,49 @@ $prevDateYear = date('Y');  //Year in number form.
                                                             <td></td>
                                                         </tr>
                                                         <?php
-                                                    } else {
-                                                        $i = 0;
-                                                        foreach ($bookings as $booking) {
-                                                            $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
-                                                            $stmt3 = $conn->prepare($sql3);
-                                                            $stmt3->execute();
-                                                            $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
-
-                                                            $formattedDate = date("d-m-Y", strtotime($booking['date']));
-
-                                                            // Travel agency details
-                                                            $ta_id = $booking['ta_id'];
-                                                            $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
-
-                                                            // Payment calculations
-                                                            if ($booking_bill['pay_type'] == 2) {
-                                                                if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
-                                                                    continue; // Skip if not fully paid
-                                                                } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
-                                                                    $perecent_fill = 100;
-                                                                    $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
-                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                }
-                                                            } else if ($booking_bill['pay_type'] == 3) {
-                                                                if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                    continue;
-                                                                } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
-                                                                    continue;
-                                                                } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
-                                                                    $perecent_fill = 100;
-                                                                    $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
-                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
-                                                                }
                                                             } else {
-                                                                $perecent_fill = 100;
-                                                                $booking_paid_amt = $booking_bill['amount'];
-                                                                $booking_full_amt = $booking_bill['total_net_payable'];
-                                                            }
+                                                            $i = 0;
+                                                            foreach ($bookings as $booking) {
+                                                                $sql3 = "SELECT * FROM booking_direct_bill WHERE bookings_id = " . $booking['id'];
+                                                                $stmt3 = $conn->prepare($sql3);
+                                                                $stmt3->execute();
+                                                                $booking_bill = $stmt3->fetch(PDO::FETCH_ASSOC);
 
-                                                            // **Skip entry if `$perecent_fill` is not 100**
-                                                            if ($perecent_fill !== 100) {
-                                                                continue;
-                                                            }
+                                                                $formattedDate = date("d-m-Y", strtotime($booking['date']));
+
+                                                                // Travel agency details
+                                                                $ta_id = $booking['ta_id'];
+                                                                $agency_info = isset($ta_details[$ta_id]) ? $ta_details[$ta_id] : ['firstname' => '', 'lastname' => '', 'email' => '', 'phone' => ''];
+
+                                                                // Payment calculations
+                                                                if ($booking_bill['pay_type'] == 2) {
+                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0) {
+                                                                        continue; // Skip if not fully paid
+                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1) {
+                                                                        $perecent_fill = 100;
+                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                    }
+                                                                } else if ($booking_bill['pay_type'] == 3) {
+                                                                    if ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 0 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                        continue;
+                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 0) {
+                                                                        continue;
+                                                                    } elseif ($booking_bill['part_pay_1_status'] == 1 && $booking_bill['part_pay_2_status'] == 1 && $booking_bill['part_pay_3_status'] == 1) {
+                                                                        $perecent_fill = 100;
+                                                                        $booking_paid_amt = $booking_bill['part_pay_1'] + $booking_bill['part_pay_2'] + $booking_bill['part_pay_3'];
+                                                                        $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                    }
+                                                                } else {
+                                                                    $perecent_fill = 100;
+                                                                    $booking_paid_amt = $booking_bill['amount'];
+                                                                    $booking_full_amt = $booking_bill['total_net_payable'];
+                                                                }
+
+                                                                // **Skip entry if `$perecent_fill` is not 100**
+                                                                if ($perecent_fill !== 100) {
+                                                                    continue;
+                                                                }
 
                                                             // Display the booking details
                                                         ?>
@@ -2341,7 +1692,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -2376,403 +1727,69 @@ $prevDateYear = date('Y');  //Year in number form.
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $customer_fil = '';
-                                                //check which user logged in based on user type
-                                                if ($userType == '24') {
-                                                    // BCM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
+                                                    $customer_fil = '';
+                                                    //check which user logged in based on user type
+                                                    //data load from models file
+                                                    include 'all_channels.php';
 
-                                                        UNION
+                                                    // Check if travel agencies exist
+                                                    if (empty($ta_list)) {
+                                                        echo '<tr>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-center">No Travel Agencies Found</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>';
+                                                        // exit; // Stop further execution
+                                                    } else {
 
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
+                                                        // Create an array mapping travel agency IDs to their details
+                                                        $ta_details = [];
+                                                        $ta_ids = [];
 
-                                                        UNION
+                                                        foreach ($ta_list as $ta) {
+                                                            $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                            $ta_details[$ta['tc_id']] = [
+                                                                'firstname' => $ta['firstname'],
+                                                                'lastname' => $ta['lastname'],
+                                                                'email' => $ta['email'],
+                                                                'phone' => $ta['contact_no']
+                                                            ];
+                                                        }
 
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
+                                                        if (!empty($ta_list)) {
+                                                            $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
+                                                            $sql = "
+                                                                        SELECT b.id,
+                                                                            b.order_id, 
+                                                                            b.customer_id, 
+                                                                            b.package_id, 
+                                                                            p.name AS package_name,
+                                                                            p.tour_days,
+                                                                            b.name AS c_name,
+                                                                            b.phone,
+                                                                            b.email,
+                                                                            b.date,
+                                                                            b.ta_id,
+                                                                            b.status,
+                                                                            b.confirm_status
+                                                                        FROM bookings b
+                                                                        JOIN package p ON b.package_id = p.id
+                                                                        WHERE b.ta_id IN ($ta_ids_str) AND b.status='2' $customer_fil"; // Use IN clause to match multiple IDs
+                                                        }
 
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '25') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. BDM -> BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BDM -> BM -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. BDM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. BDM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 5. BDM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 6. BDM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '26') {
-                                                    // BM and lower hierarchy (all TA paths under BM)
-                                                    $sql0 = "
-                                                        -- 1. BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '28') {
-                                                    // MF and lower hierarchy (all TA paths under MF)
-                                                    $sql0 = "
-                                                        -- 1. MF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. MF -> TC -> TA (direct under MF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '30') {
-                                                    // SF and lower hierarchy (all TA paths under SF)
-                                                    $sql0 = "
-                                                        -- 1. SF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. SF -> TC -> TA (direct under SF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '16') {
-                                                    //TE and lower hirachy
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency
-                                                        INNER join corporate_agency on corporate_agency.corporate_agency_id = ca_travelagency.reference_no and corporate_agency.status=1                                                        
-                                                        WHERE ca_travelagency.status=1 and corporate_agency.corporate_agency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } 
-                                                else if ($userType == '29') {
-                                                    // Franchisee (F) and lower hierarchy (all TA under F)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                }
-                                                else if ($userType == '11') {
-                                                    //TC
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
-                                                        WHERE ca_travelagency.status=1 and ca_travelagency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } else if ($userType == '10') {
-                                                    //Customer
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency 
-                                                        INNER JOIN ca_customer on ca_customer.ta_reference_no = ca_travelagency.ca_travelagency_id and ca_customer.status=1
-                                                        WHERE ca_travelagency.status=1 and ca_customer.ca_customer_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                    $customer_fil = " AND b.customer_id='" . $userId . "'";
-                                                }
-                                                else if ($userType == '31') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. RM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. RM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. RM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. M -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-
-                                                // Check if travel agencies exist
-                                                if (empty($ta_list)) {
-                                                    echo '<tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td class="text-center">No Travel Agencies Found</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>';
-                                                    // exit; // Stop further execution
-                                                } else {
-
-                                                    // Create an array mapping travel agency IDs to their details
-                                                    $ta_details = [];
-                                                    $ta_ids = [];
-
-                                                    foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['ca_travelagency_id']] = [
-                                                            'firstname' => $ta['firstname'],
-                                                            'lastname' => $ta['lastname'],
-                                                            'email' => $ta['email'],
-                                                            'phone' => $ta['contact_no']
-                                                        ];
-                                                    }
-
-                                                    if (!empty($ta_list)) {
-                                                        $ta_ids_str = "'" . implode("','", $ta_ids) . "'"; // Convert array to comma-separated string
-                                                        $sql = "
-                                                                    SELECT b.id,
-                                                                        b.order_id, 
-                                                                        b.customer_id, 
-                                                                        b.package_id, 
-                                                                        p.name AS package_name,
-                                                                        p.tour_days,
-                                                                        b.name AS c_name,
-                                                                        b.phone,
-                                                                        b.email,
-                                                                        b.date,
-                                                                        b.ta_id,
-                                                                        b.status,
-                                                                        b.confirm_status
-                                                                    FROM bookings b
-                                                                    JOIN package p ON b.package_id = p.id
-                                                                    WHERE b.ta_id IN ($ta_ids_str) AND b.status='2' $customer_fil"; // Use IN clause to match multiple IDs
-                                                    }
-
-                                                    $stmt = $conn->prepare($sql);
-                                                    $stmt->execute();
-                                                    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                        $stmt = $conn->prepare($sql);
+                                                        $stmt->execute();
+                                                        $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-                                                    // Check if bookings exist
-                                                    if (empty($bookings)) {
+                                                        // Check if bookings exist
+                                                        if (empty($bookings)) {
                                                 ?>
                                                         <tr>
                                                             <td></td>
@@ -2888,7 +1905,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                             <a class="dropdown-item refundAction" href="#" data-order-id=<?= $booking["id"] ?>><i class="fa-solid fa-money-bill-transfer"></i> Initiate Refund</a>
                                                                         </div>
                                                                     </div>
@@ -2927,342 +1944,8 @@ $prevDateYear = date('Y');  //Year in number form.
                                                 $customer_fil = '';
 
                                                 //check which user logged in based on user type
-                                                if ($userType == '24') {
-                                                    // BCM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-
-                                                        UNION
-
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        INNER JOIN employees bcm 
-                                                            ON bcm.employee_id = bdm.reporting_manager AND bcm.status = 1
-                                                        WHERE ca.status = 1 AND bcm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '25') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. BDM -> BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = co.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BDM -> BM -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = bm.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. BDM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. BDM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 5. BDM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 6. BDM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '26') {
-                                                    // BM and lower hierarchy (all TA paths under BM)
-                                                    $sql0 = "
-                                                        -- 1. BM -> TE -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN business_mentor bm 
-                                                            ON co.reference_no = bm.business_mentor_id AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. BM -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN business_mentor bm 
-                                                            ON bm.business_mentor_id = ca.reference_no AND bm.status = 1
-                                                        WHERE ca.status = 1 AND bm.business_mentor_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '28') {
-                                                    // MF and lower hierarchy (all TA paths under MF)
-                                                    $sql0 = "
-                                                        -- 1. MF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. MF -> TC -> TA (direct under MF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees mf
-                                                            ON mf.employee_id = f.reference_no AND mf.status = 1
-                                                        WHERE ca.status = 1 AND mf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '30') {
-                                                    // SF and lower hierarchy (all TA paths under SF)
-                                                    $sql0 = "
-                                                        -- 1. SF -> F -> TC -> TA
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN corporate_agency co 
-                                                            ON co.corporate_agency_id = ca.reference_no AND co.status = 1
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = co.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. SF -> TC -> TA (direct under SF)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN employees sf
-                                                            ON sf.employee_id = f.reference_no AND sf.status = 1
-                                                        WHERE ca.status = 1 AND sf.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
-                                                else if ($userType == '16') {
-                                                    //TE and lower hirachy
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency
-                                                        INNER join corporate_agency on corporate_agency.corporate_agency_id = ca_travelagency.reference_no and corporate_agency.status=1                                                        
-                                                        WHERE ca_travelagency.status=1 and corporate_agency.corporate_agency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } 
-                                                else if ($userType == '29') {
-                                                    // Franchisee (F) and lower hierarchy (all TA under F)
-                                                    $sql0 = "
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        WHERE ca.status = 1 AND f.sub_franchisee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                }
-                                                else if ($userType == '11') {
-                                                    //TC
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency                                                        
-                                                        WHERE ca_travelagency.status=1 and ca_travelagency_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                } else if ($userType == '10') {
-                                                    //Customer
-                                                    $sql0 = "SELECT ca_travelagency.ca_travelagency_id, ca_travelagency.firstname, ca_travelagency.lastname, ca_travelagency.email, ca_travelagency.contact_no FROM ca_travelagency 
-                                                        INNER JOIN ca_customer on ca_customer.ta_reference_no = ca_travelagency.ca_travelagency_id and ca_customer.status=1
-                                                        WHERE ca_travelagency.status=1 and ca_customer.ca_customer_id='" . $userId . "'";
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute();
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
-                                                    $customer_fil = " AND b.customer_id='" . $userId . "'";
-                                                }
-                                                else if ($userType == '31') {
-                                                    // BDM's lower hierarchy (all TA paths)
-                                                    $sql0 = "
-                                                        -- 1. RM -> MF -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = ca.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 2. RM -> MF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN master_franchisee mf 
-                                                            ON mf.master_franchisee_id = f.reference_no AND mf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = mf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 3. RM -> SF -> F -> TC
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN sub_franchisee f 
-                                                            ON f.sub_franchisee_id = ca.reference_no AND f.status = 1
-                                                        INNER JOIN sponsor_franchisee sf 
-                                                            ON sf.sponsor_franchisee_id = f.reference_no AND sf.status = 1
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = sf.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-
-                                                        UNION
-
-                                                        -- 4. M -> TC (direct)
-                                                        SELECT ca.ca_travelagency_id, ca.firstname, ca.lastname, ca.email, ca.contact_no
-                                                        FROM ca_travelagency ca
-                                                        INNER JOIN employees bdm 
-                                                            ON bdm.employee_id = ca.reference_no AND bdm.status = 1
-                                                        WHERE ca.status = 1 AND bdm.employee_id = :userId
-                                                    ";
-
-                                                    $stmt0 = $conn->prepare($sql0);
-                                                    $stmt0->execute([':userId' => $userId]);
-                                                    $ta_list = $stmt0->fetchAll(PDO::FETCH_ASSOC);
-                                                }
+                                                //data load from models file
+                                                include 'all_channels.php';
 
                                                 // Check if travel agencies exist
                                                 if (empty($ta_list)) {
@@ -3285,8 +1968,8 @@ $prevDateYear = date('Y');  //Year in number form.
                                                     $ta_ids = [];
 
                                                     foreach ($ta_list as $ta) {
-                                                        $ta_ids[] = $ta['ca_travelagency_id']; // Collecting IDs for SQL query
-                                                        $ta_details[$ta['ca_travelagency_id']] = [
+                                                        $ta_ids[] = $ta['tc_id']; // Collecting IDs for SQL query
+                                                        $ta_details[$ta['tc_id']] = [
                                                             'firstname' => $ta['firstname'],
                                                             'lastname' => $ta['lastname'],
                                                             'email' => $ta['email'],
@@ -3435,7 +2118,7 @@ $prevDateYear = date('Y');  //Year in number form.
                                                                         <a class="" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa solid fa-ellipsis pe-3" style="color: grey;"></i></a>
                                                                         <div class="dropdown-menu" id="dr-users" aria-labelledby="dropdownMenuButton">
                                                                             <a class="dropdown-item" href="order_details.php?id=<?= urlencode($booking["id"]) ?>"><i class="fa-solid fa-eye"></i> View</a>
-                                                                            <a class="dropdown-item" href="dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
+                                                                            <a class="dropdown-item" href="<?= $base_url_asset ?>orders/dowload_pack_details.php?id=<?= urldecode($booking["package_id"]) ?>" id="generatePDF"><i class="fa-solid fa-arrow-down"></i> Download Itineraries</a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -3465,7 +2148,14 @@ $prevDateYear = date('Y');  //Year in number form.
                         </div>
                     </div>
                 </div>
-                <?php include_once "footer.php" ?>
+                <?php 
+                    if ($userType == 10) {
+                        include_once(__DIR__ . '/customer_dashboard/customer_footer.php');
+                    }else{
+
+                        include_once "footer.php"; 
+                    }
+                ?>
             </div>
         </div>
         <!-- Payment Screen start -->
@@ -3593,6 +2283,7 @@ $prevDateYear = date('Y');  //Year in number form.
                 </div>
             </div>
         </div>
+        <?php include (__DIR__ .'/contact_modal.php') ?>
     </div>
     <!-- END layout-wrapper -->
     <!--start back-to-top-->
@@ -3601,11 +2292,11 @@ $prevDateYear = date('Y');  //Year in number form.
     </button>
     <!--end back-to-top-->
     <!-- JAVASCRIPT -->
-    <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/js/jquery/jquery-3.7.1.min.js"></script>
     <!-- Required datatable js -->
     <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -3613,9 +2304,24 @@ $prevDateYear = date('Y');  //Year in number form.
     <!-- Responsive examples -->
     <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-    <!-- Calendar init -->
-    <script src="assets/libs/fullcalendar/index.global.min.js"></script>
+   
+    <?php 
+        if ($userType == 10) {
+    ?>
+    <script src="assets/js/pages/remix-icons-listing.js"></script>
+    <!-- Vector map-->
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="<?= $base_url ?>assets/libs/jsvectormap/maps/world-merc.js"></script>
 
+    <!--Swiper slider js-->
+    <script src="<?= $base_url ?>assets/libs/swiper/swiper-bundle.min.js"></script>
+    <!-- App js -->
+    <script src="assets/js/app.js"></script>
+    <?php
+        }
+    ?>
+     <!-- Calendar init -->
+    <script src="assets/libs/fullcalendar/index.global.min.js"></script>
     <!-- Date Range Picker Script Start -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -3951,7 +2657,7 @@ $prevDateYear = date('Y');  //Year in number form.
         //part payment logic end
     </script>
     <script type="text/javascript">
-        console.log('test');
+        // console.log('test');
         document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -4107,12 +2813,12 @@ $prevDateYear = date('Y');  //Year in number form.
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-sm-3 col-3 d-flex align-items-center">
-                            <img src="../${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
+                            <img src="<?= $home_url ?>${booking.package_image}" alt="" width="100" height="75" class="rounded-4 card-Img1">
                         </div>
                         <div class="col-md-9 col-sm-9 col-9">
                             <div class="row">
                                 <div class="col-md-2 col-sm-2 col-2 d-flex align-items-center">
-                                    <img src="../uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
+                                    <img src="<?= $home_url ?>uploading/${booking.customer_profile_pic}" alt="" width="50px" height="50px" class="rounded-circle cardProPic">
                                 </div>
                                 <div class="col-md-10 col-sm-10 col-10">
                                     ${message}
@@ -4265,6 +2971,55 @@ $prevDateYear = date('Y');  //Year in number form.
         });
     </script>
     <!-- Date Range Script -->
+    <!-- dialer logic scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const callBtn = document.getElementById("callBtn");
+
+            if (callBtn) {
+                callBtn.addEventListener("click", function(e) {
+
+                    let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (!isMobile) {
+                        e.preventDefault();
+
+                        alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                        location.reload();
+
+                        // Optional clipboard copy (safe fallback)
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText("8010892265");
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        var modal = document.getElementById('staticBackdrop');
+
+        // Store the element that opened the modal
+        let lastFocusedElement;
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-bs-toggle="modal"]')) {
+                lastFocusedElement = e.target;
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            } else {
+                document.body.focus();
+            }
+        });
+    </script>
+    <!-- end dialer logic scripts -->
 </body>
 
 </html>

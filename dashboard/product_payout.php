@@ -127,7 +127,7 @@
                                                                             if($userType == '11'){ //travel_consultant
                                                                                 $userIdCommi = 'ta_id';
                                                                                 $amtCal = 'ta_markup + ta_amt';
-                                                                            }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
+                                                                            }elseif($userType == '16' || $userType == '29' || $userType =='32'){ //Techno Enterprise/ corporate agency/Franchisee
                                                                                 $userIdCommi = 'te_id';
                                                                                 $amtCal = 'te_amt';
                                                                             }elseif($userType == '10'){ //customer
@@ -172,7 +172,7 @@
                                                                             if($userType == '11'){ //travel_consultant
                                                                                 $userIdCommi = 'ta_id';
                                                                                 $amtCal = 'ta_markup + ta_amt';
-                                                                            }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/ Franchisee
+                                                                            }elseif($userType == '16' || $userType == '29' || $userType =='32'){ //Techno Enterprise/ corporate agency/ Franchisee
                                                                                 $userIdCommi = 'te_id';
                                                                                 $amtCal = 'te_amt';
                                                                             }elseif($userType == '10'){ //customer
@@ -228,7 +228,7 @@
                                                                         if($userType == '11'){ //travel_consultant
                                                                             $userIdCommi = 'ta_id';
                                                                             $amtCal = 'ta_markup + ta_amt';
-                                                                        }elseif($userType == '16'|| $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
+                                                                        }elseif($userType == '16'|| $userType == '29' || $userType =='32'){ //Techno Enterprise/ corporate agency/Franchisee
                                                                             $userIdCommi = 'te_id';
                                                                             $amtCal = 'te_amt';
                                                                         }elseif($userType == '10'){ //customer
@@ -312,7 +312,7 @@
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'   ";
                                                                                 }else if($userType == '24'){
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'   ";
-                                                                                }else if($userType == '29'){//Franchisee
+                                                                                }else if($userType == '29' || $userType =='32'){//Franchisee/Institution
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
                                                                                 }else if($userType == '28'){//Master Franchisee
                                                                                     $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
@@ -375,7 +375,7 @@
                                                                                             $status = $row['ta_status'];
                                                                                             $tds = $amt * $tdsPercentage;
                                                                                             $total = $amt - $tds;
-                                                                                        }else if($userType == '16'|| $userType == '29'){
+                                                                                        }else if($userType == '16'|| $userType == '29' || $userType =='32'){
                                                                                             $id = $row['te_id'];
                                                                                             $message = $row['te_mess'];
                                                                                             $amt = $row['te_amt'];
@@ -469,13 +469,13 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="pt-2">Previous Payout<span class="fw-bold date-layout1 layout-1"><?php echo "$prevdate" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
 
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
                                                 $amtCal = 'ta_markup + ta_amt';
-                                            }elseif($userType == '16' || $userType == '29'){ //Techno Enterprise/ corporate agency/Franchisee
+                                            }elseif($userType == '16' || $userType == '29' || $userType =='32'){ //Techno Enterprise/ corporate agency/Franchisee/Institution
                                                 $userIdCommi = 'te_id';
                                                 $amtCal = 'te_amt';
                                             }elseif($userType == '10'){ //customer
@@ -501,7 +501,7 @@
                                                     $previousPayoutTDS = $previousPayout * $tdsPercentage;
                                                     $TotalpreviousPayout = $previousPayout - $previousPayoutTDS;
                                                     $truncatedPrevAmount = floor($TotalpreviousPayout * 100) / 100;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .number_format($truncatedPrevAmount,2). '/- </p>
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2">Rs.' .number_format($truncatedPrevAmount,2). '/- </p>
                                                     <span class="badge bg-success fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
@@ -529,7 +529,7 @@
                                     <span id="prevDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$prevdate" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo number_format($truncatedPrevAmount,2); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo number_format($truncatedPrevAmount,2); ?>/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
                                             </a> -->
@@ -574,7 +574,7 @@
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'  ";
                                                     }else if($userType == '24'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
-                                                    }else if($userType == '29'){
+                                                    }else if($userType == '29' || $userType =='32'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."' AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."'  ";
                                                     }else if($userType == '28'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'  AND YEAR(created_date) = '".$prevDateYear."' AND MONTH(created_date) = '".$prevDateMonth."' ";
@@ -638,7 +638,7 @@
                                                                 $status = $row['ta_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '16'|| $userType == '29'){
+                                                            }else if($userType == '16'|| $userType == '29' || $userType =='32'){
                                                                 $id = $row['te_id'];
                                                                 $message = $row['te_mess'];
                                                                 $amt = $row['te_amt'];
@@ -721,12 +721,12 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="pt-3">Next Payout<span class="fw-bold date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
                                                 $amtCal = 'ta_markup + ta_amt';
-                                            }elseif($userType == '16'|| $userType == '29'){ //Techno Enterprise/ corporate agency/ Franchisee
+                                            }elseif($userType == '16'|| $userType == '29' || $userType =='32'){ //Techno Enterprise/ corporate agency/ Franchisee/ Institution
                                                 $userIdCommi = 'te_id';
                                                 $amtCal = 'te_amt';
                                             }elseif($userType == '10'){ //customer
@@ -751,7 +751,7 @@
                                                     $nextPayoutTDS = $nextPayoutTotal * $tdsPercentage;
                                                     $TotalNextPayout = $nextPayoutTotal - $nextPayoutTDS;
                                                     $truncatedNextAmount = floor($TotalNextPayout * 100) / 100;
-                                                    echo'<p class="fs-5 font fw-bolder mt-n2 icon">Rs.' .number_format($truncatedNextAmount,2). '/- </p>
+                                                    echo'<p class="fs-5 font fw-bolder mt-n2">Rs.' .number_format($truncatedNextAmount,2). '/- </p>
                                                     <span class="badge bg-success fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>';
                                                 }
                                             }
@@ -779,7 +779,7 @@
                                     <span id="nextDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo number_format($truncatedNextAmount,2); ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo number_format($truncatedNextAmount,2); ?>/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
                                             </a> -->
@@ -823,7 +823,7 @@
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
                                                     }else if($userType == '24'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
-                                                    }else if($userType == '29'){
+                                                    }else if($userType == '29' || $userType =='32'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'  AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."' ";
                                                     }else if($userType == '28'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."' AND YEAR(created_date) = '".$nextDateYear."' AND MONTH(created_date) = '".$nextDateMonth."'  ";
@@ -886,7 +886,7 @@
                                                                 $status = $row['ta_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '16'|| $userType == '29'){
+                                                            }else if($userType == '16'|| $userType == '29' || $userType =='32'){
                                                                 $id = $row['te_id'];
                                                                 $message = $row['te_mess'];
                                                                 $amt = $row['te_amt'];
@@ -971,12 +971,12 @@
                             <div class="col-lg-4 col-md-4 col-sm-7 card" style="border: 2px solid black; border-radius: 10px;">
                                 <div class="mt-3">
                                     <p class="pt-3">Total Payout<span class="fw-bold date-layout layout-1"><?php echo "$date" ?></span></p>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
                                         <?php 
                                             if($userType == '11'){ //travel_consultant
                                                 $userIdCommi = 'ta_id';
                                                 $amtCal = 'ta_markup + ta_amt';
-                                            }elseif($userType == '16'|| $userType == '29'){ //Techno Enterprise/ corporate agency/ Franchisee
+                                            }elseif($userType == '16'|| $userType == '29' || $userType =='32'){ //Techno Enterprise/ corporate agency/ Franchisee/ Institution
                                                 $userIdCommi = 'te_id';
                                                 $amtCal = 'te_amt';
                                             }elseif($userType == '10'){ //customer
@@ -1003,7 +1003,7 @@
                                                     $TotalPayoutFinal = $total_payable - $totalPayoutTDS;
                                                     $truncatedAmount = floor($TotalPayoutFinal * 100) / 100;
                                                    echo'
-                                                    <p class="fs-5 font fw-bolder mt-n2 icon">Rs.'.number_format($truncatedAmount,2).'/- </p>
+                                                    <p class="fs-5 font fw-bolder mt-n2">Rs.'.number_format($truncatedAmount,2).'/- </p>
                                                     <span class="badge bg-success fw-bold status1 paystatus" style="height: 15px !important; margin-top: 16px;" readonly>Paid</span>
                                                     ';
                                                 }
@@ -1032,7 +1032,7 @@
                                     <span id="totalDiv" class="col-md-10 card border-2 border-black" style="border-radius: 10px; padding: 10px">
                                         <div  id="download_icon " >
                                             <p>Name: <span><?php echo $firstname.' '.$lastname; ?></span><span class="fw-bold ms-4 date-layout layout-2 date-align"><?php echo "$date" ?></span></p>
-                                            <p class="fs-5 fw-bolder mt-n2 icon">Rs. <?php echo  $truncatedAmount; ?>/- </p>
+                                            <p class="fs-5 fw-bolder mt-n2">Rs. <?php echo  $truncatedAmount; ?>/- </p>
                                             <!-- <a href="">
                                                 <i class="bx bx-download layout-3" style="font-size: 20px; color: black;"></i>
                                             </a> -->
@@ -1087,7 +1087,7 @@
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bdm_id = '".$userId."'   ";
                                                     }else if($userType == '24'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bch_id = '".$userId."'   ";
-                                                    }else if($userType == '29'){
+                                                    }else if($userType == '29' || $userType =='32'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  te_id = '".$userId."'   ";
                                                     }else if($userType == '28'){
                                                         $sql = "SELECT * FROM `product_payout` WHERE  bm_id = '".$userId."'   ";
@@ -1150,7 +1150,7 @@
                                                                 $status = $row['ta_status'];
                                                                 $tds = $amt * $tdsPercentage;
                                                                 $total = $amt - $tds;
-                                                            }else if($userType == '16' || $userType == '29'){
+                                                            }else if($userType == '16' || $userType == '29' || $userType =='32'){
                                                                 $id = $row['te_id'];
                                                                 $message = $row['te_mess'];
                                                                 $amt = $row['te_amt'];
@@ -1306,4 +1306,3 @@
         </script>
     </body>
 </html>
-

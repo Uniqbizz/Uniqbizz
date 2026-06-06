@@ -65,6 +65,16 @@ require '../connect.php';
                                     SELECT employee_id,name AS name FROM employees WHERE status=1
                                 )as all_users
                                 ORDER BY id");
+    }else if($table == "institution"){
+        $user = $conn->prepare("SELECT * FROM institution WHERE status = '1' ORDER BY institution_id");
+    }else if($table == "institution_branch_manager"){
+        $user = $conn->prepare("SELECT * FROM institution_branch_manager WHERE status = '1' ORDER BY institution_branch_manager_id");
+    }else if($table == "executive_techno_enterprise"){
+        $user = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE status = '1' ORDER BY executive_techno_enterprise_id");
+    }else if($table == "super_techno_enterprise"){
+        $user = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE status = '1' ORDER BY super_techno_enterprise_id");
+    }else if($table == "chief_techno_enterprise"){
+        $user = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE status = '1' ORDER BY chief_techno_enterprise_id");
     }
 
     $user->execute();
@@ -112,6 +122,16 @@ require '../connect.php';
             echo '<option value="">--Select Customer ID & Name--</option>';
         }else if ($table == "BM_BDM_MF_SF_RM") {
             echo '<option value="">--Select User ID & Name--</option>';
+        }else if ( $table == "institution" ) {
+            echo '<option value="">--Select Institution ID & Name--</option>';
+        }else if ( $table == "institution_branch_manager" ) {
+            echo '<option value="">--Select Branch Manager ID & Name--</option>';
+        }else if ( $table == "executive_techno_enterprise" ) {
+            echo '<option value="">--Select Executive TE ID & Name--</option>';
+        }else if ( $table == "super_techno_enterprise" ) {
+            echo '<option value="">--Select Super TE ID & Name--</option>';
+        }else if ( $table == "chief_techno_enterprise" ) {
+            echo '<option value="">--Select Chief TE ID & Name--</option>';
         }
         
         foreach ($user_data as $key => $value) {
@@ -153,6 +173,16 @@ require '../connect.php';
                 echo '<option value="'.$value['ca_customer_id'].'">'.$value['ca_customer_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }else if ($table == "BM_BDM_MF_SF_RM") {
                 echo '<option value="'.$value['id'].'">'.$value['id'].' - '.$value['name'].'</option>';
+            }else if ( $table == "institution" ) {
+                echo '<option value="'.$value['institution_id'].'">'.$value['institution_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "institution_branch_manager" ) {
+                echo '<option value="'.$value['institution_branch_manager_id'].'">'.$value['institution_branch_manager_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "executive_techno_enterprise" ) {
+                echo '<option value="'.$value['executive_techno_enterprise_id'].'">'.$value['executive_techno_enterprise_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "super_techno_enterprise" ) {
+                echo '<option value="'.$value['super_techno_enterprise_id'].'">'.$value['super_techno_enterprise_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
+            }else if ( $table == "chief_techno_enterprise" ) {
+                echo '<option value="'.$value['chief_techno_enterprise_id'].'">'.$value['chief_techno_enterprise_id'].' - '.$value['firstname'].' '.$value['lastname'].'</option>';
             }
         }
         

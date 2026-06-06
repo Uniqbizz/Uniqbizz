@@ -113,38 +113,34 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
                                                 <div class="input-block mb-3 form-check">
                                                     <input class="form-check-input" type="checkbox" id="is_complementary">
                                                     <label class="form-check-label" for="is_complementary">
-                                                        Complementary
+                                                        Complimentary
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6">
+                                            <div class="col-md-4 col-sm-12">
                                                 <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="user_id_name">User Id & Name<span class="text-danger">*</span></label>
-                                                    <select id="user_id_name" class="form-select">
-                                                        <option value="">--Select Name First--</option>
-                                                        <?php
-                                                        $sql = "SELECT * FROM `ca_travelagency` WHERE status ='1' ORDER BY ca_travelagency_id ASC ";
-                                                        $stmt = $conn->prepare($sql);
-                                                        $stmt->execute();
-                                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                                                        if ($stmt->rowCount() > 0) {
-                                                            foreach ($stmt->fetchAll() as $row) {
-                                                                // Check if current row matches the $ta_ref_id
-                                                                $selected = ($ta_ref_id == $row['ca_travelagency_id']) ? 'selected' : '';
-                                                                echo '<option value="' . $row['ca_travelagency_id'] . '" ' . $selected . '>'
-                                                                    . $row['ca_travelagency_id'] .' - '. $row['firstname'] .' '. $row['lastname'] . '</option>';
-                                                            }
-                                                        }
-                                                        ?>
+                                                    <label class="col-form-label">Designation<span class="text-danger">*</span></label>
+                                                    <select id="designation" class="form-select">
+                                                        <option value="NA">--Select Designation--</option>
+                                                        <option value="ca_travelagency">Travel Consultant</option>
+                                                        <option value="institution_branch_manager">Institution Branch Manager</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-sm-6">
+                                            <div class="form-group col-md-4 col-sm-12">
                                                 <div class="input-block mb-3">
-                                                    <label class="col-form-label" for="reference_name">Reference Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" readonly>
+                                                    <label class="col-form-label">User ID & Name<span class="text-danger">*</span></label>
+                                                    <select id="user_id_name" class="form-select">
+                                                        <option value="NA">--Select Designation First--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label class="col-form-label">Referance Name<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="reference_name" placeholder="No Referance selected for the user" value="NA" readonly>
                                                 </div>
                                             </div>
 
@@ -514,52 +510,52 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
             });
 
             // 🔥 Fire once on page load if a value is already selected
-            if ($('#user_id_name').val() !== '') {
-                $('#user_id_name').trigger('change');
-                $('#user_id_name').prop('disabled',true);
-            }
+            // if ($('#user_id_name').val() !== '') {
+            //     $('#user_id_name').trigger('change');
+            //     $('#user_id_name').prop('disabled',true);
+            // }
         });
     </script>
     <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
     <script>
         //select Designation
-        // $('#designation').on('change', function() {
-        //     var designation = $('#designation').val();
-        //     // console.log(designation);
-        //     $.ajax({
-        //         type:'POST',
-        //         url:'../agents/get_user_Franchisee.php',
-        //         data: "designation="+designation,
-        //         success:function (e) {
-        //             // console.log(e);
-        //             $('#user_id_name').html(e); 
-        //         },
-        //         error: function(err){
-        //             console.log(err);
-        //         },
-        //     });
-        // });
+        $('#designation').on('change', function() {
+            var designation = $('#designation').val();
+            // console.log(designation);
+            $.ajax({
+                type:'POST',
+                url:'../agents/get_user_Franchisee.php',
+                data: "designation="+designation,
+                success:function (e) {
+                    // console.log(e);
+                    $('#user_id_name').html(e); 
+                },
+                error: function(err){
+                    console.log(err);
+                },
+            });
+        });
         //commented on 08-09-2025 by SV to make the preselet of TC work on add ref
         // // fetch User based on selected designation
-        // $('#user_id_name').on('input', function() {
-        //     var user_id_name = $(this).val();
-        //     // console.log(user_id_name);
+        $('#user_id_name').on('input', function() {
+            var user_id_name = $(this).val();
+            // console.log(user_id_name);
 
-        //     var designation = 'ca_travelagency';
-        //     // console.log(designation);
+            var designation = 'ca_travelagency';
+            // console.log(designation);
 
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '../agents/getUsers.php',
-        //         data: 'user_id_name=' + user_id_name + '&designation=' + designation,
-        //         success: function(response) {
-        //             // console.log(response);
-        //             // $('#pin').html(response);
-        //             $('#reference_name').val(response);
-        //         }
-        //     });
+            $.ajax({
+                type: 'POST',
+                url: '../agents/getUsers.php',
+                data: 'user_id_name=' + user_id_name + '&designation=' + designation,
+                success: function(response) {
+                    // console.log(response);
+                    // $('#pin').html(response);
+                    $('#reference_name').val(response);
+                }
+            });
 
-        // });
+        });
 
         $('#country').on('change', function() {
             var countryID = $(this).val();

@@ -9,244 +9,331 @@ if (!isset($_SESSION['username'])) {
 require '../connect.php';
 $date = date('Y');
 
-$id = $_GET['id'];
-$ref = $_GET['ref'];
-$tamount='';
-$initial_inv='';
-$DBtable = $_GET['message'];
-$designation = $_GET['designation'];
+    $id = $_GET['id'];
+    $ref = $_GET['ref'];
+    $tamount='';
+    $initial_inv='';
+    $DBtable = $_GET['message'];
+    $designation = $_GET['designation'];
 
-if ($DBtable == 'business_consultant') { // 3
-    $sql = "SELECT * FROM business_consultant WHERE business_consultant_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'business_trainee') { // 15
-    $sql = "SELECT * FROM business_trainee WHERE business_trainee_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'corporate_agency') { // 16
-    $sql = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'ca_travelagency') { // 11
-    $sql = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'channel_business_director') { // 18
-    $sql = "SELECT * FROM channel_business_director WHERE channel_business_director_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'ca_customer') { // 10
-    $sql = "SELECT * FROM ca_customer WHERE ca_customer_id = '" . $id . "' AND status = '1'";
-} else if ($DBtable == 'business_chanel_manager') { // 24,
-    $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=24";
-} else if ($DBtable == 'business_developement_manager') { // 25
-    $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=25";
-} 
-else if ($DBtable == 'business_mentor') { // 26
-    $sql = "SELECT * FROM business_mentor WHERE business_mentor_id = '" . $id . "' AND status = '1'";
-}
-else if ($DBtable == 'master_franchisee') { // 28
-    $sql = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $id . "' AND status = '1'";
-}
-else if ($DBtable == 'sponsor_franchisee') { // 30
-    $sql = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $id . "' AND status = '1'";
-}
-else if ($DBtable == 'sub_franchisee') { // 29
-    $sql = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '" . $id . "' AND status = '1'";
-}
-else if ($DBtable == 'zonal_manager') { // 27
-    $sql = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $id . "' AND status = '1'";
-}else if ($DBtable == 'relationship_manager') { // 31
-    $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
-} 
-$stmt = $conn->prepare($sql);
-$stmt->execute();
+    if ($DBtable == 'business_consultant') { // 3
+        $sql = "SELECT * FROM business_consultant WHERE business_consultant_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'business_trainee') { // 15
+        $sql = "SELECT * FROM business_trainee WHERE business_trainee_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'corporate_agency') { // 16
+        $sql = "SELECT * FROM corporate_agency WHERE corporate_agency_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'ca_travelagency') { // 11
+        $sql = "SELECT * FROM ca_travelagency WHERE ca_travelagency_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'channel_business_director') { // 18
+        $sql = "SELECT * FROM channel_business_director WHERE channel_business_director_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'ca_customer') { // 10
+        $sql = "SELECT * FROM ca_customer WHERE ca_customer_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'business_chanel_manager') { // 24,
+        $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=24";
+    } else if ($DBtable == 'business_developement_manager') { // 25
+        $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=25";
+    } 
+    else if ($DBtable == 'business_mentor') { // 26
+        $sql = "SELECT * FROM business_mentor WHERE business_mentor_id = '" . $id . "' AND status = '1'";
+    }
+    else if ($DBtable == 'master_franchisee') { // 28
+        $sql = "SELECT * FROM master_franchisee WHERE master_franchisee_id = '" . $id . "' AND status = '1'";
+    }
+    else if ($DBtable == 'sponsor_franchisee') { // 30
+        $sql = "SELECT * FROM sponsor_franchisee WHERE sponsor_franchisee_id = '" . $id . "' AND status = '1'";
+    }
+    else if ($DBtable == 'sub_franchisee') { // 29
+        $sql = "SELECT * FROM sub_franchisee WHERE sub_franchisee_id = '" . $id . "' AND status = '1'";
 
-$stmt->setFetchMode(PDO::FETCH_ASSOC);
-$reporting_manager_name = '';
-$customer_type='';
-if ($stmt->rowCount() > 0) {
-    $statename='';
-    $countryname='';
-    $cityname='';
-    $pincode='';
-    $aadhar_card ='';
-    foreach (($stmt->fetchAll()) as $key => $row) {
-        if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'relationship_manager') {
-            $bank_passbook='';
-            $pan_card='';
-            $fid = $row['id'];
-            $name = $row['name'];
-            $email = $row['email'];
-            $country_code = $row['country_code'];
-            $contact_no =$row['contact'];
-            $reporting_manager_id = $row['reporting_manager'];
-            $date_of_birth = $row['date_of_birth'];
-            $date_of_joining = $row['date_of_joining'];
-            $gender = $row['gender'];
-            $department = $row['department'];
-            $design = $row['designation'];
-            $zone = $row['zone'];
-            $branch = $row['branch'];
-            $address = $row['address'];
-            $profile_pic = $row['profile_pic'];
-            $id_proof = $row['id_proof'];
-            $bank_details = $row['bank_details'];
-            $register_by = $row['register_by'];
-            $user_type = $row['user_type'];
-            // $register_date=$row['register_date'];
-            $rd = new DateTime($row['register_date']);
-            $rdate = $rd->format('d-m-Y');
+    }
+    else if ($DBtable == 'institution'){ // 32
+        $sql = "SELECT * FROM institution WHERE institution_id = '" . $id . "' AND status = '1'";
+    }
+    else if ($DBtable == 'zonal_manager') { // 27
+        $sql = "SELECT * FROM zonal_manager WHERE zonal_manager_id = '" . $id . "' AND status = '1'";
+    }
+    else if ($DBtable == 'relationship_manager') { // 31
+        $sql = "SELECT * FROM employees WHERE employee_id = '" . $id . "' AND status = '1' AND user_type=31";
+    } else if ($DBtable == 'institution_branch_manager') { // 33
+        $sql = "SELECT * FROM institution_branch_manager WHERE institution_branch_manager_id = '" . $id . "' AND status = '1'";
+    } else if ($DBtable == 'chief_techno_enterprise') { // 34
+        $sql = "SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $id . "' AND status = '1'";
+    }
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 
-            //get country
-            $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $department . "' and status='1' ");
-            $departments->execute();
-            $departments->setFetchMode(PDO::FETCH_ASSOC);
-            if ($departments->rowCount() > 0) {
-                $department = $departments->fetch();
-                $departmentname = $department['dept_name'];
-            }
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    $reporting_manager_name = '';
+    $customer_type='';
+    if ($stmt->rowCount() > 0) {
+        $statename='';
+        $countryname='';
+        $cityname='';
+        $pincode='';
+        $aadhar_card ='';
+        foreach (($stmt->fetchAll()) as $key => $row) {
+            if ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'relationship_manager') {
+                $bank_passbook='';
+                $pan_card='';
+                $fid = $row['id'];
+                $name = $row['name'];
+                $email = $row['email'];
+                $country_code = $row['country_code'];
+                $contact_no =$row['contact'];
+                $reporting_manager_id = $row['reporting_manager'];
+                $date_of_birth = $row['date_of_birth'];
+                $date_of_joining = $row['date_of_joining'];
+                $gender = $row['gender'];
+                $department = $row['department'];
+                $design = $row['designation'];
+                $zone = $row['zone'];
+                $branch = $row['branch'];
+                $address = $row['address'];
+                $profile_pic = $row['profile_pic'];
+                $id_proof = $row['id_proof'];
+                $bank_details = $row['bank_details'];
+                $register_by = $row['register_by'];
+                $user_type = $row['user_type'];
+                // $register_date=$row['register_date'];
+                $rd = new DateTime($row['register_date']);
+                $rdate = $rd->format('d-m-Y');
 
-            //get state
-            $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $design . "' and status='1' ");
-            $designations->execute();
-            $designations->setFetchMode(PDO::FETCH_ASSOC);
-            if ($designations->rowCount() > 0) {
-                $desig = $designations->fetch();
-                $designation = $desig['designation_name'];
-            }
-            //get city
-            $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zone . "' and status='1' ");
-            $zones->execute();
-            $zones->setFetchMode(PDO::FETCH_ASSOC);
-            if ($zones->rowCount() > 0) {
-                $zone = $zones->fetch();
-                $zone_name = $zone['zone_name'];
-            }
+                //get country
+                $departments = $conn->prepare("SELECT dept_name FROM department where id='" . $department . "' and status='1' ");
+                $departments->execute();
+                $departments->setFetchMode(PDO::FETCH_ASSOC);
+                if ($departments->rowCount() > 0) {
+                    $department = $departments->fetch();
+                    $departmentname = $department['dept_name'];
+                }
 
-            //get city
-            $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $branch . "' and status='1' ");
-            $branchs->execute();
-            $branchs->setFetchMode(PDO::FETCH_ASSOC);
-            if ($branchs->rowCount() > 0) {
-                $branch = $branchs->fetch();
-                $branch_name = $branch['branch_name'];
-            }
+                //get state
+                $designations = $conn->prepare("SELECT designation_name FROM designation where id='" . $design . "' and status='1' ");
+                $designations->execute();
+                $designations->setFetchMode(PDO::FETCH_ASSOC);
+                if ($designations->rowCount() > 0) {
+                    $desig = $designations->fetch();
+                    $designation = $desig['designation_name'];
+                }
+                //get city
+                $zones = $conn->prepare("SELECT zone_name FROM zone where id='" . $zone . "' and status='1' ");
+                $zones->execute();
+                $zones->setFetchMode(PDO::FETCH_ASSOC);
+                if ($zones->rowCount() > 0) {
+                    $zone = $zones->fetch();
+                    $zone_name = $zone['zone_name'];
+                }
 
-            //get city
-            $employees = $conn->prepare("SELECT name FROM employees where employee_id='" . $reporting_manager_id . "' and status='1' ");
-            $employees->execute();
-            $employees->setFetchMode(PDO::FETCH_ASSOC);
-            if ($employees->rowCount() > 0) {
-                $employee = $employees->fetch();
-                $employee_name = $employee['name'];
-            }
+                //get city
+                $branchs = $conn->prepare("SELECT branch_name FROM branch where id='" . $branch . "' and status='1' ");
+                $branchs->execute();
+                $branchs->setFetchMode(PDO::FETCH_ASSOC);
+                if ($branchs->rowCount() > 0) {
+                    $branch = $branchs->fetch();
+                    $branch_name = $branch['branch_name'];
+                }
 
-            // Get Reporting Manager Name
+                //get city
+                $employees = $conn->prepare("SELECT name FROM employees where employee_id='" . $reporting_manager_id . "' and status='1' ");
+                $employees->execute();
+                $employees->setFetchMode(PDO::FETCH_ASSOC);
+                if ($employees->rowCount() > 0) {
+                    $employee = $employees->fetch();
+                    $employee_name = $employee['name'];
+                }
 
-            if (is_null($reporting_manager_id)) {
-                $reporting_manager_name = 'Not Applicable';
+                // Get Reporting Manager Name
+
+                if (is_null($reporting_manager_id)) {
+                    $reporting_manager_name = 'Not Applicable';
+                } else {
+                    $reporting_managers = $conn->prepare("SELECT * FROM employees WHERE employee_id = :reporting_manager");
+                    $reporting_managers->execute(['reporting_manager' => $reporting_manager_id]);
+                    $reporting_managers->setFetchMode(PDO::FETCH_ASSOC);
+                    if ($reporting_managers->rowCount() > 0) {
+                        $reporting_manager = $reporting_managers->fetch();
+                        $reporting_manager_name = $reporting_manager['name'];
+                    }
+                }
+                
             } else {
-                $reporting_managers = $conn->prepare("SELECT * FROM employees WHERE employee_id = :reporting_manager");
-                $reporting_managers->execute(['reporting_manager' => $reporting_manager_id]);
-                $reporting_managers->setFetchMode(PDO::FETCH_ASSOC);
-                if ($reporting_managers->rowCount() > 0) {
-                    $reporting_manager = $reporting_managers->fetch();
-                    $reporting_manager_name = $reporting_manager['name'];
+                if ($DBtable == 'sub_franchisee' || $DBtable == 'institution') {
+                    $initial_inv = $row['amount'];
+                }
+                $customer_type= $DBtable == 'ca_customer'?$row['customer_type']:'';
+                $rd = new DateTime($row['register_date']);
+                $rdate = $rd->format('d-m-Y');
+                $fid = $row['id'];
+                if($DBtable == 'zonal_manager'){
+                    $name = $row['name']; 
+                    $nominee_name = 'NA';
+                    $nominee_relation = 'NA';
+                    $reference_no = 'NA';
+                    $contact_no = $row['country_code'] . $row['contact'];
+                    $registrant = 'NA';
+                    $voting_card = 'NA';
+                    $date_of_joining = 'NA';
+                    $gender = 'NA';
+                    $department = 'NA';
+                    $design = 'NA';
+                    $zone = 'NA';
+                    $branch = 'NA';
+                    $zone_name ='NA';
+                    $branch_name ='NA';
+                    $employee_name ='NA';
+                    $departmentname ='NA';
+                    $id_proof='NA';
+                    $bank_details='NA';
+                }else{
+                    $firstname = $row['firstname'];
+                    $lastname = $row['lastname'];
+                    $nominee_name = $row['nominee_name'];
+                    $nominee_relation = $row['nominee_relation'];
+                    $reference_no = $row['reference_no']??'';
+                    $contact_no = $row['country_code'] . $row['contact_no'];
+                    $registrant = $row['registrant']??'';
+                    $voting_card = $row['voting_card'];
+                }
+                $email = $row['email'];
+                $date_of_birth = $row['date_of_birth'];
+                $gender = $row['gender'];
+                $country = $row['country'];
+                $state = $row['state'];
+                $city = $row['city'];
+                $address = $row['address'];
+                $profile_pic = $row['profile_pic'];
+                $pan_card = $row['pan_card'];
+                $aadhar_card = $row['aadhar_card'];
+                
+                // bank passbook field name changed in ca_travelagency table
+                if ($DBtable == 'ca_travelagency' || $DBtable == 'ca_customer' || $DBtable == 'institution_branch_manager') {
+                    $bank_passbook = $row['passbook'];
+                } else {
+                    $bank_passbook = $row['bank_passbook'];
+                }
+
+                if ($DBtable == 'corporate_agency' || $DBtable == 'ca_travelagency' || $DBtable == 'ca_customer' || $DBtable == 'institution_branch_manager') {
+                    $payment_proof = $row['payment_proof'];
+                    $payment_mode = $row['payment_mode'];
+                    $cheque_no = $row['cheque_no'];
+                    $cheque_date = $row['cheque_date'];
+                    $bank_name = $row['bank_name'];
+                    $transaction_no = $row['transaction_no'];
+                }
+                if ($DBtable == 'ca_customer') {
+                    $ta_ref_no = $row['ta_reference_no'];
+                    $ta_name = $row['ta_reference_name'];
+                }
+
+                $pincode = $row['pincode'];
+                //get country
+                $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
+                $countries->execute();
+                $countries->setFetchMode(PDO::FETCH_ASSOC);
+                if ($countries->rowCount() > 0) {
+                    $country = $countries->fetch();
+                    $countryname = $country['country_name'];
+                }
+
+                //get state
+                $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
+                $states->execute();
+                $states->setFetchMode(PDO::FETCH_ASSOC);
+                if ($states->rowCount() > 0) {
+                    $state = $states->fetch();
+                    $statename = $state['state_name'];
+                }
+                //get city
+                $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
+                $cities->execute();
+                $cities->setFetchMode(PDO::FETCH_ASSOC);
+                if ($cities->rowCount() > 0) {
+                    $city = $cities->fetch();
+                    $cityname = $city['city_name'];
                 }
             }
-            
-        } else {
-            if ($DBtable == 'sub_franchisee') {
-                $initial_inv = $row['amount'];
-            }
-            $customer_type= $DBtable == 'ca_customer'?$row['customer_type']:'';
-            $rd = new DateTime($row['register_date']);
-            $rdate = $rd->format('d-m-Y');
-            $fid = $row['id'];
-            if($DBtable == 'zonal_manager'){
-                $name = $row['name']; 
-                $nominee_name = 'NA';
-                $nominee_relation = 'NA';
-                $reference_no = 'NA';
-                $contact_no = $row['country_code'] . $row['contact'];
-                $registrant = 'NA';
-                $voting_card = 'NA';
-                $date_of_joining = 'NA';
-                $gender = 'NA';
-                $department = 'NA';
-                $design = 'NA';
-                $zone = 'NA';
-                $branch = 'NA';
-                $zone_name ='NA';
-                $branch_name ='NA';
-                $employee_name ='NA';
-                $departmentname ='NA';
-                $id_proof='NA';
-                $bank_details='NA';
-            }else{
-                $firstname = $row['firstname'];
-                $lastname = $row['lastname'];
-                $nominee_name = $row['nominee_name'];
-                $nominee_relation = $row['nominee_relation'];
-                $reference_no = $row['reference_no']??'';
-                $contact_no = $row['country_code'] . $row['contact_no'];
-                $registrant = $row['registrant']??'';
-                $voting_card = $row['voting_card'];
-            }
-            $email = $row['email'];
-            $date_of_birth = $row['date_of_birth'];
-            $gender = $row['gender'];
-            $country = $row['country'];
-            $state = $row['state'];
-            $city = $row['city'];
-            $address = $row['address'];
-            $profile_pic = $row['profile_pic'];
-            $pan_card = $row['pan_card'];
-            $aadhar_card = $row['aadhar_card'];
-            
-            // bank passbook field name changed in ca_travelagency table
-            if ($DBtable == 'ca_travelagency' || $DBtable == 'ca_customer') {
-                $bank_passbook = $row['passbook'];
-            } else {
-                $bank_passbook = $row['bank_passbook'];
-            }
-
-            if ($DBtable == 'corporate_agency' || $DBtable == 'ca_travelagency' || $DBtable == 'ca_customer') {
-                $payment_proof = $row['payment_proof'];
-                $payment_mode = $row['payment_mode'];
-                $cheque_no = $row['cheque_no'];
-                $cheque_date = $row['cheque_date'];
-                $bank_name = $row['bank_name'];
-                $transaction_no = $row['transaction_no'];
-            }
-            if ($DBtable == 'ca_customer') {
-                $ta_ref_no = $row['ta_reference_no'];
-                $ta_name = $row['ta_reference_name'];
-            }
-
-            $pincode = $row['pincode'];
-            //get country
-            $countries = $conn->prepare("SELECT country_name FROM countries where id='" . $country . "' and status='1' ");
-            $countries->execute();
-            $countries->setFetchMode(PDO::FETCH_ASSOC);
-            if ($countries->rowCount() > 0) {
-                $country = $countries->fetch();
-                $countryname = $country['country_name'];
-            }
-
-            //get state
-            $states = $conn->prepare("SELECT state_name FROM states where id='" . $state . "' and status='1' ");
-            $states->execute();
-            $states->setFetchMode(PDO::FETCH_ASSOC);
-            if ($states->rowCount() > 0) {
-                $state = $states->fetch();
-                $statename = $state['state_name'];
-            }
-            //get city
-            $cities = $conn->prepare("SELECT city_name FROM cities where id='" . $city . "' and status='1' ");
-            $cities->execute();
-            $cities->setFetchMode(PDO::FETCH_ASSOC);
-            if ($cities->rowCount() > 0) {
-                $city = $cities->fetch();
-                $cityname = $city['city_name'];
+            //edit array
+            if ($DBtable == 'business_mentor' || $DBtable == 'sponsor_franchisee' || $DBtable == 'master_franchisee') {
+                $edit_arr = [
+                                "id" => $id,
+                                "reference_no" => $row['reference_no'],
+                                "register_by" => $row['register_by'],
+                                "country" => $row['country'],
+                                "state" => $row['state'],
+                                "city" => $row['city'],
+                                "zone" => $row['zone'],
+                                "branch" => $row['branch'],
+                                "type" => "registered",
+                                "user_type" => $row['user_type'],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'corporate_agency' || $DBtable == 'sub_franchisee') { // 16/29
+                $edit_arr = [
+                                "user_id" => $id,
+                                "reference_no" => $row["reference_no"],
+                                "register_by" => $row["register_by"],
+                                "country" => $row["country"],
+                                "state" => $row["state"],
+                                "city" => $row["city"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                                
+                            ];
+            } else if ($DBtable == 'ca_travelagency' || $DBtable == 'institution_branch_manager') { // 11/33
+                $edit_arr = [
+                                "id" => $id,
+                                "reference_no" => $row["reference_no"],
+                                "register_by" => $row["register_by"],
+                                "country" => $row["country"],
+                                "state" => $row["state"],
+                                "city" => $row["city"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'ca_customer') { // 10
+                $edit_arr = [
+                                "id" => $id,
+                                "reference_no" => $row["reference_no"],
+                                "register_by" => $row["register_by"],
+                                "country" => $row["country"],
+                                "state" => $row["state"],
+                                "city" => $row["city"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'business_chanel_manager' || $DBtable == 'business_developement_manager' || $DBtable == 'relationship_manager') { // 25
+                $edit_arr = [
+                                "employee_id" => $id,
+                                "reporting_manager" => $row["reporting_manager"],
+                                "register_by" => $row["register_by"],
+                                "department" => $row["department"],
+                                "designation" => $row["designation"],
+                                "zone" => $row["zone"],
+                                "branch" => $row["branch"],
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
+            } else if ($DBtable == 'zonal_manager') { // 27
+                $edit_arr = [
+                                "zonal_manager_id" => $id,
+                                "reporting_manager" => "NA",
+                                "register_by" => $row["register_by"],
+                                "department" => "NA",
+                                "designation" => "NA",
+                                "zone" => $row["zone"],
+                                "branch" => "NA",
+                                "type" => "registered",
+                                "user_type" => $row["user_type"],
+                                "tr_check" => "1"
+                            ];
             }
         }
     }
-}
-$User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager' || $DBtable == 'relationship_manager') ? $name : $firstname . ' ' . $lastname;
-
+    $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'business_chanel_manager' || $DBtable == 'zonal_manager' || $DBtable == 'relationship_manager') ? $name : $firstname . ' ' . $lastname;
 ?>
 
 <!DOCTYPE html>
@@ -553,6 +640,20 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                 <?php
                                                     }
                                                 ?>
+                                                <?php
+                                                    if($DBtable != 'ca_customer' && $DBtable != 'institution'){//institution and customer account are non transferable
+                                                ?>
+                                                <div class="row">
+                                                    <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
+                                                        <button class="btn btn-warning btn-sm edit-btn"
+                                                            data-user='<?= json_encode($edit_arr) ?>'>
+                                                            <i class="fa-solid fa-right-left me-1"></i> Transfer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                    }
+                                                ?>
                                                 
                                             </div>
                                         </div>
@@ -585,11 +686,25 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                     <?php 
                                         } 
                                     ?>
-                                    <?php if ($DBtable == 'sub_franchisee') { ?>
+                                    <?php if ($DBtable == 'sub_franchisee' || $DBtable == 'institution') { ?>
                                         <li class="nav-item">
                                             <a class="nav-link" data-bs-toggle="tab" role="tab" href="#s_p">Upgrade History</a>
                                         </li>
                                     <?php } ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" role="tab" href="#editLogs">Edit History</a>
+                                    </li>
+                                    <?php
+                                        $excludeTables = ['ca_customer', 'institution'];
+
+                                        if (!in_array($DBtable, $excludeTables)) {
+                                    ?>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-bs-toggle="tab" role="tab" href="#transferLogs">Transfer History</a>
+                                            </li>
+                                    <?php
+                                        }
+                                    ?>
 
                                 </ul>
                             </nav>
@@ -9623,7 +9738,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                             </div>
                             <!-- Payout End -->
                             <?php 
-                                if($DBtable == 'sub_franchisee'){
+                                if($DBtable == 'sub_franchisee' || $DBtable == 'institution'){
                             ?>
                             <!-- upgarde History Start -->
                             <div class="tab-pane fade card px-3 rounded-4" id="s_p" role="tabpanel">
@@ -9633,16 +9748,23 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                             <h5>Upgarde History</h5>
                                         </div>
                                         <?php
-                                            $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM sub_franchisee_upgrade
+                                            if($DBtable == 'sub_franchisee'){
+                                                $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM sub_franchisee_upgrade
                                                                 WHERE sub_franchisee_id='".$id."' and upgrade_status=1
                                                                 ORDER BY upgrade_approval_date DESC limit 1";
+                                            }else if($DBtable == 'institution'){
+                                                $sql101= "SELECT old_investment_amt,new_investment_amt,upgrade_amt as upgrade_amt  FROM institution_upgrade
+                                                                WHERE institution_id='".$id."' and upgrade_status=1
+                                                                ORDER BY upgrade_approval_date DESC limit 1";
+                                            }
+                                        
                                             $stmt101 = $conn->prepare($sql101);
                                             // print_r($stmt101);
                                             $stmt101->execute();
                                             $stmt101->setFetchMode(PDO::FETCH_ASSOC);
                                             if ($stmt101->rowCount() > 0) {
                                                  foreach (($stmt101->fetchAll()) as $key => $row) {
-                                                    $tamount = $row['upgrade_amt'];
+                                                    $tamount = $row['upgrade_amt'] ?? 0;
                                                  }
                                             }else{
                                                 $tamount = $initial_inv;
@@ -9681,13 +9803,22 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                         </thead>
                                         <tbody id="upgardeHistory">
                                             <?php
-                                            
-                                            $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
+                                            if($DBtable == 'sub_franchisee'){
+                                                $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
                                                                 payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
-                                                                approved_by,note,upgrade_status 
+                                                                approved_by,note,upgrade_status, 'SF' as user_type
                                                                 FROM sub_franchisee_upgrade
                                                                 WHERE sub_franchisee_id='".$id."'
                                                                 ORDER BY upgrade_request_date ASC ";
+                                            }else if($DBtable == 'institution'){
+                                                $sqlUnion = "SELECT id,new_investment_amt,upgrade_amt,upgrade_request_date,upgrade_approval_date,new_commission_per,new_incentive_per,
+                                                                payment_mode,cheque_no,cheque_date,bank_name,transaction_no,payment_proof,rejection_reason,
+                                                                approved_by,note,upgrade_status, 'I' as user_type
+                                                                FROM institution_upgrade
+                                                                WHERE institution_id='".$id."'
+                                                                ORDER BY upgrade_request_date ASC ";
+                                            }
+                                            
                                             $stmtUnion = $conn->prepare($sqlUnion);
                                             $stmtUnion->execute();
                                             $stmtUnion->setFetchMode(PDO::FETCH_ASSOC);
@@ -9710,6 +9841,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     $aproved_by = $row['approved_by'];
                                                     $note = $row['note'];
                                                     $row_id=$row['id'];
+                                                    $user_type=$row['user_type'];
                                                     $rejection_reason = trim($row['rejection_reason'] ?? '');
 
                                                     if ($rejection_reason === '') {
@@ -9742,7 +9874,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                                         <i class="mdi mdi-dots-horizontal font-size-18"></i>
                                                                     </a>
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
+                                                                        <li><a href="#" onclick=\'upgradeHistoryPage("' . $row_id . '","' .$id. '","' .$user_type. '")\' class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-eye font-size-16 text-info me-1"></i>View Details</a></li>
                                                                         <li><a href="#" onclick=\'upgradePage("' . $id . '","' .$reference_no. '")\'  class="dropdown-item" data-bs-toggle="modal"><i class="mdi mdi-arrow-up-bold text-success me-1"></i> Upgrade Franchisee</a></li>
                                                                     </ul>
                                                                 </div>
@@ -9790,10 +9922,33 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                     <div class="pt-3 pb-2 col-md-5">
                                                         <div class="row">
                                                             <!-- Generate Coupons Button -->
-                                                            <div class="col-12 d-flex align-items-end justify-content-end">
-                                                                <button type="button" class="bg-success text-white border-0 rounded-3 fw-bold px-3 py-2" id="generate_coupons">
-                                                                    Generate Coupons
-                                                                </button>
+                                                            <div class="col-12">
+                                                                <div class="d-flex justify-content-end align-items-center gap-3 flex-wrap">
+
+                                                                    <!-- Checkbox Card -->
+                                                                    <div class="form-check d-flex align-items-center bg-light px-4 py-2 rounded-3 shadow-sm mb-0">
+                                                                        <input 
+                                                                            class="form-check-input me-2" 
+                                                                            type="checkbox" 
+                                                                            name="couponRegen" 
+                                                                            id="couponRegen"
+                                                                        >
+                                                                        <label class="form-check-label fw-semibold text-dark mb-0" for="couponRegen">
+                                                                            Regenerate Coupons
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <!-- Button -->
+                                                                    <button 
+                                                                        type="button" 
+                                                                        class="btn btn-success px-4 py-2 fw-bold rounded-3 shadow-sm"
+                                                                        id="generate_coupons"
+                                                                    >
+                                                                        <i class="fa-solid fa-arrows-spin"></i>
+                                                                        Generate Coupons
+                                                                    </button>
+
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -9815,9 +9970,10 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                                                         <label for="payment_fee" class="col-form-label">Payment Fee<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="payment_fee" aria-label="Floating label select example">
                                                             <option value="null" selected disabled>--Select Payment Fee--</option>
-                                                            <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
+                                                            <!-- <option value="10000">Prime: <span>&#8377 </span>10,000/-</option>
                                                             <option value="30000">Premium: <span>&#8377 </span>30,000/-</option>
-                                                            <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option>
+                                                            <option value="35000">Premium Plus: <span>&#8377 </span>35,000/-</option> -->
+                                                            <option value="11000">Neo Select: <span>&#8377 </span>11,000/-</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -10001,7 +10157,14 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                             <?php 
                                 } 
                             ?>
+                            <?php include 'edit_log_history.php' ?>
+                            <?php
+                                $excludeTables = ['ca_customer', 'institution'];
 
+                                if (!in_array($DBtable, $excludeTables)) {
+                                    include 'transfer_log_history.php';
+                                }
+                            ?>
                         </div>
                     </div>
 
@@ -10112,24 +10275,15 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
         }
     </script>
     <script>
-        //franchisee upgrade
-        function upgradePage(id,ref){
-            window.location.href='../corporate_agency/upgrade_franchisee.php?id='+id+'&ref='+ref;
-        }
-        //franchisee upgrade History Details
-        function upgradeHistoryPage(id,ref){
-            window.location.href='upgrade_franchisee_history.php?id='+id+'&sub_f_id='+ref;
-        }
-       $(function () {
+        $(function () {
             function loadData(start, end) {
                 var id = $('#user_id').val();
                 var DBtable = $('#DBtable').val();
                 var user_type = $('#user_type').val();
 
                 $.ajax({
-                    url: 'forms/payout_overview.php',
+                    url: '../../models/overview_profile/forms/payout_overview.php',
                     type: 'POST',
-                    dataType: 'json',
                     data: {
                         id: id,
                         DBtable: DBtable,
@@ -10150,7 +10304,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                         $('#payoutDetailsTable').DataTable();
 
                         // Step 4: Update commission total
-                        $('#commissionTotal').html('₹' + response.total);
+                        $('#commissionTotal').html('₹' + (response.total || 0) );
                     },
                     error: function (xhr, status, error) {
                         console.log('Error:', error);
@@ -10172,6 +10326,91 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                 loadData(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
             });
         });
+        function topFunction() {
+            document.body.scrollTop = 0,
+                document.documentElement.scrollTop = 0
+        }
+        mybutton && (window.onscroll = function() {
+            scrollFunction()
+        });
+        $(document).ready(function() {
+
+            // 🔥 FIX: Force tabs inside .tab-content
+            let $tabContent = $('.tab-content');
+
+            let $editLog = $('#editLogs').closest('.tab-pane');
+            if ($editLog.length && !$editLog.parent().hasClass('tab-content')) {
+                $tabContent.append($editLog);
+            }
+
+            let $transferLog = $('#transferLogs').closest('.tab-pane');
+            if ($transferLog.length && !$transferLog.parent().hasClass('tab-content')) {
+                $tabContent.append($transferLog);
+            }
+
+
+            // Your existing code 👇 (unchanged)
+
+            $('a[href="#editLogs"]').on('shown.bs.tab', function () {
+                loadLogs();
+            });
+
+            $('a[href="#transferLogs"]').on('shown.bs.tab', function () {
+                loadTLogs();
+            });
+
+            if($('#DBtable').val() == 'ca_customer'){
+                $("#couponsTable").DataTable();
+            }
+
+            $("#payoutDetailsTable").DataTable();
+
+            var paymentMode = $(".payment:checked").val();
+
+            if (paymentMode == "cheque") {
+                $("#chequeOpt").removeClass("d-none");
+                $("#onlineOpt").addClass("d-none");
+            } else if (paymentMode == "online") {
+                $("#onlineOpt").removeClass("d-none");
+                $("#chequeOpt").addClass("d-none");
+            } else {
+                $("#chequeOpt").addClass("d-none");
+                $("#onlineOpt").addClass("d-none");
+            }
+        });
+
+        //cannot call Datatable() function for same id more then once
+        // $('#upgardeHistoryTable').DataTable({
+        //     paging: true,
+        //     searching: true,
+        //     ordering: true,
+        //     info: true,
+        //     lengthChange: true,
+        //     pageLength: 10
+        // });
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+        //franchisee upgrade
+        function upgradePage(id,ref){
+            window.location.href='../corporate_agency/upgrade_franchisee.php?id='+id+'&ref='+ref;
+        }
+        //franchisee upgrade History Details
+        function upgradeHistoryPage(id,ref,userType){
+            window.location.href='upgrade_franchisee_history.php?id='+id+'&sub_f_id='+ref+'&user_type='+userType;
+        }
+
 
 
 
@@ -10194,7 +10433,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             window.location.href='overview.php?id='+id+'&ref='+ref+'&cut='+cut+'&st='+st+'&ct='+ct+'&message='+message+'&designation='+designation;
         }
         //payment type
-         $('#payment_fee').on('change', function() {
+            $('#payment_fee').on('change', function() {
             var payval=$(this).val();
             console.log(payval);
             
@@ -10231,7 +10470,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                 $("#transactionNo1").val("");
             }
         });
-        
+
         $('#comp_chek').on('change',function(){
             var comp=$(this).val();
             if (comp == 1) {
@@ -10240,6 +10479,344 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             }else if (comp == 2){
                 $('#paymentMode1').removeClass('d-none');
                 $('#payProof').removeClass('d-none');
+            }
+        });
+
+        //payment type
+            $('#payment_fee').on('change', function() {
+            var payval=$(this).val();
+            console.log(payval);
+            
+            if (payval != 'FOC') {
+                $('#paymentMode1').removeClass('d-none');
+                $('#payProof').removeClass('d-none');
+                $('#payOpt').removeClass('d-none');
+            }else{
+                $('#paymentMode1').addClass('d-none');
+                $('#payProof').addClass('d-none');
+                $('#payOpt').addClass('d-none');
+            }
+        });
+        // payment mode
+        $('#paymentMode1').on('click', function() {
+            var paymentMode = $(".payment1:checked").val();
+            // console.log(paymentMode);
+            if (paymentMode == "cheque") {
+                $("#chequeOpt1").removeClass("d-none");
+                $("#onlineOpt1").addClass("d-none");
+                $("#transactionNo1").val("");
+            } else if (paymentMode == "online") {
+                $("#onlineOpt1").removeClass("d-none");
+                $("#chequeOpt1").addClass("d-none");
+                $("#chequeNo1").val("");
+                $("#chequeDate1").val("");
+                $("#bankName1").val("");
+            } else {
+                $("#chequeOpt1").addClass("d-none");
+                $("#onlineOpt1").addClass("d-none");
+                $("#chequeNo1").val("");
+                $("#chequeDate1").val("");
+                $("#bankName1").val("");
+                $("#transactionNo1").val("");
+            }
+        });
+        //for transfer
+        $(document).on('click', '.edit-btn', function () {
+            let data = $(this).attr('data-user');
+
+            try {
+                data = JSON.parse(data);
+                console.log(data);
+                
+                editfuncCust(data);
+            } catch (e) {
+                console.error("JSON Parse Error:", data);
+            }
+        });
+
+        function editfuncCust(data){ 
+            if (data.user_type == 26 || data.user_type == 28 || data.user_type == 30) {
+                
+                var fileName = 'businessMentor/editBusinessMentor.php';
+
+                window.location.href = '../' + fileName +
+                    '?vkvbvjfgfikix=' + data.id +
+                    '&nohbref=' + (data.reference_no || 'NA') +
+                    '&fyfyfregby=' + data.register_by +
+                    '&ncy=' + data.country +
+                    '&mst=' + data.state +
+                    '&hct=' + data.city +
+                    '&zone=' + data.zone +
+                    '&branch=' + data.branch +
+                    '&editfor=' + data.type +
+                    '&usertype=' + data.user_type +
+                    '&tr_check=' + data.tr_check;
+            }else if(data.user_type == 16 || data.user_type == 29){
+                var fileName = 'corporate_agency/edit_corporate_agency.php';
+
+                window.location.href = '../' + fileName +
+                    '?vkvbvjfgfikix=' + data.user_id +
+                    '&fyfyfregby=' + data.reference_no +
+                    '&nohbref=' + data.register_by +
+                    '&ncy=' + data.country +
+                    '&mst=' + data.state +
+                    '&hct=' + data.city +
+                    '&editfor=' + data.type +
+                    '&usertype=' + data.user_type+
+                    '&tr_check=' + data.tr_check;
+            }else if(data.user_type == 25 || data.user_type == 24 || data.user_type == 31 || data.user_type == 27){
+                
+                var fileName = 'employee/editEmployee.php';
+
+                window.location.href = '../' + fileName +
+                    '?vkvbvjfgfikix=' + data.employee_id +
+                    '&fyfyfregby=' + (data.reporting_manager || 'NA') +
+                    '&nohbref=' + data.register_by +
+                    '&dept=' + data.department +
+                    '&desig=' + data.designation +
+                    '&zn=' + data.zone +
+                    '&br=' + data.branch +
+                    '&editfor=' + data.type +
+                    '&usertype=' + data.user_type+
+                    '&tr_check=' + data.tr_check;
+            }else if(data.user_type == 10){
+                var fileName = 'ca_customers/edit_customers.php';
+
+                    window.location.href = '../' + fileName +
+                    '?vkvbvjfgfikix=' + data.id +
+                    '&fyfyfregby=' + data.register_by +
+                    '&nohbref=' + data.reference_no +
+                    '&ncy=' + data.country +
+                    '&mst=' + data.state +
+                    '&hct=' + data.city +
+                    '&editfor=' + data.type +
+                    '&tr_check=' + data.tr_check;
+            }else if(data.user_type == 11){
+                var fileName = 'ca_travel_agency/edit_ca_travelAgency.php';
+
+                    window.location.href = '../' + fileName +
+                    '?vkvbvjfgfikix=' + data.id +
+                    '&fyfyfregby=' + data.register_by +
+                    '&nohbref=' + data.reference_no +
+                    '&ncy=' + data.country +
+                    '&mst=' + data.state +
+                    '&hct=' + data.city +
+                    '&editfor=' + data.type +
+                    '&usertype=' + data.user_type+
+                    '&tr_check=' + data.tr_check;
+            }
+        }
+        let from_date = '';
+        let to_date = '';
+
+        /* ================= LOAD DATA ================= */
+        function loadLogs(){
+
+            // 🔥 Destroy if already initialized
+            if ($.fn.DataTable.isDataTable('#editLogTable')) {
+                $('#editLogTable').DataTable().destroy();
+            }
+
+            $.ajax({
+                url: '../../models/overview_profile/forms/edit_log_history.php',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'fetch_logs',
+                    record_id: $('#user_id').text().trim(),
+                    from_date: from_date,
+                    to_date: to_date
+                },
+                success: function(res){
+
+                    if(res.status !== 'success'){
+                        console.log("Error:", res.message);
+                        return;
+                    }
+
+                    let data = res.data;
+                    let html = '';
+
+                    if(!data || data.length === 0){
+                        html = ``;
+                    } else {
+                        data.forEach(row => {
+                            html += `
+                                <tr>
+                                    <td>${row.created_at}</td>
+                                    <td>${row.column_name}</td>
+                                    <td>${row.old_value ?? '-'}</td>
+                                    <td>${row.new_value ?? '-'}</td>
+                                    <td>${row.changed_role ?? '-'}</td>
+                                    <td>${row.change_reason ?? '-'}</td>
+                                </tr>
+                            `;
+                        });
+                    }
+
+                    $('#editLogsbody').html(html);
+
+                    // ✅ Reinitialize DataTable
+                    $('#editLogTable').DataTable({
+                        pageLength: 10,
+                        ordering: true,
+                        searching: true,
+                        language: {
+                            emptyTable: "No data found"
+                        }
+                    });
+                }
+            });
+        }
+
+        /* ================= DATE RANGE ================= */
+        $('#editrangeDate').daterangepicker({
+            autoUpdateInput: false
+        });
+
+        $('#editrangeDate').on('apply.daterangepicker', function(ev, picker) {
+            from_date = picker.startDate.format('YYYY-MM-DD');
+            to_date = picker.endDate.format('YYYY-MM-DD');
+
+            $(this).val(from_date + ' - ' + to_date);
+            loadLogs();
+        });
+
+        $('#editrangeDate').on('cancel.daterangepicker', function() {
+            $(this).val('');
+            from_date = '';
+            to_date = '';
+            loadLogs();
+        });
+
+        /* ================= DOWNLOAD ================= */
+        $('#downloadBtn').click(function(){
+            let url = `../../models/overview_profile/forms/edit_log_history.php?download=1&from_date=${from_date}&to_date=${to_date}&record_id=${$('#user_id').text().trim()}`;
+            window.open(url, '_blank');
+        });
+
+        /* ================= TRANSFER DATA ================= */
+        function loadTLogs(){
+
+            // 🔥 Destroy if already initialized
+            if ($.fn.DataTable.isDataTable('#transferLogTable')) {
+                $('#transferLogTable').DataTable().destroy();
+            }
+
+            $.ajax({
+                url: '../../models/overview_profile/forms/transfer_log_history.php',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'fetch_logs',
+                    record_id: $('#user_id').text().trim(),
+                    from_date: from_date,
+                    to_date: to_date
+                },
+                success: function(res){
+
+                    if(res.status !== 'success'){
+                        console.log("Error:", res.message);
+                        return;
+                    }
+
+                    let data = res.data;
+                    let html = '';
+
+                    if(!data || data.length === 0){
+                        html = ``;
+                    } else {
+                        data.forEach(row => {
+                            html += `
+                                <tr>
+                                    <td>${row.transfer_date}</td>
+                                    <td>${row.prev_user_name}</td>
+                                    <td>${row.prev_user_email}</td>
+                                    <td>${row.prev_user_doj}</td>
+                                    <td>${row.new_user_name}</td>
+                                    <td>${row.new_user_email}</td>
+                                    <td>${row.transfer_reason}</td>
+                                    <td>${row.transfer_remark}</td>
+                                    <td>
+                                        ${
+                                            row.transfer_status == 2 ? 'Approved' :
+                                            row.transfer_status == 3 ? 'Rejected' :
+                                            'Pending'
+                                        }
+                                    </td>
+                                    <td>${row.transfer_update_date}</td>
+                                    <td>Admin</td>
+                                </tr>
+                            `;
+                        });
+                    }
+
+                    $('#transferLogsbody').html(html);
+
+                    // ✅ Reinitialize DataTable
+                    $('#transferLogTable').DataTable({
+                        pageLength: 10,
+                        ordering: true,
+                        searching: true,
+                        scrollX: true,
+                        language: {
+                            emptyTable: "No data found"
+                        } 
+                    });
+                }
+            });
+        }
+
+        /* ================= DATE RANGE ================= */
+        $('#editrangeDate1').daterangepicker({
+            autoUpdateInput: false
+        });
+
+        $('#editrangeDate1').on('apply.daterangepicker', function(ev, picker) {
+            from_date = picker.startDate.format('YYYY-MM-DD');
+            to_date = picker.endDate.format('YYYY-MM-DD');
+
+            $(this).val(from_date + ' - ' + to_date);
+            loadTLogs();
+        });
+
+        $('#editrangeDate1').on('cancel.daterangepicker', function() {
+            $(this).val('');
+            from_date = '';
+            to_date = '';
+            loadTLogs();
+        });
+
+        /* ================= DOWNLOAD ================= */
+        $('#downloadBtn1').click(function(){
+            let url = `../../models/overview_profile/forms/transfer_log_history.php?download=1&from_date=${from_date}&to_date=${to_date}&record_id=${$('#user_id').text().trim()}`;
+            window.open(url, '_blank');
+        });  
+        $(document).ready(function () {
+            const selected_div = "<?= $DBtable ?>";
+
+            let $empBlock = $('#employee');
+            let $zmBlock = $('#zonal_manager');
+
+            // Cache and detach blocks only once
+            if (!$empBlock.data('detached')) {
+                $empBlock.data('detached', true);
+                $empBlock = $empBlock.detach();
+            }
+
+            if (!$zmBlock.data('detached')) {
+                $zmBlock.data('detached', true);
+                $zmBlock = $zmBlock.detach();
+            }
+
+            // Clear formParent first
+            $('#formParent').empty();
+
+            // Append based on condition
+            if (selected_div === 'business_developement_manager' || selected_div === 'business_chanel_manager' || selected_div ==='relationship_manager') {
+                $('#formParent').append($empBlock);
+            } else if (selected_div === 'zonal_manager') {
+                $('#formParent').append($zmBlock);
             }
         });
 
@@ -10348,80 +10925,6 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
                 }
             });
         });
-
-        //------------- end of comemted for temp reason
-
-
-        // $('#daterange').on('change', function(){
-        //     let fulldate = $('#daterange').val();
-        //     console.log(fulldate);
-        // });
-        //payment type
-         $('#payment_fee').on('change', function() {
-            var payval=$(this).val();
-            console.log(payval);
-            
-            if (payval != 'FOC') {
-                $('#paymentMode1').removeClass('d-none');
-                $('#payProof').removeClass('d-none');
-                $('#payOpt').removeClass('d-none');
-            }else{
-                $('#paymentMode1').addClass('d-none');
-                $('#payProof').addClass('d-none');
-                $('#payOpt').addClass('d-none');
-            }
-        });
-        // payment mode
-        $('#paymentMode1').on('click', function() {
-            var paymentMode = $(".payment1:checked").val();
-            // console.log(paymentMode);
-            if (paymentMode == "cheque") {
-                $("#chequeOpt1").removeClass("d-none");
-                $("#onlineOpt1").addClass("d-none");
-                $("#transactionNo1").val("");
-            } else if (paymentMode == "online") {
-                $("#onlineOpt1").removeClass("d-none");
-                $("#chequeOpt1").addClass("d-none");
-                $("#chequeNo1").val("");
-                $("#chequeDate1").val("");
-                $("#bankName1").val("");
-            } else {
-                $("#chequeOpt1").addClass("d-none");
-                $("#onlineOpt1").addClass("d-none");
-                $("#chequeNo1").val("");
-                $("#chequeDate1").val("");
-                $("#bankName1").val("");
-                $("#transactionNo1").val("");
-            }
-        });
-        $(document).ready(function () {
-            const selected_div = "<?= $DBtable ?>";
-
-            let $empBlock = $('#employee');
-            let $zmBlock = $('#zonal_manager');
-
-            // Cache and detach blocks only once
-            if (!$empBlock.data('detached')) {
-                $empBlock.data('detached', true);
-                $empBlock = $empBlock.detach();
-            }
-
-            if (!$zmBlock.data('detached')) {
-                $zmBlock.data('detached', true);
-                $zmBlock = $zmBlock.detach();
-            }
-
-            // Clear formParent first
-            $('#formParent').empty();
-
-            // Append based on condition
-            if (selected_div === 'business_developement_manager' || selected_div === 'business_chanel_manager' || selected_div ==='relationship_manager') {
-                $('#formParent').append($empBlock);
-            } else if (selected_div === 'zonal_manager') {
-                $('#formParent').append($zmBlock);
-            }
-        });
-
         $('#terms_condition_submit').on('click', function(e){
             e.preventDefault(); 
             // console.log('terms_condition Clicked');
@@ -10457,7 +10960,7 @@ $User_name = ($DBtable == 'business_developement_manager' || $DBtable == 'busine
             }else{
                 alert("No Terms And Condition Image Found!")
             }
-        });
+        });              
     </script>
 </body>
 

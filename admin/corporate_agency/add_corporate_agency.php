@@ -24,7 +24,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Add Techno Enterprise / Franchisee | Admin Dashboard </title>
+        <title>Add Techno Enterprise / Franchisee  / Institution | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Techno Enterprise / Franchisee  / Institution</h4>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,17 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Add Techno Enterprise / Franchisee</h3>
+                                            <h3>Add Techno Enterprise / Franchisee  / Institution</h3>
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 d-flex justify-content-end">
+                                                    <div class="input-block mb-3 form-check">
+                                                        <input class="form-check-input" type="checkbox" id="is_converted">
+                                                        <label class="form-check-label" for="is_converted">
+                                                            Converted
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-3 col-sm-6 col-12">
                                                     <div class="input-block mb-3">
@@ -93,6 +103,7 @@
                                                             <option value="">--Select --</option>
                                                             <option value="corporate_agency">Techno Enterprise </option>
                                                             <option value="sub_franchisee">Franchisee</option>
+                                                            <option value="institution">Institution</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -102,11 +113,12 @@
                                                         <select id="designation1" class="form-select" disabled>
                                                             <option value="">--Select Designation--</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
-                                                            <!--<option value="business_consultant">Business Consultant</option>-->
                                                             <option value="business_mentor">Business Mentor</option>
+                                                            <option value="super_techno_enterprise">Super Techno Enterprise</option>
                                                         </select>
                                                         <select id="designation2" class="form-select d-none">
                                                             <option value="">--Select Designation--</option>
+                                                            <option value="business_mentor">Business Mentor</option>
                                                             <option value="sponsor_franchisee">Sponsor Franchisee</option>
                                                             <option value="master_franchisee">Master Franchisee</option>
                                                             <option value="business_development_manager">Business Development Manager </option>
@@ -489,17 +501,28 @@
                     $('#business_package_amount1').prop('disabled', false);
                     $('#business_package_amount1').removeClass('d-none');
                     $('#business_package_amount2').addClass('d-none');
+                    $('.gender').prop('disabled', false);
                 }else if(register_type == 'sub_franchisee'){
                     $('#designation1').addClass('d-none');
                     $('#designation2').removeClass('d-none');
                     $('#business_package_amount2').removeClass('d-none');
                     $('#business_package_amount1').addClass('d-none');
-                    
+                    $('.gender').prop('disabled', false);
                     // var business_package_amount = $('#business_package_amount2').val();
                     // $('#flex_amount').val(business_package_amount);
-                }
-            });
+                }else if(register_type == 'institution'){
+                    $('#designation1').addClass('d-none');
+                    $('#designation2').removeClass('d-none');
+                    $('#business_package_amount2').removeClass('d-none');
+                    $('#business_package_amount1').addClass('d-none');
+                    const val = $("#test5").val();
 
+                    $('.gender[value="' + val + '"]').prop('checked', true);
+                    $('.gender').prop('disabled', true);
+                }
+                    
+            });
+            
             //select Designation
             $('#designation1').on('change', function() {
                 var designation = $('#designation1').val();

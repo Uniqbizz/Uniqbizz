@@ -9,10 +9,10 @@
                                 <h4 class="title">Company</h4>
                                 <ul class="listing">
                                     <li class="single-lsit">
-                                        <a href="#">Private Policy</a>
+                                        <a href="privatePolicy.php">Private Policy</a>
                                     </li>
                                     <li class="single-lsit">
-                                        <a href="#">Cancellation & Refund Policy</a>
+                                        <a href="cancellation.php">Cancellation & Refund Policy</a>
                                     </li>
                                     <li class="single-lsit">
                                         <a href="terms-condition.php">Terms & Conditions</a>
@@ -26,7 +26,7 @@
                             <div class="footer-tittle">
                                 <h4 class="title">Explore</h4>
                                 <ul class="listing">
-                                    <li class="single-lsit"><a href="faq.php">Faq</a></li>
+                                    <li class="single-lsit"><a href="visa.php">Visa</a></li>
                                     <li class="single-lsit">
                                         <a href="tour-list.php">Tour Listings</a>
                                     </li>
@@ -129,7 +129,7 @@
                             <a href="terms-condition.php" class="single">Terms & Conditions</a>
                         </li>
                         <li class="single-list">
-                            <a href="#" class="single">Privacy and Cookies Statement</a>
+                            <a href="privatePolicy.php" class="single">Privacy and Cookies Statement</a>
                         </li>
                         <li class="single-list">
                             <a href="contact.php" class="single">How the site works</a>
