@@ -25,23 +25,23 @@
         $date = date('Y'); 
 
         $id = $_GET['id']; //id 11
-        $user_id = $_GET['regby']; //regby 1-admin or other user in this case 34-executive Techno Enterprise (Not in use)
+        $user_id = $_GET['regby']; //regby 1-admin or other user in this case 34-chief Techno Enterprise (Not in use)
         $reference_no = $_GET['refno']; //refno ETE260001
         $country_id = $_GET['country']; // country
         $state_id = $_GET['state']; // state
         $city_id = $_GET['city']; // city
         $editfor = $_GET['editfor']; // pending or confirm
-        $usertype = $_GET['usertype']; // 'STE' for Executive Techno Enterprise
+        $usertype = $_GET['usertype']; // 'STE' for Chief Techno Enterprise
 
         if ($editfor == 'pending') {
             $identifier_name = 'id=';
         } else if ($editfor == 'registered') {
-            $identifier_name = 'executive_techno_enterprise_id=';
+            $identifier_name = 'chief_techno_enterprise_id=';
         }
 
         $testValue = '35';
 
-        $stmt = $conn->prepare("SELECT * FROM `executive_techno_enterprise` WHERE executive_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
+        $stmt = $conn->prepare("SELECT * FROM `chief_techno_enterprise` WHERE chief_techno_enterprise_id='" . $id . "' OR id = '" . $id . "'");
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -93,7 +93,7 @@
                 if ($reference_no == "Not Applicable") {
                     $reference_no_fname = "Not Applicable";
                 } else {
-                    $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :ref");
+                    $stmt_manager = $conn->prepare("SELECT firstname, lastname FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :ref");
                     $stmt_manager->execute([':ref' => $reference_no]);
 
                     if ($stmt_manager->rowCount() > 0) {
@@ -201,7 +201,7 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>Edit Executive Techno Enterprise | Admin Dashboard </title>
+        <title>Edit Chief Techno Enterprise | Admin Dashboard </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -250,7 +250,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Executive Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Chief Techno Enterprise</h4>
                                 </div>
                             </div>
                         </div>
@@ -261,11 +261,11 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form>
-                                            <h3>Edit Executive Techno Enterprise</h3>
+                                            <h3>Edit Chief Techno Enterprise</h3>
                                             <div class="row">
                                                 <!-- Personal Details -->
 
-                                                <div class="col-md-6 col-sm-6">
+                                                <!-- <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Reference Id<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="user_id_name" placeholder="Enter First Name" value="<?php echo $reference_no; ?>" readonly>
@@ -276,7 +276,7 @@
                                                     <label class="col-form-label">Reference Full Name <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="reference_name" placeholder="Enter Last Name" value="<?php echo $reference_no_fname  ; ?>" readonly>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">First Name <span class="text-danger">*</span></label>
@@ -541,7 +541,7 @@
                                                 <h4 class="my-2">Leadership Assessment</h4>
                                                 <div class="col-md-4 col-sm-6">
                                                     <div class="input-block mb-3">
-                                                        <label class="col-form-label">Why You want to become a Executive Techno Enterprise?<span class="text-danger">*</span></label>
+                                                        <label class="col-form-label">Why You want to become a Chief Techno Enterprise?<span class="text-danger">*</span></label>
                                                         <textarea class="form-control" id="career_objective" rows="4" cols="50"> <?= $career_objective; ?></textarea>
                                                     </div>
                                                 </div>
@@ -1019,7 +1019,7 @@
                                             <input type="hidden" id="applicationId" name="applicationId" value="<?php echo $application_id; ?>"> <!-- applicationId will be use to update multiple tables for CTE,ETE,STE -->
 
                                             <div class="submit-section d-flex justify-content-center mb-4">
-                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editExecutiveTechnoEnterprise">Submit</button>
+                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -1051,7 +1051,7 @@
         <script src="../assets/libs/node-waves/waves.min.js"></script>
 
         <!-- edit data to database js file -->
-        <script type="text/javascript" src="executive_techno_enterprise.js"></script>
+        <script type="text/javascript" src="chief_techno_enterprise.js"></script>
 
         <!-- apexcharts -->
         <!-- <script src="../assets/libs/apexcharts/apexcharts.min.js"></script> -->

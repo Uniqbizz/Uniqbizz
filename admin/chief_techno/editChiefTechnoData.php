@@ -7,7 +7,7 @@ $current_year = date('Y');
 // additional information to check if user is registered or not
 $ref_id = $_POST["ref_id"]; // reference of the user - ETE260003
 $editfor = $_POST["editfor"]; // pending or confirm
-$identifier_id = $_POST["id"]; // ExecutiveTE id value if user is not confirmed - 11 , if confirmed - STE2600011
+$identifier_id = $_POST["id"]; // ChiefTE id value if user is not confirmed - 11 , if confirmed - STE2600011
 
 // Personal Details
 $designation          = $_POST['designation'] ?? '';
@@ -73,7 +73,7 @@ $business_profile               = $_POST['business_profile'] ?? '';
 $income_proof                   = $_POST['income_proof'] ?? '';
 $other_document                 = $_POST['other_document'] ?? '';
 
-$title = "Executive Techno Enterprise";
+$title = "Chief Techno Enterprise";
 $register_by = "1";
 $fromWhom = "1";
 $operation = "Update";
@@ -85,10 +85,10 @@ $age = $current_year - $birthYear;
 try {
 
     if ($editfor == 'pending') {
-        $stmt = $conn->prepare("SELECT application_id FROM executive_techno_enterprise WHERE id = :id");
+        $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE id = :id");
         $stmt->execute([':id' => $identifier_id]);
     } else {
-        $stmt = $conn->prepare("SELECT application_id FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = :id");
+        $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :id");
         $stmt->execute([':id' => $identifier_id]);
     }
     $appData = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -101,8 +101,8 @@ try {
 
     $conn->beginTransaction();
 
-    // executive_techno_enterprise
-    $stmt1 = $conn->prepare("UPDATE executive_techno_enterprise SET
+    // chief_techno_enterprise
+    $stmt1 = $conn->prepare("UPDATE chief_techno_enterprise SET
         firstname=:firstname,
         lastname=:lastname,
         father_spouse_name=:father_spouse_name,
@@ -250,7 +250,7 @@ try {
     ]);
 
     $message = ($editfor == 'pending')
-        ? "Updated Executive Techno Enterprise details from pending list"
+        ? "Updated Chief Techno Enterprise details from pending list"
         : $identifier_id . " details updated from registered list";
 
     $stmt7 = $conn->prepare("INSERT INTO logs
