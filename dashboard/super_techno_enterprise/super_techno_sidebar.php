@@ -1,3 +1,6 @@
+<?php
+    $current_page = basename($_SERVER['PHP_SELF']);
+?>
 <div class="app-menu navbar-menu rounded-4 bg-white" style="position: fixed; margin-top: 80px !important; width: 240px; padding-top: 0px !important; padding-bottom: 0px !important; margin-bottom: 10px !important;">
     <!-- LOGO -->
     <div class="navbar-brand-box">
@@ -15,28 +18,28 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav" >
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                <li class="nav-item active">
-                    <a class="nav-link menu-link" href="super_techno_dashboard.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="fa-regular fa-house d-flex"></i> <span data-key="t-dashboards">Dashboards</span>
+                <li class="nav-item <?php echo ($current_page == 'super_techno_dashboard.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="super_techno_dashboard.php">
+                        <i class="fa-regular fa-house d-flex"></i><span>Dashboards</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="techno_enterprise_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Techno Enterprisee</span>
+                <li class="nav-item <?php echo ($current_page == 'techno_enterprise_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="techno_enterprise_list.php">
+                        <i class="ri-user-shared-2-line"></i> <span>Techno Enterprisee</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="#">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Travel Consultants</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="#">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Customers</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="../index.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="#">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Commission</span>
                     </a>
                 </li>
