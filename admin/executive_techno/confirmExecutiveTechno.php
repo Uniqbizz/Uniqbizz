@@ -23,7 +23,7 @@ if ($user_type_id == '34') { //Executive Techno Enterprise
 	$sql9->setFetchMode(PDO::FETCH_ASSOC);
 	if ($sql9->rowCount() > 0) {
 		foreach (($sql9->fetchAll()) as $key9 => $row9) {
-			$registerDate = new DateTime($row9['register_date']);
+			$registerDate = new DateTime($row9['added_on']);
 			$doj = $registerDate->format('d/m/Y');
 			$name = $row9['firstname'] . ' ' . $row9['lastname'];
 			$address = $row9['address'];
