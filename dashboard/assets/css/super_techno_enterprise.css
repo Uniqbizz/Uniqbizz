@@ -502,6 +502,34 @@ body {
     font-weight: 900;
     padding: 3px 0px;
 }
+.teActiveBtn {
+    background-color: #d6fbdf;
+    color: #068c25;
+    border: 1px solid #068c25;
+    font-weight: 900;
+    padding: 3px 0px;
+}
+.teViewBtn {
+    background-color: #fff;
+    color: #4b38b3;
+    border: 2px solid #4b38b3;
+    padding: 5px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+}
+.teViewBtn:hover {
+    background-color: #4b38b3;
+    color: #fff;
+    border: 2px solid #4b38b3;
+}
+.dateInput {
+    width: 110px;
+    height: 38px;
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
