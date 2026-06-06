@@ -121,15 +121,6 @@
         ) etd ON etd.customer_id = c.ca_customer_id
 
         WHERE ".implode(' AND ', $where)."
-        GROUP BY
-            c.ca_customer_id,
-            c.firstname,
-            c.lastname,
-            c.customer_type,
-            c.contact_no,
-            c.profile_pic,
-            c.register_date,
-            c.status
 
         ORDER BY c.id DESC
     ";

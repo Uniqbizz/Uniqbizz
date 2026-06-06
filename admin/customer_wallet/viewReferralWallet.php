@@ -1020,7 +1020,7 @@
                                     </div>
                                 `;
                             }
-                            const formattedMessage = item.message
+                            const formattedMessage = (item.message ?? '')
                                 .split(' ')
                                 .reduce((result, word, index) => {
                                     return result + word + ((index + 1) % 8 === 0 ? '<br>' : ' ');

@@ -55,15 +55,14 @@
         WHERE
             c.status IN (1,3)
             AND cc.confirm_status = 1
-
         GROUP BY
+            c.id,
             c.ca_customer_id,
             c.firstname,
             c.lastname,
             c.customer_type,
             c.profile_pic,
             c.status
-
         ORDER BY c.id DESC
     ");
 
