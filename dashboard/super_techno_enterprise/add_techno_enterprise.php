@@ -199,6 +199,87 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Card Section 2 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">02</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Business Information</h4>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="businessPackage" required>
+                                            <option value="" selected disabled>Select business package </option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label fw-bold">Enter Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="amount" placeholder="Enter amount" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="gstNo" class="form-label fw-bold">GST No </label>
+                                        <input type="email" class="form-control" id="gstNo" placeholder="Enter GST number">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Section 3 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">03</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Address Information</h4>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="country" class="form-label fw-bold">Country <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="country" required>
+                                            <option value="" selected disabled>Select country </option>
+                                            <option value="india">India</option>
+                                            <option value="china">China</option>
+                                            <option value="japan">Japan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="state" class="form-label fw-bold">State <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="state" required>
+                                            <option value="" selected disabled>Select state </option>
+                                            <option value="goa">Goa</option>
+                                            <option value="keralam">Keralam</option>
+                                            <option value="delhi">Delhi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="city" class="form-label fw-bold">City<span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="city" placeholder="Enter city" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="pincode" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
+                                        <input type="number" class="form-control" id="pincode" placeholder="Enter pincode">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label fw-bold">Address<span class="text-danger fw-bolder">*</span></label>
+                                        <textarea class="form-control" id="address" rows="3" placeholder="Enter complete address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
