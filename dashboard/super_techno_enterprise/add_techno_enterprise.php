@@ -280,6 +280,75 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Card Section 4 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">04</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Payment Information</h4>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="radioBtn row" id="paymentMode">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <label class="form-control py-3 text-center fw-bold payment-label ptMode" for="onlinePayment">
+                                                <i class="fa-solid fa-forward fa-2xl me-3"></i>UPI / NEFT
+                                                <input type="radio" id="onlinePayment" class="form-check-input payment ms-3" name="payment" value="online" checked>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <label class="form-control py-3 text-center fw-bold payment-label" for="chequePayment">
+                                                <i class="fa-solid fa-money-check fa-2xl me-3"></i> Cheque 
+                                                <input type="radio" id="chequePayment" class="form-check-input payment ms-3" name="payment" value="cheque">
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <label class="form-control py-3 text-center fw-bold payment-label" for="cashPayment">
+                                                <i class="fa-regular fa-money-bill-1 fa-2xl me-3"></i> Cash 
+                                                <input type="radio" id="cashPayment" class="form-check-input payment ms-3" name="payment" value="cash">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="row" id="paymentFields">
+                                        <div class="col-md-12 col-sm-12 d-none" id="chequeOpt">
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-6 col-12 py-1">
+                                                    <div class="input-block">
+                                                        <label class="col-form-label" for="chequeNo">Cheque No<span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="chequeNo" placeholder="Enter Cheque Number">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-sm-6 col-12 py-1">
+                                                    <div class="input-block">
+                                                        <label class="col-form-label" for="chequeDate">Cheque Date<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="chequeDate" placeholder="Enter Date On Cheque">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-sm-6 col-12 py-1">
+                                                    <div class="input-block">
+                                                        <label class="col-form-label" for="bankName">Bank Name<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="bankName" placeholder="Enter your Bank Name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 d-none" id="onlineOpt">
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col-md-8">
+                                                    <div class="input-block">
+                                                        <label class="col-form-label" for="transactionNo">Transaction No.<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="transactionNo" placeholder="Enter your Transaction No.">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
@@ -379,5 +448,52 @@
             });
         </script>
         <!-- end dialer logic scripts -->
+        <script>
+            $('#payment_fee').on('change', function(){
+                var payment_fee = $(this).val();
+                if(payment_fee == "FOC"){
+                    $("#paymentModeBlock").addClass("d-none");
+                    $("#paymentFields").addClass("d-none");
+                    $("#payProof").addClass("d-none");
+                }else if(payment_fee == "null"){
+                    $("#paymentModeBlock").addClass("d-none");
+                    $("#paymentFields").addClass("d-none");
+                    $("#payProof").addClass("d-none");
+                }else{
+                    $("#paymentModeBlock").removeClass("d-none");
+                    $("#paymentFields").removeClass("d-none");
+                    $("#payProof").removeClass("d-none");
+                }
+            });
+
+            $('#paymentMode').on('click', function(){
+                var paymentMode = $(".payment:checked").val();
+                if(paymentMode == "cheque"){
+                    $("#chequeOpt").removeClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
+                }else if(paymentMode == "online"){
+                    $("#onlineOpt").removeClass("d-none");
+                    $("#chequeOpt").addClass("d-none");
+                } else {
+                    $("#chequeOpt").addClass("d-none");
+                    $("#onlineOpt").addClass("d-none");
+                }
+            });
+        </script>
+        <!-- radio button background color on selected -->
+        <script>
+            document.querySelectorAll('.payment').forEach(radio => {
+                radio.addEventListener('change', function () {
+
+                    // Remove active class from all labels
+                    document.querySelectorAll('.payment-label').forEach(label => {
+                        label.classList.remove('ptMode');
+                    });
+
+                    // Add active class to selected radio's label
+                    this.closest('label').classList.add('ptMode');
+                });
+            });
+        </script>
     </body>
 </html>

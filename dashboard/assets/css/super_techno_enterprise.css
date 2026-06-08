@@ -574,6 +574,19 @@ body {
 .genderSelect:valid {
     color: #212529;
 }
+.ptMode {
+    background-color: #eae7ff !important;
+    color: #35239a !important;
+    border: 2px solid #9a8fd3 !important;
+}
+
+.payment-label {
+    background-color: #fff;
+    color: #212529;
+    border: 2px solid #ced4da;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
