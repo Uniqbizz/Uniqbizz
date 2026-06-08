@@ -557,6 +557,23 @@ body {
     right: 80px;
     top: 5px;
 }
+.addTENum {
+    background-color: #0d6efd;
+    color: #fff;
+    border-radius: 7px;
+    padding: 5px 10px;
+}
+.genderSelect {
+    color: #878a99;
+}
+
+.genderSelect option {
+    color: #212529;
+}
+
+.genderSelect:valid {
+    color: #212529;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */

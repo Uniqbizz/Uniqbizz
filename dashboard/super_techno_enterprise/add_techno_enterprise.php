@@ -137,6 +137,68 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Card Section 1 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="row">
+                                <div class="d-flex gap-2">
+                                    <p class="fw-bolder addTENum">01</p>
+                                    <h4 class="fw-bolder text-dark align-content-center">Personal Information</h4>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label fw-bold">Full Name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="lastName" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email address" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="number" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="number" class="form-control" id="number" placeholder="Enter mobile number" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3 dateBirth">
+                                        <label for="dateOfBirth" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="dateOfBirth" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="gender" class="form-label fw-bold">Gender <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="gender" required>
+                                            <option value="" selected disabled>Select gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="nomineeName" class="form-label fw-bold">Nominee name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="nomineeName" placeholder="Enter nominee name" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="nomineeRelation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="email" class="form-control" id="nomineeRelation" placeholder="Enter relation" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
