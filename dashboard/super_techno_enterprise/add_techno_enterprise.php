@@ -290,21 +290,21 @@
                                 <div class="col-lg-12">
                                     <div class="radioBtn row" id="paymentMode">
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <label class="form-control py-3 text-center fw-bold payment-label ptMode" for="onlinePayment">
+                                            <label class="form-control py-3 text-center fw-bold payment-label ptMode" for="cashPayment">
+                                                <i class="fa-regular fa-money-bill-1 fa-2xl me-3"></i> Cash 
+                                                <input type="radio" id="cashPayment" class="form-check-input payment ms-3" name="payment" value="cash" checked>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <label class="form-control py-3 text-center fw-bold payment-label" for="onlinePayment">
                                                 <i class="fa-solid fa-forward fa-2xl me-3"></i>UPI / NEFT
-                                                <input type="radio" id="onlinePayment" class="form-check-input payment ms-3" name="payment" value="online" checked>
+                                                <input type="radio" id="onlinePayment" class="form-check-input payment ms-3" name="payment" value="online">
                                             </label>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                             <label class="form-control py-3 text-center fw-bold payment-label" for="chequePayment">
                                                 <i class="fa-solid fa-money-check fa-2xl me-3"></i> Cheque 
                                                 <input type="radio" id="chequePayment" class="form-check-input payment ms-3" name="payment" value="cheque">
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <label class="form-control py-3 text-center fw-bold payment-label" for="cashPayment">
-                                                <i class="fa-regular fa-money-bill-1 fa-2xl me-3"></i> Cash 
-                                                <input type="radio" id="cashPayment" class="form-check-input payment ms-3" name="payment" value="cash">
                                             </label>
                                         </div>
                                     </div>
