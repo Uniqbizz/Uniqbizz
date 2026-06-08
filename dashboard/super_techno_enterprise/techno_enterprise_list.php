@@ -115,7 +115,7 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="super_techno_dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item active">View Customer</li>
+                                            <li class="breadcrumb-item active">View Techno Enterprise</li>
                                         </ol>
                                     </div>
 
@@ -454,13 +454,11 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if($userType == "34" ){ ?>
-                            <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
-                                <a href="#" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                                    <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-                                </a>
-                            </div>
-                        <?php } ?> 
+                        <div class="btn" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 35px; border-radius: 50%;">
+                            <a href="add_techno_enterprise.php" style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
+                                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
+                            </a>
+                        </div>
 
                     </div> <!-- container-fluid -->
 

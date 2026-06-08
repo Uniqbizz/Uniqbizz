@@ -530,6 +530,33 @@ body {
     border-radius: 6px;
     border: 1px solid;
 }
+/* Add Techno Enterprise */
+.addTECard {
+    background-color: #021185;
+    padding: 20px;
+    position: relative;
+}
+.addTEIconBackground {
+    background-color: #fff;
+    width: 90px !important;
+    height: 90px !important;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.addTEIcon {
+    color: #35239a !important;
+    font-size: 40px;
+}
+.addTEImage {
+    height: 120px !important;
+    width: 390px !important;
+    position: absolute;
+    right: 80px;
+    top: 5px;
+}
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
 ========================================= */
@@ -636,16 +663,17 @@ body {
         margin-bottom: 10px;
     }
 }
-
-/* =========================================
-   ONLY MOBILE (768px)
-========================================= */
-
 @media (max-width: 840px) {
     .teRegister {
         display: flex !important;
     }
 }
+/* =========================================
+   ONLY MOBILE (768px)
+========================================= */
+
+
+
 @media (max-width: 660px) {
     .supportDetails h3 {
         font-size: 18px !important;
@@ -656,6 +684,19 @@ body {
     .supportBtn {
         padding: 8px !important;
         width: 150px !important;
+    }
+    .addTEImage {
+        width: 250px !important;
+        position: absolute;
+        right: 40px;
+    }
+    .addTEIcon {
+        font-size: 30px;
+    }
+    .addTEIconBackground {
+        width: 90px !important;
+        height: 70px !important;
+        padding: 20px;
     }
 }
 @media (max-width: 576px){
