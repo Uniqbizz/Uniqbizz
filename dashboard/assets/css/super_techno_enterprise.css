@@ -579,13 +579,129 @@ body {
     color: #35239a !important;
     border: 2px solid #9a8fd3 !important;
 }
-
 .payment-label {
     background-color: #fff;
     color: #212529;
     border: 2px solid #ced4da;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+.upload-card{
+    position:relative;
+    min-height:170px;
+    border:2px dashed #d7dff3;
+    border-radius:12px;
+    background:#fff;
+    cursor:pointer;
+    overflow:hidden;
+    transition:.3s;
+}
+.upload-card:hover{
+    border-color:#7c5cff;
+}
+.file-input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+    z-index:5;
+}
+.upload-content{
+    height:100%;
+    padding:15px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.upload-icon{
+    font-size:35px;
+    color:#7c5cff;
+    margin-bottom:12px;
+}
+.upload-content h6{
+    font-weight:700;
+    margin-bottom:5px;
+}
+.upload-content p{
+    color:#6c757d;
+    font-size:13px;
+    margin-bottom:5px;
+}
+.upload-content small{
+    color:#999;
+}
+.preview-wrapper{
+    position:absolute;
+    inset:0;
+}
+.preview-wrapper img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.file-title{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,.75);
+    color:#fff;
+    padding:8px;
+    font-size:13px;
+    font-weight:600;
+}
+.pdf-preview{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.pdf-preview i{
+    font-size:55px;
+    color:#dc3545;
+}
+.actionBtn{
+    height: 48px;
+    min-width: 150px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all .3s ease;
+}
+/* Cancel */
+.cancelBtn{
+    background: #fff;
+    color: #5b4df8;
+    border: 2px solid #c7c4ff;
+}
+.cancelBtn:hover{
+    background: #f5f4ff;
+    color: #5b4df8;
+}
+/* Draft */
+.draftBtn{
+    background: #fff;
+    color: #5b4df8;
+    border: 2px solid #c7c4ff;
+}
+.draftBtn:hover{
+    background: #f5f4ff;
+    color: #5b4df8;
+}
+/* Submit */
+.submitBtn{
+    min-width: 280px;
+    background: linear-gradient( 90deg,#4f46ff,#3f3dff);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(79,70,255,.25);
+}
+.submitBtn:hover{
+    transform: translateY(-2px);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(79,70,255,.35);
 }
 /* =========================================
    TABLET + SMALL LAPTOP (1024px)
@@ -756,6 +872,16 @@ body {
     }
     .greetingImage {
         object-fit: cover !important;
+    }
+    .actionBtn{
+        width:100%;
+    }
+
+    .submitBtn{
+        min-width:100%;
+    }
+    .submitBtnBackground {
+        display: flex;
     }
 }
 @media (max-width: 441px) {

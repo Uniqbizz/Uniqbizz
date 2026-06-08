@@ -349,6 +349,132 @@
                                 </div> 
                             </div>
                         </div>
+                        <!-- Card Section 5 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="d-flex gap-2">
+                                <p class="fw-bolder addTENum">05</p>
+                                <h4 class="fw-bolder text-dark align-content-center">Upload Documents</h4>
+                            </div>
+                            <div class="row g-3">
+                                <!-- Profile Photo -->
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Profile Photo">
+                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+                                            <h6>Profile Photo</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Aadhaar -->
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Aadhaar Card">
+                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-id-card"></i>
+                                            </div>
+                                            <h6>Aadhaar Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PAN -->
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="upload-card" data-title="PAN Card">
+                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-credit-card"></i>
+                                            </div>
+                                            <h6>PAN Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bank Passbook -->
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Bank Passbook">
+                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-solid fa-building-columns"></i>
+                                            </div>
+                                            <h6>Bank Passbook</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Voting -->
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Voting Card">
+                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-regular fa-address-card"></i>
+                                            </div>
+                                            <h6>Voting Card</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Proof -->
+                                <div class="col-lg-2 col-md-4 col-6">
+                                    <div class="upload-card" data-title="Payment Proof">
+                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                        <div class="upload-content">
+                                            <div class="upload-icon">
+                                                <i class="fa-solid fa-file-invoice"></i>
+                                            </div>
+                                            <h6>Payment Proof</h6>
+                                            <p>Click to upload<br>or drag and drop</p>
+                                            <small>(JPG, PNG, PDF)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Section 6 -->
+                        <div class="card rounded-4 p-3 border-1">
+                            <div class="d-flex gap-2">
+                                <p class="fw-bolder addTENum">06</p>
+                                <h4 class="fw-bolder text-dark align-content-center">Additional Notes</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="extraNote" class="form-label fw-bold">Extra Notes</label>
+                                        <textarea class="form-control" id="extraNote" rows="3" placeholder="Enter any additional note"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-end">
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-end gap-4 submitBtnBackground">
+                                    <button type="button" class="btn actionBtn cancelBtn">Cancel</button>
+                                    <button type="button" class="btn actionBtn draftBtn">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn">
+                                        <i class="fa-regular fa-paper-plane me-2"></i>
+                                        Submit Techno Enterprise
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
                 <?php 
@@ -493,6 +619,74 @@
                     // Add active class to selected radio's label
                     this.closest('label').classList.add('ptMode');
                 });
+            });
+        </script>
+        <script>
+            document.querySelectorAll(".file-input").forEach(input => {
+                input.addEventListener("change", function () {
+                    const file = this.files[0];
+                    if (!file) return;
+                    const card = this.closest(".upload-card");
+                    const title = card.dataset.title;
+                    if (file.type.startsWith("image/")) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            card.innerHTML = `
+                                <input type="file" class="file-input" accept="image/*,.pdf">
+                                <div class="preview-wrapper">
+                                    <img src="${e.target.result}">
+                                    <div class="file-title">
+                                        ${title}
+                                    </div>
+                                </div>
+                            `;
+                            bindUploadEvents();
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        card.innerHTML = `
+                            <input type="file" class="file-input" accept="image/*,.pdf">
+                            <div class="pdf-preview">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <p class="mt-2 mb-0">${file.name}</p>
+                                <div class="file-title">
+                                    ${title}
+                                </div>
+                            </div>
+                        `;
+                        bindUploadEvents();
+                    }
+                });
+            });
+            function bindUploadEvents() {
+                document.querySelectorAll(".file-input").forEach(input => {
+                    if (input.dataset.bound) return;
+                    input.dataset.bound = "true";
+                    input.addEventListener("change", function () {
+                        const event = new Event("change");
+                        this.dispatchEvent(event);
+                    });
+                });
+            }
+        </script>
+        <!-- Buttons -->
+        <script>
+            document.querySelector(".cancelBtn").addEventListener("click", function () {
+                if(confirm("Are you sure you want to cancel?")){
+                    window.history.back();
+                }
+            });
+            document.querySelector(".draftBtn").addEventListener("click", function () {
+                alert("Draft Saved Successfully");
+                // AJAX call here
+                // saveDraft();
+            });
+            document.querySelector(".submitBtn").addEventListener("click", function (e) {
+                // Remove if button is inside form
+                e.preventDefault();
+                alert("Techno Enterprise Submitted Successfully");
+                // Submit form
+                // document.getElementById('yourForm').submit();
             });
         </script>
     </body>
