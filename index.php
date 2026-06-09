@@ -598,18 +598,18 @@
                     <div id="mainCarousel" class="carousel slide">
                         <div class="carousel-inner" style="border-radius: 15px !important;">
                             <div class="carousel-item active">
-                                <img src="assets/images/slider/Dubai_1.png" class="d-block sliderWidth" alt="...">
+                                <img src="assets/images/slider/Varanasi.png" class="d-block sliderWidth" alt="...">
                                 <div class="carousel-caption captionPosition">
                                     <div class="container">
                                         <div class="row align-items-center justify-content-center g-4">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-start">
                                                 <div class="hero-caption-three position-relative z-3">
                                                     <h5 class="wow fadeInUp mb-0 fontFamily text-white text-start fw-bolder" data-wow-delay="0.1s">
-                                                        Dubai
+                                                        Varanasi
                                                     </h5>
-                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"><span class="fw-bolder">&#8377; 20905/</span>person</h5>
+                                                    <h5 class="fontFamily text-white wow fadeInUp mt-2 text-start" data-wow-delay="0.3s"><span class="fw-bolder">&#8377; 13754/</span>person</h5>
                                                     <div class="wow fadeInUp mt-2 text-start" data-wow-delay="0.4s">
-                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(218);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
+                                                        <a href="#" class="btn rounded-2 fontFamily fw-bolder capitalText packageBtn" onclick = viewPackage(195);>Take a Tour <i class="fa-solid fa-arrow-right fa-lg"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
