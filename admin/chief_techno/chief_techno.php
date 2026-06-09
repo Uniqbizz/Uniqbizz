@@ -138,7 +138,7 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,date_of_birth,added_on,contact_no,status,register_by,country,'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('0', '2')
+                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,date_of_birth,added_on,contact_no,status,register_by,country,'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('0', '2', '4')
                                                             ORDER BY id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
@@ -224,7 +224,7 @@
                                                                             </ul>
                                                                         </div>
                                                                     </td>';
-                                                                } else {
+                                                                } else if ($row['status'] == '0') {
                                                                     echo '<td><span class="badge text-bg-danger">Delete</span></td>
                                                                     <td>
                                                                         <div class="dropdown">
@@ -243,6 +243,45 @@
                                                                                                                     <i class="mdi mdi-file-restore font-size-16 text-success me-1"></i> Restore
                                                                                     </a>
                                                                                 </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </td>';
+                                                                } else if ($row['status'] == '4') {
+                                                                    echo '<td><span class="badge text-bg-primary">Draft</span></td>
+                                                                    <td>
+                                                                        <div class="dropdown">
+                                                                            <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                <i class="mdi mdi-dots-horizontal font-size-18"></i>
+                                                                            </a>
+                                                                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-end-1">
+                                                                                <li>
+                                                                                    <a href="#" 
+                                                                                        onclick=\'editfuncCust(
+                                                                                                                "' . $row["id"] . '",
+                                                                                                                "' . $row["reference_no"] . '",
+                                                                                                                "' . $row["register_by"] . '",
+                                                                                                                "' . $row["country"] . '",
+                                                                                                                "' . $row["state"] . '",
+                                                                                                                "' . $row["city"] . '",
+                                                                                                                "pending",
+                                                                                                                "' . strtolower($row['user_type']) . '"
+                                                                                                                )\' 
+                                                                                                                class="dropdown-item" data-bs-toggle="modal" >
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> View / Edit
+                                                                                    </a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="#" 
+                                                                                        onclick=\'deletefunc(
+                                                                                                                "' . $row["id"] . '",
+                                                                                                                "","pending",
+                                                                                                                "' . strtolower($row['user_type']) . '"
+                                                                                                                )\' 
+                                                                                                                class="dropdown-item" data-bs-toggle="modal" >
+                                                                                                                    <i class="mdi mdi-trash-can font-size-16 text-danger me-1"></i> Delete
+                                                                                    </a>
+                                                                                </li>
+                                                                                
                                                                             </ul>
                                                                         </div>
                                                                     </td>';

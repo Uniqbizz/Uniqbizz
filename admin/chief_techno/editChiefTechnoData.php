@@ -10,6 +10,7 @@ $editfor = $_POST["editfor"]; // pending or confirm
 $identifier_id = $_POST["id"]; // ChiefTE id value if user is not confirmed - 11 , if confirmed - STE2600011
 
 // Personal Details
+$actionType           = $_POST['action_type'] ?? '';
 $designation          = $_POST['designation'] ?? '';
 $user_id_name         = $_POST['user_id_name'] ?? '';
 $reference_name       = $_POST['reference_name'] ?? '';
@@ -73,11 +74,12 @@ $business_profile               = $_POST['business_profile'] ?? '';
 $income_proof                   = $_POST['income_proof'] ?? '';
 $other_document                 = $_POST['other_document'] ?? '';
 
-$title = "Chief Techno Enterprise";
 $register_by = "1";
 $fromWhom = "1";
-$operation = "Update";
 $user_type_id = "34";
+$operation = "Update";
+$title="Chief Techo Enterprise";
+$message2 = "";
 
 $birthYear = !empty($bdate) ? date('Y', strtotime($bdate)) : $current_year;
 $age = $current_year - $birthYear;
@@ -85,9 +87,18 @@ $age = $current_year - $birthYear;
 try {
 
     if ($editfor == 'pending') {
+        if($actionType == 'draft'){
+            $message = "Chief Techno Enterprise Form Saved as draft by Admin from Pending list";
+            $status= '4';
+        }else{
+            $message = "Chief Techno Enterprise Form Edited by Admin from Pending list";
+            $status= '2';
+        }
         $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE id = :id");
         $stmt->execute([':id' => $identifier_id]);
     } else {
+        $message = "Chief Techno Enterprise Form Edited by Admin from Registed List";
+        $status= '1';
         $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :id");
         $stmt->execute([':id' => $identifier_id]);
     }
@@ -120,7 +131,8 @@ try {
         state=:state,
         city=:city,
         pincode=:pincode,
-        address=:address
+        address=:address,
+        status=:status
         WHERE application_id=:application_id");
 
     $stmt1->execute([
@@ -142,6 +154,7 @@ try {
         ':city'=>$city,
         ':pincode'=>$pincode,
         ':address'=>$address,
+        ':status'=>$status,
         ':application_id'=>$application_id
     ]);
 
@@ -261,7 +274,7 @@ try {
     $stmt7->execute([
         ':title'=>$title,
         ':message'=>$message,
-        ':message2'=>$message,
+        ':message2'=>$message2,
         ':reference_no'=>$ref_id,
         ':register_by'=>$register_by,
         ':from_whom'=>$fromWhom,
@@ -271,12 +284,26 @@ try {
     if($editfor == 'registered'){
         $sql8 = "UPDATE login SET username = :email WHERE user_id = :user_id AND user_type_id = :user_type_id";
         $stmt8 = $conn->prepare($sql8);
-        $result8 = $stmt8->execute([
+        $stmt8->execute([
             ':email' => $email,
-            ':user_id' => $ref_id,
+            ':user_id' => $register_by,
             ':user_type_id' => $user_type_id
         ]);
     }
+
+    $stmt9 = $conn->prepare("INSERT INTO user_logs
+        (application_id,title,message,reference_no,operation,from_whom)
+        VALUES
+        (:application_id,:title,:message,:reference_no,:operation,:from_whom)");
+
+    $stmt9->execute([
+        ':application_id'=>$application_id,
+        ':title'=>$title,
+        ':message'=>$message,
+        ':reference_no'=>$register_by,
+        ':operation'=>$operation,
+        ':from_whom'=>$fromWhom
+    ]);
 
     $conn->commit();
     echo 1;
@@ -286,6 +313,9 @@ try {
     if ($conn->inTransaction()) {
         $conn->rollBack();
     }
+
+    // Uncomment for debugging
+    echo $e->getMessage();
 
     echo 0;
 }

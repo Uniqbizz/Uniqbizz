@@ -67,6 +67,7 @@
                 $city = $row['city'];
                 $address = $row['address'];
                 $pincode = $row['pincode'];
+                $status = $row['status'];
 
                 // Get country name
                 $countries = $conn->prepare("SELECT country_name FROM countries WHERE id='$country' AND status='1'");
@@ -436,12 +437,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label"> First Name <span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[firstname]" id="firstname_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[firstname]" id="firstname_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="firstname_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[firstname]" id="firstname_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[firstname]" id="firstname_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="firstname_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="firstname" value="<?php echo $firstname; ?>">
                                                     </div>
@@ -450,12 +453,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Last Name <span class="text-danger">*</span></label>
-                                                        <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[lastname]" id="lastname_approve" value="approved" checked>
+                                                        <?php if ($status == 2) { ?>
+                                                            <div class="verify-toggle">
+                                                                <input type="radio" name="verification_status[lastname]" id="lastname_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="lastname_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[lastname]" id="lastname_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[lastname]" id="lastname_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="lastname_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="lastname" value=" <?php echo $lastname; ?>">
                                                     </div>
@@ -464,12 +469,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Father / Spouse Name<span class="text-danger">*</span></label>
-                                                        <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_approve" value="approved" checked>
+                                                        <?php if ($status == 2) { ?>
+                                                            <div class="verify-toggle">
+                                                                <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="father_spouse_name_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[father_spouse_name]" id="father_spouse_name_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="father_spouse_name_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="father_spouse_name" value=" <?php echo $father_spouse_name; ?>">
                                                     </div>
@@ -478,12 +485,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Email Address<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[email]" id="email_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[email]" id="email_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="email_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[email]" id="email_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[email]" id="email_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="email_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="email" id="email" value="<?php echo $email;?>">
                                                     </div>
@@ -492,12 +501,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[dob]" id="dob_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[dob]" id="dob_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="dob_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[dob]" id="dob_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[dob]" id="dob_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="dob_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="date" id="dob" value="<?php echo $date_of_birth ;?>">
                                                     </div>
@@ -506,12 +517,14 @@
                                                     <div class="form-group">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Gender <span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[gender]" id="gender_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[gender]" id="gender_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="gender_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[gender]" id="gender_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[gender]" id="gender_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="gender_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <div class="form-control d-flex justify-content-around">
                                                             <label class="radio-inline mb-0 ms-3"><input type="radio" name="gender" class="gender form-check-input" id="test3" value="male" <?php if ($gender == 'male'){echo ' checked ';} ?>>&nbsp;&nbsp;&nbsp;Male</label>
@@ -548,12 +561,14 @@
                                                             <div class="input-block">
                                                                 <div class="verify-field">
                                                                     <label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
+                                                                    <?php if ($status == 2) { ?>
                                                                     <div class="verify-toggle">
-                                                                        <input type="radio" name="verification_status[phone]" id="phone_approve" value="approved" checked>
+                                                                        <input type="radio" name="verification_status[phone]" id="phone_approve" value="approved">
                                                                         <label class="verify-btn approve-btn" for="phone_approve"> Approved </label>
-                                                                        <input type="radio" name="verification_status[phone]" id="phone_reject" value="rejected">
+                                                                        <input type="radio" name="verification_status[phone]" id="phone_reject" class="reject_reason" value="rejected">
                                                                         <label class="verify-btn reject-btn" for="phone_reject"> Rejected </label>
                                                                     </div>
+                                                                    <?php } ?>
                                                                 </div>
                                                                 <input class="form-control" type="text" id="phone" value=" <?php echo $contact_no; ?>">
                                                             </div>
@@ -588,12 +603,14 @@
                                                             <div class="input-block">
                                                                 <div class="verify-field">
                                                                     <label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
+                                                                    <?php if ($status == 2) { ?>
                                                                     <div class="verify-toggle">
-                                                                        <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" value="approved" checked>
+                                                                        <input type="radio" name="verification_status[altPhone]" id="altPhone_approve" value="approved">
                                                                         <label class="verify-btn approve-btn" for="altPhone_approve"> Approved </label>
-                                                                        <input type="radio" name="verification_status[altPhone]" id="altPhone_reject" value="rejected">
+                                                                        <input type="radio" name="verification_status[altPhone]" id="altPhone_reject" class="reject_reason" value="rejected">
                                                                         <label class="verify-btn reject-btn" for="altPhone_reject"> Rejected </label>
                                                                     </div>
+                                                                    <?php } ?>
                                                                 </div>
                                                                 <input class="form-control" type="text" id="altPhone" value=" <?php echo $alternative_contact_no; ?>">
                                                             </div>
@@ -604,12 +621,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Aadhar No<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[aadharNo]" id="aadharNo_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[aadharNo]" id="aadharNo_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="aadharNo_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[aadharNo]" id="aadharNo_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[aadharNo]" id="aadharNo_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="aadharNo_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="aadharNo" value=" <?php echo $aadhar_no; ?>">
                                                     </div>
@@ -618,12 +637,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">PAN No<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[panNo]" id="panNo_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[panNo]" id="panNo_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="panNo_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[panNo]" id="panNo_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[panNo]" id="panNo_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="panNo_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="panNo" value=" <?php echo $pan_no; ?>">
                                                     </div>
@@ -631,12 +652,14 @@
 
                                                 <div class="verify-field">
                                                     <h3>Residential Address</h3>
+                                                    <?php if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[residential]" id="residential_approve" value="approved" checked>
+                                                        <input type="radio" name="verification_status[residential]" id="residential_approve" value="approved">
                                                         <label class="verify-btn approve-btn" for="residential_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[residential]" id="residential_reject" value="rejected">
+                                                        <input type="radio" name="verification_status[residential]" id="residential_reject" class="reject_reason" value="rejected">
                                                         <label class="verify-btn reject-btn" for="residential_reject"> Rejected </label>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -647,7 +670,13 @@
                                                         ?>
                                                         <label class="col-form-label">Country <span class="text-danger">*</span></label>
                                                         <select class="form-select" id="country">
-                                                            <option value="<?php echo $country_id;?>"><?php echo $countryname.' (Already Selected)' ; ?></option>
+                                                            <?php   
+                                                                if($country_id == ''){
+                                                                    echo '<option value=""> Country Not Selected </option>';
+                                                                }else{
+                                                                    echo '<option value=" '.$country_id.' "> '.$countryname. ' (Already Selected) </option>';
+                                                                }
+                                                            ?>
                                                             <?php 
                                                                 if($stmt->rowCount()>0){
                                                                     foreach (($stmt->fetchAll()) as $key => $row) {  
@@ -664,7 +693,13 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">State<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="mystate" aria-label="Floating label select example">
-                                                            <option value="<?php echo $state_id;?>"><?php echo $statename.' (Already Selected)' ; ?></option>
+                                                            <?php   
+                                                                if($state_id == ''){
+                                                                    echo '<option value=""> State Not Selected </option>';
+                                                                }else{
+                                                                    echo '<option value=" '.$state_id.' "> '.$statename. ' (Already Selected) </option>';
+                                                                }
+                                                            ?>
                                                             <option value="">--Select country first--</option>
                                                         </select>
                                                     </div>
@@ -673,7 +708,13 @@
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">City<span class="text-danger">*</span></label>
                                                         <select class="form-select" id="city" aria-label="Floating label select example">
-                                                            <option value="<?php echo $city_id;?>"><?php echo $city_name.' (Already Selected)' ; ?></option>
+                                                            <?php   
+                                                                if($city_id == ''){
+                                                                    echo '<option value=""> City Not Selected </option>';
+                                                                }else{
+                                                                    echo '<option value=" '.$city_id.' "> '.$city_name. ' (Already Selected) </option>';
+                                                                }
+                                                            ?>
                                                             <option value="">--Select state first--</option>
                                                         </select>
                                                     </div>
@@ -687,18 +728,20 @@
                                                 <div class="col-md-12 col-sm-12">  
                                                     <div class="input-block mb-3">
                                                         <label class="col-form-label">Address<span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Address" readonly >
+                                                        <input type="text" class="form-control" id="address" value="<?php echo $address ?>" placeholder="Address"  >
                                                     </div>
                                                 </div>
                                                 
                                                 <div class="verify-field">
                                                     <h3>Professional Details</h3>
+                                                    <?php if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[professional]" id="professional_approve" value="approved" checked>
+                                                        <input type="radio" name="verification_status[professional]" id="professional_approve" value="approved">
                                                         <label class="verify-btn approve-btn" for="professional_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[professional]" id="professional_reject" value="rejected">
+                                                        <input type="radio" name="verification_status[professional]" id="professional_reject" class="reject_reason" value="rejected">
                                                         <label class="verify-btn reject-btn" for="professional_reject"> Rejected </label>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -783,12 +826,14 @@
 
                                                 <div class="verify-field">
                                                     <h4 class="my-2">Educational Details</h4>
+                                                    <?php if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[education]" id="education_approve" value="approved" checked>
+                                                        <input type="radio" name="verification_status[education]" id="education_approve" value="approved">
                                                         <label class="verify-btn approve-btn" for="education_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[education]" id="education_reject" value="rejected">
+                                                        <input type="radio" name="verification_status[education]" id="education_reject" class="reject_reason" value="rejected">
                                                         <label class="verify-btn reject-btn" for="education_reject"> Rejected </label>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-6 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -799,12 +844,14 @@
 
                                                 <div class="verify-field">
                                                     <h4 class="my-2">Leadership Assessment</h4>
+                                                    <?php if ($status == 2) { ?>
                                                     <div class="verify-toggle">
-                                                        <input type="radio" name="verification_status[leadership]" id="leadership_approve" value="approved" checked>
+                                                        <input type="radio" name="verification_status[leadership]" id="leadership_approve" value="approved">
                                                         <label class="verify-btn approve-btn" for="leadership_approve"> Approved </label>
-                                                        <input type="radio" name="verification_status[leadership]" id="leadership_reject" value="rejected">
+                                                        <input type="radio" name="verification_status[leadership]" id="leadership_reject" class="reject_reason" value="rejected">
                                                         <label class="verify-btn reject-btn" for="leadership_reject"> Rejected </label>
                                                     </div>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="col-md-4 col-sm-6">
                                                     <div class="input-block mb-3">
@@ -885,14 +932,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Nominee Name<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[nominee_name]" id="nominee_name_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[nominee_name]" id="nominee_name_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="nominee_name_approve"> Approved </label>
-
-                                                                <input type="radio" name="verification_status[nominee_name]" id="nominee_name_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[nominee_name]" id="nominee_name_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="nominee_name_reject"> Rejected </label>
                                                             </div>
-
+                                                            <?php } ?>   
                                                         </div>
                                                         <input class="form-control" type="text" id="nomineeName" value="<?= $nominee_name; ?>" >
                                                     </div>
@@ -901,12 +948,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Nominee Relation<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="nominee_relation_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[nominee_relation]" id="nominee_relation_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="nominee_relation_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="nomineeRelation" value="<?= $nominee_relation; ?>" >
                                                     </div>
@@ -939,12 +988,14 @@
                                                             <div class="input-block">
                                                                 <div class="verify-field">
                                                                     <label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
+                                                                    <?php if ($status == 2) { ?>
                                                                     <div class="verify-toggle">
-                                                                        <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_approve" value="approved" checked>
+                                                                        <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_approve" value="approved">
                                                                         <label class="verify-btn approve-btn" for="nominee_phone_approve"> Approved </label>
-                                                                        <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_reject" value="rejected">
+                                                                        <input type="radio" name="verification_status[nominee_phone]" id="nominee_phone_reject" class="reject_reason" value="rejected">
                                                                         <label class="verify-btn reject-btn" for="nominee_phone_reject"> Rejected </label>
                                                                     </div>
+                                                                    <?php } ?>
                                                                 </div>
                                                                 <input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number" value="<?= $nominee_contact_no; ?>" >
                                                             </div>
@@ -955,12 +1006,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="nominee_dob_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[nominee_dob]" id="nominee_dob_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="nominee_dob_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="date" id="nomineeDob" value="<?php echo $nominee_date_of_birth; ?>">
                                                     </div>
@@ -969,12 +1022,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Nominee Address<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[nominee_address]" id="nominee_address_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[nominee_address]" id="nominee_address_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="nominee_address_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[nominee_address]" id="nominee_address_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[nominee_address]" id="nominee_address_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="nominee_address_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="nomineeAddress" value="<?= $nominee_address; ?>" >
                                                     </div>
@@ -985,12 +1040,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Account Holder Name<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="account_holder_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[account_holder]" id="account_holder_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="account_holder_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="accHolderName" value="<?= $account_holder_name;  ?>" >
                                                     </div>
@@ -999,12 +1056,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Bank Name<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="bank_name_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[bank_name]" id="bank_name_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="bank_name_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="bankName" value="<?= $bank_name;  ?>" >
                                                     </div>
@@ -1013,12 +1072,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Account Number<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[account_number]" id="account_number_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[account_number]" id="account_number_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="account_number_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[account_number]" id="account_number_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[account_number]" id="account_number_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="account_number_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="accountNumber" value="<?= $account_number;  ?>" >
                                                     </div>
@@ -1033,12 +1094,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">IFSC Code<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="ifsc_code_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[ifsc_code]" id="ifsc_code_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="ifsc_code_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="ifscCode" value="<?= $ifsc_code;  ?>" >
                                                     </div>
@@ -1047,12 +1110,14 @@
                                                     <div class="input-block mb-3">
                                                         <div class="verify-field">
                                                             <label class="col-form-label">Branch Name<span class="text-danger">*</span></label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="branch_name_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[branch_name]" id="branch_name_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="branch_name_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="text" id="branchName" value="<?= $branch_name;  ?>" >
                                                     </div>
@@ -1075,12 +1140,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="profile_pic_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[profile_pic]" id="profile_pic_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="profile_pic_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file1" id="upload_file1">
                                                     </div>
@@ -1112,12 +1179,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="aadhar_card_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[aadhar_card]" id="aadhar_card_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="aadhar_card_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file2" id="upload_file2">
                                                     </div>
@@ -1149,12 +1218,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="pan_card_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[pan_card]" id="pan_card_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="pan_card_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file"name="file3" id="upload_file3">
                                                     </div>
@@ -1186,12 +1257,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="bank_passbook_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[bank_passbook]" id="bank_passbook_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="bank_passbook_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file4" id="upload_file4">
                                                     </div>
@@ -1223,12 +1296,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="resume_cv_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[resume_cv]" id="resume_cv_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="resume_cv_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file5" id="upload_file5">
                                                     </div>
@@ -1261,12 +1336,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="address_proof_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[address_proof]" id="address_proof_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="address_proof_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file6" id="upload_file6">
                                                     </div>
@@ -1299,12 +1376,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="professional_profile_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[professional_profile]" id="professional_profile_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="professional_profile_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file7" id="upload_file7">
                                                     </div>
@@ -1337,12 +1416,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="business_profile_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[business_profile]" id="business_profile_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="business_profile_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
 
                                                         </div>
                                                         <input class="form-control" type="file" name="file8" id="upload_file8">
@@ -1376,12 +1457,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="income_proof_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[income_proof]" id="income_proof_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="income_proof_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file9" id="upload_file9">
                                                     </div>
@@ -1414,12 +1497,14 @@
                                                                 }
                                                             ?>
                                                             </label>
+                                                            <?php if ($status == 2) { ?>
                                                             <div class="verify-toggle">
-                                                                <input type="radio" name="verification_status[other_document]" id="other_document_approve" value="approved" checked>
+                                                                <input type="radio" name="verification_status[other_document]" id="other_document_approve" value="approved">
                                                                 <label class="verify-btn approve-btn" for="other_document_approve"> Approved </label>
-                                                                <input type="radio" name="verification_status[other_document]" id="other_document_reject" value="rejected">
+                                                                <input type="radio" name="verification_status[other_document]" id="other_document_reject" class="reject_reason" value="rejected">
                                                                 <label class="verify-btn reject-btn" for="other_document_reject"> Rejected </label>
                                                             </div>
+                                                            <?php } ?>
                                                         </div>
                                                         <input class="form-control" type="file" name="file10" id="upload_file10">
                                                     </div>
@@ -1437,7 +1522,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
+                                                <div class="col-md-12 col-sm-12 d-none" id="reject_field">
+                                                    <div class="input-block mb-3">
+                                                        <label class="col-form-label" for="flex_amount">Reject Reason<span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" id="reject_field" rows="4" cols="50"> </textarea>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <!-- for edit data page -->
@@ -1448,8 +1539,15 @@
                                             <input type="hidden" id="testValue" name="testValue" value="<?php echo $testValue; ?>"> <!-- Business mentor -->
                                             <input type="hidden" id="applicationId" name="applicationId" value="<?php echo $application_id; ?>"> <!-- applicationId will be use to update multiple tables for CTE,ETE,STE -->
 
-                                            <div class="submit-section d-flex justify-content-center mb-4">
-                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
+                                            <div class="submit-section d-flex  mb-4">
+                                                <?php if($status == 4){ ?>
+                                                <div class="col-md-4 col-sm-6">
+                                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftEdit">Save as Draft</button>
+                                                </div>
+                                                <?php } ?>
+                                                <div class="col-md-4 col-sm-6">    
+                                                    <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="editChiefTechnoEnterprise">Submit</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -1715,6 +1813,10 @@
                     $("#otherLead").val("");
                 }
 
+            });
+
+            $(".reject_reason").on('click', function(){
+                $("#reject_field").removeClass("d-none");
             });
         </script>
     </body>

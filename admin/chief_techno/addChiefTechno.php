@@ -660,7 +660,12 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 										</div>
 										<input type="hidden" id="testValue" name="testValue" value="36"> <!-- Chief TE -->
 										<div class="d-flex justify-content-center mb-4">
-											<button type="submit" class="btn btn-primary px-5 py-2" id="addChiefTechnoEnterprise">Submit</button>
+											<div class="col-md-4 col-sm-6">
+                                                <button class="btn btn-primary submit-btn submit-btn1 px-5 py-2" id="saveDraftAdd">Save as Draft</button>
+											</div>
+											<div class="col-md-4 col-sm-6">
+												<button type="submit" class="btn btn-primary px-5 py-2" id="addChiefTechnoEnterprise">Submit</button>
+											</div>
 										</div>
 									</form>
 								</div>
