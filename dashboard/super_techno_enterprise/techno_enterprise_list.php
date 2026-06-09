@@ -335,7 +335,7 @@
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#">
+                                                                    <a href="edit_techno_enterprise.php">
                                                                         <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                                     </a>
                                                                 </td>
@@ -370,7 +370,7 @@
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#">
+                                                                    <a href="edit_techno_enterprise.php">
                                                                         <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                                     </a>
                                                                 </td>
@@ -405,7 +405,7 @@
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#">
+                                                                    <a href="edit_techno_enterprise.php">
                                                                         <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                                     </a>
                                                                 </td>
@@ -440,7 +440,7 @@
                                                                     <p class="teActiveBtn rounded-pill text-center">Active</p>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="#">
+                                                                    <a href="edit_techno_enterprise.php">
                                                                         <p class="teViewBtn text-center fw-bold"><i class="fa-solid fa-eye me-2 mt-1"></i>View</p>
                                                                     </a>
                                                                 </td>
