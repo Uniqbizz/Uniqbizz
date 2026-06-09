@@ -462,12 +462,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row d-flex justify-content-end">
+                        <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
-                                    <button type="button" class="btn actionBtn cancelBtn">Cancel</button>
-                                    <button type="button" class="btn actionBtn draftBtn">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn">
+                                    <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
+                                    <button type="button" class="btn actionBtn draftBtn mb-2">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Techno Enterprise
                                     </button>

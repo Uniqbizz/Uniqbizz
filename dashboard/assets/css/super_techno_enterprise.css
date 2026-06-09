@@ -844,6 +844,9 @@ body {
         height: 70px !important;
         padding: 20px;
     }
+    .submitBtnBackground {
+        display: block !important;
+    }
 }
 @media (max-width: 576px){
 
@@ -879,9 +882,6 @@ body {
 
     .submitBtn{
         min-width:100%;
-    }
-    .submitBtnBackground {
-        display: flex;
     }
 }
 @media (max-width: 441px) {
