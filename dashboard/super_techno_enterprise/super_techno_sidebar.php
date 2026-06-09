@@ -28,19 +28,14 @@
                         <i class="ri-user-shared-2-line"></i> <span>Techno Enterprisee</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="travel_consultants_list.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Travel Consultants</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="customers_list.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Customers</span>
-                    </a>
-                </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
-                        <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Commission</span>
                     </a>
                 </li>
                 <img src="../assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
