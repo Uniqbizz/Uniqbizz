@@ -45,7 +45,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title> Dashboard | Business Consultant</title>
+        <title>Super Techno Enterprise | TE Recruitment Payout</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="../assets/images/fav.png">
@@ -127,7 +127,7 @@
                                         <div class="page-title-right">
                                             <ol class="breadcrumb m-0">
                                                 <li class="breadcrumb-item">
-                                                    <a href="view_business_consultant.php">View</a>
+                                                    <a href="super_techno_dashboard.php">Dashboard</a>
                                                 </li>
                                                 <li class="breadcrumb-item active">Payout</li>
                                             </ol>
