@@ -493,11 +493,6 @@
             <div class="loading-icon"></div>
         </div>
         <!-- Add button icon -->
-        <!-- <div class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal" style="width: 25px; height: 25px; padding: 0px; position: fixed; bottom: 120px; right: 43px; border-radius: 50%;">
-            <a style="display: flex; justify-content: center; align-items: center; height: -webkit-fill-available;">
-                <i class="fa-solid fa-circle-plus fa-beat-fade fa-3x" style="color: #4b38b3;"></i>
-            </a>
-        </div> -->
         <!-- End button icon -->
         <!--start back-to-top-->
         <button onclick="topFunction()" class="scrollToTop scroll-btn show btn" id="back-to-top">
@@ -559,7 +554,7 @@
             function addCustRef(id,fullname,taRef,status){ 
                 window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
             };
-            //added on 30-05 by SV
+            //added on 30-05-2026 by SV
             function membershipBadge(type)
             {
                 const badges = {
@@ -866,7 +861,7 @@
                 window.location.href = url;
 
             });
-            //added on 30-05 by SV END
+            //added on 30-05-2026 by SV END
         </script>
     </body>
 </html>

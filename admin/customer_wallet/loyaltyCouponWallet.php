@@ -4,7 +4,8 @@
         echo '<script>location.href = "../login.php";</script>';
     }
     require '../connect.php';
-    $date = date('Y'); 
+    $date = date('Y');
+    include (__DIR__.'/models/lcw_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +34,9 @@
 
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 02-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 02-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -273,14 +277,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Loyalty Coupons Issued</h1>
-                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['total_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['total_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -293,14 +294,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">1,550</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['available_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">7,75,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['available_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>22.7% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -313,14 +311,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Locked Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">6,470</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['locked_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">32,35,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['locked_coupon_total']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>8.2% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -333,14 +328,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Used Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">1,980</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['used_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">9,90,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['used_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.3% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -353,14 +345,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Expired Loyalty Coupons</h1>
-                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['expired_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['expired_total']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -373,14 +362,11 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Expiring within 30 days</h1>
-                                            <p class="fs-5 fw-bolder mb-0">15,230</p>
+                                            <p class="fs-5 fw-bolder mb-0"><?= number_format($custLoyaltyCoupondata['expiring_coupons']) ?></p>
                                             <p class="fontSize1 fw-normal mb-1">Coupons</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">41,25,000</span></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custLoyaltyCoupondata['expiring_total']) ?></span></p>
                                         </div>
                                     </div>
-                                    <!-- <p class="text-success fontSize1 mb-2 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize2 text-muted fw-bolder">vs last month</span>
-                                    </p> -->
                                 </div>
                             </div>
                             
@@ -390,19 +376,27 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-6 col-lg-8 col-md-8 col-sm-9 col-12 d-flex justify-content-between">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-between">
                                                 <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
+                                                    <select id="statusFilter" class="form-select mb-3" aria-label="Large select example">
                                                         <option selected>Coupon Status</option>
                                                         <option value="available">Available</option>
                                                         <option value="used">Used</option>
                                                         <option value="expired">Expired</option>
                                                     </select>
                                                 </div>
-                                                <div class="text-end">
-                                                    <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
+                                                <!-- Date Range -->
+                                                <div class="col-12 col-md-6 col-lg-5">
+                                                    <div id="reportrange"
+                                                        class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                        style="border-radius:6px; cursor:pointer;">
+                                                        <i class="fa fa-calendar"></i>
+                                                        &nbsp;
+                                                        <span id="selectedDate"></span>
+                                                        <i class="fa-solid fa-angle-down"></i>
+                                                    </div>
                                                 </div>
-                                                <a href="#">
+                                                <a href="javascript:void(0)" id="downloadExcel">
                                                     <div class="linkBtn gap-2 align-items-center">
                                                         <i class="fa-solid fa-download"></i>
                                                         <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
@@ -426,182 +420,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Select
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Eligible / Unlocked
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="viewLoyaltyCouponWallet.php" class="">
-                                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                    View
-                                                                </div>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Select Plus
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-center fw-bolder">
-                                                                Locked
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                View
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Premium
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">8</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;15,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-success text-center">6</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-success text-center">(&#8377;3,500)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-center">2</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-muted text-center">(&#8377;1,000)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-danger text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-danger text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="">
-                                                                <p class="mb-0 fw-bolder fs-6 text-warning text-center">0</p>
-                                                                <p class="fontSize1 fw-bold mb-0 text-warning text-center">(&#8377;0)</p>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Eligible / Unlocked
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                View
-                                                            </div>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -651,6 +469,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -670,18 +493,287 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
+            $(document).ready(function () {
+
+                var table = $('#pendingCustomerList-table').DataTable({
+                    processing: true,
+                    responsive: true,
+                    ajax: {
+                        url: 'models/lcw_table_data.php',
+                        type: 'GET',
+                        data: function(d){
+                            d.status = $('#statusFilter').val();
+                            d.start_date = window.startDate;
+                            d.end_date = window.endDate;
+                        },
+                        dataSrc: 'data'
+                    },
+
+                    columns: [
+
+                        {
+                            data: null,
+                            render: function(row){
+
+                                return `
+                                    <div class="d-flex gap-2 align-items-center mb-2">
+                                        <div>
+                                            <img src="../assets/images/users/avatar-7.jpg"
+                                                alt="Customer"
+                                                class="profileImage">
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-bolder fontSize1">${row.cust_name}</p>
+                                            <p class="fontSize1 fw-bold mb-0">${row.ca_customer_id}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+
+                                const classes = {
+                                    'Premium Select Lite':'secondary',
+                                    'Neo Select':'success',
+                                    'Neo Select Ultra':'primary',
+                                    'Premium':'warning',
+                                    'Premium Plus':'danger',
+                                    'Premium Select':'info',
+                                    'Prime':'dark'
+                                };
+
+                                const cls = classes[row.customer_type] || 'secondary';
+
+                                return `
+                                    <div class="p-1 text-${cls}-emphasis bg-${cls}-subtle border border-${cls}-subtle rounded-3 text-center fw-bolder">
+                                        ${row.customer_type}
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+                                return `
+                                    <div>
+                                        <p class="mb-0 fw-bolder fs-6 text-center">${row.total_coupons}</p>
+                                        <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                            (₹${Number(row.total_amt).toLocaleString()})
+                                        </p>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+                                return `
+                                    <div>
+                                        <p class="mb-0 fw-bolder fs-6 text-success text-center">
+                                            ${row.available_coupons}
+                                        </p>
+                                        <p class="fontSize1 fw-bold mb-0 text-success text-center">
+                                            (₹${Number(row.available_amt).toLocaleString()})
+                                        </p>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+                                return `
+                                    <div>
+                                        <p class="mb-0 fw-bolder fs-6 text-center">
+                                            ${row.used_coupons}
+                                        </p>
+                                        <p class="fontSize1 fw-bold mb-0 text-muted text-center">
+                                            (₹${Number(row.used_amt).toLocaleString()})
+                                        </p>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+                                return `
+                                    <div>
+                                        <p class="mb-0 fw-bolder fs-6 text-danger text-center">
+                                            ${row.expired_coupons}
+                                        </p>
+                                        <p class="fontSize1 fw-bold mb-0 text-danger text-center">
+                                            (₹${Number(row.expired_amt).toLocaleString()})
+                                        </p>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+                                return `
+                                    <div>
+                                        <p class="mb-0 fw-bolder fs-6 text-warning text-center">
+                                            ${row.locked_coupons}
+                                        </p>
+                                        <p class="fontSize1 fw-bold mb-0 text-warning text-center">
+                                            (₹${Number(row.locked_amt).toLocaleString()})
+                                        </p>
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            render: function(row){
+
+                                const map = {
+                                    'Locked':'danger',
+                                    'Eligible / Unlocked':'success',
+                                    'Expired':'warning',
+                                    'Used':'secondary'
+                                };
+
+                                const cls = map[row.coupon_status] || 'secondary';
+
+                                return `
+                                    <div class="p-1 text-${cls}-emphasis bg-${cls}-subtle border border-${cls}-subtle rounded-3 text-center fw-bolder">
+                                        ${row.coupon_status}
+                                    </div>
+                                `;
+                            }
+                        },
+
+                        {
+                            data: null,
+                            orderable: false,
+                            searchable: false,
+                            render: function(row){
+                                 return `
+                                        <form action="viewLoyaltyCouponWallet.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="customer_id" value="${row.ca_customer_id}">
+
+                                            <button type="submit"
+                                                    style="border:none;background:none;padding:0;width:100%;">
+                                                <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
+                                                    View
+                                                </div>
+                                            </button>
+                                        </form>
+                                    `;
+                            }
+                        }
+                    ]
+                });
+                //date range filter
+                $(function () {
+
+                    let start = moment('2020-01-01');
+                    let end = moment();
+
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+
+                    function cb(start, end)
+                    {
+                        $('#selectedDate').html(
+                            start.format('MMMM D, YYYY') +
+                            ' - ' +
+                            end.format('MMMM D, YYYY')
+                        );
+
+                        window.startDate = start.format('YYYY-MM-DD');
+                        window.endDate = end.format('YYYY-MM-DD');
+
+                        if ($.fn.DataTable.isDataTable('#pendingCustomerList-table'))
+                        {
+                            $('#pendingCustomerList-table').DataTable().ajax.reload();
+                        }
+                    }
+
+                    $('#reportrange').daterangepicker({
+
+                        startDate: start,
+                        endDate: end,
+
+                        showDropdowns: true,
+                        opens: 'left',
+
+                        ranges: {
+
+                            'Today': [
+                                moment(),
+                                moment()
+                            ],
+
+                            'Yesterday': [
+                                moment().subtract(1, 'days'),
+                                moment().subtract(1, 'days')
+                            ],
+
+                            'Last 7 Days': [
+                                moment().subtract(6, 'days'),
+                                moment()
+                            ],
+
+                            'Last 30 Days': [
+                                moment().subtract(29, 'days'),
+                                moment()
+                            ],
+
+                            'This Month': [
+                                moment().startOf('month'),
+                                moment().endOf('month')
+                            ],
+
+                            'Last Month': [
+                                moment().subtract(1, 'month').startOf('month'),
+                                moment().subtract(1, 'month').endOf('month')
+                            ],
+
+                            'Last Year': [
+                                moment().subtract(1, 'year').startOf('year'),
+                                moment().subtract(1, 'year').endOf('year')
+                            ]
+                        }
+
+                    }, cb);
+
+                    cb(start, end);
+
+                });
+                $('#statusFilter, #reportrange').on('change', function () {
+                    window.startDate = startDate;
+                    window.endDate = endDate;
+                    table.ajax.reload();
+                });
+                
+
+            });
+            //dowload 
+            $('#downloadExcel').on('click', function () {
+
+                let status = $('#statusFilter').val();
+                let month  = $('#monthFilter').val();
+
+                window.location.href =
+                    'models/export-customer-loyalty-coupons.php?status=' +
+                    encodeURIComponent(status) +
+                    '&month=' +
+                    encodeURIComponent(month);
+
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
-
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
-
         </script>
     </body>
 </html>

@@ -5,6 +5,7 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/dw_view_card_data.php'); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,6 +36,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- remix icon -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 05-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 05-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -279,7 +283,7 @@
                         </div>
                         <div class="d-flex justify-content-between mb-3 discountDetails">
                             <h2 class="fw-bolder text-dark">Discount Wallet Details</h2>
-                            <a href="#">
+                            <a href="#" id="exportExcel">
                                 <div class="linkBtn gap-2 align-items-center">
                                     <i class="fa-solid fa-download"></i>
                                     <p class="fs-6 mb-0 fw-bolder pe-1">Export Statement</p>
@@ -290,14 +294,14 @@
                             <div class="row d-flex justify-content-evenly">
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-12 d-flex justify-content-center gap-4 mb-2">
                                     <div class="d-flex justify-content-center">
-                                        <img src="../assets/images/users/avatar-5.jpg" alt="" class="profileImgLoyalty">
+                                        <img src="../../uploading/<?= $custData['profile_pic'] ?>" alt="" class="profileImgLoyalty">
                                         <p class="p-1 rounded-pill fw-bolder text-center statusBtn"><i class="fa-solid fa-circle me-1"></i>Active</p>
                                     </div>
                                     <div class="cardLoyaltyDetails">
-                                        <h4 class="fw-bolder text-dark ">Pratiksha Gawas <i class="ri-verified-badge-fill"></i></h4>
-                                        <p class="fw-bold textColor mb-2">CUST10001</p>
-                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>9876543210</p>
-                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i>pratiksha@gmail.com</p>
+                                        <h4 class="fw-bolder text-dark "><?= $custData['cust_name'] ?> <i class="ri-verified-badge-fill"></i></h4>
+                                        <p class="fw-bold textColor mb-2"><?= $custData['ca_customer_id'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="ri-phone-line me-2 textColor"></i>+<?= $custData['country_code'].$custData['contact_no'] ?></p>
+                                        <p class="fw-bold textColor mb-2"><i class="fa-regular fa-envelope me-2 textColor"></i><?= $custData['email'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -306,7 +310,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Membership</p>
-                                        <p class="fw-bold textColor1 mb-2">Neo Select</p>
+                                        <p class="fw-bold textColor1 mb-2"><?= $custData['customer_type'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -315,7 +319,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Joined On</p>
-                                        <p class="fw-bold text-dark mb-2">15 Jan 2025</p>
+                                        <p class="fw-bold text-dark mb-2"><?= date('d M Y', strtotime($custData['register_date'])) ?></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-12 border-start border-3 gap-3 d-flex justify-content-center align-items-center mb-2">
@@ -324,7 +328,7 @@
                                     </div>
                                     <div>
                                         <p class="fw-bold textColor mb-1">Total Trips</p>
-                                        <p class="fw-bold text-dark mb-2">5 Trips</p>
+                                        <p class="fw-bold text-dark mb-2"><?= number_format($custData['total_trips']) ?> Trips</p>
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +342,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Earned</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;<span class="">12,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark"> &#8377;<span class=""><?= number_format($disWalletCurBalData['earn_total']) ?></span></p>
                                             <p class="fs-6 textColor1 loyaltyAmt1 fw-bolder mb-1">Lifetime Earnings</p>
                                         </div>
                                     </div>
@@ -352,7 +356,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Available Balance</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">4,500</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class=""><?= number_format($disWalletCurBalData['total_balance']) ?></span></p>
                                             <p class="fs-6 textColor2 loyaltyAmt2 fw-bolder mb-1">Ready to Use </p>
                                         </div>
                                     </div>
@@ -366,7 +370,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fs-6 fw-bolder">Total Used</h1>
-                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class="">6,000</span></p>
+                                            <p class="fs-2 fw-bolder mb-0 text-dark">&#8377;<span class=""><?= number_format($disWalletCurBalData['total_used_amount']) ?></span></p>
                                             <p class="fs-6 textColor3 loyaltyAmt3 fw-bolder mb-1">Total Utilized</p>
                                         </div>
                                     </div>
@@ -381,8 +385,16 @@
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
                                                 <div class="d-flex justify-content-between mb-2 discountDetails">
                                                     <h4 class="fw-bolder text-dark">Wallet Transaction</h4>
-                                                    <div class="text-end">
-                                                        <input type="month" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle py-2">
+                                                    <!-- Date Range -->
+                                                    <div class="col-12 col-md-6 col-lg-5">
+                                                        <div id="reportrange"
+                                                            class="bg-primary text-white px-3 py-2 text-center dateRange w-100"
+                                                            style="border-radius:6px; cursor:pointer;">
+                                                            <i class="fa fa-calendar"></i>
+                                                            &nbsp;
+                                                            <span id="selectedDate"></span>
+                                                            <i class="fa-solid fa-angle-down"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <thead class="table-light">
@@ -574,6 +586,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -593,29 +610,331 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
+            
+            const CUSTOMER_ID = <?= json_encode($_POST['customer_id']) ?>;            
+            
+            //date range filter
+            $(function () {
+
+                let start = moment('2020-01-01');
+                let end = moment();
+
+                window.startDate = start.format('YYYY-MM-DD');
+                window.endDate = end.format('YYYY-MM-DD');
+
+                function cb(start, end)
+                {
+                    $('#selectedDate').html(
+                        start.format('MMMM D, YYYY') +
+                        ' - ' +
+                        end.format('MMMM D, YYYY')
+                    );
+
+                    window.startDate = start.format('YYYY-MM-DD');
+                    window.endDate = end.format('YYYY-MM-DD');
+
+                    if ($.fn.DataTable.isDataTable('#pendingCustomerList-table'))
+                    {
+                        $('#pendingCustomerList-table').DataTable().ajax.reload();
+                    }
+                }
+
+                $('#reportrange').daterangepicker({
+
+                    startDate: start,
+                    endDate: end,
+
+                    showDropdowns: true,
+                    opens: 'left',
+
+                    ranges: {
+
+                        'Today': [
+                            moment(),
+                            moment()
+                        ],
+
+                        'Yesterday': [
+                            moment().subtract(1, 'days'),
+                            moment().subtract(1, 'days')
+                        ],
+
+                        'Last 7 Days': [
+                            moment().subtract(6, 'days'),
+                            moment()
+                        ],
+
+                        'Last 30 Days': [
+                            moment().subtract(29, 'days'),
+                            moment()
+                        ],
+
+                        'This Month': [
+                            moment().startOf('month'),
+                            moment().endOf('month')
+                        ],
+
+                        'Last Month': [
+                            moment().subtract(1, 'month').startOf('month'),
+                            moment().subtract(1, 'month').endOf('month')
+                        ],
+
+                        'Last Year': [
+                            moment().subtract(1, 'year').startOf('year'),
+                            moment().subtract(1, 'year').endOf('year')
+                        ]
+                    }
+
+                }, cb);
+
+                cb(start, end);
+
             });
             
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
+            function formatChild(rowData) {
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
+                return `
+                    <div class="row g-3 p-3">
 
-        </script>
-        <script>
-            document.querySelectorAll('.filter-btn').forEach(button => {
-                button.addEventListener('click', function () {
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
 
-                    document.querySelectorAll('.filter-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
+                                    <h5 class="text-primary mb-3">
+                                        <i class="mdi mdi-wallet"></i>
+                                        Transaction Details
+                                    </h5>
 
-                    this.classList.add('active');
-                });
+                                    <p class="mb-1">
+                                        Description
+                                        <strong>${rowData.child.description}</strong>
+                                    </p>
+
+                                    <p class="mb-1">
+                                        Booking ID
+                                        <strong>${rowData.child.booking_id}</strong>
+                                    </p>
+
+                                    <p class="mb-0">
+                                        Created On
+                                        <strong>${rowData.child.created_on}</strong>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+
+                                    <h5 class="text-primary mb-3">
+                                        <i class="mdi mdi-cash"></i>
+                                        Amount Details
+                                    </h5>
+
+                                    <p class="mb-1">
+                                        Transaction Amount
+                                        <strong>₹${Number(rowData.child.transaction_amount).toLocaleString()}</strong>
+                                    </p>
+
+                                    <p class="mb-1">
+                                        Wallet Balance
+                                        <strong>₹${Number(rowData.child.wallet_balance).toLocaleString()}</strong>
+                                    </p>
+
+                                    <p class="mb-0">
+                                        Status
+                                        <strong>${rowData.child.status}</strong>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }
+
+            var table = $('#pendingCustomerList-table').DataTable({
+
+                processing: true,
+                destroy: true,
+                responsive: false,
+
+                ajax: {
+                    url: 'models/dw_view_table_data.php',
+                    type: 'POST',
+                    data: function(d) {
+
+                        d.customer_id = CUSTOMER_ID;
+                        d.start_date = window.startDate;
+                        d.end_date = window.endDate;
+
+                        // console.log(d.start_date, d.end_date); // debug
+                    },
+                    dataSrc: 'data'
+                },
+
+                columns: [
+
+                    {
+                        data: 'created_date',
+                        render: function(data) {
+
+                            let parts = data.split(' ');
+
+                            return `
+                                <div>
+                                    <div class="fw-bold">${parts[0]} ${parts[1]} ${parts[2]}</div>
+                                    <small>${parts[3]} ${parts[4]}</small>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(row) {
+
+                            return `
+                                <div>
+                                    <div class="fw-bold">${row.entry_type}</div>
+                                    <small>${row.message}</small>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: null,
+                        render: function(row) {
+
+                            return `
+                                <div>
+                                    <div class="fw-bold">${row.trip_name}</div>
+                                    <small>${row.transaction_id}</small>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'entry_type',
+                        render: function(data) {
+
+                            let cls =
+                                data === 'Discount Earned'
+                                ? 'success'
+                                : 'danger';
+
+                            let txt =
+                                data === 'Discount Earned'
+                                ? 'Earned'
+                                : 'Used';
+
+                            return `
+                                <span class="badge bg-${cls}-subtle text-${cls}">
+                                    ${txt}
+                                </span>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'amount',
+                        render: function(data, type, row) {
+
+                            let sign =
+                                row.entry_type === 'Discount Earned'
+                                ? '+'
+                                : '-';
+
+                            let color =
+                                row.entry_type === 'Discount Earned'
+                                ? 'success'
+                                : 'danger';
+
+                            return `
+                                <span class="fw-bold text-${color}">
+                                    ${sign}₹${Number(data).toLocaleString()}
+                                </span>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'balance',
+                        render: function(data) {
+
+                            return `
+                                <span class="fw-bold">
+                                    ₹${Number(data).toLocaleString()}
+                                </span>
+                            `;
+                        }
+                    },
+                    {
+                        className: 'details-control text-center',
+                        orderable: false,
+                        data: null,
+                        defaultContent: `
+                            <i class="mdi mdi-chevron-down fs-5 text-dark"></i>
+                        `
+                    },
+                ],
+
+                order: [[1, 'desc']]
+            });
+            
+            $('#pendingCustomerList-table tbody').on(
+                'click',
+                'td.details-control',
+                function () {
+
+                    let tr = $(this).closest('tr');
+                    let row = table.row(tr);
+
+                    if (row.child.isShown()) {
+
+                        row.child.hide();
+
+                        tr.removeClass('shown');
+
+                        $(this)
+                            .find('i')
+                            .removeClass('mdi-chevron-up')
+                            .addClass('mdi-chevron-down');
+
+                    } else {
+
+                        row.child(
+                            formatChild(row.data())
+                        ).show();
+
+                        tr.addClass('shown');
+
+                        $(this)
+                            .find('i')
+                            .removeClass('mdi-chevron-down')
+                            .addClass('mdi-chevron-up');
+                    }
+                }
+            );
+            $('#exportExcel').on('click', function () {
+
+                const customerId = CUSTOMER_ID;
+
+                const picker = $('#reportrange').data('daterangepicker');
+
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+
+                window.location.href =
+                    'models/export_discount_wallet.php'
+                    + '?customer_id=' + encodeURIComponent(customerId)
+                    + '&start_date=' + encodeURIComponent(startDate)
+                    + '&end_date=' + encodeURIComponent(endDate);
             });
         </script>
     </body>

@@ -4,7 +4,8 @@
         echo '<script>location.href = "../login.php";</script>';
     }
     require '../connect.php';
-    $date = date('Y'); 
+    $date = date('Y');
+    include (__DIR__.'/models/ew_card_data.php');  
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +34,11 @@
 
         <!-- Font awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- added on 02-06-2026  by SV-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+        <!-- added on 02-06-2026  by SV End-->
         <style>
             .fontSize1 {
                 font-size: 12px;
@@ -109,10 +115,30 @@
                 justify-content: center;
             }
             @media (max-width: 687px) {
-                .discountWallet {
+                /* .discountWallet {
                     display: block !important;
                     margin-bottom: 10px;
+                } code by NC*/
+                 /* code by SV */
+                .discountWallet{
+                    flex-direction: column;
+                    gap: 15px;
                 }
+
+                .discountWallet > div:last-child{
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                #reportrange{
+                    width: 100%;
+                }
+
+                .linkBtn{
+                    width: 100%;
+                    justify-content: center;
+                }
+                /* end code by SV */
             }
         </style>
     </head>
@@ -141,7 +167,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between discountWallet">
+                        <!-- <div class="d-flex justify-content-between discountWallet">
                             <div>
                                 <h2 class="fw-bolder text-dark">Extended Benefit Wallet</h2>
                                 <p class="fs-6 text-muted">
@@ -159,6 +185,44 @@
                                     </div>
                                 </a>
                             </div>
+                        </div> -->
+                        <div class="d-flex justify-content-between align-items-start flex-wrap discountWallet">
+
+                            <div class="me-2">
+                                <h2 class="fw-bolder text-dark">Extended Benefit Wallet</h2>
+                                <p class="fs-6 text-muted">
+                                    Manage secondary level referral benefits and package conversions
+                                </p>
+                            </div>
+
+                            <div class="d-flex gap-3 align-items-stretch flex-grow-1 justify-content-end">
+
+                                <!-- Date Range -->
+                                <div class="flex-grow-1" style="max-width:500px;">
+                                    <div id="reportrange"
+                                        class="bg-primary text-white px-3 py-2 d-flex justify-content-between align-items-center h-100"
+                                        style="border-radius:6px; cursor:pointer; min-height:56px;">
+                                        
+                                        <div>
+                                            <i class="fa fa-calendar me-2"></i>
+                                            <span id="selectedDate"></span>
+                                        </div>
+
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </div>
+                                </div>
+                                <!-- Export -->
+                                <a href="#" id="exportExcel" class="text-decoration-none">
+                                    <div class="linkBtn d-flex align-items-center gap-2 px-4 h-100">
+                                        <i class="fa-solid fa-download"></i>
+                                        <p class="fs-6 mb-0 fw-bolder">Export Statement</p>
+                                    </div>
+                                </a>
+
+
+                            </div>
+                            <!-- /* end code by SV */ -->
+
                         </div>
                         <div class="row">
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -169,7 +233,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Total Extended Benefits</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">10,80,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class=""><?= number_format($extWalletData['ref_total_earning']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">All time generated</p>
                                         </div>
                                     </div>
@@ -183,7 +247,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Active Customers</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">420</p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2"><?= number_format($custCountData['total_cust']) ?></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">With Extended Wallet</p>
                                         </div>
                                     </div>
@@ -197,7 +261,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Converted Referrals</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">580</p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2"><?= number_format($extWalletCurBalData['ref_booking_total']) ?></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Secondary Level</p>
                                         </div>
                                     </div>
@@ -211,7 +275,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Benefits Applied</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">4,20,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">0</span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">For Discounts / Price Drops</p>
                                         </div>
                                     </div>
@@ -225,7 +289,7 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Available Benefit Pool</h1>
-                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class="">6,60,000</span></p>
+                                            <p class="fs-4 text-dark fw-bolder mb-2">&#8377;<span class=""><?= number_format($extWalletCurBalData['balance']) ?></span></p>
                                             <p class="fontSize2 text-muted fw-bolder mb-1">Ready to Use</p>
                                         </div>
                                     </div>
@@ -236,7 +300,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row mb-2 d-flex justify-content-end">
+                                        <!-- <div class="row mb-2 d-flex justify-content-end">
                                             <div class="col-xl-6 col-lg-8 col-md-8 col-sm-9 col-12 d-flex justify-content-end gap-2">
                                                 <div class="text-end">
                                                     <input type="date" value="" min="2020-01" max="" class="rounded-3 border border-secondary-subtle p-2">
@@ -248,7 +312,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="table-responsive">
                                             <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
                                                 <thead class="table-light">
@@ -419,6 +483,11 @@
         
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <!-- add on 02-06-2026 by SV -->
+        <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <!-- add on 02-06-2026 by SV END-->
 
         <script>
             var mybutton = document.getElementById("back-to-top");
@@ -438,18 +507,225 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
+            $(document).ready(function () {
+
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let start = urlParams.get('start_date')
+                    ? moment(urlParams.get('start_date'))
+                    : moment('2020-01-01');
+
+                let end = urlParams.get('end_date')
+                    ? moment(urlParams.get('end_date'))
+                    : moment();
+
+                // Add dates to URL if missing
+                if (!urlParams.has('start_date') || !urlParams.has('end_date')) {
+
+                    window.location.replace(
+                        window.location.pathname +
+                        '?start_date=' + start.format('YYYY-MM-DD') +
+                        '&end_date=' + end.format('YYYY-MM-DD')
+                    );
+
+                    return;
+                }
+
+                // Date Range Picker
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    showDropdowns: true,
+                    opens: 'left'
+                });
+
+                // Display selected date
+                $('#selectedDate').html(
+                    start.format('MMMM D, YYYY') +
+                    ' - ' +
+                    end.format('MMMM D, YYYY')
+                );
+
+                // Load table on page load
+                loadExtendedWallet(
+                    start.format('YYYY-MM-DD'),
+                    end.format('YYYY-MM-DD')
+                );
+
+                // Reload page when date changes
+                $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+
+                    window.location.href =
+                        window.location.pathname +
+                        '?start_date=' + picker.startDate.format('YYYY-MM-DD') +
+                        '&end_date=' + picker.endDate.format('YYYY-MM-DD');
+                });
+
             });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
 
+            function loadExtendedWallet(startDate = '', endDate = '')
+            {
+                $.ajax({
+                    url: 'models/ew_table_data.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        start_date: startDate,
+                        end_date: endDate
+                    },
+                    beforeSend: function () {
+
+                        if ($.fn.DataTable.isDataTable('#pendingCustomerList-table')) {
+                            $('#pendingCustomerList-table').DataTable().destroy();
+                        }
+
+                        $('#pendingCustomerList-table tbody').html(`
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    Loading...
+                                </td>
+                            </tr>
+                        `);
+                    },
+                    success: function (response) {
+
+                        let html = '';
+
+                        if (response.data && response.data.length > 0)
+                        {
+                            $.each(response.data, function (index, item) {
+
+                                let profilePic = item.profile_pic
+                                    ? '../../uploading/' + item.profile_pic
+                                    : '../assets/images/users/avatar-7.jpg';
+
+                                let membershipClass = 'text-primary-emphasis bg-primary-subtle border-primary-subtle';
+
+                                switch ((item.customer_type || '').toLowerCase())
+                                {
+                                    case 'neo select':
+                                        membershipClass = 'text-success-emphasis bg-success-subtle border-success-subtle';
+                                        break;
+
+                                    case 'neo premium':
+                                        membershipClass = 'text-warning-emphasis bg-warning-subtle border-warning-subtle';
+                                        break;
+
+                                    case 'neo select plus':
+                                        membershipClass = 'text-primary-emphasis bg-primary-subtle border-primary-subtle';
+                                        break;
+                                }
+
+                                html += `
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <div>
+                                                    <img src="${profilePic}" class="profileImage">
+                                                </div>
+                                                <div>
+                                                    <p class="mb-0 fw-bolder fontSize1">
+                                                        ${item.customer_name || ''}
+                                                    </p>
+                                                    <p class="fontSize1 fw-bold mb-0">
+                                                        ${item.ca_customer_id || ''}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="p-1 ${membershipClass} border rounded-3 text-center fw-bolder">
+                                                ${item.customer_type || '-'}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <p class="fontSize1 fw-bold mb-0 text-primary text-center">
+                                                ₹${Number(item.total_earned || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fontSize1 fw-bold mb-0 text-warning text-center">
+                                                ₹${Number(item.used_balance || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+
+                                        <td>
+                                            <p class="fontSize1 fw-bold mb-0 text-success text-center">
+                                                ₹${Number(item.available_balance || 0).toLocaleString('en-IN')}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <form action="viewExtendedWallet.php" method="POST" class="m-0">
+                                                <input type="hidden" name="customer_id" value="${item.ca_customer_id}">
+                                                <button type="submit"
+                                                    class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder w-100">
+                                                    View
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        else
+                        {
+                            html = `
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        No records found
+                                    </td>
+                                </tr>
+                            `;
+                        }
+
+                        $('#pendingCustomerList-table tbody').html(html);
+
+                        // Initialize DataTable
+                        $('#pendingCustomerList-table').DataTable({
+                            destroy: true,
+                            responsive: true,
+                            pageLength: 10,
+                            ordering: true,
+                            searching: true,
+                            lengthChange: true,
+                            info: true,
+                            autoWidth: false,
+                            columnDefs: [
+                                { orderable: false, targets: 5 }
+                            ]
+                        });
+                    },
+                    error: function (xhr) {
+
+                        console.log(xhr.responseText);
+
+                        $('#pendingCustomerList-table tbody').html(`
+                            <tr>
+                                <td colspan="6" class="text-center text-danger">
+                                    Failed to load data
+                                </td>
+                            </tr>
+                        `);
+                    }
+                });
+            }
+            $('#exportExcel').on('click', function () {
+
+                const params = new URLSearchParams(window.location.search);
+
+                const startDate = params.get('start_date') || '';
+                const endDate = params.get('end_date') || '';
+
+                window.location.href =
+                    'models/ew_export_excel.php?start_date=' +
+                    encodeURIComponent(startDate) +
+                    '&end_date=' +
+                    encodeURIComponent(endDate);
+            });
         </script>
     </body>
 </html>
