@@ -716,7 +716,7 @@
                                 <img src="assets/images/slider/Shimla.png" class="d-block sliderWidth" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="assets/images/slider/Dubai_1.png" class="d-block sliderWidth" alt="...">
+                                <img src="assets/images/slider/Varanasi.png" class="d-block sliderWidth" alt="...">
                             </div>
                         </div>
                     </div>

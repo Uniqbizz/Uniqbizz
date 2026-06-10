@@ -28,20 +28,39 @@
                         <i class="ri-user-shared-2-line"></i> <span>Techno Enterprisee</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'travel_consultants_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="travel_consultants_list.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Travel Consultants</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item <?php echo ($current_page == 'customers_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="customers_list.php">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Customers</span>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($current_page == '#') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
                         <i class="ri-user-shared-2-line"></i> <span data-key="t-home">Commission</span>
                     </a>
+                    <div class="collapse menu-dropdown" id="sidebarMultilevel">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item <?php echo ($current_page == 'recruitment_payout.php') ? 'active' : ''; ?>">
+                                <a href="recruitment_payout.php" class="nav-link menu-link">
+                                    <span data-key="recruitment-payout">TE Recruitment Payout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item <?php echo ($current_page == 'holiday_payout.php') ? 'active' : ''; ?>">
+                                <a href="holiday_payout.php" class="nav-link menu-link">
+                                    <span data-key="holiday-payout">Holiday Account Payout</span>
+                                </a>
+                            </li>
+                            <li class="nav-item <?php echo ($current_page == 'product_payout.php') ? 'active' : ''; ?>">
+                                <a href="product_payout.php" class="nav-link menu-link">
+                                    <span data-key="product-payout">Product Payout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <img src="../assets/images/sidebarImage.png" alt="Package" class="sidebarImage">
                 <div class="exploreCard">
