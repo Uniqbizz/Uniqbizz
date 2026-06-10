@@ -411,6 +411,48 @@ if($stmt->rowCount()>0){
 					
 				}
 			}
+		}else if($_SESSION["user_type_id_value"] =='34'){
+			$stmt = $conn->prepare("SELECT * FROM executive_techno_enterprise where email='".$username."' AND user_type = '33' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
+		}else if($_SESSION["user_type_id_value"] =='35'){
+			$stmt = $conn->prepare("SELECT * FROM super_techno_enterprise where email='".$username."' AND user_type = '35' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
+		}else if($_SESSION["user_type_id_value"] =='36'){
+			$stmt = $conn->prepare("SELECT * FROM chief_techno_enterprise where email='".$username."' AND user_type = '36' AND status='1' ");
+			$stmt->execute();
+
+				// set the resulting array to associative
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+			if($stmt->rowCount()>0){
+				foreach (($stmt->fetchAll()) as $key => $row){
+					$_SESSION["username2"] = $row['firstname'] ;
+					$_SESSION["lname"] = $row['lastname'] ;
+					
+				}
+			}
 		}else{
 			$_SESSION["username2"] = '' ;
 			$_SESSION["lname"]='';
@@ -429,7 +471,9 @@ if($stmt->rowCount()>0){
 		|| $_SESSION["user_type_id_value"]== '26' || $_SESSION["user_type_id_value"]== '27' 
 		|| $_SESSION["user_type_id_value"]== '28' || $_SESSION["user_type_id_value"]== '29' 
 		|| $_SESSION["user_type_id_value"]== '30' || $_SESSION["user_type_id_value"]== '31'
-		|| $_SESSION["user_type_id_value"]== '32' || $_SESSION["user_type_id_value"]== '33'){
+		|| $_SESSION["user_type_id_value"]== '32' || $_SESSION["user_type_id_value"]== '33'
+		|| $_SESSION["user_type_id_value"]== '34' || $_SESSION["user_type_id_value"]== '35'
+		|| $_SESSION["user_type_id_value"]== '36'){
 		if ($remember_me == 'true') {
 				setcookie('user2',$username, time() + (86400 * 30), "/"); // 86400 = 1 day
 				// setcookie('user2',$username , time() + (86400 * 30), "/"); // 86400 = 1 day
