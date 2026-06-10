@@ -437,6 +437,24 @@ function submitEditForm(actionType) {
             alert("Upload Profile Picture");
             return;
         } 
+
+        let verificationStatus = {};
+
+        $('input[type="radio"]:checked').each(function () {
+
+            let name = $(this).attr('name');
+
+            if (name.startsWith('verification_status')) {
+
+                let match = name.match(/\[(.*?)\]/);
+
+                if (match && match[1]) {
+                    verificationStatus[match[1]] = $(this).val();
+                }
+            }
+        });
+
+        console.log(verificationStatus);
     }
 
     var dataObj = {
