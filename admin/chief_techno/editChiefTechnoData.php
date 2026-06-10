@@ -10,6 +10,8 @@ $editfor = $_POST["editfor"]; // pending or confirm
 $identifier_id = $_POST["id"]; // ChiefTE id value if user is not confirmed - 11 , if confirmed - STE2600011
 
 // Personal Details
+$verification_status  = $_POST['verification_status'] ?? '';
+$reject_reason        = $_POST['reject_reason'] ?? '';
 $actionType           = $_POST['action_type'] ?? '';
 $designation          = $_POST['designation'] ?? '';
 $user_id_name         = $_POST['user_id_name'] ?? '';
@@ -80,6 +82,10 @@ $user_type_id = "34";
 $operation = "Update";
 $title="Chief Techo Enterprise";
 $message2 = "";
+
+// check if at least one rejected field found - will be used for inserting data in user_verification table
+$verificationStatus = json_decode($verification_status, true);
+$hasRejected = in_array('rejected', $verificationStatus ?? []);
 
 $birthYear = !empty($bdate) ? date('Y', strtotime($bdate)) : $current_year;
 $age = $current_year - $birthYear;
@@ -304,6 +310,21 @@ try {
         ':operation'=>$operation,
         ':from_whom'=>$fromWhom
     ]);
+
+    if($hasRejected){
+        $stmt10 = $conn->prepare("INSERT INTO user_verification
+            (application_id,rejection_reason,payload,verified_by,status)
+            VALUES
+            (:application_id,:rejection_reason,:payload,:verified_by,:status)");
+
+        $stmt10->execute([
+            ':application_id'=>$application_id,
+            ':rejection_reason'=>$reject_reason,
+            ':payload'=>$verification_status,
+            ':verified_by'=>$fromWhom,
+            ':status'=> 2
+        ]);
+    }
 
     $conn->commit();
     echo 1;

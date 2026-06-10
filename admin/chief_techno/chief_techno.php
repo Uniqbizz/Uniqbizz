@@ -138,8 +138,23 @@
                                                 <tbody>
                                                     <?php
                                                         $sql = "
-                                                            SELECT id,firstname,lastname,reference_no,registrant,country_code,email,address,state,city,date_of_birth,added_on,contact_no,status,register_by,country,'CTE' AS user_type FROM chief_techno_enterprise WHERE status IN ('0', '2', '4')
-                                                            ORDER BY id ASC
+                                                            SELECT
+                                                                cte.*,
+                                                                uv.status AS verification_status
+                                                            FROM chief_techno_enterprise cte
+                                                            LEFT JOIN (
+                                                                SELECT uv1.application_id, uv1.status
+                                                                FROM user_verification uv1
+                                                                INNER JOIN (
+                                                                    SELECT application_id, MAX(id) AS max_id
+                                                                    FROM user_verification
+                                                                    GROUP BY application_id
+                                                                ) uv2
+                                                                ON uv1.id = uv2.max_id
+                                                            ) uv
+                                                            ON cte.application_id = uv.application_id
+                                                            WHERE cte.status IN ('0','2','4')
+                                                            ORDER BY cte.id ASC
                                                         ";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->execute();
@@ -147,6 +162,7 @@
 
                                                         if ($stmt->rowCount() > 0) {
                                                             foreach ($stmt->fetchAll() as $key => $row) {
+                                                                
                                                                 $bd = new DateTime($row['date_of_birth']);
                                                                 $bdate = $bd->format('d-m-Y');
 
@@ -176,8 +192,18 @@
                                                                     <td>' . $rdate . '</td>';
 
                                                                 if ($row['status'] == '2') {
-                                                                    echo '<td><span class="badge text-bg-warning">Pending</span></td>
-                                                                    <td>
+                                                                    switch ($row['verification_status']) {
+                                                                        case '1':
+                                                                            $verificationLabel = '<span class="badge bg-success me-1">Approved</span>';
+                                                                            break;
+                                                                        case '2':
+                                                                            $verificationLabel = '<span class="badge bg-danger me-1">Correction <br/> Required</span>';
+                                                                            break;
+                                                                        default:
+                                                                            $verificationLabel = '<span class="badge text-bg-warning">Pending</span>';
+                                                                    }
+                                                                    echo '<td>'.$verificationLabel.'</td>';
+                                                                    echo '<td>
                                                                         <div class="dropdown">
                                                                             <a href="#" class="dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>

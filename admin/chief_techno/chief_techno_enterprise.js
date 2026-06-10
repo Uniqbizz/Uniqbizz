@@ -356,6 +356,28 @@ function submitEditForm(actionType) {
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
 
+    //radio button approve/reject Store data in array format
+    function getVerificationStatus() {
+        let verificationStatus = {};
+        $("input[type='radio']:checked").each(function () {
+            let name = $(this).attr("name");
+            if (name.startsWith("verification_status")) {
+                let match = name.match(/\[(.*?)\]/);
+                if (match && match[1]) {
+                    verificationStatus[match[1]] = $(this).val();
+                }
+            }
+        });
+        return verificationStatus;
+    }
+
+    // function call check which radio button selected
+    let verificationStatus = getVerificationStatus();
+    // convert data to json
+    let verification_status = JSON.stringify(verificationStatus);
+    // get value of rejected field
+    let reject_reason = $("#reject_reason").val().trim();
+
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
@@ -438,26 +460,18 @@ function submitEditForm(actionType) {
             return;
         } 
 
-        let verificationStatus = {};
+        // if even one rejected value is found then check for rejected reason value
+        let hasRejected = Object.values(verificationStatus).includes("rejected");
+        if (hasRejected && reject_reason === '') {
+            alert("Please enter reject reason");
+            return;
+        }
 
-        $('input[type="radio"]:checked').each(function () {
-
-            let name = $(this).attr('name');
-
-            if (name.startsWith('verification_status')) {
-
-                let match = name.match(/\[(.*?)\]/);
-
-                if (match && match[1]) {
-                    verificationStatus[match[1]] = $(this).val();
-                }
-            }
-        });
-
-        console.log(verificationStatus);
     }
 
     var dataObj = {
+        verification_status: verification_status,
+        reject_reason: reject_reason,
         action_type: actionType, // draft or submit
         application_id: application_id,
         editfor: editfor,
@@ -520,7 +534,7 @@ function submitEditForm(actionType) {
         income_proof: income_proof,
         other_document: other_document
     };
-    // console.log(dataObj);
+    console.log(dataObj);
 
     $("#editChiefTechnoEnterprise").attr("disabled", "disabled");
     // console.log(dataString);
