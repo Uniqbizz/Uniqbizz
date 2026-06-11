@@ -33,6 +33,7 @@ uploading/tatopup
 uploading/terms_condition
 uploading/voting
 uploading/voting_card
+dashboard/customer_dashboard/urls.php
 vendor/
 /composer.phar
 uploading/address_proof
