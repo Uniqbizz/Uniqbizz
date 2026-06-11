@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__.'/../../dashboard_user_details.php');
+include_once(__DIR__.'/../../../dashboard_user_details.php');
 
 header('Content-Type: application/json');
 

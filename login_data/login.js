@@ -113,6 +113,8 @@ function userLogin(){
                     location.href = "dashboard/customer_dashboard/customer_dashboard.php";
                   }else if (res.user_type == "33" && res.user_id == "IBRGA26004") {
                     location.href = "dashboard/institute_branch_manager/index.php";
+                  }else if (res.user_type == "34") {
+                    location.href = "dashboard/super_techno_enterprise/super_techno_dashboard.php";
                   } else {
                     location.href = "dashboard/index.php";
                   }

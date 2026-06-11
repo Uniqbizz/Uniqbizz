@@ -273,80 +273,6 @@
                         </div>
                         <!-- Card section 5 -->
                         <div class="row">
-                            <!-- <div class="col-lg-5 col-sm-12 col-12">
-                                <div class="card rounded-4 border-1 p-3">
-                                    <div class="card-title d-flex justify-content-between">
-                                        <p class="commission-title fs-5 mb-1">
-                                            Recent Activities
-                                        </p>
-                                        <p class="mb-1">
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All </a>
-                                        </p>
-                                    </div>
-                                    <div class="cardDetails">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="stRecentIcon stRecentIcon1">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p class="mb-1 fs-6 fw-bold">New Techno Enterprise Added</p>
-                                                    <p class="mb-1 fs-6 text-muted">Global Journey Holidays</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-muted">10:30 AM</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="stRecentIcon stRecentIcon2">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p class="mb-1 fs-6 fw-bold">New Select Membership Purchased</p>
-                                                    <p class="mb-1 fs-6 text-muted">Rahul Naik - Neo Select Lite</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-muted">09:45 AM</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="stRecentIcon stRecentIcon3">
-                                                    <i class="fa-solid fa-user-group fa-xl"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p class="mb-1 fs-6 fw-bold">Holiday Package Booked</p>
-                                                    <p class="mb-1 fs-6 text-muted">Goa Package - By Sneha Kamat</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-muted">09:15 AM</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="stRecentIcon stRecentIcon4">
-                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p class="mb-1 fs-6 fw-bold">Recruitment Commission Credited</p>
-                                                    <p class="mb-1 fs-6 text-success">+ &#8377; 25,000</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-muted">Yesterday</p>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <div class="d-flex gap-2">
-                                                <div class="stRecentIcon stRecentIcon5">
-                                                    <i class="fa-solid fa-indian-rupee-sign fa-xl"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p class="mb-1 fs-6 fw-bold">Booking Commission Credited</p>
-                                                    <p class="mb-1 fs-6 text-success">+ &#8377; 12,500</p>
-                                                </div>
-                                            </div>
-                                            <p class="text-muted">Yesterday</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="col-lg-5 col-sm-12 col-12">
 
                                 <div class="card rounded-4 border-1 p-3 h-100">
@@ -672,7 +598,7 @@
             function loadCustomerTrendChart(year = '') {
 
                 $.ajax({
-                    url: 'models/ste_cust_line_chart_data.php',
+                    url: 'models/dashboard/ste_cust_line_chart_data.php',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -796,13 +722,13 @@
                 $.when(
 
                     $.ajax({
-                        url: 'models/ste_model.php',
+                        url: 'models/dashboard/ste_model.php',
                         type: 'POST',
                         dataType: 'json'
                     }),
 
                     $.ajax({
-                        url: 'models/ste_dash_card_data.php',
+                        url: 'models/dashboard/ste_dash_card_data.php',
                         type: 'POST',
                         dataType: 'json'
                     })
@@ -844,7 +770,7 @@
                 */
 
                 $.ajax({
-                    url: 'models/ste_com_piechart_data.php',
+                    url: 'models/dashboard/ste_com_piechart_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -1109,7 +1035,7 @@
 
                 $.ajax({
 
-                    url: 'models/ste_te_line_chart_data.php',
+                    url: 'models/dashboard/ste_te_line_chart_data.php',
 
                     type: 'POST',
 
@@ -1183,7 +1109,7 @@
             function loadTEPerformance() {
 
                 $.ajax({
-                    url: 'models/ste_te_performance_data.php',
+                    url: 'models/dashboard/ste_te_performance_data.php',
                     type: 'POST',
                     dataType: 'json',
 
@@ -1248,7 +1174,7 @@
             function loadRecentActivities() {
 
                 $.ajax({
-                    url: 'models/ste_recent_activity_data.php',
+                    url: 'models/dashboard/ste_recent_activity_data.php',
                     type: 'POST',
                     dataType: 'json',
 
