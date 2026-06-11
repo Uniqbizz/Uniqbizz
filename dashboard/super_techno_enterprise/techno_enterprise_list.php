@@ -43,22 +43,23 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- add on 10-06-2026 by SV -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-        <!-- add on 10-06-2026 by SV END-->
-         <style>
-            #reportrange{
-                min-width: 280px;
-                width: auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                white-space: nowrap;
-            }
+        
+        <style>
+        #reportrange{
+            min-width: 280px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
 
-            #reportrange span{
-                display: inline-block;
-            }
-         </style>
+        #reportrange span{
+            display: inline-block;
+        }
+        </style>
+        <!-- add on 10-06-2026 by SV END-->
     </head>
     <body>
  
@@ -194,7 +195,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-2">
-                                                                    <a href="#" class="text-decoration-none" id="#">
+                                                                    <a href="#" class="text-decoration-none" id="exportte">
                                                                         <div class="stWalletBtn rounded-3 py-2 align-items-center justify-content-center justify-content-lg-start">
                                                                             <i class="fa-solid fa-download me-2"></i>
                                                                             <p class="fs-6 mb-0 fw-bolder pe-1">Download</p>
@@ -338,7 +339,7 @@
                     },
 
                     {
-                        data: 'register_date',
+                        data: 'added_on',
                         render: function(data){
 
                             if(!data) return '-';
@@ -512,12 +513,12 @@
                             }else if(status == 3){
 
                                 badge = 'tePendingBtn';
-                                text = 'Pending';
+                                text = 'Inactive';
 
                             }else{
 
                                 badge = 'teDeletedBtn';
-                                text = 'Rejected';
+                                text = 'NA';
 
                             }
 
@@ -675,10 +676,13 @@
                 loadRegisteredTEList();
 
             });
-            //for reload
-            // $('#example-dataTable')
-            // .DataTable()
-            // .ajax.reload();
+            $('#exportte').on('click', function(){
+                window.location.href =
+                'models/common/download_registered_list.php?' +
+                'type=te' +
+                '&start_date=' + startDate +
+                '&end_date=' + endDate;
+            });
         </script>
         <!-- dialer logic scripts -->
         <script>

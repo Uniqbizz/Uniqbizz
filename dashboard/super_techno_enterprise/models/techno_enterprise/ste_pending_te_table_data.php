@@ -13,7 +13,7 @@
                 ca.lastname,
                 ca.contact_no,
                 ca.email,
-                ca.register_date,
+                ca.added_on,
                 ca.status,
 
                 ste.firstname AS ref_firstname,
