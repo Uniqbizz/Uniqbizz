@@ -95,7 +95,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="teCount">18</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Travel Consultants</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="tcCount">142</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="travel_consultants_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Customers</p>
                                             <h4 class="fw-bolder text-dark mb-1" id="cuCount">680</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
                                             <h4 class="fw-bolder text-dark mb-1">&#8377; 9,63,000</h4>
-                                            <a href="#" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <a href="recruitment_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
                                 </div>
