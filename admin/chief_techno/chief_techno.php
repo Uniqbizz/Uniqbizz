@@ -199,6 +199,9 @@
                                                                         case '2':
                                                                             $verificationLabel = '<span class="badge bg-danger me-1">Correction <br/> Required</span>';
                                                                             break;
+                                                                        case '3':
+                                                                            $verificationLabel = '<span class="badge bg-secondary me-1">Resubmitted</span>';
+                                                                            break;
                                                                         default:
                                                                             $verificationLabel = '<span class="badge text-bg-warning">Pending</span>';
                                                                     }
