@@ -117,7 +117,7 @@ try {
         }
         $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE id = :id");
         $stmt->execute([':id' => $identifier_id]);
-    } else {
+    } else if ($editfor == 'registered') {
         $message = "Chief Techno Enterprise Form Edited by Admin from Registed List";
         $status= '1';
         $stmt = $conn->prepare("SELECT application_id FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = :id");
@@ -283,9 +283,9 @@ try {
         ':application_id'=>$application_id
     ]);
 
-    $message = ($editfor == 'pending')
-        ? "Updated Chief Techno Enterprise details from pending list111"
-        : $identifier_id . " details updated from registered list";
+    // $message = ($editfor == 'pending')
+    //     ? "Updated Chief Techno Enterprise details from pending list111"
+    //     : $identifier_id . " details updated from registered list";
 
     $stmt7 = $conn->prepare("INSERT INTO logs
         (title,message,message2,reference_no,register_by,from_whom,operation)
@@ -326,60 +326,92 @@ try {
         ':from_whom'=>$fromWhom
     ]);
 
-    // 11-06-2026 $actionType update on line 101 so will not enter this block, make seperate block, take care of the message at line 286
-    if($actionType == "submit"){
-        if($hasRejected){
-            $stmt10 = $conn->prepare("INSERT INTO user_verification
-                (application_id,rejection_reason,payload,verified_by,status)
-                VALUES
-                (:application_id,:rejection_reason,:payload,:verified_by,:status)");
+    // code updated show resubmitted form value
+    if($editfor == "pending"){
+        if($actionType == "submit"){
+            if($hasRejected){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,rejection_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:rejection_reason,:payload,:verified_by,:status)");
 
-            $stmt10->execute([
-                ':application_id'=>$application_id,
-                ':rejection_reason'=>$reject_reason,
-                ':payload'=>$verification_status,
-                ':verified_by'=>$fromWhom,
-                ':status'=> 2
-            ]);
-        }else if($hasRejected && $actionType == 'Resubmitted'){
-            $stmt10 = $conn->prepare("INSERT INTO user_verification
-                (application_id,rejection_reason,payload,verified_by,status)
-                VALUES
-                (:application_id,:rejection_reason,:payload,:verified_by,:status)");
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':rejection_reason'=>$reject_reason,
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 2
+                ]);
+            }else if($hasApproved){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,approved_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:approved_reason,:payload,:verified_by,:status)");
 
-            $stmt10->execute([
-                ':application_id'=>$application_id,
-                ':rejection_reason'=>$reject_reason,
-                ':payload'=>$verification_status,
-                ':verified_by'=>$fromWhom,
-                ':status'=> 3
-            ]);
-        } else if($hasApproved){
-            $stmt10 = $conn->prepare("INSERT INTO user_verification
-                (application_id,approved_reason,payload,verified_by,status)
-                VALUES
-                (:application_id,:approved_reason,:payload,:verified_by,:status)");
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':approved_reason'=>"Admin has approved all the fields",
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 1
+                ]);
+            }
+            // else {
+            //     $stmt10 = $conn->prepare("INSERT INTO user_verification
+            //         (application_id,approved_reason,payload,verified_by,status)
+            //         VALUES
+            //         (:application_id,:approved_reason,:payload,:verified_by,:status)");
 
-            $stmt10->execute([
-                ':application_id'=>$application_id,
-                ':approved_reason'=>"Admin has approved all the fields",
-                ':payload'=>$verification_status,
-                ':verified_by'=>$fromWhom,
-                ':status'=> 1
-            ]);
-        }else {
-            $stmt10 = $conn->prepare("INSERT INTO user_verification
-                (application_id,approved_reason,payload,verified_by,status)
-                VALUES
-                (:application_id,:approved_reason,:payload,:verified_by,:status)");
+            //     $stmt10->execute([
+            //         ':application_id'=>$application_id,
+            //         ':approved_reason'=>"Approved without Marking Varification checks",
+            //         ':payload'=>$verification_status,
+            //         ':verified_by'=>$fromWhom,
+            //         ':status'=> 1
+            //     ]);
+            // }
+        }else if($actionType == "Resubmitted"){
+            if($hasRejected){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,rejection_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:rejection_reason,:payload,:verified_by,:status)");
 
-            $stmt10->execute([
-                ':application_id'=>$application_id,
-                ':approved_reason'=>"Approved without Marking Varification checks",
-                ':payload'=>$verification_status,
-                ':verified_by'=>$fromWhom,
-                ':status'=> 1
-            ]);
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':rejection_reason'=>$reject_reason,
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 3
+                ]);
+            } else if($hasApproved){
+                $stmt10 = $conn->prepare("INSERT INTO user_verification
+                    (application_id,approved_reason,payload,verified_by,status)
+                    VALUES
+                    (:application_id,:approved_reason,:payload,:verified_by,:status)");
+
+                $stmt10->execute([
+                    ':application_id'=>$application_id,
+                    ':approved_reason'=>"Admin has approved all the fields",
+                    ':payload'=>$verification_status,
+                    ':verified_by'=>$fromWhom,
+                    ':status'=> 1
+                ]);
+            }
+            // else {
+            //     $stmt10 = $conn->prepare("INSERT INTO user_verification
+            //         (application_id,approved_reason,payload,verified_by,status)
+            //         VALUES
+            //         (:application_id,:approved_reason,:payload,:verified_by,:status)");
+
+            //     $stmt10->execute([
+            //         ':application_id'=>$application_id,
+            //         ':approved_reason'=>"Approved without Marking Varification checks",
+            //         ':payload'=>$verification_status,
+            //         ':verified_by'=>$fromWhom,
+            //         ':status'=> 1
+            //     ]);
+            // }
         }
     }
 
