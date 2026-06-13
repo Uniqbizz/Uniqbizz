@@ -640,14 +640,14 @@
                             );
 
                         const amountHtml =
-                            amount >= 0
+                            row.entry_type != 'Withdrawal Request'
                             ?
                             `<span class="text-success fw-bold">
                                 +₹${row.amount}
                             </span>`
                             :
                             `<span class="text-danger fw-bold">
-                                ₹${row.amount}
+                                -₹${row.amount}
                             </span>`;
 
                         let badgeClass =

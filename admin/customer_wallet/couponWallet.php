@@ -5,6 +5,7 @@
     }
     require '../connect.php';
     $date = date('Y'); 
+    include (__DIR__.'/models/ccw_card_data.php');
 ?>
 <!doctype html>
 <html lang="en">
@@ -157,13 +158,10 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Total Coupons Issued</h1>
-                                            <p class="fs-5 fw-bolder mb-1">15,230</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">42,00,000</span></p>
+                                            <p class="fs-5 fw-bolder mb-1"><?= number_format($custCoupondata['total_coupons']) ?></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custCoupondata['total_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>12.4% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -174,13 +172,10 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Coupons Remaining</h1>
-                                            <p class="fs-5 fw-bolder mb-1">8,420</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">23,45,000</span></p>
+                                            <p class="fs-5 fw-bolder mb-1"><?= number_format($custCoupondata['available_coupons']) ?></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custCoupondata['available_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>10.6% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -191,13 +186,10 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Coupons Utilized</h1>
-                                            <p class="fs-5 fw-bolder mb-1">6,810</p>
-                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class="">18,55,000</span></p>
+                                            <p class="fs-5 fw-bolder mb-1"><?= number_format($custCoupondata['used_coupons']) ?></p>
+                                            <p class="fs-6 text-muted fw-bolder">Value: &#8377;<span class=""><?= number_format($custCoupondata['used_amt']) ?></span></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder"><i class="fa-solid fa-arrow-up me-1"></i>15.8% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
@@ -208,12 +200,9 @@
                                         </div>
                                         <div class="">
                                             <h1 class="fontSize1 fw-bolder">Active Customers</h1>
-                                            <p class="fs-5 fw-bolder">820</p>
+                                            <p class="fs-5 fw-bolder"><?= number_format($custCoupondata['total_customers']) ?></p>
                                         </div>
                                     </div>
-                                    <p class="text-success fontSize1 mb-0 fw-bolder mt-4"><i class="fa-solid fa-arrow-up me-1"></i>8.3% 
-                                        <span class="fontSize3 text-muted fw-bolder">vs last month</span>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -221,35 +210,10 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row mb-2 d-flex justify-content-end">
-                                            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 d-flex justify-content-between d-none">
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Wallet Type</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <select class="form-select mb-3" aria-label="Large select example">
-                                                        <option selected>Status</option>
-                                                        <option value="1">All</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                                <a href="#">
-                                                    <div class="linkBtn gap-2 align-items-center">
-                                                        <i class="fa-solid fa-download"></i>
-                                                        <p class="fs-6 mb-0 fw-bolder pe-1">Export</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <!-- fileters removed on 01-06-2026 -->
                                         <div class="table-responsive">
-                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="pendingCustomerList-table">
-                                                <h4 class="fw-bolder text-dark">Customers Enrolled for Coupons <span class="">(820)</span></h4>
+                                            <table class="table align-middle table-nowrap dt-responsive nowrap w-100" id="couponWalletList-table">
+                                                <h4 class="fw-bolder text-dark">Customers Enrolled for Coupons <span class="" id="table_row_count">(0)</span></h4>
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th>Customer</th>
@@ -262,111 +226,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Select
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">30</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">18</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">12</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 textOrange text-center">&#8377;6,000</p>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder memberShipType">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Select Plus
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">30</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">18</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">12</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 textOrange text-center">&#8377;6,000</p>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 text-center fw-bolder memberShipType">
-                                                                Active
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex gap-2 align-items-center mb-2">
-                                                                <div class="">
-                                                                    <img src="../assets/images/users/avatar-7.jpg" alt="Package" class="profileImage">
-                                                                </div>
-                                                                <div class="">
-                                                                    <p class="mb-0 fw-bolder fontSize1">Rahul Mehta</p>
-                                                                    <p class="fontSize1 fw-bold mb-0">CUST10001</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-3 text-center fw-bolder">
-                                                                Neo Premium
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">30</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">18</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 text-center">12</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="mb-0 fw-bolder fs-6 textOrange text-center">&#8377;6,000</p>
-                                                        </td>
-                                                        <td>
-                                                            <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-center fw-bolder memberShipType">
-                                                                Inactive
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    <!-- data from ajax -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -442,17 +302,123 @@
 
         <!-- dataTable -->
         <script>
-            $(document).ready(function(){
-                $("#pendingCustomerList-table").DataTable();
-            });
-            
-            function editfuncCust(id,refno,regby,cut,st,ct,editfor){ 
-                window.location.href='edit_customers.php?vkvbvjfgfikix='+id+'&nohbref='+refno+'&fyfyfregby='+regby+'&ncy='+cut+'&mst='+st+'&hct='+ct+'&editfor='+editfor;
-            };
+            var couponTable = $('#couponWalletList-table').DataTable({
+                ajax: {
+                    url: 'models/ccw_table_data.php',
+                    dataSrc: 'data'
+                },
+                processing: true,
+                responsive: true,
+                columns: [
+                    {
+                        data: null,
+                        render: function(data)
+                        {
+                            let image = data.profile_pic
+                                ? '../../uploading/'+data.profile_pic
+                                : '../assets/images/users/avatar-1.jpg';
 
-            function addCustRef(id,fullname,taRef,status){ 
-                window.location.href='add_customers.php?id='+id+'&taRef='+taRef+'&fullname='+fullname+'&status='+status;
-            };
+                            return `
+                                <div class="d-flex gap-2 align-items-center">
+                                    <img src="${image}" class="profileImage">
+
+                                    <div>
+                                        <p class="mb-0 fw-bolder fontSize1">
+                                            ${data.customer_name}
+                                        </p>
+
+                                        <p class="fontSize1 fw-bold mb-0">
+                                            ${data.ca_customer_id}
+                                        </p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'customer_type',
+                        className: 'text-center',
+                        render: function(data)
+                        {
+                            let cls = 'primary';
+
+                            if(data === 'Neo Select')
+                                cls = 'success';
+
+                            else if(data === 'Neo Premium')
+                                cls = 'warning';
+
+                            else if(data === 'Neo Premium Plus')
+                                cls = 'danger';
+
+                            return `
+                                <div class="p-1 text-${cls}-emphasis bg-${cls}-subtle border border-${cls}-subtle rounded-3 text-center fw-bolder">
+                                    ${data}
+                                </div>
+                            `;
+                        }
+                    },
+
+                    {
+                        data: 'total_coupons',
+                        className: 'text-center',
+                        render: data =>
+                            `<p class="mb-0 fw-bolder fs-6">${Number(data).toLocaleString()}</p>`
+                    },
+
+                    {
+                        data: 'used_coupons',
+                        className: 'text-center',
+                        render: data =>
+                            `<p class="mb-0 fw-bolder fs-6">${Number(data).toLocaleString()}</p>`
+                    },
+
+                    {
+                        data: 'available_coupons',
+                        className: 'text-center',
+                        render: data =>
+                            `<p class="mb-0 fw-bolder fs-6">${Number(data).toLocaleString()}</p>`
+                    },
+
+                    {
+                        data: 'available_amt',
+                        className: 'text-center',
+                        render: data =>
+                            `<p class="mb-0 fw-bolder fs-6 textOrange">₹${Number(data).toLocaleString()}</p>`
+                    },
+
+                    {
+                        data: 'status',
+                        className: 'text-center',
+                        render: function(data)
+                        {
+                            if(data == 1)
+                            {
+                                return `
+                                    <div class="p-1 text-success-emphasis bg-success-subtle border border-success-subtle rounded-3 fw-bolder">
+                                        Active
+                                    </div>
+                                `;
+                            }
+
+                            return `
+                                <div class="p-1 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 fw-bolder">
+                                    Inactive
+                                </div>
+                            `;
+                        }
+                    }
+                ]
+            });
+
+            couponTable.on('draw', function() {
+
+                let count = couponTable.rows({ search: 'applied' }).count();
+
+                $('#table_row_count').text(`(${count})`);
+
+            });
 
         </script>
     </body>

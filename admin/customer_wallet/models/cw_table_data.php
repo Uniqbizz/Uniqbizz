@@ -17,12 +17,33 @@
     }
 
     /* Date Filter */
-    if(!empty($start_date) && !empty($end_date))
+    if (!empty($start_date) && !empty($end_date))
     {
-        $where[] = "DATE(c.register_date) BETWEEN :start_date AND :end_date";
+        $fromDateObj = DateTime::createFromFormat('Y-m-d', $start_date);
+        $toDateObj   = DateTime::createFromFormat('Y-m-d', $end_date);
 
-        $params[':start_date'] = $start_date;
-        $params[':end_date']   = $end_date;
+        if ($fromDateObj && $toDateObj)
+        {
+            if ($fromDateObj->format('Y-m-d') == $toDateObj->format('Y-m-d'))
+            {
+                $where[] = "c.register_date >= :from_start
+                            AND c.register_date < :from_end";
+
+                $params[':from_start'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+
+                $nextDay = clone $fromDateObj;
+                $nextDay->modify('+1 day');
+
+                $params[':from_end'] = $nextDay->format('Y-m-d') . ' 00:00:00';
+            }
+            else
+            {
+                $where[] = "c.register_date BETWEEN :from AND :to";
+
+                $params[':from'] = $fromDateObj->format('Y-m-d') . ' 00:00:00';
+                $params[':to']   = $toDateObj->format('Y-m-d') . ' 23:59:59';
+            }
+        }
     }
 
     $sql = "
@@ -31,6 +52,7 @@
             c.ca_customer_id,
             c.customer_type,
             c.contact_no,
+            c.profile_pic,
 
             CAST(COALESCE(cp.coupon_total, 0) AS UNSIGNED) AS coupon_total,
             CAST(COALESCE(cp.coupon_count, 0) AS UNSIGNED) AS coupon_count,

@@ -6,10 +6,10 @@ require "../connect.php";
 
 $f_id = $_POST["refid"];
 $id = $_POST["id"];
-$usertype = $_POST['usertype']; // 'cte' 
+$usertype = $_POST['usertype']; // 'bm' or 'mf' or 'sf'
 
 // Determine user_type_id
-$user_type = "36";
+$user_type = "34";
 
 $status = '';
 $action = $_POST["action"];
@@ -31,8 +31,8 @@ if ($action == 'pending') {
 	$today = null;
 }
 
-// Prepare logs
-$title = $usertype == "Chief Techno Enterprise";
+// Prepare logs 
+$title = "Chief Techno Enterprise";
 
 if ($ta_id == '') {
 	$message = "Deleted $title from $action list";
@@ -45,7 +45,9 @@ if ($ta_id == '') {
 $fromWhom = "1";
 $register_by = "1";
 
+
 $sql1 = "UPDATE chief_techno_enterprise SET status=:status, deleted_date=:deleted_date WHERE id=:id";
+
 $stmt = $conn->prepare($sql1);
 $result = $stmt->execute(array(
 	':status' => $status,

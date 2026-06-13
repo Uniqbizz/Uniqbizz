@@ -15,7 +15,7 @@ operation/connect.php
 testcode.php
 slab_test.php
 tour-details-old.php
-
+ 
 uploading/aadhar
 uploading/aadhar_card
 uploading/bank_passbook
@@ -34,3 +34,11 @@ uploading/terms_condition
 uploading/voting
 uploading/voting_card
 dashboard/customer_dashboard/urls.php
+vendor/
+/composer.phar
+uploading/address_proof
+uploading/income_proof
+uploading/other_document
+uploading/professional_profile
+uploading/resume_cv
+uploading/business_profile

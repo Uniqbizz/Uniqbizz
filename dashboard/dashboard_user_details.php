@@ -65,6 +65,14 @@
         $sql2 = "SELECT * FROM `institution` WHERE institution_id = '$userId' ";
     }else if($userType == '33'){
         $sql2 = "SELECT * FROM `institution_branch_manager` WHERE institution_branch_manager_id = '$userId' ";
+    }else if($userType == '34'){
+        $sql2 = "SELECT * FROM `executive_techno_enterprise	` WHERE executive_techno_enterprise	_id = '$userId' ";
+    }else if($userType == '35'){
+        $sql2 = "SELECT * FROM `super_techno_enterprise` 
+                 LEFT JOIN documents ON user_id ='$userId'
+                 WHERE super_techno_enterprise_id = '$userId'";
+    }else if($userType == '36'){
+        $sql2 = "SELECT * FROM `chief_techno_enterprise` WHERE chief_techno_enterprise_id = '$userId' ";
     }
 
     $stmt = $conn -> prepare($sql2);
@@ -124,6 +132,12 @@
         $directNext = "Franchisee";
     }else if($userType == '31'){ //RM
         $directNext = "Master Franchisee";
+    }else if($userType == '34'){ //ETE
+        $directNext = "Super Techno Enterprice";
+    }else if($userType == '35'){ //STE
+        $directNext = "Techno Enterprice";
+    }else if($userType == '36'){ //CTE
+        $directNext = "Executive Techno Enterprice";
     }
 
     $tdsPercentage=2/100;

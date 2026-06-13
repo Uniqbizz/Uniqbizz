@@ -467,7 +467,7 @@ function formatIndianCurrency($amount) {
         View Order History
     </a>
 
-    <a href="index.php" class="btn btn-secondary">
+    <a href="tour-list.php" class="btn btn-secondary">
         Back to Home
     </a>
 
