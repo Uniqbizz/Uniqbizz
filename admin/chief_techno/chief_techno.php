@@ -241,12 +241,12 @@
                                                                                 </li>
                                                                                 <li>
                                                                                     <a href="#" 
-                                                                                        onclick=\'confirmfunc(
+                                                                                        onclick=\'openConfirmModal(
                                                                                                                 "' . $row["id"] . '",
                                                                                                                 "' . $row["email"] . '",
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
-                                                                                                                class="dropdown-item" data-bs-toggle="modal" >
+                                                                                                                class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirmItemModal" >
                                                                                                                     <i class="fas fa-check-circle font-size-16 text-success me-1"></i> Confirm
                                                                                     </a>
                                                                                 </li>
@@ -740,18 +740,42 @@
             <div class="modal-dialog modal-dialog-centered modal-sm">
                 <div class="modal-content">
                     <div class="modal-body px-4 py-5 text-center">
-                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <button type="button" class="btn-close position-absolute end-0 top-0 m-3"
+                            data-bs-dismiss="modal"></button>
+
+                        <input type="hidden" id="confirm_id">
+                        <input type="hidden" id="confirm_email">
+                        <input type="hidden" id="confirm_usertype">
+
                         <div class="avatar-sm mb-4 mx-auto">
                             <div class="avatar-title bg-primary text-primary bg-opacity-10 font-size-20 rounded-3">
                                 <i class="fas fa-check-circle text-success"></i>
                             </div>
                         </div>
-                        <p class="text-muted font-size-16 mb-4">Are you Sure You want to Cofirm this User ?</p>
-                        
-                        <div class="hstack gap-2 justify-content-center mb-0">
-                            <button type="button" class="btn btn-success" id="remove-item">Confirm Now</button>
-                            <button type="button" class="btn btn-secondary" id="close-confirmItemModal" data-bs-dismiss="modal">Close</button>
+
+                        <p class="text-muted font-size-16 mb-3">
+                            Are you sure you want to confirm this user?
+                        </p>
+
+                        <div class="mb-3">
+                            <input type="text"
+                                class="form-control"
+                                id="confirm_remark"
+                                placeholder="Enter Remark">
                         </div>
+
+                        <div class="hstack gap-2 justify-content-center mb-0">
+                            <button type="button" class="btn btn-success" id="confirmNowBtn">
+                                Confirm Now
+                            </button>
+
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -858,29 +882,52 @@
                 
             };
 
-            function confirmfunc(id,email,usertype){ 
+            function openConfirmModal(id, email, usertype){
+                $("#confirm_id").val(id);
+                $("#confirm_email").val(email);
+                $("#confirm_usertype").val(usertype);
+            }
 
-                var dataString = 'id='+ id+'&uname='+email+'&usertype='+usertype;
-                $("#loading-overlay").show(); //loading screen
+            $('#confirmItemModal').on('hidden.bs.modal', function () {
+                $("#confirm_id").val('');
+                $("#confirm_email").val('');
+                $("#confirm_usertype").val('');
+                $("#confirm_remark").val('');
+            });
+            
+            $("#confirmNowBtn").click(function () {
+
+                var id = $("#confirm_id").val();
+                var email = $("#confirm_email").val();
+                var usertype = $("#confirm_usertype").val();
+                var remark = $("#confirm_remark").val().trim();
+
+                if (remark == "") {
+                    alert("Please enter remark");
+                    return;
+                }
+                var dataString = 'id='+ id+'&email='+email+'&usertype='+usertype+'&remark='+remark;
+                // console.log(dataString);
+                $("#loading-overlay").show();
+
                 $.ajax({
                     type: "POST",
                     url: "confirmChiefTechno.php",
                     data: dataString,
-                    cache: false,
-                    success:function(data){
-                        if(data == 1){
-                            $("#loading-overlay").hide(); //loading screen
-                            alert("Email and Password sent via sms and email");
-                            window.location.reload();
-                        }
-                        else{
-                            $("#loading-overlay").hide(); //loading screen
+                    success: function (data) {
+
+                        $("#loading-overlay").hide();
+
+                        if (data == 1) {
+                            alert("Email and Password sent via SMS and Email");
+                            location.reload();
+                        } else {
                             alert("Failed to confirm");
                         }
                     }
                 });
-                
-            };
+
+            });
 
             function overviewPage(id,ref,cut,st,ct,message){
 

@@ -7,8 +7,9 @@ $todayYear = date('Y'); // year for Custom Id genaration
 $register_Date = date('Y-m-d H:i:s'); //date added when user is confirmed 
 
 $id = $_POST["id"];
-$uname = $_POST["uname"];
+$uname = $_POST["email"];
 $usertype = $_POST['usertype'];
+$remark = $_POST['remark']; // for user_logs table
 
 $string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^*()";
 $password = substr(str_shuffle($string), 0, 8);
@@ -146,6 +147,17 @@ if ($user_type_id == '36') { //Chief Techno Enterprise
 				':register_by' => $register_by,
 				':from_whom' => $fromWhom,
 				':operation' => $operation
+			));
+
+			$sqlUserLogs= "INSERT INTO user_logs (application_id, title, message, reference_no, operation, from_whom) VALUES (:application_id, :title ,:message, :reference_no, :operation, :from_whom)";
+			$stmtUserlogs =$conn->prepare($sqlUserLogs);
+			$stmtUserlogs->execute(array(
+				':application_id' => $application_id,
+				':title' => $title,
+				':message' => $remark,
+				':reference_no' => $register_by,
+				':operation' => $operation,
+				':from_whom' => $fromWhom
 			));
 
 			if ($result3) {

@@ -138,7 +138,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-													<input class="form-control" type="date" id="dob" max="<?php echo $ageLimit; ?>">
+													<input class="form-control" type="date" id="dob" value="1900-01-01" max="<?php echo $ageLimit; ?>">
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-12">
@@ -485,7 +485,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 											<div class="col-md-6 col-sm-6">
 												<div class="input-block mb-3">
 													<label class="col-form-label">Date of Birth <span class="text-danger">*</span></label>
-													<input class="form-control" type="date" id="nomineeDob" max="<?php echo $ageLimit; ?>">
+													<input class="form-control" type="date" id="nomineeDob" value="1900-01-01" max="<?php echo $ageLimit; ?>">
 												</div>
 											</div>
 											<div class="col-md-12 col-sm-6">
