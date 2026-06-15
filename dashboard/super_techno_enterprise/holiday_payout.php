@@ -1,48 +1,22 @@
 <?php
 
-    include_once '../dashboard_user_details.php';
+    include_once (__DIR__.'/../dashboard_user_details.php');
 
     // get current date to show next payout amount  and pass it in sql @ line 129
     $date = date('F,Y'); //month and year. 'F' - month in Text form
     $nextDateMonth = date('m'); //month in number form
     $nextDateYear = date('Y'); //year
-    // echo "Next Date ".$date .' ;' ;
-    // echo "Next Month ".$nextDateMonth.' ;';
-    // echo "Next Year ".$nextDateYear.' ;';
-    // echo '<br>';
 
     // get Previous date to show Previous payout amount  and pass it in sql @ line 111
     $prevdate = date(" F,Y", strtotime("-1 months")); //month and year. 'F' - month in Text form. '-1' to get prev month
     $prevDateMonth = date('m', strtotime("-1 months")); //month in number form. '-1' to get prev month
     $prevDateYear = date('Y');  //Year in number form. 
-    // echo "prev Date ".$prevdate.' ;';
-    // echo "prev Month ".$prevDateMonth.' ;';
-    // echo "prev year ".$prevDateYear.' ;';
 
     $tdsPercentage = 2/100;
-
-    // for displaying result for specific loged in user 
-    if($userType == '26' || $userType == '28' || $userType == '30'){ //business Mentor/ Master Franchisee/ Sponsor Franchisee
-        $columnDesignation = 'business_mentor';
-        $columnMessage = 'message_bm';
-        $columnCommision = 'commision_bm';
-        $columnStatus = 'status_bm';
-    }else if($userType == '16' || $userType == '29' || $userType =='32' || $userType == '35' || $userType == '10'){ //Techno Enterprise / Corporate Agency/ Franchisee/ Institution // remove user type 10 later
-        $columnDesignation = 'techno_enterprise';
-        $columnMessage = 'message_te';
-        $columnCommision = 'commision_te';
-        $columnStatus = 'status_te';
-    }else if($userType == '11'){ // Travel Consultant
-        $columnDesignation = 'travel_consultant';
-        $columnMessage = 'message_tc';
-        $columnCommision = 'commision_tc';
-        $columnStatus = 'status_tc';
-    }else if($userType == '10'){ // Customer
-        $columnDesignation = 'customer';
-        $columnMessage = 'message_cu';
-        $columnCommision = 'cu_amount_paid';
-        $columnStatus = 'status_cu';
-    }
+    $columnDesignation = 'business_mentor';
+    $columnMessage = 'message_bm';
+    $columnCommision = 'commision_bm';
+    $columnStatus = 'status_bm';
 ?>
 
 <!doctype html>
@@ -795,16 +769,7 @@
 
         <!-- custom js  -->
         <script src="../payout/customer_membership.js"></script>
-        <!-- Chart JS -->
-        <!-- <script src="../assets/libs/chart.js/chart.umd.js"></script> -->
-
-        <!-- chartjs init -->
-        <!-- <script src="../assets/js/pages/chartjs.init.js"></script> -->
-
-        <!-- Dashboard init -->
-        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
-
-        <!-- ** designation user, user name on designation select / get country, state, city, pincode **  -->
+       
 
         <!-- Required datatable js -->
         <script src="../assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>

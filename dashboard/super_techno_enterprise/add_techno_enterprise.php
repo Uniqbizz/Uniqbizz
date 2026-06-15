@@ -1,14 +1,5 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
-    if ($userType == '34') {
-        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/super_techno_enterprise/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/";
-    }else{
-        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/"; 
-    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -57,12 +48,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/super_techno_header.php');
-                }else{
-
-                    include_once 'super_techno_header.php'; 
-                }
+                include_once 'super_techno_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -91,12 +77,8 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/super_techno_sidebar.php');
-                }else{
 
-                    include_once 'super_techno_sidebar.php'; 
-                }
+                include_once 'super_techno_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -146,32 +128,32 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="fullName" class="form-label fw-bold">Full Name <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                                        <label for="firstname" class="form-label fw-bold">First Name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="firstname" placeholder="Enter full name" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="lastName" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
+                                        <label for="lastname" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="lastname" placeholder="Enter last name" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email address" required>
+                                        <label for="email" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="number" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="number" class="form-control" id="number" placeholder="Enter mobile number" required>
+                                        <label for="phone" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="number" class="form-control" id="phone" placeholder="Enter mobile number" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
-                                        <label for="dateOfBirth" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="dateOfBirth" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
+                                        <label for="dob" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -187,14 +169,14 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="nomineeName" class="form-label fw-bold">Nominee name <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="nomineeName" placeholder="Enter nominee name" required>
+                                        <label for="nominee_name" class="form-label fw-bold">Nominee name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="nominee_name" placeholder="Enter nominee name" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="nomineeRelation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="email" class="form-control" id="nomineeRelation" placeholder="Enter relation" required>
+                                        <label for="nominee_relation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="email" class="form-control" id="nominee_relation" placeholder="Enter relation" required>
                                     </div>
                                 </div>
                             </div>
@@ -211,22 +193,22 @@
                                         <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="businessPackage" required>
                                             <option value="" selected disabled>Select business package </option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
+                                            <option value="200000">&#8377 2,00,000</option>
+                                            <option value="300000">&#8377 3,00,000</option>
+                                            <option value="500000">&#8377 5,00,000</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="amount" class="form-label fw-bold">Enter Amount <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="amount" placeholder="Enter amount" required>
+                                        <label for="flex_amount" class="form-label fw-bold">Amount <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="flex_amount" placeholder="Enter amount" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="gstNo" class="form-label fw-bold">GST No </label>
-                                        <input type="email" class="form-control" id="gstNo" placeholder="Enter GST number">
+                                        <label for="gst_no" class="form-label fw-bold">GST No </label>
+                                        <input type="text" class="form-control" id="gst_no" placeholder="Enter GST number">
                                     </div>
                                 </div>
                             </div>
@@ -240,36 +222,46 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
+                                        <?php
+                                            $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                            $stmt->execute();                                         
+                                            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                        ?>
                                         <label for="country" class="form-label fw-bold">Country <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="country" required>
                                             <option value="" selected disabled>Select country </option>
-                                            <option value="india">India</option>
-                                            <option value="china">China</option>
-                                            <option value="japan">Japan</option>
+                                            <?php 
+                                                if($stmt->rowCount()>0){
+                                                    foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                        echo '<option value="'.$row['id'].'">'.$row['country_name'].'</option>'; 
+                                                    } 
+                                                }else{ 
+                                                    echo '<option value="">Country not available</option>'; 
+                                                } 
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="state" class="form-label fw-bold">State <span class="text-danger fw-bolder">*</span></label>
-                                        <select class="form-select genderSelect" id="state" required>
-                                            <option value="" selected disabled>Select state </option>
-                                            <option value="goa">Goa</option>
-                                            <option value="keralam">Keralam</option>
-                                            <option value="delhi">Delhi</option>
+                                        <label for="mystate" class="form-label fw-bold">State <span class="text-danger fw-bolder">*</span></label>
+                                        <select class="form-select genderSelect" id="mystate" required>
+                                            <option value="">--Select country first--</option>   
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="city" class="form-label fw-bold">City<span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="city" placeholder="Enter city" required>
+                                        <select class="form-select genderSelect " id="city" required>
+                                            <option value="">--Select state first--</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="pincode" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
-                                        <input type="number" class="form-control" id="pincode" placeholder="Enter pincode">
+                                        <label for="pin" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="pin" placeholder="Enter pincode">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -358,8 +350,9 @@
                             <div class="row g-3">
                                 <!-- Profile Photo -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Profile Photo">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path1" value=""> <!-- image file path --> 
+                                    <div class="upload-card" data-title="Profile Photo" data-index="1">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file1">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-solid fa-user"></i>
@@ -373,8 +366,9 @@
 
                                 <!-- Aadhaar -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Aadhaar Card">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path2" value="">
+                                    <div class="upload-card" data-title="Aadhaar Card" data-index="2">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file2">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-regular fa-id-card"></i>
@@ -388,8 +382,9 @@
 
                                 <!-- PAN -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="PAN Card">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path3" value="">
+                                    <div class="upload-card" data-title="PAN Card" data-index="3">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file3">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-regular fa-credit-card"></i>
@@ -403,8 +398,9 @@
 
                                 <!-- Bank Passbook -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Bank Passbook">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path4" value="">
+                                    <div class="upload-card" data-title="Bank Passbook" data-index="4">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file4">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-solid fa-building-columns"></i>
@@ -418,8 +414,9 @@
 
                                 <!-- Voting -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Voting Card">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path11" value="">
+                                    <div class="upload-card" data-title="Voting Card" data-index="11">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file11">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-regular fa-address-card"></i>
@@ -433,8 +430,9 @@
 
                                 <!-- Payment Proof -->
                                 <div class="col-lg-2 col-md-4 col-6">
-                                    <div class="upload-card" data-title="Payment Proof">
-                                        <input type="file" class="file-input" accept="image/*,.pdf">
+                                    <input type="hidden" id="img_path12" value="">
+                                    <div class="upload-card" data-title="Payment Proof" data-index="12">
+                                        <input type="file" class="file-input" accept="image/*,.pdf" id="upload_file12">
                                         <div class="upload-content">
                                             <div class="upload-icon">
                                                 <i class="fa-solid fa-file-invoice"></i>
@@ -466,8 +464,8 @@
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
                                     <button type="button" class="btn actionBtn cancelBtn mb-2">Cancel</button>
-                                    <button type="button" class="btn actionBtn draftBtn mb-2">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2">
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftAdd">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="addTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Techno Enterprise
                                     </button>
@@ -477,13 +475,9 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/super_techno_footer.php');
-                    }else{
+                <?php
 
-                        include_once "super_techno_footer.php"; 
-                    }
+                    include_once "super_techno_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -510,21 +504,12 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <?php 
-            //if ($userType == 34) {
-        ?>
-        <!-- Vector map-->
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-        <!--Swiper slider js-->
-        <script src="<?= $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
-        <?php
-           // }
-        ?>
+        <script src="js/techno_enterprise.js"></script>
+       
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -553,26 +538,6 @@
             });
         </script>
 
-        <script>
-            var modal = document.getElementById('staticBackdrop');
-
-            // Store the element that opened the modal
-            let lastFocusedElement;
-
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('[data-bs-toggle="modal"]')) {
-                    lastFocusedElement = e.target;
-                }
-            });
-
-            modal.addEventListener('hidden.bs.modal', function () {
-                if (lastFocusedElement) {
-                    lastFocusedElement.focus();
-                } else {
-                    document.body.focus();
-                }
-            });
-        </script>
         <!-- end dialer logic scripts -->
         <script>
             $('#payment_fee').on('change', function(){
@@ -622,52 +587,228 @@
             });
         </script>
         <script>
-            document.querySelectorAll(".file-input").forEach(input => {
-                input.addEventListener("change", function () {
-                    const file = this.files[0];
-                    if (!file) return;
-                    const card = this.closest(".upload-card");
-                    const title = card.dataset.title;
-                    if (file.type.startsWith("image/")) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            card.innerHTML = `
-                                <input type="file" class="file-input" accept="image/*,.pdf">
-                                <div class="preview-wrapper">
-                                    <img src="${e.target.result}">
-                                    <div class="file-title">
-                                        ${title}
-                                    </div>
-                                </div>
-                            `;
-                            bindUploadEvents();
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        card.innerHTML = `
-                            <input type="file" class="file-input" accept="image/*,.pdf">
-                            <div class="pdf-preview">
+            // document.querySelectorAll(".file-input").forEach(input => {
+            //     input.addEventListener("change", function () {
+            //         const file = this.files[0];
+            //         if (!file) return;
+            //         const card = this.closest(".upload-card");
+            //         const title = card.dataset.title;
+            //         if (file.type.startsWith("image/")) {
+            //             const reader = new FileReader();
+            //             reader.onload = function (e) {
+            //                 card.innerHTML = `
+            //                     <input type="file" class="file-input" accept="image/*,.pdf">
+            //                     <div class="preview-wrapper">
+            //                         <img src="${e.target.result}">
+            //                         <div class="file-title">
+            //                             ${title}
+            //                         </div>
+            //                     </div>
+            //                 `;
+            //                 bindUploadEvents();
+            //             };
+            //             reader.readAsDataURL(file);
+            //         } else {
+            //             card.innerHTML = `
+            //                 <input type="file" class="file-input" accept="image/*,.pdf">
+            //                 <div class="pdf-preview">
+            //                     <i class="fa-solid fa-file-pdf"></i>
+            //                     <p class="mt-2 mb-0">${file.name}</p>
+            //                     <div class="file-title">
+            //                         ${title}
+            //                     </div>
+            //                 </div>
+            //             `;
+            //             bindUploadEvents();
+            //         }
+            //     });
+            // });
+            // function bindUploadEvents() {
+            //     document.querySelectorAll(".file-input").forEach(input => {
+            //         if (input.dataset.bound) return;
+            //         input.dataset.bound = "true";
+            //         input.addEventListener("change", function () {
+            //             const event = new Event("change");
+            //             this.dispatchEvent(event);
+            //         });
+            //     });
+            // }
+            function bindUploadEvents() {
+
+                document.querySelectorAll('.file-input').forEach(input => {
+
+                    if (input.dataset.bound) return;
+
+                    input.dataset.bound = "true";
+
+                    input.addEventListener('change', function () {
+
+                        const file = this.files[0];
+
+                        if (!file) return;
+
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+                        const index = card.dataset.index;
+
+                        const hiddenField = document.getElementById(
+                            'img_path' + index
+                        );
+
+                        // Store filename or path
+                        hiddenField.value = file.name;
+
+                        if (file.type.startsWith('image/')) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}">
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
                                 <div class="file-title">
                                     ${title}
                                 </div>
-                            </div>
-                        `;
-                        bindUploadEvents();
-                    }
-                });
-            });
-            function bindUploadEvents() {
-                document.querySelectorAll(".file-input").forEach(input => {
-                    if (input.dataset.bound) return;
-                    input.dataset.bound = "true";
-                    input.addEventListener("change", function () {
-                        const event = new Event("change");
-                        this.dispatchEvent(event);
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        console.log("File Input :", this.id);
+                        console.log("Hidden Field :", hiddenField.id);
+                        console.log("Selected File :", file.name);
+
                     });
+
                 });
+
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                bindUploadEvents();
+            });
+            $('#country').on('change', function(){
+                var countryID = $(this).val();
+                if(countryID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'country_id='+countryID,
+                        success:function(htmll){
+                            $('#mystate').html(htmll); 
+                            $('#city').html('<option value="">Select state first</option>'); 
+                        }
+                    }); 
+                }else{
+                    $('#mystate').html('<option value="">Select country first</option>');
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');   
+                }
+            });
+                
+            $('#mystate').on('change', function(){
+                var stateID = $(this).val();
+                if(stateID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/countrydata.php',
+                        data:'state_id='+stateID,
+                        success:function(html){
+                            $('#city').html(html);
+                        }
+                    }); 
+                }else{
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');   
+                }
+            });
+
+            $('#city').on('change', function(){
+                var cityID = $(this).val();
+                if(cityID){
+                    $.ajax({
+                        type:'POST',
+                        url:'../address/pincode.php',
+                        data:'city_id='+cityID,
+                        success:function(response){
+                            $('#pin').val(response); 
+                        }
+                    }); 
+                }else{
+                    $('#city').html('<option value="">Select state first</option>');
+                    $('#pin').val('');
+                }
+            });
+            $(document).on('input', '#pin', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+            let today = new Date();
+
+            $(document).ready(function () {
+
+                let today = new Date();
+
+                // Calculate date 18 years ago
+                let maxDate = new Date(
+                    today.getFullYear() - 18,
+                    today.getMonth(),
+                    today.getDate()
+                );
+
+                // Format YYYY-MM-DD
+                let formattedDate = maxDate.toISOString().split('T')[0];
+
+                $('#dob').attr('max', formattedDate);
+
+            });
+            $('#dob').on('change', function () {
+
+                const selectedDate = new Date(this.value);
+
+                const maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() - 18);
+
+                if (selectedDate > maxDate) {
+                    alert('Age must be at least 18 years.');
+                    $(this).val('');
+                }
+
+            });
         </script>
         <!-- Buttons -->
         <script>
@@ -676,18 +817,18 @@
                     window.history.back();
                 }
             });
-            document.querySelector(".draftBtn").addEventListener("click", function () {
-                alert("Draft Saved Successfully");
-                // AJAX call here
-                // saveDraft();
-            });
-            document.querySelector(".submitBtn").addEventListener("click", function (e) {
-                // Remove if button is inside form
-                e.preventDefault();
-                alert("Techno Enterprise Submitted Successfully");
-                // Submit form
-                // document.getElementById('yourForm').submit();
-            });
+            // document.querySelector(".draftBtn").addEventListener("click", function () {
+            //     alert("Draft Saved Successfully");
+            //     // AJAX call here
+            //     // saveDraft();
+            // });
+            // document.querySelector(".submitBtn").addEventListener("click", function (e) {
+            //     // Remove if button is inside form
+            //     e.preventDefault();
+            //     alert("Techno Enterprise Submitted Successfully");
+            //     // Submit form
+            //     // document.getElementById('yourForm').submit();
+            // });
         </script>
     </body>
 </html>

@@ -431,6 +431,9 @@
                                 <p class="fs-6 mb-0">
                                     ${data.firstname || ''} ${data.lastname || ''}
                                 </p>
+                                <p class="fs-6 mb-0">
+                                    ${data.corporate_agency_id || ''}
+                                </p>
                             `;
                         }
                     },
