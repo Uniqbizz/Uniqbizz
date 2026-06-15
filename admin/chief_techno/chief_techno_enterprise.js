@@ -1,3 +1,7 @@
+//age calculation
+var today = new Date();
+var currentYear = today.getFullYear();
+
 $("#email").keyup(function () {
     var email = $("#email").val().trim();
     var testValue = $("#testValue").val().trim();
@@ -40,7 +44,8 @@ function submitAddForm(actionType) {
     // e.preventDefault();
     // console.log('Add customer button clicked '+actionType);
 
-    var mobileRegex = /^[0-9]{10}$/;
+    var phoneReg = /^[0-9]{10}$/;
+    var emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // get all values of checkbox and store it in hidden field in json format
     let selected = [];
@@ -120,8 +125,6 @@ function submitAddForm(actionType) {
 
     var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
 
-    var phoneReg = /^[0-9]{10}$/;
-
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
@@ -143,7 +146,7 @@ function submitAddForm(actionType) {
             alert("Enter email address");
             return;
         }
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        else if (!emailReg.test(email)) {
             alert("Enter valid email address");
             return;
         }
@@ -183,7 +186,7 @@ function submitAddForm(actionType) {
             alert("Enter IFSC code");
             return;
         } 
-        else if (!mobileRegex.test(phone)) {
+        else if (!phoneReg.test(phone)) {
             alert("Enter Valid Mobile Number");
             return;
         }
@@ -209,12 +212,15 @@ function submitAddForm(actionType) {
         }
         else if (!phoneReg.test(phone)) {
             alert("Contact Number Must be 10 Digit");
+            return;
         }
         else if (!phoneReg.test(alt_phone)) {
             alert("Alternate Contact Number Must be 10 Digit");
+            return;
         }
         else if (!phoneReg.test(nominee_phone)) {
             alert("Nominee Contact Number Must be 10 Digit");
+            return;
         }
     } 
 
@@ -512,12 +518,15 @@ function submitEditForm(actionType) {
         }
         else if (!phoneReg.test(phone)) {
             alert("Contact Number Must be 10 Digit");
+            return;
         }
         else if (!phoneReg.test(alt_phone)) {
             alert("Alternate Contact Number Must be 10 Digit");
+            return;
         }
         else if (!phoneReg.test(nominee_phone)) {
             alert("Nominee Contact Number Must be 10 Digit");
+            return;
         }
 
         // if even one rejected value is found then check for rejected reason value

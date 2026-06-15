@@ -293,7 +293,7 @@
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >
-                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Verify / Edit
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit
                                                                                     </a>
                                                                                 </li>
                                                                                 <li>

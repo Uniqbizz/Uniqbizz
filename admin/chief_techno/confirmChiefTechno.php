@@ -35,6 +35,19 @@ if ($user_type_id == '36') { //Chief Techno Enterprise
 		}
 	}
 
+	// check if user/application id present in verified table. if no their then pass message in table as "Admin confirm user without verifing fields"
+	$sqlGetVerifiedUser = $conn->prepare("SELECT * FROM user_verification WHERE application_id = :application_id");
+	$sqlGetVerifiedUser->execute([
+		":application_id" => $application_id
+	]);
+	$sqlGetVerifiedUser->setFetchMode(PDO::FETCH_ASSOC);
+	if($sqlGetVerifiedUser->rowCount() > 0){
+		foreach (($sqlGetVerifiedUser->fetchAll()) as $verifiedUsers => $verifiedUser){
+			$application_id_count = $verifiedUser['application_id'];
+		}
+	}
+
+
 	// $sql10 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $reference_no . "' AND user_type = '36' AND status = '1' ");
 	// $sql10->execute();
 	// $sql10->setFetchMode(PDO::FETCH_ASSOC);
@@ -154,6 +167,17 @@ if ($user_type_id == '36') { //Chief Techno Enterprise
 			$stmtUserlogs->execute(array(
 				':application_id' => $application_id,
 				':title' => $title,
+				':message' => $remark,
+				':reference_no' => $register_by,
+				':operation' => $operation,
+				':from_whom' => $fromWhom
+			));
+
+			$userVerification= "INSERT INTO user_verification (application_id, approved_reason,payload, message, reference_no, operation, from_whom) VALUES (:application_id, :title ,:message, :reference_no, :operation, :from_whom)";
+			$stmtUserVerification =$conn->prepare($userVerification);
+			$stmtUserVerification->execute(array(
+				':application_id' => $application_id,
+				':approved_reason' => $remark,
 				':message' => $remark,
 				':reference_no' => $register_by,
 				':operation' => $operation,

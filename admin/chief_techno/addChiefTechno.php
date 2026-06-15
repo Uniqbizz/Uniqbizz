@@ -178,7 +178,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-8 col-sm-8 col-9">
 														<div class="input-block">
 															<label class="col-form-label">Phone Number <span class="text-danger">*</span></label>
-															<input class="form-control" type="number" id="phone" placeholder="Enter Phone Number">
+															<input class="form-control" type="tel" id="phone" placeholder="Enter Phone Number" maxlength="10">
 														</div>
 													</div>
 												</div>
@@ -210,7 +210,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-8 col-sm-8 col-9">
 														<div class="input-block">
 															<label class="col-form-label">Alt Phone Number <span class="text-danger">*</span></label>
-															<input class="form-control" type="number" id="altPhone" placeholder="Enter Alternative Phone Number">
+															<input class="form-control" type="tel" id="altPhone" placeholder="Enter Alternative Phone Number" maxlength="10">
 														</div>
 													</div>
 												</div>
@@ -477,7 +477,7 @@ $ageLimit = date("Y-m-d", $dateTwentyYearsAgo);  // Outputs the date 20 years be
 													<div class="col-md-8 col-sm-8 col-9">
 														<div class="input-block">
 															<label class="col-form-label">Nominee Phone Number <span class="text-danger">*</span></label>
-															<input class="form-control" type="number" id="nomineePhone" placeholder="Enter Nominee Phone Number">
+															<input class="form-control" type="tel" id="nomineePhone" placeholder="Enter Nominee Phone Number" maxlength="10">
 														</div>
 													</div>
 												</div>
