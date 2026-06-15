@@ -736,7 +736,11 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-
+        <!-- contact card pop up  start-->
+        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="ri-phone-fill"></i>
+        </button>
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -786,6 +790,53 @@
                 $("#total_payout_table").DataTable();
             });
 
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const callBtn = document.getElementById("callBtn");
+
+                if (callBtn) {
+                    callBtn.addEventListener("click", function(e) {
+
+                        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                        if (!isMobile) {
+                            e.preventDefault();
+
+                            alert("📞 Calling works only on mobile devices.\nPlease dial 8010892265 from your phone.");
+                            location.reload();
+
+                            // Optional clipboard copy (safe fallback)
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText("8010892265");
+                            }
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+        <script>
+            var modal = document.getElementById('staticBackdrop');
+
+            // Store the element that opened the modal
+            let lastFocusedElement;
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-bs-toggle="modal"]')) {
+                    lastFocusedElement = e.target;
+                }
+            });
+
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                } else {
+                    document.body.focus();
+                }
+            });
         </script>
     </body>
 </html>

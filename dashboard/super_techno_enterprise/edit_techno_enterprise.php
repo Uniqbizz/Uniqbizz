@@ -1,14 +1,5 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
-    if ($userType == '34') {
-        $base_url_sidebar = "/ca.uniqbizz.com/dashboard/super_techno_enterprise/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/";
-    }else{
-        // $base_url_sidebar = "/ca.uniqbizz.com/dashboard/customer_dashboard/";
-        $base_url_asset = "/ca.uniqbizz.com/dashboard/";
-        $home_url = "/ca.uniqbizz.com/"; 
-    }
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -493,7 +484,11 @@
             <i class="ri-arrow-up-line"></i>
         </button>
         <!--end back-to-top-->
-        
+        <!-- contact card pop up  start-->
+        <button type="button" class="contactBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="ri-phone-fill"></i>
+        </button>
+        <?php include (__DIR__.'/../contact_modal.php') ?>
         <!-- JAVASCRIPT -->
         <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/libs/simplebar/simplebar.min.js"></script>
@@ -510,18 +505,7 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        <?php 
-            //if ($userType == 34) {
-        ?>
-        <!-- Vector map-->
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
-        <script src="<?= $base_url ?>../assets/libs/jsvectormap/maps/world-merc.js"></script>
-
-        <!--Swiper slider js-->
-        <script src="<?= $base_url ?>../assets/libs/swiper/swiper-bundle.min.js"></script>
-        <?php
-           // }
-        ?>
+        
 
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
