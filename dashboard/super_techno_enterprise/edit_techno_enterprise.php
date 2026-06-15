@@ -1,5 +1,9 @@
 <?php
     include_once (__DIR__.'/../dashboard_user_details.php');
+    $id = $_POST['id'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $edittype = $_POST['edittype'] ?? '';
+
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -48,12 +52,7 @@
         <div id="layout-wrapper">
 
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/super_techno_header.php');
-                }else{
-
-                    include_once 'super_techno_header.php'; 
-                }
+                include_once 'super_techno_header.php'; 
             ?>
 
             <!-- removeNotificationModal -->
@@ -82,12 +81,7 @@
             </div><!-- /.modal -->
             <!-- ========== App Menu ========== -->
             <?php 
-                if ($userType == 34) {
-                    include_once(__DIR__ . '/super_techno_sidebar.php');
-                }else{
-
-                    include_once 'super_techno_sidebar.php'; 
-                }
+                include_once 'super_techno_sidebar.php'; 
             ?>
 
             <!-- ============================================================== -->
@@ -468,13 +462,8 @@
                         </div>
                     </div> <!-- container-fluid -->
                 </div><!-- End Page-content -->
-                <?php 
-                    if ($userType == 34) {
-                        include_once(__DIR__ . '/super_techno_footer.php');
-                    }else{
-
-                        include_once "super_techno_footer.php"; 
-                    }
+                <?php
+                    include_once "super_techno_footer.php"; 
                 ?>
             </div><!-- end main content-->
         </div><!-- END layout-wrapper -->
@@ -606,52 +595,161 @@
             });
         </script>
         <script>
-            document.querySelectorAll(".file-input").forEach(input => {
-                input.addEventListener("change", function () {
-                    const file = this.files[0];
-                    if (!file) return;
-                    const card = this.closest(".upload-card");
-                    const title = card.dataset.title;
-                    if (file.type.startsWith("image/")) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            card.innerHTML = `
-                                <input type="file" class="file-input" accept="image/*,.pdf">
-                                <div class="preview-wrapper">
-                                    <img src="${e.target.result}">
-                                    <div class="file-title">
-                                        ${title}
-                                    </div>
-                                </div>
-                            `;
-                            bindUploadEvents();
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        card.innerHTML = `
-                            <input type="file" class="file-input" accept="image/*,.pdf">
-                            <div class="pdf-preview">
+            function bindUploadEvents() {
+
+                document.querySelectorAll('.file-input').forEach(input => {
+
+                    if (input.dataset.bound) return;
+
+                    input.dataset.bound = "true";
+
+                    input.addEventListener('change', function () {
+
+                        const file = this.files[0];
+
+                        if (!file) return;
+
+                        const card = this.closest('.upload-card');
+                        const title = card.dataset.title;
+                        const index = card.dataset.index;
+
+                        const hiddenField = document.getElementById(
+                            'img_path' + index
+                        );
+
+                        // Store filename or path
+                        hiddenField.value = file.name;
+
+                        if (file.type.startsWith('image/')) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                                card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                                let preview = card.querySelector('.preview-wrapper');
+
+                                if (!preview) {
+
+                                    preview = document.createElement('div');
+                                    preview.className = 'preview-wrapper';
+
+                                    preview.innerHTML = `
+                                        <img src="${e.target.result}">
+                                        <div class="file-title">
+                                            ${title}
+                                        </div>
+                                    `;
+
+                                    card.appendChild(preview);
+
+                                } else {
+
+                                    preview.querySelector('img').src = e.target.result;
+                                }
+                            };
+
+                            reader.readAsDataURL(file);
+
+                        } else {
+
+                            card.querySelector('.upload-content, .preview-wrapper, .pdf-preview')?.remove();
+
+                            let preview = document.createElement('div');
+
+                            preview.className = 'pdf-preview';
+
+                            preview.innerHTML = `
                                 <i class="fa-solid fa-file-pdf"></i>
                                 <p class="mt-2 mb-0">${file.name}</p>
                                 <div class="file-title">
                                     ${title}
                                 </div>
-                            </div>
-                        `;
-                        bindUploadEvents();
-                    }
-                });
-            });
-            function bindUploadEvents() {
-                document.querySelectorAll(".file-input").forEach(input => {
-                    if (input.dataset.bound) return;
-                    input.dataset.bound = "true";
-                    input.addEventListener("change", function () {
-                        const event = new Event("change");
-                        this.dispatchEvent(event);
+                            `;
+
+                            card.appendChild(preview);
+                        }
+
+                        console.log("File Input :", this.id);
+                        console.log("Hidden Field :", hiddenField.id);
+                        console.log("Selected File :", file.name);
+
                     });
+
                 });
+
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                bindUploadEvents();
+                const id = '<?= $id ?>';
+                const edittype = '<?= $edittype ?>';
+                $.ajax({
+                        url: 'models/techno_enterprise/edit_te_load_data.php',
+                        type: 'GET',
+                        data: {
+                            id: id,
+                            edittype: edittype
+                        },
+                        dataType: 'json',
+                        success: function(res)
+                        {
+                            if(!res.status){
+                                alert(res.message);
+                                return;
+                            }
+
+                            const data = res.data;
+
+                            // Personal Information
+                            $('#fullName').val(data.firstname);
+                            $('#lastName').val(data.lastname);
+                            $('#exampleFormControlInput1').val(data.email);
+                            $('#number').val(data.contact_no);
+                            $('#dateOfBirth').val(data.date_of_birth);
+                            $('#gender').val(data.gender);
+                            $('#nomineeName').val(data.nominee_name);
+                            $('#nomineeRelation').val(data.nominee_relation);
+
+                            // Business Information
+                            $('#amount').val(data.amount);
+                            $('#gstNo').val(data.gst_no);
+
+                            // Address Information
+                            $('#country').val(data.country).trigger('change');
+                            $('#state').val(data.state).trigger('change');
+                            $('#city').val(data.city_name);
+                            $('#pincode').val(data.pincode);
+                            $('#address').val(data.address);
+
+                            // Payment Information
+                            if(data.payment_mode === 'cash'){
+                                $('#cashPayment').prop('checked', true).trigger('change');
+                            }
+
+                            if(data.payment_mode === 'online'){
+                                $('#onlinePayment').prop('checked', true).trigger('change');
+                                $('#transactionNo').val(data.transaction_no);
+                                $('#onlineOpt').removeClass('d-none');
+                            }
+
+                            if(data.payment_mode === 'cheque'){
+                                $('#chequePayment').prop('checked', true).trigger('change');
+
+                                $('#chequeNo').val(data.cheque_no);
+                                $('#chequeDate').val(data.cheque_date);
+                                $('#bankName').val(data.bank_name);
+
+                                $('#chequeOpt').removeClass('d-none');
+                            }
+
+                            // Update radio button styling
+                            $('.payment-label').removeClass('ptMode');
+                            $('.payment:checked').closest('label').addClass('ptMode');
+                        }
+                    });
+            });
         </script>
         <!-- Buttons -->
         <script>
@@ -660,18 +758,18 @@
                     window.history.back();
                 }
             });
-            document.querySelector(".draftBtn").addEventListener("click", function () {
-                alert("Draft Saved Successfully");
-                // AJAX call here
-                // saveDraft();
-            });
-            document.querySelector(".submitBtn").addEventListener("click", function (e) {
-                // Remove if button is inside form
-                e.preventDefault();
-                alert("Techno Enterprise Submitted Successfully");
-                // Submit form
-                // document.getElementById('yourForm').submit();
-            });
+            // document.querySelector(".draftBtn").addEventListener("click", function () {
+            //     alert("Draft Saved Successfully");
+            //     // AJAX call here
+            //     // saveDraft();
+            // });
+            // document.querySelector(".submitBtn").addEventListener("click", function (e) {
+            //     // Remove if button is inside form
+            //     e.preventDefault();
+            //     alert("Techno Enterprise Submitted Successfully");
+            //     // Submit form
+            //     // document.getElementById('yourForm').submit();
+            // });
         </script>
     </body>
 </html>

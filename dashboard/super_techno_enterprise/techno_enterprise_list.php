@@ -396,8 +396,13 @@
                                     >
                                     <input
                                         type="hidden"
-                                        name="id"
+                                        name="status"
                                         value="${data.status}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="edittype"
+                                        value="${data.user_type}"
                                     >
 
                                     <button

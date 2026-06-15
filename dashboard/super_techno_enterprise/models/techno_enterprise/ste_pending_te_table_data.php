@@ -15,10 +15,14 @@
                 ca.email,
                 ca.added_on,
                 ca.status,
+                ca.user_type,
+                'TE' AS userTypeStr,
 
                 ste.firstname AS ref_firstname,
                 ste.lastname AS ref_lastname,
-                ste.super_techno_enterprise_id
+                ste.super_techno_enterprise_id,
+
+                'corporate_agency' AS source_table
 
             FROM corporate_agency ca
 
@@ -28,7 +32,34 @@
             WHERE ca.reference_no = :user_id
             AND ca.status IN (2,4)
 
-            ORDER BY ca.id DESC
+            UNION ALL
+
+            SELECT
+                sf.id,
+                sf.firstname,
+                sf.lastname,
+                sf.contact_no,
+                sf.email,
+                sf.added_on,
+                sf.status,
+                sf.user_type,
+                'SF' AS userTypeStr,
+
+                ste.firstname AS ref_firstname,
+                ste.lastname AS ref_lastname,
+                ste.super_techno_enterprise_id,
+
+                'sponsor_franchisee' AS source_table
+
+            FROM sponsor_franchisee sf
+
+            LEFT JOIN super_techno_enterprise ste
+                ON sf.reference_no = ste.super_techno_enterprise_id
+
+            WHERE sf.reference_no = :user_id
+            AND sf.status IN (2,4)
+
+            ORDER BY id DESC;
         ");
 
         $sql->execute([
