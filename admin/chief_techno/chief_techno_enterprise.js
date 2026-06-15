@@ -1,3 +1,29 @@
+$("#email").keyup(function () {
+    var email = $("#email").val().trim();
+    var testValue = $("#testValue").val().trim();
+    emailtest(email, testValue);
+});
+
+var emailtest = (emailtest, testValue) => {
+    $.ajax({
+        type: "POST",
+        url: "../test_data/emailtest.php",
+        data: "email=" + emailtest + "&tablename=" + testValue,
+        success: function (response) {
+            if (response == 1) {
+                $("#testemails").html(
+                    '<input type="hidden"  id="testemail" value="1" >'
+                );
+            } else {
+                $("#testemails").html(
+                    '<input  type="hidden" id="testemail" value="0" >'
+                );
+                // return false;
+            }
+        },
+    });
+};
+
 $("#addChiefTechnoEnterprise").on("click", function (e) {
     e.preventDefault();
     submitAddForm('submit');
@@ -92,6 +118,10 @@ function submitAddForm(actionType) {
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
 
+    var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
+
+    var phoneReg = /^[0-9]{10}$/;
+
     // ======================
     // VALIDATION ONLY FOR SUBMIT
     // ======================
@@ -172,6 +202,19 @@ function submitAddForm(actionType) {
         else if (profile_pic === "") {
             alert("Upload Profile Picture");
             return;
+        }
+        else if (testE == "1") {
+            alert("Email already exists");
+            return;
+        }
+        else if (!phoneReg.test(phone)) {
+            alert("Contact Number Must be 10 Digit");
+        }
+        else if (!phoneReg.test(alt_phone)) {
+            alert("Alternate Contact Number Must be 10 Digit");
+        }
+        else if (!phoneReg.test(nominee_phone)) {
+            alert("Nominee Contact Number Must be 10 Digit");
         }
     } 
 
@@ -356,6 +399,10 @@ function submitEditForm(actionType) {
     var income_proof = $(":hidden#img_path9").val().trim();
     var other_document = $(":hidden#img_path10").val().trim();
 
+    var testE = $("#testemail").val(); // Email Validation Only one email address should be present in one user table
+
+    var phoneReg = /^[0-9]{10}$/;
+
     //radio button approve/reject Store data in array format
     function getVerificationStatus() {
         let verificationStatus = {};
@@ -459,6 +506,19 @@ function submitEditForm(actionType) {
             alert("Upload Profile Picture");
             return;
         } 
+        else if (testE == "1") {
+            alert("Email already exists");
+            return;
+        }
+        else if (!phoneReg.test(phone)) {
+            alert("Contact Number Must be 10 Digit");
+        }
+        else if (!phoneReg.test(alt_phone)) {
+            alert("Alternate Contact Number Must be 10 Digit");
+        }
+        else if (!phoneReg.test(nominee_phone)) {
+            alert("Nominee Contact Number Must be 10 Digit");
+        }
 
         // if even one rejected value is found then check for rejected reason value
         let hasRejected = Object.values(verificationStatus).includes("rejected");

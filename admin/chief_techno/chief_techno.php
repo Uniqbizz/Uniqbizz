@@ -127,7 +127,7 @@
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Full Name</th>
-                                                        <th>Reference ID / Name</th>
+                                                        <!-- <th>Reference ID / Name</th> -->
                                                         <th>Phone / Email</th>
                                                         <th>Address</th>
                                                         <th>Joining Date</th>
@@ -181,9 +181,6 @@
                                                                 echo '<tr>
                                                                     <td>' . $row['id'] . '</td>
                                                                     <td>' . $label . $row['firstname'] . ' ' . $row['lastname'] . '</td>
-                                                                    <td><p class="mb-1">' . $row['reference_no'] . '</p>
-                                                                        <p class="mb-0">' . $row['registrant'] . '</p>
-                                                                    </td>
                                                                     <td>
                                                                         <p class="mb-1">+' . $row['country_code'] . ' ' . $row['contact_no'] . '</p>
                                                                         <p class="mb-0">' . $row['email'] . '</p>
@@ -225,7 +222,7 @@
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >
-                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Edit
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Verify / Edit
                                                                                     </a>
                                                                                 </li>
                                                                                 <li>
@@ -296,7 +293,7 @@
                                                                                                                 "' . strtolower($row['user_type']) . '"
                                                                                                                 )\' 
                                                                                                                 class="dropdown-item" data-bs-toggle="modal" >
-                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> View / Edit
+                                                                                                                    <i class="mdi mdi-pencil font-size-16 text-primary me-1"></i> Verify / Edit
                                                                                     </a>
                                                                                 </li>
                                                                                 <li>
