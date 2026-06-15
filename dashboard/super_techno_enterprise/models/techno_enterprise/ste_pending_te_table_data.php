@@ -8,7 +8,7 @@
 
         $sql = $conn->prepare("
             SELECT
-                ca.corporate_agency_id,
+                ca.id,
                 ca.firstname,
                 ca.lastname,
                 ca.contact_no,
@@ -26,7 +26,7 @@
                 ON ca.reference_no = ste.super_techno_enterprise_id
 
             WHERE ca.reference_no = :user_id
-            AND ca.status IN (0)
+            AND ca.status IN (2,4)
 
             ORDER BY ca.id DESC
         ");

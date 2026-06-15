@@ -502,6 +502,13 @@ body {
     font-weight: 900;
     padding: 3px 0px;
 }
+.teDraftBtn {
+    background-color: #d8e8ff;
+    color: #0996f4;
+    border: 1px solid #0928f4;
+    font-weight: 900;
+    padding: 3px 0px;
+}
 .teDeletedBtn {
     background-color: #ffefd8;
     color: #870c0c;

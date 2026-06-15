@@ -149,6 +149,7 @@
                                                                 <th data-ordering="false">Phone & Email</th>
                                                                 <th data-ordering="false">Joining Date</th>
                                                                 <th data-ordering="false">Status</th>
+                                                                <th data-ordering="false">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="teTableBody">
@@ -361,16 +362,7 @@
                         data: 'status',
                         render: function(status){
 
-                            if(status == 1){
-
-                                return `
-                                    <p class="teApprovedBtn rounded-pill text-center mb-0">
-                                        Active
-                                    </p>
-                                `;
-                            }
-
-                            if(status == 3){
+                            if(status == 2){
 
                                 return `
                                     <p class="tePendingBtn rounded-pill text-center mb-0">
@@ -379,10 +371,44 @@
                                 `;
                             }
 
+                            else if(status == 4){
+
+                                return `
+                                    <p class="teDraftBtn rounded-pill text-center mb-0">
+                                        Draft
+                                    </p>
+                                `;
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+
                             return `
-                                <p class="teDeletedBtn rounded-pill text-center mb-0">
-                                    Inactive
-                                </p>
+                                <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.id}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="id"
+                                        value="${data.status}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="border-0 bg-transparent p-0 w-100"
+                                    >
+                                        <p class="teViewBtn text-center fw-bold mb-0">
+                                            <i class="fa-solid fa-eye me-2 mt-1"></i>${data.status == 4 ? 'Edit' : 'View'}
+                                        </p>
+                                    </button>
+                                </form>
                             `;
                         }
                     }
@@ -517,7 +543,7 @@
                                 badge = 'teActiveBtn';
                                 text = 'Active';
 
-                            }else if(status == 3){
+                            }else if(status == 2){
 
                                 badge = 'tePendingBtn';
                                 text = 'Inactive';

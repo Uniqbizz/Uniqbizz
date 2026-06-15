@@ -43,7 +43,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
- 
+        <div id="testemails"></div>
         <!-- Begin page -->
         <div id="layout-wrapper">
 
@@ -144,23 +144,18 @@
                                         <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                    <div class="mb-3">
-                                        <label for="phone" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="number" class="form-control" id="phone" placeholder="Enter mobile number" required>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
                                         <label for="dob" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
+                                        <input type="date" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="gender" class="form-label fw-bold">Gender <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="gender" required>
-                                            <option value="" selected disabled>Select gender</option>
+                                            <option value="" selected>Select gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                             <option value="other">Other</option>
@@ -177,6 +172,31 @@
                                     <div class="mb-3">
                                         <label for="nominee_relation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
                                         <input type="email" class="form-control" id="nominee_relation" placeholder="Enter relation" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                    <?php
+                                        $stmt = $conn->prepare("SELECT * FROM countries WHERE status = 1 ORDER BY country_name ASC");
+                                        $stmt->execute();                                            
+                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <label class="form-label fw-bold" for="country_cd">Code</label>
+                                    <select class="form-select" id="country_cd" aria-label="Floating label select example">
+                                        <?php 
+                                            if($stmt->rowCount()>0){
+                                                foreach (($stmt->fetchAll()) as $key => $row) {  
+                                                    echo '<option value="'.$row['country_code'].'">+'.$row['country_code'].' ('.$row['sortname'].')</option>'; 
+                                                } 
+                                            }else{ 
+                                                echo '<option value="">Country not available</option>'; 
+                                            } 
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="number" class="form-control" id="phone" placeholder="Enter mobile number" required>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +249,7 @@
                                         ?>
                                         <label for="country" class="form-label fw-bold">Country <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="country" required>
-                                            <option value="" selected disabled>Select country </option>
+                                            <option value="" selected >Select country </option>
                                             <?php 
                                                 if($stmt->rowCount()>0){
                                                     foreach (($stmt->fetchAll()) as $key => $row) {  
@@ -460,6 +480,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="testValue" name="testValue" value="16"> <!-- CA -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
@@ -540,6 +561,10 @@
 
         <!-- end dialer logic scripts -->
         <script>
+            $('#businessPackage').on('change', function(){
+                var business_package_amount = $(this).val();
+                $('#flex_amount').val(business_package_amount);
+            });
             $('#payment_fee').on('change', function(){
                 var payment_fee = $(this).val();
                 if(payment_fee == "FOC"){
@@ -587,52 +612,7 @@
             });
         </script>
         <script>
-            // document.querySelectorAll(".file-input").forEach(input => {
-            //     input.addEventListener("change", function () {
-            //         const file = this.files[0];
-            //         if (!file) return;
-            //         const card = this.closest(".upload-card");
-            //         const title = card.dataset.title;
-            //         if (file.type.startsWith("image/")) {
-            //             const reader = new FileReader();
-            //             reader.onload = function (e) {
-            //                 card.innerHTML = `
-            //                     <input type="file" class="file-input" accept="image/*,.pdf">
-            //                     <div class="preview-wrapper">
-            //                         <img src="${e.target.result}">
-            //                         <div class="file-title">
-            //                             ${title}
-            //                         </div>
-            //                     </div>
-            //                 `;
-            //                 bindUploadEvents();
-            //             };
-            //             reader.readAsDataURL(file);
-            //         } else {
-            //             card.innerHTML = `
-            //                 <input type="file" class="file-input" accept="image/*,.pdf">
-            //                 <div class="pdf-preview">
-            //                     <i class="fa-solid fa-file-pdf"></i>
-            //                     <p class="mt-2 mb-0">${file.name}</p>
-            //                     <div class="file-title">
-            //                         ${title}
-            //                     </div>
-            //                 </div>
-            //             `;
-            //             bindUploadEvents();
-            //         }
-            //     });
-            // });
-            // function bindUploadEvents() {
-            //     document.querySelectorAll(".file-input").forEach(input => {
-            //         if (input.dataset.bound) return;
-            //         input.dataset.bound = "true";
-            //         input.addEventListener("change", function () {
-            //             const event = new Event("change");
-            //             this.dispatchEvent(event);
-            //         });
-            //     });
-            // }
+            
             function bindUploadEvents() {
 
                 document.querySelectorAll('.file-input').forEach(input => {
