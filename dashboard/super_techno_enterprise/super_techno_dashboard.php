@@ -94,7 +94,7 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Techno Enterprises</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">18</h4>
+                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
                                             <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Travel Consultants</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="tcCount">142</h4>
+                                            <h4 class="fw-bolder text-dark mb-1" id="tcCount">0</h4>
                                             <a href="travel_consultants_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Customers</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="cuCount">680</h4>
+                                            <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
                                             <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
                                         </div>
                                         <div class="">
                                             <p class="mb-1 fs-6 fw-bold">Total Earnings</p>
-                                            <h4 class="fw-bolder text-dark mb-1">&#8377; 9,63,000</h4>
+                                            <h4 class="fw-bolder text-dark mb-1" id="total_com">&#8377; 0</h4>
                                             <a href="recruitment_payout.php" class="mb-1 fs-6 fw-bold">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                                             <canvas id="commissionChart"></canvas>
                                             <div class="center-text">
                                                 <p>Total Earnings</p>
-                                                <h2 id="totalEarnings">₹ 9,63,000</h2>
+                                                <h2 id="paidEarnings">&#8377; 0</h2>
                                             </div>
                                         </div>
                                         <div class="legend-section-details">
@@ -165,7 +165,7 @@
                                                         <span class="dot" style="background:#5B2EFF"></span>
                                                         <span>Recruitment Commission</span>
                                                     </div>
-                                                    <div class="amount" id="recruitmentAmount">₹ 0</div>
+                                                    <div class="amount" id="recruitmentAmount"> &#8377; 0</div>
                                                     <div class="percent" id="recruitmentPercent">0%</div>
                                                 </div>
                                                 <div class="legend-item">
@@ -173,7 +173,7 @@
                                                         <span class="dot" style="background:#2563EB"></span>
                                                         <span>Neo Select Commission</span>
                                                     </div>
-                                                    <div class="amount" id="neoAmount">₹ 0</div>
+                                                    <div class="amount" id="neoAmount"> &#8377; 0</div>
                                                     <div class="percent" id="neoPercent">0%</div>
                                                 </div>
                                                 <div class="legend-item">
@@ -181,14 +181,14 @@
                                                         <span class="dot" style="background:#00C46A"></span>
                                                         <span>Booking Commission</span>
                                                     </div>
-                                                    <div class="amount" id="bookingAmount">₹ 0</div>
+                                                    <div class="amount" id="bookingAmount"> &#8377; 0</div>
                                                     <div class="percent" id="bookingPercent">0%</div>
                                                 </div>
-                                                <div class="report-link">
+                                                <!-- <div class="report-link">
                                                     <a href="#">
                                                         View Commission Report →
                                                     </a>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -204,8 +204,8 @@
                                             <div class="card rounded-4 p-3 stWalletCard1">
                                                 <div class="d-flex justify-content-between">
                                                     <div class="">
-                                                        <p class="mb-1 fs-6 fw-bold">Available Balance</p>
-                                                        <h4 class="fw-bolder text-dark mb-1">&#8377; 9,18,000</h4>
+                                                        <p class="mb-1 fs-6 fw-bold">Paid Payout</p>
+                                                        <h4 class="fw-bolder text-dark mb-1" id="total_paid_earning">&#8377; 0</h4>
                                                     </div>
                                                     <div class="stWalletIcon1">
                                                         <i class="fa-solid fa-wallet"></i>
@@ -218,7 +218,7 @@
                                                 <div class="d-flex justify-content-between">
                                                     <div class="">
                                                         <p class="mb-1 fs-6 fw-bold">Pending Payout</p>
-                                                        <h4 class="fw-bolder text-dark mb-1">&#8377; 45,000</h4>
+                                                        <h4 class="fw-bolder text-dark mb-1" id="total_pending_earning">&#8377; 0</h4>
                                                     </div>
                                                     <div class="stWalletIcon2">
                                                         <i class="fa-regular fa-hourglass"></i>
@@ -227,7 +227,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row d-flex justify-content-center">
+                                    <!-- <div class="row d-flex justify-content-center">
                                         <div class="col-lg-5">
                                             <a href="#">
                                                 <div class="stWalletBtn">
@@ -235,7 +235,7 @@
                                                 </div>
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -282,10 +282,10 @@
                                         <p class="commission-title fs-5 mb-0">
                                             Recent Activities
                                         </p>
-
+<!-- 
                                         <a href="#" class="fs-6 fw-bold">
                                             View All
-                                        </a>
+                                        </a> -->
 
                                     </div>
 
@@ -334,7 +334,7 @@
                                 <h3 class="text-white fw-bolder fs-2">Need Help Planning?</h3>
                                 <p class="text-white fw-normal fs-5">Our travel experts are here for you.</p>
                                 <a href="#">
-                                    <div class="supportBtn">
+                                    <div class="supportBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         <p class="fs-5 mb-0 fw-bolder">Contact Support</p>
                                     </div>
                                 </a>
@@ -411,7 +411,7 @@
 
 
         <!-- Dashboard init  popular candidates section js file-->
-        <script src="../assets/js/pages/dashboard-job.init.js"></script>
+        <!-- <script src="../assets/js/pages/dashboard-job.init.js"></script> -->
 
         <script src="../assets/js/js-confetti.js"></script>
 
@@ -753,6 +753,9 @@
                         $('#teCount').text(dash.data.te_count || 0);
                         $('#tcCount').text(dash.data.tc_count || 0);
                         $('#cuCount').text(dash.data.cu_count || 0);
+                        $('#total_com').text('\u20B9' + (dash.data.all_earning || 0));
+                        $('#total_paid_earning').text('\u20B9' + (dash.data.all_paid_earning || 0));
+                        $('#total_pending_earning').text('\u20B9' + (dash.data.all_pending_earning || 0));
 
                     }
 
@@ -800,19 +803,19 @@
                         */
 
                         $('#recruitmentAmount').text(
-                            '₹ ' + recruitmentAmount.toLocaleString('en-IN')
+                            '\u20B9' + recruitmentAmount.toLocaleString('en-IN')
                         );
 
                         $('#neoAmount').text(
-                            '₹ ' + neoAmount.toLocaleString('en-IN')
+                            '\u20B9' + neoAmount.toLocaleString('en-IN')
                         );
 
                         $('#bookingAmount').text(
-                            '₹ ' + bookingAmount.toLocaleString('en-IN')
+                            '\u20B9' + bookingAmount.toLocaleString('en-IN')
                         );
 
                         $('#totalEarnings').text(
-                            '₹ ' + totalEarnings.toLocaleString('en-IN')
+                            '\u20B9' + totalEarnings.toLocaleString('en-IN')
                         );
 
 

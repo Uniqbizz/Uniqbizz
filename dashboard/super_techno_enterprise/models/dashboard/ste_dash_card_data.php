@@ -33,7 +33,65 @@
                 AND cu.status IN (1,3)
                 AND ta.status IN (1,3)
                 AND ca.status IN (1,3)
-            ) AS cu_count
+            ) AS cu_count,
+
+            (
+                (
+                    SELECT COALESCE(SUM(ste_amount),0)
+                    FROM techno_enterprise_payout
+                    WHERE ste_id = :user_id
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commision_bm),0)
+                    FROM ca_cu_payout
+                    WHERE business_mentor = :user_id
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(bm_amt),0)
+                    FROM product_payout
+                    WHERE bm_id = :user_id
+                )
+            ) AS all_earning,
+            (
+                (
+                    SELECT COALESCE(SUM(ste_amount),0)
+                    FROM techno_enterprise_payout
+                    WHERE ste_id = :user_id AND ste_status=2 
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commision_bm),0)
+                    FROM ca_cu_payout
+                    WHERE business_mentor = :user_id AND status_bm=2
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(bm_amt),0)
+                    FROM product_payout
+                    WHERE bm_id = :user_id AND bm_status=2
+                )
+            ) AS all_pending_earning,
+            (
+                (
+                    SELECT COALESCE(SUM(ste_amount),0)
+                    FROM techno_enterprise_payout
+                    WHERE ste_id = :user_id AND ste_status=1 
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(commision_bm),0)
+                    FROM ca_cu_payout
+                    WHERE business_mentor = :user_id AND status_bm=1
+                )
+                +
+                (
+                    SELECT COALESCE(SUM(bm_amt),0)
+                    FROM product_payout
+                    WHERE bm_id = :user_id AND bm_status=1
+                )
+            ) AS all_paid_earning
     ");
 
     $sql->execute([
@@ -48,7 +106,10 @@
         'data' => [
             'te_count' => (int)$data['te_count'],
             'tc_count' => (int)$data['tc_count'],
-            'cu_count' => (int)$data['cu_count']
+            'cu_count' => (int)$data['cu_count'],
+            'all_earning' => (int)$data['all_earning'],
+            'all_paid_earning' => (int)$data['cu_count'],
+            'all_pending_earning' => (int)$data['all_pending_earning'],
         ]
     ], JSON_PRETTY_PRINT);
 

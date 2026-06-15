@@ -38,7 +38,7 @@
             $approved_by = "Admin";
             $approval_date ="";
             $updated_by ="";
-            $remarks =$value['notes'];
+            $remarks =$value['notes'] ?? 'NA';
             // Get names from IDs
             $countryname = getNameById($conn, 'countries', 'country_name', $country);
             $statename = getNameById($conn, 'states', 'state_name', $state);
@@ -202,9 +202,13 @@
 
                             <div class="travel-overlay"></div>
 
+                            <div class="hero-image-wrapper">
+                                <img src="<?php echo '../../uploading/'.$profile_pic; ?>" class="hero-avatar2">
+                            </div>
+
                             <div class="container-fluid position-relative h-100">
 
-                                <div class="row align-items-center h-100">
+                                <div class="row">
 
                                     <div class="col-xl-8 col-lg-7">
 
@@ -215,7 +219,7 @@
                                                 Super Techno Enterprise
                                             </span>
 
-                                            <span class="badge bg-success px-3 py-2">
+                                            <span class="badge bg-success px-3 py-2 rounded-5">
                                                 <i class="fa-solid fa-circle-check me-1"></i>
                                                 Verified
                                             </span>
@@ -257,16 +261,9 @@
 
                                     </div>
 
-                                    <div class="col-xl-4 col-lg-5 text-center">
-
-                                        <div class="hero-image-wrapper">
-
-                                            <img src="<?php echo $profile_pic; ?>"
-                                                class="hero-avatar">
-
-                                        </div>
-
-                                    </div>
+                                    <!-- <div class="col-xl-4 col-lg-5 d-flex justify-content-center align-items-center">
+                                        
+                                    </div> -->
 
                                 </div>
 
