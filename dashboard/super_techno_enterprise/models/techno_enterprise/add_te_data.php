@@ -32,6 +32,7 @@
     $chequeDate=$_POST['chequeDate'];
     $bankName=$_POST['bankName'];
     $transactionNo=$_POST['transactionNo'];
+    $note=$_POST['note'];
     $message2='';
     $user_type="16"; 
     $register_by=$userType;
@@ -58,7 +59,14 @@
     $fromWhom=$userType;
     $operation="Add";
 
-    $sql= "INSERT INTO `corporate_agency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, contact_no , date_of_birth, age, gender, gst_no, amount, profile_pic, pan_card, aadhar_card, voting_card, bank_passbook, payment_proof,country, state, city, pincode, address, payment_mode, cheque_no, cheque_date, bank_name, transaction_no, user_type, registrant, reference_no, register_by, status) VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, :age, :gender , :gst_no, :amount, :profile_pic, :pan_card, :aadhar_card, :voting_card, :bank_passbook, :payment_proof, :country, :state, :city, :pincode,:address, :payment_mode, :cheque_no, :cheque_date, :bank_name, :transaction_no, :user_type,:registrant,  :reference_no, :register_by, :status)";
+    $sql= "INSERT INTO `corporate_agency` (firstname, lastname, nominee_name, nominee_relation, email, country_code, 
+            contact_no , date_of_birth, age, gender, gst_no, amount, profile_pic, pan_card, aadhar_card, voting_card, 
+            bank_passbook, payment_proof,country, state, city, pincode, address, payment_mode, cheque_no, cheque_date, 
+            bank_name, transaction_no, user_type, registrant, reference_no, register_by, status, note) 
+            VALUES (:firstname ,:lastname, :nominee_name, :nominee_relation, :email, :country_code, :contact_no, :bdate, 
+            :age, :gender , :gst_no, :amount, :profile_pic, :pan_card, :aadhar_card, :voting_card, :bank_passbook, 
+            :payment_proof, :country, :state, :city, :pincode,:address, :payment_mode, :cheque_no, :cheque_date, :bank_name, 
+            :transaction_no, :user_type,:registrant,  :reference_no, :register_by, :status :note)";
     $stmt3 =$conn->prepare($sql);
 
     $result2=$stmt3->execute(array(
@@ -94,6 +102,7 @@
         ':registrant' =>$registrant,
         ':reference_no' => $user_id_name,
         ':register_by' => $register_by,
+        ':note' => $note,
         ':status' => $status
     ));
 

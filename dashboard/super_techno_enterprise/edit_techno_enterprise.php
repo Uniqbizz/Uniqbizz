@@ -131,34 +131,34 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="fullName" class="form-label fw-bold">Full Name <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                                        <label for="firstname" class="form-label fw-bold">Full Name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="firstname" placeholder="Enter full name" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="lastName" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
+                                        <label for="lastname" class="form-label fw-bold">Last Name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="lastname" placeholder="Enter last name" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label fw-bold">Email address <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email address" required>
+                                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
                                     </div>
                                 </div>
                                 
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3 dateBirth">
                                         <label for="dateOfBirth" class="form-label fw-bold">Date of Birth <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="dateOfBirth" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
+                                        <input type="text" class="form-control" id="dob" placeholder="dd-mm-yyyy"onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="mb-3">
                                         <label for="gender" class="form-label fw-bold">Gender <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="gender" required>
-                                            <option value="" selected disabled>Select gender</option>
+                                            <option value="" selected >Select gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                             <option value="other">Other</option>
@@ -167,14 +167,14 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="nomineeName" class="form-label fw-bold">Nominee name <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="nomineeName" placeholder="Enter nominee name" required>
+                                        <label for="nominee_name" class="form-label fw-bold">Nominee name <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="nominee_name" placeholder="Enter nominee name" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="nomineeRelation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="email" class="form-control" id="nomineeRelation" placeholder="Enter relation" required>
+                                        <label for="nominee_relation" class="form-label fw-bold">Nominee Relation <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="email" class="form-control" id="nominee_relation" placeholder="Enter relation" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-6 col-12">
@@ -198,8 +198,8 @@
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="number" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
-                                        <input type="number" class="form-control" id="number" placeholder="Enter mobile number" required>
+                                        <label for="phone" class="form-label fw-bold">Mobile Number <span class="text-danger fw-bolder">*</span></label>
+                                        <input type="number" class="form-control" id="phone" placeholder="Enter mobile number" required>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +215,7 @@
                                     <div class="mb-3">
                                         <label for="businessPackage" class="form-label fw-bold">Business Package / Amount <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="businessPackage" required>
-                                            <option value="" selected disabled>Select business package </option>
+                                            <option value="" selected >Select business package </option>
                                             <option value="200000">&#8377 2,00,000</option>
                                             <option value="300000">&#8377 3,00,000</option>
                                             <option value="500000">&#8377 5,00,000</option>
@@ -267,7 +267,7 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="state" class="form-label fw-bold">State <span class="text-danger fw-bolder">*</span></label>
+                                        <label for="mystate" class="form-label fw-bold">State <span class="text-danger fw-bolder">*</span></label>
                                         <select class="form-select genderSelect" id="mystate" required>
                                             <option value="">--Select country first--</option>   
                                         </select>
@@ -483,6 +483,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="editfor" name="editfor" value="<?= $edittype ?>">
+                        <input type="hidden" id="id" name="id" value="<?= $id ?>">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="d-flex justify-content-end gap-4 submitBtnBackground">
@@ -490,8 +492,8 @@
                                     <?php
                                         if ($status == 4) {
                                     ?>
-                                    <button type="button" class="btn actionBtn draftBtn mb-2">Save Draft</button>
-                                    <button type="submit" class="btn actionBtn submitBtn mb-2">
+                                    <button type="button" class="btn actionBtn draftBtn mb-2" id="saveDraftEdit">Save Draft</button>
+                                    <button type="submit" class="btn actionBtn submitBtn mb-2" id="editTechnoEnterprise">
                                         <i class="fa-regular fa-paper-plane me-2"></i>
                                         Submit Techno Enterprise
                                     </button>
@@ -537,10 +539,10 @@
         <script src="../assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
         <!-- !-- materialdesign icon js- -->
         <script src="../assets/js/pages/remix-icons-listing.js"></script>
-        
-
         <!-- App js -->
         <script src="../assets/js/app.js"></script>
+        <script src="js/techno_enterprise.js"></script>
+        <script src="../../uploading/uploadTechnoDashboard.js"></script>
         <!-- dialer logic scripts -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -591,22 +593,6 @@
         </script>
         <!-- end dialer logic scripts -->
         <script>
-            $('#payment_fee').on('change', function(){
-                var payment_fee = $(this).val();
-                if(payment_fee == "FOC"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else if(payment_fee == "null"){
-                    $("#paymentModeBlock").addClass("d-none");
-                    $("#paymentFields").addClass("d-none");
-                    $("#payProof").addClass("d-none");
-                }else{
-                    $("#paymentModeBlock").removeClass("d-none");
-                    $("#paymentFields").removeClass("d-none");
-                    $("#payProof").removeClass("d-none");
-                }
-            });
 
             $('#paymentMode').on('click', function(){
                 var paymentMode = $(".payment:checked").val();
@@ -796,14 +782,14 @@
 
                         const data = res.data;
                         // Personal Information
-                        $('#fullName').val(data.firstname);
-                        $('#lastName').val(data.lastname);
-                        $('#exampleFormControlInput1').val(data.email);
-                        $('#number').val(data.contact_no);
-                        $('#dateOfBirth').val(data.date_of_birth);
+                        $('#firstname').val(data.firstname);
+                        $('#lastname').val(data.lastname);
+                        $('#email').val(data.email);
+                        $('#phone').val(data.contact_no);
+                        $('#dob').val(data.date_of_birth);
                         $('#gender').val(data.gender);
-                        $('#nomineeName').val(data.nominee_name);
-                        $('#nomineeRelation').val(data.nominee_relation);
+                        $('#nominee_name').val(data.nominee_name);
+                        $('#nominee_relation').val(data.nominee_relation);
                         $('#businessPackage').val(data.amount);
 
                         // Business Information
