@@ -283,8 +283,8 @@
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="mb-3">
-                                        <label for="pincode" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
-                                        <input type="text" class="form-control" id="pincode" placeholder="Enter pincode">
+                                        <label for="pin" class="form-label fw-bold">Pincode<span class="text-danger fw-bolder">*</span></label>
+                                        <input type="text" class="form-control" id="pin" placeholder="Enter pincode">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -993,6 +993,10 @@
                 if(confirm("Are you sure you want to cancel?")){
                     window.history.back();
                 }
+            });
+            $('#businessPackage').on('change', function(){
+                var business_package_amount = $(this).val();
+                $('#amount').val(business_package_amount);
             });
             // document.querySelector(".draftBtn").addEventListener("click", function () {
             //     alert("Draft Saved Successfully");
