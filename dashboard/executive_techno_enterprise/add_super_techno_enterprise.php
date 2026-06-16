@@ -110,7 +110,7 @@
 						<div class="row">
 							<div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Chief Techno Enterprise</h4>
+                                    <h4 class="mb-sm-0 font-size-18">Super Techno Enterprise</h4>
                                 </div>
                             </div>
 						</div>
@@ -124,8 +124,8 @@
                                             <i class="fa-solid fa-user-group addTEIcon"></i>
                                         </div>
                                         <div class="align-content-center">
-                                            <h1 class="fw-bolder text-white">Add Chief Techno</h1>
-                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Chief Techno under your network.</p>
+                                            <h1 class="fw-bolder text-white">Add Super Techno Enterprise</h1>
+                                            <p class="fs-5 text-white mb-0">Fill in the details below to register a new Super Techno Enterprise under your network.</p>
                                         </div>
                                     </div>
                                     <img src="../assets/images/addTechnoFileImage.png" alt="" class="addTEImage">
