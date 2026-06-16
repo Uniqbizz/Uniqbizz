@@ -112,49 +112,54 @@ if ($user_type_id == '16') {
 		}
 
 		$bdmCommiAmt = $convertedMark == "" ? $amount * 0.05 : 0; //25000
-	} if ($reference_id == "ST") {
+	} 
+	
+	if ($reference_id == "ST") {
 
 		$sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $reference_no . "'");
 		$sql10->execute();
 		$sql10->setFetchMode(PDO::FETCH_ASSOC);
 		if ($sql10->rowCount() > 0) {
 			foreach (($sql10->fetchAll()) as $key10 => $row10) {
-				$BM_id = $row10['super_techno_enterprise_id'];
-				$BM_name = $row10['firstname'] . ' ' . $row10['lastname'];
-				$BM_ref = $row10['reference_no']??'';
+				$STE_id = $row10['super_techno_enterprise_id'];
+				$STE_name = $row10['firstname'] . ' ' . $row10['lastname'];
+				$STE_ref = $row10['reference_no']??'';
 			}
 		}
-		if ( $BM_ref !='Not Applicable') {
-			$sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $BM_ref . "'");
+		if ($STE_ref) {
+			$sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $STE_ref . "'");
 			$sql11->execute();
 			$sql11->setFetchMode(PDO::FETCH_ASSOC);
 			if ($sql11->rowCount() > 0) {
 				foreach (($sql11->fetchAll()) as $key11 => $row11) {
-					$bdm_id = $row11['executive_techno_enterprise_id'];
-					$bdm_name = $row11['firstname'] . ' ' . $row11['lastname'];
-					$bdm_ref = $row10['reference_no']??'';
+					$ETE_id = $row11['executive_techno_enterprise_id'];
+					$ETE_name = $row11['firstname'] . ' ' . $row11['lastname'];
+					$ETE_ref = $row11['reference_no']??'';
+					// $ETE_user_type_id = $row11['user_type'];
+					// $ETE_ref = $row11['reporting_manager'];
+				}
+			}
+		}
+		if ($ETE_ref) {
+			$sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $ETE_ref . "'");
+			$sql12->execute();
+			$sql12->setFetchMode(PDO::FETCH_ASSOC);
+			if ($sql12->rowCount() > 0) {
+				foreach (($sql12->fetchAll()) as $key12 => $row12) {
+					$CTE_id = $row12['chief_techno_enterprise_id'];
+					$CTE_name = $row12['firstname'] . ' ' . $row12['lastname'];
 					// $bdm_user_type_id = $row11['user_type'];
 					// $bdm_ref = $row11['reporting_manager'];
 				}
 			}
-			if ($bdm_ref == 'null') {
-				$sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $BM_ref . "'");
-				$sql12->execute();
-				$sql12->setFetchMode(PDO::FETCH_ASSOC);
-				if ($sql12->rowCount() > 0) {
-					foreach (($sql12->fetchAll()) as $key12 => $row12) {
-						$bcm_id = $row12['chief_techno_enterprise_id'];
-						$bcm_name = $row12['firstname'] . ' ' . $row12['lastname'];
-						// $bdm_user_type_id = $row11['user_type'];
-						// $bdm_ref = $row11['reporting_manager'];
-					}
-				}
-			}
-		}
+        }
 
 
-		$bmCommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; //12500
-		$bdmCommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; //12500
+		$CTECommiAmt = $convertedMark == "" ? $amount * 0.0125 : 0; // 1.25%
+
+		$ETECommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; // 2.5%
+
+		$STECommiAmt = $convertedMark == "" ? $amount * 0.05 : 0; // 5%
 
 	}
 
@@ -503,6 +508,36 @@ if ($user_type_id == '16') {
 					// }
 
 					//end of slab log
+				} else if($reference_id == "ST"){
+					$STE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". ";
+					$ETE_message="ETE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
+					$CTE_message="CTE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
+					$TE_message="Techno Enterprise - "  .$name." ".$uid. " has join with reference of STE " .$STE_name." ".$STE_id.". Recruitment Fee - Rs.".$amount."/-";
+					$sqlTEPayout=$conn->prepare("
+									INSERT INTO techno_enterprise_payout (cte_id, cte_message, cte_amount, cte_status, ete_id, 
+												ete_message, ete_amount, ete_status, ste_id, ste_message, ste_amount, ste_status, 
+												te_id, te_message, te_amount) 
+									VALUES (:cte_id, :cte_message, :cte_amount, :cte_status, :ete_id, 
+												:ete_message, :ete_amount, :ete_status, :ste_id, :ste_message, :ste_amount, :ste_status, 
+												:te_id, :te_message, :te_amount)
+									");
+					$result4 = $sqlTEPayout->execute([
+						":cte_id"			=>	$CTE_id,
+						":cte_message"		=>	$CTE_message,
+						":cte_amount" 		=>	$CTECommiAmt,
+						":cte_status" 		=>	2,
+						":ete_id" 			=>	$ETE_id,
+						":ete_message" 		=>	$ETE_message,
+						":ete_amount" 		=>	$ETECommiAmt,
+						":ete_status" 		=>	2,
+						":ste_id" 			=>	$STE_id,
+						":ste_message" 		=>	$STE_message,
+						":ste_amount" 		=>	$STECommiAmt,
+						":ste_status" 		=>	2,
+						":te_id" 			=>	$uid,
+						":te_message" 		=>	$TE_message,
+						":te_amount"		=>	$amount
+					]);
 				}
 
 				if ($result4) {
@@ -511,7 +546,7 @@ if ($user_type_id == '16') {
 						$message_cbd = "CBD - " . $cbd_name . " " . $cbd_id . " earned " . $cbdCommiAmt . "/- When BC - " . $Bc_name . " " . $Bc_id . " recruited Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ".";
 						$payout_type = "Contracting Payout";
 
-						$insertCBDPaySQL = " INSERT INTO cbd_payout (cbd_id, cbd_name, payout_type, user_id, user_name, message, amount, status) VALUES (:cbd_id, :cbd_name, :payout_type, :user_id, :user_name, :message, :amount, :status) ";
+						$insertCBDPaySQL = " INSERT INTO cbd_payout (cbd_id cbd_name, payout_type, user_id, user_name, message, amount, status) VALUES (:cbd_id, :cbd_name, :payout_type, :user_id, :user_name, :message, :amount, :status) ";
 						$insertCBDPay = $conn->prepare($insertCBDPaySQL);
 						$result5 = $insertCBDPay->execute(array(
 							':cbd_id' => $cbd_id,
@@ -674,26 +709,26 @@ if ($user_type_id == '16') {
 								</table>
 								</body>
 								</html>';
-						$mail = new PHPMailer();
-						$mail->IsSMTP();
-						$mail->SMTPAuth = true;
-						$mail->SMTPSecure = 'tls';
-						$mail->Host = "mail.uniqbizz.com";
-						$mail->Port = 587;
-						$mail->IsHTML(true);
-						$mail->CharSet = 'UTF-8';
-						// $mail->SMTPDebug = 2; 
-						$mail->Username = "support@uniqbizz.com";
-						$mail->Password = "support@uniqbizz";
-						$mail->SetFrom("support@uniqbizz.com");
-						$mail->Subject = $subject;
-						$mail->Body = $message3;
-						$mail->AddAddress($to);
-						$mail->SMTPOptions = array('ssl' => array(
-							'verify_peer' => false,
-							'verify_peer_name' => false,
-							'allow_self_signed' => false
-						));
+						$mail = new PHPMailer(); 
+    					$mail->IsSMTP(); 
+    					$mail->SMTPAuth = true; 
+    					$mail->SMTPSecure = 'tls'; 
+    					$mail->Host = "mail.uniqbizz.com";
+    					$mail->Port = 587; 
+    					$mail->IsHTML(true);
+    					$mail->CharSet = 'UTF-8';
+    					// $mail->SMTPDebug = 2; 
+    					$mail->Username = "support@uniqbizz.com";
+    					$mail->Password = "NCaB6f^jkm^~";
+    					$mail->SetFrom("support@uniqbizz.com");
+    					$mail->Subject = $subject;
+    					$mail->Body =$message3;
+    					$mail->AddAddress($to);
+    					$mail->SMTPOptions=array('ssl'=>array(
+    						'verify_peer'=>false,
+    						'verify_peer_name'=>false,
+    						'allow_self_signed'=>false
+    					));
 						if (!$mail->Send()) {
 							echo $mail->ErrorInfo;
 						} else {
@@ -734,12 +769,18 @@ if ($user_type_id == '16') {
 			$converted = $row9['converted'];
 		}
 	}
+
+	//coverted lable logic
+	$convertedMark = $converted == "1" ? "(Converted)":"";
+
 	//reference
 	$reference_id = substr($reference_no, 0, 2);
 	//added on 15-10-2025 by SV
 	$bdm_id='';
 	$bdm_name='';
 	$bdm_user_type='25';
+	$CTE_id='NA';
+	
 	//--------------------------
 	//Master Franchisee edidted on 15-10-2025 by SV
 	if ($reference_id == 'MF') {
@@ -814,6 +855,52 @@ if ($user_type_id == '16') {
 			}
 		}
 	}
+
+	// Franchisee Added through STE reference
+	if ($reference_id == "ST") {
+
+		$sql10 = $conn->prepare("SELECT * FROM super_techno_enterprise WHERE super_techno_enterprise_id = '" . $reference_no . "'");
+		$sql10->execute();
+		$sql10->setFetchMode(PDO::FETCH_ASSOC);
+		if ($sql10->rowCount() > 0) {
+			foreach (($sql10->fetchAll()) as $key10 => $row10) {
+				$STE_id = $row10['super_techno_enterprise_id'];
+				$STE_name = $row10['firstname'] . ' ' . $row10['lastname'];
+				$STE_ref = $row10['reference_no']??'';
+			}
+		}
+		if ( $STE_ref !='Not Applicable') {
+			$sql11 = $conn->prepare("SELECT * FROM executive_techno_enterprise WHERE executive_techno_enterprise_id = '" . $STE_ref . "'");
+			$sql11->execute();
+			$sql11->setFetchMode(PDO::FETCH_ASSOC);
+			if ($sql11->rowCount() > 0) {
+				foreach (($sql11->fetchAll()) as $key11 => $row11) {
+					$ETE_id = $row11['executive_techno_enterprise_id'];
+					$ETE_name = $row11['firstname'] . ' ' . $row11['lastname'];
+					$ETE_ref = $row10['reference_no']??'';
+					// $ETE_user_type_id = $row11['user_type'];
+					// $ETE_ref = $row11['reporting_manager'];
+				}
+			}
+			if ($ETE_ref != 'null') {
+				$sql12 = $conn->prepare("SELECT * FROM chief_techno_enterprise WHERE chief_techno_enterprise_id = '" . $ETE_ref . "'");
+				$sql12->execute();
+				$sql12->setFetchMode(PDO::FETCH_ASSOC);
+				if ($sql12->rowCount() > 0) {
+					foreach (($sql12->fetchAll()) as $key12 => $row12) {
+						$CTE_id = $row12['chief_techno_enterprise_id'];
+						$CTE_name = $row12['firstname'] . ' ' . $row12['lastname'];
+						// $bdm_user_type_id = $row11['user_type'];
+						// $bdm_ref = $row11['reporting_manager'];
+					}
+				}
+			}
+		}
+		$CTECommiAmt = $convertedMark == "" ? $amount * 0.0125 : 0; // 1.25%
+		$ETECommiAmt = $convertedMark == "" ? $amount * 0.025 : 0; // 2.5%
+		$STECommiAmt = $convertedMark == "" ? $amount * 0.05 : 0; // 5%
+	}
+
 	//-----------------------------------------
 	if ($amount == "500000") {
 		$business_package = "premium";
@@ -1049,13 +1136,27 @@ if ($user_type_id == '16') {
 				$mfCommiAmt = 0;
 				$message_sf="$name ($uid) was on-boarded via $ref_name ($ref_manager) as a Franchisee and paid Rs $amount /-"; // check veriable name
 			}
+			//CTE->ETE->STE->F
+			else if($reference_id == "ST"){
+					$master_franchisee=$STE_id;
+					$message_mf=$STE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". ";
+					$mfCommiAmt=$STECommiAmt;
+					$ref_manager=$ETE_id;
+					$message_ref=$ETE_message="STE - " . $ETE_name . " " . $ETE_id . " earned " . $ETECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Super Techno Enterprise ".$STE_name." ".$STE_id.".";
+					$refCommiAmt=$ETECommiAmt;
+					$CTE_message="STE - " . $STE_name . " " . $STE_id . " earned " . $STECommiAmt . "/- on recruiting Techno Enterprise. Name of the Techno Enterprise - " . $name . " " . $uid . ". Recruitment Fee - " . $amount . " ".$convertedMark.". With Reference of Executive Techno Enterprise ".$ETE_name." ".$ETE_id.".";
+					$TE_message="Techno Enterprise - "  .$name." ".$uid. " has join with reference of STE " .$STE_name." ".$STE_id.". Recruitment Fee - Rs.".$amount."/-";
+			}
+			//------------------------------------
 			//----------------------------------------------------
 			// Insert into payout table
 			$sql = "INSERT INTO `sub_franchisee_payout` (
+						cte_id,message_cte,commission_cte,
 						`zonal_manager`, `message_zm`, `commission_zm`, `status_zm`,
 						`master_franchisee`, `message_mf`, `commission_mf`, `status_mf`,
 						`sub_franchisee`, `message_sf`, `sf_amt_paid`, `status_sf`, `status`
 					) VALUES (
+						:cte_id,:message_cte,:commission_cte,
 						:zonal_manager, :message_zm, :commission_zm, '2',
 						:master_franchisee, :message_mf, :commission_mf, '2',
 						:sub_franchisee, :message_sf, :sf_amt_paid, '2', '2'
@@ -1063,15 +1164,18 @@ if ($user_type_id == '16') {
 
 			$stmt = $conn->prepare($sql);
 			$inserted = $stmt->execute([
-				':zonal_manager'     => $ref_manager ?? 'NA',
-				':message_zm'        => $message_ref,
-				':commission_zm'      => $refCommiAmt,
-				':master_franchisee' => $master_franchisee,
-				':message_mf'        => $message_mf,
-				':commission_mf'      => $mfCommiAmt,
-				':sub_franchisee'    => $uid,
-				':message_sf'        => $message_sf,
-				':sf_amt_paid'       => $amount
+				':cte_id'				=>	$CTE_id ?? 'NA',
+				':message_cte'			=>	$CTE_message ?? 'NA',
+				':commission_cte'		=>	$CTECommiAmt ?? 'NA',
+				':zonal_manager'     	=> 	$ref_manager ?? 'NA',
+				':message_zm'        	=> 	$message_ref ?? 'NA',
+				':commission_zm'      	=> 	$refCommiAmt,
+				':master_franchisee' 	=> 	$master_franchisee,
+				':message_mf'        	=> 	$message_mf,
+				':commission_mf'      	=> 	$mfCommiAmt,
+				':sub_franchisee'    	=> 	$uid,
+				':message_sf'        	=> 	$message_sf,
+				':sf_amt_paid'       	=> 	$amount
 			]);
 
 
@@ -1223,25 +1327,25 @@ if ($user_type_id == '16') {
 						</table>
 						</body>
 						</html>';
-				$mail = new PHPMailer();
-				$mail->IsSMTP();
-				$mail->SMTPAuth = true;
-				$mail->SMTPSecure = 'tls';
+				$mail = new PHPMailer(); 
+				$mail->IsSMTP(); 
+				$mail->SMTPAuth = true; 
+				$mail->SMTPSecure = 'tls'; 
 				$mail->Host = "mail.uniqbizz.com";
-				$mail->Port = 587;
+				$mail->Port = 587; 
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
 				$mail->Username = "support@uniqbizz.com";
-				$mail->Password = "support@uniqbizz";
+				$mail->Password = "NCaB6f^jkm^~";
 				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
-				$mail->Body = $message3;
+				$mail->Body =$message3;
 				$mail->AddAddress($to);
-				$mail->SMTPOptions = array('ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => false
+				$mail->SMTPOptions=array('ssl'=>array(
+					'verify_peer'=>false,
+					'verify_peer_name'=>false,
+					'allow_self_signed'=>false
 				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
@@ -1749,25 +1853,25 @@ if ($user_type_id == '16') {
 						</table>
 						</body>
 						</html>';
-				$mail = new PHPMailer();
-				$mail->IsSMTP();
-				$mail->SMTPAuth = true;
-				$mail->SMTPSecure = 'tls';
+				$mail = new PHPMailer(); 
+				$mail->IsSMTP(); 
+				$mail->SMTPAuth = true; 
+				$mail->SMTPSecure = 'tls'; 
 				$mail->Host = "mail.uniqbizz.com";
-				$mail->Port = 587;
+				$mail->Port = 587; 
 				$mail->IsHTML(true);
 				$mail->CharSet = 'UTF-8';
 				// $mail->SMTPDebug = 2; 
 				$mail->Username = "support@uniqbizz.com";
-				$mail->Password = "support@uniqbizz";
+				$mail->Password = "NCaB6f^jkm^~";
 				$mail->SetFrom("support@uniqbizz.com");
 				$mail->Subject = $subject;
-				$mail->Body = $message3;
+				$mail->Body =$message3;
 				$mail->AddAddress($to);
-				$mail->SMTPOptions = array('ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => false
+				$mail->SMTPOptions=array('ssl'=>array(
+					'verify_peer'=>false,
+					'verify_peer_name'=>false,
+					'allow_self_signed'=>false
 				));
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
