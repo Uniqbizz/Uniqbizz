@@ -568,19 +568,29 @@
                         }
                     },
                     {
-                        data: 'corporate_agency_id',
+                        data: null,
                         orderable: false,
                         searchable: false,
                         render: function(data) {
 
                             return `
                                 <form action="edit_techno_enterprise.php" method="POST" class="m-0">
+                                    
                                     <input
                                         type="hidden"
-                                        name="corporate_agency_id"
-                                        value="${data}"
+                                        name="id"
+                                        value="${data.teuser_id}"
                                     >
-
+                                    <input
+                                        type="hidden"
+                                        name="status"
+                                        value="${data.status}"
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="edittype"
+                                        value="${data.user_type}"
+                                    >
                                     <button
                                         type="submit"
                                         class="border-0 bg-transparent p-0 w-100"

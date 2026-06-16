@@ -82,7 +82,7 @@
 
     /* ---------------- EDIT MODE ---------------- */
 
-    if ($status == '4') {
+    if ($status == '4' || $status == '2') {
 
         $identifier_id = $_POST["id"] ?? '';
 
